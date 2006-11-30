@@ -1,0 +1,579 @@
+<CodeDoc xmlns="urn:schemas-dwell-net:codedoc:project-file">
+
+	<ExternalReferences>
+		<![CDATA[
+			AddItem
+			ArgumentException
+			ArgumentNullException
+			ArgumentOutOfRangeException
+			Boolean
+			Collection<>
+			Command
+			CultureInfo
+			DataRow
+			DateTime
+			Dictionary<,>
+			DirectoryNotFoundException
+			Dispose
+			Double
+			EventArgs
+			EventHandler<>
+			EventLogEntryType
+			Exception
+			Execute
+			ExitMode
+			FileExists
+			FileIOPermission
+			FileNotFoundException
+			FormatException
+			GetFileStream
+			Guid
+			HttpFileCollection
+			HttpPostedFile
+			HttpRequest
+			HttpResponse
+			ICollection<>
+			IComparable<>
+			IDictionary
+			IDictionary<,>
+			IDisposable
+			IEnumerable<>
+			IEquatable<>
+			IList<>
+			Int32
+			InteractionResultState
+			InteractionType
+			InvalidOperationException
+			IOException
+			ISerializable
+			IXPathNavigable
+			KeyedCollection<,>
+			MaxExtensionDataSize
+			MoveNext()
+			MovePrevious()
+			MoveToNext()
+			MoveToPrevious()
+			NameValueCollection
+			NavigationCommand
+			NotSupportedException
+			Nullable<>
+			ObjectDisposedException
+			PathTooLongException
+			ReadOnlyCollection
+			ReadOnlyCollection<>
+			SecurityException
+			SerializationInfo
+			SetDynamicData
+			Single
+			SPFile
+			SPGroup
+			SPPersistedChildCollection<>
+			SPPersistedObject
+			SPSite
+			SPUser
+			SPWeb
+			SqlException
+			Stream
+			StreamingContext
+			String
+			System.ArgumentNullException
+			System.ArgumentOutOfRangeException
+			System.Data.DataTable
+			System.Data.SqlClient.SqlConnection
+			System.IConvertible
+			System.IDisposable.Dispose
+			System.InvalidOperationException
+			System.IO.FileNotFoundException
+			System.IO.Stream
+			System.Runtime.Serialization.SerializationInfo
+			System.Runtime.Serialization.StreamingContext
+			System.Security.Permissions.FileIOPermission
+			System.Security.Permissions.FileIOPermissionAccess.Read
+			System.Security.Permissions.FileIOPermissionAccess.Write
+			System.Transactions.TransactionScope
+			System.Web.UI.Page
+			System.Xml.XmlReader
+			TextWriter
+			TimeSpan
+			Transaction
+			TransactionOptions
+			UnauthorizedAccessException
+			Uri
+			View
+			WindowsIdentity
+			XmlException
+			XmlReader
+			XPathNavigator
+		]]>
+	</ExternalReferences>
+
+	<AllowXmlElements>
+		a
+		b
+		i
+		u
+		p
+		ol
+		ul
+		li
+		tt
+	</AllowXmlElements>
+
+	<DeleteFilesInDirectory Path="SdkDoc" />
+	<DeleteFilesInDirectory Path="SdkDoc\Pages" />
+	<DeleteFilesInDirectory Path="TempDoc" />
+	<DeleteFilesInDirectory Path="TempDoc\Pages" />
+	<!-- generate (into TempDoc) HTML versions of some text files -->
+	<WriteFormattedCode
+		MarkOfTheWeb="true"
+		Path="TempDoc">
+
+		<!-- for SLK docs -->
+		<CopyFile
+			Path="Slk\SlkSettings.xml"
+			NewName="SlkSettings.xml.htm"
+			TextToHtml="true"/>
+		<CopyFile
+			Path="Slk\SlkSchema.xml"
+			NewName="SlkSchema.xml.htm"
+			TextToHtml="true"/>
+
+		<!-- for SLK samples -->
+		<CopyFile
+			Path="Slk\Samples\ReportPages\Report1.aspx"
+			NewName="ReportPages_Report1.aspx.htm"
+			TextToHtml="true"/>
+		<CopyFile
+			Path="Slk\Samples\ReportPages\Report2.aspx"
+			NewName="ReportPages_Report2.aspx.htm"
+			TextToHtml="true"/>
+		<CopyFile
+			Path="Slk\Samples\ReportPages\SiteCollectionInfo.aspx"
+			NewName="ReportPages_SiteCollectionInfo.aspx.htm"
+			TextToHtml="true"/>
+		<CopyFile
+			Path="Slk\Samples\ReportPages\ReadMe.txt"
+			NewName="ReportPages_ReadMe.txt.htm"
+			TextToHtml="true"/>
+		<CopyFile
+			Path="Slk\Samples\AddInstructors\AddInstructors.aspx"
+			NewName="AddInstructors_AddInstructors.aspx.htm"
+			TextToHtml="true"/>
+		<CopyFile
+			Path="Slk\Samples\AddInstructors\ReadMe.txt"
+			NewName="AddInstructors_ReadMe.txt.htm"
+			TextToHtml="true"/>
+		<CopyFile
+			Path="Slk\Samples\WebService\SampleWebService.asmx"
+			NewName="WebService_SampleWebService.asmx.htm"
+			TextToHtml="true"/>
+		<CopyFile
+			Path="Slk\Samples\WebService\ReadMe.txt"
+			NewName="WebService_ReadMe.txt.htm"
+			TextToHtml="true"/>
+
+		<!-- for MLC docs -->
+		<CopyFile
+			Path="Src\SchemaCompiler\BaseSchema.xml"
+			NewName="BaseSchema.xml.htm"
+			TextToHtml="true"/>
+
+		<!-- for MLC samples -->
+		<CopyFile
+			Path="Samples\BasicWebPlayer\Schema.xml"
+			NewName="BasicWebPlayer_Schema.xml.htm"
+			TextToHtml="true"/>
+		<CopyFile
+			Path="Samples\BasicWebPlayer\ReadMe.txt"
+			NewName="BasicWebPlayer_ReadMe.txt.htm"
+			TextToHtml="true"/>
+
+	</WriteFormattedCode>
+
+	<ClearSources />
+
+	<CreateDocBrowser
+		BasicFramesetFileName="BasicBrowser.htm"
+		FramesetFileName="Documentation.htm"
+		LeftFrameWidth="290"
+		MarkOfTheWeb="true"
+		NodeId="TocRoot"
+		PagesRelativePath="Pages"
+		Path="SdkDoc"
+		Title="SLK/MLC SDK Documentation">
+		<CopyFile Path="ApiRef\AlwpLeft.gif" />
+		<CopyFile Path="ApiRef\AlwpRight.gif" />
+		<CopyFile Path="ApiRef\Doc.css" />
+		<CopyFile Path="ApiRef\EditSettings.gif" />
+		<CopyFile Path="ApiRef\Frameset.jpg" />
+		<CopyFile Path="ApiRef\LearnerAssignments.gif" />
+		<CopyFile Path="ApiRef\LearningSession.gif" />
+		<CopyFile Path="ApiRef\QueryExample.gif" />
+		<CopyFile Path="ApiRef\QueryExample2.gif" />
+		<CopyFile Path="ApiRef\QuerySetExample.gif" />
+		<CopyFile Path="ApiRef\ThreeApps.gif" />
+	</CreateDocBrowser>
+
+	<DocBrowserStaticPages NodeId="TocRoot">
+		<DocBrowserNode
+			Path="ApiRef\Default.htm"
+			Title="Introduction">
+			<IndexEntry>Introduction</IndexEntry>
+		</DocBrowserNode>
+		<DocBrowserNode
+			InitiallyExpanded="true"
+			Path="ApiRef\Slk.htm"
+			NodeId="Slk"
+			Title="SharePoint Learning Kit Customization">
+			<IndexEntry>SharePoint Learning Kit Customization</IndexEntry>
+			<IndexEntry>SLK Customization</IndexEntry>
+			<DocBrowserNode
+				Path="ApiRef\SlkConcepts.htm"
+				Title="SLK Concepts">
+				<IndexEntry>SLK Concepts</IndexEntry>
+				<IndexEntry>Concepts (SLK)</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+					Title="SLK Queries and Query Sets"
+					Path="ApiRef\SlkQueriesAndQuerySets.htm">
+				<IndexEntry>SLK Queries and Query Sets</IndexEntry>
+				<IndexEntry>Queries and Query Sets</IndexEntry>
+				<IndexEntry>Query Sets and Queries</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+					Title="SLK+MLC Schema"
+					Path="ApiRef\SlkSchema.htm">
+				<IndexEntry>SLK+MLC Schema</IndexEntry>
+				<IndexEntry>Schema (SLK+MLC)</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Title="SLK Schema XML"
+				Path="TempDoc\SlkSchema.xml.htm">
+				<IndexEntry>SLK Schema</IndexEntry>
+				<IndexEntry>Schema (SLK)</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+					Title="SLK Settings"
+					Path="ApiRef\SlkSettings.htm">
+				<IndexEntry>SLK Settings</IndexEntry>
+				<IndexEntry>Settings XML</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Title="Default SLK Settings XML"
+				Path="TempDoc\SlkSettings.xml.htm">
+				<IndexEntry>SLK Settings XML (Default)</IndexEntry>
+				<IndexEntry>Default SLK Settings XML</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Title="SLK API Overview"
+				Path="ApiRef\SlkApi.htm">
+				<IndexEntry>SLK API Overview</IndexEntry>
+				<IndexEntry>API Overview (SLK)</IndexEntry>
+			</DocBrowserNode>
+		</DocBrowserNode>
+		<DocBrowserNode
+			InitiallyExpanded="true"
+			NodeId="Mlc"
+			Path="ApiRef\Mlc.htm"
+			Title="Microsoft Learning Components">
+			<IndexEntry>Microsoft Learning Components</IndexEntry>
+			<IndexEntry>MLC</IndexEntry>
+			<DocBrowserNode
+				Path="ApiRef\MlcPackages.htm"
+				Title="E-Learning Packages">
+				<IndexEntry>E-Learning Packages</IndexEntry>
+				<IndexEntry>Packages</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Path="ApiRef\MlcSessions.htm"
+				Title="Learning Sessions">
+				<IndexEntry>Learning Sessions</IndexEntry>
+				<IndexEntry>Sessions</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Path="ApiRef\MlcDataModel.htm"
+				Title="Learning Data Model">
+				<IndexEntry>LearningDataModel (overview)</IndexEntry>
+				<IndexEntry>Data Model</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Path="ApiRef\MlcLearningStore.htm"
+				Title="LearningStore">
+				<IndexEntry>LearningStore (overview)</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Path="ApiRef\MlcPackageStores.htm"
+				Title="Package Stores">
+				<IndexEntry>PackageStore (overview)</IndexEntry>
+				<IndexEntry>FileSystemPackageStore (overview)</IndexEntry>
+				<IndexEntry>SharePointPackageStore (overview)</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Path="ApiRef\MlcFrameset.htm"
+				Title="MLC Session Frameset">
+				<IndexEntry>MLC Session Frameset</IndexEntry>
+				<IndexEntry>Session Frameset (MLC)</IndexEntry>
+				<IndexEntry>Frameset (MLC)</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Title="MLC Base Schema XML"
+				Path="TempDoc\BaseSchema.xml.htm">
+				<IndexEntry>MLC Base Schema</IndexEntry>
+				<IndexEntry>Base Schema (MLC)</IndexEntry>
+				<IndexEntry>Schema (Base MLC)</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Path="ApiRef\MlcSchemaReference.htm"
+				Title="LearningStore Schema Reference">
+				<IndexEntry>LearningStore Schema Reference (MLC)</IndexEntry>
+				<IndexEntry>Schema Compiler Schema (MLC)</IndexEntry>
+				<IndexEntry>Schema Reference (MLC)</IndexEntry>
+			</DocBrowserNode>
+		</DocBrowserNode>
+		<DocBrowserNode
+			InitiallyExpanded="true"
+			NodeId="ApiRef"
+			Path="ApiRef\ApiRef.htm"
+			Title="MLC &amp; SLK API Reference">
+			<IndexEntry>API Reference</IndexEntry>
+			<IndexEntry>MLC &amp; SLK API Reference</IndexEntry>
+			<IndexEntry>SLK &amp; MLC API Reference</IndexEntry>
+		</DocBrowserNode>
+	</DocBrowserStaticPages>
+
+	<ReadSource Path="Src\LearningComponents">
+		<Assembly Name="Microsoft.LearningComponents.dll"/>
+		<ExcludeFilePaths Regex="\\backup\\" />
+		<ExcludeFilePaths Regex="\\Properties\\" />
+		<ExcludeFilePaths Regex="\.Designer.cs$" />
+		<ExcludeFilePaths Regex="\\UnitTests\\" />
+		<ExcludeFilePaths Regex="\\Scorm2004SeqNav.cs" />
+	</ReadSource>
+	<ReadSource Path="Src\SharePoint">
+		<Assembly Name="Microsoft.LearningComponents.SharePoint.dll"/>
+		<ExcludeFilePaths Regex="\\backup\\" />
+		<ExcludeFilePaths Regex="\\Properties\\" />
+		<ExcludeFilePaths Regex="\.Designer.cs$" />
+		<ExcludeFilePaths Regex="\\UnitTests\\" />
+	</ReadSource>
+	<ReadSource Path="Src\Storage">
+		<Assembly Name="Microsoft.LearningComponents.Storage.dll"/>
+		<ExcludeFilePaths Regex="\\backup\\" />
+		<ExcludeFilePaths Regex="\\Properties\\" />
+		<ExcludeFilePaths Regex="\.Designer.cs$" />
+		<ExcludeFilePaths Regex="\\UnitTests\\" />
+		<ExcludeFilePaths Regex="\\LearningStore\\Test\\" />
+	</ReadSource>
+	<ReadSource Path="Src\Schema\SchemaDataComponents.cs">
+		<Assembly Name="Microsoft.LearningComponents.dll"/>
+	</ReadSource>
+	<ReadSource Path="Src\Schema\SchemaDataStorage2.cs">
+		<Assembly Name="Microsoft.LearningComponents.Storage.dll"/>
+	</ReadSource>
+	<ReadSource Path="Slk\Dll">
+		<Assembly Name="Microsoft.SharePointLearningKit.dll"/>
+		<ExcludeFilePaths Regex="\\backup\\" />
+		<ExcludeFilePaths Regex="\\Properties\\" />
+		<ExcludeFilePaths Regex="\.Designer.cs$" />
+		<ExcludeFilePaths Regex="\\AdminWebPages\\" />
+		<ExcludeFilePaths Regex="\\AppWebControls\\" />
+		<ExcludeFilePaths Regex="\\AppWebPages\\" />
+		<ExcludeFilePaths Regex="\\AssignmentProperties.aspx.cs$" /><!--PS#796-->
+		<ExcludeFilePaths Regex="\\FramesetQueryParam.cs$" /><!--partial classes not supported-->
+		<ExcludeFilePaths Regex="\\GradingList.cs$" /><!--PS#796-->
+		<ExcludeFilePaths Regex="\\QueryResults.aspx.cs$" /><!--PS#796-->
+		<ExcludeFilePaths Regex="\\QuerySet.aspx.cs$" /><!--PS#796-->
+		<ExcludeFilePaths Regex="\\SlkFramesetQueryParam.cs$" /><!--partial classes not supported-->
+		<ExcludeFilePaths Regex="\\UnitTests\\" />
+	</ReadSource>
+
+	<WriteDocumentation
+		ExternalOnly="true"
+		MarkOfTheWeb="true"
+		Path="SdkDoc\Pages"
+		TopicFooterHtml = "Copyright &amp;copy; Microsoft Corporation.&amp;nbsp; All rights reserved.">
+		<AddToDocBrowser InitiallyExpand="None" NodeId="ApiRef" />
+		<HideAttributes Regex="DebuggerDisplay" />
+		<HideAttributes Regex="SecurityPermission" />
+		<HideAttributes Regex="Serializable" />
+		<HideAttributes Regex="SuppressMessage" />
+		<IncludeNamespaces Regex="^Microsoft.LearningComponents$" />
+		<IncludeNamespaces Regex="^Microsoft.LearningComponents.DataModel$" />
+		<IncludeNamespaces Regex="^Microsoft.LearningComponents.Manifest$" />
+		<IncludeNamespaces Regex="^Microsoft.LearningComponents.SharePoint$" />
+		<IncludeNamespaces Regex="^Microsoft.LearningComponents.Storage$" />
+<!--
+		<IncludeNamespaces Regex="^Microsoft.LearningComponents.Storage.BaseSchema$" />
+-->
+		<IncludeNamespaces Regex="^Microsoft.SharePointLearningKit$" />
+		<IncludeNamespaces Regex="^Microsoft.SharePointLearningKit.Schema$" />
+		<TopicRenderer Assembly="CustomRenderer" Type="CustomRenderer" />
+	</WriteDocumentation>
+
+	<ClearSources />
+
+
+	<ReadSource Path="Slk\Samples\CreateAssignments\CreateAssignments.cs" />
+	<ReadSource Path="Slk\Samples\SimulateClass\SimulateClass.cs" />
+	<ReadSource Path="Slk\Samples\SimulateJobTraining\SimulateJobTraining.cs" />
+	<ReadSource Path="Slk\Samples\AddToUserWebLists\AddToUserWebLists.cs" />
+	<ReadSource Path="Slk\Samples\ProvisionFromExcel\ProvisionFromExcel.cs" />
+
+	<WriteFormattedCode
+		MarkOfTheWeb="true"
+		Path="SdkDoc\Pages"
+		TopicFooterHtml = "Copyright &amp;copy; Microsoft Corporation.&amp;nbsp; All rights reserved.">
+		<AddToDocBrowser 
+			IndexLabelSuffix=" (SLK Sample)"
+			NodeId="Slk" />
+
+		<SourceFilesNode
+			NodeId="SlkSamples"
+			Path="ApiRef\SlkSamples.htm"
+			Title="SLK Samples">
+			<IndexEntry>SLK Samples</IndexEntry>
+		</SourceFilesNode>
+
+	</WriteFormattedCode>
+
+	<DocBrowserStaticPages NodeId="SlkSamples">
+		<DocBrowserNode
+			Path="ApiRef\SlkReportPages.htm"
+			Title="ReportPages">
+			<IndexEntry>ReportPages (SLK Sample)</IndexEntry>
+			<DocBrowserNode
+				Path="TempDoc\ReportPages_Report1.aspx.htm"
+				Title="Report1.aspx">
+				<IndexEntry>Report1.aspx (SLK Sample)</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Path="TempDoc\ReportPages_Report2.aspx.htm"
+				Title="Report2.aspx">
+				<IndexEntry>Report2.aspx (SLK Sample)</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Path="TempDoc\ReportPages_SiteCollectionInfo.aspx.htm"
+				Title="SiteCollectionInfo.aspx">
+				<IndexEntry>SiteCollectionInfo.aspx (SLK Sample)</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Path="TempDoc\ReportPages_ReadMe.txt.htm"
+				Title="ReadMe.txt">
+				<IndexEntry>ReportPages\ReadMe.txt (SLK Sample)</IndexEntry>
+			</DocBrowserNode>
+		</DocBrowserNode>
+	</DocBrowserStaticPages>
+
+	<ClearSources />
+
+	<ReadSource Path="Slk\Samples\AddInstructors\AddInstructors.aspx.cs" />
+
+	<WriteFormattedCode
+		MarkOfTheWeb="true"
+		Path="SdkDoc\Pages"
+		TopicFooterHtml = "Copyright &amp;copy; Microsoft Corporation.&amp;nbsp; All rights reserved.">
+		<AddToDocBrowser 
+			IndexLabelSuffix=" (SLK Sample)"
+			NodeId="SlkSamples" />
+
+		<SourceFilesNode
+			NodeId="AddInstructorsSample"
+			Path="ApiRef\SlkAddInstructors.htm"
+			Title="AddInstructors">
+		</SourceFilesNode>
+
+	</WriteFormattedCode>
+
+	<DocBrowserStaticPages NodeId="AddInstructorsSample">
+		<DocBrowserNode
+			Path="TempDoc\AddInstructors_AddInstructors.aspx.htm"
+			Title="AddInstructors.aspx">
+			<IndexEntry>AddInstructors.aspx (SLK Sample)</IndexEntry>
+		</DocBrowserNode>
+		<DocBrowserNode
+			Path="TempDoc\AddInstructors_ReadMe.txt.htm"
+			Title="ReadMe.txt">
+			<IndexEntry>AddInstructors\ReadMe.txt (SLK Sample)</IndexEntry>
+		</DocBrowserNode>
+	</DocBrowserStaticPages>
+
+	<DocBrowserStaticPages NodeId="SlkSamples">
+		<DocBrowserNode
+			Path="ApiRef\SlkWebService.htm"
+			Title="WebService">
+			<IndexEntry>WebService (SLK Sample)</IndexEntry>
+			<DocBrowserNode
+				Path="TempDoc\WebService_SampleWebService.asmx.htm"
+				Title="SampleWebService.asmx">
+				<IndexEntry>SampleWebService.asmx (SLK Sample)</IndexEntry>
+			</DocBrowserNode>
+			<DocBrowserNode
+				Path="TempDoc\WebService_ReadMe.txt.htm"
+				Title="ReadMe.txt">
+				<IndexEntry>WebService\ReadMe.txt (SLK Sample)</IndexEntry>
+			</DocBrowserNode>
+		</DocBrowserNode>
+	</DocBrowserStaticPages>
+
+	<ClearSources />
+
+	<ReadSource Path="Samples\ValidatePackage\ValidatePackage.cs" />
+
+	<WriteFormattedCode
+		MarkOfTheWeb="true"
+		Path="SdkDoc\Pages"
+		TopicFooterHtml = "Copyright &amp;copy; Microsoft Corporation.&amp;nbsp; All rights reserved.">
+		<AddToDocBrowser 
+			IndexLabelSuffix=" (MLC Sample)"
+			NodeId="Mlc" />
+
+		<SourceFilesNode
+			NodeId="MlcSamples"
+			Path="ApiRef\MlcSamples.htm"
+			Title="MLC Samples">
+			<IndexEntry>MLC Samples</IndexEntry>
+		</SourceFilesNode>
+
+	</WriteFormattedCode>
+
+	<ClearSources />
+
+	<ReadSource Path="Samples\BasicWebPlayer\App_Code\BasicWebPlayerBase.cs" />
+	<ReadSource Path="Samples\BasicWebPlayer\CreateAttempt.aspx.cs" />
+	<ReadSource Path="Samples\BasicWebPlayer\DeletePackages.aspx.cs" />
+	<ReadSource Path="Samples\BasicWebPlayer\App_Code\LStoreHelper.cs" />
+	<ReadSource Path="Samples\BasicWebPlayer\App_Code\PageHelper.cs" />
+	<ReadSource Path="Samples\BasicWebPlayer\SequencingLog.aspx.cs" />
+	<ReadSource Path="Samples\BasicWebPlayer\UploadPackage.aspx.cs" />
+
+	<WriteFormattedCode
+		MarkOfTheWeb="true"
+		Path="SdkDoc\Pages"
+		TopicFooterHtml = "Copyright &amp;copy; Microsoft Corporation.&amp;nbsp; All rights reserved.">
+		<AddToDocBrowser 
+			IndexLabelSuffix=" (MLC Sample)"
+			NodeId="MlcSamples" />
+
+		<SourceFilesNode
+			NodeId="BasicWebPlayerSample"
+			Path="ApiRef\MlcBasicWebPlayer.htm"
+			Title="BasicWebPlayer">
+		</SourceFilesNode>
+
+	</WriteFormattedCode>
+
+	<DocBrowserStaticPages NodeId="BasicWebPlayerSample">
+		<DocBrowserNode
+			Path="TempDoc\BasicWebPlayer_Schema.xml.htm"
+			Title="Schema.xml">
+			<IndexEntry>Schema.xml (BasicWebPlayer MLC Sample)</IndexEntry>
+		</DocBrowserNode>
+		<DocBrowserNode
+			Path="TempDoc\BasicWebPlayer_ReadMe.txt.htm"
+			Title="ReadMe.txt">
+			<IndexEntry>BasicWebPlayer\ReadMe.txt (MLC Sample)</IndexEntry>
+		</DocBrowserNode>
+	</DocBrowserStaticPages>
+
+</CodeDoc>
+

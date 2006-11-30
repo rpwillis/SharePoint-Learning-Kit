@@ -1,0 +1,7 @@
+SharePoint Learning Kit License Exceptions
+
+The following files are licensed under separate licensing terms. See each file for details.
+
+SLK-Install-[Build#]-ENU/Samples/Solitaire.zip/APIWrapper.js
+SLK-SDK-[Build#]-ENU/Samples/Solitaire.zip/APIWrapper.js
+SLK-SourceCode-[Build#]-ENU/Samples/Solitaire/APIWrapper.js

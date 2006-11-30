@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<configuration>
+	<appSettings>
+		<add key="debugSlkSPWebUrl" value="http://localhost/districts/bellevue/elm/math1b"/>
+	</appSettings>
+	<connectionStrings/>
+	<system.web>
+		<compilation debug="true"/>
+		<authentication mode="Windows"/>
+		<customErrors mode="Off"/>
+		<trust level="Full"/>
+		<identity impersonate="true" />
+        
+        <httpModules>
+			<add name="FramesetContentModule" type="Microsoft.LearningComponents.Frameset.FramesetModule"/>
+		</httpModules>
+        
+	</system.web>
+</configuration>

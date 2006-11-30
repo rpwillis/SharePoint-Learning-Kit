@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{C2D3E72B-B420-4768-AA37-1BB1E3F6D29F}") = "SimulateClass", "SimulateClass.csproj", "{475727A3-CC9B-48B9-BF4A-0BE44F5F7323}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{475727A3-CC9B-48B9-BF4A-0BE44F5F7323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{475727A3-CC9B-48B9-BF4A-0BE44F5F7323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{475727A3-CC9B-48B9-BF4A-0BE44F5F7323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{475727A3-CC9B-48B9-BF4A-0BE44F5F7323}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

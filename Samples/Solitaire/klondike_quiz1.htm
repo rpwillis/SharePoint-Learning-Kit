@@ -1,0 +1,265 @@
+﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<html>
+
+<!-- MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
+     MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
+     LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
+     NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
+     
+<head>
+<title>Basics of Solitaire - Klondike Quick Check</title>
+<link type="text/css" rel="stylesheet" href="./style.css">
+<style>
+.UnselectedCard
+{
+	border: 3px solid white;
+}
+</style>
+<script type="text/javascript" src="APIWrapper.js"></script>
+<script type="text/javascript" src="Common.js"></script>
+<script language="javascript" type="text/javascript">
+// <!CDATA[
+// Initialize global variables
+var rawScore=0;
+var passingScore=2;
+var scorePossible=3;
+var selectedCardNumber=0; // 0 means "no card selected"
+var displayMode="unknown"; // Set to cmi.mode during load.
+
+// Highlight the selected card.
+function SelectCard(cardNumber)
+{
+    for (var i = 1; i <= 4; i++)
+		document.all["Card" + i].style.border = "3px solid white";
+	if (cardNumber != 0)
+		document.all["Card" + cardNumber].style.border = "3px solid green";
+	selectedCardNumber = cardNumber;
+}
+
+//Read Answers from the interactions in the data model and fill out the exam from with those answers.
+function readAnswers()
+{
+	var interactionCount=retrieveDataValue("cmi.interactions._count")
+	
+	//For all the interactions, get the asnwers and set them in the form
+	for (n=0;n<interactionCount;n++) {
+		var interaction = "cmi.interactions."+n;
+		var id = retrieveDataValue(interaction+".id");
+		var learnerResponse = retrieveDataValue(interaction+".learner_response");
+		
+		//Switch on the interaction id to fill out the form with the appropriate information.
+		switch (id) {
+		case "Q1":
+			for (i=0;i<4;i++){
+				if (examForm.Q1[i].value == learnerResponse) examForm.Q1[i].checked=1;
+			}
+		break;
+		case "Q2":
+			for (i=0;i<2;i++){
+				if (examForm.Q2[i].value == learnerResponse) examForm.Q2[i].checked=1;
+			}
+		break;
+		case "Q3":
+			SelectCard(parseInt(learnerResponse)); 		
+		break;
+		default: alert("Unknown interaction ID")	
+		}
+	}
+}
+
+// Store answers in the SCORM data model.
+function storeAnswers()
+{
+	//Q1
+	storeDataValue("cmi.interactions.0.id","Q1");
+	storeDataValue("cmi.interactions.0.type","choice");
+	for (i=0;i<4;i++){
+		if (examForm.Q1[i].checked)
+			storeDataValue("cmi.interactions.0.learner_response",examForm.Q1[i].value);
+	}
+
+	//Q2, set the true_false depending on what is checked.
+	storeDataValue("cmi.interactions.1.id","Q2");
+	storeDataValue("cmi.interactions.1.type","true-false"); 
+	for (i=0;i<2;i++){
+		if (examForm.Q2[i].checked)
+			storeDataValue("cmi.interactions.1.learner_response",examForm.Q2[i].value);
+	}
+		
+	//Q3, set the multiple choice depending on what is checked.
+	storeDataValue("cmi.interactions.2.id","Q3");
+	storeDataValue("cmi.interactions.2.type","choice"); 
+	storeDataValue("cmi.interactions.2.learner_response",selectedCardNumber);
+}
+
+// Initialize communication with the SCORM API and set-up the page with previously stored answers.
+function LoadAPI()
+{
+    initializeCommunication();
+    storeDataValue( "cmi.completion_status", "incomplete");
+
+	//If there are interactions stored in the data model, then read the response data into the form by calling readAnswers.
+    if (retrieveDataValue("cmi.interactions._count") > 0){readAnswers();}
+    
+    // Retrieve the display mode from the LMS. The page will disable inputs during "review" or "browse" modes.
+    displayMode = retrieveDataValue("cmi.mode");
+    if (displayMode == "review" | "browse") {disableInputs();}
+}
+
+// Setup to leave the page and terminate communication with the SCORM API.
+function UnloadAPI()
+{
+    //  Set the SCO to completed and suspend the attempt so when they revisit they get their previous state.
+    storeDataValue( "cmi.exit", "suspend" );
+    storeDataValue( "cmi.completion_status", "completed" );
+    terminateCommunication();
+}
+
+// Disable all user inputs on the page. Function is called in "review" and "browse" modes.
+function disableInputs()
+{
+	examForm.Q1[0].disabled = true;
+	examForm.Q1[1].disabled = true;
+	examForm.Q1[2].disabled = true;
+	examForm.Q1[3].disabled = true;
+	examForm.Q2[0].disabled = true;
+	examForm.Q2[1].disabled = true;
+	examForm.Card1.disabled = true;
+	examForm.Card2.disabled = true;
+	examForm.Card3.disabled = true;
+	examForm.Card4.disabled = true;
+	examForm.submitButton.disabled = true;
+	
+	if (displayMode == "review") {checkAnswers();} //Call check answers to display the user's results if in the review mode.
+}
+
+
+// Check the answers in the exam form. If they are correct, then display "correct" next to the question. 
+// Display "incorrect" if an answer is wrong. Update the rawScore value while checking the answers.
+function checkAnswers()
+{
+	rawScore=0;
+	
+	var displayResult = Q1Result;
+	if (examForm.Q1[1].checked)
+	   { 
+	      rawScore++;
+		  displayResult.innerHTML = correctAns();
+ 	   } else {displayResult.innerHTML = incorrectAns();}
+
+	displayResult = Q2Result;
+	if (examForm.Q2[0].checked)
+	   { 
+	      rawScore++;
+		  displayResult.innerHTML = correctAns();
+ 	   } else {displayResult.innerHTML = incorrectAns();}
+
+	displayResult = Q3Result;
+	if (selectedCardNumber == 3)
+	   { 
+	      rawScore++;
+		  displayResult.innerHTML = correctAns();
+ 	   } else {displayResult.innerHTML = incorrectAns();}
+}
+
+// Calculate the scaled score and set it in the data model. Also update the page
+// text according to the passing status.
+function calcScore()
+{
+  storeAnswers(); //save the current answers to the data model.
+  checkAnswers(); //Check the answers and set rawScore global variable
+
+  //  Set the scaled score that will be used in the 
+  //  Sequencing Tracking Model
+  storeDataValue("cmi.score.scaled", rawScore/scorePossible);
+  storeDataValue("cmi.score.raw", rawScore);
+  
+  //  Inform the user that they were successful or not
+  if (rawScore < passingScore)
+  {
+  	directions.className = "incorrect";
+	dirText.innerHTML = '<p>Try again. You must get 2 of 3 correct on this page to continue.</p>';
+  }
+  else 
+  {
+    directions.className = "correct";
+	dirText.innerHTML = '<p>Congratulations!<br><br> Continue to the next page of this quick check.</p>';
+  }
+  
+	//Call commit to commit the updated data model elements.
+	persistData();
+}
+// ]]>
+</script>
+</head>
+
+<body onload="LoadAPI()" onunload="UnloadAPI()">
+<table style="height:100%">
+<tr style="height:100%;vertical-align:top"><td >
+
+
+<h2>Quick Check Quiz - Page 1 of 2</h2>
+<table id="directions" class="generalDirections">
+	<tr>
+		<td id="dirText">Complete the following quick check questions and 
+		check your answers by clicking Check Answers at the bottom of the page.<p>
+		You must get two of the three questions correct on this page and complete 
+		the exercise on the next page to satisfy this unit.</p>
+		</td>
+	</tr>
+</table>
+<p></p>
+<form name="examForm">
+	<table width="640">
+		<tr>
+			<td>
+			1.&nbsp; How many piles of cards are initially dealt to create the 
+			tableau?&nbsp; <i>(7)</i>
+			<blockquote>
+				<input type="radio" name="Q1" value="a" tabindex="1" />4</br>
+				<input type="radio" name="Q1" value="b" tabindex="2" />7</br>
+				<input type="radio" name="Q1" value="c" tabindex="3" />13</br>
+				<input type="radio" name="Q1" value="d" tabindex="4" />52</br>
+			</blockquote>
+			</td>
+			<td width="150" valign="top" id="Q1Result"></td>
+		</tr>
+		<tr>
+			<td width="634">
+			2. True or False?&nbsp; Spaces opened in the tableau may only be 
+			filled by Kings. <i>(True)</i>
+			<blockquote>
+				<input type="radio" name="Q2" value="true" tabindex="5" />True</br>
+				<input type="radio" name="Q2" value="false" tabindex="6" />False</br>
+			</blockquote>
+			</td>
+			<td width="150" valign="top" id="Q2Result"></td>
+		</tr>
+		<tr>
+			<td width="634">
+			3.&nbsp; The <img border="0" src="images/2H.gif" width="71" height="96"> may be played on which of the following 
+			cards in a foundation pile?&nbsp; <i>(Ace of hearts)</i>
+
+			<blockquote>
+				<img border="0" id="Card1" onclick="SelectCard(1)" src="images/3S.gif" width="71" height="96" class="UnselectedCard">
+				<img border="0" id="Card2" onclick="SelectCard(2)" src="images/AC.gif" width="71" height="96" class="UnselectedCard">
+				<img border="0" id="Card3" onclick="SelectCard(3)" src="images/AH.gif" width="71" height="96" class="UnselectedCard">
+				<img border="0" id="Card4" onclick="SelectCard(4)" src="images/3H.gif" width="71" height="96" class="UnselectedCard">
+			</blockquote>
+			<p></p>
+			</td>
+			<td width="150" valign="middle" id="Q3Result"></td>
+		</tr>
+	</table>
+	<input type="button" name="submitButton" value="Check Answers" onclick="calcScore()"><p>
+	</p>
+</form>
+
+</td></tr>
+<tr><td>
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div></td></tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,591 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AttributeNotFound" xml:space="preserve">
+    <value>Attribute {0} not found on element {1}</value>
+  </data>
+  <data name="ElementNotFound" xml:space="preserve">
+    <value>Element {0} not found</value>
+  </data>
+  <data name="TypeStringNotFound" xml:space="preserve">
+    <value>Type {0} not found</value>
+  </data>
+  <data name="DefaultValueNotAllowed" xml:space="preserve">
+    <value>Default value not allowed for property {0} on item {1}.</value>
+  </data>
+  <data name="RootElementNotFound" xml:space="preserve">
+    <value>'StoreSchema' root element not found.</value>
+  </data>
+  <data name="DuplicateIdentifier" xml:space="preserve">
+    <value>Identifier '{0}' defined more than once.</value>
+  </data>
+  <data name="IdentifierNotFound" xml:space="preserve">
+    <value>Identifier '{0}' not found</value>
+  </data>
+  <data name="ReferencedItemTypeAttributeNotFoundInColumn" xml:space="preserve">
+    <value>ReferencedItemTypeName attribute not found for column {0} in view {1}.</value>
+  </data>
+  <data name="ReferencedItemTypeNotFoundInColumn" xml:space="preserve">
+    <value>Column {0} in view {1} references an ItemType {2} that does not exist.</value>
+  </data>
+  <data name="UnexpectedReferencedItemTypeAttributeInColumn" xml:space="preserve">
+    <value>Unexpected ReferencedItemTypeName attribute found for column {0} in view {1}.</value>
+  </data>
+  <data name="EnumAttributeNotFoundInColumn" xml:space="preserve">
+    <value>EnumName attribute not found for column {0} in view {1}.</value>
+  </data>    
+  <data name="EnumTypeNotFoundInColumn" xml:space="preserve">
+    <value>Column {0} in view {1} references an Enum {2} that does not exist.</value>
+  </data>
+  <data name="UnexpectedEnumAttributeInColumn" xml:space="preserve">
+    <value>Unexpected EnumName attribute found for column {0} in view {1}.</value>
+  </data>
+  <data name="ReferencedItemTypeAttributeNotFoundInViewParameter" xml:space="preserve">
+    <value>ReferencedItemTypeName attribute not found for parameter {0} in view {1}.</value>
+  </data>
+  <data name="EnumTypeNotFoundInViewParameter" xml:space="preserve">
+    <value>Parameter {0} in view {1} references an Enum {2} that does not exist.</value>
+  </data>
+  <data name="ReferencedItemTypeNotFoundInViewParameter" xml:space="preserve">
+    <value>Parameter {0} in view {1} references an ItemType {2} that does not exist.</value>
+  </data>
+  <data name="UnexpectedReferencedItemTypeAttributeInViewParameter" xml:space="preserve">
+    <value>Unexpected ReferencedItemTypeName attribute found for parameter {0} in view {1}.</value>
+  </data>
+  <data name="EnumAttributeNotFoundInViewParameter" xml:space="preserve">
+    <value>EnumName attribute not found for parameter {0} in view {1}.</value>
+  </data>    
+  <data name="EnumTypeNotFoundInViewParameter" xml:space="preserve">
+    <value>Parameter {0} in view {1} references an Enum {2} that does not exist.</value>
+  </data>
+  <data name="UnexpectedEnumAttributeInViewParameter" xml:space="preserve">
+    <value>Unexpected EnumName attribute found for parameter {0} in view {1}.</value>
+  </data>
+  <data name="ReferencedItemTypeAttributeNotFoundInRightParameter" xml:space="preserve">
+    <value>ReferencedItemTypeName attribute not found for parameter {0} in right {1}.</value>
+  </data>
+  <data name="EnumTypeNotFoundInRightParameter" xml:space="preserve">
+    <value>Parameter {0} in right {1} references an Enum {2} that does not exist.</value>
+  </data>
+  <data name="ReferencedItemTypeNotFoundInRightParameter" xml:space="preserve">
+    <value>Parameter {0} in right {1} references an ItemType {2} that does not exist.</value>
+  </data>
+  <data name="UnexpectedReferencedItemTypeAttributeInRightParameter" xml:space="preserve">
+    <value>Unexpected ReferencedItemTypeName attribute found for parameter {0} in right {1}.</value>
+  </data>
+  <data name="EnumAttributeNotFoundInRightParameter" xml:space="preserve">
+    <value>EnumName attribute not found for parameter {0} in right {1}.</value>
+  </data>    
+  <data name="EnumTypeNotFoundInRightParameter" xml:space="preserve">
+    <value>Parameter {0} in right {1} references an Enum {2} that does not exist.</value>
+  </data>
+  <data name="UnexpectedEnumAttributeInRightParameter" xml:space="preserve">
+    <value>Unexpected EnumName attribute found for parameter {0} in right {1}.</value>
+  </data>
+  <data name="ReferencedItemTypeAttributeNotFoundForProperty" xml:space="preserve">
+    <value>ReferencedItemTypeName attribute not found for property {0} on item type {1}.</value>
+  </data>
+  <data name="ReferencedItemTypeNotFoundForProperty" xml:space="preserve">
+    <value>Property {0} on item type {1} references an item type {2} that does not exist.</value>
+  </data>
+  <data name="UnexpectedReferencedItemTypeAttributeForProperty" xml:space="preserve">
+    <value>Unexpected ReferencedItemTypeName attribute found for property {0} on item type {1}.</value>
+  </data>
+  <data name="ReferencedItemTypeNotFoundForProperty" xml:space="preserve">
+    <value>Property {0} on item type {1} references an item type {2} that does not exist.</value>
+  </data>
+  <data name="EnumAttributeNotFoundForProperty" xml:space="preserve">
+    <value>EnumName attribute not found for property {0} on item type {1}.</value>
+  </data>    
+  <data name="EnumTypeNotFoundForProperty" xml:space="preserve">
+    <value>Property {0} on item type {1} references an Enum {2} that does not exist.</value>
+  </data>
+  <data name="UnexpectedEnumAttributeForProperty" xml:space="preserve">
+    <value>Unexpected EnumName attribute found for property {0} on item type {1}.</value>
+  </data>
+  <data name="InvalidLengthForStringProperty" xml:space="preserve">
+    <value>Length attribute for property {0} on item type {1} must be between 1 and (Int32.Max-2)/2.</value>
+  </data>
+  <data name="InvalidLengthForByteArrayProperty" xml:space="preserve">
+    <value>Length attribute for property {0} on item type {1} must be between 1 and (Int32.Max-2).</value>
+  </data>
+  <data name="UnexpectedLengthAttributeForProperty" xml:space="preserve">
+    <value>Unexpected Length attribute found for property {0} on item type {1}.</value>
+  </data>
+  <data name="UnexpectedCascadeDeleteAttributeForProperty" xml:space="preserve">
+    <value>Unexpected CascadeDelete attribute found for property {0} on item type {1}.</value>
+  </data>
+  <data name="NullDefaultForNonNullableProperty" xml:space="preserve">
+    <value>Invalid default value of 'null' for property {0} on item type {1}.</value>
+  </data>    
+  <data name="InvalidDefaultForItemIdentifierProperty" xml:space="preserve">
+    <value>Invalid default value for property {0} on item type {1}.  Non-null default values are not permitted.</value>
+  </data>    
+  <data name="InvalidDefaultValue" xml:space="preserve">
+    <value>Invalid default value for property {0} on item type {1}.</value>
+  </data>    
+  <data name="InvalidDefaultValueWithError" xml:space="preserve">
+    <value>Invalid default value for property {0} on item type {1}: {2}</value>
+  </data>    
+  <data name="PropertyAlreadyDefined" xml:space="preserve">
+    <value>Property {0} on item type {1} has already been defined.</value>
+  </data>
+  <data name="PropertyNotFound" xml:space="preserve">
+    <value>Property {0} not found on item type {1}.</value>
+  </data>
+  <data name="ParameterAlreadyDefinedInRight" xml:space="preserve">
+    <value>Parameter {0} on right {1} has already been defined.</value>
+  </data>
+  <data name="ParameterNotFoundInRight" xml:space="preserve">
+    <value>Parameter {0} not found on right {1}.</value>
+  </data>
+  <data name="XmlSchemaException" xml:space="preserve">
+    <value>Error at line {0}, column {1}: {2}</value>
+  </data>
+
+  <data name="Usage" xml:space="preserve">
+    <value>
+Usage: SchemaCompiler input-file [/OutputInit init-file]
+    [/OutputUpgrade upgrade-file]
+    [/OutputHelper helper-file /Namespace namespace /SchemaNamespace namespace]
+
+SchemaCompiler compiles a schema input file and outputs files that can be used
+to install and/or write code using that schema.
+
+Options include:
+  /OutputInit init-file
+     This option will output a .sql file that can be used to install the schema
+     into a database.
+  /OutputUpgrade upgrade-file
+     This option will output a .sql file that can upgrade the view and security
+     of a currently-existing database.  It is assumed that init-file was
+     previously run on the database.
+  /OutputHelper helper-file
+     This option will output a .cs file that contains helper classes for use
+     when writing code using the schema.
+  /Namespace namespace
+     Provides the namespace into which the classes and enums inside
+     helper-file should be placed.  Required if the /OutputHelper option
+     is used.
+  /SchemaNamespace namespace
+     Provides the namespace into which the constants inside helper-file
+     should be placed.  Required if the /OutputHelper option is used.
+
+See the "Developing Schemas" documentation for more information.
+</value>
+  </data>
+  <data name="SqlInitHeader" xml:space="preserve">
+    <value>--------------------------------------------------------------------------------
+-- &lt;auto-generated&gt;
+-- This code was generated by a tool.
+--
+-- Changes to this file may cause incorrect behavior and will be lost if
+-- the code is regenerated.
+-- &lt;/auto-generated&gt;
+--------------------------------------------------------------------------------
+    </value>
+  </data>
+  <data name="SqlInitCantUseMaster" xml:space="preserve">
+    <value>Unable to execute script on master database, USE a database before running this script</value>
+  </data>
+  <data name="SqlInitCantUpgradeEmptyDatabase" xml:space="preserve">
+    <value>Unable to execute script on a database that has not been initialized</value>
+  </data>
+  <data name="SqlInitDropFunctions" xml:space="preserve">
+    <value>Drop all view/right/security-related functions</value>
+  </data>
+  <data name="SqlInitUpdateSchemaXml" xml:space="preserve">
+    <value>Update schema XML</value>
+  </data>
+  <data name="SqlInitCreateConfigurationTable" xml:space="preserve">
+    <value>Create configuration table</value>
+  </data>
+  <data name="SqlInitCreateRole" xml:space="preserve">
+    <value>Create role that can access the database using LearningStore</value>
+  </data>
+  <data name="SqlInitCreateTable" xml:space="preserve">
+    <value>Create {0} table</value>
+  </data>
+  <data name="SqlInitCreateViewFunction" xml:space="preserve">
+    <value>Create a function that implements the {0} view</value>
+  </data>
+  <data name="SqlInitCreateDefaultViewFunction" xml:space="preserve">
+    <value>Create function that implements the default view for the {0} item type</value>
+  </data>
+  <data name="SqlInitCreateViewSecurityFunction" xml:space="preserve">
+    <value>Create function for the security on the {0} view</value>
+  </data>
+  <data name="SqlInitCreateRightSecurityFunction" xml:space="preserve">
+    <value>Create function for the security on the {0} right</value>
+  </data>
+  <data name="SqlInitCreateDeleteItemSecurityFunction" xml:space="preserve">
+    <value>Create function for the delete security on the {0} item type</value>
+  </data>
+  <data name="SqlInitCreateUpdateItemSecurityFunction" xml:space="preserve">
+    <value>Create function for the update security on the {0} item type</value>
+  </data>
+  <data name="SqlInitCreateAddItemSecurityFunction" xml:space="preserve">
+    <value>Create function for the add security on the {0} item type</value>
+  </data>
+  <data name="SqlInitCreateDefaultViewSecurityFunction" xml:space="preserve">
+    <value>Create function for the default view security on the {0} item type</value>
+  </data>
+  <data name="HelperHeader" xml:space="preserve">
+    <value>//------------------------------------------------------------------------------
+// &lt;auto-generated&gt;
+// This code was generated by a tool.
+//
+// Changes to this file may cause incorrect behavior and will be lost if
+// the code is regenerated.
+// &lt;/auto-generated&gt;
+//------------------------------------------------------------------------------
+    </value>
+  </data>
+  <data name="HelperEnumValueSummary" xml:space="preserve">
+    <value>
+        {0} ({1}).
+    </value>
+  </data>
+  <data name="HelperBaseSchemaInternalClassDocumentation" xml:space="preserve">
+    <value>
+        &lt;summary&gt;
+        Contains schema-related constants.
+        &lt;/summary&gt;
+    </value>
+  </data>
+  <data name="HelperBaseSchemaInternalItemTypeDocumentation" xml:space="preserve">
+    <value>
+        &lt;summary&gt;
+        Contains constants related to the {0} item type.
+        &lt;/summary&gt;
+    </value>
+  </data>
+  <data name="HelperBaseSchemaInternalItemTypePropertyMaximumLengthOfString" xml:space="preserve">
+    <value>
+        &lt;summary&gt;
+        Maximum length of the {0} property in characters.
+        &lt;/summary&gt;
+    </value>
+  </data>
+  <data name="HelperBaseSchemaInternalItemTypePropertyMaximumLengthOfByteArray" xml:space="preserve">
+    <value>
+        &lt;summary&gt;
+        Maximum length of the {0} property in bytes.
+        &lt;/summary&gt;
+    </value>
+  </data>
+  <data name="HelperItemTypeSummary" xml:space="preserve">
+    <value>
+        Contains constants related to the {0} item type.
+    </value>
+  </data>
+  <data name="HelperItemTypeNameDocumentation" xml:space="preserve">
+    <value>
+        &lt;summary&gt;
+        Name of the &lt;Typ&gt;{0}&lt;/Typ&gt; item type.
+        &lt;/summary&gt;
+    </value>
+  </data>
+  <data name="HelperItemTypePropertyList" xml:space="preserve">
+    <value>Properties on the item type:</value>
+  </data>
+  <data name="HelperItemTypePropertyMaximumLengthOfString" xml:space="preserve">
+    <value>
+        Maximum length of the &lt;Fld&gt;{0}&lt;/Fld&gt; property in characters.
+    </value>
+  </data>
+  <data name="HelperItemTypePropertyMaximumLengthOfByteArray" xml:space="preserve">
+    <value>
+        Maximum length of the &lt;Fld&gt;{0}&lt;/Fld&gt; property in bytes.
+    </value>
+  </data>
+  <data name="HelperItemTypePropertyNameSummary" xml:space="preserve">
+    <value>
+        Name of the {0} property on the &lt;Typ&gt;{1}&lt;/Typ&gt; item type.
+    </value>
+  </data>
+  <data name="HelperItemTypePropertyType" xml:space="preserve">
+    <value>
+        Property type: {0}
+    </value>
+  </data>
+  <data name="HelperItemTypePropertyNotNullable" xml:space="preserve">
+    <value>
+        Property can not contain null.
+    </value>
+  </data>
+  <data name="HelperItemTypePropertyNullable" xml:space="preserve">
+    <value>
+        Property can contain null.
+    </value>
+  </data>
+  <data name="HelperItemTypePropertyNoDefault" xml:space="preserve">
+    <value>
+        Property does not have a default value.
+    </value>
+  </data>
+  <data name="HelperItemTypePropertyDefault" xml:space="preserve">
+    <value>
+        Default value: {0}
+    </value>
+  </data>
+  <data name="HelperItemTypePropertyAutoDelete" xml:space="preserve">
+    <value>
+        Item will automatically be deleted when the referred-to item is deleted.
+    </value>
+  </data>
+  <data name="HelperItemTypeIdPropertyRemarks" xml:space="preserve">
+    <value>
+        The value stored in this property is generated automatically when a new item is
+        added.  It is unique across all items of the item type.
+    </value>
+  </data>
+  <data name="HelperViewSummary" xml:space="preserve">
+    <value>
+        Contains constants related to the {0} view.
+    </value>
+  </data>
+  <data name="HelperViewColumnList" xml:space="preserve">
+    <value>Columns in the view:</value>
+  </data>
+  <data name="HelperViewParameterList" xml:space="preserve">
+    <value>Parameters in the view:</value>
+  </data>
+  <data name="HelperNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="HelperViewNameDocumentation" xml:space="preserve">
+    <value>
+        &lt;summary&gt;
+        Name of the &lt;Typ&gt;{0}&lt;/Typ&gt; view.
+        &lt;/summary&gt;
+    </value>
+  </data>
+  <data name="HelperViewColumnNameSummary" xml:space="preserve">
+    <value>
+        Name of the {0} column on the &lt;Typ&gt;{1}&lt;/Typ&gt; view.
+    </value>
+  </data>
+  <data name="HelperViewColumnType" xml:space="preserve">
+    <value>
+        Column type: {0}
+    </value>
+  </data>
+  <data name="HelperViewParameterNameSummary" xml:space="preserve">
+    <value>
+        Name of the {0} parameter on the &lt;Typ&gt;{1}&lt;/Typ&gt; view.
+    </value>
+  </data>
+  <data name="HelperViewParameterType" xml:space="preserve">
+    <value>
+        Parameter type: {0}
+    </value>
+  </data>
+  <data name="HelperRightSummary" xml:space="preserve">
+    <value>
+        Contains constants related to the {0} right.
+    </value>
+  </data>
+  <data name="HelperRightParameterList" xml:space="preserve">
+    <value>Parameters in the right:</value>
+  </data>
+  <data name="HelperRightNameDocumentation" xml:space="preserve">
+    <value>
+        &lt;summary&gt;
+        Name of the &lt;Typ&gt;{0}&lt;/Typ&gt; right.
+        &lt;/summary&gt;
+    </value>
+  </data>
+  <data name="HelperRightParameterNameSummary" xml:space="preserve">
+    <value>
+        Name of the {0} parameter on the &lt;Typ&gt;{1}&lt;/Typ&gt; right.
+    </value>
+  </data>
+  <data name="HelperRightParameterType" xml:space="preserve">
+    <value>
+        Parameter type: {0}
+    </value>
+  </data>
+  <data name="HelperIdentifierDocumentation" xml:space="preserve">
+    <value>
+        &lt;summary&gt;
+        Represents an identifier to a &lt;Typ&gt;{0}&lt;/Typ&gt; in a store.
+        &lt;/summary&gt;
+    </value>
+  </data>
+  <data name="HelperIdentifierConstructor1Documentation" xml:space="preserve">
+    <value>
+        &lt;summary&gt;
+        Create a new instance of the {0} class.
+        &lt;/summary&gt;
+        &lt;param name="key"&gt;The unique integer value assigned to the item.  This must be a positive integer.&lt;/param&gt;
+        &lt;exception cref="System.ArgumentOutOfRangeException"&gt;&lt;paramref name="key"/&gt; is not a valid positive integer.&lt;/exception&gt;
+    </value>
+  </data>
+  <data name="HelperIdentifierConstructor2Documentation" xml:space="preserve">
+    <value>
+        &lt;summary&gt;
+        Create a new instance of the {0} class.
+        &lt;/summary&gt;
+        &lt;param name="id"&gt;Identifier that should be copied.&lt;/param&gt;
+        &lt;exception cref="System.ArgumentNullException"&gt;&lt;paramref name="id"/&gt; is a null refrence.&lt;/exception&gt;
+        &lt;exception cref="System.ArgumentOutOfRangeException"&gt;&lt;paramref name="id"/&gt; does not contain
+            a {1} identifier.&lt;/exception&gt;
+    </value>
+  </data>
+  <data name="HelperValueTypeBoolean" xml:space="preserve">
+    <value>Boolean</value>
+  </data>
+  <data name="HelperValueTypeByteArray" xml:space="preserve">
+    <value>ByteArray[{0}]</value>
+  </data>  
+  <data name="HelperValueTypeByteArrayWithoutLength" xml:space="preserve">
+    <value>ByteArray[]</value>
+  </data>  
+  <data name="HelperValueTypeDateTime" xml:space="preserve">
+    <value>DateTime</value>
+  </data>  
+  <data name="HelperValueTypeDouble" xml:space="preserve">
+    <value>Double</value>
+  </data>
+  <data name="HelperValueTypeEnum" xml:space="preserve">
+    <value>&lt;Typ&gt;{0}&lt;/Typ&gt;</value>
+  </data>
+  <data name="HelperValueTypeGuid" xml:space="preserve">
+    <value>Guid</value>
+  </data>
+  <data name="HelperValueTypeInt32" xml:space="preserve">
+    <value>Int32</value>
+  </data>
+  <data name="HelperValueTypeItemIdentifier" xml:space="preserve">
+    <value>Reference to a &lt;Typ&gt;{0}&lt;/Typ&gt; item type.</value>
+  </data>
+  <data name="HelperValueTypeSingle" xml:space="preserve">
+    <value>Single</value>
+  </data>
+  <data name="HelperValueTypeString" xml:space="preserve">
+    <value>String[{0}]</value>
+  </data>
+  <data name="HelperValueTypeStringWithoutLength" xml:space="preserve">
+    <value>String[]</value>
+  </data>
+  <data name="HelperValueTypeXml" xml:space="preserve">
+    <value>Xml</value>
+  </data>  
+</root>

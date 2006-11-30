@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{F3CEF679-D647-48EB-BD3D-C7876512DD08}") = "ProvisionFromExcel", "ProvisionFromExcel.csproj", "{221F0782-27F2-421C-89B9-033EE86F5D97}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{221F0782-27F2-421C-89B9-033EE86F5D97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{221F0782-27F2-421C-89B9-033EE86F5D97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{221F0782-27F2-421C-89B9-033EE86F5D97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{221F0782-27F2-421C-89B9-033EE86F5D97}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

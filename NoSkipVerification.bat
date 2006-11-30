@@ -1,0 +1,3 @@
+REM -- Turning off verification skipping for SLK DLLs...
+sn -Vu *,abc4ed181d6d6a94
+pause

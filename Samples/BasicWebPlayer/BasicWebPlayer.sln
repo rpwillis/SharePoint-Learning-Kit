@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\BasicWebPlayer\", ".", "{AC1B115D-8DF3-431A-BB4A-3A0945E98606}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.VirtualPath = "/BasicWebPlayer"
+		Debug.AspNetCompiler.PhysicalPath = "..\BasicWebPlayer\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\BasicWebPlayer\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/BasicWebPlayer"
+		Release.AspNetCompiler.PhysicalPath = "..\BasicWebPlayer\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\BasicWebPlayer\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "1339"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC1B115D-8DF3-431A-BB4A-3A0945E98606}.Debug|.NET.ActiveCfg = Debug|.NET
+		{AC1B115D-8DF3-431A-BB4A-3A0945E98606}.Debug|.NET.Build.0 = Debug|.NET
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

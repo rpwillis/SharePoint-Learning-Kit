@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:lom="http://ltsc.ieee.org/xsd/LOM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3" xmlns:imsss="http://www.imsglobal.org/xsd/imsss" xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3" xmlns:adlnav="http://www.adlnet.org/xsd/adlnav_v1p3" identifier="SLK_SAMPLE_SOLITAIRE" xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd http://ltsc.ieee.org/xsd/LOM lom.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd" version="1.3">
+    <metadata>
+        <schema>ADL SCORM</schema>
+        <schemaversion>CAM 1.3</schemaversion>
+        <lom:lom>
+	      <lom:general>
+	        <lom:title>
+	          <lom:string>The Basics of Solitaire</lom:string>
+	        </lom:title>
+	        <lom:description>
+	          <lom:string>This course teaches the basics of solitaire and how to play two of the most popular versions of the game, Canfield and Klondike solitaire.</lom:string>
+	        </lom:description>
+	        <lom:keyword>
+	          <lom:string>Solitaire</lom:string>
+	        </lom:keyword>
+	        <lom:keyword>
+	          <lom:string>Card Games</lom:string>
+	        </lom:keyword>
+	        <lom:keyword>
+	          <lom:string>Computer Games</lom:string>
+	        </lom:keyword>
+	      </lom:general>
+	      <lom:metaMetadata>
+	      		<lom:metadataSchema>LOMv1.0</lom:metadataSchema>
+	      		<lom:metadataSchema>SCORM_CAM_v1.3</lom:metadataSchema>
+	      </lom:metaMetadata>
+	    </lom:lom>
+    </metadata>
+    <organizations default="SolitaireBasics">
+        <organization identifier="SolitaireBasics" adlseq:objectivesGlobalToSystem="false">
+            <title>Solitaire Basics</title>
+            <item identifier="WELCOME" identifierref="WELCOME_REF">
+                <title>Welcome</title>
+                <imsss:sequencing>
+                  <imsss:deliveryControls tracked="false"/>
+                </imsss:sequencing>
+            </item>
+            <item identifier="Introduction">
+                <title>Introduction</title>
+                <item identifier="Intro_content" identifierref="INTRO_REF">
+                    <title>Lesson</title>
+                    <imsss:sequencing>
+                      <imsss:deliveryControls tracked="false"/>
+                    </imsss:sequencing>
+                  </item>
+                  <item identifier="INTRO_QUIZ">
+                    <title>Quick Check</title>
+                    <item identifier="INTRO_QUIZ1" isvisible = "false" identifierref="INTRO_QUIZ1_REF">
+                      <title>Quick Check Quiz</title>
+                      <imsss:sequencing>
+                        <imsss:objectives>
+                          <imsss:primaryObjective objectiveID = "PRIMARYOBJ" satisfiedByMeasure = "true">
+                            <imsss:minNormalizedMeasure>0.6</imsss:minNormalizedMeasure>
+                          </imsss:primaryObjective>
+                        </imsss:objectives>
+                      </imsss:sequencing>
+                    </item>
+                    <imsss:sequencing>
+                      <imsss:controlMode flow="true"/>
+                      <imsss:rollupRules>
+                        <imsss:rollupRule childActivitySet = "all">
+                          <imsss:rollupConditions>
+                            <imsss:rollupCondition condition = "satisfied"/>
+                          </imsss:rollupConditions>
+                          <imsss:rollupAction action = "satisfied"/>
+                        </imsss:rollupRule>
+                        <imsss:rollupRule childActivitySet = "any">
+                          <imsss:rollupConditions>
+                            <imsss:rollupCondition operator="not" condition = "satisfied"/>
+                          </imsss:rollupConditions>
+                          <imsss:rollupAction action ="notSatisfied"/>
+                        </imsss:rollupRule>
+                      </imsss:rollupRules>
+                      <imsss:objectives>
+                        <imsss:primaryObjective objectiveID = "PRIMARYOBJ" satisfiedByMeasure = "false">
+                          <imsss:mapInfo targetObjectiveID = "gIntroQuizSatisfied" readNormalizedMeasure = "false" writeSatisfiedStatus = "true"  />
+                        </imsss:primaryObjective>
+                      </imsss:objectives>
+                    </imsss:sequencing>
+                  </item>
+                  <item identifier="Intro_summary" identifierref="INTRO_SUMMARY_REF">
+                    <title>Summary</title>
+                    <imsss:sequencing>
+                      <imsss:rollupRules objectiveMeasureWeight="0.0"/>
+                      <imsss:objectives>
+                        <imsss:primaryObjective/>
+                        <imsss:objective objectiveID = "IntroQuizSatisfied" satisfiedByMeasure="false">
+                          <imsss:mapInfo targetObjectiveID = "gIntroQuizSatisfied" readSatisfiedStatus="true"/>
+                        </imsss:objective>
+                      </imsss:objectives>
+                    </imsss:sequencing>
+                </item>
+                <imsss:sequencing>
+                    <imsss:controlMode flow = "true"/>
+                    <imsss:rollupRules objectiveMeasureWeight="0.25"/>
+                </imsss:sequencing>	    
+            </item>
+            <item identifier="Canfield">
+              <title>Canfield</title>
+              <item identifier="Canfield_content" identifierref="CANFIELD_REF">
+                <title>Lesson</title>
+                <imsss:sequencing>
+                  <imsss:deliveryControls tracked="false"/>
+                </imsss:sequencing>
+              </item>
+              <item identifier="CANFIELD_QUIZ">
+                <title>Quick Check</title>
+                <item identifier="CANFIELD_QUIZ1" isvisible = "false" identifierref="CANFIELD_QUIZ1_REF">
+                  <title>Page 1</title>
+                  <imsss:sequencing>
+                    <imsss:rollupRules objectiveMeasureWeight="1.0" />
+                    <imsss:objectives>
+                      <imsss:primaryObjective objectiveID = "PRIMARYOBJ" satisfiedByMeasure = "true">
+                        <imsss:minNormalizedMeasure>0.6</imsss:minNormalizedMeasure>
+                      </imsss:primaryObjective>
+                    </imsss:objectives>
+                  </imsss:sequencing>
+                </item>
+                <imsss:sequencing>
+                  <imsss:controlMode flow="true"/>
+                  <imsss:rollupRules>
+                    <imsss:rollupRule childActivitySet = "all">
+                      <imsss:rollupConditions>
+                        <imsss:rollupCondition condition="satisfied"/>
+                      </imsss:rollupConditions>
+                      <imsss:rollupAction action="satisfied"/>
+                    </imsss:rollupRule>
+                    <imsss:rollupRule childActivitySet = "any">
+                      <imsss:rollupConditions>
+                        <imsss:rollupCondition operator="not" condition = "satisfied"/>
+                      </imsss:rollupConditions>
+                      <imsss:rollupAction action ="notSatisfied"/>
+                    </imsss:rollupRule>
+                  </imsss:rollupRules>
+                  <imsss:objectives>
+                    <imsss:primaryObjective objectiveID = "PRIMARYOBJ" satisfiedByMeasure = "false">
+                      <imsss:mapInfo targetObjectiveID = "gCanfieldSatisfied" readNormalizedMeasure = "false" writeSatisfiedStatus = "true"  />
+                    </imsss:primaryObjective>
+                  </imsss:objectives>
+                </imsss:sequencing>
+              </item>
+              <item identifier="Canfield_summary" identifierref="CANFIELD_SUMMARY_REF">
+                <title>Summary</title>
+                <imsss:sequencing>
+                  <imsss:rollupRules objectiveMeasureWeight="0.0"/>
+                  <imsss:objectives>
+                    <imsss:primaryObjective/>
+                    <imsss:objective objectiveID = "CanfieldSatisfied" satisfiedByMeasure="false">
+                      <imsss:mapInfo targetObjectiveID = "gCanfieldSatisfied" readSatisfiedStatus="true"/>
+                    </imsss:objective>
+                  </imsss:objectives>
+                </imsss:sequencing>
+              </item>
+              <imsss:sequencing>
+                <imsss:controlMode flow = "true"/>
+                <imsss:sequencingRules>
+                  <imsss:preConditionRule>
+                    <imsss:ruleConditions conditionCombination="any">
+                      <imsss:ruleCondition referencedObjective="IntroQuizSatisfied" condition = "satisfied" operator="not"/>
+                      <imsss:ruleCondition referencedObjective="IntroQuizSatisfied" condition ="objectiveStatusKnown" operator="not"/>
+                    </imsss:ruleConditions>
+                    <imsss:ruleAction action = "disabled"/>
+                  </imsss:preConditionRule>
+                </imsss:sequencingRules>
+                <imsss:rollupRules objectiveMeasureWeight="0.3333333"/>
+                <imsss:objectives>
+                  <imsss:primaryObjective/>
+                  <imsss:objective objectiveID = "IntroQuizSatisfied">
+                    <imsss:mapInfo targetObjectiveID = "gIntroQuizSatisfied" readSatisfiedStatus="true"/>
+                  </imsss:objective>
+                </imsss:objectives>
+              </imsss:sequencing>
+            </item>
+            <item identifier="Klondike">
+              <title>Klondike</title>
+              <item identifier="Klondike_content" identifierref="KLONDIKE_REF">
+                <title>Lesson</title>
+                <imsss:sequencing>
+                  <imsss:deliveryControls tracked="false"/>
+                </imsss:sequencing>
+              </item>
+              <item identifier="Klondike_QUIZ">
+                <title>Quick Check</title>
+                <item identifier="KLONDIKE_QUIZ1" identifierref="KLONDIKE_QUIZ1_REF">
+                  <title>Page 1</title>
+                  <imsss:sequencing>
+                    <imsss:rollupRules objectiveMeasureWeight="0.6" />
+                    <imsss:objectives>
+                      <imsss:primaryObjective objectiveID = "PRIMARYOBJ" satisfiedByMeasure = "true">
+                        <imsss:minNormalizedMeasure>0.6</imsss:minNormalizedMeasure>
+                      </imsss:primaryObjective>
+                    </imsss:objectives>
+                  </imsss:sequencing>
+                </item>
+                <item identifier="KLONDIKE_QUIZ2" identifierref="KLONDIKE_QUIZ2_REF">
+                  <title>Page 2</title>
+                  <imsss:sequencing>
+                    <imsss:rollupRules objectiveMeasureWeight="0.4" />
+                    <imsss:objectives>
+                      <imsss:primaryObjective objectiveID = "PRIMARYOBJ" satisfiedByMeasure = "true">
+                        <imsss:minNormalizedMeasure>0.6</imsss:minNormalizedMeasure>
+                      </imsss:primaryObjective>
+                    </imsss:objectives>
+                  </imsss:sequencing>
+                </item>
+                <imsss:sequencing>
+                  <imsss:controlMode flow="true"/>
+                  <imsss:rollupRules>
+                    <imsss:rollupRule childActivitySet = "all">
+                      <imsss:rollupConditions>
+                        <imsss:rollupCondition condition = "satisfied"/>
+                      </imsss:rollupConditions>
+                      <imsss:rollupAction action = "satisfied"/>
+                    </imsss:rollupRule>
+                    <imsss:rollupRule childActivitySet = "any">
+                      <imsss:rollupConditions>
+                        <imsss:rollupCondition operator="not" condition = "satisfied"/>
+                      </imsss:rollupConditions>
+                      <imsss:rollupAction action ="notSatisfied"/>
+                    </imsss:rollupRule>
+                  </imsss:rollupRules>
+                  <imsss:objectives>
+                    <imsss:primaryObjective objectiveID = "PRIMARYOBJ" satisfiedByMeasure = "false">
+                      <imsss:mapInfo targetObjectiveID = "gKlondikeSatisfied" readNormalizedMeasure = "false" writeSatisfiedStatus = "true"  />
+                    </imsss:primaryObjective>
+                  </imsss:objectives>
+                </imsss:sequencing>
+              </item>
+              <item identifier="Klondike_summary" identifierref="KLONDIKE_SUMMARY_REF">
+                <title>Summary</title>
+                <imsss:sequencing>
+                  <imsss:rollupRules objectiveMeasureWeight="0.0"/>
+                  <imsss:objectives>
+                    <imsss:primaryObjective/>
+                    <imsss:objective objectiveID = "KlondikeSatisfied" satisfiedByMeasure="false">
+                      <imsss:mapInfo targetObjectiveID = "gKlondikeSatisfied" readSatisfiedStatus="true"/>
+                    </imsss:objective>
+                  </imsss:objectives>
+                </imsss:sequencing>
+              </item>
+              <imsss:sequencing>
+                <imsss:controlMode flow = "true"/>
+                <imsss:sequencingRules>
+                  <imsss:preConditionRule>
+                    <imsss:ruleConditions conditionCombination="any">
+                      <imsss:ruleCondition referencedObjective="IntroQuizSatisfied" condition = "satisfied" operator="not"/>
+                      <imsss:ruleCondition referencedObjective="IntroQuizSatisfied" condition = "objectiveStatusKnown" operator="not"/>
+                      <imsss:ruleCondition referencedObjective="CanfieldSatisfied" condition = "satisfied" operator="not"/>
+                      <imsss:ruleCondition referencedObjective="CanfieldSatisfied" condition = "objectiveStatusKnown" operator="not"/>
+                    </imsss:ruleConditions>
+                    <imsss:ruleAction action = "disabled"/>
+                  </imsss:preConditionRule>
+                </imsss:sequencingRules>
+                <imsss:rollupRules objectiveMeasureWeight="0.4166667"/>
+                <imsss:objectives>
+                  <imsss:primaryObjective/>
+                  <imsss:objective objectiveID = "IntroQuizSatisfied">
+                    <imsss:mapInfo targetObjectiveID = "gIntroQuizSatisfied" readSatisfiedStatus="true"/>
+                  </imsss:objective>
+                  <imsss:objective objectiveID = "CanfieldSatisfied">
+                    <imsss:mapInfo targetObjectiveID = "gCanfieldSatisfied" readSatisfiedStatus="true"/>
+                  </imsss:objective>
+                </imsss:objectives>
+              </imsss:sequencing>
+            </item>
+            <item identifier="Summary">
+              <title>Summary</title>
+              <item identifier="SummaryPage" isvisible="false" identifierref="SUMMARY_REF">
+                <title>SummaryPage</title>
+              </item>
+              <imsss:sequencing>
+                <imsss:controlMode flow="true"/>
+                <imsss:sequencingRules>
+                  <imsss:preConditionRule>
+                    <imsss:ruleConditions conditionCombination="any">
+                      <imsss:ruleCondition referencedObjective="IntroQuizSatisfied" condition = "satisfied" operator="not"/>
+                      <imsss:ruleCondition referencedObjective="IntroQuizSatisfied" condition = "objectiveStatusKnown" operator="not"/>
+                      <imsss:ruleCondition referencedObjective="CanfieldSatisfied" condition = "satisfied" operator="not"/>
+                      <imsss:ruleCondition referencedObjective="CanfieldSatisfied" condition = "objectiveStatusKnown" operator="not"/>
+                      <imsss:ruleCondition referencedObjective="KlondikeSatisfied" condition = "satisfied" operator="not"/>
+                      <imsss:ruleCondition referencedObjective="KlondikeSatisfied" condition = "objectiveStatusKnown" operator="not"/>
+                    </imsss:ruleConditions>
+                    <imsss:ruleAction action = "disabled"/>
+                  </imsss:preConditionRule>
+                </imsss:sequencingRules>
+                <imsss:rollupRules objectiveMeasureWeight="0.0"/>
+                <imsss:objectives>
+                  <imsss:primaryObjective/>
+                  <imsss:objective objectiveID = "IntroQuizSatisfied">
+                    <imsss:mapInfo targetObjectiveID = "gIntroQuizSatisfied" readSatisfiedStatus="true"/>
+                  </imsss:objective>
+                  <imsss:objective objectiveID = "CanfieldSatisfied">
+                    <imsss:mapInfo targetObjectiveID = "gCanfieldSatisfied" readSatisfiedStatus="true"/>
+                  </imsss:objective>
+                  <imsss:objective objectiveID = "KlondikeSatisfied">
+                    <imsss:mapInfo targetObjectiveID = "gKlondikeSatisfied" readSatisfiedStatus="true"/>
+                  </imsss:objective>
+                </imsss:objectives>
+                <!-- 
+                Tracked must be true to get the preConditionRules to execute and enable the cluster.
+                Note, according to SeqNav 3.13.1, setting tracked=false means none of the tracking status
+                information is managed for the activity.  Tracked="false" does not just mean the activity isn't
+                included in rollup, although that also occurs.  In this case we need the preConditionRules 
+                and access to the global objectives to determine if the activity is enabled or disabled, but
+                we don't want the activity cluster to be included in the rollup of the normalizedMeasure.  To
+                do this we need to keep the cluster tracked, but apply a measure weighting of 0.0.
+                -->
+                <!--<imsss:deliveryControls tracked="false"/> -->
+              </imsss:sequencing>
+            </item>
+            <imsss:sequencing>
+                <imsss:controlMode choice="true" flow="true" />
+                <imsss:objectives>
+                    <imsss:primaryObjective/>
+                    <imsss:objective objectiveID="gIntroQuizSatisfied" satisfiedByMeasure="false"/>
+                    <imsss:objective objectiveID="gCanfieldSatisfied" satisfiedByMeasure="false"/>
+                    <imsss:objective objectiveID="gKlondikeSatisfied" satisfiedByMeasure="false"/>
+                </imsss:objectives>
+            </imsss:sequencing>
+        </organization>
+    </organizations>
+    <resources>
+        <resource identifier="WELCOME_REF" adlcp:scormType="asset" type="webcontent" href="welcome.htm">
+            <file href="welcome.htm" />
+        </resource>
+        <resource identifier="INTRO_REF" adlcp:scormType="asset" type="webcontent" href="intro.htm">
+            <file href="intro.htm" />
+        </resource>
+        <resource identifier="INTRO_QUIZ1_REF" adlcp:scormType="sco" type="webcontent" href="intro_quiz1.htm">
+            <file href="intro_quiz1.htm" />
+        </resource>
+        <resource identifier="INTRO_SUMMARY_REF" adlcp:scormType="sco" type="webcontent" href="intro_summary.htm">
+            <file href="intro_summary.htm" />
+        </resource>
+        <resource identifier="CANFIELD_REF" adlcp:scormType="asset" type="webcontent" href="canfield.htm">
+            <file href="canfield.htm" />
+        </resource>
+        <resource identifier="CANFIELD_QUIZ1_REF" adlcp:scormType="sco" type="webcontent" href="canfield_quiz1.htm">
+            <file href="canfield_quiz1.htm" />
+        </resource>
+        <resource identifier="CANFIELD_SUMMARY_REF" adlcp:scormType="sco" type="webcontent" href="canfield_summary.htm">
+          <file href="canfield_summary.htm" />
+        </resource>
+        <resource identifier="KLONDIKE_REF" adlcp:scormType="asset" type="webcontent" href="klondike.htm">
+          <file href="klondike.htm" />
+        </resource>
+        <resource identifier="KLONDIKE_QUIZ1_REF" adlcp:scormType="sco" type="webcontent" href="klondike_quiz1.htm">
+          <file href="klondike_quiz1.htm" />
+        </resource>
+        <resource identifier="KLONDIKE_QUIZ2_REF" adlcp:scormType="sco" type="webcontent" href="klondike_quiz2.htm">
+          <file href="klondike_quiz2.htm" />
+        </resource>
+        <resource identifier="KLONDIKE_SUMMARY_REF" adlcp:scormType="sco" type="webcontent" href="klondike_summary.htm">
+          <file href="klondike_summary.htm" />
+        </resource>
+        <resource identifier="SUMMARY_REF" adlcp:scormType="sco" type="webcontent" href="final.htm">
+            <file href="final.htm" />
+        </resource>
+    </resources>
+</manifest>
+
