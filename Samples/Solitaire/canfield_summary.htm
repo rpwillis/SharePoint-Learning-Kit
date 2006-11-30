@@ -1,0 +1,62 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<html>
+<!-- MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
+     MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
+     LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
+     NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
+<head>
+<title>Basics of Solitaire - Canfield Summary</title>
+<link type="text/css" rel="stylesheet" href="./style.css">
+<script type="text/javascript" src="APIWrapper.js"></script>
+<script type="text/javascript" src="Common.js"></script>
+<script language="javascript" type="text/javascript">
+// <!CDATA[
+// Initialize communication with the SCORM API and check if the unit objective has been passed.
+function LoadAPI()
+{
+    initializeCommunication();
+    document.getElementById("passed").style.display = 'none';
+	if(checkObjectiveStatus("CanfieldSatisfied")=="passed") {
+		document.getElementById("failed").style.display = 'none';
+		document.getElementById("passed").style.display = 'block';
+	}
+}
+
+// Terminate communication with the SCORM API
+function UnloadAPI()
+{
+    storeDataValue( "cmi.exit", "normal" );
+    terminateCommunication();
+}
+// ]]>
+</script>
+</head>
+
+<body onload="LoadAPI()" onunload="UnloadAPI()">
+<table style="height:100%">
+<tr style="height:100%;vertical-align:top"><td >
+<h1>Summary</h1>
+<div id="failed">
+<p>You have not yet completed the Canfield unit. </p>
+<p>Please review the lesson and complete the quick check to proceed to the next 
+section.</p>
+</div>
+<div id="passed">
+<p>Congratulations! You have successfully completed the Canfield unit.&nbsp; </p>
+<p>In this unit you learned:</p>
+<ol>
+	<li>The process to properly deal a hand of Canfield solitaire.</li>
+	<li>How to play cards from the stock and your hand to fill out the foundation.</li>
+	<li>Some of the history of Canfield solitaire.</li>
+</ol>
+<p>Continue to the next section to learn about Klondike Solitaire.</p>
+</div>
+</td></tr>
+<tr><td>
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div></td></tr>
+</table>
+</body>
+
+</html>

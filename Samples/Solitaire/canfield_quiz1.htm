@@ -1,0 +1,269 @@
+﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<html>
+<!-- MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
+     MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
+     LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
+     NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
+<head>
+<title>Basics of Solitaire - Canfield Quick Check</title>
+<link type="text/css" rel="stylesheet" href="./style.css">
+<script type="text/javascript" src="APIWrapper.js"></script>
+<script type="text/javascript" src="Common.js"></script>
+<script language="javascript" type="text/javascript">
+// <!CDATA[
+// Set the global variables
+var rawScore=0; //Initialize raw score to 0.
+var passingScore=3; //Set score required to pass this page.
+var scorePossible=4; //Set total number of points possible for this page.
+var displayMode="unknown"; // Set to cmi.mode during load.
+
+//Function: Reads Answers from the interactions in the data model and fills out the exam from with those answers.
+function readAnswers()
+{
+	var interactionCount=retrieveDataValue("cmi.interactions._count")
+	
+	//For all the interactions, get the asnwers and set them in the form
+	for (n=0;n<interactionCount;n++) {
+		var interaction = "cmi.interactions."+n;
+		var id = retrieveDataValue(interaction+".id");
+		var learnerResponse = retrieveDataValue(interaction+".learner_response");
+		
+		//Switch on the interaction id to fill out the form with the appropriate information.
+		switch (id) {
+		case "Q1":
+			for (i=0;i<4;i++){
+				if (examForm.Q1[i].value == learnerResponse) examForm.Q1[i].checked=1;
+			}
+		break;
+		case "Q2":
+			for (i=0;i<2;i++){
+				if (examForm.Q2[i].value == learnerResponse) examForm.Q2[i].checked=1;
+			}
+		break;
+		case "Q3":
+			examForm.Q3.value = learnerResponse;
+		break;
+		case "Q4":
+			for (i=0;i<2;i++){
+				if (examForm.Q4[i].value == learnerResponse) examForm.Q4[i].checked=1;
+			}
+		break;
+		default: alert("Unknown interaction ID")	
+		}
+	}
+}
+
+// Store answers in the SCORM data model.
+function storeAnswers()
+{
+	//Q1
+	storeDataValue("cmi.interactions.0.id","Q1");
+	storeDataValue("cmi.interactions.0.type","choice");
+	for (i=0;i<4;i++){
+		if (examForm.Q1[i].checked)
+			storeDataValue("cmi.interactions.0.learner_response",examForm.Q1[i].value);
+	}
+
+	//Q2, set the true_false depending on what is checked.
+	storeDataValue("cmi.interactions.1.id","Q2");
+	storeDataValue("cmi.interactions.1.type","true-false"); 
+	for (i=0;i<2;i++){
+		if (examForm.Q2[i].checked)
+			storeDataValue("cmi.interactions.1.learner_response",examForm.Q2[i].value);
+	}
+		
+	//Q3 set the values from fill-in response (two values)
+	storeDataValue("cmi.interactions.2.id","Q3");
+	storeDataValue("cmi.interactions.2.type","fill-in");
+	storeDataValue("cmi.interactions.2.learner_response",examForm.Q3.value);
+	
+	//Q4, set the true_false depending on what is checked.
+	storeDataValue("cmi.interactions.3.id","Q4");
+	storeDataValue("cmi.interactions.3.type","true-false"); 
+	for (i=0;i<2;i++){
+		if (examForm.Q4[i].checked)
+			storeDataValue("cmi.interactions.3.learner_response",examForm.Q4[i].value);
+	}
+}
+
+// Initialize communication with the SCORM API and set-up the page with previously stored answers.
+function LoadAPI()
+{
+    initializeCommunication();
+    storeDataValue( "cmi.completion_status", "incomplete");
+
+	//If there are interactions stored in the data model, then read the response data into the form by calling readAnswers.
+    if (retrieveDataValue("cmi.interactions._count") > 0){readAnswers();}
+    
+    // Retrieve the display mode from the LMS. The page will disable inputs during "review" or "browse" modes.
+    displayMode = retrieveDataValue("cmi.mode");
+    if (displayMode == "review" | "browse") {disableInputs();}
+}
+
+// Setup to leave the page and terminate communication with the SCORM API.
+function UnloadAPI()
+{
+    //  Set the SCO to completed and suspend the attempt so when they revisit they get their previous state.
+    storeDataValue( "cmi.exit", "suspend" );
+    storeDataValue( "cmi.completion_status", "completed" );
+    terminateCommunication();
+}
+
+// Disable all user inputs on the page. Function is called in "review" and "browse" modes.
+function disableInputs()
+{
+	examForm.Q1[0].disabled = true;
+	examForm.Q1[1].disabled = true;
+	examForm.Q1[2].disabled = true;
+	examForm.Q1[3].disabled = true;
+	examForm.Q2[0].disabled = true;
+	examForm.Q2[1].disabled = true;
+	examForm.Q3.disabled = true;
+	examForm.Q4[0].disabled = true;
+	examForm.Q4[1].disabled = true;
+	examForm.submitButton.disabled = true;
+	
+	if (displayMode == "review") {checkAnswers();} //Call check answers to display the user's results if in the review mode.
+}
+
+// Check the answers in the exam form. If they are correct, then display "correct" next to the question. 
+// Display "incorrect" if an answer is wrong. Update the rawScore value while checking the answers.
+function checkAnswers()
+{
+	rawScore=0;
+	
+	// Question 1:
+	var displayResult = Q1Result;
+	if (examForm.Q1[1].checked)
+	   { 
+	      rawScore++;
+		  displayResult.innerHTML = correctAns();
+ 	   } else {displayResult.innerHTML = incorrectAns();}
+
+	// Question 2:
+	displayResult = Q2Result;
+	if (examForm.Q2[1].checked)
+	   { 
+	      rawScore++;
+		  displayResult.innerHTML = correctAns();
+ 	   } else {displayResult.innerHTML = incorrectAns();}
+ 	 	
+ 	// Question 3:
+	displayResult = Q3Result;
+ 	if (document.examForm.Q3.value == "3")
+	   { 
+	      rawScore++;
+		  displayResult.innerHTML = correctAns();
+ 	   } else {displayResult.innerHTML = incorrectAns();}
+ 	 	
+ 	// Question 4:
+	displayResult = Q4Result;
+ 	if (document.examForm.Q4[0].checked)
+	   { 
+	      rawScore++;
+		  displayResult.innerHTML = correctAns();
+ 	   } else {displayResult.innerHTML = incorrectAns();}
+}
+
+// Calculate the scaled score and set it in the data model. Also update the page
+// text according to the passing status.
+function calcScore()
+{
+  storeAnswers(); //save the current answers to the data model.
+  checkAnswers(); //Check the answers and set rawScore global variable
+   
+  //  Set the scaled score that will be used in the 
+  //  Sequencing Tracking Model
+  storeDataValue("cmi.score.scaled", rawScore/scorePossible);
+  storeDataValue("cmi.score.raw", rawScore);
+  
+  
+  //  Inform the user that they were successful or not
+  if (rawScore < passingScore)
+  {
+  	directions.className = "incorrect";
+	dirText.innerHTML = '<p>Try again. You must get 3 of 4 correct to pass this unit.</p>';
+  }
+  else 
+  {
+    directions.className = "correct";
+	dirText.innerHTML = '<p>Congratulations!<br><br> Continue to the summary to review what you learned in this unit.</p>';
+  }
+  
+	//Call commit to commit the updated data model elements.
+	persistData();
+}
+// ]]>
+</script>
+</head>
+
+<body onload="LoadAPI()" onunload="UnloadAPI()">
+
+<table style="height:100%">
+<tr style="height:100%;vertical-align:top"><td >
+
+<h2>Quick Check Quiz</h2>
+<table id="directions" class="generalDirections">
+	<tr>
+		<td id="dirText">Complete the following quick check questions and check 
+		your answers by clicking Check Answers at the bottom of the page.
+		<p>You must get three of the four questions correct to satisfy this unit.</p>
+		</td>
+	</tr>
+</table>
+<form name="examForm">
+	<table width="640">
+		<tr>
+			<td>1.&nbsp; How many cards are placed in the initial stock? <i>(13)</i>
+			<blockquote>
+				<input type="radio" name="Q1" value="12" tabindex="1" />12</br>
+				<input type="radio" name="Q1" value="13" tabindex="2" />13</br>
+				<input type="radio" name="Q1" value="7" tabindex="3" />7</br>
+				<input type="radio" name="Q1" value="4" tabindex="4" />4
+			</blockquote>
+			</td>
+			<td width="150" valign="top" id="Q1Result"></td>
+		</tr>
+		<tr>
+			<td width="634">2.&nbsp; True or False?&nbsp; The first foundation card 
+			is dealt face up <i>after</i> the 4 tableau foundation cards are placed 
+			on the table. <i>(False)</i>
+			<blockquote>
+				<input type="radio" name="Q2" value="true" tabindex="5" />True</br>
+				<input type="radio" name="Q2" value="false" tabindex="6" />False
+			</blockquote>
+			</td>
+			<td width="150" valign="top" id="Q2Result"></td>
+		</tr>
+		<tr>
+			<td width="634">3.&nbsp; Each round the player turns
+			<input type="text" name="Q3" size="3"> cards from their hand face-up 
+			on the table. <i>(3)</i> 
+			<p>&nbsp;</p></td>
+			<td width="150" valign="top" id="Q3Result"></td>
+		</tr>
+		<tr>
+			<td width="634">4.&nbsp; True or False?&nbsp; Tableau cards are played 
+			in descending order and alternating colors. <i>(True)</i>
+			<blockquote>
+				<p><input type="radio" name="Q4" value="true" tabindex="8" />True
+				<input type="radio" name="Q4" value="false" tabindex="9" />False
+				</p>
+			</blockquote>
+			</td>
+			<td width="150" valign="top" id="Q4Result"></td>
+		</tr>
+	</table>
+	<br />
+	<input type="button" name="submitButton" value="Check Answers" onclick="calcScore()" tabindex="10"><font size="2">
+	</font>
+</form>
+</td></tr>
+<tr><td>
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div></td></tr>
+</table>
+</body>
+
+</html>

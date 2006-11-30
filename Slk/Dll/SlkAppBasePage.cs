@@ -1,0 +1,271 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+
+// SlkAppBasePage
+//
+// Base class for all application .aspx pages.
+//
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Diagnostics;
+using System.IO;
+using System.Security.Principal;
+using System.Text;
+using System.Web;
+using System.Web.Configuration;
+using Microsoft.LearningComponents;
+using Microsoft.LearningComponents.Manifest;
+using Microsoft.LearningComponents.Storage;
+using Microsoft.LearningComponents.SharePoint;
+using Microsoft.SharePoint;
+using Microsoft.SharePointLearningKit;
+using Resources;
+using Resources.Properties;
+using Schema = Microsoft.SharePointLearningKit.Schema;
+using System.Threading;
+
+namespace Microsoft.SharePointLearningKit.ApplicationPages
+{
+
+/// <summary>
+/// Helps implement this MLC web-based application.  ASP.NET web pages can be
+/// based on this class.
+/// </summary>
+///
+public class SlkAppBasePage : System.Web.UI.Page
+{
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Private Fields
+    //
+
+    /// <summary>
+    /// Holds the value of the <c>SPWeb</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    SPWeb m_spWeb;
+
+    /// <summary>
+    /// Holds the value of the <c>SlkStore</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    SlkStore m_slkStore;
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    //
+
+    /// <summary>
+    /// Gets the current <c>SPWeb</c>.
+    /// </summary>
+    public SPWeb SPWeb
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            if (m_spWeb == null)
+                m_spWeb = SlkUtilities.GetCurrentSPWeb();
+            return m_spWeb;
+        }
+    }
+
+    /// <summary>
+    /// Gets the current <c>SlkStore</c>.
+    /// </summary>
+    public SlkStore SlkStore
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            if (m_slkStore == null)
+                m_slkStore = SlkStore.GetStore(SPWeb);
+            return m_slkStore;
+        }
+    }
+
+    /// <summary>
+    /// Gets the Current Culture Number Format Info used 
+    /// to Format and display Numeric Values
+    /// </summary>
+    public static NumberFormatInfo NumberFormatInfo
+    {
+        get
+        {
+            return CultureInfo.CurrentCulture.NumberFormat;
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    // Protected Methods
+    //
+
+    protected override void OnInit(EventArgs e)
+    {
+        AppResources.Culture = Thread.CurrentThread.CurrentCulture;
+        base.OnInit(e);
+    }
+
+    /// <summary>
+    /// Returns a copy of the current page's query string (beginning with "?") with a given
+    /// query string parameter key changed to a different value, or added if it doesn't exist.
+    /// </summary>
+    ///
+    /// <param name="replacementKey">The key (name) of the query string parameter to replace,
+    /// 	e.g. "Sort".</param>
+    ///
+    /// <param name="replacementValue">The new value for the query parameter.</param>
+    ///
+    /// <remarks>
+    /// For example, if the query string is "?X=1&amp;Y=2" and <paramref name="replacementKey"/> is
+    /// "X" and <paramref name="replacementValue"/> is "7", "?Y=2&amp;X=7" is returned (note that
+	/// the order of query parameters may change).  If the query string is "?X=1&amp;Y=2" and
+    /// <paramref name="replacementKey"/> is "Z" and <paramref name="replacementValue"/> is "7",
+    /// "?X=1&amp;Y=2&amp;Z=7" is returned.
+    /// </remarks>
+    ///
+    protected string GetAdjustedQueryString(string replacementKey, string replacementValue)
+    {
+        StringBuilder result = new StringBuilder(1000);
+        foreach (string key in Request.QueryString.Keys)
+        {
+            if (String.Compare(key, replacementKey, true, CultureInfo.CurrentCulture) != 0)
+            {
+                result.Append((result.Length == 0) ? '?' : '&');
+                result.Append(HttpUtility.UrlEncode(key));
+                result.Append('=');
+                result.Append(HttpUtility.UrlEncode(Request.QueryString[key]));
+            }
+        }
+        result.Append((result.Length == 0) ? '?' : '&');
+        result.Append(HttpUtility.UrlEncode(replacementKey));
+        result.Append('=');
+        result.Append(HttpUtility.UrlEncode(replacementValue));
+        return result.ToString();
+    }
+
+    /// <summary>
+    /// Displays an error message.
+    /// </summary>
+    /// 
+    /// <param name="format">A <c>String.Format</c>-style formatting string.</param>
+    /// 
+    /// <param name="args">Formatting arguments.</param>
+    /// 
+    /// <remarks>
+    /// The default implementation throws an exception with the given string as message text.
+    /// </remarks>
+    ///
+    protected virtual void DisplayError(string format, params object[] args)
+    {
+        throw new SafeToDisplayException(format, args);
+    }
+
+    /// <summary>
+    /// Creates a query based on a given <c>QueryDefinition</c> and values for standard SLK
+    /// macros.
+    /// </summary>
+	///
+    /// <param name="queryDef">The query definition to use to create the query.</param>
+    ///
+    /// <param name="countOnly">If <c>true</c>, the query will include minimal output columns,
+    /// 	since it will be assumed that the purpose of executing the query is purely to count the
+    ///     rows.  If <c>false</c>, all columns specified by the query definition are included
+    /// 	in the query.</param>
+	///
+    /// <param name="spWebScopeMacro">The value of the "SPWebScope" macro, or null if none.</param>
+	///
+    /// <param name="columnMap">See QueryDefinition.CreateQuery.</param>
+    ///
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#")]
+    protected LearningStoreQuery CreateStandardQuery(QueryDefinition queryDef, bool countOnly,
+		Guid? spWebScopeMacro, out int[,] columnMap)
+    {
+        return queryDef.CreateQuery(SlkStore.LearningStore, countOnly, delegate(string macroName)
+        {
+            if (macroName == "SPWebScope")
+			{
+				// return the GUID of the SPWeb that query results will be limited to (i.e.
+				// filtered by), or null for no filter
+                return spWebScopeMacro;
+			}
+			else
+            if (macroName == "CurrentUserKey")
+			{
+				// return the LearningStore user key string value of the current user
+                return SlkStore.CurrentUserKey;
+			}
+            else
+			if (macroName == "Now")
+			{
+				return DateTime.Now.ToUniversalTime();
+			}
+			else
+			if (macroName == "StartOfToday")
+			{
+				// return midnight of today
+                return DateTime.Today.ToUniversalTime();
+			}
+			else
+			if (macroName == "StartOfTomorrow")
+			{
+				// return midnight of tomorrow
+                return DateTime.Today.AddDays(1).ToUniversalTime();
+			}
+			else
+			if (macroName == "StartOfThisWeek")
+			{
+				// return midnight of the preceding Sunday** (or "Today" if "Today" is Sunday**)
+				return StartOfWeek(DateTime.Today).ToUniversalTime();
+			}
+			else
+			if (macroName == "StartOfNextWeek")
+			{
+				// return midnight of the following Sunday**
+				return StartOfWeek(DateTime.Today).AddDays(7).ToUniversalTime();
+			}
+			else
+			if (macroName == "StartOfWeekAfterNext")
+			{
+				// return midnight of the Sunday** after the following Sunday**
+				return StartOfWeek(DateTime.Today).AddDays(14).ToUniversalTime();
+			}
+			else
+				return null;
+			// ** Actually, it's only Sunday for regional setting for which Sunday is the first
+			// day of the week.  For example, using Icelandic regional settings, the first day of
+			// the week is Monday, and that's what's used above.
+		}, out columnMap);
+	}
+
+	/// <summary>
+	/// Returns midnight on the day that begins the week containing a given date/time, using the
+	/// current culture settings.
+	/// </summary>
+	///
+	/// <param name="dateTime">The given date/time.</param>
+	///
+	private static DateTime StartOfWeek(DateTime dateTime)
+	{
+		// set <cultureInfo> to information about the current user's culture; for debugging
+		// purposes, we can set the culture to Icelandic, which has Monday as the first day of
+		// the week
+#if false
+		#warning current culture is hard-coded to Icelandic
+		CultureInfo cultureInfo = CultureInfo.GetCultureInfo("is-IS");
+#else
+		CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+#endif
+
+		// this method imagines that today is the day of <dateTime>
+		DateTime today = dateTime.Date;
+		DayOfWeek currentDayOfWeek = today.DayOfWeek;
+		DayOfWeek firstDayOfWeek = cultureInfo.DateTimeFormat.FirstDayOfWeek;
+		int delta = (int) firstDayOfWeek - (int) currentDayOfWeek;
+		if (delta <= 0)
+			return today.AddDays(delta);
+		else
+			return today.AddDays(delta - 7);
+	}
+}
+}

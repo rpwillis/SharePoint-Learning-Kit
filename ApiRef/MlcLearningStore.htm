@@ -1,0 +1,735 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>
+	LearningStore
+</title>
+
+<link rel="stylesheet" href="Doc.css" />
+
+<style type="text/css">
+TABLE.OverviewTable
+{
+	width: auto;
+	/*margin-left: 12pt;*/
+}
+</style>
+
+</head>
+
+<body id="DocTopic">
+
+<div class="TopicHeader">
+	<div class="Supertitle_">
+		Microsoft Learning Components
+	</div>
+	LearningStore
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="Summary">
+
+<p>LearningStore is the database access component of Microsoft Learning Components.  MLC and
+applications that use MLC use the LearningStore API to read from and write to the database.
+LearningStore uses an XML file format to represent a database schema.  MLC defines a base schema
+that contains the minimal data types (e.g. e-learning packages and SCORM data model elements)
+required so support e-learning playback.  Applications can provide an additional XML file that
+defines "deltas" that extend this schema (e.g. adding concepts like "instrutor" and "assignment")
+and define security rules (i.e. whether a user can perform a given operation or access given
+information).<p>
+
+<p>LearningStore does not place an "abstraction barrier" in front of the database&mdash;you can
+choose to read the database directly.  However, keep the following in mind:</p>
+<ul>
+	<li>Directly accessing the database (e.g. using <b>SqlClient</b> instead of
+	<a href="Microsoft.LearningComponents.Storage.LearningStore.Class.htm">LearningStore</a>)
+	bypasses LearningStore's authorization mechanisms.</li>
+	<li>Writing directly to the database is strongly discouraged, since that may result in
+		inconsistencies that could cause SLK or MLC to fail.</li>
+</ul>
+
+<p>This section explains how to use the LearningStore API and how to extend the MLC base schema.
+First, we introduce basic LearningStore concepts.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">A LearningStore Walk-Through</div>
+<div class="Section">
+
+<p>LearningStore uses Microsoft SQL Server to store information in tables&mdash;if you're
+familiar with databases, this concept won't be new to you.  For example, the MLC base schema
+includes a table of users.  The following is what you might see if you use Microsoft SQL Server
+Management Studio to open the UserItem table of an MLC database (for example, a
+<a href="Default.htm">SharePoint Learning Kit</a> database).</p>
+
+<table class="Grid OverviewTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<col class="Column3_" />
+	<col class="Column4_" />
+	<col class="Column5_" />
+	<col class="Column6_" />
+	<col class="Column7_" />
+	<tr class="Header_">
+		<td class="Header1_">Id</td>
+		<td class="Header2_">Key</td>
+		<td class="Header3_">Name</td>
+		<td class="Header4_">AudioCaptioning</td>
+		<td class="Header5_">AudioLevel</td>
+		<td class="Header6_">DeliverySpeed</td>
+		<td class="Header7_">Language</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>S-1-5-21-...-1048</td>
+		<td>Fabien Hernoux</td>
+		<td>0</td>
+		<td>1</td>
+		<td>1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>S-1-5-21-...-1044</td>
+		<td>Ellen Adams</td>
+		<td>0</td>
+		<td>1</td>
+		<td>1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>S-1-5-21-...-1026</td>
+		<td>Allan Vinther-Wahl</td>
+		<td>0</td>
+		<td>1</td>
+		<td>1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>S-1-5-21-...-1028</td>
+		<td>Andreas Herbinger</td>
+		<td>0</td>
+		<td>1</td>
+		<td>1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>S-1-5-21-...-1036</td>
+		<td>Chris Ashton</td>
+		<td>0</td>
+		<td>1</td>
+		<td>1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>7</td>
+		<td>S-1-5-21-...-1042</td>
+		<td>Jeff Hay</td>
+		<td>0</td>
+		<td>1</td>
+		<td>1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>8</td>
+		<td>S-1-5-21-...-1030</td>
+		<td>Anne Grethe Hansen</td>
+		<td>0</td>
+		<td>1</td>
+		<td>1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>9</td>
+		<td>S-1-5-21-...-1032</td>
+		<td>Arno Harteveld</td>
+		<td>0</td>
+		<td>1</td>
+		<td>1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>10</td>
+		<td>S-1-5-21-...-1050</td>
+		<td>Giorgio Veronesi</td>
+		<td>0</td>
+		<td>1</td>
+		<td>1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>11</td>
+		<td>S-1-5-21-...-1034</td>
+		<td>Bernhard Heger</td>
+		<td>0</td>
+		<td>1</td>
+		<td>1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>12</td>
+		<td>S-1-5-21-...-1038</td>
+		<td>Claus Hansen</td>
+		<td>0</td>
+		<td>1</td>
+		<td>1</td>
+		<td></td>
+	</tr>
+</table>
+
+<p>This is a table named "UserItem", containing 12 rows and 7 columns.  LearningStore uses
+different terminology than SQL Server, as follows:</p>
+
+<table class="Grid OverviewTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<tr class="Header_">
+		<td class="Header1_">SQL Server Concept</td>
+		<td class="Header2_">LearningStore Concept</td>
+	</tr>
+	<tr>
+		<td>Table</td>
+		<td>Item Type</td>
+	</tr>
+	<tr>
+		<td>Row</td>
+		<td>Item </td>
+	</tr>
+	<tr>
+		<td>Column</td>
+		<td>Property</td>
+	</tr>
+</table>
+
+<p>So, using LearningStore terminology, the preceding UserItem table represents a collection of
+12 items that each have an item type of "UserItem".  Each item has an implicit "Id" property
+(of type "ItemIdentifier") plus six explicitly-defined properties.  The properties are named the
+same as the columns: "Key", "Name", "AudioCaptioning", and so on.  UserItem is defined in the MLC
+base schema using the following XML:</p>
+
+<table class="Grid Code">
+	<col class="Column1_" />
+	<tr class="Header_">
+		<td class="Header1_">XML</td>
+	</tr>
+	<tr>
+		<td class="Content_ Indent_">
+			&lt;ItemType Name="UserItem"&gt;
+				<div>&lt;Properties&gt;
+					<div>&lt;Property Name="Key" Type="String" Size="250" /&gt;</div>
+					<div>&lt;Property Name="Name" Type="String" Size="255" /&gt;</div>
+					<div>&lt;Property Name="AudioCaptioning" Type="Enum" EnumName="AudioCaptioning"&gt;
+						<div>&lt;Default&gt;0&lt;/Default&gt;</div>
+					</div>
+					<div>&lt;/Property&gt;</div>
+					<div>&lt;Property Name="AudioLevel" Type="Single"&gt;
+						<div>&lt;Default&gt;1&lt;/Default&gt;</div>
+					</div>
+					<div>&lt;/Property&gt;</div>
+					<div>&lt;Property Name="DeliverySpeed" Type="Single"&gt;
+						<div>&lt;Default&gt;1&lt;/Default&gt;</div>
+					</div>
+					<div>&lt;/Property&gt;</div>
+					<div>&lt;Property Name="Language" Type="String" Size="255"&gt;
+						<div>&lt;Default /&gt;</div>
+					</div>
+					<div>&lt;/Property&gt;</div>
+				</div>
+				<div>&lt;/Properties&gt;</div>
+				<div>&lt;Indexes&gt;
+					<div>&lt;Index&gt;
+						<div>CREATE INDEX KeyIndex</div>
+						<div>ON UserItem([Key])</div>
+					</div>
+					<div>&lt;/Index&gt;</div>
+				</div>
+				<div>&lt;/Indexes&gt;</div>
+			&lt;/ItemType&gt;
+		</td>
+	</tr>
+</table>
+
+<p>The details of this XML format are described later in this section, but you can see that this
+XML specifies the name of the item type ("UserItem") and the names and types of each property.</p>
+
+<p>LearningStore supports the following property types:</p>
+
+<table class="Grid OverviewTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<col class="Column3_" />
+	<col class="Column4_" />
+	<tr class="Header_">
+		<td class="Header1_">Name In Schema XML</td>
+		<td class="Header2_">.NET CLR Type</td>
+		<td class="Header3_">SQL Type</td>
+	</tr>
+	<tr>
+		<td><tt>Type="Boolean"</tt></td>
+		<td>Boolean</td>
+		<td>bit</td>
+	</tr>
+	<tr>
+		<td><tt>Type="ByteArray"</tt></td>
+		<td>Byte array</td>
+		<td>varbinary</td>
+	</tr>
+	<tr>
+		<td><tt>Type="DateTime"</tt></td>
+		<td>DateTime</td>
+		<td>datetime</td>
+	</tr>
+	<tr>
+		<td><tt>Type="Double"</tt></td>
+		<td>Double</td>
+		<td>float(53)</td>
+	</tr>
+	<tr>
+		<td><tt>Type="Enum"</tt></td>
+		<td>Enum</td>
+		<td>int</td>
+	</tr>
+	<tr>
+		<td><tt>Type="Guid"</tt></td>
+		<td>Guid</td>
+		<td>uniqueidentifier</td>
+	</tr>
+	<tr>
+		<td><tt>Type="ItemIdentifier"</tt></td>
+		<td>LearningStoreItemIdentifier</td>
+		<td>bigint</td>
+	</tr>
+	<tr>
+		<td><tt>Type="Int32"</tt></td>
+		<td>Int32</td>
+		<td>int</td>
+	</tr>
+	<tr>
+		<td><tt>Type="Single"</tt></td>
+		<td>Single</td>
+		<td>float(24)</td>
+	</tr>
+	<tr>
+		<td><tt>Type="String"</tt></td>
+		<td>String</td>
+		<td>nvarchar</td>
+	</tr>
+	<tr>
+		<td><tt>Type="Xml"</tt></td>
+		<td>LearningStoreXml</td>
+		<td>xml</td>
+	</tr>
+</table>
+
+<p>Note that, in the XML above, the property "AudioCaptioning" is defined as
+<tt>Type="Enum" EnumName="AudioCaptioning"</tt>.  This means that AudioCaptioning is an
+enumeration.  MLC's base schema defines this enumeration using the following XML:</p>
+
+<table class="Grid Code">
+	<col class="Column1_" />
+	<tr class="Header_">
+		<td class="Header1_">XML</td>
+	</tr>
+	<tr>
+		<td class="Content_ Indent_">
+			&lt;Enum Name="AudioCaptioning"&gt;
+				<div>&lt;Values&gt;
+					<div>&lt;Value Name="Off" Value="-1" /&gt;</div>
+					<div>&lt;Value Name="NoChange" Value="0" /&gt;</div>
+					<div>&lt;Value Name="On" Value="1" /&gt;</div>
+				</div>
+				<div>&lt;/Values&gt;</div>
+			&lt;/Enum&gt;
+		</td>
+	</tr>
+</table>
+
+<p style="color: red"><b>TODO: change below to use <a href="Microsoft.SharePointLearningKit.Schema.Namespace.htm">SLK+MLC Schema Reference</a>
+and <a href="SlkSchema.htm">SLK+MLC Schema Overview</a> information instead.</b></p>
+
+<p>To help applications work with LearningStore item types, MLC contains class and enumeration
+definitions that are generated by the LearningStore schema compiler.  In the case of the
+UserItem example, the following types are automatically generated (among others):</p>
+
+<table class="Grid Code">
+	<col class="Column1_" />
+	<tr class="Header_">
+		<td class="Header1_">C#</td>
+	</tr>
+	<tr>
+		<td class="Content_">
+<pre>
+// in Microsoft.LearningComponents.Storage.dll:
+namespace Microsoft.LearningComponents.Storage.BaseSchema
+{
+    public abstract class <b>UserItem</b>
+    {
+        public const string ItemTypeName = "UserItem";
+        public const string Id = "Id";
+        public const string Key = "Key";
+        public const string Name = "Name";
+        public const string AudioCaptioning = "AudioCaptioning";
+        public const string AudioLevel = "AudioLevel";
+        public const string DeliverySpeed = "DeliverySpeed";
+        public const string Language = "Language";
+        public const int MaxKeyLength = 250;
+        public const int MaxNameLength = 255;
+        public const int MaxLanguageLength = 255;
+    }
+}
+
+// in Microsoft.LearningComponents.Storage.dll:
+namespace Microsoft.LearningComponents.Storage
+{
+    public class <b>UserItemIdentifier</b> : LearningStoreItemIdentifier
+    {
+        public UserItemIdentifier(LearningStoreItemIdentifier id);
+        public UserItemIdentifier(long key);
+    }
+}
+
+// in Microsoft.LearningComponents.dll:
+namespace Microsoft.LearningComponents
+{
+    public enum <b>AudioCaptioning</b>
+    {
+        Off = -1,
+        NoChange = 0,
+        On = 1
+    }
+}</pre>
+		</td>
+	</tr>
+</table>
+
+<p>The <tt><b>UserItem</b></tt> class (above) defines constants that help an application perform
+queries.  This class may seem odd at first: why have a constant named "AudioCaptioning" with a
+value of "AudioCaptioning"?  The answer may become clear in the following sample code.  (This
+sample displays the contents of the "Name" column of the UserItem table, sorted alphabetically.
+If you have SharePoint Learning Kit installed, you can try this sample code in Visual Studio 2005:
+just create a new C# console application project, add references to
+Microsoft.LearningComponents.dll and Microsoft.LearningComponents.Storage.dll (available in Debug
+or Release directory of "SLK-SDK-n.n.nnn-ENU.zip"), and paste in the code below.  You'll need to
+adjust the connection string if you're not using server "localhost" and database name
+"SharePointLearningKit".)</p>
+
+<table class="Grid Code">
+	<col class="Column1_" />
+	<tr class="Header_">
+		<td class="Header1_">C#</td>
+	</tr>
+	<tr>
+		<td class="Content_">
+<pre>
+using System;
+using System.Data;
+using Microsoft.LearningComponents.Storage;
+using Schema = Microsoft.LearningComponents.Storage.BaseSchema;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        LearningStore learningStore = new LearningStore(
+            "Server=localhost;Database=SharePointLearningKit;Integrated Security=true",
+            String.Empty, true);
+        LearningStoreJob job = learningStore.CreateJob();
+        LearningStoreQuery query = learningStore.CreateQuery(<b>Schema.UserItem.ItemTypeName</b>);
+        query.AddColumn(<b>Schema.UserItem.Name</b>);
+        query.AddSort(<b>Schema.UserItem.Name</b>, LearningStoreSortDirection.Ascending);
+        job.PerformQuery(query);
+        DataRowCollection dataRows = job.Execute&lt;DataTable&gt;().Rows;
+        foreach (DataRow dataRow in dataRows)
+        {
+            Console.WriteLine(dataRow[<b>Schema.UserItem.Name</b>]);
+        }
+    }
+}</pre>
+</td>
+</tr>
+</table>
+
+<p>The example above reference the MLC <a href="SlkSchema.htm">LearningStore schema</a>, not the
+SLK schema, but then proceeds to access a SLK database.  This works because this example is using
+an item type
+(<a href="Microsoft.SharePointLearningKit.Schema.UserItem.Class.htm">UserItem</a>)
+which is common to both MLC and SLK.  If you want to be able to access SLK-specific item types
+(e.g. <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Class.htm">AssignmentItem</a>),
+views (e.g. <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentListForInstructors.Class.htm">LearnerAssignmentListForInstructors</a>),
+or SLK extensions to MLC item types (e.g.
+<a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Warnings.Field.htm">PackageItem.Warnings</a>),
+you would need to add a reference to Microsoft.SharePointLearningKit.dll and change the
+<tt>using Schema</tt> line above to the following:</p>
+
+<table class="Grid Code">
+	<col class="Column1_" />
+	<tr class="Header_">
+		<td class="Header1_">C#</td>
+	</tr>
+	<tr>
+		<td class="Content_">
+			using Schema = Microsoft.SharePointLearningKit.Schema;
+		</td>
+	</tr>
+</table>
+
+<p>This sample application shows that LearningStore uses string names when referring to item
+types&mdash;so the names are provided as constants to reduce the likelihood of coding errors.
+This application also demonstrates the basic steps required to perform a query in LearningStore:
+</p>
+
+<ol>
+
+	<li>Create an instance of the <a href="Microsoft.LearningComponents.Storage.LearningStore.Class.htm">LearningStore</a> class.
+		At a minimum, the constructor requires a standard database connection string as well as a
+		string that identifies the current user for authorization purposes.  In this case,
+		<tt>String.Empty</tt> is used for the current user, and an extra flag is added that tells
+		LearningStore to skip authorization.  (This is typically done for trusted applications
+		that perform adminstrative functions.)</li>
+
+	<li>Call <a href="Microsoft.LearningComponents.Storage.LearningStore.CreateJob.Method.htm">LearningStore.CreateJob</a> to create an instance
+		of the <a href="Microsoft.LearningComponents.Storage.LearningStoreJob.Class.htm">LearningStoreJob</a> class.  A LearningStoreJob
+		represents a "batch" of work that needs to be performed in the database.  In this example
+		the job contains only one operation (a query), but in general jobs can contain any number
+		of queries, add-item operations, add-or-update item operations, update-item operations,
+		delete-item operations, and security right demands (explained later).  Batching multiple
+		operations into a single job improves performance.</li>
+
+	<li>Call <a href="Microsoft.LearningComponents.Storage.LearningStore.CreateQuery.Method.htm">LearningStore.CreateQuery</a> to create an instance
+		of the <a href="Microsoft.LearningComponents.Storage.LearningStoreQuery.Class.htm">LearningStoreQuery</a> class, passing an
+		argument that indicates the LearningStore item type or view to query.  (Views are discussed
+		below.)</li>
+
+	<li>Call <a href="Microsoft.LearningComponents.Storage.LearningStoreQuery.AddColumn.Method.htm">LearningStoreQuery.AddColumn</a> once for each
+		column you'd like to return in the query results.  LearningStore query results take the
+		form of a standard <b>DataTable</b>.</li>
+
+	<li>Not shown: Call <a href="Microsoft.LearningComponents.Storage.LearningStoreQuery.AddCondition.Method.htm">LearningStoreQuery.AddCondition</a>
+		once for each condition you'd like to add to the query.  A condition takes the form
+		"<i>property</i> <i>operator</i> <i>value</i>" (though not specified as a string);
+		for example, conceptually, "Id = 7".  If you add multiple conditions, they're "AND-ed"
+		together, i.e. an item (row) is returned only if it matches all consitions.</li>
+
+	<li>Optionally, call <a href="Microsoft.LearningComponents.Storage.LearningStoreQuery.AddSort.Method.htm">LearningStoreQuery.AddSort</a>
+		one or more times to specify columns to sort on.</li>
+
+	<li>Call <a href="Microsoft.LearningComponents.Storage.LearningStoreJob.PerformQuery.Method.htm">LearningStoreJob.PerformQuery</a> to add the
+		query to the job.  This doesn't execute the job&mdash;it just adds the query to the
+		"batch".</li>
+
+	<li>Call <a href="Microsoft.LearningComponents.Storage.LearningStoreJob.Execute.Method.htm">LearningJob.Execute</a> to execute the job.</li>
+
+	<li>Retrieve the query results by enumerating through the rows of the returned
+		<b>DataTable</b>.</li>
+
+</ol>
+
+<p>Of course, this sample application doesn't demonstrate the power of LearningStore&mdash;in
+fact this particular job could be done just as easily using ADO.NET.  But it should give you
+the basic idea of how LearningStore works.  The following sections explain LearningStore
+concepts in more detail.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">MLC Built-In Item Types and Enumerations</div>
+<div class="Section">
+<p>
+TODO...
+</p>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">LearningStore Jobs and Transactions</div>
+<div class="Section">
+<p>
+TODO...
+</p>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">LearningStore Queries</div>
+<div class="Section">
+<p>
+TODO...
+</p>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">LearningStore Views</div>
+<div class="Section">
+
+<p>
+TODO...  (Include built-in views.)
+</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Adding, Updating, and Deleting Items</div>
+<div class="Section">
+<p>
+TODO...
+</p>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Security in LearningStore</div>
+<div class="Section">
+
+<p>
+A LearningStore schema includes security rules that determine if a given user is allowed to
+see a paricular piece of information or perform a given operation.  For example, in 
+SharePoint Learning Kit, learners can only view or submit assignments assigned to them.
+</p>
+
+<p>The application can choose to turn on or off security checking.  When it's turned on,
+LearningStore queries will only return information the user is entitled to see, and will throw an
+exception if the application attempts to perform an unauthorized operations.  (Applications can
+turn off security in order to perform administrative functions that aren't in the context of a
+given user.)</p>
+
+<p>MLC's base schema is "secure by default": if not overriden by the application's schema,
+no operations are valid and no information may be returned.  That leaves an application with two
+choices: either leave LearningStore security turned off, or define security rules.</p>
+
+<p>TODO...</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Base vs. Application Schema</div>
+<div class="Section">
+
+<p>A key motivation behind the design of LearningStore is the recognition that, in order to
+operate efficiently, the database schema of MLC needs to be merged (at least partly) with an the
+database schema of an application.  This can be illustrated by two examples of applications that
+leverage MLC:</p>
+
+<ol>
+
+	<li><a href="Default.htm">SharePoint Learning Kit</a> (SLK) defines the concepts of
+		<a href="SlkConcepts.htm#Assignments">assignment</a> (an arbitrary number of instructors
+		and learners associated with a single e-learning package) and 
+		<a href="SlkConcepts.htm#Assignments">learner assignment</a> (data related to one learner's
+		interaction with a given assignment).  SLK's schema defines a LearnerAssignmentItem table
+		which contains one row per learner assignment; this table contains a few pieces of
+		information (e.g. instructor comments and override score) not included in MLC's base
+		schema.  When a learner begins an assignment, an MLC <a href="MlcSessions.htm">attempt</a>
+		is created, and is associated with that LearnerAssignmentItem row.  Since SLK's schema is
+		implemented using LearningStore, SLK can perform efficient queries that join the SLK
+		LearnerAssignmentItem table with the MLC AttemptItem table.  In addition to performance
+		benefits, an application using the <a href="SlkApi.htm">SLK API</a> sees a single, coherent
+		SLK schema that incorporates the entire MLC schema, rather than an two distinct data 
+		stores&mdash;and SLK didn't need to abstract the entire MLC schema to accomplish this
+		goal.</li>
+
+	<li><a href="MlcBasicWebPlayer.htm">Basic Web Player</a> (BWP), a sample Web application
+		included in the SLK/MLC SDK, doesn't have the concepts of "assignment" or "instructor".
+		Instead, in BWP's world, packages are entirely self-assigned, and each package is "owned"
+		by a specific learner.</li>
+
+</ol>
+
+<p>It should be clear by now that concepts like "assignment" and "instructor" are not built-in
+to MLC.  A goal of MLC is to define only the minimally-required e-learning constructs, so that
+applications are free to define these higher-level concepts in whatever manner works best for
+them.</p>
+
+<p>One point of possible confusion: in the preceding paragraphs, the word "application" is used in
+two ways:</p>
+
+<ol>
+
+	<li>In some cases, "application" is used to refer to a program that has extended the MLC schema.
+		Under this definition, SLK and BWP are "applications".</li>
+
+	<li>In other cases, "application" is used to refer to a program that accesses the "API" of
+		a program that has extended the MLC schema.  For example, a console application that uses
+		the <a href="SlkApi.htm">SLK API</a>, or that uses the LearningStore API to access a SLK
+		databae, falls under this definition.</li>
+
+</ol>
+
+<p>Both these scenarios are supported, but keep in mind an important restriction: only one level of
+"extension" is supported by LearningStore.  Application A may extend MLC's base schema, but
+application B may not extend Application A's schema.  Consider this example:  SLK includes a
+LearningStore schema file, SlkSchema.xml, that defines "deltas" from the MLC base schema.
+It is not possible to create an application, say MyApp, that defines schema file MyAppSchema.xml,
+that extends SlkSchema.xml, which in turn extends the MLC base schema.  Only one level of
+"extension" is allowed.  (However, in the case of SLK, there are various options available for
+editing SlkSchema.xml.)</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Extending the Base Schema</div>
+<div class="Section">
+<p>
+(Instructions for creating a new schema (e.g. use MLC as a basis), or editing an existing
+schema (e.g. SLK -- but need to be clear what can be done without recompile).)
+</p>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Extending Item Types</div>
+<div class="Section">
+<p>
+TODO... (Example: BWP package owner, SLK learner assignment associated with a given attempt.)
+</p>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Defining New Item Types</div>
+<div class="Section">
+<p>
+TODO... (Example: SLK's learner assignment item type.)
+</p>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">TODO</div>
+<div class="Section">
+<p>
+TODO: Separate section for LearningStore schema XML schema definition, similar to SlkSettings schema?
+</p>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">For More Information</div>
+<div class="Section">
+
+<div><a href="Microsoft.LearningComponents.Namespace.htm">Microsoft.LearningComponents Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.DataModel.Namespace.htm">Microsoft.LearningComponents.DataModel Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.Storage.Namespace.htm">Microsoft.LearningComponents.Storage Namespace (API Reference)</a></div>
+<div><a href="SlkSchema.htm">SLK+MLC Schema Overview</a></div>
+<div><a href="Microsoft.SharePointLearningKit.Schema.Namespace.htm">SLK+MLC Schema Reference</a></div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader"></div>
+<div class="Section">
+<b><a href="MlcPackageStores.htm">Next Topic: Package Stores</a></b>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="TopicFooter">
+</div>
+
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div>
+
+</body>
+
+</html>
+

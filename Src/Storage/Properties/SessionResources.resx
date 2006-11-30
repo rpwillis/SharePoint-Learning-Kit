@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SLS_ExitNotValid" xml:space="preserve">
+    <value>The session cannot be exited in its current state. In Execute view, only Active sessions which have been started may be exited. Sessions may not be exited in other views.</value>
+  </data>
+  <data name="SLS_AbandonNotValid" xml:space="preserve">
+    <value>The session cannot be abandoned in its current state. In Execute view, only Active sessions may be abandoned. Sessions may not be abandoned in other views.</value>
+  </data>
+  <data name="SLS_SuspendNotValid" xml:space="preserve">
+    <value>The session cannot be suspended in its current state. In Execute view, only Active sessions may be suspended. Sessions may not be suspended in other views.</value>
+  </data>
+  <data name="SLS_ResumeNotValid" xml:space="preserve">
+    <value>The session cannot be resumed in its current state. In Execute view, only Suspended sessions may be resumed. Sessions may not be resumed in other views.</value>
+  </data>
+  <data name="SLS_MoveToNextNotValid" xml:space="preserve">
+    <value>Moving to the next activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</value>
+  </data>
+  <data name="SLS_MoveToPreviousNotValid" xml:space="preserve">
+    <value>Moving to the previous activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</value>
+  </data>
+  <data name="SLS_MoveToActivityNotValid" xml:space="preserve">
+    <value>The session is not in a state where a new activity may be selected. In Execute view, only Active sessions may navigate to a selected activity.</value>
+  </data>
+  <data name="SLS_ExitCurrentActivityNotValid" xml:space="preserve">
+    <value>The current activity cannot be exited. There must be a current activity in an active session in order to exit it. </value>
+  </data>
+  <data name="SLS_AbandonCurrentActivityNotValid" xml:space="preserve">
+    <value>The current activity cannot be abandoned. There must be a current activity in an active session in order to abandon it. </value>
+  </data>
+  <data name="SLS_InvalidateSessionCacheNotValid" xml:space="preserve">
+    <value>The session cache cannot be cleared because the current session contains an active attempt. </value>
+  </data>
+  <data name="SLS_CommitChangesNotValid" xml:space="preserve">
+    <value>The changes to the current session cannot be committed. The session may not be in Review view when calling this method. </value>
+  </data>
+    <data name="SLS_AttemptEndTimeNotValid" xml:space="preserve">
+    <value>The attempt associated with this session has not ended.</value>
+  </data>
+  <data name="SLS_LoggingFlagsSetNotValid" xml:space="preserve">
+    <value>The LoggingOptions property may not be set when reviewing a session.</value>
+  </data>
+  <data name="SLS_AttemptHasStarted" xml:space="preserve">
+    <value>The attempt has already started. You may not call Start more than once.</value>
+  </data>
+  <data name="SLS_StartNotValid" xml:space="preserve">
+    <value>A session may only be started on an active attempt in ExecuteView. The session may not be in Review or RandomAccess view when calling this method.</value>
+  </data>
+  <data name="SLS_ProcessNavigationRequestsNotValid" xml:space="preserve">
+    <value>Navigation requests cannot be processed. In an ExecuteView, the AttemptStatus must be Active. This call is not valid in RandomAccess and Review views.</value>
+  </data>
+  <data name="SLS_ResourceNotFound" xml:space="preserve">
+    <value>The current activity in the session does not have an associated resource. The content cannot be displayed.</value>
+  </data>
+  <data name="SLS_CouldNotFindFirstActivity" xml:space="preserve">
+    <value>An initial activity could not be identified in the session.</value>
+  </data>
+   <data name="SLS_RenderNotValid" xml:space="preserve">
+    <value>The content cannot be rendered. In Execute view, the session must have an AttemptStatus of Active.</value>
+  </data>
+    <data name="SLS_ReactivateNotValid" xml:space="preserve">
+        <value>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</value>
+    </data>
+</root>

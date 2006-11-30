@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{AAB6FD93-E403-44B6-B966-BE6BDC97FB6D}") = "AddToUserWebLists", "AddToUserWebLists.csproj", "{CFDDD64D-94AF-402C-83C6-36CE8CC5EC5F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFDDD64D-94AF-402C-83C6-36CE8CC5EC5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFDDD64D-94AF-402C-83C6-36CE8CC5EC5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFDDD64D-94AF-402C-83C6-36CE8CC5EC5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFDDD64D-94AF-402C-83C6-36CE8CC5EC5F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

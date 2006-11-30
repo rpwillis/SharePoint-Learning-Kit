@@ -1,0 +1,64 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<html>
+
+<!-- MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
+     MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
+     LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
+     NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
+<head>
+<title>Basics of Solitaire - Klondike Summary</title>
+<link type="text/css" rel="stylesheet" href="./style.css">
+<script type="text/javascript" src="APIWrapper.js"></script>
+<script type="text/javascript" src="Common.js"></script>
+<script language="javascript" type="text/javascript">
+// <!CDATA[
+function LoadAPI()
+{
+    initializeCommunication();
+    document.getElementById("passed").style.display = 'none';
+	if(checkObjectiveStatus("KlondikeSatisfied")=="passed") {
+		document.getElementById("failed").style.display = 'none';
+		document.getElementById("passed").style.display = 'block';
+	}
+}
+
+function UnloadAPI()
+{
+    storeDataValue( "cmi.exit", "normal" );
+    terminateCommunication();
+}
+// ]]>
+</script>
+</head>
+
+<body onload="LoadAPI()" onunload="UnloadAPI()">
+
+<table style="height:100%">
+<tr style="height:100%;vertical-align:top"><td >
+
+
+<h1>Summary</h1>
+<div id="failed">
+<p>You have not yet completed the Klondike unit. </p>
+<p>Review the lesson and complete the quick check to proceed to the next section.</p>
+</div>
+<div id="passed">
+<p>Congratulations! You have successfully completed the Klondike unit.&nbsp; </p>
+<p>In this unit you learned:</p>
+<ol>
+	<li>Klondike is very similar to Canfield in how it is played, but the initial 
+	layout is different.</li>
+	<li>The Klondike tableau is 28 cards dealt in 7 piles.</li>
+	<li>Spaces in the Klondike tableau can only be filled with Kings.</li>
+</ol>
+<p>Continue to the final summary and complete this lesson.</p>
+</div>
+</td></tr>
+<tr><td>
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div></td></tr>
+</table>
+</body>
+
+</html>

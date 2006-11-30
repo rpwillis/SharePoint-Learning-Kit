@@ -1,0 +1,635 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>
+	SLK Settings
+</title>
+
+<link rel="stylesheet" href="Doc.css" />
+
+<style type="text/css">
+DIV.XmlElementTopic
+{
+	margin-left: 12pt;
+}
+</style>
+
+</head>
+
+<body id="DocTopic">
+
+<div class="TopicHeader">
+	<div class="Supertitle_">
+		SharePoint Learning Kit Customization
+	</div>
+	SLK Settings
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="Summary">
+
+<p style="color: darkgray">[TODO: Package cache location and expiration settings and MIME type
+mappings.]</p>
+
+<p>Each SharePoint site collection (SPSite) may be associated with a SharePoint Learning Kit
+database.  (Multiple site collections can refer to the same SLK database, but there can be at
+most one SLK database associated with a given SharePoint site collection.)  Corresponding to
+each site collection is a SLK Settings file, which is an XML file, stored in the SLK database,
+that contains the following information:</p>
+
+<ul>
+	<li>A definition of each <a href="SlkQueriesAndQuerySets.htm#Queries">SLK query</a> associated
+		with that site collection.</li>
+	<li>A definition of each <a href="SlkQueriesAndQuerySets.htm#QuerySets">SLK query set</a>
+		associated with that site collection.</li>
+	<li>TODO: more here...</li>
+</ul>
+
+<p>SLK ships with a <a href="SlkSettings.xml.htm">default SLK Settings XML file</a>, which is
+used if no custom SLK settings are required.</p>
+
+<p>This section explains what's in a SLK Settings file and how SLK Settings can be updated using
+SharePoint Central Administration.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Customizing SLK Settings</div>
+<div class="Section">
+
+<p>Editing SLK settings is done as follows:</p>
+
+<ol>
+
+	<li>In a Web browser, navigate the SharePoint Learning Kit Configuration page within
+		SharePoint Central Administration, and download the current SLK Settings file.  (See
+		the left red ellipse in the screen shot below.)</li>
+
+	<li>Make any desired modifications, as described <a href="#Format">below</a>.  If you're
+		accustomed to using an XML editor such as the one included in Microsoft Visual Studio,
+		you may want to associate the SLK Settings XML schema definition file, SlkSettings.xsd,
+		with the SLK Settings files you edit, to provide editing support and validation.  You can
+		find a copy of SlkSettings.xsd in the SLK/MLC SDK.</li>
+
+	<li>Upload the current SLK Settings file.  (See the right red ellipse in the screen shot
+		below.)</li>
+
+</ol>
+
+<p><img src="EditSettings.gif" alt="" border="" galleryimg="no" /></p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="Format"></a>
+<div class="SectionHeader">SLK Settings File Structure</div>
+<div class="Section">
+
+<p>TODO</p>
+
+<p>The general structure of a SLK Settings file is as follows.  Many elements are optional;
+see the documentation of each element for more information.</p>
+
+<table class="Grid Code">
+	<col class="Column1_" />
+	<tr class="Header_">
+		<td class="Header1_">XML Outline</td>
+	</tr>
+	<tr>
+		<td class="Content_ Indent_">
+			<a href="#Settings">&lt;Settings&gt;</a>
+				<div><a href="#Query">&lt;Query&gt;</a>
+					<div><a href="#Column">&lt;Column&gt;</a></div>
+					<div><a href="#Condition">&lt;Condition&gt;</a></div>
+					<div><a href="#Sort">&lt;Sort&gt;</a></div>
+				</div>
+				<div><a href="#QuerySet">&lt;QuerySet&gt;</a>
+					<div><a href="#IncludeQuery">&lt;IncludeQuery&gt;</a></div>
+				</div>
+		</td>
+	</tr>
+</table>
+
+<p>The following sections are an alphabetical reference of SLK Settings file XML elements.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">
+	&lt;Column&gt;<a name="Column"></a>
+</div>
+<div class="Section XmlElementTopic">
+
+	<p>(Optional, child of <a href="#Query">&lt;Query&gt;</a>, multiple allowed.)  TODO...</p>
+
+	<div class="SubsectionHeader">Syntax</div>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;Column<br/>
+					Title="..."<br/>
+					RenderAs="..."<br/>
+					ViewColumnName="..."<br/>
+					ViewColumnName2="..."<br/>
+					ViewColumnName3="..."<br/>
+					CellFormat="..."<br/>
+					AllowUserSort="..."<br/>
+					NullDisplayString="..."<br/>
+					ToolTipFormat="..."<br/>
+					Wrap="..." /&gt;
+			</td>
+		</tr>
+	</table>
+
+	<div class="SubsectionHeader">Attributes</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">Title</p>
+	<p class="AttributeDescription">(String, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">RenderAsType</p>
+	<p class="AttributeDescription">(<a href="#Types">RenderAsType</a>, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">ViewColumnName</p>
+	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">ViewColumnName2</p>
+	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">ViewColumnName2</p>
+	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">CellFormat</p>
+	<p class="AttributeDescription">(String, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">AllowUserSort</p>
+	<p class="AttributeDescription">(Boolean, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">NullDisplayString</p>
+	<p class="AttributeDescription">(String, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">ToolTipFormat</p>
+	<p class="AttributeDescription">(String, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">Wrap</p>
+	<p class="AttributeDescription">(Boolean, optional, default <tt>true</tt>.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="SubsectionHeader">Example</div>
+
+	<div class="Subsection">
+	<p>TODO...</p>
+	</div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">
+	&lt;Condition&gt;<a name="Condition"></a>
+</div>
+<div class="Section XmlElementTopic">
+
+	<p>(Optional, child of <a href="#Query">&lt;Query&gt;</a>, multiple allowed.)  TODO...</p>
+
+	<div class="SubsectionHeader">Syntax</div>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;Condition<br/>
+					ViewColumnName="..."<br/>
+					Operator="..."<br/>
+					Value="..."<br/>
+					MacroName="..."<br/>
+					NoConditionOnNull="..." /&gt;
+			</td>
+		</tr>
+	</table>
+
+	<div class="SubsectionHeader">Attributes</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">ViewColumnName</p>
+	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">Operator</p>
+	<p class="AttributeDescription">(<a href="#Types">ConditionOperator</a>, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">Value</p>
+	<p class="AttributeDescription">(String, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">MacroName</p>
+	<p class="AttributeDescription">(<a href="#Types">MacroNameType</a>, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">NoConditionOnNull</p>
+	<p class="AttributeDescription">(Boolean, optional, default <tt>false</tt>.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="SubsectionHeader">Example</div>
+
+	<div class="Subsection">
+	<p>TODO...</p>
+	</div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">
+	&lt;IncludeQuery&gt;<a name="IncludeQuery"></a>
+</div>
+<div class="Section XmlElementTopic">
+
+	<p>(Optional, child of <a href="#QuerySet">&lt;QuerySet&gt;</a>, multiple allowed.)  TODO...</p>
+
+	<div class="SubsectionHeader">Syntax</div>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;IncludeQuery<br/>
+					QueryName="..."&gt;
+			</td>
+		</tr>
+	</table>
+
+	<div class="SubsectionHeader">Attributes</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">QueryName</p>
+	<p class="AttributeDescription">(<a href="#Types">NameType</a>, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="SubsectionHeader">Example</div>
+
+	<div class="Subsection">
+	<p>TODO...</p>
+	</div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">
+	&lt;Query&gt;<a name="Query"></a>
+</div>
+<div class="Section XmlElementTopic">
+
+	<p>(Optional, child of <a href="#Settings">&lt;Settings&gt;</a>, multiple allowed.)
+	TODO...  All <tt>&lt;Query&gt;</tt> elements must appear before any
+	<tt><a href="#QuerySet">&lt;QuerySet&gt;</a></tt> element.</p>
+
+	<p>TODO: see error messages in source code</p>
+
+	<div class="SubsectionHeader">Syntax</div>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;Query<br/>
+					Name="..."<br/>
+					Title="..."<br/>
+					ViewName="..."&gt;
+					<div><a href="#Column">&lt;Column&gt;</a>...&lt;/Column&gt;</div>
+					<div><a href="#Condition">&lt;Condition&gt;</a>...&lt;/Condition&gt;</div>
+					<div><a href="#Sort">&lt;Sort&gt;</a>...&lt;/Sort&gt;</div>
+				&lt;/Query&gt;
+			</td>
+		</tr>
+	</table>
+
+	<div class="SubsectionHeader">Attributes</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">Name</p>
+	<p class="AttributeDescription">(<a href="#Types">NameType</a>, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">Title</p>
+	<p class="AttributeDescription">(String, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">ViewName</p>
+	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="SubsectionHeader">Example</div>
+
+	<p>TODO...</p>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;Query
+					<div>Name="Users.htm"</div>
+					<div>Title="All Users"</div>
+					<div>ViewName="UserItem"&gt;</div>
+					<div>&lt;Column
+						<div>ViewColumnName="Id"</div>
+						<div>Title="ID" /&gt;</div>
+					</div>
+					<div>&lt;Column
+						<div>ViewColumnName="Name"</div>
+						<div>Title="Name" /&gt;</div>
+					</div>
+					<div>&lt;Sort
+						<div>ViewColumnName="Name"</div>
+						<div>Ascending="true" /&gt;</div>
+					</div>
+				&lt;/Query&gt;
+			</td>
+		</tr>
+	</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">
+	&lt;QuerySet&gt;<a name="QuerySet"></a>
+</div>
+<div class="Section XmlElementTopic">
+
+	<p>(Optional, child of <a href="#Settings">&lt;Settings&gt;</a>, multiple allowed.)
+	TODO...  All <tt>&lt;QuerySet&gt;</tt> elements must appear after any
+	<tt><a href="#Query">&lt;Query&gt;</a></tt> element.</p>
+
+	<div class="SubsectionHeader">Syntax</div>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;QuerySet<br/>
+					Name="..."<br/>
+					DefaultQueryName="..."<br/>
+					Title="..."&gt;
+					<div><a href="#IncludeQuery">&lt;IncludeQuery&gt;</a>...&lt;/IncludeQuery&gt;</div>
+				&lt;/QuerySet&gt;
+			</td>
+		</tr>
+	</table>
+
+	<div class="SubsectionHeader">Attributes</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">Name</p>
+	<p class="AttributeDescription">(<a href="#Types">NameType</a>, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">DefaultQueryName</p>
+	<p class="AttributeDescription">(<a href="#Types">NameType</a>, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">Title</p>
+	<p class="AttributeDescription">(string, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="SubsectionHeader">Example</div>
+
+	<div class="Subsection">
+	<p>TODO...</p>
+	</div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">
+	&lt;Settings&gt;<a name="Settings"></a>
+</div>
+<div class="Section XmlElementTopic">
+
+	<p>(Optional, root element, multiple allowed.)  TODO...</p>
+
+	<div class="SubsectionHeader">Syntax</div>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;Settings xmlns="urn:schemas-microsoft-com:sharepoint-learning-kit:settings"&gt;
+					<div><a href="#Query">&lt;Query&gt;</a>...&lt;/Query&gt;</div>
+					<div><a href="#QuerySet">&lt;QuerySet&gt;</a>...&lt;/QuerySet&gt;</div>
+				&lt;/Settings&gt;
+			</td>
+		</tr>
+	</table>
+
+	<div class="SubsectionHeader">Attributes</div>
+
+	<p>(None.)</p>
+
+	<div class="SubsectionHeader">Example</div>
+
+	<div class="Subsection">
+	<p>TODO...</p>
+	</div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">
+	&lt;Sort&gt;<a name="Sort"></a>
+</div>
+<div class="Section XmlElementTopic">
+
+	<p>(Optional, child of <a href="#Column">&lt;Column&gt;</a>, multiple allowed.)  TODO...</p>
+
+	<div class="SubsectionHeader">Syntax</div>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;Sort<br/>
+					ViewColumnName="..."<br/>
+					Ascending="..." /&gt;
+			</td>
+		</tr>
+	</table>
+
+	<div class="SubsectionHeader">Attributes</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">ViewColumnName</p>
+	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">Ascending</p>
+	<p class="AttributeDescription">(Boolean, optional, default <tt>true</tt>.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="SubsectionHeader">Example</div>
+
+	<div class="Subsection">
+	<p>TODO...</p>
+	</div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="Types"></a>
+<div class="SectionHeader">SLK Settings XML Data Types</div>
+<div class="Section">
+
+<p>The following custom data types, referenced above, are defined in the SLK Settings XML schema
+definition (SlkSettings.xsd):</p>
+
+<ul>
+
+	<li><b>ConditionOperator</b>: TODO.</li>
+
+	<li><b>MacroNameType</b>: TODO.</li>
+
+	<li><b>NameType</b>: A string of one to 63 letters (A-Z or a-z) and digits (0-9), beginning
+		with a letter</li>
+
+	<li><b>RenderAsType</b>: TODO.  See <a href="#RenderAsTypes">RenderAs Types</a>.</li>
+
+	<li><b>SchemaIdType</b>: A string of one to 63 letters (A-Z or a-z) and digits (0-9), beginning
+		with a letter</li>
+
+</ul>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="RenderAsTypes"></a>
+<div class="SectionHeader">RenderAs Types</div>
+<div class="Section">
+
+<p>TODO...</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">For More Information</div>
+<div class="Section">
+
+<div><a href="SlkConcepts.htm">SLK Concepts</a></div>
+<div><a href="SlkQueriesAndQuerySets.htm">SLK Queries and Query Sets</a></div>
+<div><a href="SlkSchema.htm">SLK+MLC Schema</a></div>
+<div><a href="SlkApi.htm">SLK API</a></div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader"></div>
+<div class="Section">
+<b><a href="SlkApi.htm">Next Topic: SLK API Overview</a></b>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="TopicFooter">
+</div>
+
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div>
+
+</body>
+
+</html>
+

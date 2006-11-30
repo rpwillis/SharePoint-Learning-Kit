@@ -1,0 +1,76 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+
+SharePoint Learning Kit Release Notes – Beta 1
+Last Updated:	11/3/2006
+
+
+1. Introduction
+2. Functionality in this Beta (updated for Beta 1)
+3. Feedback
+
+
+INTRODUCTION
+
+	About SharePoint Learning Kit
+
+SharePoint Learning Kit (SLK) is a SCORM 2004-conformant e-learning delivery and tracking application built as a SharePoint v3 solution.
+
+The version of the SharePoint Learning Kit that accompanies this document is a pre-release Beta. Although all features are implemented, there will be some issues with these features. Some of these issues are already known to the development team, and some are not. This Beta is intended to help you understand what SLK is and what value it can bring to SharePoint in your organization. Do not deploy this CTP in a production environment, and do not use it with data that you can’t afford to lose. In particular, it is possible that the SLK database schema will change in future releases, and you will have to delete existing SLK databases to upgrade to a new release.
+
+THIS IS BETA CODE AND SHOULD NOT BE USED IN A PRODUCTION ENVIRONMENT. SHAREPOINT LEARNING KIT (SLK) BETA RELEASES ARE INTENDED FOR DEVELOPERS, IT PROFESSIONALS AND TECHNOLOGY EXPERTS TO CONTINUE OR BEGIN THEIR TESTING OF SLK. BEFORE YOU DECIDE TO USE THIS BETA, YOU SHOULD FEEL COMFORTABLE WITH INSTALLING OPERATING SYSTEMS AND SERVER SOFTWARE, AND GENERAL PC TROUBLESHOOTING.
+
+SharePoint Learning Kit is licensed under conditions that are described in the accompanying License.txt file. You are responsible for reading and complying with this license.
+
+	About This Drop
+
+This Beta is organized in three zip packages:
+
+SLK-Install-1.0.[build]-ENU.zip -- contains all files necessary to install and run SLK on a SharePoint v3 server. You do not need to be a developer to use this package. See GettingStarted.doc at the root of this package for installation instructions.
+
+SLK-SDK-1.0.[build]-ENU.zip -- contains documentation and sample code for the SLK/MLC API, as well as the compiled binaries for the MLC and SLK functionality. It is for developers who are considering building e-learning application functionality using MLC, or extending SLK by writing complementary application code such as new Web Parts, tools, etc. See Documentation.htm at the root of this package.
+
+SLK-SourceCode-1.0.[build]-ENU.zip -- contains the source code for MLC and SLK, and the functional specifications for SLK. It is for developers who are interested in extending core MLC or SLK functionality, or who want to understand more about how MLC and SLK work. After reading Documentation.htm in the SLK-SDK-1.0.[build]-ENU.zip package, see the SLK Core Concepts specification in the Specifications folder of this package to get started.
+
+
+FUNCTIONALITY IN THIS BETA (UPDATED FOR BETA 1)
+
+***NOTE: The SLK schema has changed in this Beta. You will need to delete your database and re-configure SLK when upgrading***
+
+
+	New in Beta 1
+
+All features are now implemented, including:
+* Support for executing Class Server .ims content.
+* Grading Review and Learner Review are both implemented.
+* Reactivate functionality is implemented.
+* More security added (e.g. SLK Instructor permission no longer needs any rights, and groups no longer need to have visible membership to be enumerated).
+* Support for AD and Machine Account Groups.
+* Support for forms authentication.
+* Re-vamped Solitaire example now includes explicit support for “review” view.
+* Six new samples in the SDK: SimulateJobTraining (SLK sample console application) is a database load testing sample; ProvisionFromExcel (SLK sample console application) executes commands for partially provisioning SharePoint and SLK from a Microsoft Excel XML Spreadsheet; SiteCollectionInfo (SLK sample ASP.NET page) is a report page that queries the SLK database directly, displaying information about SLK's mapping between the current SharePoint site collection; AddInstructors (SLK sample ASP.NET page) demonstrates how to add instructors to SLK assignments using the SharePoint people picker without the user being one of those instructors; SampleWebService (SLK sample web service) is a sample Web service that accesses SLK; ValidatePackage (MLC sample Windows Forms application) demonstrates how to use the MLC API to validate the contents of a SCORM 1.2, SCORM 2004 or Class Server LRM/IMS+ package.
+* Many bug fixes and a few usability enhancements.
+
+	Known Issues in Beta 1
+
+* Assigning PowerPoint files (or viewing them in Grading Review if they have been attached to a Class Server resource by a learner) doesn’t work consistently (1167).
+* When grading SCORM content (1.2 or 2004) after it has been submitted or collected, if the first activity is a SCO, the content may not load correctly. To work around this problem, select any other activity within the session and then return to the initial activity (1215).
+* There are still some issues running the ADL SCORM 2004 certification tests. We are working through these and expect to have them all resolved by the next drop.
+
+	SLK Solution (Updated for Beta 1)
+
+All functionality that is intended for the v1 release of SLK is now implemented. You can install and configure the SLK Solution, and use it to assign SCORM 1.2, SCORM 2004, Class Server .lrm and .ims content, and non-e-learning content. Learners can interact with this content and their interactions are stored in the SLK database. Self-assigned content or content where Autoreturn is checked will be returned to the learner when submitted, and e-learning content will be autograded if the content supports autograding. Instructors can access assignments via the Assignment List Web Part, and can view learner work, assign grades, add comments, return assignments to learners, and reactivate assignments to be re-done. Instructors can also edit assignment properties from the Grading page. Learners can review completed work.
+
+	SDK
+
+Our goal for this Beta is to allow developers to review SLK and MLC API to determine whether it might be suitable for their applications. The SDK is unedited and largely untested, and it is likely that it contains errors and inconsistencies.
+
+	Source Code
+
+The source code provided here is extracted from our internal source control environment, which is tied to our build process. For this reason, we cannot guarantee that you can build MLC or SLK from this source code. Our eventual goal is that you be able to recreate the entire product with the source code provided here.
+
+
+FEEDBACK
+
+It is our intention to make future SLK releases increasingly functional and increasingly useful to our community. You can help us do this by providing feedback through the forums available on the CodePlex Web site at http://www.codeplex.com. We are interested in feedback on the product and on the process we use to engage with you as a SLK community member.
+
+Thank you for your interest in the SharePoint Learning Kit.

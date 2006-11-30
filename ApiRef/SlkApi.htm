@@ -1,0 +1,524 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>
+	SLK API Overview
+</title>
+
+<link rel="stylesheet" href="Doc.css" />
+
+</head>
+
+<body id="DocTopic">
+
+<div class="TopicHeader">
+	<div class="Supertitle_">
+		SharePoint Learning Kit Customization
+	</div>
+	SLK API Overview
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="Summary">
+
+<p>Previous sections described various customizations and extensions of SharePoint Learning Kit
+that are possible without programming.  However, if you're comfortable using a .NET-compatible
+programming language such as C# or Visual Basic, you can use the SLK API (application programming
+interface) within your own programs to access a deeper level of SLK functionality.  This section
+explains how.</p>
+
+<p><b>Note</b>&nbsp; Although you can access the SLK API using any programming language compatible
+with the .NET common language runtime (CLR), the code samples in this documentation are all
+written in C#.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Referencing the SLK API</div>
+<div class="Section">
+
+<p>The SLK API is implemented in a .NET 2.0 managed-code assembly named SharePointLearningKit.dll.
+This DLL makes use of <a href="Mlc.htm">Microsoft Learning Components</a> (MLC).  When SLK is
+installed on a SharePoint front-end server, both SLK and MLC DLLs are copied to the global
+assembly cache.</p>
+
+<p>To access the SLK API, add a reference to the SharePointLearningKit.dll to your application.
+To create the reference, you'll need a copy of the DLL file&mdash;you can get the DLL, as well as MLC
+DLLs, from the SLK/MLC SDK.  Depending on what your application needs to accomplish, you may need
+to add references to MLC DLLs as well&mdash;see
+<a href="Mlc.htm">Microsoft Learning Components</a> for more information.</p>
+
+</div>
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="AccessingSlkStore"></a>
+<div class="SectionHeader">Accessing a SLK Store</div>
+<div class="Section">
+
+<p>A <i>SLK store</i> is a collection of SharePoint Learning Kit information related to a single
+SharePoint site collection (<b>SPSite</b>).  One site collection can map to one SLK store.  A SLK store
+contains the following information:</p>
+
+<ul>
+
+	<li>The set of SLK <a href="SlkConcepts.htm#Assignments">assignments</a> and related
+		information associated with SharePoint Web (<b>SPWeb</b>) sites in that site collection,
+		including tracked user responses and other SCORM <a href="MlcDataModel.htm">data model</a>
+		information.</li>
+
+	<li>Detailed information extracted from the manifest of each
+		<a href="SlkConcepts.htm#Packages">e-learning package</a> associated with each assignment
+		in that site collection.</li>
+
+	<li>The name and SCORM profile information about each learner and instructor of assignments in
+		that site collection.  (The profile information includes the user's language and audio
+		captioning, level, and delivery speed settings, and is accessible to applications
+		using <a href="MlcLearningStore.htm">LearningStore</a> and to SCORM content using the
+		SCORM Run-Time Environment (RTE) API.)</li>
+
+	<li>The <a href="SlkSettings.htm">SLK Settings</a> XML file associated with the site
+		collection.</li>
+
+</ul>
+
+<p>Sometimes this documentation uses the term "SLK database" to refer to a SLK store, but in fact
+a single SLK database can include multiple SLK stores.  (The reverse is not true: at most one SLK
+database can be associated with a given SharePoint site collection.)  SLK uses the site collection
+GUID (the globally unique identifier stored in the property <b>SPSite.ID</b>) of each site
+collection to identify it within a SLK database.</p>
+
+<p>In addition to information stored in the SLK database, each SLK store maintains a file system
+cache of unzipped <a href="SlkConcepts.htm#Packages">e-learning package</a> files, to improve
+performance.  This cache can be maintained per-server farm or per-front end server, and cached
+content can be set to expire after a given interval.  See
+<a href="SlkSettings.htm">SLK Settings</a> for more information.</p>
+
+<p>A SLK store is represented in a program by the <a href="Microsoft.SharePointLearningKit.SlkStore.Class.htm">SlkStore</a>
+class.  An application creates an instance of <a href="Microsoft.SharePointLearningKit.SlkStore.Class.htm">SlkStore</a>
+using <a href="Microsoft.SharePointLearningKit.SlkStore.GetStore.Method.htm">SlkStore.GetStore</a>, as follows:</p>
+
+<ol>
+
+	<li><p>Web-based applications that execute within SharePoint (i.e. installed within the
+		SharePoint's Template\Layouts directory) can call SharePoint's
+		<b>SPControl.GetContextWeb</b> method to retrieve the current <b>SPWeb</b>, and then
+		pass that <b>SPWeb</b> to <a href="Microsoft.SharePointLearningKit.SlkStore.GetStore.Method.htm">SlkStore.GetStore</a> as
+		follows:</p>
+
+		<table class="Grid Code">
+			<col class="Column1_" />
+			<tr class="Header_">
+				<td class="Header1_">C#</td>
+			</tr>
+			<tr>
+				<td class="Content_">
+<pre>
+using (SPWeb spWeb = SPControl.GetContextWeb(HttpContext.Current))
+{
+    SlkStore slkStore = SlkStore.GetStore(spWeb);
+    <i><font color="red">...your code here...</font></i>
+}</pre>
+				</td>
+			</tr>
+		</table>
+
+		<p>For examples in context, see the
+		<a href="ReportPages_Report1.aspx.htm">Report1.aspx</a> or
+		<a href="ReportPages_Report2.aspx.htm">Report2.aspx</a> sample code.  Also,
+		<a href="WebService_SampleWebService.asmx.htm">SampleWebService.asmx</a> demonstrates
+		how to create a <a href="Microsoft.SharePointLearningKit.SlkStore.Class.htm">SlkStore</a>
+		instance from a Web service.</p>
+
+		</li>
+
+	<li><p>Alternatively, any application running on the SharePoint front-end server, including a
+		desktop application, console application, or Windows service, can create an instance of
+		<a href="Microsoft.SharePointLearningKit.SlkStore.Class.htm">SlkStore</a> as follows:</p>
+
+		<table class="Grid Code">
+			<col class="Column1_" />
+			<tr class="Header_">
+				<td class="Header1_">C#</td>
+			</tr>
+			<tr>
+				<td class="Content_">
+<pre>
+// "log in" to SharePoint as the user running this program, and set spUser to the SharePoint
+// user whose login name is loginName (for example, "somedomain\someuser")
+SPUser spUser;
+using (SPSite anonymousSite = new SPSite(webUrl))
+{
+    using (SPWeb rootWeb = anonymousSite.RootWeb)
+    {
+        spUser = rootWeb.AllUsers[loginName];
+    }
+}
+
+// "log in" to SharePoint again, this time as the user spUser
+using (SPSite spSite = new SPSite(webUrl, spUser.UserToken))
+{
+    using (SPWeb spWeb = spSite.OpenWeb())
+    {
+        SlkStore slkStore = SlkStore.GetStore(spWeb);
+        <i><font color="red">...your code here...</font></i>
+    }
+}</pre>
+				</td>
+			</tr>
+		</table>
+
+		<p>Above, <tt>webUrl</tt> is the URL of the SharePoint Web site (SPWeb) that will provide
+		context information to SLK; specifically, the SharePoint site collection (SPSite) of that
+		Web site is mapped to the SLK database.  <tt>loginName</tt> can be the login name of any
+		SharePoint user that has access to that Web site.  Note that the user running the
+		application must have permission to directly access the SharePoint database since the code
+		will be executing on behalf of a given SharePoint user.</p>
+
+		<p>For examples in context, see
+		<a href="CreateAssignments.cs.htm">CreateAssignments.cs</a> and
+		<a href="AddToUserWebLists.cs.htm">AddToUserWebLists.cs</a> (sample console applications).
+		</p>
+
+		</li>
+
+</ol>
+
+<p>In addition to providing access to information in a SLK store, a
+<a href="Microsoft.SharePointLearningKit.SlkStore.Class.htm">SlkStore</a> object holds the
+identity of the Web browser user, often referred to as the <b>current user</b> in this
+documentation set.  (For non-Web-based applications, such as console or desktop applications,
+the current user is the user running the application.)  This information helps determine what
+operations are authorized.  For example, if the application uses
+<a href="MlcLearningStore.htm">LearningStore</a> to access
+<a href="SlkQueriesAndQuerySets.htm#Views">LearnerAssignmentListForLearners</a>, only those
+<a href="SlkConcepts.htm#Assignments">learner assignments</a> for which the current user is a
+learner are returned.</p>
+
+<p><b>Note</b>&nbsp; SharePoint Learning Kit and Microsoft Learning Components assist with
+<i>authorization</i> tasks, but are not responsible for <i>authenticating</i> the current user.
+That is the responsibility of the application.  In the case of SLK, SharePoint is responsible for
+authenticating the user, i.e. securely determining the user's identity.  (Therefore, SLK supports
+SharePoint's authentication providers, including Windows integrated authentication and forms-based
+authentication.)</p>
+
+<p><b>Programming tasks:</b></p>
+
+<ul>
+
+	<li>To create an instance of SLK store, use <a href="Microsoft.SharePointLearningKit.SlkStore.GetStore.Method.htm">SlkStore.GetStore</a> as described above.</li>
+
+	<li>To retrieve the <a href="Microsoft.SharePointLearningKit.SlkSettings.Class.htm">SlkSettings</a> for a SLK store, use
+		the <a href="Microsoft.SharePointLearningKit.SlkStore.Settings.Property.htm">SlkStore.Settings</a> property.</li>
+
+	<li>To access <a href="MlcLearningStore.htm">LearningStore</a> for a SLK store, use
+		the <a href="Microsoft.SharePointLearningKit.SlkStore.LearningStore.Property.htm">SlkStore.LearningStore</a> property.</li>
+
+	<li>To access <a href="MlcPackageStores.htm">PackageStore</a> for a SLK store, use
+		the <a href="Microsoft.SharePointLearningKit.SlkStore.PackageStore.Property.htm">SlkStore.PackageStore</a> property.</li>
+
+	<li>To register an e-learning package stored in a SharePoint document library, call
+		<a href="Microsoft.SharePointLearningKit.SlkStore.RegisterPackage.Method.htm">SlkStore.RegisterPakage</a>.  If the package has not
+		previously been registered, it is <a href="MlcPackages.htm#PackageValidator">validated</a>
+		and its manifest (imsmanifest.xml or Index.xml) is parsed into various tables within
+		SLK's database for faster retrieval.  If the package was already registered, information
+		about it (including validation warnings) is returned.  Once a package is registered you
+		can refer to it using a <a href="Microsoft.LearningComponents.Storage.PackageItemIdentifier.Class.htm">PackageItemIdentifier</a>, a
+		64-bit integer, unique within the SLK database, that's required in order to perform
+		certain operations such as beginning an <a href="SlkConcepts.htm#Assignments">attempt</a>
+		on the package.</li>
+
+	<li>To get the list of instructors, learners, and learner groups on a given SharePoint Web site
+		(<b>SPWeb</b>), call <a href="Microsoft.SharePointLearningKit.SlkStore.GetMemberships.Method.htm">SlkStore.GetMemberships</a>.
+		The instructor and learner permission names stored in <a href="SlkSettings.htm">SLK
+		Settings</a> is used to determine which users are instructors and learners, and which
+		groups are learner groups.</li>
+
+	<li>To create a new <a href="SlkConcepts.htm#Assignments">assignment</a>, call
+		<a href="Microsoft.SharePointLearningKit.SlkStore.CreateAssignment.Method.htm">SlkStore.CreateAssignment</a>, passing it an
+		<a href="Microsoft.SharePointLearningKit.AssignmentProperties.Class.htm">AssignmentProperties</a> object containing the
+		desired properties of the new assignment.  Optionally, use
+		<a href="Microsoft.SharePointLearningKit.SlkStore.GetNewAssignmentDefaultProperties.Method.htm">SlkStore.GetNewAssignmentDefaultProperties</a> to
+		construct an <a href="Microsoft.SharePointLearningKit.AssignmentProperties.Class.htm">AssignmentProperties</a> object containing
+		default properties for the new assignment, including title and description information
+		extracted from the <a href="SlkConcepts.htm#Packages">e-learning package</a>
+		or <a href="SlkConcepts.htm#Packages">non-e-learning document</a> to be assigned.</li>
+
+	<li>To update an assignment's properties, including the list of instructors and learners, call
+		<a href="Microsoft.SharePointLearningKit.SlkStore.SetAssignmentProperties.Method.htm">SlkStore.SetAssignmentProperties</a>.  This can be used to delete
+		<a href="SlkConcepts.htm#Assignments">learner assignment</a>.</li>
+
+	<li>To get information about a <a href="SlkConcepts.htm#Assignments">learner assignment</a>
+		(the record of one learner's interaction with a given assignment), call
+		<a href="Microsoft.SharePointLearningKit.SlkStore.GetLearnerAssignmentProperties.Method.htm">SlkStore.GetLearnerAssignmentProperties</a>.</li>
+
+	<li>To change the <a href="#LearnerAssignmentState">state</a> of a learner assignment (for
+		example, to "submit" or "return" the learner assignment) call
+		<a href="Microsoft.SharePointLearningKit.SlkStore.ChangeLearnerAssignmentState.Method.htm">ChangeLearnerAssignmentState</a>
+		method.</li>
+
+	<li>To read and write grading-related properties of a learner assignment (such as the final
+		points or instructor comments for the learner assignment), call
+		<a href="Microsoft.SharePointLearningKit.SlkStore.GetGradingProperties.Method.htm">SlkStore.GetGradingProperties</a> or
+		<a href="Microsoft.SharePointLearningKit.SlkStore.SetGradingProperties.Method.htm">SlkStore.SetGradingProperties</a>.</li>
+
+	<li>To delete an assignment, including all associated learner assignments, call
+		<a href="Microsoft.SharePointLearningKit.SlkStore.DeleteAssignment.Method.htm">SlkStore.DeleteAssignment</a>.</li>
+
+	<li>To initialize or update a user's list of Web sites (displayed as a most-recently-used list
+		within the E-Learning Actions page), use 
+		<a href="Microsoft.SharePointLearningKit.SlkStore.AddToUserWebList.Method.htm">SlkStore.UpdateUserWebList</a>.</li>
+
+	<li>TODO: other methods here...</li>
+
+</ul>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="LearnerAssignmentStates"></a>
+<div class="SectionHeader">Learner Assignment States</div>
+<div class="Section">
+</div>
+
+<div class="Section">
+
+<p>A <a href="SlkConcepts.htm#Assignments">learner assignment</a> can be in one of four basic
+states, represented by values of the <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState</a> enumeration:</p>
+
+<ol>
+
+	<li><b>NotStarted</b>: The learner has not yet begun the assignment.</li>
+
+	<li><b>Active</b>: The learner has begun working on the assignment, but has not yet submitted
+		it to the instructor.  For self-assigned assignments, the learner has not yet marked
+		the assignment as "complete".</li>
+
+	<li><b>Completed</b>: The learner submitted the assignment to the instructor, but the
+		instructor has not yet completed grading of the learner assignment.  Self-assigned and
+		auto-returned assignments do not stay in this state&mdash;they're automatically
+		transitioned to Final state.</li>
+
+	<li><b>Final</b>: The instructor has graded the learner assignment (or the learner assignment
+		was automatically graded, or both) and returned it to the learner (or it was automatically
+		returned to the learner).</li>
+
+</ol>
+
+<p>For assignments of <a href="SlkConcepts.htm#Packages">e-learning packages</a>,
+<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState</a>
+is determined by a combination of two pieces of information:</p>
+
+<ol>
+
+	<li>The <a href="Microsoft.LearningComponents.AttemptStatus.Enumeration.htm">AttemptStatus</a> enumerated value of the attempt&mdash;if there is an attempt.  (As described in
+	<a href="SlkConcepts.htm#Assignments">Assignments and Learner Assignment</a>, a learner
+	assignment based on e-learning content, such as SCORM or Class Server LRM content, has an
+	associated <i>attempt</i>, i.e. tracked information related to the learner's interaction with
+	the content, once the learner has begun the assignment.)</li>
+
+	<li>The <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.IsFinal.Field.htm">IsFinal</a> boolean of the learner assignment.</li>
+
+</ol>
+
+<p>These pieces of information combine to form
+<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState</a>
+as follows.  Also shown is the learner assignment "status" string displayed in SLK user interface.
+The first two columns are input conditions; the last two columns are the result of those conditions.
+</p>
+
+<table class="Grid" style="width: auto">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<col class="Column3_" />
+	<tr class="Header_">
+		<td class="Header1_">AttemptStatus</td>
+		<td class="Header2_">IsFinal</td>
+		<td class="Header3_">LearnerAssignmentState</td>
+		<td class="Header4_">User Interface</td>
+	</tr>
+	<tr>
+		<td>None (attempt not begun)</td>
+		<td><b>false</b></td>
+		<td><a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.NotStarted</a></td>
+		<td>"Not Started"</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.AttemptStatus.Enumeration.htm">AttemptStatus.Active</a></td>
+		<td><b>false</b></td>
+		<td rowspan="2" style="vertical-align: middle"><a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Active</a></td>
+		<td rowspan="2" style="vertical-align: middle">"In Progress"</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.AttemptStatus.Enumeration.htm">AttemptStatus.Suspended</a></td>
+		<td><b>false</b></td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.AttemptStatus.Enumeration.htm">AttemptStatus.Completed</a></td>
+		<td><b>false</b></td>
+		<td rowspan="2" style="vertical-align: middle"><a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Completed</a></td>
+		<td rowspan="2" style="vertical-align: middle">"Submitted"</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.AttemptStatus.Enumeration.htm">AttemptStatus.Abandoned</a></td>
+		<td><b>false</b></td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.AttemptStatus.Enumeration.htm">AttemptStatus.Completed</a></td>
+		<td><b>true</b></td>
+		<td rowspan="2" style="vertical-align: middle"><a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Final</a></td>
+		<td rowspan="2" style="vertical-align: middle">"Final"</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.AttemptStatus.Enumeration.htm">AttemptStatus.Abandoned</a></td>
+		<td><b>true</b></td>
+	</tr>
+</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Programming With Queries and Query Sets</div>
+<div class="Section">
+
+<p><a href="SlkQueriesAndQuerySets.htm">SLK queries and query sets</a>, defined within the
+<a href="SlkSettings.htm">SLK Settings</a> file associated with a SLK store, define what queries
+and query results users see in SLK's Assignment List Web Part.  Applications can access SLK
+queries and query sets programmatically, to perform the same queries and display the results
+in whatever manner makes most sense for them.</p>
+
+<p><b>Programming tasks:</b></p>
+
+<ul>
+
+	<li>To retrieve the <a href="Microsoft.SharePointLearningKit.SlkSettings.Class.htm">SlkSettings</a> for a SLK store, use
+		the <a href="Microsoft.SharePointLearningKit.SlkStore.Settings.Property.htm">SlkStore.Settings</a> property.</li>
+
+	<li>To retrieve the collection of SLK queries stored in given SLK Settings, access the
+		<a href="Microsoft.SharePointLearningKit.SlkSettings.QueryDefinitions.Property.htm">SlkSettings.QueryDefinitions</a> property.</li>
+
+	<li>To retrieve the collection of SLK query sets stored in given SLK Settings, access the
+		<a href="Microsoft.SharePointLearningKit.SlkSettings.QuerySetDefinitions.Property.htm">SlkSettings.QuerySetDefinitions</a> property.</li>
+
+	<li>To find a query definition given its name, call
+		<a href="Microsoft.SharePointLearningKit.SlkSettings.FindQueryDefinition.Method.htm">SlkSettings.FindQueryDefinition</a>.</li>
+
+	<li>To find a query set definition given its name, call
+		<a href="Microsoft.SharePointLearningKit.SlkSettings.FindQuerySetDefinition.Method.htm">SlkSettings.FindQuerySetDefinition</a>.</li>
+
+	<li>To parse and validate a SLK Settings file that's not stored in a SLK store, call
+		<a href="Microsoft.SharePointLearningKit.SlkSettings.ParseSettingsFile.Method.htm">SlkSettings.ParseSettingsFile</a>.</li>
+
+</ul>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">SLK Administration</div>
+<div class="Section">
+
+<p>The <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.Class.htm">SlkSPSiteMapping</a> class represents the mapping between
+a SharePoint <b>SPSite</b> and a SharePoint Learning Kit store.  This mapping is stored in the
+SharePoint configuration database, and can be created, updated, and retrieved using any of the
+following approaches:</p>
+
+<ol>
+
+	<li>The SharePoint Learning Kit Configuration page within SharePoint Central Administration.
+		</li>
+
+	<li>The slkadm.exe console application included in the SLK/MLC SDK.  Run
+		"<tt>slkadm.exe -?</tt>" for command-line usage information.  Note that slkadm.exe must be
+		run on a SharePoint front-end server on which SLK is already installed.  The slkadm.exe
+		tool allows you to perform some operations not available from within SharePoint Central
+		Administration, such as enumerating and deleting site collection-to-SLK store mappings.</li>
+
+	<li>The <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.Class.htm">SlkSPSiteMapping</a> and
+		<a href="Microsoft.SharePointLearningKit.SlkAdministration.Class.htm">SlkAdministration</a> classes, described below.
+		(Internally, <a href="Microsoft.SharePointLearningKit.SlkStore.Class.htm">SlkStore</a> uses
+		<a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.Class.htm">SlkSPSiteMapping</a> to determine the location of the
+		SharePoint database and other information associated with a given site collection.)</li>
+
+</ol>
+
+<p>A <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.Class.htm">SlkSPSiteMapping</a> object contains the following
+information, accessible through properties on the object:
+</p>
+
+<ul>
+
+	<li>The GUID of the SharePoint site collection (<b>SPSite</b>) that is being mapped.</li>
+
+	<li>The name of the SLK database, and the name of the server containing that database.  One
+		database can include information for multiple site collections, but a given site collection
+		can map to at most one SLK database.</li>
+
+	<li>The names of the SharePoint permissions used to identify instructors and learners in SLK.
+		</li>
+
+</ul>
+
+<p>The static SlkAdministration class contains methods that mirror the functionality of the
+SharePoint Learning Kit Configuration page within SharePoint Central Administration.</p>
+
+<p><b>Programming tasks:</b></p>
+
+<ul>
+
+	<li>To retrieve the <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.Class.htm">SlkSPSiteMapping</a> corresponding to a given SharePoint site collection,
+		pass the GUID of the site collection (<b>SPSite.ID</b>) to <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.GetMapping.Method.htm">SlkSPSiteMapping.GetMapping</a>.
+		(Alternatively, use <a href="Microsoft.SharePointLearningKit.SlkAdministration.LoadConfiguration.Method.htm">SlkAdministration.LoadConfiguration</a> or
+		<a href="Microsoft.SharePointLearningKit.SlkStore.Mapping.Property.htm">SlkStore.Mapping</a>.)</li>
+
+	<li>To enumerate all <b>SPSite</b>-to-SLK store mappings stored in the SharePoint configuration
+		database, call
+		<a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.GetMappings.Method.htm">SlkSPSiteMapping.GetMappings</a>.</li>
+
+	<li>To create a new mapping, as well as optionally creating a SLK database and defining the
+		permissions used to identify instructors and learners:
+		<ol>
+			<li>Call <a href="Microsoft.SharePointLearningKit.SlkAdministration.LoadConfiguration.Method.htm">SlkAdministration.LoadConfiguration</a> to retrieve
+				default configuration properties for a SharePoint site collection.</li>
+			<li>Update the retrieved properties as needed.</li>
+			<li>Call <a href="Microsoft.SharePointLearningKit.SlkAdministration.SaveConfiguration.Method.htm">SlkAdministration.SaveConfiguration</a> to save the
+				configuration properties, including optionally creating a new database and
+				instructor/learner permissions.</li>
+		</ol>
+	</li>
+</ul>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">For More Information</div>
+<div class="Section">
+
+<div><a href="SlkConcepts.htm">SLK Concepts</a></div>
+<div><a href="SlkQueriesAndQuerySets.htm">SLK Queries and Query Sets</a></div>
+<div><a href="SlkSettings.htm">SLK Settings</a></div>
+<div><a href="Microsoft.SharePointLearningKit.Namespace.htm">Microsoft.SharePointLearningKit Namespace (API Reference)</a></div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader"></div>
+<div class="Section">
+<b><a href="SlkSamples.htm">Next Topic: SLK Samples</a></b>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="TopicFooter">
+</div>
+
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div>
+
+</body>
+
+</html>
+

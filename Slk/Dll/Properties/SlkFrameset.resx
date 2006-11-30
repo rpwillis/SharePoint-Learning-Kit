@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+	
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>1.3</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+    <data name="FRM_Title" xml:space="preserve">
+        <value>SharePoint Learning Kit</value>
+        <comment>SLK only</comment>
+    </data>
+    <data name="FRM_AssignmentNotAvailableTitle" xml:space="preserve">
+    <value>Assignment Not Available</value>
+  </data>
+  <data name="FRM_AssignmentNotAvailableMsgHtml" xml:space="preserve">
+    <value>This assignment is not available. &lt;br&gt;&lt;br&gt; This may be because:
+    &lt;ul&gt;&lt;li&gt;The assignment does not exist.
+    &lt;li&gt;You are accessing an assignment prior to its start date.
+    &lt;li&gt;You do not have access to the requested view of the assignment.
+    &lt;/ul&gt;
+    More information may be available in the server event log.
+    </value>
+  </data>
+  <data name="FRM_AssignmentTurnedInMsgHtml" xml:space="preserve">
+    <value>This assignment is not available because it has been submitted as complete. &lt;br&gt;&lt;br&gt; 
+    You can review this assignment after it is returned by your instructor.
+    </value>
+  </data>
+  <data name="FRM_AssignmentNotGradableTitle" xml:space="preserve">
+    <value>Grading Not Available</value>
+  </data>
+  <data name="FRM_AssignmentCantBeGradedMsgHtml" xml:space="preserve">
+    <value>You cannot grade this assignment until it has been submitted.&lt;br&gt;&lt;br&gt; 
+    To enable grading, you can collect the assignment or have the learner submit the assignment.
+    </value>
+  </data>
+  <data name="FRM_ReviewNotAvailableTitle" xml:space="preserve">
+    <value>Review Not Available</value>
+  </data>
+  <data name="FRM_ReviewNotAvailableMsgHtml" xml:space="preserve">
+    <value>You cannot review this assignment until it has been started by the learner.</value>
+      <comment>Show to instructors.</comment>
+  </data>
+  <data name="FRM_LearnerReviewNotAvailableMsgHtml" xml:space="preserve">
+    <value>You cannot review this assignment until it is returned by your instructor.</value>
+  </data>
+    <data name="FRM_InvalidStatusForViewTitle" xml:space="preserve">
+    <value>Assignment Not Available</value>
+  </data>
+    <data name="FRM_DocumentNotFoundTitleHtml" xml:space="preserve">
+        <value>File Not Found</value>
+    </data>
+    <data name="FRM_DocumentNotFound" xml:space="preserve">
+        <value>The requested document could not be found.</value>
+        <comment>The message that is displayed if the location string for a learner assignment does not 
+        parse into a document that can be found. Only used for non-elearning content.</comment>
+    </data>
+    <data name="FRM_PackageNotFoundTitle" xml:space="preserve">
+        <value>Assignment Resource Not Available</value>
+    </data>
+    <data name="FRM_PackageNotFound" xml:space="preserve">
+        <value>The version of the learning resource assigned for this assignment cannot be found because it has been deleted or modified.</value>
+    </data>
+    <data name="HID_SelectActivityTitleHtml" xml:space="preserve">
+        <value>Select an Activity</value>
+    </data>
+    <data name="HID_SelectActivityMessageHtml" xml:space="preserve">
+        <value>Select an activity to continue with the assignment.</value>
+    </data>
+     <data name="HID_SessionCompletedTitle" xml:space="preserve">
+        <value>Assignment Complete</value>
+    </data>
+    <data name="HID_SessionAbandonedTitle" xml:space="preserve">
+        <value>Assignment Abandoned</value>
+    </data>
+    <data name="HID_SessionSuspendedTitle" xml:space="preserve">
+        <value>Assignment Suspended</value>
+    </data>
+    <data name="HID_GradingFinishedTitle" xml:space="preserve">
+        <value>Grading Finished</value>
+    </data>
+    <data name="HID_GradingFinishedMessage">
+        <value>This grading session is finished. You can return to this assignment later to add or change grading information.</value>
+    </data>
+  <data name="HID_ExecuteViewAbandonedSessionMsg" xml:space="preserve">
+    <value>The assignment has been abandoned. You cannot make any further changes.</value>
+  </data>
+  <data name="HID_ExecuteViewCompletedSessionMsg" xml:space="preserve">
+    <value>This assignment has been submitted as complete. You cannot make any further changes.</value>
+  </data>
+  <data name="HID_ExecuteViewSuspendedSessionMsg" xml:space="preserve">
+    <value>This assignment has been suspended. You can return later to resume the assignment.</value>
+  </data>
+    <data name="FRM_CannotDisplayContentTitle" xml:space="preserve">
+        <value>Cannot Display Assignment</value>
+    </data>
+    <data name="FRM_SessionIsNotActiveMsg" xml:space="preserve">
+        <value>This assignment has been completed. You cannot make any further changes.</value>
+    </data>
+    <data name="FRM_AssignmentNotAvailableTitle" xml:space="preserve">
+    <value>Assignment Not Available</value>
+  </data>
+  <data name="FRM_AssignmentTurnedInMsgHtml" xml:space="preserve">
+    <value>This assignment is not available because it has been submitted as complete.&lt;br&gt;&lt;br&gt; 
+    You can review this assignment after it is returned by your instructor.
+    </value>
+  </data>
+  <data name="FRM_AssignmentNotGradableTitle" xml:space="preserve">
+    <value>Grading Not Available</value>
+  </data>
+  <data name="FRM_AssignmentCantBeGradedMsgHtml" xml:space="preserve">
+    <value>You cannot grade this assignment until it has been submitted.&lt;br&gt;&lt;br&gt; 
+    To enable grading, you can collect the assignment or have the learner submit the assignment.
+    </value>
+  </data>
+    <data name="FRM_ReviewNotAvailableTitle" xml:space="preserve">
+    <value>Review Not Available</value>
+    <comment>SLK Only</comment>
+  </data>
+  <data name="FRM_ReviewNotAvailableMsgHtml" xml:space="preserve">
+    <value>You cannot review this assignment until it has been started by the learner.</value>
+      <comment>SLK only</comment>
+  </data>
+    <data name="FRM_UnexpectedViewRequestHtml" xml:space="preserve">
+        <value>The available session does not match the request view of the assignment.</value>
+    </data>
+  <data name="FRM_LearnerReviewNotAvailableMsgHtml" xml:space="preserve">
+    <value>You cannot review this assignment until it has been returned.</value>
+      <comment>SLK only</comment>
+  </data>
+    <data name="CON_InvalidFileAttachmentTitleHtml" xml:space="preserve">
+        <value>File Attachment Error</value>
+    </data>
+    <data name="CON_MaxFileSizeExceededMsgHtml" xml:space="preserve">
+        <value>The attached files listed below are larger than the allowed limit of {0} KB. Reduce the size of these files and try again. 
+        &lt;br&gt;&lt;br&gt; 
+        Invalid files:
+        </value>
+        <comment>{0}=numeric size. Following this message is the list of file names that are not valid.</comment>
+    </data>
+    <data name="CON_InvalidFileExtensionMsgHtml" xml:space="preserve">
+        <value>The attached files listed below are not allowed file types. 
+        &lt;br&gt;&lt;br&gt; 
+        Invalid files:
+        </value>
+         <comment>Following this message is the list of file names that are not valid.</comment>
+    </data>
+    <data name="CON_FilesDontExistHtml" xml:space="preserve">
+        <value>The attached files listed below are empty or do not exist.
+        &lt;br&gt;&lt;br&gt; 
+        Invalid files:</value>
+    </data>
+    <data name="CON_InvalidFileAttachmentMsgHtml" xml:space="preserve">
+        <value>Administrators can change the file attachment settings in SharePoint Central Administration by modifying the SharePoint Learning Kit settings file.</value>
+    </data>
+    <data name="FRM_SignInRequiredMsgHtml" xml:space="preserve">
+        <value>You must sign in to access this assignment.</value>
+    </data>
+    <data name="FRM_UnexpectedErrorNoException" xml:space="preserve">
+        <value>The assignment cannot be displayed. Try refreshing your browser.</value>
+    </data>
+    <data name="TOC_SubmitAssignment" xml:space="preserve">
+        <value>Submit Assignment</value>
+    </data>
+    <data name="TOC_SubmitGrading" xml:space="preserve">
+        <value>Finish Grading</value>
+        <comment>Title of the grading ending page in TOC.</comment>
+    </data>
+    <data name="POST_SubmitHtml" xml:space="preserve">
+        <value>Submit</value>
+    </data>
+    <data name="HID_SubmitPageTitleHtml" xml:space="preserve">
+        <value>Submit this Assignment?</value>
+    </data>
+    <data name="HID_SubmitGradingPageTitleHtml" xml:space="preserve">
+        <value>Finish Grading?</value>
+        <comment>Title of the question to the user asking if they are done with grading.</comment>
+    </data>
+    <data name="HID_SubmitPageMessageHtml" xml:space="preserve">
+        <value>You cannot make any further changes after you submit this assignment.&lt;br&gt;&lt;br&gt;
+        If you have completed the assignment, click &lt;b&gt;Submit&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
+        If you are not ready to submit the assignment, click &lt;b&gt;Cancel&lt;/b&gt; to return to the previous page.
+        </value>
+    </data>
+    <data name="HID_SubmitPageMessageNoCurrentActivityHtml" xml:space="preserve">
+        <value>You cannot make any further changes after you submit this assignment.&lt;br&gt;&lt;br&gt;
+        If you have completed the assignment, click &lt;b&gt;Submit&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
+        If you are not ready to submit the assignment, select an activity to continue the assignment.
+        </value>
+    </data>
+    <data name="HID_SubmitGradingPageMessageHtml" xml:space="preserve">
+        <value>All grading changes have been saved. &lt;br&gt;&lt;br&gt;
+        Click &lt;b&gt;Finish&lt;/b&gt; to end this grading session. You can return to this assignment later to add or change grading information. 
+        &lt;br&gt;&lt;br&gt;If you are not ready to finish grading, click &lt;b&gt;Cancel&lt;/b&gt; to return to the previous page.</value>
+    </data>
+    <data name="FRM_SubmitPageBtnHtml" xml:space="preserve">
+        <value>Submit</value>
+    </data>
+    <data name="FRM_SubmitGradingPageBtnHtml" xml:space="preserve">
+        <value>Finish</value>
+    </data>
+    <data name="HID_MoveNextFailedHtml" xml:space="preserve">
+        <value>You cannot navigate to the next page at this time. Click Continue to return to the assignment.</value>
+    </data>
+    <data name="HID_MovePreviousFailedHtml" xml:space="preserve">
+        <value>You cannot navigate to the previous page at this time. Click Continue to return to the assignment.</value>
+    </data>
+    <data name="HID_MoveToActivityFailedHtml" xml:space="preserve">
+        <value>You cannot navigate to the selected activity at this time. Click Continue to return to the assignment.</value>
+    </data>
+    <data name="POST_ContinueHtml" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
+    <data name="FRM_ResourceNotFound" xml:space="preserve">
+        <value>Resource not found.</value>
+        <comment>Internal exception indicating a resource could not be found. This is likely a coding error.</comment>
+    </data>
+    <data name="FRM_UnexpectedExceptionMsg" xml:space="preserve">
+        <value>An error occurred. More information may be available in the server event log.</value>
+    </data>
+    <data name="FRM_GradingPageNotUpdated" xml:space="preserve">
+        <value>Changes to this page will no longer be reflected in the grading page when you close this window. To fix this, save your changes and re-open the assignment from the grading page.</value>
+    </data>
+</root>
