@@ -4546,10 +4546,6 @@ namespace Microsoft.LearningComponents.DataModel
                     m_dataModel.CheckIfWriteIsAllowed();
                 }
                 m_verifier.ValidateId(value);
-                if(m_isInList && m_dataModel.Format != PackageFormat.V1p2)
-                {
-                    ((DataModelKeyedList<Interaction>)m_dataModel.Interactions).ChangeKey(this, value);
-                }
                 DataModelUtilities.SetAttribute(m_nav, "id", value);
                 //DataModelUtilities.SetIdentifier(m_nav, "interactions", "interaction", value, m_verifier.ValidateId);
                 if(m_isInDataModel)
