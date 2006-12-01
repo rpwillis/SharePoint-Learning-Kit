@@ -57,7 +57,7 @@
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="Now"/>
-    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" /><!-- helps SQL perf? (TODO: validate) -->
+    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" /><!-- helps SQL perf? -->
     <Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2"/><!-- i.e. unsubmitted -->
     <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
@@ -116,7 +116,7 @@
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
-    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" /><!-- helps SQL perf? (TODO: validate) -->
+    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" /><!-- helps SQL perf? -->
     <Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2"/><!-- i.e. unsubmitted -->
     <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
