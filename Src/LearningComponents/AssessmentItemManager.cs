@@ -139,14 +139,24 @@ namespace Microsoft.LearningComponents
         }
 
         /// <summary>
-        /// Gets the processor that can process posted data related to the specified interaction.
+        /// Gets the processor that can process posted data related to the specified interaction, or <c>null</c> if none.
         /// </summary>
-        /// <remarks>ProcessFormContext must have been set prior to calling this method.</remarks>
+        /// <remarks>ProcessFormContext must have been set prior to calling this method.  If this
+        /// interaction's InteractionType does not have a value (such as when it represents a rubric or item score
+        /// with no associated assessment) this method returns <c>null</c>.
+        /// </remarks>
         internal FormDataProcessor GetFormDataProcessor(Interaction interaction)
         {
-            FormDataProcessor processor = m_formProcessors[interaction.InteractionType.Value];
-            processor.Interaction = interaction;
-            return processor;
+            if (interaction.InteractionType.HasValue)
+            {
+                FormDataProcessor processor = m_formProcessors[interaction.InteractionType.Value];
+                processor.Interaction = interaction;
+                return processor;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

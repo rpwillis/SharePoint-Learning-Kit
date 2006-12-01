@@ -73,7 +73,11 @@ namespace Microsoft.LearningComponents
             foreach (Interaction interaction in learningDataModel.Interactions)
             {
                 FormDataProcessor processor = m_assessmentItemMgr.GetFormDataProcessor(interaction);
-                processor.ValidateFormData(formData, files); // throws exception if not valid
+                // must check that processor is non null, since GetFormDataProcessor() can return null
+                if (processor != null)
+                {
+                    processor.ValidateFormData(formData, files); // throws exception if not valid
+                }
             }
             // Process the form data.  This won't execute if ValidateFormData threw and exception, above.
             // Keep a running sum the Interaction.Evaluation.Points values to set the page's Points value.
@@ -81,16 +85,22 @@ namespace Microsoft.LearningComponents
             foreach (Interaction interaction in learningDataModel.Interactions)
             {
                 FormDataProcessor processor = m_assessmentItemMgr.GetFormDataProcessor(interaction);
-                processor.ProcessFormData(formData, files);
-                if (interaction.Evaluation.Points.HasValue)
+                // must check that processor is non null, since GetFormDataProcessor() can return null.
+                // If it is null, any item score associated with this interaction is not totalled into
+                // EvaluationPoints.
+                if (processor != null)
                 {
-                    if (totalPoints.HasValue)
+                    processor.ProcessFormData(formData, files);
+                    if (interaction.Evaluation.Points.HasValue)
                     {
-                        totalPoints += interaction.Evaluation.Points.Value;
-                    }
-                    else
-                    {
-                        totalPoints = interaction.Evaluation.Points.Value;
+                        if (totalPoints.HasValue)
+                        {
+                            totalPoints += interaction.Evaluation.Points.Value;
+                        }
+                        else
+                        {
+                            totalPoints = interaction.Evaluation.Points.Value;
+                        }
                     }
                 }
             }
@@ -618,16 +628,22 @@ namespace Microsoft.LearningComponents
                 foreach (Interaction interaction in learningDataModel.Interactions)
                 {
                     FormDataProcessor processor = m_assessmentItemMgr.GetFormDataProcessor(interaction);
-                    processor.ProcessSessionEnd(context);
-                    if (interaction.Evaluation.Points.HasValue)
+                    // must check that processor is non null, since GetFormDataProcessor() can return null.
+                    // If it is null, any item score associated with this interaction is not totalled into
+                    // EvaluationPoints.
+                    if (processor != null)
                     {
-                        if (totalPoints.HasValue)
+                        processor.ProcessSessionEnd(context);
+                        if (interaction.Evaluation.Points.HasValue)
                         {
-                            totalPoints += interaction.Evaluation.Points;
-                        }
-                        else
-                        {
-                            totalPoints = interaction.Evaluation.Points;
+                            if (totalPoints.HasValue)
+                            {
+                                totalPoints += interaction.Evaluation.Points;
+                            }
+                            else
+                            {
+                                totalPoints = interaction.Evaluation.Points;
+                            }
                         }
                     }
                 }
