@@ -254,12 +254,14 @@ class SimulateClassProgram
                 string packageLocation = packageLocations[s_random.Next(0, PackageUrls.Length)];
 
                 // get some information about the package/document; set <isNonELearning> to true if
-                // if it's a non-e-learning document
+                // if it's a non-e-learning document; NOTE: this is oversimplified code -- proper
+                // production code should handle error conditions more carefully
                 SPFile spFile = SlkUtilities.GetSPFileFromPackageLocation(packageLocation);
                 bool isNonELearning;
                 SharePointFileLocation spFileLocation;
-                SharePointFileLocation.TryParse(packageLocation, out spFileLocation);    // TODO: Should check return value.
-                using (SharePointPackageReader spPackageReader = new SharePointPackageReader(slkStore.SharePointCacheSettings, spFileLocation))
+                SharePointFileLocation.TryParse(packageLocation, out spFileLocation);
+                using (SharePointPackageReader spPackageReader =
+                    new SharePointPackageReader(slkStore.SharePointCacheSettings, spFileLocation))
                 {
                     isNonELearning = PackageValidator.Validate(spPackageReader).HasErrors;
                 }

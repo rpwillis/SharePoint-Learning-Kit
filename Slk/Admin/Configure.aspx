@@ -197,8 +197,8 @@
 	<asp:Label ID="labelSlkSettingDescription" runat="server" />
 	<p style="margin-top: 0pt; margin-bottom: 0pt;">
 		<ul style="margin-top: 0pt; margin-bottom: 0pt;">
-			<li style="margin-bottom: 6pt"><asp:HyperLink ID="LinkCurrentSettingsFile" runat="server" /></li>
-			<li><asp:HyperLink ID="LinkDefaultSettingsFile" runat="server"/></li></p>
+			<li style="margin-bottom: 6pt"><asp:HyperLink ID="LinkCurrentSettingsFile" Target="_blank" runat="server" /></li>
+			<li><asp:HyperLink ID="LinkDefaultSettingsFile" Target="_blank" runat="server"/></li></p>
 		</ul>
 	</p>
   </Template_Description>

@@ -299,7 +299,10 @@ public class SlkSettings
     /// </summary>
 	///
     /// <param name="xmlReader">An <c>XmlReader</c> positioned at the beginning of the SLK Settings
-	/// 	XML file.</param>
+	/// 	XML file.  This <c>XmlReader</c> must have "SlkSettings.xsd" (the SLK Setttings XML
+	/// 	schema) attached using the <c>XmlReaderSettings</c> parameter of the <c>XmlReader</c>
+	/// 	constructor, with <c>XmlReaderSettings.ValidationType</c> equal to
+	/// 	<c>ValidationType.Schema</c>.</param>
 	///
     /// <param name="whenUploaded">The date/time that the SLK Settings XML file was uploaded
 	/// 	to the database.</param>

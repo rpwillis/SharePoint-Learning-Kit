@@ -57,13 +57,13 @@ static class DomainGroupUtilities
         public uint usri2_code_page;
     };
 
-    [DllImport("Netapi32.dll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass"), DllImport("Netapi32.dll")]
     extern static int NetLocalGroupGetMembers([MarshalAs(UnmanagedType.LPWStr)] string servername, [MarshalAs(UnmanagedType.LPWStr)] string localgroupname, int level, out IntPtr bufptr, int prefmaxlen, out int entriesread, out int totalentries, out int resumehandle);
 
-    [DllImport("Netapi32.dll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass"), DllImport("Netapi32.dll")]
     extern static int NetApiBufferFree(IntPtr Buffer);
 
-    [DllImport("Netapi32.dll")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass"), DllImport("Netapi32.dll")]
     extern static int NetUserGetInfo([MarshalAs(UnmanagedType.LPWStr)] string servername, [MarshalAs(UnmanagedType.LPWStr)] string username, int level, out IntPtr bufptr);
 
     /// <summary>
