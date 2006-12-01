@@ -85,8 +85,9 @@ function Site_Init( rteRequired )
 	this.m_validNavigationCommands = new Array();
 	if (rteRequired)
         this.m_errorManager = new ErrorMessageManager ( this.m_scormVersion );
-    else
-        this.m_errorManager = null;
+    
+    // If rte is not required, we do not reinitialize the error manager, as it could be the case where 
+    // the current activity just became inactive. In that case, we still need the error manager. 
 }
 
 function Site_Terminate()
