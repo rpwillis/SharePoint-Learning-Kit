@@ -264,23 +264,21 @@ namespace Microsoft.LearningComponents
             /// <remarks>Corresponds to DB.2 in the SCORM 2004 Sequencing/Navigation manual, appendix C.</remarks>
             private void ContentDeliveryEnvironment(Activity activity)
             {
-                bool wasSuspended = false;
-
                 // If the attempt on the current activity has not been terminated, we cannot deliver new content
                 if(m_navigator.CurrentActivity != null && m_navigator.CurrentActivity.DataModel.ActivityIsActive)
                 {
                     // Delivery request is invalid - The Current Activity has not been terminated
                     throw new SequencingException(SequencingExceptionCode.DB_2__1);
                 }
-                if (activity.DataModel.ActivityIsSuspended)
-                {
-                    wasSuspended = true;
-                }
                 // Content is about to be delivered, clear any existing suspend all state.
-                //      note: the pseudo code in DB.2 says "if activity identified for deliver is not equal to the
-                //      Suspended Activity..." however, following this breaks the NavigateProcessDataModelNavigationTest.
-                //      Therefore, call ClearSuspendedActivity regardless of the activity delivered.
-                ClearSuspendedActivity(activity);
+                if(activity != m_navigator.SuspendedActivity)
+                {
+                    ClearSuspendedActivity(activity);
+                }
+                else
+                {
+                    m_navigator.SuspendedActivity = null;
+                }
 
                 if(m_navigator.CurrentActivity != null)
                 {
@@ -303,14 +301,16 @@ namespace Microsoft.LearningComponents
                         a.DataModel.ActivityIsActive = true;
                         if(a.Sequencing.Tracked)
                         {
-                            /*if(a.DataModel.ActivityIsSuspended)
+                            if(a.DataModel.ActivityIsSuspended)
                             {
                                 // If the previous attempt on the activity ended due to a 
                                 // suspension, clear the suspended state; do not start a new attempt
                                 a.DataModel.ActivityIsSuspended = false;
+                                // according to the scorm addendum, clear the cmi.exit value no matter what
+                                // so that we don't automatically suspend again each time this activity is executed
+                                a.DataModel.InitializeForDeliveryAfterSuspend();
                             }
-                            else*/
-                            if(!wasSuspended)
+                            else
                             {
                                 // Begin a new attempt on the activity
                                 ++a.DataModel.ActivityAttemptCount;
@@ -320,23 +320,13 @@ namespace Microsoft.LearningComponents
                                 {
                                     a.DataModel.ActivityProgressStatus = true;
                                 }
+                                ResetAttemptData(a, a.Sequencing.UseCurrentAttemptObjectiveInfo,
+                                    a.Sequencing.UseCurrentAttemptProgressInfo);
+                                PerformDataModelInitialization(a);
                             }
-                        }
-
-/* Begin code not in SCORM pseudo-code, but needed to satisfy other areas of the SN spec. */
-                        if(!wasSuspended)
-                        {
-                            ResetAttemptData(a, a.Sequencing.UseCurrentAttemptObjectiveInfo,
-                                a.Sequencing.UseCurrentAttemptProgressInfo);
-                            PerformDataModelInitialization(a);
-                        }
-                        else    // according to the scorm addendum, clear the cmi.exit value no matter what
-                        {       // so that we don't automatically suspend again each time this activity is executed
-                            a.DataModel.InitializeForDeliveryAfterSuspend();
                         }
                     }
                 }
-/* End code not in SCORM pseudo-code */
             }
 
             /// <summary>
@@ -374,8 +364,6 @@ namespace Microsoft.LearningComponents
                     }
                     m_navigator.SuspendedActivity = null;
                 }
-                //SuspendedActivity may be null, but always set ActivityIsSuspended to false
-                activity.DataModel.ActivityIsSuspended = false;
             }
 
             /// <summary>
@@ -680,15 +668,15 @@ exitAllLabel:
                 }
                 else
                 {
-                    //activity.DataModel.ActivityIsSuspended = false;
-                    //foreach(Activity child in activity.Children)
-                    //{
-                    //    if(child.DataModel.ActivityIsSuspended)
-                    //    {
-                    //        activity.DataModel.ActivityIsSuspended = true;
-                    //        break;
-                    //    }
-                    //}
+                    activity.DataModel.ActivityIsSuspended = false;
+                    foreach(Activity child in activity.Children)
+                    {
+                        if(child.DataModel.ActivityIsSuspended)
+                        {
+                            activity.DataModel.ActivityIsSuspended = true;
+                            break;
+                        }
+                    }
                 }
                 activity.DataModel.ActivityIsActive = false;  // this has to be in this order for rollup to work correctly
                 OverallRollup(activity);
