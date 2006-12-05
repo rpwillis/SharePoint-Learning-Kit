@@ -589,12 +589,12 @@
             </Index>
     </Indexes>
   </ItemType>
-  <ItemType Name="AttemptGlobalObjectiveItem">
+  <ItemType Name="PackageGlobalObjectiveItem">
     <Documentation>
       <Summary xmlns="">
         <para>Each item contains information about progress on one
 			<a href="SlkConcepts.htm#ScormConcepts">global objective</a> related to one
-			<a href="SlkConcepts.htm#Assignments">attempt</a>.</para>
+			<a href="SlkConcepts.htm#Assignments">organization</a>.</para>
         <para>This <a href="SlkSchema.htm">LearningStore item type</a> is available in both <a href="Default.htm">SLK</a> and <a href="Mlc.htm">MLC</a>.</para>
       </Summary>
       <Remarks xmlns="">
@@ -607,11 +607,11 @@
       <Property Name="LearnerId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem" CascadeDelete="true">
         <Documentation>
           <Summary xmlns="">
-            <para>LearnerId is the TODO.</para>
+            <para>LearnerId is the identifier of the learner related to this entry.</para>
           </Summary>
         </Documentation>
       </Property>
-      <Property Name="GlobalObjectiveId" Type="ItemIdentifier" ReferencedItemTypeName="GlobalObjectiveItem">
+      <Property Name="GlobalObjectiveId" Type="ItemIdentifier" ReferencedItemTypeName="GlobalObjectiveItem" CascadeDelete="true">
         <Documentation>
           <Summary xmlns="">
             <para>GlobalObjectiveId is the identifier for the objective related to this entry.</para>
@@ -634,19 +634,11 @@
           </Summary>
         </Documentation>
       </Property>
-      <Property Name="WasReadByAttempt" Type="Boolean">
-        <Default>false</Default>
-        <Documentation>
-          <Summary xmlns="">
-            <para>If WasReadByAttempt is true, the global objective information was read by an activity during this attempt.</para>
-          </Summary>
-        </Documentation>
-      </Property>
     </Properties>
     <Indexes>
       <Index>
                 CREATE INDEX GlobalObjectiveIndex
-                ON AttemptGlobalObjectiveItem(GlobalObjectiveId)
+                ON PackageGlobalObjectiveItem(GlobalObjectiveId)
             </Index>
     </Indexes>
   </ItemType>
@@ -1862,9 +1854,9 @@
       <Column Name="SuccessStatus" Type="Enum" EnumName="SuccessStatus" />
     </Columns>
     <Implementation>
-            SELECT GlobalObjectiveItem.OrganizationId OrganizationId, GlobalObjectiveItem.[Key] [Key], AttemptGlobalObjectiveItem.LearnerId LearnerId, AttemptGlobalObjectiveItem.ScaledScore ScaledScore, AttemptGlobalObjectiveItem.SuccessStatus SuccessStatus
+            SELECT GlobalObjectiveItem.OrganizationId OrganizationId, GlobalObjectiveItem.[Key] [Key], PackageGlobalObjectiveItem.LearnerId LearnerId, PackageGlobalObjectiveItem.ScaledScore ScaledScore, PackageGlobalObjectiveItem.SuccessStatus SuccessStatus
             FROM GlobalObjectiveItem
-                INNER JOIN AttemptGlobalObjectiveItem ON AttemptGlobalObjectiveItem.GlobalObjectiveId=GlobalObjectiveItem.Id
+                INNER JOIN PackageGlobalObjectiveItem ON PackageGlobalObjectiveItem.GlobalObjectiveId=GlobalObjectiveItem.Id
         </Implementation>
   </View>
   <View Name="SeqNavLearnerGlobalObjectiveView">

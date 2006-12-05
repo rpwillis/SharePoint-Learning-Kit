@@ -2876,28 +2876,28 @@ namespace Microsoft.LearningComponents.Storage
                         }
                         else
                         {
-                            unique.Add(Schema.AttemptGlobalObjectiveItem.GlobalObjectiveId, globItem);
-                            updateItems.Add(Schema.AttemptGlobalObjectiveItem.LearnerId, new LearningStoreItemIdentifier(Schema.UserItem.ItemTypeName, m_learnerId));
+                            unique.Add(Schema.PackageGlobalObjectiveItem.GlobalObjectiveId, globItem);
+                            updateItems.Add(Schema.PackageGlobalObjectiveItem.LearnerId, new LearningStoreItemIdentifier(Schema.UserItem.ItemTypeName, m_learnerId));
                             if(glob.NormalizedMeasure.HasValue)
                             {
-                                updateItems.Add(Schema.AttemptGlobalObjectiveItem.ScaledScore, glob.NormalizedMeasure.Value);
+                                updateItems.Add(Schema.PackageGlobalObjectiveItem.ScaledScore, glob.NormalizedMeasure.Value);
                             }
                             if (glob.SatisfiedStatus.HasValue)
                             {
                                 if (glob.SatisfiedStatus.Value)
                                 {
-                                    updateItems.Add(Schema.AttemptGlobalObjectiveItem.SuccessStatus, SuccessStatus.Passed);
+                                    updateItems.Add(Schema.PackageGlobalObjectiveItem.SuccessStatus, SuccessStatus.Passed);
                                 }
                                 else
                                 {
-                                    updateItems.Add(Schema.AttemptGlobalObjectiveItem.SuccessStatus, SuccessStatus.Failed);
+                                    updateItems.Add(Schema.PackageGlobalObjectiveItem.SuccessStatus, SuccessStatus.Failed);
                                 }
                             }
                             else
                             {
-                                updateItems.Add(Schema.AttemptGlobalObjectiveItem.SuccessStatus, SuccessStatus.Unknown);
+                                updateItems.Add(Schema.PackageGlobalObjectiveItem.SuccessStatus, SuccessStatus.Unknown);
                             }
-                            job.AddOrUpdateItem(Schema.AttemptGlobalObjectiveItem.ItemTypeName, unique, updateItems);
+                            job.AddOrUpdateItem(Schema.PackageGlobalObjectiveItem.ItemTypeName, unique, updateItems);
                         }
                     }
                 }
