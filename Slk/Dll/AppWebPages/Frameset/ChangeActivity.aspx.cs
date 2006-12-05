@@ -35,14 +35,17 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             try
             {
-                m_helper = new ChangeActivityHelper(Request, Response);
-                m_helper.ProcessPageLoad(TryGetSessionView, 
-                                    TryGetAttemptId,
-                                    TryGetActivityId, 
-                                    RegisterError,
-                                    GetErrorInfo,
-                                    GetMessage);
-                m_pageLoadSuccessful = (!HasError);
+                SlkUtilities.RetryOnDeadlock(delegate()
+                {
+                    m_helper = new ChangeActivityHelper(Request, Response);
+                    m_helper.ProcessPageLoad(TryGetSessionView,
+                                        TryGetAttemptId,
+                                        TryGetActivityId,
+                                        RegisterError,
+                                        GetErrorInfo,
+                                        GetMessage);
+                    m_pageLoadSuccessful = (!HasError);
+                });
             }
             catch (Exception e2)
             {
@@ -91,7 +94,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 return false;
             }
             return true;
-        }
+        }
+
         public bool TryGetActivityId(bool showErrorPage, out long activityId)
         {
             string activityIdParam = null;

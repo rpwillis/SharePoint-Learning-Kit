@@ -27,19 +27,26 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             try
             {
-                m_tocHelper = new TocHelper();
-                string submitText = "";
-                SessionView view;
-                if (TryGetSessionView(false, out view))
+                SlkUtilities.RetryOnDeadlock(delegate()
                 {
-                    if (view == SessionView.Execute)
-                        submitText = SlkFrameset.TOC_SubmitAssignment;
-                    else
-                        submitText = SlkFrameset.TOC_SubmitGrading;
+                    // Clear data that may need to be reset on retry
+                    Response.Clear();
+                    ClearError();
 
-                }
-                m_tocHelper.ProcessPageLoad(Response, SlkStore.PackageStore, TryGetSessionView, TryGetAttemptId, RegisterError,
-                        submitText);
+                    m_tocHelper = new TocHelper();
+                    string submitText = "";
+                    SessionView view;
+                    if (TryGetSessionView(false, out view))
+                    {
+                        if (view == SessionView.Execute)
+                            submitText = SlkFrameset.TOC_SubmitAssignment;
+                        else
+                            submitText = SlkFrameset.TOC_SubmitGrading;
+
+                    }
+                    m_tocHelper.ProcessPageLoad(Response, SlkStore.PackageStore, TryGetSessionView, TryGetAttemptId, RegisterError,
+                            submitText);
+                });
             } 
             catch (Exception ex)
             {
@@ -58,7 +65,11 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <returns></returns>
         public void WriteToc()
         {
-            m_tocHelper.TocElementsHtml();
+            SlkUtilities.RetryOnDeadlock(delegate()
+            {
+                // This accesses the database to get the list of nodes
+                m_tocHelper.TocElementsHtml();
+            });
         }
 
         /// <summary>

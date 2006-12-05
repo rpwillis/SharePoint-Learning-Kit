@@ -38,74 +38,80 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
            try
            {
-                m_sessionEnded = false;
-                m_hiddenHelper = new HiddenHelper(Request, Response, SlkEmbeddedUIPath);
-                m_hiddenHelper.ProcessPageLoad(SlkStore.PackageStore, SlkStore.Settings.LoggingOptions,
-                                    GetSessionTitle, TryGetSessionView, TryGetAttemptId, AppendContentFrameDetails, RegisterError, 
-                                    GetErrorInfo, ProcessSessionEnd, GetMessage, IsPostBack);
+               SlkUtilities.RetryOnDeadlock(delegate()
+               {
+                   //Initialize data that may need to be reset on retry
+                   Response.Clear();
+                   ClearError();
 
-            
-                // Send assignment information to client. If the session has ended, then force a reload of the current 
-                // assignment properties. Otherwise, the cached value will have required info so no need to re-query database.
-                LearnerAssignmentProperties la = GetLearnerAssignment(SessionEnded);
+                   m_sessionEnded = false;
+                   m_hiddenHelper = new HiddenHelper(Request, Response, SlkEmbeddedUIPath);
+                   m_hiddenHelper.ProcessPageLoad(SlkStore.PackageStore, SlkStore.Settings.LoggingOptions,
+                                       GetSessionTitle, TryGetSessionView, TryGetAttemptId, AppendContentFrameDetails, RegisterError,
+                                       GetErrorInfo, ProcessSessionEnd, GetMessage, IsPostBack);
 
-                // Add assignment information to the hidden controls
-                HiddenControlInfo hiddenCtrlInfo = new HiddenControlInfo();
-                hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.LearnerAssignmentId);
-                hiddenCtrlInfo.Value = new PlainTextString(FramesetUtil.GetStringInvariant(la.LearnerAssignmentId.GetKey()));
-                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.LearnerAssignmentId = document.all[{0}].value;",
-                    JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentId, false)));
-                m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
 
-                // Learner assignment status ('not started', 'in progress', etc)
-                hiddenCtrlInfo = new HiddenControlInfo();
-                hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.LearnerAssignmentStatus);
-                hiddenCtrlInfo.Value = new PlainTextString(SlkUtilities.GetLearnerAssignmentState(la.Status));
-                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.Status = document.all[{0}].value;",
-                    JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentStatus, false)));
-                m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
+                   // Send assignment information to client. If the session has ended, then force a reload of the current 
+                   // assignment properties. Otherwise, the cached value will have required info so no need to re-query database.
+                   LearnerAssignmentProperties la = GetLearnerAssignment(SessionEnded);
 
-                hiddenCtrlInfo = new HiddenControlInfo();
-                if (la.FinalPoints != null)
-                {
-                    // finalPoints is passed in invariant culture, as a float
-                    hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.FinalPoints = {0};",
-                                    Convert.ToString(la.FinalPoints, CultureInfo.InvariantCulture.NumberFormat)));
-                }
-                else
-                {
-                    hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString("slkMgr.FinalPoints = null;");
-                }
-                m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
+                   // Add assignment information to the hidden controls
+                   HiddenControlInfo hiddenCtrlInfo = new HiddenControlInfo();
+                   hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.LearnerAssignmentId);
+                   hiddenCtrlInfo.Value = new PlainTextString(FramesetUtil.GetStringInvariant(la.LearnerAssignmentId.GetKey()));
+                   hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.LearnerAssignmentId = document.all[{0}].value;",
+                       JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentId, false)));
+                   m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
 
-                // Send information about total points (ie, computed points on the client). This is called 'graded score' in 
-                // grading page.
-                LearningSession session = m_hiddenHelper.Session;
-                if (session != null)
-                {
-                    hiddenCtrlInfo = new HiddenControlInfo();
-                    if (session.TotalPoints != null)
-                    {
-                        // TotalPoints is passed in current culture, as a string
-                        JScriptString totalPointsValue = JScriptString.QuoteString(Convert.ToString(session.TotalPoints, CultureInfo.CurrentCulture.NumberFormat), false);
-                        hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.ComputedPoints = {0};", totalPointsValue));
-                    }
-                    else
-                    {
-                        hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString("slkMgr.ComputedPoints = \"\";");
-                    }                   
-                    m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
-                    
-                    if (session.SuccessStatus != SuccessStatus.Unknown)
-                    {
-                        hiddenCtrlInfo = new HiddenControlInfo();
-                        hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.PassFail = {0};\r\n",
-                            JScriptString.QuoteString(((session.SuccessStatus == SuccessStatus.Passed) ? "passed" : "failed"), false)));
+                   // Learner assignment status ('not started', 'in progress', etc)
+                   hiddenCtrlInfo = new HiddenControlInfo();
+                   hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.LearnerAssignmentStatus);
+                   hiddenCtrlInfo.Value = new PlainTextString(SlkUtilities.GetLearnerAssignmentState(la.Status));
+                   hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.Status = document.all[{0}].value;",
+                       JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentStatus, false)));
+                   m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
 
-                        m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
-                    }
-                }
-               
+                   hiddenCtrlInfo = new HiddenControlInfo();
+                   if (la.FinalPoints != null)
+                   {
+                       // finalPoints is passed in invariant culture, as a float
+                       hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.FinalPoints = {0};",
+                                       Convert.ToString(la.FinalPoints, CultureInfo.InvariantCulture.NumberFormat)));
+                   }
+                   else
+                   {
+                       hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString("slkMgr.FinalPoints = null;");
+                   }
+                   m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
+
+                   // Send information about total points (ie, computed points on the client). This is called 'graded score' in 
+                   // grading page.
+                   LearningSession session = m_hiddenHelper.Session;
+                   if (session != null)
+                   {
+                       hiddenCtrlInfo = new HiddenControlInfo();
+                       if (session.TotalPoints != null)
+                       {
+                           // TotalPoints is passed in current culture, as a string
+                           JScriptString totalPointsValue = JScriptString.QuoteString(Convert.ToString(session.TotalPoints, CultureInfo.CurrentCulture.NumberFormat), false);
+                           hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.ComputedPoints = {0};", totalPointsValue));
+                       }
+                       else
+                       {
+                           hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString("slkMgr.ComputedPoints = \"\";");
+                       }
+                       m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
+
+                       if (session.SuccessStatus != SuccessStatus.Unknown)
+                       {
+                           hiddenCtrlInfo = new HiddenControlInfo();
+                           hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.PassFail = {0};\r\n",
+                               JScriptString.QuoteString(((session.SuccessStatus == SuccessStatus.Passed) ? "passed" : "failed"), false)));
+
+                           m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
+                       }
+                   }
+               });
             }
             catch (Exception ex)
             {
