@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -360,6 +361,34 @@ namespace Microsoft.SharePointLearningKit
 			}
 			return sb.ToString();
 		}
+
+        /// <summary>
+        /// Executes a delegate.  If a SQL Server deadlock occurs while executing the delegate,
+        /// the delegate is re-executed, for a maximum of 5 attempts.
+        /// </summary>
+        ///
+        /// <param name="del">The delegate to execute.  <b>Important:</b> since this delegate may
+        ///     be executed more than once, it should not update any data outside the delegate
+        ///     unless the update operation is safely repeatable.</param>
+        ///
+        public static void RetryOnDeadlock(VoidDelegate del)
+        {
+            int attemptsLeft = 5;
+            while (attemptsLeft-- > 0)
+            {
+                try
+                {
+					del();
+                }
+                catch (SqlException e)
+                {
+                    // try again if we're a deadlock victim AND we can try again
+                    if ((e.Number == 1205) && (attemptsLeft > 0))
+                        continue;
+                    throw;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -466,7 +495,7 @@ namespace Microsoft.SharePointLearningKit
     /// A delegate with no parameters and no return value.
     /// </summary>
     ///
-    internal delegate void VoidDelegate();
+    public delegate void VoidDelegate();
 
     
 
