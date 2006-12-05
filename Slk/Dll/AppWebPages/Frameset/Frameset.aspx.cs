@@ -43,15 +43,21 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             try
             {
-                m_framesetHelper = new FramesetHelper();
-                m_framesetHelper.ProcessPageLoad(SlkStore.PackageStore, SlkStore.Settings.LoggingOptions, TryGetSessionView, TryGetAttemptId, ProcessViewRequest);
-
-                // If this is not e-learning content, then we have to write the content directly to response.
-                if (!HasError && !m_isELearning)
+                SlkUtilities.RetryOnDeadlock(delegate()
                 {
-                    SendNonElearningContent();
-                    Response.End();
-                }
+                    Response.Clear();
+                    ClearError();
+
+                    m_framesetHelper = new FramesetHelper();
+                    m_framesetHelper.ProcessPageLoad(SlkStore.PackageStore, SlkStore.Settings.LoggingOptions, TryGetSessionView, TryGetAttemptId, ProcessViewRequest);
+
+                    // If this is not e-learning content, then we have to write the content directly to response.
+                    if (!HasError && !m_isELearning)
+                    {
+                        SendNonElearningContent();
+                        Response.End();
+                    }
+                });
             }
             catch (ThreadAbortException)
             {

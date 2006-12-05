@@ -379,6 +379,9 @@ namespace Microsoft.SharePointLearningKit
                 try
                 {
 					del();
+
+                    // if it was successful, return 
+                    break;
                 }
                 catch (SqlException e)
                 {

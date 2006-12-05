@@ -61,7 +61,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         protected void Page_Load(object sender, EventArgs e)
         {
             try
-            {
+            {  
                 bool isPosted = false;
                 if (String.CompareOrdinal(Request.HttpMethod, "POST") == 0)
                     isPosted = true;
@@ -71,25 +71,33 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 // VS.NET does not parse URLs of the form: /.../Content.aspx/0/1/foo.gif correctly without 
                 // the assistance of the module.
                 m_contentPath = GetContentPath();
+                
+                SPSecurity.CatchAccessDeniedException = true;              
 
-                SPSecurity.CatchAccessDeniedException = true;
+                SlkUtilities.RetryOnDeadlock(delegate()
+                {
+                    // Initialize data that may get set on a first try, but must be reset for retry
+                    Response.Clear();
+                    ClearError();
+                    m_learnerAssignment = null;
 
-                m_contentHelper = new ContentHelper(Request, Response, SlkEmbeddedUIPath);
-                m_contentHelper.ProcessPageLoad(SlkStore.PackageStore,
-                                                    String.IsNullOrEmpty(m_contentPath),
-                                                    isPosted,
-                                                    SlkStore.Settings.LoggingOptions,
-                                                    TryGetViewInfo,
-                                                    TryGetAttemptInfo,
-                                                    TryGetActivityInfo,
-                                                    GetResourcePath,
-                                                    AppendContentFrameDetails,
-                                                    UpdateRenderContext,
-                                                    ProcessPostedData,
-                                                    ProcessPostedDataComplete,
-                                                    RegisterError,
-                                                    GetErrorInfo,
-                                                    GetMessage);
+                    m_contentHelper = new ContentHelper(Request, Response, SlkEmbeddedUIPath);
+                    m_contentHelper.ProcessPageLoad(SlkStore.PackageStore,
+                                                        String.IsNullOrEmpty(m_contentPath),
+                                                        isPosted,
+                                                        SlkStore.Settings.LoggingOptions,
+                                                        TryGetViewInfo,
+                                                        TryGetAttemptInfo,
+                                                        TryGetActivityInfo,
+                                                        GetResourcePath,
+                                                        AppendContentFrameDetails,
+                                                        UpdateRenderContext,
+                                                        ProcessPostedData,
+                                                        ProcessPostedDataComplete,
+                                                        RegisterError,
+                                                        GetErrorInfo,
+                                                        GetMessage);
+                });
             
             }
             catch (ThreadAbortException)
