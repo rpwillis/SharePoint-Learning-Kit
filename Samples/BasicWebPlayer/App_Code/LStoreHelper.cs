@@ -292,7 +292,7 @@ public static partial class LStoreHelper
 
 	/// <summary>
 	/// Converts a value returned from a LearningStore query to a
-	/// <c>AttemptGlobalObjectiveItemIdentifier</c>, or <c>null</c> if the value is
+	/// <c>PackageGlobalObjectiveItemIdentifier</c>, or <c>null</c> if the value is
 	/// <c>DBNull</c>.
 	/// </summary>
 	///
@@ -301,16 +301,16 @@ public static partial class LStoreHelper
 	///
 	/// <param name="result">Where to store the result.</param>
 	///
-	public static void Cast(object value, out AttemptGlobalObjectiveItemIdentifier result)
+    public static void Cast(object value, out PackageGlobalObjectiveItemIdentifier result)
 	{
 		LearningStoreItemIdentifier id;
 		Cast(value, out id);
-		result = (id == null) ? null : new AttemptGlobalObjectiveItemIdentifier(id);
+		result = (id == null) ? null : new PackageGlobalObjectiveItemIdentifier(id);
 	}
 
 	/// <summary>
 	/// Converts a value returned from a LearningStore query to a
-	/// <c>AttemptGlobalObjectiveItemIdentifier</c>.  Throws an exception if the value is
+	/// <c>PackageGlobalObjectiveItemIdentifier</c>.  Throws an exception if the value is
 	/// <c>DBNull</c>.
 	/// </summary>
 	///
@@ -320,11 +320,11 @@ public static partial class LStoreHelper
 	/// <param name="result">Where to store the result.</param>
 	///
 	public static void CastNonNull(object value,
-		out AttemptGlobalObjectiveItemIdentifier result)
+		out PackageGlobalObjectiveItemIdentifier result)
 	{
 		LearningStoreItemIdentifier id;
 		CastNonNull(value, out id);
-		result = new AttemptGlobalObjectiveItemIdentifier(id);
+		result = new PackageGlobalObjectiveItemIdentifier(id);
 	}
 
 	/// <summary>
