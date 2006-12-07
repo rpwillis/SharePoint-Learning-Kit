@@ -1,3 +1,5 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+
 // TestDomainGroups.cs
 //
 // Console application that tests ..\EnumerateDomainGroups outside the context of SLK.
