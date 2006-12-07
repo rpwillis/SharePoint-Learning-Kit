@@ -16,7 +16,12 @@ namespace Microsoft.LearningComponents.SharePoint
     /// A file which exists in a SharePoint document library, and is cached locally for faster access.
     /// The file may be read, but the file is not opened or its contents processed.
     /// </summary>
-    public class CachedSharePointFile: IDisposable
+    /// <remarks>
+    /// <c>CachedSharePointFile</c> implements <Typ>IDisposable</Typ>.  Always call the <Mth>Dispose</Mth> method when finished
+    /// with a <c>CachedSharePointFile</c> object, or use a <c>using</c> statement, to ensure that unmanaged resources are
+    /// explicitly and properly released.
+    /// </remarks>
+    public class CachedSharePointFile : IDisposable
     {
         private SharePointCacheSettings m_settings;
         private CachedPackage m_cachedPackage;

@@ -56,6 +56,11 @@ namespace Microsoft.LearningComponents
 	/// 	a Windows SharePoint Services document library.  This class is defined in
 	/// 	Microsoft.LearningComponents.SharePoint.dll.</li>
 	/// </ul>
+    /// <para>
+    /// <c>PackageReader</c> implements <Typ>IDisposable</Typ>.  Always call the <Mth>Dispose</Mth> method when finished
+    /// with a <c>PackageReader</c> object, or use a <c>using</c> statement, to ensure that unmanaged resources are
+    /// explicitly and properly released.
+    /// </para>
 	/// </remarks>
 	///
     public abstract class PackageReader : IDisposable
