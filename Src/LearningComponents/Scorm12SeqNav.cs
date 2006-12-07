@@ -201,6 +201,7 @@ namespace Microsoft.LearningComponents
             {
                 if(m_navigator.CurrentActivity != null)
                 {
+                    ExitActivity(m_navigator.CurrentActivity);
                     m_navigator.CurrentActivity.DataModel.ActivityIsSuspended = true;
                     m_navigator.SuspendedActivity = m_navigator.CurrentActivity;
                     m_navigator.CurrentActivity = null;

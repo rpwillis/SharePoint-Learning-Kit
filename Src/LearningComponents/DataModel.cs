@@ -2676,7 +2676,17 @@ namespace Microsoft.LearningComponents.DataModel
         {
             bool save = AdvancedAccess;
             AdvancedAccess = true;
-            Entry = EntryMode.Resume;
+            if(m_format != PackageFormat.V1p3 && NavigationRequest.ExitMode == ExitMode.Logout)
+            {
+                // for SCORM 1.2 (and LRM), if the previous attempt on this activity exited with
+                // cmi.core.exit = "logout", then the data needs to be preserved yet the entry mode
+                // must not be "resume", so set it here to "" (AllOtherConditions).
+                Entry = EntryMode.AllOtherConditions;
+            }
+            else
+            {
+                Entry = EntryMode.Resume;
+            }
             AdvancedAccess = save;
             DataModelUtilities.SetAttribute(m_navigationRequest.Navigator, "exit", null); // REQ_63.3
         }
