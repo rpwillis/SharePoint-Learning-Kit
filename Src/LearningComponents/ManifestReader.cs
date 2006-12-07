@@ -2352,10 +2352,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the id in the manifest that uniquely identifies the package.
         /// </summary>
         /// <exception cref="InvalidPackageException">This exception is thrown if the 
-        /// attribute does not exist in the package and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is set.
+        /// attribute does not exist in the package and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is set.
         /// </exception>
         /// <remarks>
-        /// Although this is a SCORM required attribute, if <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> is set,
+        /// Although this is a SCORM required attribute, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> is set,
         /// a default value of <c>MANIFEST</c> will be returned if the attribute is missing.
         /// </remarks>
         public string Id
@@ -2464,7 +2464,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// <para>If the attribute is provided in the manifest but is not valid and 
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> was set 
+        /// <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> was set 
         /// for this object, an empty Uri is returned.
         /// </para>
         /// <para>
@@ -2476,7 +2476,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// </remarks>
         /// <exception cref="InvalidPackageException">The provided attribute is not valid, or
         /// there are more than one &lt;resources&gt; node,
-        /// and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> was set.</exception>
+        /// and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> was set.</exception>
         public Uri ResourcesXmlBase
         {
             get
@@ -2505,7 +2505,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// simply return a copy of the node. The metadata node is required in 1.3, optional in 1.2.
         /// </summary>
         /// <exception cref="InvalidPackageException">If the node is not provided in a SCORM 2004 
-        /// package, and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> was set.</exception>
+        /// package, and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> was set.</exception>
         /// <remarks>This node is required in SCORM 2004.
         /// </remarks>
         private XPathNavigator CreateMetadataNavigator()
@@ -2528,7 +2528,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <exception cref="InvalidPackageException">If the &lt;metadata&gt; node is not provided in a SCORM 2004 
         /// package, or if the &lt;location&gt; element of the metadata refers to a file in the package that can not
-        /// be found, and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> was set.</exception>
+        /// be found, and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> was set.</exception>
         /// <remarks>The &lt;metadata&gt; node is required in SCORM 2004.  It is optional in SCORM 1.2.
         /// </remarks>
         public MetadataNodeReader Metadata
@@ -2554,8 +2554,8 @@ namespace Microsoft.LearningComponents.Manifest
         /// <para>
         /// This collection is not populated until methods or properties on it are called.  If during population,
         /// an organization node is encountered lacking an identifier, a warning will be added to the log if
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> is set, or an error will be added 
-        /// to the log and an <Typ>InvalidPackageException</Typ> thrown if <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>
+        /// <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> is set, or an error will be added 
+        /// to the log and an <Typ>InvalidPackageException</Typ> thrown if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>
         /// is set.
         /// </para>
         /// <para>
@@ -2623,13 +2623,13 @@ namespace Microsoft.LearningComponents.Manifest
         /// This will return null content that does not include any organizations.
         /// <para>
         /// If there is an error in the default organization identifier, the first organization will be returned
-        /// when <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> is set.
+        /// when <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> is set.
         /// </para>
         /// </summary>
         /// <remarks>
         /// The default organization for SCORM 1.2 content is the first organization node found in the manifest.
         /// </remarks>
-        /// <exception cref="InvalidPackageException"><c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is set, 
+        /// <exception cref="InvalidPackageException"><c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is set, 
         /// and the &lt;organizations&gt; default attribute is invalid if this is a Content Aggregation package, or the default
         /// attribute exists if this is a Resource package, or the identifier for the default organization doesn't exist
         /// in the manifest.</exception>
@@ -2706,15 +2706,15 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// In a SCORM package, the ids of each element must be unique. If the manifest being read
-        /// violates this requirement and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is set, the collection
+        /// violates this requirement and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is set, the collection
         /// of resources will throw an <Typ>InvalidPackageException</Typ> when the error is encountered. 
-        /// If <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> is set, only the first resource of a duplicated ID will be contained in the list.
+        /// If <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> is set, only the first resource of a duplicated ID will be contained in the list.
         /// <para>
         /// SCORM states there must be resources in a valid manifest.  However, this method simply returns an empty dictionary
         /// in this case.  It is up to the application to determine what to do if this happens.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">There are multiple &lt;resources&gt; nodes and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>
+        /// <exception cref="InvalidPackageException">There are multiple &lt;resources&gt; nodes and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>
         /// is set.</exception>
 		/// <example>Loop through the resources in the manifest.
         /// <code language="C#">
@@ -2858,20 +2858,20 @@ namespace Microsoft.LearningComponents.Manifest
         /// <para>
         /// Because the nodes are parsed as they are accessed, and not before, errors or warnings can occur
         /// when the collection's <c>Count</c> property or <c>MoveNext</c> method is accessed.  E.g. if a
-        /// &lt;sequencing&gt; node contains no valid ID attribute, in <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> a warning
-        /// is put into the log and that &lt;sequencing&gt; node is skipped.  In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>,
+        /// &lt;sequencing&gt; node contains no valid ID attribute, in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> a warning
+        /// is put into the log and that &lt;sequencing&gt; node is skipped.  In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>,
         /// an error is put into the log and an <Typ>InvalidPackageException</Typ> is thrown.
         /// </para>
         /// <para>
         /// &lt;imsss:sequencingCollection&gt; is only allowed on Content Aggregation packages, and not
         /// on Resources packages.  If <Prp>PackageType</Prp> is <c>PackageType.Resource</c> and there is
-        /// a &lt;imsss:sequencingCollection&gt; node in the manifest, then if <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> is
-        /// set, the <Prp>SequencingCollection</Prp> is returned anyway.  However, if <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>
+        /// a &lt;imsss:sequencingCollection&gt; node in the manifest, then if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> is
+        /// set, the <Prp>SequencingCollection</Prp> is returned anyway.  However, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>
         /// is set, an exception is thrown.
         /// </para>
         /// </remarks>
         /// <exception cref="InvalidPackageException">If <Prp>PackageType</Prp> is <c>PackageType.Resource</c> and there is
-        /// a &lt;imsss:sequencingCollection&gt; node in the manifest, and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is
+        /// a &lt;imsss:sequencingCollection&gt; node in the manifest, and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is
         /// set</exception>
 		/// <example>Loop through sequencing nodes in the sequencingCollection.<code language="C#">
 		///     foreach(SequencingNodeReader sequencing in manifest.SequencingCollection.Values)
@@ -3053,8 +3053,8 @@ namespace Microsoft.LearningComponents.Manifest
         /// ID attribute is returned.
         /// <para>
         /// If this sequencing node has an IDRef attribute, but no sequencing node with a matching ID can be found,
-        /// null is returned if parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, and an <Typ>InvalidPackageException</Typ>
-        /// is thrown if parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>.
+        /// null is returned if parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, and an <Typ>InvalidPackageException</Typ>
+        /// is thrown if parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>.
         /// </para>
         /// </remarks>
         /// <param name="sequencingNode">A &lt;sequencing&gt; node held inside an item or organization.  E.g. not
@@ -3104,8 +3104,8 @@ namespace Microsoft.LearningComponents.Manifest
         /// ID attribute is returned.
         /// <para>
         /// If this sequencing node has an IDRef attribute, but no sequencing node with a matching ID can be found,
-        /// null is returned if parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, and an <Typ>InvalidPackageException</Typ>
-        /// is thrown if parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>.
+        /// null is returned if parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, and an <Typ>InvalidPackageException</Typ>
+        /// is thrown if parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>.
         /// </para>
         /// </remarks>
         /// <param name="sequencingNode">A &lt;sequencing&gt; node held inside an item or organization.  E.g. not
@@ -3183,19 +3183,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:controlMode&gt;/choice attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is "true".
+        /// The default value is "true".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is non-boolean, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned.  If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:controlMode&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:controlMode&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is non-boolean.</exception>
         public bool Choice
         {
@@ -3211,19 +3237,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:controlMode&gt;/choiceExit attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is "true".
+        /// The default value is "true".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is non-boolean, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned.  If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:controlMode&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:controlMode&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is non-boolean.</exception>
         public bool ChoiceExit
         {
@@ -3239,19 +3291,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:controlMode&gt;/flow attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is "false".
+        /// The default value is "false".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is non-boolean, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned.  If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:controlMode&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:controlMode&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is non-boolean.</exception>
         public bool Flow
         {
@@ -3267,19 +3345,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:controlMode&gt;/forwardOnly attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is "false".
+        /// The default value is "false".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is non-boolean, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned.  If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:controlMode&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:controlMode&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is non-boolean.</exception>
         public bool ForwardOnly
         {
@@ -3295,19 +3399,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:controlMode&gt;/useCurrentAttemptObjectiveInfo attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is "true".
+        /// The default value is "true".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is non-boolean, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned.  If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:controlMode&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:controlMode&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is non-boolean.</exception>
         public bool UseCurrentAttemptObjectiveInfo
         {
@@ -3324,19 +3454,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:controlMode&gt;/useCurrentAttemptProgressInfo attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is "true".
+        /// The default value is "true".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is non-boolean, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned.  If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:controlMode&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:controlMode&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is non-boolean.</exception>
         public bool UseCurrentAttemptProgressInfo
         {
@@ -3364,17 +3520,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// The <Typ>ReadOnlyCollection</Typ> returned from this method is not populated until
-        /// properties or methods on it are accessed.  This means that in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
+        /// properties or methods on it are accessed.  This means that in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
         /// may be thrown if there are invalid nodes in the list (e.g. nodes containing illegal attribute values.)
-        /// This exception will only be thrown when the invalid node is parsed, which occurs either during
-        /// enumeration or if the ReadOnlyCollection.Count property is accessed (the Count property must parse all 
-        /// nodes in order to count them.)
         /// <para>
-        /// Calling the ReadOnlyCollection.Count property the first time results in an n-order operation as all nodes are scanned and
-        /// objects created.
-        /// </para>
-        /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
         /// </para>
         /// <para>
         /// If there are no nodes of the specified type, an empty <Typ>ReadOnlyCollection</Typ> is returned.
@@ -3385,7 +3534,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// &lt;imsss:sequencingRules&gt; node in the sequencing node referenced by IDRef is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there is an invalid node.</exception>
+        /// <exception cref="InvalidPackageException">In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there is an invalid node.</exception>
 		/// <example>Loop through the preConditionRules for all sequencing nodes in the sequencingCollection.<code language="C#">
 		///     foreach(SequencingNodeReader sequencing in manifest.SequencingCollection.Values)
 		///     {
@@ -3421,17 +3570,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// The <Typ>ReadOnlyCollection</Typ> returned from this method is not populated until
-        /// properties or methods on it are accessed.  This means that in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
+        /// properties or methods on it are accessed.  This means that in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
         /// may be thrown if there are invalid nodes in the list (e.g. nodes containing illegal attribute values.)
-        /// This exception will only be thrown when the invalid node is parsed, which occurs either during
-        /// enumeration or if the ReadOnlyCollection.Count property is accessed (the Count property must parse all 
-        /// nodes in order to count them.)
         /// <para>
-        /// Calling the ReadOnlyCollection.Count property the first time results in an n-order operation as all nodes are scanned and
-        /// objects created.
-        /// </para>
-        /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
         /// </para>
         /// <para>
         /// If there are no nodes of the specified type, an empty <Typ>ReadOnlyCollection</Typ> is returned.
@@ -3442,7 +3584,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// &lt;imsss:sequencingRules&gt; node in the sequencing node referenced by IDRef is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there is an invalid node.</exception>
+        /// <exception cref="InvalidPackageException">In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there is an invalid node.</exception>
         /// <example>Loop through the postConditionRules for all sequencing nodes in the sequencingCollection.<code language="C#">
         ///     foreach(SequencingNodeReader sequencing in manifest.SequencingCollection.Values)
         ///     {
@@ -3477,17 +3619,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// The <Typ>ReadOnlyCollection</Typ> returned from this method is not populated until
-        /// properties or methods on it are accessed.  This means that in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
+        /// properties or methods on it are accessed.  This means that in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
         /// may be thrown if there are invalid nodes in the list (e.g. nodes containing illegal attribute values.)
-        /// This exception will only be thrown when the invalid node is parsed, which occurs either during
-        /// enumeration or if the ReadOnlyCollection.Count property is accessed (the Count property must parse all 
-        /// nodes in order to count them.)
         /// <para>
-        /// Calling the ReadOnlyCollection.Count property the first time results in an n-order operation as all nodes are scanned and
-        /// objects created.
-        /// </para>
-        /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
         /// </para>
         /// <para>
         /// If there are no nodes of the specified type, an empty <Typ>ReadOnlyCollection</Typ> is returned.
@@ -3498,7 +3633,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// &lt;imsss:sequencingRules&gt; node in the sequencing node referenced by IDRef is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there is an invalid node.</exception>
+        /// <exception cref="InvalidPackageException">In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there is an invalid node.</exception>
         /// <example>Loop through the exitConditionRules for all sequencing nodes in the sequencingCollection.<code language="C#">
         ///     foreach(SequencingNodeReader sequencing in manifest.SequencingCollection.Values)
         ///     {
@@ -3550,19 +3685,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:limitConditions&gt;/attemptLimit attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is null.
+        /// The default value is "null".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a positive integer, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:limitConditions&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:limitConditions&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is a valid positive integer, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is a valid positive integer, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public int? AttemptLimit
         {
@@ -3590,19 +3751,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:limitConditions&gt;/attemptAbsoluteDurationLimit attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is TimeSpan.Zero.
+        /// The default value is <c>TimeSpan.Zero</c>.  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid xs:duration, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:limitConditions&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:limitConditions&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is a valid xs:duration, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is a valid xs:duration, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public TimeSpan AttemptAbsoluteDurationLimit
         {
@@ -3621,17 +3808,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// The <Typ>ReadOnlyCollection</Typ> returned from this method is not populated until
-        /// properties or methods on it are accessed.  This means that in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
+        /// properties or methods on it are accessed.  This means that in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
         /// may be thrown if there are invalid nodes in the list (e.g. nodes containing illegal attribute values.)
-        /// This exception will only be thrown when the invalid node is parsed, which occurs either during
-        /// enumeration or if the ReadOnlyCollection.Count property is accessed (the Count property must parse all 
-        /// nodes in order to count them.)
         /// <para>
-        /// Calling the ReadOnlyCollection.Count property the first time results in an n-order operation as all nodes are scanned and
-        /// objects created.
-        /// </para>
-        /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
         /// </para>
         /// <para>
         /// If there are no nodes of the specified type, an empty <Typ>ReadOnlyCollection</Typ> is returned.
@@ -3642,7 +3822,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// &lt;imsss:rollupRules&gt; node in the sequencing node referenced by IDRef is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there is an invalid node, or if there
+        /// <exception cref="InvalidPackageException">In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there is an invalid node, or if there
         /// are multiple &lt;imsss:rollupRules&gt; nodes.</exception>
 		/// <example>Loop through all rollup rules in the sequencingCollection.<code language="C#">
 		///     foreach(SequencingNodeReader sequencing in manifest.SequencingCollection.Values)
@@ -3702,19 +3882,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:rollupRules&gt;/rollupObjectiveSatisfied attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>true</c>.
+        /// The default value is "true".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid xs:boolean, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:rollupRules&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:rollupRules&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public bool RollupObjectiveSatisfied
         {
@@ -3731,19 +3937,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:rollupRules&gt;/rollupProgressCompletion attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>true</c>.
+        /// The default value is "true".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid xs:boolean, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:rollupRules&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:rollupRules&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public bool RollupProgressCompletion
         {
@@ -3760,19 +3992,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:rollupRules&gt;/objectiveMeasureWeight attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is 1.
+        /// The default value is "1".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid xs:decimal, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:rollupRules&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:rollupRules&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is a valid xs:decimal, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is a valid xs:decimal, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public double ObjectiveMeasureWeight
         {
@@ -3802,19 +4060,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;adlseq:rollupConsiderations&gt;/requiredForSatisfied attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>RollupConsideration.Always</c>.
+        /// The default value is <c>RollupConsideration.Always</c>.  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>RollupConsideration</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:rollupConsiderations&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:rollupConsiderations&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public RollupConsideration RequiredForSatisfied
         {
@@ -3831,19 +4115,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;adlseq:rollupConsiderations&gt;/requiredForNotSatisfied attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>RollupConsideration.Always</c>.
+        /// The default value is <c>RollupConsideration.Always</c>.  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>RollupConsideration</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:rollupConsiderations&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:rollupConsiderations&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public RollupConsideration RequiredForNotSatisfied
         {
@@ -3860,19 +4170,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;adlseq:rollupConsiderations&gt;/requiredForCompleted attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>RollupConsideration.Always</c>.
+        /// The default value is <c>RollupConsideration.Always</c>.  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>RollupConsideration</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:rollupConsiderations&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:rollupConsiderations&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public RollupConsideration RequiredForCompleted
         {
@@ -3889,19 +4225,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;adlseq:rollupConsiderations&gt;/requiredForIncomplete attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>RollupConsideration.Always</c>.
+        /// The default value is <c>RollupConsideration.Always</c>.  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>RollupConsideration</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:rollupConsiderations&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:rollupConsiderations&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public RollupConsideration RequiredForIncomplete
         {
@@ -3918,19 +4280,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;adlseq:rollupConsiderations&gt;/measureSatisfactionIfActive attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>true</c>.
+        /// The default value is "true".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>xs:boolean</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:rollupConsiderations&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:rollupConsiderations&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public bool MeasureSatisfactionIfActive
         {
@@ -3952,14 +4340,14 @@ namespace Microsoft.LearningComponents.Manifest
         /// <remarks>
         /// The <Typ>IDictionary</Typ> returned from this method is not populated until
         /// properties or methods on it are accessed, e.g. <c>IDictionary.ContainsKey</c>, <c>Keys</c>, or accessing
-        /// the enumerator.  In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
+        /// the enumerator.  In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
         /// will be thrown if there are invalid nodes in the list (e.g. nodes containing illegal attribute values.)
         /// <para>
         /// Calling any property or method the first time results in an n-order operation as all nodes are scanned and
         /// objects created.
         /// </para>
         /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
         /// </para>
         /// <para>
         /// If there are no nodes of the specified type, an empty <Typ>IDictionary</Typ> is returned.
@@ -3975,7 +4363,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// will be <c>String.Empty</c>, which will be the index into this <Typ>IDictionary</Typ>.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there is an invalid node, or if there
+        /// <exception cref="InvalidPackageException">In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there is an invalid node, or if there
         /// are multiple &lt;imsss:objectives&gt; nodes.</exception>
 		/// <example>Loop through all objectives in the sequencingCollection.<code language="C#">
 		///     foreach(SequencingNodeReader sequencing in manifest.SequencingCollection.Values)
@@ -4090,19 +4478,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:randomizationControls&gt;/randomizationTiming attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>RandomizationTiming.Never</c>.
+        /// The default value is <c>RandomizationTiming.Never</c>.  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>RandomizationTiming</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:randomizationControls&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:randomizationControls&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public RandomizationTiming RandomizationTiming
         {
@@ -4119,19 +4533,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:randomizationControls&gt;/selectCount attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>0</c>.
+        /// The default value is "0".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>xs:nonNegativeInteger</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:randomizationControls&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:randomizationControls&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is a valid xs:nonNegativeInteger, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is a valid xs:nonNegativeInteger, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public int RandomizationSelectCount
         {
@@ -4158,19 +4598,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:randomizationControls&gt;/reorderChildren attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>false</c>.
+        /// The default value is "false".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>xs:boolean</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:randomizationControls&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:randomizationControls&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public bool ReorderChildren
         {
@@ -4187,19 +4653,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:randomizationControls&gt;/selectionTiming attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>RandomizationTiming.Never</c>.
+        /// The default value is <c>RandomizationTiming.Never</c>.  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>RandomizationTiming</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:randomizationControls&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:randomizationControls&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public RandomizationTiming SelectionTiming
         {
@@ -4216,19 +4708,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:deliveryControls&gt;/tracked attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>true</c>.
+        /// The default value is "true".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>xs:boolean</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:deliveryControls&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:deliveryControls&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public bool Tracked
         {
@@ -4245,19 +4763,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:deliveryControls&gt;/completionSetByContent attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>false</c>.
+        /// The default value is "false".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>xs:boolean</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:deliveryControls&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:deliveryControls&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public bool CompletionSetByContent
         {
@@ -4274,19 +4818,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;imsss:deliveryControls&gt;/objectiveSetByContent attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>false</c>.
+        /// The default value is "false".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>xs:boolean</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;imsss:deliveryControls&gt; node in this sequencing node, the values inside the
-        /// &lt;imsss:deliveryControls&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public bool ObjectiveSetByContent
         {
@@ -4303,19 +4873,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;adlseq:constrainedChoiceConsiderations&gt;/preventActivation attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>false</c>.
+        /// The default value is "false".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>xs:boolean</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;adlseq:constrainedChoiceConsiderations&gt; node in this sequencing node, the values inside the
-        /// &lt;adlseq:constrainedChoiceConsiderations&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public bool PreventActivation
         {
@@ -4332,19 +4928,45 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the value of the &lt;adlseq:constrainedChoiceConsiderations&gt;/constrainChoice attribute.
         /// </summary>
         /// <remarks>
-        /// The default value, if absent, is <c>false</c>.
+        /// The default value is "false".  See below for when the default value is returned.
         /// <para>
-        /// If the value of the attribute is not a valid <c>xs:boolean</c>, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is put into the log, if provided, and the default value is returned. If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// The return value is determined as follows:
         /// </para>
         /// <para>
-        /// Note that if this sequencing node has a valid IDRef
-        /// attribute, if there is no &lt;adlseq:constrainedChoiceConsiderations&gt; node in this sequencing node, the values inside the
-        /// &lt;adlseq:constrainedChoiceConsiderations&gt; node in the sequencing node referenced by IDRef is returned.
+        /// If this node has the requested attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// If this node does not have the requested attribute, then if the parent &lt;sequencing&gt; element has an "idref"
+        /// attribute referring to a &lt;sequencing&gt; node in the manifest's &lt;sequencingCollection&gt;, and that
+        /// &lt;sequencing&gt; node contains the requested node and attribute:
+        /// <ul>
+        /// <li>
+        /// If the attribute value is valid, the attribute value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = true</c>, the default value is returned.
+        /// </li>
+        /// <li>
+        /// Otherwise, if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations = false</c>, an exception is thrown.
+        /// </li>
+        /// </ul>
+        /// </para>
+        /// <para>
+        /// Otherwise, the default value is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is invalid.</exception>
         public bool ConstrainChoice
         {
@@ -4530,7 +5152,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <remarks>
         /// Default value is <c>RollupChildActivitySet.All</c>.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public RollupChildActivitySet ChildActivitySet
         {
@@ -4546,7 +5168,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <remarks>
         /// Default value is 0.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public int MinimumCount
         {
@@ -4575,7 +5197,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <remarks>
         /// Default value is 0.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public double MinimumPercent
         {
@@ -4620,14 +5242,14 @@ namespace Microsoft.LearningComponents.Manifest
         /// <remarks>
         /// Default value is <c>SequencingConditionCombination.Any</c>, which is applied if the conditionCombination attribute
         /// is missing.  If the entire &lt;imsss:rollupConditions&gt; node is missing, the value of
-        /// <c>SequencingConditionCombination.Any</c> is also returned in <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, and a warning issued
-        /// to the log.  In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> this issues an error to the log and an exception is thrown.
+        /// <c>SequencingConditionCombination.Any</c> is also returned in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, and a warning issued
+        /// to the log.  In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> this issues an error to the log and an exception is thrown.
         /// <para>
-        /// If the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> and there is more than one &lt;imsss:rollupConditions&gt;
+        /// If the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> and there is more than one &lt;imsss:rollupConditions&gt;
         /// node, a warning is issued to the log and only the first node is parsed.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid, or there are more than one &lt;imsss:rollupConditions&gt; nodes, or the 
         /// node is missing.</exception>
         public SequencingConditionCombination ConditionCombination
@@ -4663,20 +5285,17 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// The <c>ReadOnlyCollection&lt;SequencingRollupConditionNodeReader&gt;</c> returned from this method is not populated until
-        /// properties or methods on it are accessed.  This means that in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
+        /// properties or methods on it are accessed.  This means that in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
         /// may be thrown if there are invalid &lt;imsss:rollupCondition&gt; nodes in the list (e.g. nodes containing illegal attribute values.)
-        /// This exception will only be thrown when the invalid &lt;imsss:rollupCondition&gt; is parsed, which occurs either during
-        /// enumeration or if the ReadOnlyCollection.Count property is accessed (the Count property must parse all &lt;imsss:rollupCondition&gt; 
-        /// nodes in order to count them.)
         /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid &lt;imsss:rollupCondition&gt; nodes are ignored.
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid &lt;imsss:rollupCondition&gt; nodes are ignored.
         /// </para>
         /// <para>SCORM dictates there should always be exactly one &lt;imsss:rollupConditions&gt; node containing at
         /// least one &lt;imsss:rollupCondition&gt; node.  However, it is possible this ReadOnlyCollection will contain zero nodes,
         /// if none exist in the manifest.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there is an invalid
+        /// <exception cref="InvalidPackageException">In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there is an invalid
         /// &lt;imsss:rollupCondition&gt; node, or the &lt;rollupConditions&gt; node does not exist.</exception>
 		/// <example>
         /// Iterate through all rollup conditions in the manifest's sequencing collection node.
@@ -4739,15 +5358,15 @@ namespace Microsoft.LearningComponents.Manifest
         /// Respresents the &lt;imsss:rollupRule&gt;/&lt;imsss:rollupAction&gt;/action attribute.
         /// </summary>
         /// <remarks>
-        /// If the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> and the &lt;imsss:rollupAction&gt; node has
+        /// If the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> and the &lt;imsss:rollupAction&gt; node has
         /// an invalid action attribute, a default action of <c>RollupAction.Satisfied</c> is returned.  Note: this
         /// is not a SCORM default.
         /// <para>
-        /// If the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> and there is more than one &lt;imsss:rollupAction&gt;
+        /// If the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> and there is more than one &lt;imsss:rollupAction&gt;
         /// node, a warning is issued to the log and only the first node is parsed.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid, or there are more than one &lt;imsss:rollupAction&gt; nodes.</exception>
         public RollupAction Action
         {
@@ -4819,7 +5438,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <remarks>
         /// Default value is <c>SequencingConditionOperator.NoOp</c>.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public SequencingConditionOperator Operator
         {
@@ -4835,9 +5454,9 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// Non-SCORM default is <c>RollupCondition.Satisfied</c>.  This is returned when the attribute is not included, or if
-        /// the attribute value is invalid and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>.
+        /// the attribute value is invalid and the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public RollupCondition Condition
         {
@@ -4916,10 +5535,10 @@ namespace Microsoft.LearningComponents.Manifest
 
         /// <summary>
         /// Returns the value of the satisfiedByMeasure attribute.  Default value of <c>false</c> is returned if the
-        /// attribute is omitted.  The <c>false</c> value will also be returned in <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> if an
+        /// attribute is omitted.  The <c>false</c> value will also be returned in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> if an
         /// invalid value is applied to the satisfiedByMeasure attribute (legal values are "true", "false", "0", and "1".)
         /// </summary>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public bool SatisfiedByMeasure
         {
@@ -4934,10 +5553,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// If the attribute value is an illegal URI: 
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, will log a warning and return <c>String.Empty</c> 
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, will log an error and throw an <Typ>InvalidPackageException</Typ>.
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, will log a warning and return <c>String.Empty</c> 
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, will log an error and throw an <Typ>InvalidPackageException</Typ>.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public string Id
         {
@@ -4953,12 +5572,12 @@ namespace Microsoft.LearningComponents.Manifest
         /// Get the value of the &lt;minimumNormalizedMeasure&gt; node.
         /// </summary>
         /// <remarks>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, if there are more than one &lt;minimumNormalizedMeasure&gt; nodes within
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, if there are more than one &lt;minimumNormalizedMeasure&gt; nodes within
         /// the objective, a warning is added to the log and the first node is returned, or if the value is not a
-        /// decimal value, a warning is added to the log and a value of "1.0" is returned..  In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>
+        /// decimal value, a warning is added to the log and a value of "1.0" is returned..  In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>
         /// in these cases, errors are added to the log and an <Typ>InvalidPackageException</Typ> is thrown.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public double MinimumNormalizedMeasure
         {
@@ -5021,12 +5640,12 @@ namespace Microsoft.LearningComponents.Manifest
         /// nodes inside this &lt;imsss:objective&gt; or &lt;imsss:primaryObjective&gt;.
         /// </summary>
         /// <remarks>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an <Typ>InvalidPackageException</Typ> is thrown if there are illegal
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, an <Typ>InvalidPackageException</Typ> is thrown if there are illegal
         /// &lt;imsss:mapInfo&gt; nodes in the list.  For instance, if there are more than one &lt;imsss:mapInfo&gt; nodes
         /// containing an attribute value of "true" for the "readSatisfiedStatus" attribute, this is in illegal
         /// condition.
         /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, a warning is added to the log and only the first instance of a 
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, a warning is added to the log and only the first instance of a 
         /// &lt;imsss:mapInfo&gt; containing a value of "true" for a specific attribute is parsed.  Any illegal
         /// &lt;imsss:mapInfo&gt; nodes are omitted and ignored.
         /// </para>
@@ -5173,7 +5792,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <remarks>The attribute value must be a valid URI, and may not be whitespace.  The default value
         /// is String.Empty.  SCORM mandates that this &lt;imsss:mapInfo&gt; node be ignored when targetObjectiveId is
         /// missing, which is signified by the String.Empty return value.</remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public string TargetObjectiveId
         {
@@ -5187,7 +5806,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// Represents the &lt;imsss:mapInfo&gt;/readSatisfiedStatus attribute.
         /// </summary>
         /// <remarks>Default value is true.</remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public bool ReadSatisfiedStatus
         {
@@ -5201,7 +5820,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// Represents the &lt;imsss:mapInfo&gt;/readNormalizedMeasure attribute.
         /// </summary>
         /// <remarks>Default value is true.</remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public bool ReadNormalizedMeasure
         {
@@ -5215,7 +5834,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// Represents the &lt;imsss:mapInfo&gt;/writeSatisfiedStatus attribute.
         /// </summary>
         /// <remarks>Default value is false.</remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public bool WriteSatisfiedStatus
         {
@@ -5229,7 +5848,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// Represents the &lt;imsss:mapInfo&gt;/writeNormalizedMeasure attribute.
         /// </summary>
         /// <remarks>Default value is false.</remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public bool WriteNormalizedMeasure
         {
@@ -5333,11 +5952,11 @@ namespace Microsoft.LearningComponents.Manifest
         /// so the caller should *not* call <c>MoveNext()</c>.
         /// </summary>
         /// <remarks>
-        /// There should be only one &lt;imsss:ruleConditions&gt; node.  If there is more than one, in <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is issued to the log and the first one is returned.  In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> an error is issued to the
+        /// There should be only one &lt;imsss:ruleConditions&gt; node.  If there is more than one, in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>,
+        /// a warning is issued to the log and the first one is returned.  In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> an error is issued to the
         /// log and an <Typ>InvalidPackageException</Typ> is thrown.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Thrown in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there are multiple
+        /// <exception cref="InvalidPackageException">Thrown in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there are multiple
         /// &lt;imsss:ruleCondition&gt; nodes.</exception>
         private XPathNodeIterator GetRuleConditionsNode()
         {
@@ -5361,19 +5980,19 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the &lt;imsss:ruleConditions&gt;/conditionCombination attribute value.
         /// </summary>
         /// <remarks>
-        /// There should be only one &lt;imsss:ruleConditions&gt; node.  If there is more than one, in <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is issued to the log and the first one is returned.  In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> an error is issued to the
+        /// There should be only one &lt;imsss:ruleConditions&gt; node.  If there is more than one, in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>,
+        /// a warning is issued to the log and the first one is returned.  In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> an error is issued to the
         /// log and an <Typ>InvalidPackageException</Typ> is thrown.
         /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> if there is an invalid token for the conditionCombination attribute, the default
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> if there is an invalid token for the conditionCombination attribute, the default
         /// value of <c>SequencingConditionCombination.All</c> is returned.
         /// </para>
-        /// The default value of <c>SequencingConditionCombination.All</c> is returned in both <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>
-        /// and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there is no &lt;imsss:ruleConditions&gt; node.
+        /// The default value of <c>SequencingConditionCombination.All</c> is returned in both <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>
+        /// and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there is no &lt;imsss:ruleConditions&gt; node.
         /// <para>
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Thrown in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there are multiple
+        /// <exception cref="InvalidPackageException">Thrown in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there are multiple
         /// &lt;imsss:ruleConditions&gt; nodes or if the conditionCombination attribute is an invalid value.</exception>
         public SequencingConditionCombination Combination  // all or any combination of conditions
         {
@@ -5408,20 +6027,17 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// The <c>ReadOnlyCollection&lt;SequencingRuleConditionNodeReader&gt;</c> returned from this method is not populated until
-        /// properties or methods on it are accessed.  This means that in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
+        /// properties or methods on it are accessed.  This means that in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
         /// may be thrown if there are invalid &lt;imsss:ruleCondition&gt; nodes in the list (e.g. nodes containing illegal attribute values.)
-        /// This exception will only be thrown when the invalid &lt;imsss:ruleCondition&gt; is parsed, which occurs either during
-        /// enumeration or if the ReadOnlyCollection.Count property is accessed (the Count property must parse all &lt;imsss:ruleCondition&gt; 
-        /// nodes in order to count them.)
         /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid &lt;imsss:ruleCondition&gt; nodes are ignored.
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid &lt;imsss:ruleCondition&gt; nodes are ignored.
         /// </para>
         /// <para>
         /// If there are no &lt;imsss:ruleCondition&gt; nodes, an empty <Typ>ReadOnlyCollection&lt;SequencingRuleConditionNodeReader&gt;</Typ>
         /// is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there is an invalid
+        /// <exception cref="InvalidPackageException">In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there is an invalid
         /// &lt;imsss:ruleCondition&gt; node.</exception>
 		/// <example>
         /// Iterate through all rule conditions for the post condition rules in a manifest's sequencing collection.
@@ -5482,11 +6098,11 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the &lt;imsss:ruleAction&gt;/action attribute value, or <c>SequencingRuleAction.NoAction</c> if there is none.
         /// </summary>
         /// <remarks>
-        /// There should be only one &lt;imsss:ruleAction&gt; node.  If there is more than one, in <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
-        /// a warning is issued to the log and the first one is returned.  In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> an error is issued to the
+        /// There should be only one &lt;imsss:ruleAction&gt; node.  If there is more than one, in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>,
+        /// a warning is issued to the log and the first one is returned.  In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> an error is issued to the
         /// log and an <Typ>InvalidPackageException</Typ> is thrown.
         /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> if there is an invalid token for the action attribute, <c>SequencingRuleAction.NoAction</c>
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> if there is an invalid token for the action attribute, <c>SequencingRuleAction.NoAction</c>
         /// is returned.
         /// </para>
         /// <para>
@@ -5498,11 +6114,11 @@ namespace Microsoft.LearningComponents.Manifest
         /// ExitAll, Retry, RetryAll, Continue, and Previous</c>.
         /// </para>
         /// <para>
-        /// <c>SequencingRuleAction.NoAction</c> is returned in both <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>
-        /// and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there is no &lt;imsss:ruleAction&gt; node.
+        /// <c>SequencingRuleAction.NoAction</c> is returned in both <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>
+        /// and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there is no &lt;imsss:ruleAction&gt; node.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Thrown in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there are multiple
+        /// <exception cref="InvalidPackageException">Thrown in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there are multiple
         /// &lt;imsss:ruleAction&gt; nodes or if the action attribute is an invalid value.</exception>
         [SuppressMessage("Microsoft.Maintainability", "CA1502")] // Much of the complexity is due to error checking and simple switch statements.  Not sure if it would truly be less complex if it was split into different methods...
         public SequencingRuleAction Action
@@ -5635,7 +6251,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// when the attribute value is invalid or
         /// when the value is not an objective identifier in the surrounding activity.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is set and the
+        /// <exception cref="InvalidPackageException">The <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is set and the
         /// attribute value is invalid, such as a string containing only whitespace, or is not an objective
         /// identifier in the surrounding activity.</exception>
         public string ReferencedObjectiveId
@@ -5710,9 +6326,9 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// Default value is <c>0</c>, which is returned when the attribute is omitted, or
-        /// when the attribute value is invalid and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>.
+        /// when the attribute value is invalid and the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid, such as a non-decimal value outside the range of [-1 to 1].</exception>
         public double MeasureThreshold
         {
@@ -5739,9 +6355,9 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// Default value is <c>SequencingConditionOperator.NoOp</c>, which is returned when the attribute is omitted, or
-        /// when the attribute value is invalid and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>.
+        /// when the attribute value is invalid and the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid, e.g. when it is not one of the valid tokens: noOp, not.</exception>
         public SequencingConditionOperator Operator
         {
@@ -5757,9 +6373,9 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// Default value is <c>SequencingRuleCondition.Always</c>, which is returned when the attribute is omitted, or
-        /// when the attribute value is invalid and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>.
+        /// when the attribute value is invalid and the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid, e.g. when it is not one of the valid tokens: satisfied, objectiveStatusKnown,
         /// objectiveMeasureKnown, objectiveMeasureGreaterThan, objectiveMeasureLessThan, completed, activityProgressKnown,
         /// attempted, attemptLimitExceeded, timeLimitExceeded, outsideAvailableTimeRange, always.</exception>
@@ -6246,10 +6862,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// Id unique within the package for the organization.
         /// </summary>
         /// <remarks>
-        /// Returns <c>String.Empty</c> if the identifier attribute is missing and <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> is set, 
+        /// Returns <c>String.Empty</c> if the identifier attribute is missing and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> is set, 
         /// and issues a warning to the log.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Identifier is missing and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is set.</exception>
+        /// <exception cref="InvalidPackageException">Identifier is missing and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is set.</exception>
         public string Id
         {
             get
@@ -6263,10 +6879,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// Title (description) of the organization.
         /// </summary>
         /// <remarks>
-        /// Returns <c>String.Empty</c> if the &lt;title&gt; node is missing and <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> is set, 
+        /// Returns <c>String.Empty</c> if the &lt;title&gt; node is missing and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> is set, 
         /// and issues a warning to the log.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">&lt;title&gt; node is missing and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is set.</exception>
+        /// <exception cref="InvalidPackageException">&lt;title&gt; node is missing and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is set.</exception>
         public string Title
         {
             get
@@ -6294,7 +6910,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <summary>
         /// Metadata applied to the organization.
         /// </summary>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and there is more than
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and there is more than
         /// one &lt;metadata&gt; node.</exception>
         private XPathNavigator CreateMetadataNavigator()
         {
@@ -6346,7 +6962,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// Returns <c>String.Empty</c> if it does not exist in the package.  Max length is 1024; uses 
-        /// <c>ManifestReaderSettings.FixMlcRequirementViolation</c> and <c>PackageValidatorSettings.MlcRequirementValidation</c> to
+        /// <c><Typ>ManifestReaderSettings</Typ>.FixMlcRequirementViolation</c> and <c>PackageValidatorSettings.MlcRequirementValidation</c> to
         /// determine what to do in case of error.
         /// </remarks>
         public string Description
@@ -6362,7 +6978,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// Returns <c>String.Empty</c> if it does not exist in the package.  Max length is 4096; uses
-        /// <c>ManifestReaderSettings.FixMlcRequirementViolation</c> and <c>PackageValidatorSettings.MlcRequirementValidation</c> to
+        /// <c><Typ>ManifestReaderSettings</Typ>.FixMlcRequirementViolation</c> and <c>PackageValidatorSettings.MlcRequirementValidation</c> to
         /// determine what to do in case of error.
         /// </remarks>
         public string Instructions
@@ -6378,7 +6994,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// Returns <c>null</c> if it does not exist in the package or as the default.  Must be blank or a valid <c>float</c> value; uses
-        /// <c>ManifestReaderSettings.FixMlcRequirementViolation</c> and <c>PackageValidatorSettings.MlcRequirementValidation</c> to
+        /// <c><Typ>ManifestReaderSettings</Typ>.FixMlcRequirementViolation</c> and <c>PackageValidatorSettings.MlcRequirementValidation</c> to
         /// determine what to do in case of error (e.g. return default value or throw <Typ>InvalidPackageException</Typ>.
         /// <para>
         /// The value of PointsPossible is contained in the &lt;organization&gt; node's &lt;metadata&gt;.
@@ -6448,10 +7064,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// update the learner's lifetime score for the objective.
         /// </summary>
         /// <remarks>
-        /// Default value is true.  If the attribute is invalid (non-bool) and <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> is set,
+        /// Default value is true.  If the attribute is invalid (non-bool) and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> is set,
         /// return the default value and issue a warning to the log.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Attribute is invalid and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is set.</exception>
+        /// <exception cref="InvalidPackageException">Attribute is invalid and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is set.</exception>
         public bool ObjectivesGlobalToSystem
         {
             get
@@ -6534,11 +7150,11 @@ namespace Microsoft.LearningComponents.Manifest
         /// This information is only valid for SCORM 2004 content. It will be null for earlier versions
         /// of SCORM.
         /// <para>
-        /// If there are multiple &lt;sequencing&gt; nodes and <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> is set, a warning is issued to the log.
+        /// If there are multiple &lt;sequencing&gt; nodes and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> is set, a warning is issued to the log.
         /// </para>
         /// </remarks>
         /// <exception cref="InvalidPackageException">
-        /// There are multiple &lt;sequencing&gt; nodes and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is set.
+        /// There are multiple &lt;sequencing&gt; nodes and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is set.
         /// </exception>
 		/// <example>
         /// Iterate through all the sequencing nodes that are beneath the organization nodes in the manifest.
@@ -6661,13 +7277,13 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// This element is required. If it does not exist or is invalid in the package, this property will 
-        /// throw an InvalidPackageException if the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>.
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, it will return <c>String.Empty</c>.
+        /// throw an InvalidPackageException if the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>.
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, it will return <c>String.Empty</c>.
         /// <para>
         /// Corresponds to the &lt;item&gt;/identifier attribute.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>
         /// and the attribute is missing or invalid.</exception>
         public string Id
         {
@@ -6691,11 +7307,11 @@ namespace Microsoft.LearningComponents.Manifest
         /// Title (description) of the activity.  Represents the &lt;title&gt; node under the &lt;item&gt;.
         /// </summary>
         /// <remarks>This node is required for each &lt;item&gt;.  If it does not exist in the package, this property will 
-        /// return <c>String.Empty</c> in <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, and throw an <c>InvalidPackageException</c>
-        /// in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>.
+        /// return <c>String.Empty</c> in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, and throw an <c>InvalidPackageException</c>
+        /// in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>.
         /// </remarks>
         /// <exception cref="InvalidPackageException">The &lt;title&gt; node does not exist
-        /// and <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is set.</exception>
+        /// and <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is set.</exception>
         public string Title
         {
             get
@@ -6793,13 +7409,13 @@ namespace Microsoft.LearningComponents.Manifest
         /// If there is no resource associated with this activity, this property returns null. 
         /// 
         /// In SCORM 2004 packages, if the activity has a resource and also has child &lt;item&gt; nodes, this
-        /// property will throw an InvalidPackageException in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>.
+        /// property will throw an InvalidPackageException in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>.
         /// <para>
-        /// If parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> and the activity has an identifierref attribute,
+        /// If parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> and the activity has an identifierref attribute,
         /// but no matching resource can be found, a warning is issued to the log and null is returned.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and
         /// the identifierref attribute is not a valid id value, there are child &lt;item&gt; nodes,
         /// or there is no corresponding resource with a matching identifier.</exception>
 		/// <example>
@@ -6830,12 +7446,12 @@ namespace Microsoft.LearningComponents.Manifest
         /// <remarks>
         /// The default value, if absent, is "true".
         /// <para>
-        /// If the value of the attribute is non-boolean, and the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
+        /// If the value of the attribute is non-boolean, and the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>,
         /// a warning is put into the log, if provided, and the default value is returned.  If the parsing mode is
-        /// <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
+        /// <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, an error is put into the log and an exception is thrown.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, and the attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, and the attribute
         /// value is non-boolean.</exception>
         public bool IsVisible
         {
@@ -6853,7 +7469,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// The default value, if absent, is <c>String.Empty</c>.
         /// <para>
         /// SCORM dictates that this attribute is valid only for items that reference resources.  However,
-        /// in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> this still simply returns <c>String.Empty</c> even when the item
+        /// in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> this still simply returns <c>String.Empty</c> even when the item
         /// does not reference a resource.  If the application wishes to be that strict, it can check the
         /// <c>Resource</c> property when this returns a non-<c>String.Empty</c> value.  If the <c>Resource</c> property
         /// returns no resources, the application will know that this attribute value is not technically allowed.
@@ -6873,10 +7489,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// Returns the &lt;metadata&gt; node child of the &lt;item&gt; node, or <c>null</c> if none exists.
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, if there is more than one &lt;metadata&gt; node, a warning is put into the log
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, if there is more than one &lt;metadata&gt; node, a warning is put into the log
         /// and the first node is returned.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and there is more than
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and there is more than
         /// one &lt;metadata&gt; node.</exception>
         private XPathNavigator CreateMetadataNavigator()
         {
@@ -6886,7 +7502,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <summary>
         /// Return a reader of the activity level metadata.
         /// </summary>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and there is more than
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and there is more than
         /// one &lt;metadata&gt; node.</exception>
         public MetadataNodeReader Metadata
         {
@@ -6909,7 +7525,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// This corresponds to the &lt;adlcp:prerequisites&gt; element.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>
         /// and the prerequisites script is syntactically invalid.</exception>
         public string Prerequisites
         {
@@ -7021,15 +7637,15 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// If this is a SCORM 2004 package and there are child activities and a resource for this activity,
-        /// this property will throw an <Typ>InvalidPackageException</Typ> if <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is set, or issue
-        /// a warning to the log if <c>ManifestReaderSettings.FixScormRequirementViolations=true</c> is set.
+        /// this property will throw an <Typ>InvalidPackageException</Typ> if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is set, or issue
+        /// a warning to the log if <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c> is set.
         /// <para>
         /// Although SCORM mandates that no two item nodes may have the same identifier in a manifest,
         /// there is not check for that when building this collection.  It is up to the application to handle
         /// if multiple items have identical identifier attributes.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException"><c>ManifestReaderSettings.FixScormRequirementViolations=false</c> is set and there are child activities
+        /// <exception cref="InvalidPackageException"><c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> is set and there are child activities
         /// and resources on this node.</exception>
 		/// <example>
         /// Given an <Typ>ActivityNodeReader</Typ>, iterate through all child activities.
@@ -7198,7 +7814,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <remarks>
         /// SCORM 1.2 content always returns null for this value.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the
         /// attribute value is invalid.</exception>
         public double? CompletionThreshold
         {
@@ -7380,15 +7996,15 @@ namespace Microsoft.LearningComponents.Manifest
         /// of "continue".  Default value is <c>false</c>.
         /// </summary>
         /// <remarks>
-        /// If the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>: If a 
+        /// If the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>: If a 
         /// &lt;item&gt;/&lt;adlnav:presentation&gt;/&lt;adlnav:navigationInterface&gt;/&lt;adlnav:hideLMSUI&gt; token value is
         /// invalid, it is ignored.  If there are more than one &lt;adnav:presentation&gt; or &lt;adlnav:navigationInterface&gt;
         /// nodes, only the first is read and the others are ignored.
         /// <para>
-        /// If the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> an <Typ>InvalidPackageException</Typ> is thrown in the above cases.
+        /// If the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> an <Typ>InvalidPackageException</Typ> is thrown in the above cases.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and a token value is invalid, or
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and a token value is invalid, or
         /// there are invalid duplicate nodes.</exception>
         public bool HideContinueUI
         {
@@ -7404,15 +8020,15 @@ namespace Microsoft.LearningComponents.Manifest
         /// of "previous".  Default value is <c>false</c>.
         /// </summary>
         /// <remarks>
-        /// If the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>: If a 
+        /// If the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>: If a 
         /// &lt;item&gt;/&lt;adlnav:presentation&gt;/&lt;adlnav:navigationInterface&gt;/&lt;adlnav:hideLMSUI&gt; token value is
         /// invalid, it is ignored.  If there are more than one &lt;adnav:presentation&gt; or &lt;adlnav:navigationInterface&gt;
         /// nodes, only the first is read and the others are ignored.
         /// <para>
-        /// If the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> an <Typ>InvalidPackageException</Typ> is thrown in the above cases.
+        /// If the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> an <Typ>InvalidPackageException</Typ> is thrown in the above cases.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and a token value is invalid, or
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and a token value is invalid, or
         /// there are invalid duplicate nodes.</exception>
         public bool HidePreviousUI
         {
@@ -7428,15 +8044,15 @@ namespace Microsoft.LearningComponents.Manifest
         /// of "exit".  Default value is <c>false</c>.
         /// </summary>
         /// <remarks>
-        /// If the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>: If a 
+        /// If the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>: If a 
         /// &lt;item&gt;/&lt;adlnav:presentation&gt;/&lt;adlnav:navigationInterface&gt;/&lt;adlnav:hideLMSUI&gt; token value is
         /// invalid, it is ignored.  If there are more than one &lt;adnav:presentation&gt; or &lt;adlnav:navigationInterface&gt;
         /// nodes, only the first is read and the others are ignored.
         /// <para>
-        /// If the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> an <Typ>InvalidPackageException</Typ> is thrown in the above cases.
+        /// If the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> an <Typ>InvalidPackageException</Typ> is thrown in the above cases.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and a token value is invalid, or
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and a token value is invalid, or
         /// there are invalid duplicate nodes.</exception>
         public bool HideExitUI
         {
@@ -7452,15 +8068,15 @@ namespace Microsoft.LearningComponents.Manifest
         /// of "abandon".  Default value is <c>false</c>.
         /// </summary>
         /// <remarks>
-        /// If the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>: If a 
+        /// If the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>: If a 
         /// &lt;item&gt;/&lt;adlnav:presentation&gt;/&lt;adlnav:navigationInterface&gt;/&lt;adlnav:hideLMSUI&gt; token value is
         /// invalid, it is ignored.  If there are more than one &lt;adnav:presentation&gt; or &lt;adlnav:navigationInterface&gt;
         /// nodes, only the first is read and the others are ignored.
         /// <para>
-        /// If the parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> an <Typ>InvalidPackageException</Typ> is thrown in the above cases.
+        /// If the parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> an <Typ>InvalidPackageException</Typ> is thrown in the above cases.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and a token value is invalid, or
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and a token value is invalid, or
         /// there are invalid duplicate nodes.</exception>
         public bool HideAbandonUI
         {
@@ -7553,10 +8169,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// Represents the &lt;resource&gt;/identifer attribute.
         /// </summary>
         /// <remarks>
-        /// If parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, and this attribute is missing, returns String.Empty and issues
+        /// If parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, and this attribute is missing, returns String.Empty and issues
         /// a warning to the log.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">If parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and this attribute is missing.</exception>
+        /// <exception cref="InvalidPackageException">If parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and this attribute is missing.</exception>
         public string Id
         {
             get
@@ -7641,10 +8257,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the &lt;metadata&gt; node child of the &lt;resource&gt; node, or <c>null</c> if none exists.
         /// </summary>
         /// <remarks>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, if there is more than one &lt;metadata&gt; node, a warning is put into the log
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, if there is more than one &lt;metadata&gt; node, a warning is put into the log
         /// and the first node is returned.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and there is more than
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and there is more than
         /// one &lt;metadata&gt; node.</exception>
         private XPathNavigator CreateMetadataNavigator()
         {
@@ -7654,7 +8270,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <summary>
         /// Return a reader of the resource level metadata.
         /// </summary>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and there is more than
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and there is more than
         /// one &lt;metadata&gt; node.</exception>
         public MetadataNodeReader Metadata
         {
@@ -7669,17 +8285,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         /// <remarks>
         /// The <Typ>ReadOnlyCollection</Typ> returned from this method is not populated until
-        /// properties or methods on it are accessed.  This means that in <c>ManifestReaderSettings.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
+        /// properties or methods on it are accessed.  This means that in <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c>, <Typ>InvalidPackageException</Typ> 
         /// may be thrown if there are invalid nodes in the list (e.g. nodes containing illegal attribute values.)
-        /// This exception will only be thrown when the invalid node is parsed, which occurs either during
-        /// enumeration or if the ReadOnlyCollection.Count property is accessed (the Count property must parse all 
-        /// nodes in order to count them.)
         /// <para>
-        /// Calling the ReadOnlyCollection.Count property the first time results in an n-order operation as all nodes are scanned and
-        /// objects created.
-        /// </para>
-        /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
         /// </para>
         /// <para>
         /// If there are no nodes of the specified type, an empty <Typ>ReadOnlyCollection</Typ> is returned.
@@ -7689,7 +8298,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <c>Dependency</c> property to build a full list of files for this resource.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there is an invalid node.</exception>
+        /// <exception cref="InvalidPackageException">In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there is an invalid node.</exception>
 		/// <example>
         /// Given an <Typ>ActivityNodeReader</Typ>, iterate through all files in all resources in all child activities.
         /// <code language="C#">
@@ -7739,7 +8348,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// processing time is required.
         /// </para>
         /// <para>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, warnings are added to the log and invalid nodes are ignored.
         /// </para>
         /// <para>
         /// If there are no nodes of the specified type, an empty <Typ>ReadOnlyCollection</Typ> is returned.
@@ -7753,7 +8362,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// but resource B has resource A as a dependency, there is a circular dependency.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">In <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> if there is an invalid node.</exception>
+        /// <exception cref="InvalidPackageException">In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> if there is an invalid node.</exception>
 		/// <example>
         /// Given an <Typ>ActivityNodeReader</Typ>, iterate through all dependencies on all resources on all child activities.
         /// <code language="C#">
@@ -7875,14 +8484,14 @@ namespace Microsoft.LearningComponents.Manifest
         /// If the &lt;file&gt;/href is relative, this value is built relative to the xml:base attributes on 
         /// the &lt;manifest&gt;, &lt;resources&gt;, and &lt;resource&gt; nodes.
         /// <para>
-        /// If the href attribute does not exist on the &lt;file&gt; node, and parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>,
+        /// If the href attribute does not exist on the &lt;file&gt; node, and parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>,
         /// a warning is logged and the value <c>null</c> is returned.
         /// </para>
         /// <para>
         /// The location is resolved with the xml:base attributes on the manifest, resources, and resource nodes.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidPackageException">Parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and the href attribute
+        /// <exception cref="InvalidPackageException">Parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and the href attribute
         /// is absent.</exception>
         public Uri Location
         {
@@ -7919,10 +8528,10 @@ namespace Microsoft.LearningComponents.Manifest
         /// Returns the &lt;metadata&gt; node child of the &lt;file&gt; node, or <c>null</c> if none exists.
         /// </summary>
         /// <remarks>
-        /// In <c>ManifestReaderSettings.FixScormRequirementViolations=true</c>, if there is more than one &lt;metadata&gt; node, a warning is put into the log
+        /// In <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=true</c>, if there is more than one &lt;metadata&gt; node, a warning is put into the log
         /// and the first node is returned.
         /// </remarks>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and there is more than
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and there is more than
         /// one &lt;metadata&gt; node.</exception>
         private XPathNavigator CreateMetadataNavigator()
         {
@@ -7932,7 +8541,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <summary>
         /// Return a reader of the file level metadata.
         /// </summary>
-        /// <exception cref="InvalidPackageException">The parsing mode is <c>ManifestReaderSettings.FixScormRequirementViolations=false</c> and there is more than
+        /// <exception cref="InvalidPackageException">The parsing mode is <c><Typ>ManifestReaderSettings</Typ>.FixScormRequirementViolations=false</c> and there is more than
         /// one &lt;metadata&gt; node.</exception>
         public MetadataNodeReader Metadata
         {
