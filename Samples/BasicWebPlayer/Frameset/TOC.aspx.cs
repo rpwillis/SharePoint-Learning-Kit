@@ -28,7 +28,9 @@ namespace Microsoft.LearningComponents.Frameset
             try
             {
                 m_tocHelper = new TocHelper();
-                m_tocHelper.ProcessPageLoad(Response, PStore, ProcessViewParameter, ProcessAttemptIdParameter, RegisterError, FramesetResources.TOC_SubmitAttempt);
+                m_tocHelper.ProcessPageLoad(Response, PStore, ProcessViewParameter, 
+                                    ProcessAttemptIdParameter, ProcessViewRequest, RegisterError, 
+                                    FramesetResources.TOC_SubmitAttempt);
             }
             catch (Exception ex)
             {

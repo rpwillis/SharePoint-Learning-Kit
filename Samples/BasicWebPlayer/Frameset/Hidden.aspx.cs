@@ -38,7 +38,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 m_hiddenHelper = new HiddenHelper(Request, Response, FramesetPath);
                 m_hiddenHelper.ProcessPageLoad(PStore, LoggingOptions.LogAll, GetSessionTitle, ProcessViewParameter, ProcessAttemptIdParameter,
-                                                AppendContentFrameDetails, RegisterError, GetErrorInfo, ProcessSessionEnd,
+                                                AppendContentFrameDetails, RegisterError, GetErrorInfo, ProcessSessionEnd, ProcessViewRequest,
                                                 GetMessage, IsPostBack);
             }
             catch (ThreadAbortException)

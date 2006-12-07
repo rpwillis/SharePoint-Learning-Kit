@@ -38,6 +38,7 @@ namespace Microsoft.LearningComponents.Frameset
                                         PackageStore packageStore,
                                         TryGetViewInfo TryGetViewInfo,
                                         TryGetAttemptInfo TryGetAttemptInfo,
+                                        ProcessViewRequest ProcessViewRequest,
                                         RegisterError RegisterError,
                                         string submitPageLinkText)
         {
@@ -61,7 +62,11 @@ namespace Microsoft.LearningComponents.Frameset
                 return;
             }
 
-            m_session = new StoredLearningSession(view, new AttemptItemIdentifier(attemptId), packageStore);            
+            m_session = new StoredLearningSession(view, new AttemptItemIdentifier(attemptId), packageStore);
+
+            // If user cannot access the session, then remove the reference to the session.
+            if (!ProcessViewRequest(view, m_session))
+                m_session = null;
         }
 
         /// <summary>
@@ -70,6 +75,10 @@ namespace Microsoft.LearningComponents.Frameset
         /// <returns></returns>
         public void TocElementsHtml()
         {
+            // If there was an error on page load, do nothing here.
+            if (m_session == null)
+                return; 
+
             TableOfContentsElement toc = m_session.GetTableOfContents(true);    // get toc without sequencing information
             using (HtmlStringWriter sw = new HtmlStringWriter(Response.Output))
             {

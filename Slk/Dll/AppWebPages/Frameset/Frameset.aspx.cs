@@ -79,6 +79,13 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 // This probably indicates the site allows anonymous access and the user is not signed in. 
                 RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle, SlkFrameset.FRM_SignInRequiredMsgHtml, false);
             }
+            catch (HttpException ex)
+            {
+                // Do not set response codes
+
+                SlkUtilities.LogEvent(System.Diagnostics.EventLogEntryType.Error, ex.ToString());
+                RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle, SlkFrameset.FRM_AssignmentNotAvailableMsgHtml, false);
+            }
             catch (Exception ex)
             {
                 Response.StatusCode = 500;
@@ -91,7 +98,9 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
         /// <summary>
         /// Gets the attempt id of the requested attempt. If the page is provided a learner assignment id and 
-        /// the attempt associated with the assignment doesn't exist, then one is created.
+        /// the attempt associated with the assignment doesn't exist, then one is created. If the user does not have 
+        /// access to the attempt, or the requested view of the attempt, or there is no 
+        /// attempt (such as non-elearning content) then false is returned.
         /// </summary>
         /// <param name="showErrorPage"></param>
         /// <param name="attemptId"></param>
@@ -107,8 +116,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 // In this case, if the parameter was not valid (eg, it's not a number), the error is already registered. 
                 // So just return.
                 return false;
-
-        
+                    
             LearnerAssignmentId = learnerAssignmentId;
 
             // Put this operation in a transaction because if the attempt has not been started, we'll start the attempt 
@@ -118,21 +126,17 @@ namespace Microsoft.SharePointLearningKit.Frameset
             options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
             using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
             {
-                la = GetLearnerAssignment();
+                // Must force a read of assignment data so that it's read in the same transaction that it might be updated.
+                la = GetLearnerAssignment(true);
+
+                SessionView view;
+                if (!TryGetSessionView(true, out view))
+                    return false;
 
                 if (IsELearningAssignment(la))
                 {
                     // This is e-learning content
                     m_isELearning = true;
-
-                    if (!FileExistsInSharePoint(la.Location))
-                    {
-                        if (showErrorPage)
-                        {
-                            RegisterError(SlkFrameset.FRM_PackageNotFoundTitle, SlkFrameset.FRM_PackageNotFound, false);
-                        }
-                        return false;
-                    }
 
                     // Accessing LearnerAssignment (above) would have checked the database and retrieve any information available about 
                     // the assignment, including its attempt id, if it exists. If the LearnerAssignment information is valid 
@@ -140,25 +144,44 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     if (la.AttemptId == null)
                     {
                         // Only create the attempt if this is a request for Execute view
-                        SessionView view;
-                        if (TryGetSessionView(true, out view))
+                        if (view == SessionView.Execute)
                         {
-                            if (view == SessionView.Execute)
+                            if (!FileExistsInSharePoint(la.Location))
                             {
-                                if (!VerifyAssignmentStartDate(la, showErrorPage))
-                                    return false;
-
-                                SlkStore.StartAttemptOnLearnerAssignment(learnerAssignmentId);
-
-                                // Force a reset of internal data regarding the current learner assignment
-                                la = GetLearnerAssignment(true);
+                                if (showErrorPage)
+                                {
+                                    RegisterError(SlkFrameset.FRM_PackageNotFoundTitle, SlkFrameset.FRM_PackageNotFound, false);
+                                }
+                                return false;
                             }
-                            else
+
+                            SlkStore.StartAttemptOnLearnerAssignment(learnerAssignmentId);
+
+                            // Force a reset of internal data regarding the current learner assignment
+                            la = GetLearnerAssignment(true);
+                        }
+                        else
+                        {
+                            // This is an error condition, since in other cases, the attempt must already exist.
+                            // Use private method to get the right error message.
+                            if (!ProcessViewRequest(la, view))
+                                return false;
+                        }
+                    }
+                    else
+                    {
+                        // Attempt is already created. Verify the user has access to it and that the package exists. 
+
+                        if (!ProcessViewRequest(la, view))
+                            return false;
+
+                        if (!FileExistsInSharePoint(la.Location))
+                        {
+                            if (showErrorPage)
                             {
-                                // This is an error condition, since in other cases, the attempt must already exist.
-                                // Use private method to get the right error message.
-                                ProcessViewRequest(la, view);
+                                RegisterError(SlkFrameset.FRM_PackageNotFoundTitle, SlkFrameset.FRM_PackageNotFound, false);
                             }
+                            return false;
                         }
                     }
 
@@ -171,27 +194,39 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     m_isELearning = false;
 
                     // Verify that the learner can see the assignment.
-
-                    SessionView view;
-                    if (TryGetSessionView(true, out view))
+                    if (view == SessionView.Execute)
                     {
-                        if (view == SessionView.Execute)
+                        if (!FileExistsInSharePoint(la.Location))
                         {
-                            if (!VerifyAssignmentStartDate(la, showErrorPage))
-                                return false;
-
-                            // Mark the assignment as started
-                            if (la.Status != LearnerAssignmentState.Active)
+                            if (showErrorPage)
                             {
-                                SlkStore.ChangeLearnerAssignmentState(la.LearnerAssignmentId, LearnerAssignmentState.Active);
+                                RegisterError(SlkFrameset.FRM_PackageNotFoundTitle, SlkFrameset.FRM_PackageNotFound, false);
                             }
+                            return false;
                         }
-                        else
+
+                        // Mark the assignment as started
+                        if (la.Status != LearnerAssignmentState.Active)
                         {
-                            // Verify this is a view they have access to given the state of the assignment.
-                            ProcessViewRequest(la, view);
+                            SlkStore.ChangeLearnerAssignmentState(la.LearnerAssignmentId, LearnerAssignmentState.Active);
                         }
-                    }                  
+                    }
+                    else
+                    {
+                        // Verify this is a view they have access to given the state of the assignment. No need to check 
+                        // return value, as non-elearning content always returns false from this method.
+                        if (!ProcessViewRequest(la, view))
+                            return false;
+
+                        if (!FileExistsInSharePoint(la.Location))
+                        {
+                            if (showErrorPage)
+                            {
+                                RegisterError(SlkFrameset.FRM_PackageNotFoundTitle, SlkFrameset.FRM_PackageNotFound, false);
+                            }
+                            return false;
+                        }
+                    }
                 }
                 scope.Complete();
             }
@@ -356,26 +391,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         }
 
         /// <summary>
-        /// Returns true if the assignment is allowed to start. If it's e-learning content, this only 
-        /// applies to Execute view.
-        /// </summary>
-        private bool VerifyAssignmentStartDate(LearnerAssignmentProperties la, bool showErrorPage)
-        {
-            // "Now" must be after the start date. Allow it to be shown a few seconds early, to account 
-            // for any data conversion inaccuracies.
-            if (la.StartDate.AddSeconds(-2) > DateTime.Now)
-            {
-                if (showErrorPage)
-                {
-                    RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle,
-                       SlkFrameset.FRM_AssignmentNotAvailableMsgHtml, false);
-                }
-                return false;
-            }
-            return true;
-        }
-
-        /// <summary>
         /// Called by FramesetHelper. Delegate to return session view.
         /// </summary>
         public override bool TryGetSessionView(bool showErrorPage, out SessionView view)
@@ -390,104 +405,116 @@ namespace Microsoft.SharePointLearningKit.Frameset
             return base.TryGetSessionView(showErrorPage, out view);
         }
 
-        /// <summary>
-        /// Process a request for a view. If not allowed, register an error and return false.
-        /// </summary>
-        /// <param name="view"></param>
-        /// <param name="session"></param>
-        public bool ProcessViewRequest(SessionView view, LearningSession session)
-        {
-            LearnerAssignmentProperties la = GetLearnerAssignment();
+        ///// <summary>
+        ///// Process a request for a view. If not allowed, register an error and return false.
+        ///// </summary>
+        ///// <param name="view"></param>
+        ///// <param name="session"></param>
+        //public bool ProcessViewRequest(SessionView view, LearningSession session)
+        //{
+        //    LearnerAssignmentProperties la = GetLearnerAssignment();
 
-            return ProcessViewRequest(la, view);
-        }
+        //    return ProcessViewRequest(la, view);
+        //}
 
-        /// <summary>
-        /// Process a view request to determine if it's valid. The AssignmentView must be 
-        /// set before calling this method.
-        /// </summary>
-        private bool ProcessViewRequest(LearnerAssignmentProperties la, SessionView sessionView)
-        {
+        ///// <summary>
+        ///// Process a view request to determine if it's valid. The AssignmentView must be 
+        ///// set before calling this method.
+        ///// </summary>
+        //private bool ProcessViewRequest(LearnerAssignmentProperties la, SessionView sessionView)
+        //{
 
-            switch (AssignmentView)
-            {
-                case AssignmentView.Execute:
-                    {
-                        // Verify that session view matches what you expect
-                        if (sessionView != SessionView.Execute)
-                        {
-                            throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
-                        }
+        //    switch (AssignmentView)
+        //    {
+        //        case AssignmentView.Execute:
+        //            {
+        //                // Verify that session view matches what you expect
+        //                if (sessionView != SessionView.Execute)
+        //                {
+        //                    throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
+        //                }
 
-                        // Can only access active assignments in Execute view
-                        if (la.Status != LearnerAssignmentState.Active)
-                        {
-                            RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle,
-                                SlkFrameset.FRM_AssignmentTurnedInMsgHtml, false);
+        //                // The assignment must have started
+        //                if (!VerifyAssignmentStartDate(la, true))
+        //                {
+        //                    return false;
+        //                }
+
+        //                // Can only access active assignments in Execute view
+        //                if (la.Status != LearnerAssignmentState.Active)
+        //                {
+        //                    RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle,
+        //                        SlkFrameset.FRM_AssignmentTurnedInMsgHtml, false);
                             
-                            return false;
-                        }
-                        break;
-                    }
-                case AssignmentView.Grading:
-                    {
-                        // Verify that session view matches what you expect
-                        if (sessionView != SessionView.RandomAccess)
-                        {
-                            throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
-                        }
+        //                    return false;
+        //                }
+        //                break;
+        //            }
+        //        case AssignmentView.Grading:
+        //            {
+        //                // Verify that session view matches what you expect
+        //                if (sessionView != SessionView.RandomAccess)
+        //                {
+        //                    throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
+        //                }
 
-                        // Grading is not available if the assignment has not been submitted.
-                        if ((la.Status == LearnerAssignmentState.Active)
-                            || (la.Status == LearnerAssignmentState.NotStarted))
-                        {
-                            RegisterError(SlkFrameset.FRM_AssignmentNotGradableTitle,
-                             SlkFrameset.FRM_AssignmentCantBeGradedMsgHtml, false);
-                            return false;
-                        }
-                        break;
-                    }
-                case AssignmentView.InstructorReview:
-                    {
-                        // Verify that session view matches what you expect
-                        if (sessionView != SessionView.Review)
-                        {
-                            throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
-                        }
+        //                // Grading is not available if the assignment has not been submitted.
+        //                if ((la.Status == LearnerAssignmentState.Active)
+        //                    || (la.Status == LearnerAssignmentState.NotStarted))
+        //                {
+        //                    RegisterError(SlkFrameset.FRM_AssignmentNotGradableTitle,
+        //                     SlkFrameset.FRM_AssignmentCantBeGradedMsgHtml, false);
+        //                    return false;
+        //                }
+        //                break;
+        //            }
+        //        case AssignmentView.InstructorReview:
+        //            {
+        //                // Verify that session view matches what you expect
+        //                if (sessionView != SessionView.Review)
+        //                {
+        //                    throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
+        //                }
 
-                        // Only available if student has started the assignment
-                        if (la.Status == LearnerAssignmentState.NotStarted)
-                        {
-                            RegisterError(SlkFrameset.FRM_ReviewNotAvailableTitle,
-                             SlkFrameset.FRM_ReviewNotAvailableMsgHtml, false);
-                            return false;
-                        }
+        //                // Only available if student has started the assignment
+        //                if (la.Status == LearnerAssignmentState.NotStarted)
+        //                {
+        //                    RegisterError(SlkFrameset.FRM_ReviewNotAvailableTitle,
+        //                     SlkFrameset.FRM_ReviewNotAvailableMsgHtml, false);
+        //                    return false;
+        //                }
 
-                        break;
-                    }
-                case AssignmentView.StudentReview:
-                    {
-                        // Verify that session view matches what you expect
-                        if (sessionView != SessionView.Review)
-                        {
-                            throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
-                        }
+        //                break;
+        //            }
+        //        case AssignmentView.StudentReview:
+        //            {
+        //                // Verify that session view matches what you expect
+        //                if (sessionView != SessionView.Review)
+        //                {
+        //                    throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
+        //                }
 
-                        // If requesting student review, the assignment state must be final
-                        if (la.Status != LearnerAssignmentState.Final)
-                        {
-                            RegisterError(SlkFrameset.FRM_ReviewNotAvailableTitle,
-                                SlkFrameset.FRM_LearnerReviewNotAvailableMsgHtml, false);
-                            return false;
-                        }
+        //                // The assignment must have started
+        //                if (!VerifyAssignmentStartDate(la, true))
+        //                {
+        //                    return false;
+        //                }
 
-                        break;
-                    }
-                default:
-                    break;
-            }
-            return true;
-        }
+        //                // If requesting student review, the assignment state must be final
+        //                if (la.Status != LearnerAssignmentState.Final)  
+        //                {
+        //                    RegisterError(SlkFrameset.FRM_ReviewNotAvailableTitle,
+        //                        SlkFrameset.FRM_LearnerReviewNotAvailableMsgHtml, false);
+        //                    return false;
+        //                }
+
+        //                break;
+        //            }
+        //        default:
+        //            break;
+        //    }
+        //    return true;
+        //}
 
         /// <summary>
         /// Send the non-elearning content to the response. Non-elearning content is any content other than 

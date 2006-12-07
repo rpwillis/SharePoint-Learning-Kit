@@ -50,6 +50,103 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>
+        /// Process a request for a view. If not allowed, register an error and return false.
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="session"></param>
+        public bool ProcessViewRequest(SessionView view, LearningSession session)
+        {
+            LearnerAssignmentProperties la = GetLearnerAssignment();
+
+            return ProcessViewRequest(la, view);
+        }
+
+        /// <summary>
+        /// Process a view request to determine if it's valid. The AssignmentView must be 
+        /// set before calling this method.
+        /// </summary>
+        protected bool ProcessViewRequest(LearnerAssignmentProperties la, SessionView sessionView)
+        {
+            switch (AssignmentView)
+            {
+                case AssignmentView.Execute:
+                    {
+                        // Verify that session view matches what you expect
+                        if (sessionView != SessionView.Execute)
+                        {
+                            throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
+                        }
+
+                        // Can only access active assignments in Execute view
+                        if (la.Status != LearnerAssignmentState.Active)
+                        {
+                            RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle,
+                                SlkFrameset.FRM_AssignmentTurnedInMsgHtml, false);
+
+                            return false;
+                        }
+                        break;
+                    }
+                case AssignmentView.Grading:
+                    {
+                        // Verify that session view matches what you expect
+                        if (sessionView != SessionView.RandomAccess)
+                        {
+                            throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
+                        }
+
+                        // Grading is not available if the assignment has not been submitted.
+                        if ((la.Status == LearnerAssignmentState.Active)
+                            || (la.Status == LearnerAssignmentState.NotStarted))
+                        {
+                            RegisterError(SlkFrameset.FRM_AssignmentNotGradableTitle,
+                             SlkFrameset.FRM_AssignmentCantBeGradedMsgHtml, false);
+                            return false;
+                        }
+                        break;
+                    }
+                case AssignmentView.InstructorReview:
+                    {
+                        // Verify that session view matches what you expect
+                        if (sessionView != SessionView.Review)
+                        {
+                            throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
+                        }
+
+                        // Only available if student has started the assignment
+                        if (la.Status == LearnerAssignmentState.NotStarted)
+                        {
+                            RegisterError(SlkFrameset.FRM_ReviewNotAvailableTitle,
+                             SlkFrameset.FRM_ReviewNotAvailableMsgHtml, false);
+                            return false;
+                        }
+
+                        break;
+                    }
+                case AssignmentView.StudentReview:
+                    {
+                        // Verify that session view matches what you expect
+                        if (sessionView != SessionView.Review)
+                        {
+                            throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
+                        }
+
+                        // If requesting student review, the assignment state must be final
+                        if (la.Status != LearnerAssignmentState.Final)
+                        {
+                            RegisterError(SlkFrameset.FRM_ReviewNotAvailableTitle,
+                                SlkFrameset.FRM_LearnerReviewNotAvailableMsgHtml, false);
+                            return false;
+                        }
+
+                        break;
+                    }
+                default:
+                    break;
+            }
+            return true;
+        }
 
         protected override void OnInit(EventArgs e)
         {
@@ -126,6 +223,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             {
                 m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentId, GetSlkRole(AssignmentView));
             }
+
             return m_learnerAssignmentProperties;
         }
 
