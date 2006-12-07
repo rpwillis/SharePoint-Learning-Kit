@@ -853,6 +853,7 @@
           <b>
             <a href="SlkSchema.htm">Default operation-level security</a>:</b>
 				Access is granted to instructors and learners of the assignment.
+				Learners have no access before the start date of the assignment.
 			</para>
       </Remarks>
     </Documentation>
@@ -1032,7 +1033,7 @@
             LEFT OUTER JOIN UserItem lui ON lai.LearnerId = lui.Id
             LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
           WHERE asi.Id = @AssignmentId AND
-            (((lui.[Key] = @UserKey) AND (@IsInstructor = 0))
+            (((lui.[Key] = @UserKey) AND (@IsInstructor = 0) AND (GETUTCDATE() >= asi.StartDate))
 			 OR
 			 ((iui.[Key]=@UserKey) AND (@IsInstructor = 1)))
         ) THEN 1 ELSE 0 END  
@@ -1660,7 +1661,7 @@
 				information about one <a href="SlkConcepts.htm#Assignments">learner assignment</a>,
 				as well as information about the e-learning package (if any) associated with the
 				assignment.  This view returns one row for each assignment for which the current
-				user is a learner.
+				user is a learner, excluding assignments which have not yet started.
 			</para>
         <para>
 				This view is available only in <a href="Default.htm">SLK</a> (not in
@@ -2037,6 +2038,7 @@
       LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
       LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
       WHERE lui.[Key] = @UserKey
+	  AND GETUTCDATE() >= asi.StartDate
     </Implementation>
     <GrantQueryRight>
       <Expression>1</Expression>
