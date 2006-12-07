@@ -601,14 +601,14 @@ namespace Microsoft.LearningComponents.Storage
                 {
                     // if there is a current activity, we may be limit the subtree to search
                     // based on the choiceExit sequencing flag
-                    Activity top = m_currentActivity;
+                    Activity top = RootActivity;
                     for(Activity a = m_currentActivity ; a != null ; a = a.Parent)
                     {
                         if(!a.Sequencing.ChoiceExit)
                         {
+                            top = a;
                             break;
                         }
-                        top = a;
                     }
                     SetupTocSubtree(top, evaluateSequencingRules);
                 }
