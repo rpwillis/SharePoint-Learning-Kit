@@ -48,7 +48,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                    m_hiddenHelper = new HiddenHelper(Request, Response, SlkEmbeddedUIPath);
                    m_hiddenHelper.ProcessPageLoad(SlkStore.PackageStore, SlkStore.Settings.LoggingOptions,
                                        GetSessionTitle, TryGetSessionView, TryGetAttemptId, AppendContentFrameDetails, RegisterError,
-                                       GetErrorInfo, ProcessSessionEnd, GetMessage, IsPostBack);
+                                       GetErrorInfo, ProcessSessionEnd, ProcessViewRequest, GetMessage, IsPostBack);
 
 
                    // Send assignment information to client. If the session has ended, then force a reload of the current 

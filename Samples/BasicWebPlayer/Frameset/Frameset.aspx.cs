@@ -54,48 +54,7 @@ namespace Microsoft.LearningComponents.Frameset
             }
         }
 
-        /// <summary>
-        /// Delegate implementation to allow the frameset to take action on a session view request. This allows SLK and 
-        /// BWP to have different behavior and messages about which requests are not valid.
-        /// </summary>
-        public bool ProcessViewRequest(SessionView view, LearningSession session)
-        {
-            switch (view)
-            {
-                case SessionView.Execute:
-                    {
-                        StoredLearningSession slsSession = session as StoredLearningSession;
-                        if (slsSession != null)
-                        {
-                            if (slsSession.AttemptStatus == AttemptStatus.Completed)
-                            {
-                                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidAttemptStatusForViewTitle),
-                                         ResHelper.GetMessage(FramesetResources.FRM_ExecuteViewCompletedSessionMsg), false);
-                                return false;
-                            }
-                            else if (slsSession.AttemptStatus == AttemptStatus.Abandoned)
-                            {
-                                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidAttemptStatusForViewTitle),
-                                    ResHelper.GetMessage(FramesetResources.FRM_ExecuteViewAbandonedSessionMsg), false);
-                                return false;
-                            }
-                        }
-                    }
-                    break;
-
-                case SessionView.Review:
-                    // BWP does not provide review view
-                    RegisterError(ResHelper.GetMessage(FramesetResources.FRM_ViewNotSupportedTitle),
-                                         ResHelper.GetMessage(FramesetResources.FRM_ReviewViewNotSupportedMsg), false);
-                    break;
-
-                case SessionView.RandomAccess:
-                    RegisterError(ResHelper.GetMessage(FramesetResources.FRM_ViewNotSupportedTitle),
-                                        ResHelper.GetMessage(FramesetResources.FRM_RAViewNotSupportedMsg), false);
-                    break;
-            }
-            return true;
-        }
+        
 
         #region Called From Aspx    // the following methods are called from in-place aspx code
 

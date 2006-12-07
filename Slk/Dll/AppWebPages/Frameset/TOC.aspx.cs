@@ -44,8 +44,9 @@ namespace Microsoft.SharePointLearningKit.Frameset
                             submitText = SlkFrameset.TOC_SubmitGrading;
 
                     }
-                    m_tocHelper.ProcessPageLoad(Response, SlkStore.PackageStore, TryGetSessionView, TryGetAttemptId, RegisterError,
-                            submitText);
+                    m_tocHelper.ProcessPageLoad(Response, SlkStore.PackageStore, TryGetSessionView,
+                                                TryGetAttemptId, ProcessViewRequest, RegisterError,
+                                                submitText);
                 });
             } 
             catch (Exception ex)

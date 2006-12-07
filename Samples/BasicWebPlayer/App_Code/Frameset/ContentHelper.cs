@@ -110,6 +110,7 @@ namespace Microsoft.LearningComponents.Frameset
                                     AppendContentFrameDetails appendContentFrameDetails,
                                     UpdateRenderContext updateRenderContext,
                                     ProcessPostedData ProcessPostedData,
+                                    ProcessViewRequest ProcessViewRequest, 
                                     ProcessPostedDataComplete ProcessPostedDataComplete,
                                     RegisterError registerError,
                                     GetErrorInfo getErrorInfo,
@@ -147,6 +148,9 @@ namespace Microsoft.LearningComponents.Frameset
                 return;
 
             StoredLearningSession slsSession = new StoredLearningSession(view, attemptId, packageStore);
+
+            if (!ProcessViewRequest(view, slsSession))
+                return; 
 
             Session = slsSession;
 

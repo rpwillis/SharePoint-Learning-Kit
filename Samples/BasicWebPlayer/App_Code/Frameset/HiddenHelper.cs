@@ -96,6 +96,7 @@ namespace Microsoft.LearningComponents.Frameset
                                     RegisterError registerError,
                                     GetErrorInfo getErrorInfo,
                                     ProcessSessionEnd ProcessSessionEnd,
+                                    ProcessViewRequest ProcessViewRequest,
                                     GetFramesetMsg getFramesetMsg,  // messages that appear that are unique to different framesets
                                     bool isPostBack)
         {
@@ -128,6 +129,9 @@ namespace Microsoft.LearningComponents.Frameset
                                 return;
 
                             Session = new StoredLearningSession(view, attemptId, packageStore);
+                            if (!ProcessViewRequest(view, Session))
+                                return;
+
                             Session.LoggingOptions = loggingOptions;
 
                             // If the session has ended, allow the application to deal with it.
@@ -141,6 +145,9 @@ namespace Microsoft.LearningComponents.Frameset
 
                             Session = new StoredLearningSession(view, attemptId, packageStore);
                             // Do not set logging options in review view.
+
+                            if (!ProcessViewRequest(view, Session))
+                                return;
                         }
                         break;
                     case SessionView.RandomAccess:
@@ -152,6 +159,9 @@ namespace Microsoft.LearningComponents.Frameset
 
                             Session = new StoredLearningSession(view, attemptId, packageStore);
                             // Do not set logging options in random access view.
+
+                            if (!ProcessViewRequest(view, Session))
+                                return;
 
                             // Move to the first activity with a resource.
                             MoveToNextActivity(Session);

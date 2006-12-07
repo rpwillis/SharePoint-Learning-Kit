@@ -93,6 +93,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                                                         AppendContentFrameDetails,
                                                         UpdateRenderContext,
                                                         ProcessPostedData,
+                                                        ProcessViewRequest,
                                                         ProcessPostedDataComplete,
                                                         RegisterError,
                                                         GetErrorInfo,
@@ -212,7 +213,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 // If we could not get the assignment, send the proper error codes
                 Response.StatusCode = 404;
                 Response.StatusDescription = "Not Found";
-                return false;
             }
 
             if (!isValid)
@@ -224,6 +224,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 }
                 return false;
             }
+
             return true;
         }
 

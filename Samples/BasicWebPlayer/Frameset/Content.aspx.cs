@@ -76,6 +76,7 @@ namespace Microsoft.LearningComponents.Frameset
                                                     AppendContentFrameDetails,
                                                     UpdateRenderContext,
                                                     ProcessPostedData,
+                                                    ProcessViewRequest,
                                                     ProcessPostedDataComplete,
                                                     RegisterError,
                                                     GetErrorInfo,
