@@ -3564,7 +3564,6 @@ public class SlkStore
 					throw new InternalErrorException("SLK1007");
 				StoredLearningSession learningSession =
 					new StoredLearningSession(SessionView.Execute, attemptId, PackageStore);
-                learningSession.LoggingOptions = Settings.LoggingOptions;
 
 				// transition the attempt to "Completed" state; note that this will initialize
                 // the "content score", i.e. the score computed from the content
@@ -3611,7 +3610,6 @@ public class SlkStore
                     throw new InternalErrorException("SLK1010");
                 StoredLearningSession learningSession =
                     new StoredLearningSession(SessionView.RandomAccess, attemptId, PackageStore);
-                learningSession.LoggingOptions = Settings.LoggingOptions;
 
 				// reactivate the attempt
                 learningSession.Reactivate(ReactivateSettings.ResetEvaluationPoints);
@@ -3620,7 +3618,6 @@ public class SlkStore
                 // restart the attempt
                 learningSession = new StoredLearningSession(SessionView.Execute, attemptId,
                     PackageStore);
-                learningSession.LoggingOptions = Settings.LoggingOptions;
                 learningSession.Start(true);
                 learningSession.CommitChanges();
 				// NOTE: if (learningSession.AttemptStatus != AttemptStatus.Active) then the
