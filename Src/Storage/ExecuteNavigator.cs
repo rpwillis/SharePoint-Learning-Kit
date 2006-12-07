@@ -895,7 +895,7 @@ namespace Microsoft.LearningComponents.Storage
                         m_currentActivity.DataModel.ActivityIsSuspended = true;
                         return false;
                     case ExitMode.Logout:
-                        command = NavigationCommand.ExitAll;
+                        command = NavigationCommand.SuspendAll;
                         break;
                     }
                 }
