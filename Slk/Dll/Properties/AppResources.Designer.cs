@@ -1094,11 +1094,10 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter the title and description of the assignment, start and due dates, and the number of points&lt;br&gt;
-        ///															possible for the assignment. You can also specify 
-        ///							whether learner assignments will automatically be&lt;br&gt;
-        ///								returned, and whether learners can see the 
-        ///								correct answers when they review the assignment..
+        ///   Looks up a localized string similar to Enter the title and description of the assignment, start and due dates, and the number of points
+        ///    possible for the assignment. You can also specify whether learner assignments will 
+        ///    automatically be returned, and whether learners can see the correct answers when they review the assignment.
+        ///    .
         /// </summary>
         internal static string CtrlLabelAssignmentPropDesc {
             get {

@@ -275,11 +275,10 @@ More information has been written to the server event log.</value>
     <comment>Check Box Label Text for Auto Return Learners Assignments</comment>
   </data>
   <data name="CtrlLabelAssignmentPropDesc" xml:space="preserve">
-    <value>Enter the title and description of the assignment, start and due dates, and the number of points&lt;br&gt;
-															possible for the assignment. You can also specify 
-							whether learner assignments will automatically be&lt;br&gt;
-								returned, and whether learners can see the 
-								correct answers when they review the assignment.</value>
+    <value>Enter the title and description of the assignment, start and due dates, and the number of points
+    possible for the assignment. You can also specify whether learner assignments will 
+    automatically be returned, and whether learners can see the correct answers when they review the assignment.
+    </value>
     <comment>Assignment Properities intro Text</comment>
   </data>
   <data name="CtrlLabelAssignmentPropHeader" xml:space="preserve">
