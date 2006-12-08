@@ -556,6 +556,8 @@ namespace Microsoft.SharePointLearningKit.WebControls
             txtFinalScore.CssClass = "ms-input";
             txtFinalScore.Width = new Unit(50, UnitType.Pixel);
             txtFinalScore.ID = uniqueId;
+            
+
             string onFocusHandler
                 = String.Format(CultureInfo.InvariantCulture,
                                 "Slk_GradingHighlightGradingRow({0});",
@@ -848,6 +850,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 !(m_postBackGradingItems.ContainsKey(key)))
             {
                 m_postBackGradingItems.Add(key, item);
+                Items.LearnerItemsChanged.Add(item.LearnerAssignmentId);
             }
         }
         #endregion
@@ -872,6 +875,23 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     string controlValue = postbackCollection[key];
                     SetGradingItems(controlID, controlValue);
                 }
+            }
+
+            if (Items.LearnerItemsChanged != null && 
+                Items.LearnerItemsChanged.Count > 0)
+            {
+                foreach (long key in Items.LearnerItemsChanged)
+                {
+                    string itemKey = key.ToString(CultureInfo.InvariantCulture);
+
+                    if (!(m_postBackGradingItems.ContainsKey(itemKey)))
+                    {
+                        GradingItem item = Items.FindByValue(key);
+                        m_postBackGradingItems.Add(itemKey, item);
+                    }
+
+                }
+                
             }
 
             return m_postBackGradingItems;
@@ -911,6 +931,8 @@ namespace Microsoft.SharePointLearningKit.WebControls
         protected override object SaveControlState()
         {
             object baseState = base.SaveControlState();
+            //Update the Post back Items.
+            DeterminePostBackGradingItems();
             object itemState = Items.SaveViewState();
             if ((baseState == null) && (itemState == null))
                 return null;
@@ -926,6 +948,8 @@ namespace Microsoft.SharePointLearningKit.WebControls
         {
             //Clear the Grading Item Collection
             this.Items.Clear();
+            //Clears the Grading Item Changed Collection
+            this.Items.LearnerItemsChanged.Clear();
 
         }
         #endregion
@@ -1308,6 +1332,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// Holds Action State
         /// </summary>
         private bool m_actionState;
+        
 
 
         #endregion
@@ -1399,6 +1424,8 @@ namespace Microsoft.SharePointLearningKit.WebControls
             get { return m_actionState; }
             set { m_actionState = value; }
         }
+        
+
 
         #endregion
     }
@@ -1409,9 +1436,22 @@ namespace Microsoft.SharePointLearningKit.WebControls
     /// </summary>
     internal sealed class GradingItemCollection : List<GradingItem>, IStateManager
     {
+        /// <summary>
+        /// Holds Changed Learners Items
+        /// </summary> 
+        private List<long> m_learnerItemsChanged = new List<long>(50);
+
         private bool m_isTracked;
 
         #region Private and Public Methods
+        /// <summary>
+        /// Returns Items Changed in Postback
+        /// </summary>
+        internal List<long> LearnerItemsChanged
+        {
+            get { return m_learnerItemsChanged; }
+        }
+
         /// <summary>
         /// Searches the collection for a GradingItem with a 
         /// Learner Assignment Id as Key Value. 
@@ -1431,6 +1471,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             }
             return null;
         }
+
         #endregion
 
         #region IStateManager Members
@@ -1453,12 +1494,14 @@ namespace Microsoft.SharePointLearningKit.WebControls
             {
                 Triplet obj = (Triplet)state;
                 Clear();
-                Pair objState1 = (Pair)obj.First;
+                Triplet objState1 = (Triplet)obj.First;
                 Triplet objState2 = (Triplet)obj.Second;
                 Triplet objState3 = (Triplet)obj.Third;
 
                 long[] assignmentId = (long[])objState1.First;
                 string[] learnerName = (string[])objState1.Second;
+                m_learnerItemsChanged.AddRange((long[])objState1.Third);
+
                 LearnerAssignmentState[] status = (LearnerAssignmentState[])objState2.First;
                 SuccessStatus[] successStatus = (SuccessStatus[])objState2.Second;
                 string[] gradedScore = (string[])objState2.Third;
@@ -1526,7 +1569,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     actionState[i] = this[i].ActionState;
                 }
 
-                Pair objState1 = new Pair(assignmentId, learnerName);
+                Triplet objState1 = new Triplet(assignmentId, learnerName, LearnerItemsChanged.ToArray());
                 Triplet objState2 = new Triplet(learnerStatus, successStatus, gradedScore);
                 Triplet objState3 = new Triplet(finalScore, instructorComments, actionState);
 
