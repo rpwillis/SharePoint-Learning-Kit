@@ -802,9 +802,11 @@ beginning with a letter</p>
 <table class="Grid" style="width: auto">
 	<col class="Column1_" />
 	<col class="Column2_" />
+	<col class="Column3_" />
 	<tr class="Header_">
 		<td class="Header1_">Token</td>
 		<td class="Header2_">What's Displayed</td>
+		<td class="Header3_">Sort Behavior</td>
 	</tr>
 	<tr>
 		<td>Default <i>(default value)</i></td>
@@ -818,6 +820,8 @@ beginning with a letter</p>
 			HTML encoding occurs.  For example, if FormatString is "M/d h:mm tt" and the column
 			type is DateTime, the column is formatted as in this example: 3/7 4:30 PM.
 		</td>
+		<td>Sort alphabetically by the rendered string.  The sort is case-insensitive.  Blank cells
+			(i.e. DBNull values) sort the same as empty strings.</td>
 	</tr>
 	<tr>
 		<td>LearnerAssignmentStatus</td>
@@ -855,6 +859,8 @@ beginning with a letter</p>
 			</ul>
 			The FormatString and NullDisplayString attributes are ignored.
 		</td>
+		<td>Sort status by workflow state, ascending order is "Not Started", "In Progress",
+			"Completed", and "Final".</td>
 	</tr>
 	<tr>
 		<td>Link</td>
@@ -873,6 +879,7 @@ beginning with a letter</p>
 			</ul>
 			The FormatString attribute is ignored.
 		</td>
+		<td>Sort alphabetically by the rendered string. The sort is case-insensitive.</td>
 	</tr>
 	<tr>
 		<td>ScoreAndPossible</td>
@@ -893,6 +900,9 @@ beginning with a letter</p>
 			FormatString is "n0", the values are rounded to the nearest integer-but that formatting
 			doesn't apply to the tooltip.  The NullDisplayString attribute is ignored.
 		</td>
+		<td>Sort by points divided by points possible in increasing numerical order for an
+			ascending sort.  If points is null, then sort as 0.  If points possible is null, just
+			use the numerator.</td>
 	</tr>
 	<tr>
 		<td>SPWebName</td>
@@ -906,6 +916,7 @@ beginning with a letter</p>
 			</ul>
 			The FormatString and NullDisplayString attributes are ignored.
 		</td>
+		<td>Sort alphabetically by SPWeb name string.  The sort is case-insensitive.</td>
 	</tr>
 	<tr>
 		<td>Submitted</td>
@@ -914,6 +925,8 @@ beginning with a letter</p>
 			the assignment; for example, "10/12".  Each value is an integer.  Neither value can be
 			NULL.
 		</td>
+		<td>Sort by the number of learner assignments submitted-or-returned in increasing
+			numerical order with zero submitted listed first in an ascending sort.</td>
 	</tr>
 	<tr>
 		<td>UtcAsLocalDateTime</td>
@@ -928,6 +941,8 @@ beginning with a letter</p>
 			HTML encoding occurs.  For example, if FormatString is "M/d h:mm tt", the column is
 			formatted as in this example: 3/7 4:30 PM.
 		</td>
+		<td>Sort by date in ascending order (with the earliest due date listed first) and list
+			assignments without dates below those with dates.</td>
 	</tr>
 </table>
 
