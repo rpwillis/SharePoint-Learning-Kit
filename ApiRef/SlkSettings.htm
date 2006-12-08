@@ -32,9 +32,6 @@ DIV.XmlElementTopic
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class="Summary">
 
-<p style="color: darkgray">[TODO: Package cache location and expiration settings and MIME type
-mappings.]</p>
-
 <p>Each SharePoint site collection (SPSite) may be associated with a SharePoint Learning Kit
 database.  (Multiple site collections can refer to the same SLK database, but there can be at
 most one SLK database associated with a given SharePoint site collection.)  Corresponding to
@@ -46,7 +43,7 @@ that contains the following information:</p>
 		with that site collection.</li>
 	<li>A definition of each <a href="SlkQueriesAndQuerySets.htm#QuerySets">SLK query set</a>
 		associated with that site collection.</li>
-	<li>TODO: more here...</li>
+	<li>Other settings, described below.</li>
 </ul>
 
 <p>SLK ships with a <a href="SlkSettings.xml.htm">default SLK Settings XML file</a>, which is
@@ -89,8 +86,6 @@ SharePoint Central Administration.</p>
 <div class="SectionHeader">SLK Settings File Structure</div>
 <div class="Section">
 
-<p>TODO</p>
-
 <p>The general structure of a SLK Settings file is as follows.  Many elements are optional;
 see the documentation of each element for more information.</p>
 
@@ -125,7 +120,11 @@ see the documentation of each element for more information.</p>
 </div>
 <div class="Section XmlElementTopic">
 
-	<p>(Optional, child of <a href="#Query">&lt;Query&gt;</a>, multiple allowed.)  TODO...</p>
+	<p>(Optional, child of <a href="#Query">&lt;Query&gt;</a>, multiple allowed.)  Specifies a
+	column to return from the query.  The RenderAs attribute determines if the column corresponds
+	directly to a single LearningStore view column or if the column is computed using information
+	from one or more LearningStore view columns&mdash;see the “RenderAsType” table below for more information.</p>
+
 
 	<div class="SubsectionHeader">Syntax</div>
 	<table class="Grid Code">
@@ -155,36 +154,36 @@ see the documentation of each element for more information.</p>
 	<div class="Subsection">
 	<p class="AttributeName">Title</p>
 	<p class="AttributeDescription">(string, optional.)
-		TODO.
+		The human-readable title of this column.  For example, ALWP displays this value in the column header.  If not provided, the value of the ViewColumnName column is used.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">RenderAs</p>
-	<p class="AttributeDescription">(<a href="#Types">RenderAsType</a>, optional,
+	<p class="AttributeDescription">(<a href="#RenderAsType">RenderAsType</a>, optional,
 		default <tt>Default</tt>.)
-		TODO.
+		Determines what text is displayed for values in the column.  Also determines if the column corresponds directly to a single LearningStore view column or if the column is computed using information from one or more LearningStore view columns.  See the “RenderAsType” table below for more information.  
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">ViewColumnName</p>
-	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, required.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#SchemaIdType">SchemaIdType</a>, required.)
+		The name of the first (and possibly only) LearningStore view column that’s used to construct the text of values in this column.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">ViewColumnName2</p>
-	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, optional.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#SchemaIdType">SchemaIdType</a>, required if specified by the RenderAs type.)
+		The name of the second LearningStore view column that’s used to construct the text of values in this column.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">ViewColumnName3</p>
-	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, optional.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#SchemaIdType">SchemaIdType</a>, required if specified by the RenderAs type.)
+		The name of the third LearningStore view column that’s used to construct the text of values in this column.
 	</p>
 	</div>
 
@@ -205,21 +204,21 @@ see the documentation of each element for more information.</p>
 	<div class="Subsection">
 	<p class="AttributeName">NullDisplayString</p>
 	<p class="AttributeDescription">(string, optional.)
-		TODO.
+		The string to display if the value of the value of the column specified by ViewColumnName is NULL.  If not provided, the default is the empty string.  Note that NullDisplayString may be ignored depending on the value of the RenderAs attribute&mdash;see the RenderAsType table below.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">ToolTipFormat</p>
 	<p class="AttributeDescription">(string, optional.)
-		TODO.
+		If specified, this is a String.Format formatting specification (e.g. “Final score:&#10;{0:n2}”) used to create the tooltip.  Formatting argument “{0}” refers to the value rendered as described in the RenderAsType table below.  If the value in the column specified by ViewColumnName is NULL then no tooltip is displayed, unless specified in the RenderAsType table.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">Wrap</p>
 	<p class="AttributeDescription">(boolean, optional, default <tt>true</tt>.)
-		TODO.
+		If specified as “false”, the rendered value (see the RenderAsType table below) is not permitted to wrap to a new line, where applicable (e.g. in an HTML table).
 	</p>
 	</div>
 
@@ -237,7 +236,7 @@ see the documentation of each element for more information.</p>
 </div>
 <div class="Section XmlElementTopic">
 
-	<p>(Optional, child of <a href="#Query">&lt;Query&gt;</a>, multiple allowed.)  TODO...</p>
+	<p>(Optional, child of <a href="#Query">&lt;Query&gt;</a>, multiple allowed.)  Defines a condition that must be met in order for a row that’s returned by the LearningStore view to be included in the query results.</p>
 
 	<div class="SubsectionHeader">Syntax</div>
 	<table class="Grid Code">
@@ -261,29 +260,29 @@ see the documentation of each element for more information.</p>
 
 	<div class="Subsection">
 	<p class="AttributeName">ViewColumnName</p>
-	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, required.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#SchemaIdType">SchemaIdType</a>, required.)
+		The name of the LearningStore view column to use in the condition.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">Operator</p>
-	<p class="AttributeDescription">(<a href="#Types">ConditionOperator</a>, required.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#ConditionOperator">ConditionOperator</a>, required.)
+		Specifies the operator to use when comparing a value in the LearningStore view column with the value specified by the Value or MacroName attribute.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">Value</p>
 	<p class="AttributeDescription">(string, optional.)
-		TODO.
+		The value to compare LearningStore view column values with.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">MacroName</p>
-	<p class="AttributeDescription">(<a href="#Types">MacroNameType</a>, optional.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#MacroNameType">MacroNameType</a>, optional.)
+		The name of a “macro”&mdash;essentially a variable&mdash;provided by the application (e.g. ALWP).  The value of this macro is the value to compare LearningStore view column values with.
 	</p>
 	</div>
 
@@ -308,7 +307,7 @@ see the documentation of each element for more information.</p>
 </div>
 <div class="Section XmlElementTopic">
 
-	<p>(Optional, child of <a href="#QuerySet">&lt;QuerySet&gt;</a>, multiple allowed.)  TODO...</p>
+	<p>(Optional, child of <a href="#QuerySet">&lt;QuerySet&gt;</a>, multiple allowed.)  Specifies a query to include in a query set.</p>
 
 	<div class="SubsectionHeader">Syntax</div>
 	<table class="Grid Code">
@@ -328,8 +327,8 @@ see the documentation of each element for more information.</p>
 
 	<div class="Subsection">
 	<p class="AttributeName">QueryName</p>
-	<p class="AttributeDescription">(<a href="#Types">NameType</a>, required.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#NameType">NameType</a>, required.)
+		The Name attribute of the &lt;Query&gt; element to include in the query set.
 	</p>
 	</div>
 
@@ -395,7 +394,7 @@ see the documentation of each element for more information.</p>
 <div class="Section XmlElementTopic">
 
 	<p>(Optional, child of <a href="#Settings">&lt;Settings&gt;</a>, multiple allowed.)
-	TODO...  All <tt>&lt;Query&gt;</tt> elements must appear before any
+	Specifies a LearningStore query on a particular LearningStore view.  (The view contains a superset of the information returned by the query; the query indicates columns to use from the view, as well as conditions that specify which rows to return.)  ALWP (Assignment List Web Part) allows the user to select a query to execute; the results are formatted (see RenderAsType below) and displayed within an iframe.  All <tt>&lt;Query&gt;</tt> elements must appear before any
 	<tt><a href="#QuerySet">&lt;QuerySet&gt;</a></tt> element.</p>
 
 	<p>TODO: see error messages in source code</p>
@@ -425,29 +424,29 @@ see the documentation of each element for more information.</p>
 
 	<div class="Subsection">
 	<p class="AttributeName">CountViewColumnName</p>
-	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, optional.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#SchemaIdType">SchemaIdType</a>, optional.)
+		The name of a column in the LearningStore view specified by the ViewName attribute that can be used when the application needs to determine the number of rows returned in a query.  In that situation, the query must include one column&mdash;any column will do&mdash;and it helps performance to make that column be one that contains small data (such as a boolean or integer column).  If CountViewColumnName is not specified, the application will use the first column specified on child &lt;Column&gt; elements when creating count-only queries.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">Name</p>
-	<p class="AttributeDescription">(<a href="#Types">NameType</a>, required.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#NameType">NameType</a>, required.)
+		A name for the query, used to refer to the query from a &lt;QuerySet&gt; element, a Web Part in SharePoint, etc.  No &lt;Query&gt; element may have the same Name attribute value as any other &lt;Query&gt; or &lt;QuerySet&gt; element.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">Title</p>
 	<p class="AttributeDescription">(string, optional.)
-		TODO.
+		The human-readable title of the query.  For example, ALWP displays this value as the query title in the list of queries in the left pane of the Web Part.  If not provided, the value of the Name attribute is used.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">ViewName</p>
-	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, required.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#SchemaIdType">SchemaIdType</a>, required.)
+		The name of the LearningStore view that this query executes.  For example, “LearnerAssignmentListForLearners”.
 	</p>
 	</div>
 
@@ -491,7 +490,7 @@ see the documentation of each element for more information.</p>
 <div class="Section XmlElementTopic">
 
 	<p>(Optional, child of <a href="#Settings">&lt;Settings&gt;</a>, multiple allowed.)
-	TODO...  All <tt>&lt;QuerySet&gt;</tt> elements must appear after any
+	Specifies a query set, which is a collection of one or more queries.  The queries displayed by ALWP are those contained within a single query set.  All <tt>&lt;QuerySet&gt;</tt> elements must appear after any
 	<tt><a href="#Query">&lt;Query&gt;</a></tt> element.</p>
 
 	<div class="SubsectionHeader">Syntax</div>
@@ -516,22 +515,22 @@ see the documentation of each element for more information.</p>
 
 	<div class="Subsection">
 	<p class="AttributeName">DefaultQueryName</p>
-	<p class="AttributeDescription">(<a href="#Types">NameType</a>, optional.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#NameType">NameType</a>, optional.)
+		The Name attribute of the child &lt;IncludeQuery&gt; element that defines the query that’s displayed by default.  If not provided, the first &lt;IncludeQuery&gt; is used.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">Name</p>
-	<p class="AttributeDescription">(<a href="#Types">NameType</a>, required.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#NameType">NameType</a>, required.)
+		A name for the query set, used to refer to the query set from a Web Part in SharePoint etc.  No &lt;QuerySet&gt; element may have the same Name attribute value as any other &lt;QuerySet&gt; or &lt;Query&gt; element.  (If an application requests a query set using a name that’s actually a query name, a query set containing only that query is constructed automatically.)
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">Title</p>
 	<p class="AttributeDescription">(string, optional.)
-		TODO.
+		The human-readable title of the query set.  If not provided, the value of the Name attribute is used.
 	</p>
 	</div>
 
@@ -549,7 +548,7 @@ see the documentation of each element for more information.</p>
 </div>
 <div class="Section XmlElementTopic">
 
-	<p>(Optional, root element, multiple allowed.)  TODO...</p>
+	<p>(Optional, root element, multiple allowed.)  The root XML element of the SLK Settings file.</p>
 
 	<div class="SubsectionHeader">Syntax</div>
 	<table class="Grid Code">
@@ -594,7 +593,7 @@ see the documentation of each element for more information.</p>
 
 	<div class="Subsection">
 	<p class="AttributeName">LoggingOptions</p>
-	<p class="AttributeDescription">(<a href="#Types">LoggingOptions</a>, required.)
+	<p class="AttributeDescription">(<a href="#LoggingOptions">LoggingOptions</a>, required.)
 		TODO.
 	</p>
 	</div>
@@ -648,7 +647,7 @@ see the documentation of each element for more information.</p>
 </div>
 <div class="Section XmlElementTopic">
 
-	<p>(Optional, child of <a href="#Column">&lt;Column&gt;</a>, multiple allowed.)  TODO...</p>
+	<p>(Optional, child of <a href="#Column">&lt;Column&gt;</a>, multiple allowed.)  Specifies a LearningStore view column to sort by.  If multiple &lt;Sort&gt; elements are provided, they are applied in the order present.  If no &lt;Sort&gt; is provided, the order of rows returned by the query is undetermined.</p>
 
 	<div class="SubsectionHeader">Syntax</div>
 	<table class="Grid Code">
@@ -670,14 +669,14 @@ see the documentation of each element for more information.</p>
 	<div class="Subsection">
 	<p class="AttributeName">Ascending</p>
 	<p class="AttributeDescription">(boolean, optional, default <tt>true</tt>.)
-		TODO.
+		Specifies the direction of the sort: ascending if true, descending if false.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">ViewColumnName</p>
-	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, required.)
-		TODO.
+	<p class="AttributeDescription">(<a href="#SchemaIdType">SchemaIdType</a>, required.)
+		The name of the LearningStore view column to sort by.
 	</p>
 	</div>
 
@@ -690,39 +689,265 @@ see the documentation of each element for more information.</p>
 </div>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<a name="Types"></a>
-<div class="SectionHeader">SLK Settings XML Data Types</div>
+<a name="ConditionOperator"></a>
+<div class="SectionHeader">ConditionOperator Values</div>
 <div class="Section">
 
-<p>The following custom data types, referenced above, are defined in the SLK Settings XML schema
-definition (SlkSettings.xsd):</p>
-
-<ul>
-
-	<li><b>ConditionOperator</b>: TODO.</li>
-
-	<li><b>LoggingOptions</b>: TODO.</li>
-
-	<li><b>MacroNameType</b>: TODO.</li>
-
-	<li><b>NameType</b>: A string of one to 63 letters (A-Z or a-z) and digits (0-9), beginning
-		with a letter</li>
-
-	<li><b>RenderAsType</b>: TODO.  See <a href="#RenderAsTypes">RenderAs Types</a>.</li>
-
-	<li><b>SchemaIdType</b>: A string of one to 63 letters (A-Z or a-z) and digits (0-9), beginning
-		with a letter</li>
-
-</ul>
+<p>A value of type "ConditionOperator" is a token with the same name as one of the members of the
+<a href="Microsoft.LearningComponents.Storage.LearningStoreConditionOperator.Enumeration.htm">LearningStoreConditionOperator</a>
+enumeration: Equal, GreaterThan, GreaterThanEqual, LessThan, LessThanEqual, NotEqual, IsNull, and
+IsNotNull.</p>
 
 </div>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<a name="RenderAsTypes"></a>
-<div class="SectionHeader">RenderAs Types</div>
+<a name="LoggingOptions"></a>
+<div class="SectionHeader">LoggingOptions Values</div>
 <div class="Section">
 
-<p>TODO...</p>
+<p>A value of type "LoggingOptions" is a token with the same name as one of the members of the
+<a href="Microsoft.LearningComponents.Storage.LoggingOptions.Enumeration.htm">LoggingOptions</a>
+enumeration: LogAll, LogAllSequencing, LogDetailSequencing, LogFinalSequencing, LogRollup, and
+None.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="MacroNameType"></a>
+<div class="SectionHeader">MacroNameType Values</div>
+<div class="Section">
+
+<p>Assignment List Web Part allows the following macros to be used within MacroName attributes of
+<a href="#Condition">&lt;Condition&gt;</a> operators.  Note that all DateTime macro values are
+represented in UTC, since UTC is used for almost all DateTime values in the SLK database.  However,
+"today" and "this week" refer to local time converted to UTC; for example in a GMT-08:00 time zone,
+if the local date/time is noon on March 15, "today" begins at 16:00 UTC on March 14 (i.e. midnight
+March 15 local time) and ends at 16:00 UTC on March 15 (i.e. midnight March 16 local time).  This
+conversion is generally transparent (assuming all servers in the SLK server farm have synchronized
+clocks and time zones), since when data is stored in, or compared with, the SLK database it is
+converted from local time to UTC, and when data is searched or retrieved it is converted back to
+local time.  Note that if a user in one time zone accesses an SLK server in another time zone, the
+definition of "today", "next week", etc. reflect the server's time zone, not the user's.</p>
+
+<p>Also, although the DateTime macro values represent instantaneous points in time, midnight is
+conventionally at the beginning of a day, not the end.  Therefore, "today" is defined as times that
+satisfy the following expression: StartOfToday &lt;= time &lt; StartOfTomorrow.</p>
+
+<table class="Grid" style="width: auto">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<col class="Column3_" />
+	<tr class="Header_">
+		<td class="Header1_">Macro</td>
+		<td class="Header2_">Type</td>
+		<td class="Header3_">Description</td>
+	</tr>
+	<tr>
+		<td>SPWebScope</td>
+		<td>Guid</td>
+		<td>The SPWeb that the query should be scoped to, or null if the query should apply to the
+			entire database.</td>
+	</tr>
+	<tr>
+		<td>CurrentUser</td>
+		<td>UserItemIdentifier</td>
+		<td>The browser user.</td>
+	</tr>
+	<tr>
+		<td>Now</td>
+		<td>DateTime</td>
+		<td>The current date and time.</td>
+	</tr>
+	<tr>
+		<td>StartOfToday</td>
+		<td>DateTime</td>
+		<td>The point in time that today begins, i.e. midnight today.</td>
+	</tr>
+	<tr>
+		<td>StartOfTomorrow</td>
+		<td>DateTime</td>
+		<td>The point in time that tomorrow begins, i.e. midnight tomorrow.</td>
+	</tr>
+	<tr>
+		<td>StartOfThisWeek</td>
+		<td>DateTime</td>
+		<td>The point in time that this week begins.  For typical US English server settings, this
+			is midnight of the preceding Sunday (or today if today is Sunday).</td>
+	</tr>
+	<tr>
+		<td>StartOfNextWeek</td>
+		<td>DateTime</td>
+		<td>The point in time that next week begins.  For typical US English server settings, this
+			is midnight of the following Sunday.</td>
+	</tr>
+	<tr>
+		<td>StartOfWeekAfterNext</td>
+		<td>DateTime</td>
+		<td>The point in time that the week after next begins.  For typical US English server
+			settings, this is midnight of the Sunday after the following Sunday.</td>
+	</tr>
+</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="NameType"></a>
+<div class="SectionHeader">NameType Values</div>
+<div class="Section">
+
+<p>A value of type "NameType" is a string of one to 63 letters (A-Z or a-z) and digits (0-9),
+beginning with a letter</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="RenderAsType"></a>
+<div class="SectionHeader">RenderAsType Values</div>
+<div class="Section">
+
+<p>A value of type "RenderAsType" is one of the following tokens:</p>
+
+<table class="Grid" style="width: auto">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<tr class="Header_">
+		<td class="Header1_">Token</td>
+		<td class="Header2_">What's Displayed</td>
+	</tr>
+	<tr>
+		<td>Default <i>(default value)</i></td>
+		<td>
+			The ViewColumnName value is converted to a string, HTML-encoded, and displayed as
+			normal text.
+			<ul>
+				<li>ViewColumnName = Any value.</li>
+			</ul>
+			The FormatString attribute (if any) is applied to the value of ViewColumnName before
+			HTML encoding occurs.  For example, if FormatString is "M/d h:mm tt" and the column
+			type is DateTime, the column is formatted as in this example: 3/7 4:30 PM.
+		</td>
+	</tr>
+	<tr>
+		<td>LearnerAssignmentStatus</td>
+		<td>
+			The status corresponding to the learner assignment state, displayed as follows:
+			<table class="Grid" style="width: auto">
+				<col class="Column1_" />
+				<col class="Column2_" />
+				<tr class="Header_">
+					<td class="Header1_"><a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState</a></td>
+					<td class="Header2_">What's Displayed</td>
+				</tr>
+				<tr>
+					<td>NotStarted</td>
+					<td>"Not Started"
+				</tr>
+				<tr>
+					<td>Active</td>
+					<td>"In Progress"
+				</tr>
+				<tr>
+					<td>Completed</td>
+					<td>"Submitted"
+				</tr>
+				<tr>
+					<td>Final</td>
+					<td>"Final"
+				</tr>
+			</table>
+			<ul>
+				<li>ViewColumnName = A
+					<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState</a>
+					value (e.g.  LearnerAssignmentState column in
+					LearnerAssignmentListForLearners).</li>
+			</ul>
+			The FormatString and NullDisplayString attributes are ignored.
+		</td>
+	</tr>
+	<tr>
+		<td>Link</td>
+		<td>
+			A link to another page, as defined by the application.  For example, in Assignment List
+			Web Part this is always a link that opens either the Lobby page (for queries that
+			result in a list of learner assignments) or the Grading page (for queries that result
+			in a list of assignments).
+			<ul>
+				<li>ViewColumnName = assignment title (e.g. AssignmentTitle column in
+					LearnerAssignmentListForLearners).</li>
+				<li>ViewColumnName2 = the AssignmentItemIdentifier or
+					LearnerAssignmentItemIdentifier of the assignment or learner assignment to
+					link to (e.g. LearnerAssignmentId column in
+					LearnerAssignmentListForLearners).</li>
+			</ul>
+			The FormatString attribute is ignored.
+		</td>
+	</tr>
+	<tr>
+		<td>ScoreAndPossible</td>
+		<td>
+			The number of points the learner received (if applicable) and the number of points
+			possible for the assignment (if applicable); for example, "7/10".
+			<ul>
+				<li>ViewColumnName = the number of points the learner received (e.g. FinalPoints
+					column in LearnerAssignmentListForLearners); may be NULL if the assignment does
+					not award points, or if the assignment hasn't been graded.</li>
+				<li>ViewColumnName2 = the nominal maximum number of points that learners may
+					receive on the assignment (e.g. AssignmentPointsPossible column in
+					LearnerAssignmentListForLearners); may be NULL if not applicable.</li>
+			</ul>
+			Points received and points possible values are rounded to two decimal places in the
+			rendered text (but not in the tooltip).  Additionally, the FormatString attribute (if
+			any) is applied to the points received and points possible values.  For example, if
+			FormatString is "n0", the values are rounded to the nearest integer-but that formatting
+			doesn't apply to the tooltip.  The NullDisplayString attribute is ignored.
+		</td>
+	</tr>
+	<tr>
+		<td>SPWebName</td>
+		<td>
+			The name of an SPWeb specified as follows:
+			<ul>
+				<li>ViewColumnName = SPWeb GUID (e.g. AssignmentSPWebGuid column in
+					LearnerAssignmentListForLearners).</li>
+				<li>ViewColumnName2 = SPSite GUID (e.g. AssignmentSPSiteGuid column in
+					LearnerAssignmentListForLearners).</li>
+			</ul>
+			The FormatString and NullDisplayString attributes are ignored.
+		</td>
+	</tr>
+	<tr>
+		<td>Submitted</td>
+		<td>
+			The number of learner assignments submitted and the number of learner assignments for
+			the assignment; for example, "10/12".  Each value is an integer.  Neither value can be
+			NULL.
+		</td>
+	</tr>
+	<tr>
+		<td>UtcAsLocalDateTime</td>
+		<td>
+			The ViewColumnName value is a DateTime stored in UTC (GMT) time.  The date/time is
+			converted to local time, converted to a string, HTML-encoded, and displayed as normal
+			text.
+			<ul>
+				<li>ViewColumnName = UTC date/time.</li>
+			</ul>
+			The FormatString attribute (if any) is applied to the value of ViewColumnName before
+			HTML encoding occurs.  For example, if FormatString is "M/d h:mm tt", the column is
+			formatted as in this example: 3/7 4:30 PM.
+		</td>
+	</tr>
+</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="SchemaIdType"></a>
+<div class="SectionHeader">SchemaIdType Values</div>
+<div class="Section">
+
+<p>A value of type "SchemaIdType" is a string of one to 63 letters (A-Z or a-z) and digits (0-9),
+beginning with a letter.</p>
 
 </div>
 
