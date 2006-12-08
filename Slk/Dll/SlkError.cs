@@ -16,6 +16,7 @@ using System.Security.Principal;
 using System.Security.Permissions;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
+using System.Data.SqlClient;
 
 namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a control, but it's in this
                                                       // namespace to "hide" it (since it's undocumented)
@@ -146,12 +147,11 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
         /// <param name="ex">Exception</param>       
         /// <param name="slkerror">SlkError Object.</param>
         public static void WriteException(Exception ex, out SlkError slkError)
-        {
-           
+        {           
             //Check for Exception Type. For all Handled Exceptions
             //Add the Exception Message in Error 
             //Or Add the Standard Error Message  and 
-            //log the exception in EventLog.
+            //log the exception in EventLog.            
             if (ex is SafeToDisplayException || 
                 ex is UserNotFoundException ||
                 ex is SlkNotConfiguredException ||
@@ -167,9 +167,22 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
 			}
             else
             {
-                //Add the Standard Error to Error Collection.
+                //Set the Standard Error text 
+                string errorText = AppResources.SlkGenericError;
+
+                SqlException sqlEx = ex as SqlException;
+                if (sqlEx != null)
+                {                    
+                    //check whether deadlock occured
+                    if (sqlEx.Number == 1205)
+                    {
+                        errorText = AppResources.SlkExWorkFlowSqlDeadLockError ;
+                    }
+                   
+                }     
+                //Add the Error to Error Collection.
                 slkError = new SlkError(ErrorType.Error,
-                    SlkUtilities.GetHtmlEncodedText(AppResources.SlkGenericError));
+                    SlkUtilities.GetHtmlEncodedText(errorText));
                 //log the exception in EventLog. 
                 SlkError.WriteToEventLog(ex);
             }           

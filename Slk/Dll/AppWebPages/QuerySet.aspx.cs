@@ -31,6 +31,7 @@ using Microsoft.SharePointLearningKit;
 using Resources.Properties;
 using Microsoft.SharePointLearningKit.WebControls;
 using Microsoft.SharePointLearningKit.WebParts;
+using System.Data.SqlClient;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -280,9 +281,18 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                     catch (Exception ex)
                     {
-                        SlkError slkError;
-
-                        SlkError.WriteException(ex, out slkError);
+                        SlkError slkError;                        
+                        //Handles SqlException separately to capture the deadlock 
+                        //and treat it differently
+                        SqlException sqlEx = ex as SqlException;
+                        if (sqlEx != null)
+                        {                           
+                            WebParts.ErrorBanner.WriteException(sqlEx, out slkError);
+                        }
+                        else
+                        {
+                            SlkError.WriteException(ex, out slkError);
+                        }                        
                         WebParts.ErrorBanner.RenderErrorItems(hw, slkError);
                     }
 

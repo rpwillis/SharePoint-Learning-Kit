@@ -20,6 +20,7 @@ using Microsoft.SharePointLearningKit.WebControls;
 using Microsoft.SharePointLearningKit.ApplicationPages;
 using System.Web.UI.WebControls;
 using System.Threading;
+using System.Data.SqlClient;
 
 namespace Microsoft.SharePointLearningKit.WebParts
 {
@@ -280,9 +281,18 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 }
                 else
                 {
-                    //Call the WriteException to Add the Standard Error Message 
-                    //to collection and log the exception in EventLog.                    
-                    SlkError.WriteException(ex, out slkError);
+                    SqlException sqlEx = ex as SqlException;
+                    if (sqlEx != null)
+                    {
+                        ErrorBanner.WriteException(sqlEx, out slkError);
+                    }
+                    else
+                    {
+                        //Call the WriteException to Add the Standard Error Message 
+                        //to collection and log the exception in EventLog.                    
+                        SlkError.WriteException(ex, out slkError);
+                    }
+                    
                 }
                 ErrorBanner.RenderErrorItems(writer, slkError);
             }
@@ -501,7 +511,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
         }
 
-        #endregion
+        #endregion       
 
         #endregion
 
@@ -618,6 +628,35 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
         }
 
+        #endregion
+
+        #region WriteException
+        /// <summary>
+        /// Checks for deadlock and writes the SqlExeception to the event Log and outs the SlkError Object. 
+        /// </summary>    
+        /// <param name="sqlEx">SqlException</param>       
+        /// <param name="slkerror">SlkError Object.</param>
+        internal static void WriteException(SqlException sqlEx, out SlkError slkError)
+        {
+            //Set the Standard Error text 
+            string errorText = AppResources.SlkGenericError;
+            
+            //check whether deadlock occured
+            if (sqlEx.Number == 1205)
+            {
+                errorText = AppResources.SlkExAlwpSqlDeadLockError;
+            }
+
+            //Slk Error with Generic or dead lock error message.
+
+            //Add the Error to Error Collection.
+            slkError = new SlkError(ErrorType.Error,
+                SlkUtilities.GetHtmlEncodedText(Constants.Space +
+                                    errorText));
+
+            //log the exception in EventLog. 
+            SlkError.WriteToEventLog(sqlEx);
+        }
         #endregion
     }
     /// <summary>
