@@ -1262,9 +1262,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 AssignmentProperties.PointsPossible
                                       = float.Parse(pointsPossible, NumberFormatInfo);
             }
-
+            
+           
+            //Set the selected StartDate/Due Date Value
             AssignmentProperties.StartDate = spDateTimeStart.SelectedDate;
-            //
+
             if (!spDateTimeDue.IsDateEmpty)
             {
                 AssignmentProperties.DueDate = spDateTimeDue.SelectedDate;
@@ -1425,23 +1427,24 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <returns>bool</returns>
         private bool ValidateDateTime()
         {
-             // get the Startdate and due date value
+            // Get the Startdate and due date value
             bool isDateValid = true;
 
-            //check for blank or empty          
-
+            //If Start date is blank when the assignment is created, 
+            //start date/time should default to the current date and the 
+            //time value set to 12:00:00 midnight (00:00:00).
             if (spDateTimeStart.IsDateEmpty)
             {
-                //set the default Date time. 
-                spDateTimeStart.SelectedDate = DateTime.Now;
+              spDateTimeStart.SelectedDate = DateTime.Today;
             }
+
             //check for due date not empty
             if (!spDateTimeDue.IsDateEmpty)
             {
                 //check for valid date time
                 if (spDateTimeStart.IsValid && spDateTimeDue.IsValid)
                 {
-                    //check for start date is less than due date
+                    //check for start date is less than due date 
                     if (spDateTimeStart.SelectedDate >= spDateTimeDue.SelectedDate)
                     {
                         isDateValid = false;
