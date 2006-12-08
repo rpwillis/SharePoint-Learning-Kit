@@ -771,7 +771,7 @@ namespace Microsoft.LearningComponents.Frameset
                         Session.Render(context);
 
                         // Session is not changed in non-Execute views, so no need to call CommitChanges().
-                    } 
+                    }
                     catch (ThreadAbortException)
                     {
                         // Do nothing
@@ -781,7 +781,11 @@ namespace Microsoft.LearningComponents.Frameset
                         Response.StatusCode = 404;
                         Response.StatusDescription = "Not Found";
                     }
-                   
+                    catch (HttpException)
+                    {
+                        // Something wrong with the http connection, so in this case do not set the response
+                        // headers.
+                    }
                     catch
                     {
                         // This could fail for any number of reasons: invalid content that 

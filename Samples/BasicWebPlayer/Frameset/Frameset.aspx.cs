@@ -45,6 +45,12 @@ namespace Microsoft.LearningComponents.Frameset
                 Response.StatusCode = 404;
                 Response.StatusDescription = "Not Found";
             }
+            catch (System.Web.HttpException)
+            {
+                // Something wrong with the http connection, so in this case do not set the response
+                // headers.
+                RegisterError(FramesetResources.FRM_NotAvailableTitleHtml, FramesetResources.FRM_NotAvailableHtml, false);
+            }
             catch (Exception)
             {
                 // Doesn't matter why.
