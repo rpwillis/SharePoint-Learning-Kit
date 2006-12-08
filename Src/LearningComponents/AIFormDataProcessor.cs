@@ -1113,7 +1113,7 @@ namespace Microsoft.LearningComponents
                 {
                     AppendLearnerResponse(bld, "0");
                     Interaction.ExtensionData.Add(InteractionExtensionDataKeys.AutogradeResponse(ordinal.ToString(CultureInfo.InvariantCulture)),
-                        HttpUtility.HtmlEncode(ordinalOptions[ordinal]));
+                        ordinalOptions[ordinal]);
                 }
                 Interaction.LearnerResponse = bld.ToString();
                 Interaction.Score.Raw = 0;
