@@ -66,6 +66,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// Process a view request to determine if it's valid. The AssignmentView must be 
         /// set before calling this method.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
         protected bool ProcessViewRequest(LearnerAssignmentProperties la, SessionView sessionView)
         {
             switch (AssignmentView)

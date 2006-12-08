@@ -787,7 +787,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 hiddenCtrlInfo = new HiddenControlInfo();
                 hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.Title);
-                hiddenCtrlInfo.Value = GetSessionTitle(Session);
+                hiddenCtrlInfo.Value = GetSessionTitle(Session).ToHtmlString().ToString();
                 hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("frameMgr.SetTitle(document.all[{0}].value);",
                     JScriptString.QuoteString(HiddenFieldNames.Title, false)));
                 hiddenControlInfos.Add(hiddenCtrlInfo);
