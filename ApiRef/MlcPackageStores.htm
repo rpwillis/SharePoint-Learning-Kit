@@ -33,66 +33,91 @@ In the process, the package is assigned a
 <a href="Microsoft.LearningComponents.Storage.PackageItemIdentifier.Class.htm">PackageItemIdentifier</a>, a 64-bit integer identifier that's
 unique within the database.</p>
 
-<p>However, other than copying parts of the manifest, MLC doesn't store the package contents in
-its database.  Instead, MLC stores a <i>location string</i> which is used to locate the package
-as needed.  What's contained in the location string?  It depends on where the application has
-decided to store its packages.  The way the application tells MLC how to map a package identifier
-to package contents is by providing MLC with a <i>package store</i>.  This section explains what
-a package store is, describes the package stores that MLC implements, and explains how an
-application can implement its own package store.</p>
+<p>However, other than copying information from the package manifest, MLC doesn't store the
+contents of a package when it's registered.  Instead, MLC stores a <i>location string</i> which is
+used to locate the package as needed.  What's contained in the location string?  It depends on
+where the application has decided to store its packages.  The way the application tells MLC how to
+map a package identifier to package contents is by providing MLC with a <b>package store</b>.</p>
 
-</div>
+<p>A package store is an instance of a class derived from
+<a href="Microsoft.LearningComponents.Storage.PackageStore.Class.htm">PackageStore</a>.  MLC
+implements the following package store types:</p>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<a name="PackageStore"></a>
-<div class="SectionHeader">PackageStore Base Class</div>
-<div class="Section">
+<table class="Grid" style="width: auto">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<tr class="Header_">
+		<td class="Header1_">Package Store Class</td>
+		<td class="Header2_">Description</td>
+		<td class="Header3_">Location String Format</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="Microsoft.LearningComponents.Storage.FileSystemPackageStore.Class.htm">FileSystemPackageStore</a>
+		</td>
+		<td>
+			When the application asks FileSystemPackageStore to register a package,
+			FileSystemPackageStore copies the contents of the package, "unzipped", into a new
+			subdirectory of an application-specified directory, and updates the
+			<a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Class.htm">PackageItem</a>
+			database table (and related table) with information about the package, including the
+			name of the new subdirectory.
+		</td>
+		<td>
+			The location string is the name of the subdirectory (within the application-specified
+			package store directory) containing the copy of the package.  The subdirectory name is
+			chosen by FileSystemPackageStore.
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="Microsoft.LearningComponents.SharePoint.SharePointPackageStore.Class.htm">SharePointPackageStore</a>
+		</td>
+		<td>
+			When the application asks SharePointPackageStore to register a package, the package
+			must already be stored within a document library in SharePoint.
+			SharePointPackageStore updates the
+			<a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Class.htm">PackageItem</a>
+			database table (and related table) so that it contains a reference to the package in
+			the document library.
+		</td>
+		<td>
+			The location string contains five substrings, separated by underscores.  The substrings
+			contain the same information maintained by the
+			<a href="Microsoft.LearningComponents.SharePoint.SharePointFileLocation.Class.htm">SharePointFileLocation class</a>.
+		</td>
+	</tr>
+</table>
 
-<p>A package store is a class derived from
-<a href="Microsoft.LearningComponents.Storage.PackageStore.Class.htm">PackageStore</a>.  All package stores provide the following
-common functionality:</p>
+<p>FileSystemPackageStore is useful for applications that want to implement playback of e-learning
+content that's not stored in SharePoint.  For example,
+<a href="file://C:\dev\SLK\SdkDoc\Pages\MlcBasicWebPlayer.htm">BasicWebPlayer</a> (MLC sample code) uses
+FileSystemPackageStore to store files uploaded to it.</p>
 
-<p>(TODO: table like package reader table)</p>
+<p>SharePointPackageStore is used by applications that store e-learning content in SharePoint.
+(It should not be a surprise that <a href="Default.htm">SharePoint Learning Kit</a> uses
+SharePointPackageReader.) Although SharePointPackageStore does not store the master copy of a
+package, it does maintain a cached copy of the package&mdash;cached in a file system directory
+specified by the application&mdash;to improve performance.  (Otherwise, each time any file within
+a package needed to be read, the package would need to be retrieved from SharePoint's database and
+"unzipped".) SharePoint's package cache can be controlled using
+<a href="Microsoft.LearningComponents.SharePoint.SharePointCacheSettings.Class.htm">SharePointCacheSettings</a>,
+passed as a parameter to the
+<a href="Microsoft.LearningComponents.SharePoint.SharePointPackageStore.SharePointPackageStore.Method.htm">SharePointPackageStore</a> constructor.</p>
 
-<p>TODO: A package store is...</p>
-<p>TODO: Some package stores "own" content, i.e. copy content into them, 
-others just maintain references...</p>
-<p>TODO: "registration" in LearningStore</p>
-<p>TODO: location string</p>
-<p>TODO: The PackageItem table in LearningStore does not contain information indicating which
-package store a given package is located in.  It's the application's job to determine the
-package store before creating a learning session(link).  For that reason, it's simplest if
-all packages in a given LearningStore database use the same package store.  However, your
-application is free to create a custom package store (i.e. a class based on PackageStore)
-that includes a prefix string indicating
-which package store to use.  For that matter, you can create a custom package store that
-stores packages using any storage mechanism you like -- your package store will function
-essentially as a "driver", allowing MLC to locate your e-learning content.</p>
-<p>TODO: MLC implements two package stores, FileSystemPackageStore and SharePointPackageStore,
-described below.</p>
-</div>
+<p>In addition to using the package store types listed above, an application can create a custom
+package store implementation, by creating a class based on
+<a href="Microsoft.LearningComponents.Storage.PackageStore.Class.htm">PackageStore</a>.</p>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<a name="FileSystemPackageStore"></a>
-<div class="SectionHeader">FileSystemPackageStore</div>
-<div class="Section">
-<p>TODO...</p>
-</div>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<a name="SharePointPackageStore"></a>
-<div class="SectionHeader">SharePointPackageStore</div>
-<div class="Section">
-<p>TODO...</p>
 </div>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class="SectionHeader">For More Information</div>
 <div class="Section">
 
-<div><a href="Microsoft.LearningComponents.Namespace.htm">Microsoft.LearningComponents Namespace (API Reference)</a></div>
-<div><a href="Microsoft.LearningComponents.SharePoint.Namespace.htm">Microsoft.LearningComponents.SharePoint Namespace (API Reference)</a></div>
-<div><a href="Microsoft.LearningComponents.Storage.Namespace.htm">Microsoft.LearningComponents.Storage Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.Storage.PackageStore.Class.htm">PackageStore Class (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.Storage.FileSystemPackageStore.Class.htm">FileSystemPackageStore Class (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.SharePoint.SharePointPackageStore.Class.htm">SharePointPackageStore Class (API Reference)</a></div>
 
 </div>
 
