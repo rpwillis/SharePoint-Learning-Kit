@@ -102,6 +102,7 @@ see the documentation of each element for more information.</p>
 	<tr>
 		<td class="Content_ Indent_">
 			<a href="#Settings">&lt;Settings&gt;</a>
+				<div><a href="#MimeTypeMapping">&lt;MimeTypeMapping&gt;</a></div>
 				<div><a href="#Query">&lt;Query&gt;</a>
 					<div><a href="#Column">&lt;Column&gt;</a></div>
 					<div><a href="#Condition">&lt;Condition&gt;</a></div>
@@ -153,14 +154,15 @@ see the documentation of each element for more information.</p>
 
 	<div class="Subsection">
 	<p class="AttributeName">Title</p>
-	<p class="AttributeDescription">(String, optional.)
+	<p class="AttributeDescription">(string, optional.)
 		TODO.
 	</p>
 	</div>
 
 	<div class="Subsection">
-	<p class="AttributeName">RenderAsType</p>
-	<p class="AttributeDescription">(<a href="#Types">RenderAsType</a>, optional.)
+	<p class="AttributeName">RenderAs</p>
+	<p class="AttributeDescription">(<a href="#Types">RenderAsType</a>, optional,
+		default <tt>Default</tt>.)
 		TODO.
 	</p>
 	</div>
@@ -180,7 +182,7 @@ see the documentation of each element for more information.</p>
 	</div>
 
 	<div class="Subsection">
-	<p class="AttributeName">ViewColumnName2</p>
+	<p class="AttributeName">ViewColumnName3</p>
 	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, optional.)
 		TODO.
 	</p>
@@ -188,35 +190,35 @@ see the documentation of each element for more information.</p>
 
 	<div class="Subsection">
 	<p class="AttributeName">CellFormat</p>
-	<p class="AttributeDescription">(String, optional.)
+	<p class="AttributeDescription">(string, optional.)
 		TODO.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">AllowUserSort</p>
-	<p class="AttributeDescription">(Boolean, optional.)
+	<p class="AttributeDescription">(boolean, optional, default <tt>true</tt>.)
 		TODO.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">NullDisplayString</p>
-	<p class="AttributeDescription">(String, optional.)
+	<p class="AttributeDescription">(string, optional.)
 		TODO.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">ToolTipFormat</p>
-	<p class="AttributeDescription">(String, optional.)
+	<p class="AttributeDescription">(string, optional.)
 		TODO.
 	</p>
 	</div>
 
 	<div class="Subsection">
 	<p class="AttributeName">Wrap</p>
-	<p class="AttributeDescription">(Boolean, optional, default <tt>true</tt>.)
+	<p class="AttributeDescription">(boolean, optional, default <tt>true</tt>.)
 		TODO.
 	</p>
 	</div>
@@ -273,7 +275,7 @@ see the documentation of each element for more information.</p>
 
 	<div class="Subsection">
 	<p class="AttributeName">Value</p>
-	<p class="AttributeDescription">(String, optional.)
+	<p class="AttributeDescription">(string, optional.)
 		TODO.
 	</p>
 	</div>
@@ -287,7 +289,7 @@ see the documentation of each element for more information.</p>
 
 	<div class="Subsection">
 	<p class="AttributeName">NoConditionOnNull</p>
-	<p class="AttributeDescription">(Boolean, optional, default <tt>false</tt>.)
+	<p class="AttributeDescription">(boolean, optional, default <tt>false</tt>.)
 		TODO.
 	</p>
 	</div>
@@ -341,6 +343,53 @@ see the documentation of each element for more information.</p>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class="SectionHeader">
+	&lt;MimeTypeMapping&gt;<a name="MimeTypeMapping"></a>
+</div>
+<div class="Section XmlElementTopic">
+
+	<p>(Optional, child of <a href="#Settings">&lt;Settings&gt;</a>, multiple allowed.)  TODO...</p>
+
+	<div class="SubsectionHeader">Syntax</div>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;MimeTypeMapping<br/>
+					Extension="..."<br/>
+					MimeType="..."&gt;<br/>
+			</td>
+		</tr>
+	</table>
+
+	<div class="SubsectionHeader">Attributes</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">Extension</p>
+	<p class="AttributeDescription">(string, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">MimeType</p>
+	<p class="AttributeDescription">(string, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="SubsectionHeader">Example</div>
+
+	<div class="Subsection">
+	<p>TODO...</p>
+	</div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">
 	&lt;Query&gt;<a name="Query"></a>
 </div>
 <div class="Section XmlElementTopic">
@@ -360,6 +409,7 @@ see the documentation of each element for more information.</p>
 		<tr>
 			<td class="Content_ Indent_">
 				&lt;Query<br/>
+					CountViewColumnName="..."<br/>
 					Name="..."<br/>
 					Title="..."<br/>
 					ViewName="..."&gt;
@@ -374,6 +424,13 @@ see the documentation of each element for more information.</p>
 	<div class="SubsectionHeader">Attributes</div>
 
 	<div class="Subsection">
+	<p class="AttributeName">CountViewColumnName</p>
+	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
 	<p class="AttributeName">Name</p>
 	<p class="AttributeDescription">(<a href="#Types">NameType</a>, required.)
 		TODO.
@@ -382,7 +439,7 @@ see the documentation of each element for more information.</p>
 
 	<div class="Subsection">
 	<p class="AttributeName">Title</p>
-	<p class="AttributeDescription">(String, optional.)
+	<p class="AttributeDescription">(string, optional.)
 		TODO.
 	</p>
 	</div>
@@ -446,8 +503,8 @@ see the documentation of each element for more information.</p>
 		<tr>
 			<td class="Content_ Indent_">
 				&lt;QuerySet<br/>
-					Name="..."<br/>
 					DefaultQueryName="..."<br/>
+					Name="..."<br/>
 					Title="..."&gt;
 					<div><a href="#IncludeQuery">&lt;IncludeQuery&gt;</a>...&lt;/IncludeQuery&gt;</div>
 				&lt;/QuerySet&gt;
@@ -458,15 +515,15 @@ see the documentation of each element for more information.</p>
 	<div class="SubsectionHeader">Attributes</div>
 
 	<div class="Subsection">
-	<p class="AttributeName">Name</p>
-	<p class="AttributeDescription">(<a href="#Types">NameType</a>, required.)
+	<p class="AttributeName">DefaultQueryName</p>
+	<p class="AttributeDescription">(<a href="#Types">NameType</a>, optional.)
 		TODO.
 	</p>
 	</div>
 
 	<div class="Subsection">
-	<p class="AttributeName">DefaultQueryName</p>
-	<p class="AttributeDescription">(<a href="#Types">NameType</a>, optional.)
+	<p class="AttributeName">Name</p>
+	<p class="AttributeDescription">(<a href="#Types">NameType</a>, required.)
 		TODO.
 	</p>
 	</div>
@@ -502,7 +559,16 @@ see the documentation of each element for more information.</p>
 		</tr>
 		<tr>
 			<td class="Content_ Indent_">
-				&lt;Settings xmlns="urn:schemas-microsoft-com:sharepoint-learning-kit:settings"&gt;
+				&lt;Settings xmlns="urn:schemas-microsoft-com:sharepoint-learning-kit:settings"<br/>
+					ApprovedAttachmentTypes="..."<br/>
+					ELearningIisCompatibilityModeExtensions="..."<br/>
+					LoggingOptions="..."<br/>
+					MaxAttachmentKilobytes="..."<br/>
+					NonELearningIisCompatibilityModeExtensions="..."<br/>
+					PackageCacheExpirationMinutes="..."<br/>
+					PackageCacheLocation="..."<br/>
+					UserWebListMruSize="..." /&gt;
+					<div><a href="#MimeTypeMapping">&lt;MimeTypeMapping&gt;</a>...&lt;/MimeTypeMapping&gt;</div>
 					<div><a href="#Query">&lt;Query&gt;</a>...&lt;/Query&gt;</div>
 					<div><a href="#QuerySet">&lt;QuerySet&gt;</a>...&lt;/QuerySet&gt;</div>
 				&lt;/Settings&gt;
@@ -512,7 +578,61 @@ see the documentation of each element for more information.</p>
 
 	<div class="SubsectionHeader">Attributes</div>
 
-	<p>(None.)</p>
+	<div class="Subsection">
+	<p class="AttributeName">ApprovedAttachmentTypes</p>
+	<p class="AttributeDescription">(string, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">ELearningIisCompatibilityModeExtensions</p>
+	<p class="AttributeDescription">(string, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">LoggingOptions</p>
+	<p class="AttributeDescription">(<a href="#Types">LoggingOptions</a>, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">MaxAttachmentKilobytes</p>
+	<p class="AttributeDescription">(int, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">NonELearningIisCompatibilityModeExtensions</p>
+	<p class="AttributeDescription">(string, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">PackageCacheExpirationMinutes</p>
+	<p class="AttributeDescription">(int, optional.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">PackageCacheLocation</p>
+	<p class="AttributeDescription">(string, required.)
+		TODO.
+	</p>
+	</div>
+
+	<div class="Subsection">
+	<p class="AttributeName">UserWebListMruSize</p>
+	<p class="AttributeDescription">(int, required.)
+		TODO.
+	</p>
+	</div>
 
 	<div class="SubsectionHeader">Example</div>
 
@@ -539,8 +659,8 @@ see the documentation of each element for more information.</p>
 		<tr>
 			<td class="Content_ Indent_">
 				&lt;Sort<br/>
-					ViewColumnName="..."<br/>
-					Ascending="..." /&gt;
+					Ascending="..."<br/>
+					ViewColumnName="..." /&gt;
 			</td>
 		</tr>
 	</table>
@@ -548,15 +668,15 @@ see the documentation of each element for more information.</p>
 	<div class="SubsectionHeader">Attributes</div>
 
 	<div class="Subsection">
-	<p class="AttributeName">ViewColumnName</p>
-	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, required.)
+	<p class="AttributeName">Ascending</p>
+	<p class="AttributeDescription">(boolean, optional, default <tt>true</tt>.)
 		TODO.
 	</p>
 	</div>
 
 	<div class="Subsection">
-	<p class="AttributeName">Ascending</p>
-	<p class="AttributeDescription">(Boolean, optional, default <tt>true</tt>.)
+	<p class="AttributeName">ViewColumnName</p>
+	<p class="AttributeDescription">(<a href="#Types">SchemaIdType</a>, required.)
 		TODO.
 	</p>
 	</div>
@@ -580,6 +700,8 @@ definition (SlkSettings.xsd):</p>
 <ul>
 
 	<li><b>ConditionOperator</b>: TODO.</li>
+
+	<li><b>LoggingOptions</b>: TODO.</li>
 
 	<li><b>MacroNameType</b>: TODO.</li>
 
