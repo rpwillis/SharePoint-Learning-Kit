@@ -635,7 +635,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// Checks for deadlock and writes the SqlExeception to the event Log and outs the SlkError Object. 
         /// </summary>    
         /// <param name="sqlEx">SqlException</param>       
-        /// <param name="slkerror">SlkError Object.</param>
+        /// <param name="slkError">SlkError Object.</param>
         internal static void WriteException(SqlException sqlEx, out SlkError slkError)
         {
             //Set the Standard Error text 
