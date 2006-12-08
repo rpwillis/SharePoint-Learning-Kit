@@ -207,6 +207,10 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 attemptId = m_learnerAssignment.AttemptId;
                 isValid = true;
             }
+            catch (HttpException)
+            {
+                // If something just happened with the connection, don't set header info
+            }
             catch
             {
                 // If we could not get the assignment, send the proper error codes
