@@ -2477,6 +2477,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The server is currently busy. Please refresh your browser..
+        /// </summary>
+        internal static string SlkExAlwpSqlDeadLockError {
+            get {
+                return ResourceManager.GetString("SlkExAlwpSqlDeadLockError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You cannot perform this operation because you are not an instructor on this site ({0})..
         /// </summary>
         internal static string SlkExInstructorPermissonNotFound {
@@ -2509,6 +2518,15 @@ namespace Resources.Properties {
         internal static string SlkExUserNotFound {
             get {
                 return ResourceManager.GetString("SlkExUserNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The server is currently busy. Please retry your operation..
+        /// </summary>
+        internal static string SlkExWorkFlowSqlDeadLockError {
+            get {
+                return ResourceManager.GetString("SlkExWorkFlowSqlDeadLockError", resourceCulture);
             }
         }
         

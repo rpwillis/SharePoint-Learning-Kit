@@ -29,6 +29,7 @@ using Microsoft.SharePointLearningKit;
 using Microsoft.SharePointLearningKit.WebControls;
 using Microsoft.SharePointLearningKit.WebParts;
 using Resources.Properties;
+using System.Data.SqlClient;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -201,7 +202,18 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                     {
                                         queryCount = AppResources.AlwpQueryResultError;
                                         SlkError slkError;
-                                        SlkError.WriteException(ex, out slkError);
+                                        //Handles SqlException separate to capture the deadlock 
+                                        //and treat it differently
+                                        SqlException sqlEx = ex as SqlException;
+                                        if (sqlEx != null)
+                                        {
+                                            WebParts.ErrorBanner.WriteException(sqlEx, out slkError);
+                                        }
+                                        else
+                                        {
+                                            SlkError.WriteException(ex, out slkError);
+                                        }
+
                                         WebParts.ErrorBanner.RenderErrorItems(hw, slkError);
                                     }
                                     finally

@@ -113,8 +113,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     // execute the job
                     results = job.Execute();
                 }
-                catch (SqlException)
+                catch (SqlException sqlEx)
                 {
+                    //check whether deadlock occured and throw the exception back 
+                    if (sqlEx.Number == 1205)
+                    {
+                        throw;
+                    }
+
                     // don't need SlkError.WriteToEventLog(ex) because we'll write to the event log again
                     // in RenderQueryCounts
                     results = null;

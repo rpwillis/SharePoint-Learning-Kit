@@ -1219,4 +1219,14 @@ More information may be available in the server event log.</value>
     <value>This Web site is not accessible.</value>
     <comment>Set the Web Site Title to not accesible in APP when user does not have access to it.</comment>
   </data>
+  <data name="SlkExAlwpSqlDeadLockError" xml:space="preserve">
+    <value>The server is currently busy. Please refresh your browser.</value>
+    <comment>When Alwp  becomes victom of dead lock displays this  specific message suggesting the user to refresh the browser.
+</comment>
+  </data>
+  <data name="SlkExWorkFlowSqlDeadLockError" xml:space="preserve">
+    <value>The server is currently busy. Please retry your operation.</value>
+    <comment>When work flow pages  become victom of dead lock displays this  specific message suggesting the user try the operation again.
+</comment>
+  </data>
 </root>
