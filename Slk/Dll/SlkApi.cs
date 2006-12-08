@@ -1709,10 +1709,7 @@ public class SlkStore
         ap.Title = title;
         ap.Description = description;
         ap.PointsPossible = pointsPossible;
-		if (isSelfAssigned)
-			ap.StartDate = DateTime.Now;
-		else
-			ap.StartDate = DateTime.Today; // midnight today
+		ap.StartDate = DateTime.Today; // midnight today
         ap.DueDate = null;
     	ap.AutoReturn = isSelfAssigned;
         ap.ShowAnswersToLearners = isSelfAssigned;
