@@ -149,6 +149,7 @@ sdkdoc: nul
 	if exist $(CODEDOC) cscript Tools\MakeSchemaDataStorage2.js
 	-if exist $(CODEDOC) $(CODEDOC) CodeDoc.xml
 	if exist $(CODEDOC) Tools\FixDocIndex SdkDoc\Pages\Default_Index.htm
+	if exist $(CODEDOC) cscript Tools\FixSdkDoc.js
 
 # drop: create Drop directory containing files to go to network drop location
 drop: nul
