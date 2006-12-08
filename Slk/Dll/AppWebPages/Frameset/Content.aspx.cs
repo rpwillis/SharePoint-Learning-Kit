@@ -85,7 +85,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     m_contentHelper.ProcessPageLoad(SlkStore.PackageStore,
                                                         String.IsNullOrEmpty(m_contentPath),
                                                         isPosted,
-                                                        SlkStore.Settings.LoggingOptions,
                                                         TryGetViewInfo,
                                                         TryGetAttemptInfo,
                                                         TryGetActivityInfo,

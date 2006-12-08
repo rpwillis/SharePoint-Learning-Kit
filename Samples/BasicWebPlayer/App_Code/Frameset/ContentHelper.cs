@@ -102,7 +102,6 @@ namespace Microsoft.LearningComponents.Frameset
         public void ProcessPageLoad(PackageStore packageStore,
                                     bool firstRendering,    // frameset is being initialized
                                     bool isPostBack,    // page was posted
-                                    LoggingOptions loggingOptions,  // if a StoredLearningSession is used, log with this setting
                                     TryGetViewInfo TryGetViewInfo,
                                     TryGetAttemptInfo TryGetAttemptInfo,
                                     TryGetActivityInfo TryGetActivityInfo,
@@ -156,8 +155,6 @@ namespace Microsoft.LearningComponents.Frameset
 
             if (slsSession.View == SessionView.Execute)
             {
-                slsSession.LoggingOptions = loggingOptions;
-
                 // Check if the session can be executed...
 
                 if (slsSession.AttemptStatus != AttemptStatus.Active)

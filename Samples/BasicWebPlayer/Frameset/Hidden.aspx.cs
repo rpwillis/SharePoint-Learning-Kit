@@ -37,7 +37,7 @@ namespace Microsoft.LearningComponents.Frameset
             try
             {
                 m_hiddenHelper = new HiddenHelper(Request, Response, FramesetPath);
-                m_hiddenHelper.ProcessPageLoad(PStore, LoggingOptions.LogAll, GetSessionTitle, ProcessViewParameter, ProcessAttemptIdParameter,
+                m_hiddenHelper.ProcessPageLoad(PStore, GetSessionTitle, ProcessViewParameter, ProcessAttemptIdParameter,
                                                 AppendContentFrameDetails, RegisterError, GetErrorInfo, ProcessSessionEnd, ProcessViewRequest,
                                                 GetMessage, IsPostBack);
             }

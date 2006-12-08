@@ -46,8 +46,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
                    m_sessionEnded = false;
                    m_hiddenHelper = new HiddenHelper(Request, Response, SlkEmbeddedUIPath);
-                   m_hiddenHelper.ProcessPageLoad(SlkStore.PackageStore, SlkStore.Settings.LoggingOptions,
-                                       GetSessionTitle, TryGetSessionView, TryGetAttemptId, AppendContentFrameDetails, RegisterError,
+                   m_hiddenHelper.ProcessPageLoad(SlkStore.PackageStore, GetSessionTitle, TryGetSessionView, 
+                                       TryGetAttemptId, AppendContentFrameDetails, RegisterError,
                                        GetErrorInfo, ProcessSessionEnd, ProcessViewRequest, GetMessage, IsPostBack);
 
 

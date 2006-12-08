@@ -106,7 +106,8 @@ namespace Microsoft.LearningComponents.Storage
 
         /// <summary>
         /// Create an attempt on a specific package. The package must have already been 
-        /// added to LearningStore. Following this method, <Mth>Start</Mth> must be called in order to 
+        /// added to LearningStore. Following this method, <Mth>Start</Mth> 
+        /// or <Mth>MoveToActivity</Mth> must be called in order to 
         /// deliver the first activity.
         /// </summary>
         /// <param name="packageStore">The store which contains files from the package associated
@@ -123,7 +124,8 @@ namespace Microsoft.LearningComponents.Storage
         /// </returns>
         /// <remarks>
         /// This method adds attempt information to LearningStore. 
-        /// <p/>After creating the attempt, the caller must call <Mth>Start</Mth> to identify the first
+        /// <p/>After creating the attempt, the caller must call <Mth>Start</Mth> 
+        /// or <Mth>MoveToActivity</Mth> to identify the first
         /// activity for delivery.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown when 
@@ -403,6 +405,9 @@ namespace Microsoft.LearningComponents.Storage
         /// It is not valid to set this value when <Prp>Microsoft.LearningComponents.LearningSession.View</Prp> is <c>SessionView.Review.</c>. 
         /// In RandomAccess view, changing this value has no effect, as sequencing rules are ignored
         /// in this mode.
+        /// <p/>This value of this property is saved to LearningStore on the next call to 
+        /// <Mth>CommitChanges</Mth>, before disposing the session object.
+        /// <p/>By default, no logging is done in the session.
         /// </remarks>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when caller attempts to set 
         /// an invalid value for the enumeration.</exception>

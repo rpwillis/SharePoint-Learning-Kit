@@ -34,7 +34,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
 
                 m_framesetHelper = new FramesetHelper();
-                m_framesetHelper.ProcessPageLoad(PStore, LoggingOptions.LogAll, ProcessViewParameter, ProcessAttemptIdParameter, ProcessViewRequest);
+                m_framesetHelper.ProcessPageLoad(PStore, ProcessViewParameter, ProcessAttemptIdParameter, ProcessViewRequest);
             }
             catch (System.Threading.ThreadAbortException)
             {

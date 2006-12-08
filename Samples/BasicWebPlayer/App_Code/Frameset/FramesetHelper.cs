@@ -66,8 +66,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <summary>
         /// Process the PageLoad event on the Frameset.aspx page. 
         /// </summary>
-        /// <param name="packageStore">TODO</param>
-        /// <param name="loggingOptions">Options to log the session that displayed.</param>
+        /// <param name="packageStore">The package store containing the packages for the sessions in the frameset.</param>
         /// <param name="TryGetViewInfo">Delegate to retrieve the requested view.</param>
         /// <param name="TryGetAttemptInfo">Delegate to retrieve the requested attempt.</param>
         /// <param name="ProcessViewRequest">Delegate to process a request for a specific view.</param>
@@ -76,7 +75,6 @@ namespace Microsoft.LearningComponents.Frameset
         [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly")]   // parameters called as methods are cased as methods
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]   // parameters are validated
         public void ProcessPageLoad(PackageStore packageStore,
-                                    LoggingOptions loggingOptions,
                                     TryGetViewInfo TryGetViewInfo,
                                     TryGetAttemptInfo TryGetAttemptInfo,
                                     ProcessViewRequest ProcessViewRequest)
@@ -108,7 +106,6 @@ namespace Microsoft.LearningComponents.Frameset
                         m_session = new StoredLearningSession(view, attemptId, packageStore);
                         
                         StoredLearningSession slsSession = m_session as StoredLearningSession;
-                        slsSession.LoggingOptions = loggingOptions;
 
                         if (!ProcessViewRequest(SessionView.Execute, slsSession))
                             return;
@@ -183,7 +180,7 @@ namespace Microsoft.LearningComponents.Frameset
                             return;
 
                         StoredLearningSession slsSession = new StoredLearningSession(SessionView.RandomAccess, attemptId, packageStore);
-                        slsSession.LoggingOptions = loggingOptions;
+                        
                         m_session = slsSession;
 
                         if (!ProcessViewRequest(SessionView.RandomAccess, slsSession ))
@@ -201,8 +198,6 @@ namespace Microsoft.LearningComponents.Frameset
 
                         // Create the session
                         StoredLearningSession slsSession = new StoredLearningSession(view, attemptId, packageStore);
-                        // Do not set loggingOptions for review sessions.
-
                         m_session = slsSession;
 
                         if (!ProcessViewRequest(SessionView.Review, m_session))
