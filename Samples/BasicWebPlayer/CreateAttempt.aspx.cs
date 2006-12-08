@@ -58,7 +58,6 @@ public partial class CreateAttempt : BasicWebPlayerBase
 			// create an attempt on <organizationId>
             StoredLearningSession session = StoredLearningSession.CreateAttempt(PStore,
                 currentUser.Id, organizationId, LoggingOptions.LogAll);
-            session.Start(true);
 
             // the operation was successful, and there are no messages to display to the user, so
 			// update the AttemptId hidden form element with the ID of the newly-created attempt,
