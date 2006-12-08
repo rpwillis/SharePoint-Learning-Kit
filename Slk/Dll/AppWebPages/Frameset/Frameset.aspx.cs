@@ -49,7 +49,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     ClearError();
 
                     m_framesetHelper = new FramesetHelper();
-                    m_framesetHelper.ProcessPageLoad(SlkStore.PackageStore, SlkStore.Settings.LoggingOptions, TryGetSessionView, TryGetAttemptId, ProcessViewRequest);
+                    m_framesetHelper.ProcessPageLoad(SlkStore.PackageStore, TryGetSessionView, TryGetAttemptId, ProcessViewRequest);
 
                     // If this is not e-learning content, then we have to write the content directly to response.
                     if (!HasError && !m_isELearning)

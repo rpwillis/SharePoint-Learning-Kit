@@ -68,7 +68,6 @@ namespace Microsoft.LearningComponents.Frameset
                 m_contentHelper.ProcessPageLoad(PStore,
                                                     String.IsNullOrEmpty(m_contentPath),
                                                     isPosted,
-                                                    LoggingOptions.LogAll,
                                                     GetViewInfo,
                                                     GetAttemptInfo,
                                                     GetActivityInfo,

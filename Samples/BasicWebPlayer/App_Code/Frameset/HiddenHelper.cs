@@ -88,7 +88,6 @@ namespace Microsoft.LearningComponents.Frameset
         SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly"),    // parameters that are called directly as methods are cased as methods, others are cased as parameters
         SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]   // it's not worth changing this now
         public void ProcessPageLoad(PackageStore packageStore,
-                                    LoggingOptions loggingOptions,
                                     GetSessionTitle getSessionTitle,
                                     TryGetViewInfo TryGetViewInfo,
                                     TryGetAttemptInfo TryGetAttemptInfo,
@@ -131,8 +130,6 @@ namespace Microsoft.LearningComponents.Frameset
                             Session = new StoredLearningSession(view, attemptId, packageStore);
                             if (!ProcessViewRequest(view, Session))
                                 return;
-
-                            Session.LoggingOptions = loggingOptions;
 
                             // If the session has ended, allow the application to deal with it.
                             ProcessSessionEnd(Session, ref m_sessionEndedMsgTitle, ref m_sessionEndedMsg);
