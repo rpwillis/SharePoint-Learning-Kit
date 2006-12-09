@@ -25,41 +25,84 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class="Summary">
 
-<p>TODO:</p>
+<p>As explained in <a href="SlkConcepts.htm">SLK Concepts</a>, an <i>attempt</i> is a collection
+of data that encompasses all information related to one instance of one learner executing one
+organization of one e-learning package.  Each attempt corresponds to one row in the
+<a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.Class.htm">AttemptItem</a> table in
+the SLK or MLC database.  Note that the "attempt" concept is broader than SLK: for example,
+<a href="MlcBasicWebPlayer.htm">BasicWebPlayer</a> (MLC sample code) creates attempts even though
+BasicWebPlayer doesn't implement SLK concepts like "assignment".</p>
+
+<p>When a program manipulates an attempt, it typically does so by creating an in-memory
+<b>learning session</b>, represented by an instance of the
+<a href="Microsoft.LearningComponents.Storage.StoredLearningSession.Class.htm">StoredLearningSession class</a>,
+in one of two ways:</p>
 
 <ul>
-	<li>LearningSession</li>
-	<li>StoredLearningSession &amp; attempts</li>
-	<li>UnstoredLearningSession (no attempts)</li>
+
+	<li>When an application wants to create a new attempt on an e-learning package, it calls
+		<a href="Microsoft.LearningComponents.Storage.StoredLearningSession.CreateAttempt.Method.htm">StoredLearningSession.CreateAttempt</a>,
+		a static method which returns an instance of the StoredLearningSession class.</li>
+
+	<li>When an application wants to resume manipulation of a previously-created attempt, it calls
+		the
+		<a href="Microsoft.LearningComponents.Storage.StoredLearningSession.StoredLearningSession.Method.2.htm">StoredLearningSession constructor</a>.</li>
+
 </ul>
 
-</div>
+<p>In either case, once an application has acquired an instance of StoredLearningSession, it uses
+it to perform one or more operations on the attempt.  Examples:</p>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<div class="SectionHeader">Session Views</div>
-<div class="Section">
+<ul>
 
-<p>TODO...</p>
+	<li><a href="Microsoft.LearningComponents.Storage.StoredLearningSession.Start.Method.htm">StoredLearningSession.Start</a>
+		starts the attempt, optionally identifying an initial activity to deliver.</li>
 
-<p><img src="LearningSession.gif" alt="" border="" galleryimg="no" /></p>
+	<li><a href="Microsoft.LearningComponents.Storage.StoredLearningSession.CurrentActivityDataModel.Property.htm">StoredLearningSession.CurrentActivityDataModel</a>
+		returns the <a href="MlcDataModel.htm">data model</a> for the current activity.</li>
 
-</div>
+	<li><a href="Microsoft.LearningComponents.Storage.StoredLearningSession.MoveToNext.Method.htm">StoredLearningSession.MoveToNext</a>,
+		<a href="Microsoft.LearningComponents.Storage.StoredLearningSession.MoveToPrevious.Method.htm">MoveToPrevious</a> and
+		<a href="Microsoft.LearningComponents.Storage.StoredLearningSession.MoveToActivity.Method.htm">MoveToActivity</a>
+		perform specific navigation operations.  These methods are generally called as a result
+		of user interaction with the application user interface.</li>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<a name="UnstoredLearningSession"></a>
-<div class="SectionHeader">Previewing E-Learning Content (UnstoredLearningSession)</div>
-<div class="Section">
+	<li>Another way to navigate is to update
+		<a href="Microsoft.LearningComponents.DataModel.LearningDataModel.NavigationRequest.Property.htm">LearningDataModel.NavigationRequest</a>
+		(on the server or client&mdash;see <a href="MlcDataModel.htm">LearningDataModel</a>)
+		on an activity and then call
+		<a href="Microsoft.LearningComponents.Storage.StoredLearningSession.ProcessNavigationRequests.Method.htm">StoredLearningSession.ProcessNavigationRequests</a>.  This approach is typically
+		used to allow a SCO within SCORM content to navigate.</li>
 
-<p>TODO: preview view</p>
+	<li>Note that the navigation operations listed in the previous two bullets are separate from
+		content <i>rendering</i>, i.e. generating HTML or other Web pages, or resources referenced
+		from those pages, for display to a user in a browser.  Rendering is performed by calling
+		<a href="Microsoft.LearningComponents.Storage.StoredLearningSession.Render.Method.htm">StoredLearningSession.Render</a>.</li>
 
-</div>
+	<li>Changes to the StoredLearningSession in-memory state are not written to the database
+		until <a href="Microsoft.LearningComponents.Storage.StoredLearningSession.CommitChanges.Method.htm">StoredLearningSession.CommitChanges</a> is called.  (Exception:
+		<a href="Microsoft.LearningComponents.Storage.StoredLearningSession.CreateAttempt.Method.htm">StoredLearningSession.CreateAttempt</a>
+		does not require a subsequent call to CommitChanges.)</li>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<a name="StoredLearningSession"></a>
-<div class="SectionHeader">Executing E-Learning Content (StoredLearningSession)</div>
-<div class="Section">
+</ul>
 
-<p>TODO: includes execute, review, and random access views</p>
+<p>Information tracked by MLC that's related to an attempt is stored in a number of database
+tables&mdash;see <a href="SlkSchema.htm">SLK+MLC Schema</a>.  When an attempt has completed, all
+tables related to the attempt are populated with information about that attempt.  Before an attempt
+is completed, however, the state of an attempt is maintained in a compressed internal form that's
+not easily accessible to applications.  If an application would like to perform
+SQL-level reporting on an attempt (either directly, or using
+<a href="MlcLearningStore.htm">LearningStore</a>) before the attempt is complete, the application
+must call <a href="Microsoft.LearningComponents.Storage.StoredLearningSession.ExpandSessionCache.Method.htm">StoredLearningSession.ExpandSessionCache</a>.</p>
+
+<p>Note that Class Server content (e.g. .lrm files) are manipulated in a manner generally quite
+similar to SCORM 1.2 packages.</p>
+
+<p>StoredLearningSession is designed to operate efficiently in a stateless Web application
+environment.  In an ASP.NET-based Web application, a StoredLearningSession instance typically lives
+no longer than the duration of one Web request: the Web application creates the
+StoredLearningSession object to perform some set of operations on the attempt (for example,
+navigation followed by rendering) and then discards the StoredLearningSession.</p>
 
 </div>
 
@@ -67,8 +110,9 @@
 <div class="SectionHeader">For More Information</div>
 <div class="Section">
 
-<div><a href="Microsoft.LearningComponents.Namespace.htm">Microsoft.LearningComponents Namespace (API Reference)</a></div>
-<div><a href="Microsoft.LearningComponents.Storage.Namespace.htm">Microsoft.LearningComponents.Storage Namespace (API Reference)</a></div>
+<div><a href="SlkConcepts.htm">SLK Concepts</a></div>
+<div><a href="Microsoft.LearningComponents.Storage.StoredLearningSession.Class.htm">StoredLearningSession</a> (API Reference)</div>
+<div><a href="MlcDataModel.htm">LearningDataModel</a></div>
 
 </div>
 
