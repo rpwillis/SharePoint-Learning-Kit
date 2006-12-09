@@ -27,11 +27,11 @@
 
 <p>In order to execute an e-learning package (i.e. create a
 <a href="MlcSessions.htm#StoredLearningSession">StoredLearningSession</a> onto it), Microsoft
-Learning Components needs to <i>register</i> the package.  This process involves copying
+Learning Components needs to <b>register</b> the package.  This process involves copying
 information from the package's manifest into various database tables for fast subsequent lookup.
 In the process, the package is assigned a
 <a href="Microsoft.LearningComponents.Storage.PackageItemIdentifier.Class.htm">PackageItemIdentifier</a>, a 64-bit integer identifier that's
-unique within the database.</p>
+unique within the <a href="MlcLearningStore.htm">LearningStore</a> database.</p>
 
 <p>However, other than copying information from the package manifest, MLC doesn't store the
 contents of a package when it's registered.  Instead, MLC stores a <i>location string</i> which is
