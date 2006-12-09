@@ -649,10 +649,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             //Slk Error with Generic or dead lock error message.
 
+            errorText = Constants.Space + SlkUtilities.GetHtmlEncodedText(errorText);
+
             //Add the Error to Error Collection.
-            slkError = new SlkError(ErrorType.Error,
-                SlkUtilities.GetHtmlEncodedText(Constants.Space +
-                                    errorText));
+            slkError = new SlkError(ErrorType.Error, errorText);
 
             //log the exception in EventLog. 
             SlkError.WriteToEventLog(sqlEx);
