@@ -95,14 +95,14 @@ likely modify at least portions of it to suit the needs of your application.</p>
 
 <p>Since applications that leverage Microsoft Learning Components may be web-based, desktop, or
 console applications, functionality within MLC has been organized into assemblies with the goal of
-maximizing deployment flexibility.  For example, if your application only needs to preview an
+maximizing deployment flexibility.  For example, if your application only needs to validate an
 e-learning package, it need not include Microsoft.LearningComponents.Storage.dll (which has a
 dependency on SQL Server) or Microsoft.LearningComponents.SharePoint.dll (which has a dependency
 on SharePoint.</p>
 
 <p>The following diagram shows examples of three applications that leverage MLC.  The first
 depends only on Microsoft.LearningComponents.dll (like the example above), which provides basic
-support for reading, previewing, and validating e-learning packages.  The second application
+support for reading and validating e-learning packages.  The second application
 also leverages Microsoft.LearningComponents.Storage.dll, which adds the ability to execute
 e-learning packages, with the results stored in a database.  The third application adds a
 dependency on Microsoft.LearningComponents.SharePoint.dll, which adds support for executing
@@ -141,11 +141,6 @@ frameset.</p>
 				<li><a href="MlcPackages.htm#PackageValidator">Validating E-Learning Packages</a>
 					<ul class="CompactList">
 						<li>PackageValidator</li>
-					</ul>
-				</li>
-				<li><a href="MlcSessions.htm#UnstoredLearningSession">Previewing E-Learning Packages</a>
-					<ul class="CompactList">
-						<li>UnstoredLearningSession</li>
 					</ul>
 				</li>
 			</ul>
@@ -253,7 +248,6 @@ documentation.</p>
 			<ul>
 				<li><a href="MlcPackages.htm">Unpackaging, parsing and validating e-learning
 					packages</a></li>
-				<li><a href="MlcSessions.htm#UnstoredLearningSession">Previewing e-learning packages</a></li>
 			</ul>
 		</td>
 	</tr>
