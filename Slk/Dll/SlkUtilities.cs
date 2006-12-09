@@ -373,6 +373,8 @@ namespace Microsoft.SharePointLearningKit
         ///
         public static void RetryOnDeadlock(VoidDelegate del)
         {
+            if (del == null)
+                throw new ArgumentNullException("del");
             int attemptsLeft = 5;
             while (attemptsLeft-- > 0)
             {
@@ -498,6 +500,7 @@ namespace Microsoft.SharePointLearningKit
     /// A delegate with no parameters and no return value.
     /// </summary>
     ///
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
     public delegate void VoidDelegate();
 
     
