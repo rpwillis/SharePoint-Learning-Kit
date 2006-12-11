@@ -42,6 +42,7 @@
 ..\..\App\Frameset\Images\ButtonOnWrong.gif             Layouts\SharePointLearningKit\Frameset\Images\ButtonOnWrong.gif
 ..\..\App\Frameset\Images\Correct.gif                   Layouts\SharePointLearningKit\Frameset\Images\Correct.gif
 ..\..\App\Frameset\Images\Incorrect.gif                 Layouts\SharePointLearningKit\Frameset\Images\Incorrect.gif
+..\..\App\Frameset\Images\SaveAndClose.gif              Layouts\SharePointLearningKit\Frameset\Images\SaveAndClose.gif
 ..\..\App\Frameset\MainFrames.aspx                      Layouts\SharePointLearningKit\Frameset\MainFrames.aspx
 ..\..\App\Frameset\NavClosed.aspx                       Layouts\SharePointLearningKit\Frameset\NavClosed.aspx
 ..\..\App\Frameset\NavOpen.aspx                         Layouts\SharePointLearningKit\Frameset\NavOpen.aspx

@@ -52,6 +52,7 @@
 	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\ButtonOnWrong.gif" />
 	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\Correct.gif" />
 	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\Incorrect.gif" />
+    <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\SaveAndClose.gif" />
 	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\vernum.js" />
 	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\MainFrames.aspx" />
 	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\NavClosed.aspx" />

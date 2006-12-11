@@ -281,6 +281,10 @@ function FM_IsTrainingComplete()
 function HideUIControls()
 {
     window.top.frames[MAIN_FRAME].document.all["framesetParentUI"].cols = "0px,*";
+    
+    var titleDoc = window.top.frames[TITLE_FRAME].document;
+    titleDoc.all["imgSaveAndCloseTd"].innerHTML = "&nbsp;";
+    titleDoc.all["aSaveAndClose"].innerHTML = "&nbsp;";
 }
 
 // Returns true if all frames have been registered as loaded.
@@ -391,8 +395,10 @@ function FM_ContentIsCleared()
         return false;
     }
     
-    // If the frameset is closing, then close the window    
-    if (this.IsClosing())
+    this.DebugLog("m_postInProgress = " + this.m_postInProgress);
+    
+    // If the frameset is closing and we are not waiting for anything from the server, then close the window    
+    if (this.IsClosing() && !this.m_postInProgress)
     {
         top.close();
     }
@@ -746,21 +752,28 @@ function FM_PostIsComplete()
 {
     this.DebugLog("PostIsComplete: Begin");
     
-    // If the frameset is closing, then do it.
-    if (this.IsClosing())
-    {
-        top.close();
-    }
-    
     this.m_postInProgress = false;
     
     // If there was an error in the posted data, don't do the next post
     if (this.HasContentError())
-        return;
+    {
+        if (this.IsClosing())
+        {
+            // If there is nothing waiting to be posted, then close the window if that is a pending command.
+            top.close();
+        }
+        else
+            return;
+    }
         
     if (this.m_commandMgr.HasCommands())  // If there are more things to post, do it
     {
         this.DoPost();
+    }
+    else if (this.IsClosing())
+    {
+        // If there is nothing waiting to be posted, then close the window if that is a pending command.
+        top.close();
     }
     this.DebugLog("PostIsComplete: End");
 }
