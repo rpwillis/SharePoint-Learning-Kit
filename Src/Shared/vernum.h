@@ -1,5 +1,5 @@
 #define rmj		1
 #define rmm		0
-#define rup		790
+#define rup		791
 #define szVerName	""
 #define szVerUser	""
