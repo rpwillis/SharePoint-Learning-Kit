@@ -99,7 +99,41 @@ body
 	margin-left: 7px;
 	background-color : transparent;
 }
+
+.ShellSaveText		
+{
+	color: #232d50;
+	font-size: 8pt;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	background-color : transparent;
+	text-align: left;
+	line-height: 11pt;
+}
     
+.ShellTitleServices A:link			
+{
+	color: #232d50;
+	font-size: 10pt;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+.ShellTitleServices A:hover
+{
+	color: #232d50;
+	font-size: 10pt;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	cursor:hand;
+}
+
+.ShellTitleServices A:visited			
+{
+	color: #232d50;
+	font-size: 10pt;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	text-decoration: none; 
+}
+
 .ShellTitleServices	
 {
 	background-color: #edf5ff;

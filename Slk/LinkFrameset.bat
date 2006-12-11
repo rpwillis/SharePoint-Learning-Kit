@@ -50,6 +50,7 @@ call LinkFile %1 "..\Samples\BasicWebPlayer\Frameset\Images\ButtonOnCorrect.gif"
 call LinkFile %1 "..\Samples\BasicWebPlayer\Frameset\Images\ButtonOnWrong.gif" "App\Frameset\Images\ButtonOnWrong.gif"
 call LinkFile %1 "..\Samples\BasicWebPlayer\Frameset\Images\Correct.gif" "App\Frameset\Images\Correct.gif"
 call LinkFile %1 "..\Samples\BasicWebPlayer\Frameset\Images\Incorrect.gif" "App\Frameset\Images\Incorrect.gif"
+call LinkFile %1 "..\Samples\BasicWebPlayer\Frameset\Images\SaveAndClose.gif" "App\Frameset\Images\SaveAndClose.gif"
 
 REM -- FROM: Samples\BasicWebPlayer\Frameset\Theme
 REM -- TO: Slk\App\Frameset\Theme

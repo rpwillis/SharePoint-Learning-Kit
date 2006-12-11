@@ -92,7 +92,8 @@ function FramesetManager()
     this.SetPostableForm = FM_SetPostableForm;
     this.PostIsComplete = FM_PostIsComplete;    // Indicates an in-process post operation has finished
     this.DoSubmit = FM_DoSubmit;    // submit the attempt as complete
-    
+    this.IsClosing = FM_IsClosing;  // returns true if the frameset is closing.
+        
     // Frames that have registered as being loaded
     this.m_framesRegistered = new Array();
     //this.m_framesRegistered[CONTENT_FRAME] = false;   -- don't have to register this frame
@@ -139,6 +140,7 @@ function FramesetManager()
     this.m_postableForm = null; // the form element that should be posted
     this.m_postInProgress = false;  // If true, we're waiting for a return from posted data. Nothing more can be posted.
     this.m_waitForContentCount = 0;
+    this.m_isClosing = false;   // if true, the frameset is closing
     
     // To process commands
     this.m_commandMgr = new CommandMgr();
@@ -338,6 +340,16 @@ function UpdateTitle(title)
     titleDoc.all["txtTitle"].innerHTML = title;
 }
 
+// Returns true if the frameset is closing.
+// If isClosing has a value, this sets its value.
+function FM_IsClosing(isClosing)
+{
+    if (isClosing != undefined)
+        this.m_isClosing = isClosing;
+        
+    return this.m_isClosing;
+}
+
 // strCommand is the pending navigation request that should be executed after the 
 // content frame has been cleared.
 function FM_ClearContentFrameAndPost( command, commandData )
@@ -378,7 +390,13 @@ function FM_ContentIsCleared()
         this.DebugLog("ContentIsCleared: End. No pending command.");
         return false;
     }
-        
+    
+    // If the frameset is closing, then close the window    
+    if (this.IsClosing())
+    {
+        top.close();
+    }
+    
     this.m_commandMgr.SetCommand(this.m_pendingCommand, this.m_pendingCommandData);
     
     this.DoPost();  // post, not save, since there is no RTE object at this point
@@ -727,6 +745,13 @@ function FM_DoPost( bIsRetry )
 function FM_PostIsComplete()
 {
     this.DebugLog("PostIsComplete: Begin");
+    
+    // If the frameset is closing, then do it.
+    if (this.IsClosing())
+    {
+        top.close();
+    }
+    
     this.m_postInProgress = false;
     
     // If there was an error in the posted data, don't do the next post
