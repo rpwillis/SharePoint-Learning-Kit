@@ -9,11 +9,24 @@
 	<script src="./Include/FramesetMgr.js"></script>
 	
 	<script language="jscript">
+	L_SaveAndClose_TXT = "Save&nbsp;&amp; Close";
+	L_SaveAndCloseTooltip_TXT = "Save & Close";
+	
+	var frameMgr;
 	
 	function onLoad()
 	{ 
 	    frameMgr = API_GetFramesetManager();
 	    frameMgr.RegisterFrameLoad(TITLE_FRAME); 
+	    document.all["imgSaveAndClose"].title = L_SaveAndCloseTooltip_TXT;	  
+	    document.all["aSaveAndClose"].innerHTML = L_SaveAndClose_TXT;	  	      
+	}
+	
+	// Save and Close event handler. This clears the content frame and closes the frameset.
+	function onSaveAndClose()
+	{
+	    frameMgr.IsClosing(true);
+	    frameMgr.ClearContentFrameAndPost("S", null);	    
 	}
 	
 	</script>
@@ -22,12 +35,19 @@
 
 <TABLE width="100%" height="100%" border=0 cellPadding=0 cellSpacing=0>
 	<TR vAlign=top>
-		<TD vAlign=top align=left width="100%"><IMG id=topshadow height=6 src="Theme/TopShadow.gif" width="100%" border=0  valign="top"></TD>
+		<TD vAlign=top align=left width="100%" colspan="3"><IMG id=topshadow height=6 src="Theme/TopShadow.gif" width="100%" border=0  valign="top"></TD>
 	</TR>
 	<TR vAlign=top height="100%">
 		<TD vAlign=middle align=left width="100%" >
 		<div style="overflow-y:auto; height: 100%; padding-bottom:4px; display:none" class=ShellTitleText id="txtTitle" >&nbsp;</div>
 		</TD>
+		<TD valign=Middle align=right>
+		    <img id="imgSaveAndClose" style="cursor:hand;" src="./Images/SaveAndClose.gif" onclick="onSaveAndClose();" onmouseout="document.all['aSaveAndClose'].style.textDecoration='none'"  onmouseover="document.all['aSaveAndClose'].style.textDecoration='underline'"/>
+		</TD>
+		<td valign=bottom align=right>
+		    <div style="height:100%; padding: 7px 16px 0px 4px " class="ShellSaveText" >
+		    <a href="javascript:onSaveAndClose();" id="aSaveAndClose" onmouseout="this.style.textDecoration='none'"  onmouseover="this.style.textDecoration='underline'" >&nbsp;</a></div>
+		</td>
 	</TR>
 </TABLE>
 </BODY>
