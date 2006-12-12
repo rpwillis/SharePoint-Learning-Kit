@@ -23,15 +23,268 @@
 </div>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<div class="Summary">
+<div class="Summary">Summary
 
-<p>TODO...</p>
+<p>The MLC Session Frameset is a collection of ASP.NET pages that are used within applications to 
+allow a user to interact with e-learning content. The user interface components of the frameset 
+can be easily customized for an application, while the core frameset client javascript and server
+ASP.NET code manage the display of content and processing of learner actions and are common between
+instances of the frameset.</p>
 
-<p>(See notes in the <a href="BasicWebPlayer_ReadMe.txt.htm">BasicWebPlayer ReadMe.txt</a>.)</p>
+<p>There are two applications in SharePointLearning Kit that use the session frameset. BasicWebPlayer 
+is sample code that runs as a compile-on-demand ASP.NET Web application. SharePoint Learning Kit (SLK)
+includes
+a Session Frameset as part of its SharePoint solution. From a user's perspective, the framesets appear 
+very similar, with almost identical functionality, as shown here:
+<br /><br /><img src="Frameset.jpg" alt="" border="" galleryimg="no" />
+</p>
 
-<p><img src="Frameset.jpg" alt="" border="" galleryimg="no" /></p>
+<p>While the applications appear similar to a 
+user, there are several differences in the applications: </p>
+
+<ul>
+<li> SLK frameset requires Windows SharePoint Services 2007, SQL Server 2005, and Windows Server 2003.
+     BasicWebPlayer does not require SharePoint, but does require SQL Server and Windows Server.</li>
+
+  <li> Both SLK and BasicWebPlayer applications support the concepts of self-assignment, i.e. a user assigning
+     content to themself so they can "execute" it.  SLK also supports the concept of assigning
+     content to other users; BasicWebPlayer does not.</li>
+
+  <li>In SLK, a package to be executed is uploaded to a document library where it can be
+     self-assigned or assigned to others.  (SLK also maintains a file system cache to improve
+     access performance.)  Each assignment causes the creation of a LearnerAssignmentItem in the
+     SLK database -- a SLK extension to the MLC base schema.  Multiple LearnerAssignmentItem items
+     can refer to the same package, which is referred to by a PackageItem item in the SLK
+     database -- another SLK extension to the MLC base schema.  When the user executes a package,
+     an MLC "attempt" is created that corresponds one-to-one with that LearnerAssignmentItem.<br /><br />
+
+     In BasicWebPlayer, each package uploaded by a user is used for one attempt, and that user "owns" that
+     package.  There is no LearnerAssignmentItem table; instead, the standard MLC PackageItem table
+     is extended by BasicWebPlayer to contain a reference to the user who owns the package.
+     Package files are stored in a file system directory, C:\BasicWebPlayerPackages by default.<br /><br />
+
+     The schema differences described above illustrate the flexibility of MLC: different
+     applications of MLC (such as SLK and BasicWebPlayer, in this case) can extend the base schema
+     in different ways, to suit their specific needs. <br /><br />
+     
+     NOTE: The BasicWebPlayer extensions to the MLC base schema are defined in the Schema.xml
+     file in the BasicWebPlayer directory.</li>
+
+  <li>SLK supports assignment (including self-assignment) of non-e-learning content, such as
+     Microsoft Word documents.  BasicWebPlayer does not.  Non-e-learning content is a feature of
+     the SLK application, not of MLC, and therefore the SLK frameset provides a means to display
+     non-e-learning content, while the BasicWebPlayer frameset does not.</li>
+</ul>
+</p>
+</div>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Accessing the Session Frameset</div>
+<div class="Section">
+<p>The SLK and BWP session framesets have different URL parameters. When installed 
+SLK and BasicWebPlayer are installed, the framesets are accessed as follows:</p>
+
+<p><b>Basic Web Player:</b>
+http://MyServer/BasicWebPlayer/Frameset/Frameset.aspx?View=&lt;sessionView&gt;&AttemptId=&lt;attemptId&gt;
+where
+<ul>
+<li>sessionView is a numerical value of the <a href="Microsoft.LearningComponents.SessionView.Enumeration.htm">SessionView enum</a>.
+Currently BasicWebPlayer only supports 0 (Execute view).</li>
+<li>attemptId is the <a href="Microsoft.LearningComponents.Storage.LearningStoreItemIdentifier.GetKey.Method.htm">Key</a>
+of an <a href="Microsoft.LearningComponents.Storage.AttemptItemIdentifier.Class.htm">AttemptItemIdentifier</a>
+of the attempt to display. The current user must be the learner on the attempt.</li>
+</ul>
+<br />Information on running Basic Web Player can be found in the <a href="BasicWebPlayer_ReadMe.txt.htm">readme</a>.
+</p>
+<p><b>SharePoint Learning Kit:</b>
+https://MyServer/MySite/_layouts/SharePointLearningKit/Frameset/Frameset.aspx?SlkView=&lt;slkView&gt;&LearnerAssignmentId=&lt;learnerAssignmentId&gt;
+where
+<ul>
+<li><a href="#SlkView">slkView</a> is one of the allowed values. </li>
+<li>learnerAssignmentId is the <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Id.Field.htm">LearnerAssignmentItem.Id value</a>
+to display in the frameset.</li>
+</ul>
+</p>
+Note that the availability of a particular view to a given user is determined by the security rules of the application. For instance,
+in SLK, a learner cannot request StudentReview if the assignment is not <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.IsFinal.Field.htm">
+Final.</a>
+</div>
+
+<a name="SlkView"></a>
+<div class="SectionHeader">Slk View</div>
+<div class="Section">
+In SLK, a SlkView URL parameter to the session frameset determines the MLC SessionView displayed to the user, according the following 
+correlation:<br /><br />
+<table border=1 cellpadding=0 cellspacing=0>
+<tr>
+<td><b>SlkView</b></td>
+<td><b>MLC SessionView</b></td>
+<td><b>Comment</b></td>
+</tr>
+<tr>
+<td>Execute</td><td>SessionView.Execute</td><td></td>
+</tr>
+<tr>
+<td>StudentReview</td><td>SessionView.Review</td><td>Security rules and SLK session frameset limit this view to the learner of the 
+LearnerAssignment and assignments that are Final.</td>
+</tr>
+<tr>
+<td>InstructorReview</td><td>SessionView.Review</td><td>Security rules and SLK session frameset limit this view to instructors on 
+the assignment.</td>
+</tr>
+<tr>
+<td>Grading</td><td>SessionView.RandomAccess</td><td>Security rules and SLK session frameset limit this view to instructors 
+on submitted or final LearnerAssignments.</td>
+</tr>
+
+</table>
 
 </div>
+
+<div class="SectionHeader">Session Frameset Source Code</div>
+<div class="Section">
+
+The source code for the session framesets are available in the following locations: 
+<ul>
+<li>The BasicWebPlayer sample code is located in Samples\BasicWebPlayer within SLK-SDK-n.n.nnn-ENU.zip, 
+and also within SLK-SourceCode-1.0.794-ENU.zip.</li>
+<li>The SLK session frameset code is located in subfolders of Slk within SLK-SourceCode-1.0.794-ENU.zip.</li>
+</ul>
+<p>The precise location of files within the framesets is defined below.</p>
+
+As mentioned above, the session framest can be roughly categorized into three sections:
+<ol>
+<li>Code to display the user interface of the Basic Web Player application session frameset.</li>
+<li>Code to display the user interface of the SLK application session frameset.</li>
+<li>Code shared between the SLK and Basic Web Player applications. The source code of these files is stored with 
+the Basic Web Player frameset and copied to the SlkDll project at build time. This is the majority of the code 
+in the session frameset.</li>
+</ol>
+Specifically, the session framesets consist of the following files:<br /><br />
+<table border=1 cellpadding=0 cellspacing=0 width=100%>
+<tr><td colspan=2 style="background-color:Gray"><b>BasicWebPlayer frameset files</b></td></tr>
+<tr><td colspan=2 style="background-color:Gray"><b>Root Folder: &lt;SourceCode&gt;\Samples\BasicWebPlayer\Frameset</b></td></tr>
+<tr><td><b>Relative Path</b></td><td><b>Description</b></td></tr>
+
+<tr><td>ChangeActivity.aspx and ChangeActivity.aspx.cs</td><td>Page displayed when LRM content contains a relative reference
+to another page in the content. Parses the URL parameters unique to BasicWebPlayer and 
+uses <a href="#CoreSessionFiles">ChangeActivityHelper</a> to actually change the activity.</td></tr>
+
+<tr><td>ClearContent.aspx and ClearContent.aspx.cs</td><td>Page displayed when package content is being removed from display, 
+for instance when a user selects a new activity in the table of contents.</td></tr>
+
+<tr><td>Content.aspx and Content.aspx.cs</td><td>Page displayed in the content frame. Parses the URL parameters unique to BasicWebPlayer and 
+uses <a href="#CoreSessionFiles">ContentHelper</a> to display the content.</td></tr>
+
+<tr><td>Frameset.aspx and Frameset.aspx.cs</td><td>The main page displayed in the frameset. Parses URL 
+parameters unique to BasicWebPlayer and uses <a href="#CoreSessionFiles">FramesetHelper</a> to initialize the 
+<a href="Microsoft.LearningComponents.LearningSession.Class.htm">LearningSession</a> for display in the frameset.</td></tr>
+
+<tr><td>Hidden.aspx and Hidden.aspx.cs</td><td>Page that is within the frameset but not displayed to the user. 
+Parses URL parameters unique to BasicWebPlayer and 
+uses <a href="#CoreSessionFiles">HiddenHelper</a> to process commands sent from the client.</td></tr>
+
+<tr><td>MainFrames.aspx and MainFrames.aspx.cs</td><td>Frameset embedded within the overall frameset, that contains 
+the table of contents, navigation panes, and contents frames. Provides href values unique to BasicWebPlayer
+for the frames it contains.</td></tr>
+
+<tr><td>NavClosed.aspx and NavClosed.aspx.cs</td><td>Page containing navigation icons when the table of contents is 
+not displayed. Provides strings unique to BasicWebPlayer.</td></tr>
+
+<tr><td>NavOpen.aspx and NavOpen.aspx.cs</td><td>Page containing navigation icons when the table of contents 
+is displayed. Provides strings unique to BasicWebPlayer.</td></tr>
+
+<tr><td>TOC.aspx and TOC.aspx.cs</td><td>Page displaying the table of contents. unique to BasicWebPlayer and uses
+<a href="#CoreSessionFiles">TocHelper</a> to display the table of contents.</td></tr>
+<tr><td>App_Code\FramesetPage.cs</td><td>The base class of all *.aspx.cs classes in the BasicWebPlayerFrameset. 
+Provides common protected methods for URL parameter parsing and error display.</td></tr>
+</table>
+<br /><br />
+<table border=1 cellpadding=0 cellspacing=0 width=100%>
+<tr><td colspan=2 style="background-color:Gray"><b>SLK Session Frameset unique files</b></td></tr>
+<tr><td colspan=2 style="background-color:Gray"><b>Root Folder (*.cs): &lt;SourceCode&gt;\Slk\SlkDll\AppWebPages\Frameset<br />
+Root Folder (*.aspx) &lt;SourceCode&gt;\Slk\App\Frameset</b></td></tr>
+<tr><td><b>Relative Path</b></td><td><b>Description</b></td></tr>
+
+<tr><td>ChangeActivity.aspx and ChangeActivity.aspx.cs</td><td>Page displayed when LRM content contains a relative reference
+to another page in the content. Parses the URL parameters unique to SLK and 
+uses <a href="#CoreSessionFiles">ChangeActivityHelper</a> to actually change the activity.</td></tr>
+
+<tr><td>ClearContent.aspx and ClearContent.aspx.cs</td><td>Page displayed when package content is being removed from display, 
+for instance when a user selects a new activity in the table of contents.</td></tr>
+
+<tr><td>Content.aspx and Content.aspx.cs</td><td>Page displayed in the content frame. Parses the URL parameters unique to SLK and 
+uses <a href="#CoreSessionFiles">ContentHelper</a> to display the content.</td></tr>
+
+<tr><td>Frameset.aspx and Frameset.aspx.cs</td><td>The main page displayed in the frameset. Parses URL 
+parameters unique to SLK and uses <a href="#CoreSessionFiles">FramesetHelper</a> to initialize the 
+<a href="Microsoft.LearningComponents.LearningSession.Class.htm">LearningSession</a> for display in the frameset.
+This page is also responsible for rendering non-e-learning content.</td></tr>
+
+<tr><td>Hidden.aspx and Hidden.aspx.cs</td><td>Page that is within the frameset but not displayed to the user. 
+Parses URL parameters unique to SLK and 
+uses <a href="#CoreSessionFiles">HiddenHelper</a> to process commands sent from the client.</td></tr>
+
+<tr><td>MainFrames.aspx and MainFrames.aspx.cs</td><td>Frameset embedded within the overall frameset, that contains 
+the table of contents, navigation panes, and contents frames. Provides href values unique to SLK
+for the frames it contains.</td></tr>
+
+<tr><td>NavClosed.aspx and NavClosed.aspx.cs</td><td>Page containing navigation icons when the table of contents is 
+not displayed. Provides strings unique to SLK.</td></tr>
+
+<tr><td>NavOpen.aspx and NavOpen.aspx.cs</td><td>Page containing navigation icons when the table of contents 
+is displayed. Provides strings unique to SLK.</td></tr>
+
+<tr><td>TOC.aspx and TOC.aspx.cs</td><td>Page displaying the table of contents. unique to SLK and uses
+<a href="#CoreSessionFiles">TocHelper</a> to display the table of contents.</td></tr>
+
+</table>
+<br /><br />
+<a name="CoreSessionFiles"></a>
+<table border=1 cellpadding=0 cellspacing=0 width=100%>
+<tr><td colspan=2 style="background-color:Gray"><b>Core Session Frameset Files (shared between SLK and BasicWebPlayer)</b></td></tr>
+<tr><td colspan=2 style="background-color:Gray"><b>Root Folder: &lt;SourceCode&gt;\Samples\BasicWebPlayer</b></td></tr>
+<tr><td>Frameset\Theme\*.*</td><td>The stylesheet and images that are used within in the frameset user interface.</td></tr>
+<tr><td>Frameset\Images\*.*</td><td>Images used when rendering content, specifically LRM content.</td></tr>
+
+<tr><td>Frameset\Bottom.htm</td><td>Blank page used for spacing in the frameset.</td></tr>
+
+<tr><td>Frameset\NoScroll.htm</td><td>Blank page used for spacing in the frameset.</td></tr>
+
+<tr><td>Frameset\Title.htm</td><td>Page displayed in the title frame. The title (the form of which differs in the BasicWebPlayer
+and SLK framesets) is set by client code running in the hidden frame.</td></tr>
+
+<tr><td>App_Code\ChangeActivityHelper.cs</td><td>Code used by ChangeActivity.cs to change an activity within LRM content.</td></tr>
+
+<tr><td>App_Code\ContentHelper.cs</td><td>Code to display content within the content frame. When LRM content is being displayed,
+this frame is posted to the server containing user interaction data from the client.</td></tr>
+
+<tr><td>App_Code\Encoding.cs</td><td>Helper functions to encode and decode various string formats.</td></tr>
+
+<tr><td>App_Code\FramesetHelper.cs</td><td>Code to initialize the 
+<a href="Microsoft.LearningComponents.LearningSession.Class.htm">LearningSession</a> for display in the frameset.</td></tr>
+
+<tr><td>App_Code\FramesetQueryParam.cs</td><td>Partial class that defines costants for URL parameters. SLK frameset 
+also provides a partial class to extend this list; BasicWebPlayer does not.</td></tr>
+
+<tr><td>App_Code\FrmPageHelper.cs</td><td>Code used by SLK FramesetPage and BasicWebPlayer BwpFramesetPage to 
+perform common methods for accessing URL parameter and processing errors.</td></tr>
+
+<tr><td>App_Code\HiddenHelper.cs</td><td>Code to assist in rendering the hidden page. When LRM content is not
+being displayed, this frame is posted to the server containing user interaction data from the client.</td></tr>
+
+<tr><td>App_Code\Log.cs</td><td>Debug-only logging classes. By default, is not referenced by any other classes,
+but can be used as generic logging functionality for debugging server interactions.</td></tr>
+<tr><td>App_Code\PostableFrameHelper.cs</td><td>Base class of helper classes that can be posted, specifically 
+ContentHelper and HiddenHelper.</td></tr>
+<tr><td>App_Code\Rte1p2DataModelConverter.cs</td><td>Converts data model elements from SCORM 1.2 content to LearningDataModel elements, and vice versa.</td></tr>
+<tr><td>App_Code\Rte2004DataModelConverter.cs</td><td>Converts data model elements from 2004 content to LearningDataModel elements, and vice versa.</td></tr>
+<tr><td>App_Code\RteDataModelConverter.cs</td><td>Abstract class to translate between RTE strings (e.g., "cmi.score.scaled") and 
+    LearningDataModel values (e.g., LearningDataModel.Score.Scaled). Rte1p2DataModelConverter and Rte2004DataModelConverter inherit 
+    from this class.</td></tr>
+<tr><td>App_Code\TocHelper.cs</td><td>Renders the table of contents.</td></tr>
+</table>
+</div>
+
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class="SectionHeader">For More Information</div>
