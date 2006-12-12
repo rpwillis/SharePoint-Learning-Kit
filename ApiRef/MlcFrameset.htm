@@ -114,25 +114,34 @@ Final.</a>
 <div class="Section">
 In SLK, a SlkView URL parameter to the session frameset determines the MLC SessionView displayed to the user, according the following 
 correlation:<br /><br />
-<table border=1 cellpadding=0 cellspacing=0>
+<table class="Grid OverviewTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<col class="Column3_" />
+	<tr class="Header_">
+		<td class="Header1_">SlkView</td>
+		<td class="Header2_">MLC SessionView</td>
+		<td class="Header2_">Comment</td>
+	</tr>
 <tr>
-<td><b>SlkView</b></td>
-<td><b>MLC SessionView</b></td>
-<td><b>Comment</b></td>
+<td>Execute</td>
+<td>SessionView.Execute</td>
+<td>Security rules and the SLK session frameset limit this view to the learner of the 
+LearnerAssignment and assignments that are NotStarted or Active.</td>
 </tr>
 <tr>
-<td>Execute</td><td>SessionView.Execute</td><td></td>
-</tr>
-<tr>
-<td>StudentReview</td><td>SessionView.Review</td><td>Security rules and SLK session frameset limit this view to the learner of the 
+<td>StudentReview</td><td>SessionView.Review</td>
+<td>Security rules and the SLK session frameset limit this view to the learner of the 
 LearnerAssignment and assignments that are Final.</td>
 </tr>
 <tr>
-<td>InstructorReview</td><td>SessionView.Review</td><td>Security rules and SLK session frameset limit this view to instructors on 
+<td>InstructorReview</td><td>SessionView.Review</td>
+<td>Security rules and the SLK session frameset limit this view to instructors on 
 the assignment.</td>
 </tr>
 <tr>
-<td>Grading</td><td>SessionView.RandomAccess</td><td>Security rules and SLK session frameset limit this view to instructors 
+<td>Grading</td><td>SessionView.RandomAccess</td>
+<td>Security rules and SLK session frameset limit this view to instructors 
 on submitted or final LearnerAssignments.</td>
 </tr>
 
@@ -155,15 +164,23 @@ As mentioned above, the session framest can be roughly categorized into three se
 <ol>
 <li>Code to display the user interface of the Basic Web Player application session frameset.</li>
 <li>Code to display the user interface of the SLK application session frameset.</li>
-<li>Code shared between the SLK and Basic Web Player applications. The source code of these files is stored with 
-the Basic Web Player frameset and copied to the SlkDll project at build time. This is the majority of the code 
-in the session frameset.</li>
+<li>Code shared between the SLK and Basic Web Player applications. This is the majority of the code 
+in the session frameset. Application developers should not need to change these files to provide 
+a frameset within your application. The source code of these files is stored with 
+the Basic Web Player frameset and copied to the SlkDll project at build time. </li>
 </ol>
 Specifically, the session framesets consist of the following files:<br /><br />
-<table border=1 cellpadding=0 cellspacing=0 width=100%>
-<tr><td colspan=2 style="background-color:Gray"><b>BasicWebPlayer frameset files</b></td></tr>
-<tr><td colspan=2 style="background-color:Gray"><b>Root Folder: &lt;SourceCode&gt;\Samples\BasicWebPlayer\Frameset</b></td></tr>
-<tr><td><b>Relative Path</b></td><td><b>Description</b></td></tr>
+
+<b>BasicWebPlayer frameset files</b>
+<p>Root Folder: &lt;SourceCode&gt;\Samples\BasicWebPlayer\Frameset</p>
+
+<table class="Grid OverviewTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<tr class="Header_">
+		<td class="Header1_">Relative Path</td>
+		<td class="Header2_">Description</td>
+	</tr>
 
 <tr><td>ChangeActivity.aspx and ChangeActivity.aspx.cs</td><td>Page displayed when LRM content contains a relative reference
 to another page in the content. Parses the URL parameters unique to BasicWebPlayer and 
@@ -199,11 +216,18 @@ is displayed. Provides strings unique to BasicWebPlayer.</td></tr>
 Provides common protected methods for URL parameter parsing and error display.</td></tr>
 </table>
 <br /><br />
-<table border=1 cellpadding=0 cellspacing=0 width=100%>
-<tr><td colspan=2 style="background-color:Gray"><b>SLK Session Frameset unique files</b></td></tr>
-<tr><td colspan=2 style="background-color:Gray"><b>Root Folder (*.cs): &lt;SourceCode&gt;\Slk\SlkDll\AppWebPages\Frameset<br />
-Root Folder (*.aspx) &lt;SourceCode&gt;\Slk\App\Frameset</b></td></tr>
-<tr><td><b>Relative Path</b></td><td><b>Description</b></td></tr>
+
+<b>Slk Session frameset files</b>
+<p>Root Folder (*.cs): &lt;SourceCode&gt;\Slk\SlkDll\AppWebPages\Frameset<br />
+Root Folder (*.aspx): &lt;SourceCode&gt;\Slk\App\Frameset</p>
+
+<table class="Grid OverviewTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<tr class="Header_">
+		<td class="Header1_">Relative Path</td>
+		<td class="Header2_">Description</td>
+	</tr>
 
 <tr><td>ChangeActivity.aspx and ChangeActivity.aspx.cs</td><td>Page displayed when LRM content contains a relative reference
 to another page in the content. Parses the URL parameters unique to SLK and 
@@ -233,6 +257,12 @@ not displayed. Provides strings unique to SLK.</td></tr>
 
 <tr><td>NavOpen.aspx and NavOpen.aspx.cs</td><td>Page containing navigation icons when the table of contents 
 is displayed. Provides strings unique to SLK.</td></tr>
+<tr><td>SlkFramesetPage.cs</td><td>The base class for all SLK frameset *.aspx.cs classes. Provides protected 
+methods to assist in URL parsing, error handling and rendering of SLK-specific client script.</td></tr>
+
+<tr><td>SlkFramesetQueryParam.cs (in &lt;SourceCode&gt;\Slk\SlkDll)
+</td>
+<td>Partial class to define URL parameters used by the SLK frameset.</td></tr>
 
 <tr><td>TOC.aspx and TOC.aspx.cs</td><td>Page displaying the table of contents. unique to SLK and uses
 <a href="#CoreSessionFiles">TocHelper</a> to display the table of contents.</td></tr>
@@ -240,11 +270,22 @@ is displayed. Provides strings unique to SLK.</td></tr>
 </table>
 <br /><br />
 <a name="CoreSessionFiles"></a>
-<table border=1 cellpadding=0 cellspacing=0 width=100%>
-<tr><td colspan=2 style="background-color:Gray"><b>Core Session Frameset Files (shared between SLK and BasicWebPlayer)</b></td></tr>
-<tr><td colspan=2 style="background-color:Gray"><b>Root Folder: &lt;SourceCode&gt;\Samples\BasicWebPlayer</b></td></tr>
+<b>Core Session Frameset Files (shared between SLK and BasicWebPlayer)</b>
+<p>Root Folder (*.cs): &lt;SourceCode&gt;\Samples\BasicWebPlayer</p>
+
+<table class="Grid OverviewTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<tr class="Header_">
+		<td class="Header1_">Relative Path</td>
+		<td class="Header2_">Description</td>
+	</tr>
+
 <tr><td>Frameset\Theme\*.*</td><td>The stylesheet and images that are used within in the frameset user interface.</td></tr>
 <tr><td>Frameset\Images\*.*</td><td>Images used when rendering content, specifically LRM content.</td></tr>
+<tr><td>Frameset\Include\*.*</td><td>JavaScript files for client processing. Includes the RTE implementations for 
+SCORM 2004 and SCORM 1.2, as well as a variety of functions that manage the processing of information between 
+frames of the frameset.</td></tr>
 
 <tr><td>Frameset\Bottom.htm</td><td>Blank page used for spacing in the frameset.</td></tr>
 
