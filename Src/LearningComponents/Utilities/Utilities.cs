@@ -426,12 +426,12 @@ namespace Microsoft.LearningComponents
                         {
                             using (ImpersonateIdentity id = new ImpersonateIdentity(writeImpersonationBehavior))
                             {
-                                writer.Write(bytesIn);
+                                writer.Write(bytesIn, 0, bytesRead);
                             }
                         }
                         else
                         {
-                            writer.Write(bytesIn);
+                            writer.Write(bytesIn, 0, bytesRead);
                         }
                     }
                 }
