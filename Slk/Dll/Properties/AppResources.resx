@@ -412,8 +412,8 @@ More information has been written to the server event log.</value>
     <value>Add a site to this list...</value>
   </data>
   <data name="ActionsPageDescription" xml:space="preserve">
-    <value>This page allows you to use a document for e-learning. You can preview the document, or assign
-	it to yourself or to someone else. When you assign a document to someone else, you can specify
+    <value>This page allows you to use a document for e-learning. You can assign
+	the document to yourself or to someone else. When you assign a document to someone else, you can specify
 	a SharePoint site where the assignment will appear, and choose members of that site to be
 	instructors or learners.</value>
   </data>
