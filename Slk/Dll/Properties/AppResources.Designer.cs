@@ -277,8 +277,8 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This page allows you to use a document for e-learning. You can preview the document, or assign
-        ///	it to yourself or to someone else. When you assign a document to someone else, you can specify
+        ///   Looks up a localized string similar to This page allows you to use a document for e-learning. You can assign
+        ///	the document to yourself or to someone else. When you assign a document to someone else, you can specify
         ///	a SharePoint site where the assignment will appear, and choose members of that site to be
         ///	instructors or learners..
         /// </summary>
