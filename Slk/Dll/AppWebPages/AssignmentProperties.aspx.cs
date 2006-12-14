@@ -1687,10 +1687,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     for (int i = 0; i < SlkGroupMemberCollection.Length; i++)
                     {
                         string slkGroupMembers = String.Empty;
+                        //Default the First Element to null
+                        slkGroupMembers = "null" ;
                         if (SlkGroupMemberCollection[i] != null)
                         {
-                            //Default the First Element to null
-                            slkGroupMembers = "null" + Constants.Comma;
+                            slkGroupMembers += Constants.Comma;
                             foreach (long item in SlkGroupMemberCollection[i])
                             {
                                 slkGroupMembers += item.ToString(CultureInfo.InvariantCulture) + Constants.Comma;
@@ -1778,31 +1779,34 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             //selected groups to assigned list.
                             for(int groupCount = 1; groupCount < SlkGroupMemberCollection.Length; groupCount++)
                             {
-                                if (chkListGroups.Items[groupCount].Selected)
+                                if (SlkGroupMemberCollection[groupCount] != null)
                                 {
-                                    assignedLearnersGr += Constants.Comma
-                                                        + chkListGroups.Items[groupCount].Value;
-                                    isLearnerAssigned = true;
-                                }
-                                else
-                                {
-                                    //To check if any of the Group member is selected 
-                                    for(int memberCount = 0;  
-                                         memberCount < SlkGroupMemberCollection[groupCount].Length; 
-                                         memberCount++)                                    
+                                    if (chkListGroups.Items[groupCount].Selected)
                                     {
-                                        //If any of the members in the group is assigned add the group to
-                                        // assigned Group List.
-
-                                        if (AssignedLearnersCollection.Contains(
-                                            SlkGroupMemberCollection[groupCount][memberCount]))
+                                        assignedLearnersGr += Constants.Comma
+                                                            + chkListGroups.Items[groupCount].Value;
+                                        isLearnerAssigned = true;
+                                    }
+                                    else
+                                    {
+                                        //To check if any of the Group member is selected 
+                                        for (int memberCount = 0;
+                                             memberCount < SlkGroupMemberCollection[groupCount].Length;
+                                             memberCount++)
                                         {
-                                            assignedLearnersGr += Constants.Comma
-                                                        + chkListGroups.Items[groupCount].Value;
-                                            isLearnerAssigned = true;
-                                            break;
-                                        }
+                                            //If any of the members in the group is assigned add the group to
+                                            // assigned Group List.
 
+                                            if (AssignedLearnersCollection.Contains(
+                                                SlkGroupMemberCollection[groupCount][memberCount]))
+                                            {
+                                                assignedLearnersGr += Constants.Comma
+                                                            + chkListGroups.Items[groupCount].Value;
+                                                isLearnerAssigned = true;
+                                                break;
+                                            }
+
+                                        }
                                     }
                                 }
                             }
@@ -1942,12 +1946,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         var aMembers = slk_aaLearnerGroupMembers[idGroup];
                         var anyUnchecked = false;
-                        for (var iMember = 1; iMember < aMembers.length; iMember++)
+                        if(aMembers != null && aMembers.length > 1)
                         {
-                            if (!document.getElementById(slk_strLearnerPrefix + aMembers[iMember]).checked)
-	                            anyUnchecked = true;
+                            for (var iMember = 1; iMember < aMembers.length; iMember++)
+                            {
+                                if (!document.getElementById(slk_strLearnerPrefix + aMembers[iMember]).checked)
+	                                anyUnchecked = true;
+                            }
+                            document.getElementById(slk_strLearnerGroupPrefix + idGroup).checked = !anyUnchecked;
                         }
-                        document.getElementById(slk_strLearnerGroupPrefix + idGroup).checked = !anyUnchecked;
+                        
                     }
                 }                         
 		        ");
