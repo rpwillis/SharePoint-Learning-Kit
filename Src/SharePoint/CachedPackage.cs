@@ -494,53 +494,56 @@ namespace Microsoft.LearningComponents.SharePoint
                     }
                     
                     // Get the file from SharePoint
-                    byte[] byteArray;
+                    Stream stream;
                     DateTime dateTimeLastModified;  // time the file in SharePoint was last modified
                     string filename;
 
-                    GetSharePointFileData(fileInfo, out byteArray, out dateTimeLastModified, out filename);
-
-                    // Indicates whether SPFile was written as file or package.
-                    CachedFileState cachedFileState;
-
-                    // If application requested to always cache as a file, then do that. Otherwise, attempt to 
-                    // cache it as a package and if that fails then perhaps try to cache it as a file.
-                    if (AlwaysCacheAsFile)
+                    GetSharePointFileData(fileInfo, out stream, out dateTimeLastModified, out filename);
+                    using (stream)
                     {
-                        CacheAsFile(cacheDir, filename, byteArray);
-                        cachedFileState = CachedFileState.WrittenAsFile;
-                    }
-                    else
-                    {
-                        try
+
+                        // Indicates whether SPFile was written as file or package.
+                        CachedFileState cachedFileState;
+
+                        // If application requested to always cache as a file, then do that. Otherwise, attempt to 
+                        // cache it as a package and if that fails then perhaps try to cache it as a file.
+                        if (AlwaysCacheAsFile)
                         {
-                            // The content might be an e-learning package, so try caching it as a package.
-                            CacheAsPackage(cacheDir, byteArray);
-                            cachedFileState = CachedFileState.WrittenAsPackage;
+                            CacheAsFile(cacheDir, filename, stream);
+                            cachedFileState = CachedFileState.WrittenAsFile;
                         }
-                        catch (InvalidPackageException)
+                        else
                         {
-                            // The package is not valid. If we are supposed to cache it as a file, then do so.
-                            // In either case, throw the exception so that caller knows it was not cached as package. 
-                            if (CacheInvalidPackageAsFile)
+                            try
                             {
-                                CacheAsFile(cacheDir, filename, byteArray);
-
-                                // If this succeeded, write the information to the lock file
-                                WriteLockFile(CachedFileState.InvalidPackageWrittenAsFile, ref lockFile, byteArray.LongLength, dateTimeLastModified);
-
-                                // Mark it as succeeded so that the lock file and directory are not deleted on exit
-                                deleteLockFileAndDir = false;
+                                // The content might be an e-learning package, so try caching it as a package.
+                                CacheAsPackage(cacheDir, stream);
+                                cachedFileState = CachedFileState.WrittenAsPackage;
                             }
+                            catch (InvalidPackageException)
+                            {
+                                // The package is not valid. If we are supposed to cache it as a file, then do so.
+                                // In either case, throw the exception so that caller knows it was not cached as package. 
+                                if (CacheInvalidPackageAsFile)
+                                {
+                                    CacheAsFile(cacheDir, filename, stream);
 
-                            // Rethrow the exception. 
-                            throw;
+                                    // If this succeeded, write the information to the lock file
+                                    WriteLockFile(CachedFileState.InvalidPackageWrittenAsFile, ref lockFile, stream.Length, dateTimeLastModified);
+
+                                    // Mark it as succeeded so that the lock file and directory are not deleted on exit
+                                    deleteLockFileAndDir = false;
+                                }
+
+                                // Rethrow the exception. 
+                                throw;
+                            }
                         }
+
+                        // Write information to lock file and close it.
+                        WriteLockFile(cachedFileState, ref lockFile, stream.Length, dateTimeLastModified);
                     }
 
-                    // Write information to lock file and close it.
-                    WriteLockFile(cachedFileState, ref lockFile, byteArray.LongLength, dateTimeLastModified);
-                    
                     // Everything succeeded
                     deleteLockFileAndDir = false;
 
@@ -635,32 +638,36 @@ namespace Microsoft.LearningComponents.SharePoint
         /// this method. This method does not impersonate.
         /// </summary>
         /// <param name="cacheDir"></param>
-        /// <param name="byteArray"></param>
-        private static void CacheAsFile(string cacheDir, string filename, byte[] byteArray)
+        /// <param name="stream"></param>
+        private static void CacheAsFile(string cacheDir, string filename, Stream stream)
         {
             // Create cache directory
             Directory.CreateDirectory(cacheDir);
             
             // Write the file to the directory
-            File.WriteAllBytes(PackageReader.SafePathCombine(cacheDir, filename), byteArray);
+			stream.Seek(0, SeekOrigin.Begin);
+            using (FileStream output = new FileStream(PackageReader.SafePathCombine(cacheDir, filename),
+                FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                Utilities.CopyStream(stream, ImpersonationBehavior.UseImpersonatedIdentity,
+                    output, ImpersonationBehavior.UseImpersonatedIdentity);
+            }
         }
 
         /// <summary>
         /// Cache an e-learning content package to the cacheDir. The directory is locked before calling 
-        /// this method. This method with throw InvalidPackageException if the byteArray does not 
+        /// this method. This method with throw InvalidPackageException if the stream does not 
         /// contain a package that has the basic format of an e-learning package.
         /// This method does not impersonate.
         /// </summary>
-        private static void CacheAsPackage(string cacheDir, byte[] byteArray)
+        private static void CacheAsPackage(string cacheDir, Stream stream)
         {
             // Get a PackageReader to read the package. This will throw InvalidPackageException if the byteArray
             // does not contain a package.
             using (Disposer disposer = new Disposer())
             {
-                Stream packageStream = new MemoryStream(byteArray);
-                disposer.Push(packageStream);
-
-                PackageReader packageReader = PackageReader.Create(packageStream);
+				stream.Seek(0, SeekOrigin.Begin);
+                PackageReader packageReader = PackageReader.Create(stream);
                 disposer.Push(packageReader);
            
                 // If this is not a valid package, throw an exception
@@ -733,9 +740,9 @@ namespace Microsoft.LearningComponents.SharePoint
         /// </summary>
         /// <param name="spFile">The file to retrieve.</param>
         /// <param name="versionId">The version of the file to retrieve.</param>
-        /// <param name="fileContents">The bytes in the file. If the value of this parameter is null, the contents are not returned.</param>
+        /// <param name="fileContents">A Stream open onto the file.</param>
         /// <param name="lastModified">The time the file was last modified in SharePoint.</param>
-        private static void GetSharePointFileData(CachedFileInfo fileInfo, out byte[] fileContents, out DateTime lastModified, out string filename)
+        private static void GetSharePointFileData(CachedFileInfo fileInfo, out Stream fileContents, out DateTime lastModified, out string filename)
         {
             SPFile spFile = GetSharePointFile(fileInfo);
 
@@ -750,7 +757,7 @@ namespace Microsoft.LearningComponents.SharePoint
                                                         fileInfo.VersionId.ToString(NumberFormatInfo.CurrentInfo), spFile.Name));
                 }
 
-                fileContents = spFile.OpenBinary();
+                fileContents = spFile.OpenBinaryStream();
                 lastModified = spFile.TimeLastModified;
             }
             else
@@ -764,7 +771,7 @@ namespace Microsoft.LearningComponents.SharePoint
                                                         fileInfo.VersionId.ToString(NumberFormatInfo.CurrentInfo)));
                 }
 
-                fileContents = spFileVersion.OpenBinary();
+                fileContents = new MemoryStream(spFileVersion.OpenBinary()); // there's no SPFileVersion.OpenBinaryStream
 
                 // There is no 'last modified' of a version, so use the time the version was created.
                 lastModified = spFileVersion.Created;

@@ -114,6 +114,14 @@ namespace Microsoft.LearningComponents
                     {
                         if (index < 4) firstFour[index++] = i;
                         fileStream.WriteByte((byte)i);
+                        if (index == 4)
+                        {
+                            // we wrote the first four bytes using WriteByte(); write the
+                            // remaining bytes more efficiently
+                            Utilities.CopyStream(package, ImpersonationBehavior.UseImpersonatedIdentity,
+                                fileStream, ImpersonationBehavior.UseImpersonatedIdentity);
+                            break;
+                        }
                     }
                 }
                 if (firstFour[0] == 0x50 && firstFour[1] == 0x4b && firstFour[2] == 0x03 && firstFour[3] == 0x04)
