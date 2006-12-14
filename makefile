@@ -188,6 +188,7 @@ drop: nul
 	xcopy /I Samples\BasicWebPlayer\App_GlobalResources Drop\Drop\SDK\Samples\BasicWebPlayer\App_GlobalResources
 	xcopy /I Samples\BasicWebPlayer\Frameset Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset
 	xcopy /I Samples\BasicWebPlayer\Frameset\Include Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset\Include
+	xcopy /I Samples\BasicWebPlayer\Frameset\Images Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset\Images
 	rem -- xcopy /I Samples\BasicWebPlayer\Frameset\Include\UnitTest Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset\Include\UnitTest
 	xcopy /I Samples\BasicWebPlayer\Frameset\Theme Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset\Theme
 	rem -- xcopy /I Samples\BasicWebPlayer\Frameset\UnitTest Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset\UnitTest
@@ -229,6 +230,7 @@ drop: nul
 	xcopy /I Samples\BasicWebPlayer\App_GlobalResources Drop\Drop\SourceCode\Samples\BasicWebPlayer\App_GlobalResources
 	xcopy /I Samples\BasicWebPlayer\Frameset Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset
 	xcopy /I Samples\BasicWebPlayer\Frameset\Include Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset\Include
+	xcopy /I Samples\BasicWebPlayer\Frameset\Images Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset\Images
 	rem -- xcopy /I Samples\BasicWebPlayer\Frameset\Include\UnitTest Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset\Include\UnitTest
 	xcopy /I Samples\BasicWebPlayer\Frameset\Theme Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset\Theme
 	rem -- xcopy /I Samples\BasicWebPlayer\Frameset\UnitTest Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset\UnitTest
@@ -240,6 +242,7 @@ drop: nul
 	xcopy /I Slk\App\_layouts Drop\Drop\SourceCode\Slk\App\_layouts
 	xcopy /I Slk\App\Frameset Drop\Drop\SourceCode\Slk\App\Frameset
 	xcopy /I Slk\App\Frameset\Include Drop\Drop\SourceCode\Slk\App\Frameset\Include
+	xcopy /I Slk\App\Frameset\Images Drop\Drop\SourceCode\Slk\App\Frameset\Images
 	xcopy /I Slk\App\Frameset\Theme Drop\Drop\SourceCode\Slk\App\Frameset\Theme
 	xcopy /I Slk\App\Images Drop\Drop\SourceCode\Slk\App\Images
 	xcopy /I Slk\AppFeature Drop\Drop\SourceCode\Slk\AppFeature
