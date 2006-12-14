@@ -417,11 +417,9 @@ namespace Microsoft.LearningComponents
 
                 using (ImpersonateIdentity readId = new ImpersonateIdentity(readImpersonationBehavior))
                 {
-                    int count = (int)fromStream.Length;
-                    byte[] bytesIn = new byte[fromStream.Length];
-                    int offset = 0;
+                    byte[] bytesIn = new byte[65536];
                     int bytesRead;
-                    while ((bytesRead = fromStream.Read(bytesIn, offset, count)) != 0)
+                    while ((bytesRead = fromStream.Read(bytesIn, 0, bytesIn.Length)) != 0)
                     {
                         // If we have to impersonate to write, then do it. Otherwise skip it.
                         if (requiresWriteRevert)
@@ -435,8 +433,6 @@ namespace Microsoft.LearningComponents
                         {
                             writer.Write(bytesIn);
                         }
-                        offset += bytesRead;
-                        count -= bytesRead;
                     }
                 }
                 dsToStream.Detach();
