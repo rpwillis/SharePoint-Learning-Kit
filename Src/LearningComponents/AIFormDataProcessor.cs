@@ -931,7 +931,7 @@ namespace Microsoft.LearningComponents
                             if (ordinal == 0) score += firstFieldScore;
                             else score += perFieldScore;
                             // remove the correct response once it has been matched
-                            correctResponses.RemoveAt(correctResponses.IndexOf(responseList[ordinal]));
+                            correctResponses.RemoveAt(correctResponses.IndexOf(correctResponseString));
                             break;
                         }
                     }

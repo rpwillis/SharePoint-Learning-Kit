@@ -1370,9 +1370,6 @@ namespace Microsoft.LearningComponents
             {
                 itemCount = 1;
                 Interaction.ExtensionData.Add(InteractionExtensionDataKeys.ResponseOptionCount, itemCount);
-                // Set an initial value for Score.Maximum that overwrites any score set by an ItemScore, and
-                // prevents ItemScore from setting it.
-                Interaction.Score.Maximum = 0;
             }
 
             // add the assessment item's score to the extension data by ordinal
@@ -1386,11 +1383,6 @@ namespace Microsoft.LearningComponents
             }
             else if (AssessmentItem.MaxPoints > 0)
             {
-                // for the checkbox type, the maximum score is the greater of 0 or the highest positive maxpts values.
-                if (AssessmentItem.MaxPoints > Interaction.Score.Maximum)
-                {
-                    Interaction.Score.Maximum = AssessmentItem.MaxPoints;
-                }
                 // A positive maxpts value makes this item considered "correct".
                 string pattern;
                 if (String.IsNullOrEmpty(CorrectResponse.Pattern))
@@ -1596,9 +1588,6 @@ namespace Microsoft.LearningComponents
             {
                 itemCount = 1;
                 Interaction.ExtensionData.Add(InteractionExtensionDataKeys.ResponseOptionCount, itemCount);
-                // Set an initial value for Score.Maximum that overwrites any score set by an ItemScore, and
-                // prevents ItemScore from setting it.
-                Interaction.Score.Maximum = 0;
             }
 
             // add the assessment item's score to the extension data by ordinal
@@ -1612,8 +1601,6 @@ namespace Microsoft.LearningComponents
             }
             else if (AssessmentItem.MaxPoints > 0)
             {
-                // for the checkbox type, the maximum score is the greater of 0 or the sum of all positive maxpts values.
-                Interaction.Score.Maximum += AssessmentItem.MaxPoints;
                 // A positive maxpts value makes this item considered "correct".
                 string pattern;
                 if (String.IsNullOrEmpty(CorrectResponse.Pattern))
@@ -1735,13 +1722,8 @@ namespace Microsoft.LearningComponents
         /// <returns>True if successfully added.  A false is returned if the interaction is not of the correct type.</returns>
         public override bool TryAddToDataModel()
         {
-            // for some assessment item types, maxScore should be set when this score assessment item is parsed.
-            // If Score.Maximum already has a value, it was set elsewhere.  Otherwise, set it here.  It will
-            // be overwritten by the radio and checkbox assessment item types.
-            if (!Interaction.Score.Maximum.HasValue)
-            {
-                Interaction.Score.Maximum = AssessmentItem.MaxPoints;
-            }
+            // maxScore should be set when this score assessment item is parsed.
+            Interaction.Score.Maximum = AssessmentItem.MaxPoints;
 
             // since the assessment item type is a score, it doesn't set Interaction.InteractionType nor increment the
             // item count.
