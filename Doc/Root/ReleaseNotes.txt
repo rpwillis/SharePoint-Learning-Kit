@@ -1,76 +1,94 @@
 /* Copyright (c) Microsoft Corporation. All rights reserved. */
 
-SharePoint Learning Kit Release Notes – Beta 1
-Last Updated:	11/3/2006
+SharePoint Learning Kit Version 1.0 Release Notes
+Last Updated:	12/19/2006
 
 
 1. Introduction
-2. Functionality in this Beta (updated for Beta 1)
-3. Feedback
+2. SLK Known Issues
+3. How You Can Participate
 
 
 INTRODUCTION
 
 	About SharePoint Learning Kit
 
-SharePoint Learning Kit (SLK) is a SCORM 2004-conformant e-learning delivery and tracking application built as a SharePoint v3 solution.
+SharePoint Learning Kit (SLK) is a SCORM 2004-conformant e-learning delivery and tracking application built as a Windows SharePoint Services 3.0 solution. It works with either Windows SharePoint Services 3.0 or Microsoft Office SharePoint Server 2007, and has the following core features:
 
-The version of the SharePoint Learning Kit that accompanies this document is a pre-release Beta. Although all features are implemented, there will be some issues with these features. Some of these issues are already known to the development team, and some are not. This Beta is intended to help you understand what SLK is and what value it can bring to SharePoint in your organization. Do not deploy this CTP in a production environment, and do not use it with data that you can’t afford to lose. In particular, it is possible that the SLK database schema will change in future releases, and you will have to delete existing SLK databases to upgrade to a new release.
+* Supports SCORM 1.2, SCORM 2004, and Class Server content, allowing users to store and manage this content in SharePoint document libraries.
+* Supports a learner-centric or instructor-led (assigned) workflow.
+* Allows assignment, tracking and grading of both e-learning and non-e-learning content.
 
-THIS IS BETA CODE AND SHOULD NOT BE USED IN A PRODUCTION ENVIRONMENT. SHAREPOINT LEARNING KIT (SLK) BETA RELEASES ARE INTENDED FOR DEVELOPERS, IT PROFESSIONALS AND TECHNOLOGY EXPERTS TO CONTINUE OR BEGIN THEIR TESTING OF SLK. BEFORE YOU DECIDE TO USE THIS BETA, YOU SHOULD FEEL COMFORTABLE WITH INSTALLING OPERATING SYSTEMS AND SERVER SOFTWARE, AND GENERAL PC TROUBLESHOOTING.
-
-SharePoint Learning Kit is licensed under conditions that are described in the accompanying License.txt file. You are responsible for reading and complying with this license.
+SharePoint Learning Kit is a community source project. This means that it is made available to you for free, and that you can use it as-is or modify it to suit your needs as long as you comply with the conditions that are described in the accompanying License.txt file. You are responsible for reading and complying with this license. SharePoint Learning Kit is supported by a community of users and developers through discussion forums at http://www.codeplex.com/slk. You are invited to participate in this community, to help others, to report issues, and to contribute your ideas to carry SLK forward. For the most up to date information about SLK, please refer to http://www.codeplex.com/slk.
 
 	About This Drop
 
-This Beta is organized in three zip packages:
+This release of SLK is organized in three zip packages:
 
-SLK-Install-1.0.[build]-ENU.zip -- contains all files necessary to install and run SLK on a SharePoint v3 server. You do not need to be a developer to use this package. See GettingStarted.doc at the root of this package for installation instructions.
+SLK-Install-1.0.[build]-ENU.zip -- contains all files necessary to install and run SLK on a Windows SharePoint Services 3.0 or Microsoft Office SharePoint Server 2007 server. You do not need to be a developer to use this package. See GettingStarted.pdf at the root of this package for installation instructions.
 
-SLK-SDK-1.0.[build]-ENU.zip -- contains documentation and sample code for the SLK/MLC API, as well as the compiled binaries for the MLC and SLK functionality. It is for developers who are considering building e-learning application functionality using MLC, or extending SLK by writing complementary application code such as new Web Parts, tools, etc. See Documentation.htm at the root of this package.
+SLK-SDK-1.0.[build]-ENU.zip -- contains documentation and sample code for the SLK/MLC API, as well as the compiled binaries for the MLC and SLK functionality. MLC is the underlying e-learning engine on which SLK is built, and it also can be re-used, integrated into other products, and redistributed under the terms of the accompanying License.txt file. This package is for developers who are considering building e-learning application functionality using MLC, or extending SLK by writing complementary application code such as new Web Parts, tools, etc. See Documentation.htm at the root of this package.
 
-SLK-SourceCode-1.0.[build]-ENU.zip -- contains the source code for MLC and SLK, and the functional specifications for SLK. It is for developers who are interested in extending core MLC or SLK functionality, or who want to understand more about how MLC and SLK work. After reading Documentation.htm in the SLK-SDK-1.0.[build]-ENU.zip package, see the SLK Core Concepts specification in the Specifications folder of this package to get started.
-
-
-FUNCTIONALITY IN THIS BETA (UPDATED FOR BETA 1)
-
-***NOTE: The SLK schema has changed in this Beta. You will need to delete your database and re-configure SLK when upgrading***
+SLK-SourceCode-1.0.[build]-ENU.zip -- contains the source code for MLC and SLK, and the functional specifications for SLK. It is for developers who are interested in extending core MLC or SLK functionality, or who want to understand more about how MLC and SLK work. After reading Documentation.htm in the SLK-SDK-1.0.[build]-ENU.zip package, see the SLK Core Concepts specification in the Specifications folder of this package to get started. Source code for MLC and SLK is also posted on CodePlex, and you can build SLK directly from CodePlex. See http://www.codeplex.com/slk for more information.
 
 
-	New in Beta 1
+SLK KNOWN ISSUES
 
-All features are now implemented, including:
-* Support for executing Class Server .ims content.
-* Grading Review and Learner Review are both implemented.
-* Reactivate functionality is implemented.
-* More security added (e.g. SLK Instructor permission no longer needs any rights, and groups no longer need to have visible membership to be enumerated).
-* Support for AD and Machine Account Groups.
-* Support for forms authentication.
-* Re-vamped Solitaire example now includes explicit support for “review” view.
-* Six new samples in the SDK: SimulateJobTraining (SLK sample console application) is a database load testing sample; ProvisionFromExcel (SLK sample console application) executes commands for partially provisioning SharePoint and SLK from a Microsoft Excel XML Spreadsheet; SiteCollectionInfo (SLK sample ASP.NET page) is a report page that queries the SLK database directly, displaying information about SLK's mapping between the current SharePoint site collection; AddInstructors (SLK sample ASP.NET page) demonstrates how to add instructors to SLK assignments using the SharePoint people picker without the user being one of those instructors; SampleWebService (SLK sample web service) is a sample Web service that accesses SLK; ValidatePackage (MLC sample Windows Forms application) demonstrates how to use the MLC API to validate the contents of a SCORM 1.2, SCORM 2004 or Class Server LRM/IMS+ package.
-* Many bug fixes and a few usability enhancements.
+***NOTE: The SLK schema has changed in this release. You will need to delete your database and re-configure SLK when upgrading***
 
-	Known Issues in Beta 1
+Numbers in square brackets are issue tracking numbers for future reference.
 
-* Assigning PowerPoint files (or viewing them in Grading Review if they have been attached to a Class Server resource by a learner) doesn’t work consistently (1167).
-* When grading SCORM content (1.2 or 2004) after it has been submitted or collected, if the first activity is a SCO, the content may not load correctly. To work around this problem, select any other activity within the session and then return to the initial activity (1215).
-* There are still some issues running the ADL SCORM 2004 certification tests. We are working through these and expect to have them all resolved by the next drop.
+	SCORM Conformance	
 
-	SLK Solution (Updated for Beta 1)
+SCORM 2004: SLK has passed conformance certification for SCORM 2004, 2nd Edition.
 
-All functionality that is intended for the v1 release of SLK is now implemented. You can install and configure the SLK Solution, and use it to assign SCORM 1.2, SCORM 2004, Class Server .lrm and .ims content, and non-e-learning content. Learners can interact with this content and their interactions are stored in the SLK database. Self-assigned content or content where Autoreturn is checked will be returned to the learner when submitted, and e-learning content will be autograded if the content supports autograding. Instructors can access assignments via the Assignment List Web Part, and can view learner work, assign grades, add comments, return assignments to learners, and reactivate assignments to be re-done. Instructors can also edit assignment properties from the Grading page. Learners can review completed work.
+SCORM 1.2: The SLK team has run the SCORM 1.2 certification suite and we believe that SLK and its underlying MLC components are conformant with SCORM 1.2 with the following exceptions:
 
-	SDK
+[1305] SLK does not provide a mechanism to specify whether content is to be taken for “credit” or “no credit”.
 
-Our goal for this Beta is to allow developers to review SLK and MLC API to determine whether it might be suitable for their applications. The SDK is unedited and largely untested, and it is likely that it contains errors and inconsistencies.
+[1330] It is possible for content to specify a value of “not attempted” on cmi.core.lesson_status. This is prohibited in SCORM 1.2, however since content is prohibited from setting this value, this issue will not affect conformant content.
 
-	Source Code
+[1347] When content sets a value on cmi.comments, the new value overwrites any existing value. SCORM 1.2 specifies that it should concatenate.
 
-The source code provided here is extracted from our internal source control environment, which is tied to our build process. For this reason, we cannot guarantee that you can build MLC or SLK from this source code. Our eventual goal is that you be able to recreate the entire product with the source code provided here.
+[861] In questions of type ‘sequencing’, setting student_response or correct_response returns an error.
+
+	Large Content Packages
+
+By default, SharePoint has a 50MB upload limit for document libraries. If you use large content packages, you will have to increase this limit in SharePoint Central Administration.
+
+[1377] SharePoint Learning Kit must extract content from SharePoint and unpackage it to a cache folder prior to transmission to the viewer. Caching happens when a user selects “E-Learning Actions,” or when content that hasn’t been accessed recently is accessed again. In some cases, very large content packages can take a long time to cache, resulting in delays and possible browser timeouts while caching. If you use very large content packages, you may need to increase the IIS connection timeout.
+
+[1377] Generally SharePoint Learning Kit streams content from SharePoint into the cache, however if content was assigned to a learner and subsequently modified, SharePoint Learning Kit must retrieve the earlier version when the learner assignment is accessed. In this case, SharePoint Learning Kit must copy the entire file into memory before writing it to the cache. With large files, this can cause performance problems. We therefore recommend that if you assign multiple versions of large packages, you not rely on SharePoint versioning to maintain the various versions, but instead store multiple versions as separate files in the document library.
+
+	Class Server Content
+
+[1391] The Class Server SDK ships with a piece of sample content demonstrating how Flash content can communicate with hidden form fields in the Class Server HTML. This sample relies on an internal naming convention used by Class Server that is undocumented and unsupported in SLK. To achieve the kind of Flash reporting demonstrated in this sample, we recommend using SCORM rather than Class Server content.
+
+	SLK UI
+
+[1121] When an instructor has assigned content to a site and subsequently has permissions on that site revoked, the instructor can still access the assignment via the Assignment List Web Part, however if the assignment properties are edited, the potential instructors and learners for the assignment will not reflect the site to which the assignment is assigned. Instead, it will reflect the site from which the assignment was accessed.
+
+[1133] In cases where a learner has not yet submitted an assignment comprised of Class Server content, instructor review of the assignment may show pages that the learner has not yet completed without correct answers. Once the assignment has been submitted or collected, then all pages will render correctly for the instructor.
+
+[1312] If you add domain users to a local machine group, and then add that machine group to SharePoint as an instructor or learner, then the domain users will not appear in the assignment creation or editing UI when the machine group is enumerated.
+
+	Configuration
+
+[1156] If SQL Server times out during configuration, the SLK database may be in a state that will prevent configuration from succeeding on subsequent attempts. Typically this will result in an “Invalid object name ‘Configuration’” error message. In this case, delete the SharePoint Learning Kit database and re-configure.
+
+	Developer Issues
+
+[1016] Slk\Samples\AddInstructors\AddInstructors.aspx.cs: Lines 80 and 136 call SPControl.GetContextWeb() in the context of using statements. This causes the spWeb to be disposed when the using block is exited. This is wrong. Objects that are obtained from SPControl.GetContextWeb() should not be disposed.
+
+[1324, 1325] If a LearningSession has not been started, LearningSession.ShowExit returns False even though it is possible to exit a LearningSession that has not been started. In addition, in cases where the session cannot be exited, the error message does not reflect the fact that a LearningSession that has not been started can be exited.
 
 
-FEEDBACK
+HOW YOU CAN PARTICIPATE
 
-It is our intention to make future SLK releases increasingly functional and increasingly useful to our community. You can help us do this by providing feedback through the forums available on the CodePlex Web site at http://www.codeplex.com. We are interested in feedback on the product and on the process we use to engage with you as a SLK community member.
+With this release, the SharePoint Learning Kit project has officially been turned over to the community. All of us on the product development team believe strongly in the power of e-learning, and we believe that SLK is a great e-learning component that will be useful for a wide variety of instructional scenarios. We expect and hope that SLK will continue to grow and improve over time, but it can only do so with your help.
 
-Thank you for your interest in the SharePoint Learning Kit.
+A community is only as strong as its members. Community members will find and fix issues, help each other learn best practices, contribute ideas, and determine the SLK roadmap. Going forward, SLK will be a reflection of the energy, drive and creativity of its community.
+
+If, like us, you believe in SLK, then we invite you to join us. Contribute your ideas, help others who are learning SLK, and help carry SLK forward by joining the community at http://www.codeplex.com/slk.
+
+Thank you for your interest in and support of the SharePoint Learning Kit.
