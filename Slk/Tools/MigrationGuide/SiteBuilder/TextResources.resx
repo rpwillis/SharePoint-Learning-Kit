@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActivatingFeature" xml:space="preserve">
+    <value>Activating feature "{0}" on Web site "{1}"</value>
+  </data>
+  <data name="AnError" xml:space="preserve">
+    <value>An error has occured. </value>
+  </data>
+  <data name="AppSettingsNotSet" xml:space="preserve">
+    <value>Some application settings were not set. Please go to step 1 to set all the necessary parameters.</value>
+  </data>
+  <data name="AssignmentsTransferErrorNoClassInstructors" xml:space="preserve">
+    <value>Could not find any users in instructor role for the {0}. Assignments for this class will not be transferred.</value>
+  </data>
+  <data name="AttemptingToCreateGroup" xml:space="preserve">
+    <value>{0}: attempting to create group</value>
+  </data>
+  <data name="AttemptingToCreateSite" xml:space="preserve">
+    <value>{0}: attempting to create site</value>
+  </data>
+  <data name="BindingError" xml:space="preserve">
+    <value>An error has occured when binding: </value>
+  </data>
+  <data name="BindingSuccessful" xml:space="preserve">
+    <value>Binding is successful.</value>
+  </data>
+  <data name="CantAddUsersToGroup" xml:space="preserve">
+    <value>Could not add users to {0} group. </value>
+  </data>
+  <data name="CantAddUserToGroup" xml:space="preserve">
+    <value>Could not add user {0) to {1} group. </value>
+  </data>
+  <data name="CantAddUserToSite" xml:space="preserve">
+    <value>Could not add user {0) to {1} site. </value>
+  </data>
+  <data name="CantCreateGroup" xml:space="preserve">
+    <value>Could not create group. </value>
+  </data>
+  <data name="CantTransferAssignmentNoLearningResource" xml:space="preserve">
+    <value>Can not transfer assignment " {0} " as the learning resource it uses cannot be found in the document library</value>
+  </data>
+  <data name="CantTransferAssignmentUnknownLearningResource" xml:space="preserve">
+    <value>Can not transfer assignment " {0} " as the learning resource it uses cannot be identified</value>
+  </data>
+  <data name="ClassNotForTransfer" xml:space="preserve">
+    <value>Class will not be transferred (Transfer attribute set to 0)</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed.</value>
+  </data>
+  <data name="ConnectionSuccessful" xml:space="preserve">
+    <value>Connection is successful.</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>...created</value>
+  </data>
+  <data name="DataExportError" xml:space="preserve">
+    <value>An error has occured while exporting data. </value>
+  </data>
+  <data name="DocLibraryTestError" xml:space="preserve">
+    <value>Error connecting to the document library. </value>
+  </data>
+  <data name="ErrorsMovingUserData" xml:space="preserve">
+    <value>There were some errors in user data transfer. </value>
+  </data>
+  <data name="ErrorsProcessingXMLFile" xml:space="preserve">
+    <value>There were some errors in processing of XML file. </value>
+  </data>
+  <data name="ExistsAlready" xml:space="preserve">
+    <value>...exists already</value>
+  </data>
+  <data name="FailedToExportData" xml:space="preserve">
+    <value>Failed to export data into {0}</value>
+  </data>
+  <data name="FeatureNotFound" xml:space="preserve">
+    <value>Feature "{0}" not found</value>
+  </data>
+  <data name="FinishedProcessingClass" xml:space="preserve">
+    <value>Finished processing class {0}.</value>
+  </data>
+  <data name="GroupCreated" xml:space="preserve">
+    <value>Group created.</value>
+  </data>
+  <data name="GroupExists" xml:space="preserve">
+    <value>Group already exists.</value>
+  </data>
+  <data name="GroupNotForTransfer" xml:space="preserve">
+    <value>Group will not be transferred (Transfer attribute set to 0)</value>
+  </data>
+  <data name="GroupOwnerOrDefaultUserProblem" xml:space="preserve">
+    <value>Group will not be transferred (no valid group owner or default user found)</value>
+  </data>
+  <data name="GroupUserNotForTransfer" xml:space="preserve">
+    <value>Group user {0} will not be transferred. (Transfer attribute set to 0) </value>
+  </data>
+  <data name="InstructorNotRegisteredWithSLKSite" xml:space="preserve">
+    <value>User {0} is not an instructor for the {1} SLK site.</value>
+  </data>
+  <data name="NoGroupOwnerOrDefaultUser" xml:space="preserve">
+    <value>Could not add group owner or default group user. </value>
+  </data>
+  <data name="NotTransferringAssignmentsClassNotForTransfer" xml:space="preserve">
+    <value>Assignments for the class {0} will not be transferred (class transfer attribute set to 0).</value>
+  </data>
+  <data name="ProcessingClass" xml:space="preserve">
+    <value>Processing class </value>
+  </data>
+  <data name="ProcessingGroup" xml:space="preserve">
+    <value>Processing group {0}</value>
+  </data>
+  <data name="ReadingPackages" xml:space="preserve">
+    <value>Composing the learning packages list</value>
+  </data>
+  <data name="SeeLogFileForMoreDetails" xml:space="preserve">
+    <value> See {0} for more details.</value>
+  </data>
+  <data name="SiteCreated" xml:space="preserve">
+    <value>Site created.</value>
+  </data>
+  <data name="SiteExists" xml:space="preserve">
+    <value>Site already exists.</value>
+  </data>
+  <data name="SuccessExportingData" xml:space="preserve">
+    <value>Successfully exported data into {0}</value>
+  </data>
+  <data name="TransferredAssignment" xml:space="preserve">
+    <value>Finished transferring Class Server Assignment Id {0}. New SLK Assignment Id: {1}.</value>
+  </data>
+  <data name="TransferringAssignment" xml:space="preserve">
+    <value>Transferring assignment id {0} ...</value>
+  </data>
+  <data name="TransferringAssignmentsForClass" xml:space="preserve">
+    <value>Transferring assignments for class {0}.</value>
+  </data>
+  <data name="UserAddedToGroup" xml:space="preserve">
+    <value>User {0} added to the {1} group</value>
+  </data>
+  <data name="UserAddedToSite" xml:space="preserve">
+    <value>User {0} added to the {1} site</value>
+  </data>
+  <data name="UserDataTransferSuccessful" xml:space="preserve">
+    <value>User data transfer is completed successfully. </value>
+  </data>
+  <data name="UserNotForTransfer" xml:space="preserve">
+    <value>Class user {0} will not be transferred. (Transfer attribute set to 0) </value>
+  </data>
+  <data name="UserNotFoundInXMLFile" xml:space="preserve">
+    <value>User {0} is not a member of the site {1} as per {2}. Assignment ID {3} can not be assigned to the user.</value>
+  </data>
+  <data name="UserNotRegisteredWithSLKSite" xml:space="preserve">
+    <value>User {0} is not a member of the {1} SLK site. Assignment ID {2} can not be assigned to the user.</value>
+  </data>
+  <data name="UsersNotFoundInAD" xml:space="preserve">
+    <value>{0} users were not found in Active Directory.</value>
+  </data>
+  <data name="WebConnectionError" xml:space="preserve">
+    <value>Error connecting to the web site. </value>
+  </data>
+  <data name="WebConnectionSuccessful" xml:space="preserve">
+    <value>Connection is successful.</value>
+  </data>
+  <data name="XMLFileProcessingSuccessful" xml:space="preserve">
+    <value>XML file processing is completed successfully.</value>
+  </data>
+</root>
