@@ -7,3 +7,4 @@ DefaultSlkLearnerPermissionName
 DefaultSlkDatabaseName
 DefaultSlkInstructorPermissionName
 AlwpQueryResultError
+SlkSchemaSql
