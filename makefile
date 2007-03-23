@@ -21,7 +21,7 @@
 
 # "all" target (default target): builds everything
 SRCDIRS = \
-	Src\SchemaCompiler.CMD Src\Schema.CMD Src\LearningComponents.CMD Src\Storage.CMD Src\SharePoint.CMD
+	Src\SchemaCompiler.CMD Src\Schema.CMD Src\Compression.CMD Src\LearningComponents.CMD Src\Storage.CMD Src\SharePoint.CMD
 
 # CodeDoc is the location of the CodeDoc (see www.dwell.net)
 CODEDOC=..\SLK.Internal\Tools\CodeDoc\CodeDoc.exe
@@ -33,6 +33,7 @@ API_TITLE = "Learning Components"
 # reference documentation, respectively; include a "!" character after each
 # file name
 API_DLL = !\
+	Src\LearningComponents\bin\Release\Microsoft.LearningComponents.Compression.dll !\
 	Src\LearningComponents\bin\Release\Microsoft.LearningComponents.dll !\
 	Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.dll !\
 	Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.dll !\
@@ -40,6 +41,7 @@ API_DLL = !\
 
 # (the line above this line must be blank!)
 API_XML = !\
+	Src\LearningComponents\bin\Release\Microsoft.LearningComponents.Compression.xml !\
 	Src\LearningComponents\bin\Release\Microsoft.LearningComponents.xml !\
 	Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.xml !\
 	Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.xml !\
@@ -74,8 +76,10 @@ all: deb rel slk sdkdoc samplesdeb samplesrel
 # "samplesdeb" target: builds Debug samples
 samplesdeb: deb
 	-mkdir Debug 2> nul
-	copy /y ..\SLK.SDK\Debug\Microsoft.LearningComponents.Compression.dll Debug
-	copy /y ..\SLK.SDK\Debug\Microsoft.LearningComponents.Compression.pdb Debug
+	copy /y Src\Compression\MRCI\bin\Debug\Microsoft.LearningComponents.MRCI.dll Debug
+	copy /y Src\Compression\MRCI\bin\Debug\Microsoft.LearningComponents.MRCI.pdb Debug
+	copy /y Src\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll Debug
+	copy /y Src\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.pdb Debug
 	copy /y Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.dll Debug
 	copy /y Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.pdb Debug
 	copy /y Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.dll Debug
@@ -119,7 +123,7 @@ $(SRCDIRS:CMD=deb):
     @echo Building Debug configuration of $*
     @echo -----------------------------------------------------------------
     cd $*
-    $(MAKE) /nologo deb
+    $(MAKE) /nologo deb TARGET_ARCH=$(TARGET_ARCH)
     cd $(MAKEDIR)
 
 # "rel" target: builds Release configurations of specified sources
@@ -130,7 +134,7 @@ $(SRCDIRS:CMD=rel):
     @echo Building Release configuration of $*
     @echo -----------------------------------------------------------------
     cd $*
-    $(MAKE) /nologo rel
+    $(MAKE) /nologo rel TARGET_ARCH=$(TARGET_ARCH)
     cd $(MAKEDIR)
 
 # "runtests" target: builds Release configurations of specified sources
@@ -268,6 +272,10 @@ drop: nul
 	xcopy /I Src\SchemaCompiler\Properties Drop\Drop\SourceCode\Src\SchemaCompiler\Properties
 	rem -- xcopy /I Src\SchemaCompiler\Test Drop\Drop\SourceCode\Src\SchemaCompiler\Test
 	rem -- xcopy /I Src\SchemaCompiler\Test\Properties Drop\Drop\SourceCode\Src\SchemaCompiler\Test\Properties
+	xcopy /I Src\Compression Drop\Drop\SourceCode\Src\Compression
+	xcopy /I Src\Compression\Compression Drop\Drop\SourceCode\Src\Compression\Compression
+	xcopy /I Src\Compression\Compression\Properties Drop\Drop\SourceCode\Src\Compression\Compression\Properties
+	xcopy /I Src\Compression\MRCI Drop\Drop\SourceCode\Src\Compression\MRCI
 	rem --
 	mkdir Drop\Drop\SourceCode\Src\Shared
 	copy Src\Shared\dllver.rc Drop\Drop\SourceCode\Src\Shared
@@ -310,7 +318,7 @@ drop: nul
 	mkdir Drop\Drop\ValidatePackage
 	copy Samples\ValidatePackage\bin\Release\ValidatePackage.exe Drop\Drop\ValidatePackage
 	copy Src\LearningComponents\bin\Release\Microsoft.LearningComponents.dll Drop\Drop\ValidatePackage
-	copy ..\SLK.SDK\Release\Microsoft.LearningComponents.Compression.dll Drop\Drop\ValidatePackage
+	copy Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.dll Drop\Drop\ValidatePackage
 
 	rem -- Copy files from Doc directory...
 	xcopy /I Doc\Root Drop\Drop
@@ -332,7 +340,8 @@ drop: nul
 
 	rem -- Copy release PDBs...
 	mkdir Drop\ReleasePdb
-	copy ..\SLK.SDK\Release\Microsoft.LearningComponents.Compression.pdb Drop\ReleasePdb
+	copy Src\Compression\MRCI\bin\Release\Microsoft.LearningComponents.MRCI.pdb Drop\ReleasePdb
+	copy Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.pdb Drop\ReleasePdb
 	copy Src\LearningComponents\bin\Release\Microsoft.LearningComponents.pdb Drop\ReleasePdb
 	copy Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.pdb Drop\ReleasePdb
 	copy Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.pdb Drop\ReleasePdb
@@ -352,7 +361,7 @@ $(SRCDIRS:CMD=clean): cleancommon
     @echo Cleaning $*
     @echo -----------------------------------------------------------------
     cd $*
-    $(MAKE) /nologo clean
+    $(MAKE) /nologo clean TARGET_ARCH=$(TARGET_ARCH)
     cd $(MAKEDIR)
 
 # "cleanall" target: like "clean", but also cleans IDE status files etc.
@@ -363,7 +372,7 @@ $(SRCDIRS:CMD=cleanall): cleancommon
     @echo Cleaning $*
     @echo -----------------------------------------------------------------
     cd $*
-    $(MAKE) /nologo cleanall
+    $(MAKE) /nologo cleanall TARGET_ARCH=$(TARGET_ARCH)
     cd $(MAKEDIR)
 
 # "cleancommon" target: common to "clean" and "cleanall"

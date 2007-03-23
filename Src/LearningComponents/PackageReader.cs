@@ -1178,20 +1178,12 @@ namespace Microsoft.LearningComponents
                     // explode the lrm file
                     try
                     {
-                        Compression.Unbundle(m_lrm.FullName, m_unbundlePath.FullName);
+                        Compression.Unbundle(m_lrm, m_unbundlePath);
                         m_state = LrmPackageReaderState.Exploded;
                     }
-                    catch (CompressionException e)
+                    catch (Exception e)
                     {
-                        string message;
-                        if (e.GetErrorCode() == 0x0004400F) // multi-LR
-                        {
-                            message = ValidatorResources.LrMultiLRNotSupported;
-                        }
-                        else
-                        {
-                            message = e.Message;
-                        }
+                        string message = "";
                         // wrap this message in another descriptive message
                         message = String.Format(CultureInfo.InvariantCulture, ValidatorResources.PackageCouldNotBeOpened, message);
                         throw new InvalidPackageException(message, e);
@@ -1661,54 +1653,15 @@ namespace Microsoft.LearningComponents
                     // explode the zip file
                     try
                     {
-                        Compression.Unzip(m_zip.FullName, m_unzipPath.FullName);
+                        Compression.Unzip(m_zip, m_unzipPath);
                         m_state = ZipPackageReaderState.Exploded;
                     }
-                    catch (CompressionException e)
+                    catch (Exception e)
                     {
-                        // on CompressionException, convert into InvalidPackageException.  Include the error number from the CompressionException,
-                        // and add specific error messages for the most common conditions.
-                        /* All possible error codes thrown in Compression.Unzip are:
-                            0x8004B102      // unexpected end of zip file
-                            0x8004B103      // structure error in zip file
-                            0x8004B104      // out of memory
-                            0x8004B105      // out of memory
-                            0x8004B109      // file not found error
-                            0x8004B111      // command error, nothing to do
-                            0x8004B112      // same volume for src and dest not allowed for multi-volume
-                            0x8004B125      // index out of bounds
-                            0x8004B128      // error creating output file
-                            0x8004B129      // error opening output file
-                            0x8004B12A      // unknown compression method
-                            0x8004B139      // crc error
-                            0x8004B140      // application cancelled operation
-                            0x8004B141      // file skipped, encrypted
-                            0x8004B142      // unknown compression method 
-                            0x8004B144      // bad or missing decrypt key
-                            0x8004B145      // re-entry not permitted
-                            0x8004B146      // can't unzip a volume item
-                            0x8004B147      // bad command structure
-                            0x8004B148      // user cancelled this operation
-                            0x8004B149      // user skipped this operation
-                            0x8004B150      // disk full
-                            0x8004B151      // the output path is too long
-                         * */
-                        string message;
-                        uint errorCode = e.GetErrorCode();
-                        switch (errorCode)
-                        {
-                            case 0x8004B103:
-                            case 0x8004B12A:
-                                message = Resources.ZipPackageExceptionBadZipFile;
-                                break;
-                            case 0x8004B109:
-                                message = Resources.ZipPackageExceptionNoFile;
-                                break;
-                            default:
-                                message = String.Format(CultureInfo.CurrentCulture, Resources.ZipPackageExceptionDefault, e.GetErrorCode().ToString("X", CultureInfo.CurrentCulture));
-                                break;
-                        }
-                        // wrap this message in another descriptive message
+                        // on Exception, convert into InvalidPackageException.
+
+                        // wrap this message into a descriptive message
+                        string message = "";
                         message = String.Format(CultureInfo.InvariantCulture, ValidatorResources.PackageCouldNotBeOpened, message);
                         throw new InvalidPackageException(message, e);
                     }
