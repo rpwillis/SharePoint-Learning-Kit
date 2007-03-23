@@ -7,8 +7,11 @@ all: rel
 deb:
 	-rmdir /s /q Build 2> nul
 	mkdir Build
-	copy ..\..\..\SLK.SDK\Debug\Microsoft.LearningComponents.Compression.dll Build
-	copy ..\..\..\SLK.SDK\Debug\Microsoft.LearningComponents.Compression.pdb Build
+	copy ..\..\Src\Compression\MRCI\bin\Debug\Microsoft.LearningComponents.MRCI.dll Build
+	copy ..\..\Src\Compression\MRCI\bin\Debug\Microsoft.LearningComponents.MRCI.pdb Build
+	SignCode.bat Build\Microsoft.LearningComponents.MRCI.dll
+	copy ..\..\Src\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll Build
+	copy ..\..\Src\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.pdb Build
 	SignCode.bat Build\Microsoft.LearningComponents.Compression.dll
 	copy ..\..\Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.dll Build
 	copy ..\..\Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.pdb Build
@@ -38,7 +41,9 @@ deb:
 rel:
 	-rmdir /s /q Build 2> nul
 	mkdir Build
-	copy ..\..\..\SLK.SDK\Release\Microsoft.LearningComponents.Compression.dll Build
+	copy ..\..\Src\Compression\MRCI\bin\Release\Microsoft.LearningComponents.MRCI.dll Build
+	SignCode.bat Build\Microsoft.LearningComponents.MRCI.dll
+	copy ..\..\Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.dll Build
 	SignCode.bat Build\Microsoft.LearningComponents.Compression.dll
 	copy ..\..\Src\LearningComponents\bin\Release\Microsoft.LearningComponents.dll Build
 	SignCode.bat Build\Microsoft.LearningComponents.dll

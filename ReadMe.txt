@@ -70,6 +70,7 @@ This directory tree contains the following directories:
        -- Solution: Build scripts for building SharePointLearningKit.wsp.
 
   -- Src: Source code for MLC (Microsoft Learning Components).  Contains these subdirectories:
+       -- Compression: Source code for Microsoft.LearningComponents.Compression.dll and Microsoft.LearningComponents.MRCI.dll
        -- LearningComponents: Source code for Microsoft.LearningComponents.dll.
        -- Schema: Build scripts that compile the MLC LearningStore schema.
        -- SchemaCompiler: Source code for SchemaCompiler.exe.
@@ -104,16 +105,6 @@ To build SLK, you first need to do some one-time configuration (if not done alre
   -- Make sure gacutil.exe is in your Windows PATH environment variable.  (It's not sufficient for
      it to be in a command shell PATH.)
 
-  -- Download the SLK SDK .zip file from CodePlex (it's named SLK-SDK-n.n.nnn-ENU.zip, where
-     n.n.nnn is the version number).  It doesn't matter exactly which version you get, as long as
-     it's relatively recent.  Unzip this .zip file and copy the contents into C:\dev\SLK.SDK.
-     For example, you should now have the following file:
-
-         C:\dev\SLK.SDK\Debug\Microsoft.LearningComponents.Compression.dll
-
-     In fact, the reason you need to download the SLK SDK before building SLK is that the source
-     code for this DLL is not included with the SLK source code (for licensing reasons).
-
   -- Run the batch file C:\dev\SLK\SkipVerification.bat.  Warning: this will disable strong name
      verification for all assemblies that use SLK's public key token ("abc4ed181d6d6a94").
      However, if you don't do this step (or an equivalent), you won't be able to execute the
@@ -133,9 +124,12 @@ source code:
 
   2. CD to C:\dev\SLK.  Run the following command:
 
-         fmake
+         nmake TARGET_ARCH=<1|0>
+     
+     Specify TARGET_ARCH=1 if building for the 64-bit platform and TARGET_ARCH=0 if building for 
+     the Win32 platform
 
-     This is a SLK tool ("filtered make") which runs nmake (a Visual Studio tool), which executes
+     fmake is a SLK tool ("filtered make") which runs nmake (a Visual Studio tool), which executes
      the steps in "makefile".  The makefile is essentially a build script: it will cause all the
      Visual Studio projects in SLK to be built.  Why not just have a single Visual Studio solution
      that builds all the projects?  Because the makefile (and other makefiles that it calls into)

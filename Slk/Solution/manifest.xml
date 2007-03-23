@@ -1,5 +1,6 @@
 <Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="00057001-c978-11da-ba52-00042350e42e">
 	<Assemblies>
+		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.LearningComponents.MRCI.dll" />
 		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.LearningComponents.dll" />
 		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.LearningComponents.Compression.dll" />
 		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.LearningComponents.SharePoint.dll" />
