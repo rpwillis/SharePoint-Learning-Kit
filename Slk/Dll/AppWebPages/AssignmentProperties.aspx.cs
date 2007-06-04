@@ -673,6 +673,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     //Show Assignment Properties the Panel
                     panelAssignmentProperties.Visible = true;
                 }
+                //Setting the 24 hour mode from regional settings for start and due dates
+                spDateTimeStart.HoursMode24 = SPWeb.RegionalSettings.Time24;
+                spDateTimeDue.HoursMode24 = SPWeb.RegionalSettings.Time24;
             }               
             catch (ThreadAbortException)
             {
