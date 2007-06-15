@@ -10,6 +10,7 @@
 #   -- samplesrel: builds Release configuration of some samples
 #   -- slk: builds SLK Application components
 #   -- slkdeb: builds Debug configuration of SLK Application components
+#   -- loc: builds localized versions of SLK
 #   -- runtests: runs unit tests
 #   -- sdkdoc: builds SDK documentation (do "deb" or "rel" first)
 #   -- drop: creates Drop directory, which contains files to be copied to the
@@ -115,6 +116,11 @@ slkdeb: nul
 	$(MAKE) deb
 	cd $(MAKEDIR)
 
+loc: nul
+	cd Slk\Tools\LocalizationGuide
+	$(MAKE)
+	cd $(MAKEDIR)
+
 # "deb" target: builds Debug configurations of specified sources
 deb: $(SRCDIRS:CMD=deb) 
 $(SRCDIRS:CMD=deb):
@@ -174,6 +180,7 @@ drop: nul
 	copy Slk\SlkSchema.xml Drop\Drop\Install
 	copy Slk\SlkSchema.sql Drop\Drop\Install
 	copy Slk\SlkSettings.xml Drop\Drop\Install
+
 
 	rem -- Create the SDK directory...
 	mkdir Drop\Drop\SDK
@@ -314,6 +321,10 @@ drop: nul
 	rem -- xcopy /I Src\TestUtilities\Misc Drop\Drop\SourceCode\Src\TestUtilities\Misc
 	rem -- xcopy /I Src\TestUtilities\Misc\Properties Drop\Drop\SourceCode\Src\TestUtilities\Misc\Properties
 
+	rem -- Create the LanguagePacks directory...
+	mkdir Drop\Drop\LanguagePacks
+	copy Slk\Tools\LocalizationGuide\Solution\LanguagePacks\* Drop\Drop\LanguagePacks
+
 	rem -- Create the ValidatePackage directory...
 	mkdir Drop\Drop\ValidatePackage
 	copy Samples\ValidatePackage\bin\Release\ValidatePackage.exe Drop\Drop\ValidatePackage
@@ -326,7 +337,9 @@ drop: nul
 	xcopy /I /S Doc\Root Drop\Drop\SDK
 	xcopy /I /S Doc\Root Drop\Drop\SourceCode
 	xcopy /I /S Doc\Root Drop\Drop\ValidatePackage
+	xcopy /I /S Doc\Root Drop\Drop\LanguagePacks
 	xcopy /I /S Doc\Install Drop\Drop\Install
+	xcopy /I /S Doc\LanguagePacks Drop\Drop\LanguagePacks
 	xcopy /I /S Doc\SourceCode Drop\Drop\SourceCode
 
 	rem -- Create Solitaire.zip files...
