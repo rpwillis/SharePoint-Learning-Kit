@@ -323,7 +323,7 @@ drop: nul
 
 	rem -- Create the LanguagePacks directory...
 	mkdir Drop\Drop\LanguagePacks
-	copy Slk\Tools\LocalizationGuide\Solution\LanguagePacks\* Drop\Drop\LanguagePacks
+	xcopy Slk\Tools\LocalizationGuide\Solution\LanguagePacks\* Drop\Drop\LanguagePacks\ /E
 
 	rem -- Create the ValidatePackage directory...
 	mkdir Drop\Drop\ValidatePackage
@@ -339,7 +339,7 @@ drop: nul
 	xcopy /I /S Doc\Root Drop\Drop\ValidatePackage
 	xcopy /I /S Doc\Root Drop\Drop\LanguagePacks
 	xcopy /I /S Doc\Install Drop\Drop\Install
-	xcopy /I /S Doc\LanguagePacks Drop\Drop\LanguagePacks
+	xcopy /I /S /Y Doc\LanguagePacks Drop\Drop\LanguagePacks
 	xcopy /I /S Doc\SourceCode Drop\Drop\SourceCode
 
 	rem -- Create Solitaire.zip files...
