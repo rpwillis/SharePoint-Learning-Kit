@@ -1,0 +1,41 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+
+SharePoint Learning Kit LanguagePacks Version 1.0 Release Notes
+Last Updated:	06/15/2006
+
+
+1. Introduction
+2. Known Issues
+
+
+INTRODUCTION
+
+	About the language packs
+
+SharePoint Learning Kit (SLK) is a SCORM 2004-conformant e-learning delivery and tracking application built as a Windows SharePoint Services 3.0 solution. It works with either Windows SharePoint Services 3.0 or Microsoft Office SharePoint Server 2007, and has the following core features:
+
+* Supports SCORM 1.2, SCORM 2004, and Class Server content, allowing users to store and manage this content in SharePoint document libraries.
+* Supports a learner-centric or instructor-led (assigned) workflow.
+* Allows assignment, tracking and grading of both e-learning and non-e-learning content.
+
+	This drop contains the language packs that when added-on to an SLK installation will allow its use in the local language. The language packs are packaged as SharePoint solutions that can be deployed in the same way as SLK.
+
+	This drop is updated with language packs for new languages as and when they become available for release. The Issue Tracker on CodePlex has information on the status of each of the Language Packs.
+
+
+KNOWN ISSUES
+
+Numbers in square brackets are issue tracking numbers for future reference.
+
+[8782] SLK displays a 24-hour calendar even on choosing a 12-hour format in regional settings
+
+[9110] "Save & Close" text on the right hand side in the Frameset (Player) cannot be localized
+
+[9110] Few set of strings (coming from a particular Resource file in SLK) cannot be localized
+
+[9111] "E-learning Actions" item which shows up on a right-click in the Document Library, cannot be localized
+
+[10126] UI issues for RTL langauges (languages with right to left text flow direction)
+
+
+Issue Tracker on CodePlex has up-to-date information on the status of each issue.
