@@ -16,6 +16,8 @@ ide:
 skipverification:
 	sn -Vr bin\debug\Microsoft.LearningComponents.SharePoint.dll
 
+runtests:
+
 clean: 
 	devenv SharePoint.sln /clean Debug
 	devenv SharePoint.sln /clean Release

@@ -13,6 +13,8 @@ rel: all
 
 ide: all
 
+runtests:
+
 clean: 
 	-del schema.vcproj.*.user
 	-attrib -h Schema.suo

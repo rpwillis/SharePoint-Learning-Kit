@@ -17,6 +17,8 @@ skipverification:
 	sn -Vr bin\debug\Microsoft.LearningComponents.dll
 	sn -Vr Test\bin\Debug\LearningComponentsUnitTests.dll
 
+runtests:
+
 clean: 
 	devenv LearningComponents.sln /clean Debug
 	devenv LearningComponents.sln /clean Release

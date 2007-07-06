@@ -16,6 +16,8 @@ ide:
 skipverification:
 	sn -Vr bin\debug\Microsoft.LearningComponents.Storage.dll
 
+runtests:
+
 clean: 
 	devenv Storage.sln /clean Debug
 	devenv Storage.sln /clean Release

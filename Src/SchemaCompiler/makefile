@@ -35,3 +35,5 @@ cleanall: clean
 	-del Test\SchemaCompiler.csproj.user > nul
 	-del Test\SchemaCompiler.ncb > nul
 
+runtests:
+

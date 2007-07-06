@@ -11,7 +11,6 @@ deb:
 		devenv Compression.sln /build Debug /Project MRCI /ProjectConfig "Debug|Win32"
 !ENDIF
 	devenv Compression.sln /build Debug /Project Compression
-	devenv Compression.sln /build Debug /Project CompressionUnitTest
 
 rel:
 !IF "$(TARGET_ARCH)" == "x64"
@@ -20,7 +19,6 @@ rel:
 		devenv Compression.sln /build Release /Project MRCI /ProjectConfig "Release|Win32"
 !ENDIF
 	devenv Compression.sln /build Release /Project Compression
-	devenv Compression.sln /build Release /Project CompressionUnitTest
 
 
 ide:
@@ -30,6 +28,10 @@ skipverification:
 	sn -Vr bin\debug\Microsoft.LearningComponents.Compression.dll
 	sn -Vr bin\debug\Microsoft.LearningComponents.MRCI.dll
 	sn -Vr CompressionUnitTest\bin\Debug\CompressionUnitTest.dll
+
+runtests:
+	devenv Compression.sln /build Debug /Project CompressionUnitTest
+	MSTest.exe /testcontainer:CompressionUnitTest\bin\Debug\CompressionUnitTest.dll
 
 clean: 
 	devenv Compression.sln /clean Debug
