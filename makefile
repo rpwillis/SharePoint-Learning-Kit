@@ -3,7 +3,7 @@
 # makefile
 #
 # Implements the following targets:
-#   -- all: same as "nmake deb rel slk sdkdoc samplesdeb samplesrel"
+#   -- all: same as "nmake deb rel slk sdkdoc samplesdeb samplesrel loc"
 #   -- deb: builds Debug configurations of all sources
 #   -- rel: builds Release configurations of all sources
 #   -- samplesdeb: builds Debug configuration of samples
@@ -26,6 +26,17 @@ SRCDIRS = \
 
 # CodeDoc is the location of the CodeDoc (see www.dwell.net)
 CODEDOC=..\SLK.Internal\Tools\CodeDoc\CodeDoc.exe
+
+# INSTALL_DIR and SDK_DIR are used in the drop targets
+!IF "$(TARGET_ARCH)" == "x64"
+INSTALL_DIR=Drop\Drop\Install64
+SDK_DIR=Drop\Drop\SDK64
+RELEASEPDB=Drop\ReleasePdb64
+!ELSE
+INSTALL_DIR=Drop\Drop\Install
+SDK_DIR=Drop\Drop\SDK
+RELEASEPDB=Drop\ReleasePdb
+!ENDIF
 
 # API_TITLE is the title used in API documentation
 API_TITLE = "Learning Components"
@@ -72,7 +83,7 @@ API_XML_SPACES = $(API_XML:!= )
 API_IMG_SPACES = $(API_IMG:!= )
 
 # "all" target (default target): builds everything
-all: deb rel slk sdkdoc samplesdeb samplesrel
+all: deb rel slk sdkdoc samplesdeb samplesrel loc
 
 # "samplesdeb" target: builds Debug samples
 samplesdeb: deb
@@ -167,199 +178,107 @@ drop: nul
     @echo -----------------------------------------------------------------
     @echo Creating Drop Directory
     @echo -----------------------------------------------------------------
-	-rmdir /s /q Drop 2> nul
-	mkdir Drop 2> nul
-	mkdir Drop\Drop 2> nul
+        if not exist Drop mkdir Drop 2> nul
+	if not exist Drop\Drop mkdir Drop\Drop 2> nul
 
 	rem -- Create the Install directory...
-	mkdir Drop\Drop\Install
-	mkdir Drop\Drop\Install\Release
-	copy Slk\Solution\*.cmd Drop\Drop\Install
-	copy Slk\Solution\Release\SharePointLearningKit.wsp Drop\Drop\Install\Release
-	copy Slk\slkadm\bin\Release\slkadm.exe Drop\Drop\Install
-	copy Slk\SlkSchema.xml Drop\Drop\Install
-	copy Slk\SlkSchema.sql Drop\Drop\Install
-	copy Slk\SlkSettings.xml Drop\Drop\Install
+	-rmdir /s /q $(INSTALL_DIR) 2> nul
+	mkdir $(INSTALL_DIR)
+	mkdir $(INSTALL_DIR)\Release
+	copy Slk\Solution\*.cmd $(INSTALL_DIR)
+	copy Slk\Solution\Release\SharePointLearningKit.wsp $(INSTALL_DIR)\Release
+	copy Slk\slkadm\bin\Release\slkadm.exe $(INSTALL_DIR)
+	copy Slk\SlkSchema.xml $(INSTALL_DIR)
+	copy Slk\SlkSchema.sql $(INSTALL_DIR)
+	copy Slk\SlkSettings.xml $(INSTALL_DIR)
 
 
 	rem -- Create the SDK directory...
-	mkdir Drop\Drop\SDK
-	rem -- copy Documentation.htm Drop\Drop\SDK
-	rem -- mkdir Drop\Drop\SDK\Pages
-	rem -- copy ApiRef\* Drop\Drop\SDK\Pages
-	xcopy /Q /I /S SdkDoc Drop\Drop\SDK
-	cscript Tools\CopyAndSetVersion.js SdkDoc\Pages\Default.htm Drop\Drop\SDK\Pages\Default.htm
-	xcopy /I Slk\Solution\DebugFiles Drop\Drop\SDK\Debug
-	xcopy /I Slk\Solution\ReleaseFiles Drop\Drop\SDK\Release
-	mkdir Drop\Drop\SDK\Samples
-	xcopy /I Samples\BasicWebPlayer Drop\Drop\SDK\Samples\BasicWebPlayer
-	xcopy /I Samples\BasicWebPlayer\App_Code Drop\Drop\SDK\Samples\BasicWebPlayer\App_Code
-	xcopy /I Samples\BasicWebPlayer\App_Code\Frameset Drop\Drop\SDK\Samples\BasicWebPlayer\App_Code\Frameset
-	xcopy /I Samples\BasicWebPlayer\App_Data Drop\Drop\SDK\Samples\BasicWebPlayer\App_Data
-	xcopy /I Samples\BasicWebPlayer\App_GlobalResources Drop\Drop\SDK\Samples\BasicWebPlayer\App_GlobalResources
-	xcopy /I Samples\BasicWebPlayer\Frameset Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset
-	xcopy /I Samples\BasicWebPlayer\Frameset\Include Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset\Include
-	xcopy /I Samples\BasicWebPlayer\Frameset\Images Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset\Images
-	rem -- xcopy /I Samples\BasicWebPlayer\Frameset\Include\UnitTest Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset\Include\UnitTest
-	xcopy /I Samples\BasicWebPlayer\Frameset\Theme Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset\Theme
-	rem -- xcopy /I Samples\BasicWebPlayer\Frameset\UnitTest Drop\Drop\SDK\Samples\BasicWebPlayer\Frameset\UnitTest
-	xcopy /I Samples\ValidatePackage Drop\Drop\SDK\Samples\ValidatePackage
-	xcopy /I Samples\ValidatePackage\Properties Drop\Drop\SDK\Samples\ValidatePackage\Properties
-	mkdir Drop\Drop\SDK\Samples\SLK
-	xcopy /I Slk\Samples\AddInstructors Drop\Drop\SDK\Samples\SLK\AddInstructors
-	xcopy /I Slk\Samples\AddToUserWebLists Drop\Drop\SDK\Samples\SLK\AddToUserWebLists
-	xcopy /I Slk\Samples\CreateAssignments Drop\Drop\SDK\Samples\SLK\CreateAssignments
-	xcopy /I Slk\Samples\ProvisionFromExcel Drop\Drop\SDK\Samples\SLK\ProvisionFromExcel
-	xcopy /I Slk\Samples\SimulateClass Drop\Drop\SDK\Samples\SLK\SimulateClass
-	xcopy /I Slk\Samples\SimulateJobTraining Drop\Drop\SDK\Samples\SLK\SimulateJobTraining
-	mkdir Drop\Drop\SDK\Samples\SLK\ReportPages
-	copy Slk\Samples\ReportPages\ReadMe.txt Drop\Drop\SDK\Samples\SLK\ReportPages
+	-rmdir /s /q $(SDK_DIR) 2> nul
+	mkdir $(SDK_DIR)
+	rem -- copy Documentation.htm $(SDK_DIR)
+	rem -- mkdir $(SDK_DIR)\Pages
+	rem -- copy ApiRef\* $(SDK_DIR)\Pages
+	xcopy /Q /I /S SdkDoc $(SDK_DIR)
+	cscript Tools\CopyAndSetVersion.js SdkDoc\Pages\Default.htm $(SDK_DIR)\Pages\Default.htm
+	xcopy /I Slk\Solution\DebugFiles $(SDK_DIR)\Debug
+	xcopy /I Slk\Solution\ReleaseFiles $(SDK_DIR)\Release
+	mkdir $(SDK_DIR)\Samples
+	xcopy /I Samples\BasicWebPlayer $(SDK_DIR)\Samples\BasicWebPlayer
+	xcopy /I Samples\BasicWebPlayer\App_Code $(SDK_DIR)\Samples\BasicWebPlayer\App_Code
+	xcopy /I Samples\BasicWebPlayer\App_Code\Frameset $(SDK_DIR)\Samples\BasicWebPlayer\App_Code\Frameset
+	xcopy /I Samples\BasicWebPlayer\App_Data $(SDK_DIR)\Samples\BasicWebPlayer\App_Data
+	xcopy /I Samples\BasicWebPlayer\App_GlobalResources $(SDK_DIR)\Samples\BasicWebPlayer\App_GlobalResources
+	xcopy /I Samples\BasicWebPlayer\Frameset $(SDK_DIR)\Samples\BasicWebPlayer\Frameset
+	xcopy /I Samples\BasicWebPlayer\Frameset\Include $(SDK_DIR)\Samples\BasicWebPlayer\Frameset\Include
+	xcopy /I Samples\BasicWebPlayer\Frameset\Images $(SDK_DIR)\Samples\BasicWebPlayer\Frameset\Images
+	rem -- xcopy /I Samples\BasicWebPlayer\Frameset\Include\UnitTest $(SDK_DIR)\Samples\BasicWebPlayer\Frameset\Include\UnitTest
+	xcopy /I Samples\BasicWebPlayer\Frameset\Theme $(SDK_DIR)\Samples\BasicWebPlayer\Frameset\Theme
+	rem -- xcopy /I Samples\BasicWebPlayer\Frameset\UnitTest $(SDK_DIR)\Samples\BasicWebPlayer\Frameset\UnitTest
+	xcopy /I Samples\ValidatePackage $(SDK_DIR)\Samples\ValidatePackage
+	xcopy /I Samples\ValidatePackage\Properties $(SDK_DIR)\Samples\ValidatePackage\Properties
+	mkdir $(SDK_DIR)\Samples\SLK
+	xcopy /I Slk\Samples\AddInstructors $(SDK_DIR)\Samples\SLK\AddInstructors
+	xcopy /I Slk\Samples\AddToUserWebLists $(SDK_DIR)\Samples\SLK\AddToUserWebLists
+	xcopy /I Slk\Samples\CreateAssignments $(SDK_DIR)\Samples\SLK\CreateAssignments
+	xcopy /I Slk\Samples\ProvisionFromExcel $(SDK_DIR)\Samples\SLK\ProvisionFromExcel
+	xcopy /I Slk\Samples\SimulateClass $(SDK_DIR)\Samples\SLK\SimulateClass
+	xcopy /I Slk\Samples\SimulateJobTraining $(SDK_DIR)\Samples\SLK\SimulateJobTraining
+	mkdir $(SDK_DIR)\Samples\SLK\ReportPages
+	copy Slk\Samples\ReportPages\ReadMe.txt $(SDK_DIR)\Samples\SLK\ReportPages
 	cd Slk\Samples\ReportPages
-	for %f in (*.aspx) do cscript /nologo ..\..\..\Tools\CopyAndSetVersion.js %f ..\..\..\Drop\Drop\SDK\Samples\SLK\ReportPages\%f
+	for %f in (*.aspx) do cscript /nologo ..\..\..\Tools\CopyAndSetVersion.js %f ..\..\..\$(SDK_DIR)\Samples\SLK\ReportPages\%f
 	cd $(MAKEDIR)
-	mkdir Drop\Drop\SDK\Samples\SLK\WebService
-	copy Slk\Samples\WebService\HelloWorld.zip Drop\Drop\SDK\Samples\SLK\WebService
-	copy Slk\Samples\WebService\ReadMe.txt Drop\Drop\SDK\Samples\SLK\WebService
+	mkdir $(SDK_DIR)\Samples\SLK\WebService
+	copy Slk\Samples\WebService\HelloWorld.zip $(SDK_DIR)\Samples\SLK\WebService
+	copy Slk\Samples\WebService\ReadMe.txt $(SDK_DIR)\Samples\SLK\WebService
 	cd Slk\Samples\WebService
-	for %f in (*.asmx) do cscript /nologo ..\..\..\Tools\CopyAndSetVersion.js %f ..\..\..\Drop\Drop\SDK\Samples\SLK\WebService\%f
+	for %f in (*.asmx) do cscript /nologo ..\..\..\Tools\CopyAndSetVersion.js %f ..\..\..\$(SDK_DIR)\Samples\SLK\WebService\%f
 	cd $(MAKEDIR)
 
-	mkdir Drop\Drop\SDK\SLK
-	copy Slk\SlkSdk\* Drop\Drop\SDK\SLK
-	copy Slk\SlkSettings.xml Drop\Drop\SDK\SLK
-	copy Src\SchemaCompiler\Schema.xsd Drop\Drop\SDK
-
-	rem -- Create the SourceCode directory...
-	mkdir Drop\Drop\SourceCode
-	mkdir Drop\Drop\SourceCode\Samples
-	xcopy /I /S Samples\Solitaire Drop\Drop\SourceCode\Samples\Solitaire
-	rem --
-	xcopy /I Samples\BasicWebPlayer Drop\Drop\SourceCode\Samples\BasicWebPlayer
-	xcopy /I Samples\BasicWebPlayer\App_Code Drop\Drop\SourceCode\Samples\BasicWebPlayer\App_Code
-	xcopy /I Samples\BasicWebPlayer\App_Code\Frameset Drop\Drop\SourceCode\Samples\BasicWebPlayer\App_Code\Frameset
-	xcopy /I Samples\BasicWebPlayer\App_Data Drop\Drop\SourceCode\Samples\BasicWebPlayer\App_Data
-	xcopy /I Samples\BasicWebPlayer\App_GlobalResources Drop\Drop\SourceCode\Samples\BasicWebPlayer\App_GlobalResources
-	xcopy /I Samples\BasicWebPlayer\Frameset Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset
-	xcopy /I Samples\BasicWebPlayer\Frameset\Include Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset\Include
-	xcopy /I Samples\BasicWebPlayer\Frameset\Images Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset\Images
-	rem -- xcopy /I Samples\BasicWebPlayer\Frameset\Include\UnitTest Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset\Include\UnitTest
-	xcopy /I Samples\BasicWebPlayer\Frameset\Theme Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset\Theme
-	rem -- xcopy /I Samples\BasicWebPlayer\Frameset\UnitTest Drop\Drop\SourceCode\Samples\BasicWebPlayer\Frameset\UnitTest
-	rem --
-	mkdir Drop\Drop\SourceCode\Slk
-	xcopy /I Slk\Admin Drop\Drop\SourceCode\Slk\Admin
-	xcopy /I Slk\AdminFeature Drop\Drop\SourceCode\Slk\AdminFeature
-	xcopy /I Slk\App Drop\Drop\SourceCode\Slk\App
-	xcopy /I Slk\App\_layouts Drop\Drop\SourceCode\Slk\App\_layouts
-	xcopy /I Slk\App\Frameset Drop\Drop\SourceCode\Slk\App\Frameset
-	xcopy /I Slk\App\Frameset\Include Drop\Drop\SourceCode\Slk\App\Frameset\Include
-	xcopy /I Slk\App\Frameset\Images Drop\Drop\SourceCode\Slk\App\Frameset\Images
-	xcopy /I Slk\App\Frameset\Theme Drop\Drop\SourceCode\Slk\App\Frameset\Theme
-	xcopy /I Slk\App\Images Drop\Drop\SourceCode\Slk\App\Images
-	xcopy /I Slk\AppFeature Drop\Drop\SourceCode\Slk\AppFeature
-	xcopy /I Slk\Dll Drop\Drop\SourceCode\Slk\Dll
-	xcopy /I Slk\Dll\AdminWebPages Drop\Drop\SourceCode\Slk\Dll\AdminWebPages
-	xcopy /I Slk\Dll\AppWebControls Drop\Drop\SourceCode\Slk\Dll\AppWebControls
-	xcopy /I Slk\Dll\AppWebPages Drop\Drop\SourceCode\Slk\Dll\AppWebPages
-	xcopy /I Slk\Dll\AppWebPages\Frameset Drop\Drop\SourceCode\Slk\Dll\AppWebPages\Frameset
-	xcopy /I Slk\Dll\Properties Drop\Drop\SourceCode\Slk\Dll\Properties
-	xcopy /I Slk\slkadm Drop\Drop\SourceCode\Slk\slkadm
-	xcopy /I Slk\slkadm\Properties Drop\Drop\SourceCode\Slk\slkadm\Properties
-	xcopy /I Slk\Solution Drop\Drop\SourceCode\Slk\Solution
-	xcopy /I Src\LearningComponents Drop\Drop\SourceCode\Src\LearningComponents
-	xcopy /I Src\LearningComponents\Images Drop\Drop\SourceCode\Src\LearningComponents\Images
-	xcopy /I Src\LearningComponents\Properties Drop\Drop\SourceCode\Src\LearningComponents\Properties
-	xcopy /I Src\LearningComponents\Resources Drop\Drop\SourceCode\Src\LearningComponents\Resources
-	rem -- xcopy /I Src\LearningComponents\UnitTests Drop\Drop\SourceCode\Src\LearningComponents\UnitTests
-	rem -- xcopy /I Src\LearningComponents\UnitTests\Properties Drop\Drop\SourceCode\Src\LearningComponents\UnitTests\Properties
-	xcopy /I Src\LearningComponents\Utilities Drop\Drop\SourceCode\Src\LearningComponents\Utilities
-	xcopy /I Src\Schema Drop\Drop\SourceCode\Src\Schema
-	rem -- xcopy /I Src\Schema\Test Drop\Drop\SourceCode\Src\Schema\Test
-	xcopy /I Src\SchemaCompiler Drop\Drop\SourceCode\Src\SchemaCompiler
-	xcopy /I Src\SchemaCompiler\Properties Drop\Drop\SourceCode\Src\SchemaCompiler\Properties
-	rem -- xcopy /I Src\SchemaCompiler\Test Drop\Drop\SourceCode\Src\SchemaCompiler\Test
-	rem -- xcopy /I Src\SchemaCompiler\Test\Properties Drop\Drop\SourceCode\Src\SchemaCompiler\Test\Properties
-	xcopy /I Src\Compression Drop\Drop\SourceCode\Src\Compression
-	xcopy /I Src\Compression\Compression Drop\Drop\SourceCode\Src\Compression\Compression
-	xcopy /I Src\Compression\Compression\Properties Drop\Drop\SourceCode\Src\Compression\Compression\Properties
-	xcopy /I Src\Compression\MRCI Drop\Drop\SourceCode\Src\Compression\MRCI
-	rem --
-	mkdir Drop\Drop\SourceCode\Src\Shared
-	copy Src\Shared\dllver.rc Drop\Drop\SourceCode\Src\Shared
-	copy Src\Shared\FileVersion.cs Drop\Drop\SourceCode\Src\Shared
-	copy Src\Shared\SharedAssemblyInfo.cs Drop\Drop\SourceCode\Src\Shared
-	copy Src\Shared\SlkPublicKey.snk Drop\Drop\SourceCode\Src\Shared
-	copy Src\Shared\vernum.h Drop\Drop\SourceCode\Src\Shared
-	copy Src\Shared\Version.cs Drop\Drop\SourceCode\Src\Shared
-	rem --
-	xcopy /I Src\SharePoint Drop\Drop\SourceCode\Src\SharePoint
-	xcopy /I Src\SharePoint\Properties Drop\Drop\SourceCode\Src\SharePoint\Properties
-	rem -- xcopy /I Src\SharePoint\UnitTests Drop\Drop\SourceCode\Src\SharePoint\UnitTests
-	rem -- xcopy /I Src\SharePoint\UnitTests\Properties Drop\Drop\SourceCode\Src\SharePoint\UnitTests\Properties
-	xcopy /I Src\Storage Drop\Drop\SourceCode\Src\Storage
-	xcopy /I Src\Storage\Images Drop\Drop\SourceCode\Src\Storage\Images
-	xcopy /I Src\Storage\LearningStore Drop\Drop\SourceCode\Src\Storage\LearningStore
-	rem -- xcopy /I Src\Storage\LearningStore\Test Drop\Drop\SourceCode\Src\Storage\LearningStore\Test
-	rem -- xcopy /I Src\Storage\LearningStore\Test\Job Drop\Drop\SourceCode\Src\Storage\LearningStore\Test\Job
-	rem -- xcopy /I Src\Storage\LearningStore\Test\Misc Drop\Drop\SourceCode\Src\Storage\LearningStore\Test\Misc
-	rem -- xcopy /I Src\Storage\LearningStore\Test\Properties Drop\Drop\SourceCode\Src\Storage\LearningStore\Test\Properties
-	rem -- xcopy /I Src\Storage\LearningStore\Test\Store Drop\Drop\SourceCode\Src\Storage\LearningStore\Test\Store
-	rem -- xcopy /I Src\Storage\LearningStore\Test\TestSchemas Drop\Drop\SourceCode\Src\Storage\LearningStore\Test\TestSchemas
-	rem -- xcopy /I Src\Storage\LearningStore\Test\Utility Drop\Drop\SourceCode\Src\Storage\LearningStore\Test\Utility
-	xcopy /I Src\Storage\Properties Drop\Drop\SourceCode\Src\Storage\Properties
-	rem -- xcopy /I Src\Storage\UnitTests Drop\Drop\SourceCode\Src\Storage\UnitTests
-	rem -- xcopy /I Src\Storage\UnitTests\Properties Drop\Drop\SourceCode\Src\Storage\UnitTests\Properties
-	rem -- xcopy /I Src\TestUtilities Drop\Drop\SourceCode\Src\TestUtilities
-	rem -- xcopy /I Src\TestUtilities\AddLearner Drop\Drop\SourceCode\Src\TestUtilities\AddLearner
-	rem -- xcopy /I Src\TestUtilities\AddLearner\Properties Drop\Drop\SourceCode\Src\TestUtilities\AddLearner\Properties
-	rem -- xcopy /I Src\TestUtilities\AttemptPackage Drop\Drop\SourceCode\Src\TestUtilities\AttemptPackage
-	rem -- xcopy /I Src\TestUtilities\AttemptPackage\Properties Drop\Drop\SourceCode\Src\TestUtilities\AttemptPackage\Properties
-	rem -- xcopy /I Src\TestUtilities\ImportPackage Drop\Drop\SourceCode\Src\TestUtilities\ImportPackage
-	rem -- xcopy /I Src\TestUtilities\ImportPackage\Properties Drop\Drop\SourceCode\Src\TestUtilities\ImportPackage\Properties
-	rem -- xcopy /I Src\TestUtilities\LearningStoreHelpers Drop\Drop\SourceCode\Src\TestUtilities\LearningStoreHelpers
-	rem -- xcopy /I Src\TestUtilities\LearningStoreHelpers\Properties Drop\Drop\SourceCode\Src\TestUtilities\LearningStoreHelpers\Properties
-	rem -- xcopy /I Src\TestUtilities\Misc Drop\Drop\SourceCode\Src\TestUtilities\Misc
-	rem -- xcopy /I Src\TestUtilities\Misc\Properties Drop\Drop\SourceCode\Src\TestUtilities\Misc\Properties
+	mkdir $(SDK_DIR)\SLK
+	copy Slk\SlkSdk\* $(SDK_DIR)\SLK
+	copy Slk\SlkSettings.xml $(SDK_DIR)\SLK
+	copy Src\SchemaCompiler\Schema.xsd $(SDK_DIR)
 
 	rem -- Create the LanguagePacks directory...
+	-rmdir /s /q Drop\Drop\LanguagePacks 2> nul
 	mkdir Drop\Drop\LanguagePacks
 	xcopy Slk\Tools\LocalizationGuide\Solution\LanguagePacks\* Drop\Drop\LanguagePacks\ /E
 
-	rem -- Create the ValidatePackage directory...
-	mkdir Drop\Drop\ValidatePackage
-	copy Samples\ValidatePackage\bin\Release\ValidatePackage.exe Drop\Drop\ValidatePackage
-	copy Src\LearningComponents\bin\Release\Microsoft.LearningComponents.dll Drop\Drop\ValidatePackage
-	copy Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.dll Drop\Drop\ValidatePackage
+#rem -- Create the ValidatePackage directory...
+#mkdir Drop\Drop\ValidatePackage
+#copy Samples\ValidatePackage\bin\Release\ValidatePackage.exe Drop\Drop\ValidatePackage
+#copy Src\LearningComponents\bin\Release\Microsoft.LearningComponents.dll Drop\Drop\ValidatePackage
+#copy Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.dll Drop\Drop\ValidatePackage
 
 	rem -- Copy files from Doc directory...
-	xcopy /I Doc\Root Drop\Drop
-	xcopy /I /S Doc\Root Drop\Drop\Install
-	xcopy /I /S Doc\Root Drop\Drop\SDK
-	xcopy /I /S Doc\Root Drop\Drop\SourceCode
-	xcopy /I /S Doc\Root Drop\Drop\ValidatePackage
-	xcopy /I /S Doc\Root Drop\Drop\LanguagePacks
-	xcopy /I /S Doc\Install Drop\Drop\Install
+	xcopy /I /Y Doc\Root Drop\Drop
+	xcopy /I /S /Y Doc\Root $(INSTALL_DIR)
+	xcopy /I /S /Y Doc\Root $(SDK_DIR)
+	xcopy /I /S /Y Doc\Root Drop\Drop\ValidatePackage
+	xcopy /I /S /Y Doc\Root Drop\Drop\LanguagePacks
+	xcopy /I /S /Y Doc\Install $(INSTALL_DIR)
 	xcopy /I /S /Y Doc\LanguagePacks Drop\Drop\LanguagePacks
-	xcopy /I /S Doc\SourceCode Drop\Drop\SourceCode
 
 	rem -- Create Solitaire.zip files...
-	-if exist ..\SLK.Internal mkdir Drop\Drop\Install\Samples
-	if exist ..\SLK.Internal ..\SLK.Internal\Tools\DZip.exe Samples\Solitaire Drop\Drop\Install\Samples\Solitaire.zip
-	-if exist ..\SLK.Internal mkdir Drop\Drop\SDK\Samples
-	if exist ..\SLK.Internal ..\SLK.Internal\Tools\DZip.exe Samples\Solitaire Drop\Drop\SDK\Samples\Solitaire.zip
+	-if exist ..\SLK.Internal mkdir $(INSTALL_DIR)\Samples
+	if exist ..\SLK.Internal ..\SLK.Internal\Tools\DZip.exe Samples\Solitaire $(INSTALL_DIR)\Samples\Solitaire.zip
+	-if exist ..\SLK.Internal mkdir $(SDK_DIR)\Samples
+	if exist ..\SLK.Internal ..\SLK.Internal\Tools\DZip.exe Samples\Solitaire $(SDK_DIR)\Samples\Solitaire.zip
 
 	rem -- Copy other root-level files...
 	copy Src\Schema\InitSchema.sql Drop
 
 	rem -- Copy release PDBs...
-	mkdir Drop\ReleasePdb
-	copy Src\Compression\MRCI\bin\Release\Microsoft.LearningComponents.MRCI.pdb Drop\ReleasePdb
-	copy Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.pdb Drop\ReleasePdb
-	copy Src\LearningComponents\bin\Release\Microsoft.LearningComponents.pdb Drop\ReleasePdb
-	copy Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.pdb Drop\ReleasePdb
-	copy Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.pdb Drop\ReleasePdb
-	copy Slk\Dll\bin\Release\Microsoft.SharePointLearningKit.pdb Drop\ReleasePdb
-	copy Src\SchemaCompiler\bin\Release\SchemaCompiler.pdb Drop\ReleasePdb
+	mkdir $(RELEASEPDB)
+	copy Src\Compression\MRCI\bin\Release\Microsoft.LearningComponents.MRCI.pdb $(RELEASEPDB)
+	copy Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.pdb $(RELEASEPDB)
+	copy Src\LearningComponents\bin\Release\Microsoft.LearningComponents.pdb $(RELEASEPDB)
+	copy Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.pdb $(RELEASEPDB)
+	copy Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.pdb $(RELEASEPDB)
+	copy Slk\Dll\bin\Release\Microsoft.SharePointLearningKit.pdb $(RELEASEPDB)
+	copy Src\SchemaCompiler\bin\Release\SchemaCompiler.pdb $(RELEASEPDB)
 
 	rem -- Create drop .zip files -- MUST BE DONE AFTER DROP\DROP IS COMPLETE...
 	if exist ..\SLK.Internal cscript /nologo ..\SLK.Internal\Tools\MakeDropZipsBatchFile.js > MakeDropZips.bat
@@ -389,7 +308,7 @@ $(SRCDIRS:CMD=cleanall): cleancommon
     cd $(MAKEDIR)
 
 # "cleancommon" target: common to "clean" and "cleanall"
-cleancommon: clean_sdkdoc clean_slk clean_drop clean_latestsdk clean_samples
+cleancommon: clean_sdkdoc clean_slk clean_latestsdk clean_samples
 
 # "clean_sdkdoc" target: clean SDK documentation generated files
 clean_sdkdoc:
