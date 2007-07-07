@@ -9,8 +9,13 @@ deb:
 	if exist \SharePointDlls\Microsoft.SharePoint.dll copy /y \SharePointDlls\Microsoft.SharePoint.dll TestBuild\bin
 	for %f in (*.aspx) do cscript /nologo ..\..\..\Tools\CopyAndSetVersion.js %f TestBuild\%f
 	cd TestBuild
+!IF "$(TARGET_ARCH)" == "x64"
+	@echo "Skipping build on 64-bit architectures"
+!ELSE
 	devenv TestBuild.sln /build Debug
+!ENDIF
 	cd $(MAKEDIR)
+
 
 rel:
 	rem -- nothing to do

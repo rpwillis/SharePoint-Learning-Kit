@@ -92,7 +92,7 @@ samplesdeb: deb
 	copy /y Slk\Dll\bin\Debug\Microsoft.SharePointLearningKit.dll Debug
 	copy /y Slk\Dll\bin\Debug\Microsoft.SharePointLearningKit.pdb Debug
 	cd Samples\BasicWebPlayer
-	$(MAKE) deb
+	$(MAKE) deb TARGET_ARCH=$(TARGET_ARCH)
 	cd $(MAKEDIR)
 	cd Samples\ValidatePackage
 	$(MAKE) deb

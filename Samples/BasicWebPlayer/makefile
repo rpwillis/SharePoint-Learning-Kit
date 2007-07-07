@@ -8,7 +8,11 @@ init:
 	cmd /c Init.bat
 
 deb: init
+!IF "$(TARGET_ARCH)" == "x64"
+	@echo "Skipping build on 64-bit architectures"
+!ELSE
 	devenv BasicWebPlayer.sln /build Debug
+!ENDIF
 
 ide:
 	devenv BasicWebPlayer.sln

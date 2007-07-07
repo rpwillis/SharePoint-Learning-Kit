@@ -53,7 +53,7 @@ $(SAMPLES:CMD=deb):
 	@echo -- Building Sample: $*
 	@echo --
 	cd Samples\$*
-	$(MAKE) /nologo deb
+	$(MAKE) /nologo deb TARGET_ARCH=$(TARGET_ARCH)
 	cd $(MAKEDIR)
 
 initsamples:
