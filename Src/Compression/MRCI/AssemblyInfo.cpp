@@ -33,7 +33,17 @@ using namespace System::Security::Permissions;
 // You can specify all the value or you can default the Revision and Build Numbers
 // by using the '*' as shown below:
 
-[assembly:AssemblyVersionAttribute("1.0.0.0")];
+#include "..\..\..\Src\Shared\vernum.h"
+
+// from ..\..\..\SLK\Src\Shared\dllver.rc: define string form of version number...
+#define postVer
+#define VER_VERSIONNUM  SZVERNUM(rmj,rmm,rup)
+// use double macros to force conversion of numbers to strings
+#define SZVERNUM(x,y,z)     SZVERNUM2(x,y,z)
+#define SZVERNUM2(x,y,z)  #x "." #y postVer "." #z ".0"
+
+[assembly:AssemblyVersionAttribute(VER_VERSIONNUM)];
+//[assembly:AssemblyVersionAttribute("1.0.0.0")];
 
 [assembly:ComVisible(false)];
 
