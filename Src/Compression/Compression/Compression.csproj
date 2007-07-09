@@ -45,6 +45,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Shared\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Shared\Version.cs">
+      <Link>Version.cs</Link>
+    </Compile>
     <Compile Include="Compression.cs" />
     <Compile Include="CompressionException.cs" />
     <Compile Include="LrmMimeHeader.cs" />
