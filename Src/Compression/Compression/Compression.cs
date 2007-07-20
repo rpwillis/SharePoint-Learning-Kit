@@ -87,7 +87,10 @@ namespace Microsoft.LearningComponents
                                 System.Globalization.CultureInfo.CurrentCulture
                              );
 
-                        if (isFolder)
+                        // Due to what looks like a bug in the ZipArchive class, get_FolderFlag returns 'false' for 
+                        // directories which are more than one level deep
+                        // Hence adding two conditions to check for directory entries
+                        if (isFolder || String.IsNullOrEmpty(zipEntryFile.Name))
                         {
 
                             Directory.CreateDirectory(zipEntryFile.FullName);
