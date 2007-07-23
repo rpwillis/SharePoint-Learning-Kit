@@ -1,0 +1,523 @@
+﻿<root>
+  <assembly culture="" name="Microsoft.LearningComponents.Storage.resources" version="1.0.799.0">
+    <key>ACQAAASAAACUAAAABgIAAAAkAABSU0ExAAQAAAEAAQCBPrkXiznyGTqeVlETHDcRRUrTL4/fDzNjU6FnYmrFwBQjm2AxJVTCevuJ4q7JU5lY425RPU/Nirg+g9/yYOMPQzB08pcEM+kt+nfwxGC/SpaKS/T8A9LqyU04k6o6yi8TnWxx/X60HKRs+7+l9Z1AK2pwuH3Y4KKy7ctJBsiwuQ==</key>
+    <keytoken>q8TtGB1tapQ=</keytoken>
+  </assembly>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.PackageResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.Properties.PackageResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>FSPS_BasePathDirNotFound</ID>
+        <Source>The folder '{0}' must exist prior to calling this method.</Source>
+        <Translation>Folder '{0}' musi istnieć przed wywołaniem tej operacji.</Translation>
+      </Resources>
+      <Resources>
+        <ID>FSPS_InvalidPackageId</ID>
+        <Source>The LearningStoreItemIdentifier {0} does not represent a package in LearningStore.</Source>
+        <Translation>LearningStoreItemIdentifier {0} w LearningStore nie jest pakietem.</Translation>
+      </Resources>
+      <Resources>
+        <ID>FSPS_CouldNotFindDirectory</ID>
+        <Source>Could not find a unique directory name to use for the files.</Source>
+        <Translation>Nie można odnaleźć unikatowej nazwy katalogu, której można by było użyć dla danych plików.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_ValidationFailed</ID>
+        <Source>The package cannot be added to the store because it contains at least one error.</Source>
+        <Translation>Pakiet nie może zostać dodany do biblioteki, ponieważ zawiera przynajmniej jeden błąd.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_InvalidManifest</ID>
+        <Source>The package cannot be added to LearningStore because the manifest in the package cannot be read.</Source>
+        <Translation>Pakiet nie może zostać dodany do LearningStore, ponieważ nie można odczytać manifestu zawartego w pakiecie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_NoOrganization</ID>
+        <Source>The package must contain at least one organization and one item in order to be added to LearningStore.</Source>
+        <Translation>Pakiet musi zawierać przynajmniej jeden element organizacji i jeden element działu w niej zawarty, aby mógł być dodany do biblioteki materiałów dydaktycznych LearningStore.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.LearningStore.LearningStoreStrings.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.LearningStore.LearningStoreStrings.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>ColumnNotFound</ID>
+        <Source>Column '{0}' not found in the view.</Source>
+        <Translation>Kolumna '{0}' nie jest widoczna.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AtLeastOneValueMustBeProvided</ID>
+        <Source>At least one value must be provided.</Source>
+        <Translation>Przynajmniej jedna wartość musi zostać podana.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicatePropertyValue</ID>
+        <Source>More than one value has been provided for property '{0}'.</Source>
+        <Translation>Więcej niż jedna wartość została podana dla parametru '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CannotChangeIdProperty</ID>
+        <Source>Property 'Id' can not be changed.</Source>
+        <Translation>Własność 'Id' nie może zostać zmieniona.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdConditionValue</ID>
+        <Source>Invalid condition value: only item identifiers with unique keys can be compared against.</Source>
+        <Translation>Nieprawidłowa wartość warunku: tylko identyfikatory o unikatowej wartości kluczy mogą być porównywane ze sobą.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResultsOfJobCanNotBeCast</ID>
+        <Source>The results of the job can not be cast to the specified return value.</Source>
+        <Translation>Wartość zwracanych wyniki pracy nie może być rzutowana do wymaganej postaci.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RightNotFoundInSchema</ID>
+        <Source>Right '{0}' not found in the schema.</Source>
+        <Translation>Prawa '{0}' nieodnalezione w schemacie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TimeoutMustBeZero</ID>
+        <Source>Timeout value specified for the transaction must be zero.</Source>
+        <Translation>Wartość limitu wykonania dla transakcji musi być 0.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionValueForXmlColumn</ID>
+        <Source>Invalid condition value: an Xml column can only be compared against null.</Source>
+        <Translation>Nieprawidłowa wartość warunku: kolumna Xml może być porównana jedynie z wartością pustą (Null).</Translation>
+      </Resources>
+      <Resources>
+        <ID>UniqueKeyNotAvailable</ID>
+        <Source>Unique key not available.</Source>
+        <Translation>Unikatowy klucz jest niedostępny.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionOperatorForGuidColumn</ID>
+        <Source>Invalid condition operator: a Guid column can only be compared with an equality or inequality operator.</Source>
+        <Translation>Nieprawidłowy operator warunku: kolumna typu Guid może być porównywana jedynie za pomoca operatorów równości i nierówności.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TransactionAlreadyExists</ID>
+        <Source>A transaction already exists in this scope.</Source>
+        <Translation>Transakcja już istnieje w tym zakresie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCausesInvalidCast</ID>
+        <Source>Invalid cast.</Source>
+        <Translation>Błędne rzutowanie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidPropertyValueWithDescription</ID>
+        <Source>Invalid value for property '{0}': {1}</Source>
+        <Translation>Nieprawidłowa wartość własności '{0}': {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>QueryNotCompatibleWithStore</ID>
+        <Source>The query is not compatible with this LearningStore instance.</Source>
+        <Translation>Zapytanie nie jest kompatybilne z tą instancją biblioteki materiałów dydaktycznych (LearningStore).</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemNotFound</ID>
+        <Source>Item not found</Source>
+        <Translation>Element nie został odnaleziony</Translation>
+      </Resources>
+      <Resources>
+        <ID>PropertyNotFound</ID>
+        <Source>Property '{0}' not found</Source>
+        <Translation>Parametr '{0}' nie został odnaleziony.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MoreThanOneItemFoundInAddOrUpdate</ID>
+        <Source>More than one item matches the properties in the AddOrUpdateItem command.</Source>
+        <Translation>Jeden albo więcej elementów pasuje do własności w poleceniu AddOrUpdateItem.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemTypeNotFoundInSchema</ID>
+        <Source>Item type '{0}' not found in the schema.</Source>
+        <Translation>Typ elementu '{0}' nie został odnaleziony w schemacie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeGuid</ID>
+        <Source>Must be a Guid.</Source>
+        <Translation>Wartość musi być typu Guid.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ParameterNotFound</ID>
+        <Source>Parameter '{0}' not found in the view.</Source>
+        <Translation>Parametr '{0}' nie został odnaleziony w widoku.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IncompatibleEngineVersion</ID>
+        <Source>The database was created by a different version of this product.</Source>
+        <Translation>Baza danych została utworzona w innej wersji tego produktu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ScopeDisposedInInvalidThread</ID>
+        <Source>Transaction scope disposed in invalid thread.</Source>
+        <Translation>Zakres transakcji został usunięty w nieprawidłowym wątku.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MismatchedIsolationLevel</ID>
+        <Source>Isolation level specified for the transaction doesn't match the isolation level for the currently-existing transaction.</Source>
+        <Translation>Poziom izolacji określony dla transakcji nie pasuje do poziomu izolacji określonego dla aktualnie istniejącej transakacji.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DebugLogAlreadyEnabled</ID>
+        <Source>The debug log has already been enabled.</Source>
+        <Translation>Dziennik zdarzeń debugera został już wcześniej włączony.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnAlreadySortedOn</ID>
+        <Source>A sort order for the specified column already exists in the query.</Source>
+        <Translation>Rodzaj sortowania dla danej kolumny został już wcześniej określony w zapytaniu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnAlreadyExistsInQuery</ID>
+        <Source>Column '{0}' has already been added to the query</Source>
+        <Translation>Kolumna '{0}' została dodana do zapytania wcześniej</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueHasInvalidFormat</ID>
+        <Source>Invalid format.</Source>
+        <Translation>Błędny format.</Translation>
+      </Resources>
+      <Resources>
+        <ID>XmlPropertyCannotBeSearchedOn</ID>
+        <Source>Cannot search on XML property '{0}'.</Source>
+        <Translation>Nie można przeszukiwać parametru typu XML '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SecurityCheckFailed</ID>
+        <Source>Security check failed.</Source>
+        <Translation>Nieudana kontrola bezpieczeństwa.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValueWithDescription</ID>
+        <Source>Invalid parameter value: {0}</Source>
+        <Translation>Nieprawidłowa wartość parametru: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdParameterValue</ID>
+        <Source>Invalid parameter value: only item identifiers with unique keys can be used as parameters.</Source>
+        <Translation>Nieprawidłowa wartość parametru: tylko identyfikatory elementów o unikatowej wartości kluczy mogą zostać użyte jako parametry.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ParameterNotFoundInRight</ID>
+        <Source>Parameter '{0}' not found in the right.</Source>
+        <Translation>Parametr '{0}' nie został odnaleziony.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AtLeastOneOutputColumnMustBeSpecified</ID>
+        <Source>At least one output column must be specified in the query.</Source>
+        <Translation>Przynajmniej jedna kolumna musi być podana w zapytaniu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidPropertyValue</ID>
+        <Source>Invalid value for property '{0}'</Source>
+        <Translation>Nieprawidłowa wartość własności '{0}'</Translation>
+      </Resources>
+      <Resources>
+        <ID>EnumTypeNotFoundInSchema</ID>
+        <Source>Enum type '{0}' not found in the schema.</Source>
+        <Translation>Typ wyboru '{0}' nie został odnaleziony w schemacie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionValueWithDescription</ID>
+        <Source>Invalid condition value: {0}</Source>
+        <Translation>Nieprawidłowa wartość warunku: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidSchemaDefinition</ID>
+        <Source>Invalid schema definition</Source>
+        <Translation>Nieprawidłowa definicja schematu</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidOperatorForNullConditionValue</ID>
+        <Source>Invalid condition operator: null can only be compared with an equality or inequality operator.</Source>
+        <Translation>Nieprawidłowy operator warunku: wartość pusta może być porównana tylko poprzez operator równość lub różności.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NullReferenceWhenAccessingDatabase</ID>
+        <Source>Object reference not set to an instance of an object when attempting to access database.  Database connection may have been lost.</Source>
+        <Translation>Podczas próby dostępu do bazy danych odwołanie do obiektu nie wskazuje na wystąpienie obiektu. Połączenie z bazą danych mogło zostać utracone.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidScopeNesting</ID>
+        <Source>Invalid transaction scope nesting.</Source>
+        <Translation>Nieprawidłowy zakres zagnieżdzenia transakcji.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OperationFailedBecauseOfConstraintViolation</ID>
+        <Source>The operation failed because of a constraint violation.</Source>
+        <Translation>Operacja nie powiodła się, ponieważ zostały naruszone stałe.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCannotBeNull</ID>
+        <Source>Cannot be null.</Source>
+        <Translation>Wartość nie może być pusta.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnCannotBeSorted</ID>
+        <Source>Column can not be sorted on.</Source>
+        <Translation>Nie można posortować wg danej kolumny.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeItemIdentifier</ID>
+        <Source>Must be a LearningStoreItemIdentifier with ItemType '{0}'.</Source>
+        <Translation>Element LearningStoreItemIdentifier musi wystąpić z ItemType '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CompleteAlreadyCalled</ID>
+        <Source>Method has already been called.</Source>
+        <Translation>Metoda już została wykonana.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeXml</ID>
+        <Source>Must be a LearningStoreXml.</Source>
+        <Translation>Wartość musi być LearningStoreXml.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeValidEnumValue</ID>
+        <Source>Must be a valid value from '{0}'.</Source>
+        <Translation>Wartość musi być jedną z '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValueWithDescriptionAndName</ID>
+        <Source>Invalid value for parameter '{0}': {1}</Source>
+        <Translation>Nieprawidłowa wartość parametru '{0}': {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>PositiveValueExpected</ID>
+        <Source>Positive value expected</Source>
+        <Translation>Oczekiwano wartości dodatniej</Translation>
+      </Resources>
+      <Resources>
+        <ID>PropertyValueNotFound</ID>
+        <Source>Value for property '{0}' not found</Source>
+        <Translation>Wartość własności '{0}' nie została odnaleziona</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeByteArray</ID>
+        <Source>Must be a System.Byte array.</Source>
+        <Translation>Musi być tablicą System.Byte.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeWithinSqlDateTimeRange</ID>
+        <Source>Must be between SqlDateTime.MinValue and SqlDateTime.MaxValue.</Source>
+        <Translation>Musi być pomiędzy SqlDateTime.MinValue a SqlDateTime.MaxValue.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ViewNotFoundInSchema</ID>
+        <Source>View '{0}' not found in the schema.</Source>
+        <Translation>Widok '{0}' nie został odnaleziony w schemacie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValue</ID>
+        <Source>Invalid value for parameter '{0}'</Source>
+        <Translation>Nieprawidłowa wartość parametru '{0}'</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCausesOverflow</ID>
+        <Source>Overflow.</Source>
+        <Translation>Wystąpiło przepełnienie.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.SessionResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.Properties.SessionResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>SLS_MoveToActivityNotValid</ID>
+        <Source>The session is not in a state where a new activity may be selected. In Execute view, only Active sessions may navigate to a selected activity.</Source>
+        <Translation>Sesja nie jest w stanie, w którym można wybrać nowy dział. Tylko aktywna sesja w trybie wykonawczym może przejść do wybranego działu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ExitCurrentActivityNotValid</ID>
+        <Source>The current activity cannot be exited. There must be a current activity in an active session in order to exit it. </Source>
+        <Translation>Nie można opuścić bieżącego działu. Musi istnieć dostępny dział w aktywnej sesji, aby można było wyjść. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_LoggingFlagsSetNotValid</ID>
+        <Source>The LoggingOptions property may not be set when reviewing a session.</Source>
+        <Translation>Właściwość LoggingOptions nie może zostać ustawiona podczas sesji przeglądania.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_MoveToPreviousNotValid</ID>
+        <Source>Moving to the previous activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
+        <Translation>Nie można przejść do poprzedniego działu. Tylko w trybie wykonawczym aktywna sesja może przejść z bieżącego do innego działu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_MoveToNextNotValid</ID>
+        <Source>Moving to the next activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
+        <Translation>Nie można przejść do nastepnego działu. Tylko w trybie wykonawczym aktywna sesja może przejść z bieżącego do innego działu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ReactivateNotValid</ID>
+        <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
+        <Translation>Nie jest możliwe ponowne aktywowanie bieżącej sesji. Tylko sesje zakończone lub odłączone mogą zostać ponownie aktywowane i tylko w trybie RandomAccess.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ExitNotValid</ID>
+        <Source>The session cannot be exited in its current state. In Execute view, only Active sessions which have been started may be exited. Sessions may not be exited in other views.</Source>
+        <Translation>Nie można opuścić aktualnej sesji w bieżącym stanie. Tylko w trybie wykonawczym aktywna sesja może być zawieszona. Sesja nie może być zawieszona w innych trybach.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AbandonCurrentActivityNotValid</ID>
+        <Source>The current activity cannot be abandoned. There must be a current activity in an active session in order to abandon it. </Source>
+        <Translation>Nie można opuścić bieżącego działu. Musi istnieć dostępny dział w aktywnej sesji, aby można było opuścić bieżący dział.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CouldNotFindFirstActivity</ID>
+        <Source>An initial activity could not be identified in the session.</Source>
+        <Translation>Początkowy dział nie został określony dla tej sesji.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AttemptEndTimeNotValid</ID>
+        <Source>The attempt associated with this session has not ended.</Source>
+        <Translation>Próba związana z tą sesją nie została zakończona.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_SuspendNotValid</ID>
+        <Source>The session cannot be suspended in its current state. In Execute view, only Active sessions may be suspended. Sessions may not be suspended in other views.</Source>
+        <Translation>Sesja nie może zostać zawieszona w bieżącym stanie. Tylko w trybie wykonawczym aktywna sesja może zostać zawieszona. Sesja nie może być zawieszona w innych trybach.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_InvalidateSessionCacheNotValid</ID>
+        <Source>The session cache cannot be cleared because the current session contains an active attempt. </Source>
+        <Translation>Bufor sesji nie może być oczyszczony, ponieważ bieżąca sesja zawiera aktywne działania. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ProcessNavigationRequestsNotValid</ID>
+        <Source>Navigation requests cannot be processed. In an ExecuteView, the AttemptStatus must be Active. This call is not valid in RandomAccess and Review views.</Source>
+        <Translation>Żądanie przejścia nie może zostać wykonane. W trybie wykonawczym status AttemptStatus musi mieć wartość Active. To odwołanie nie jest prawidłowe dla widoku w trybie podglądu lub RandomAccess.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_StartNotValid</ID>
+        <Source>A session may only be started on an active attempt in ExecuteView. The session may not be in Review or RandomAccess view when calling this method.</Source>
+        <Translation>Sesja nie może zostać rozpoczęta w trybie wykonawczym. Sesja nie może być w trybie podglądu ani RandomAccess podczas wywołania tej operacji.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AbandonNotValid</ID>
+        <Source>The session cannot be abandoned in its current state. In Execute view, only Active sessions may be abandoned. Sessions may not be abandoned in other views.</Source>
+        <Translation>Sesja nie może zostać przerwana w bieżącym stanie. Tylko w trybie wykonawczym aktywne sesje mogą zostać porzucone. Sesja nie może być przerwana w innych trybach.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ResourceNotFound</ID>
+        <Source>The current activity in the session does not have an associated resource. The content cannot be displayed.</Source>
+        <Translation>Bieżący dział w tej sesji nie ma powiązanych z nim zasobów. Zawartość nie może zostać wyświetlona.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_RenderNotValid</ID>
+        <Source>The content cannot be rendered. In Execute view, the session must have an AttemptStatus of Active.</Source>
+        <Translation>Zawartość nie może zostać wyświetlona. W trybie wykonawczym sesja musi mieć status AttemptStatus ustawiony na Active.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CommitChangesNotValid</ID>
+        <Source>The changes to the current session cannot be committed. The session may not be in Review view when calling this method. </Source>
+        <Translation>Zmiany z bieżącej sesji nie mogą zostać zapisane. Ta sesja nie może znajdować się w trybie podglądu podczas wykonania tej operacji.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AttemptHasStarted</ID>
+        <Source>The attempt has already started. You may not call Start more than once.</Source>
+        <Translation>Sesja została już rozpoczęta. Może być tylko jedna aktywna sesja w danej chwili.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ResumeNotValid</ID>
+        <Source>The session cannot be resumed in its current state. In Execute view, only Suspended sessions may be resumed. Sessions may not be resumed in other views.</Source>
+        <Translation>Sesja nie może zostać przywrócona w bieżącym stanie. Zawieszone sesje mogą zostać przywrócone tylko do trybu wykonawczego. Sesja nie może być przywrócona w innych trybach.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>NotAllowedInExecuteMode</ID>
+        <Source>This operation cannot be performed in Execute view.</Source>
+        <Translation>Ta operacja nie może zostać wykonana w trybie wykonawczym.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NotAllowedWhileInAutoGradingMode</ID>
+        <Source>This operation cannot be performed during the auto-grading process.</Source>
+        <Translation>Ta operacja nie może zostać wykonana podczas procesu automatycznego oceniania.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptComplete</ID>
+        <Source>The requested operation cannot be performed because the session has been completed.</Source>
+        <Translation>Żądana operacja nie może zostać wykonana, ponieważ sesja została zakończona.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptAbandoned</ID>
+        <Source>The requested operation cannot be performed because the session has been abandoned.</Source>
+        <Translation>Żądana operacja nie może zostać wykonana, ponieważ sesja została przerwana.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttachmentTooLarge</ID>
+        <Source>Attachment exceeds maximum size of {0} bytes.</Source>
+        <Translation>Załącznik przekracza maksymalny dopuszczalny rozmiar {0} bajtów.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AutoGradingModeNotBegun</ID>
+        <Source>This operation is only valid during auto-grading.</Source>
+        <Translation>Ta operacja jest prawidłowa tylko podczas automatycznego oceniania.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidAttemptId</ID>
+        <Source>The attempt could not be accessed. You may not have access to it, the attempt may have been deleted or does not exist.</Source>
+        <Translation>Sesja nie jest dostępna. Sesja została usunięta, nie istnieje, bądź nie posiadasz uprawnień dostępu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NotAllowedInReviewMode</ID>
+        <Source>This operation cannot be performed in Review view.</Source>
+        <Translation>Operacja nie może zostać wykonana w trybie podgladu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptHasNotEnded</ID>
+        <Source>The requested operation cannot be performed because the session is not complete.</Source>
+        <Translation>Żadana operacja nie może zostać wykonana, ponieważ sesja nie została jeszcze zakończona.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidRootActivityId</ID>
+        <Source>The root activity id could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
+        <Translation>Identyfikator podstawowego działu jest niedostępny. Nie istnieje albo nie posiadasz uprawnień dostępu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NoCurrentActivity</ID>
+        <Source>A current activity is required for this operation.</Source>
+        <Translation>Bieżący dział jest wymagany dla tej operacji.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_SessionCannotBeActive</ID>
+        <Source>This operation cannot be performed on a session with an AttemptStatus of Active.</Source>
+        <Translation>Operacja nie może zostać wykonana w bieżącej sesji, gdy AttemptStatus jest Active.</Translation>
+      </Resources>
+      <Resources>
+        <ID>GlobalObjectiveDatabaseStateNotValid</ID>
+        <Source>Global Objective database contains non-unique entries.</Source>
+        <Translation>Globalna baza danych celów zawiera nieunikatowe wpisy.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidLearnerId</ID>
+        <Source>The LearnerId could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
+        <Translation>Nie ma dostępu do identyfikatora LearnerId. Nie istnieje albo nie posiadasz uprawnień dostępu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidActivity</ID>
+        <Source>The requested activity cannot be found within the session.</Source>
+        <Translation>Żądane działanie nie zostało odnalezione w tej sesji.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>

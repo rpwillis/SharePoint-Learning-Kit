@@ -1,0 +1,64 @@
+﻿<root>
+  <assembly culture="ar" name="Microsoft.LearningComponents.SharePoint.resources" version="1.0.799.0">
+    <key>ACQAAASAAACUAAAABgIAAAAkAABSU0ExAAQAAAEAAQCBPrkXiznyGTqeVlETHDcRRUrTL4/fDzNjU6FnYmrFwBQjm2AxJVTCevuJ4q7JU5lY425RPU/Nirg+g9/yYOMPQzB08pcEM+kt+nfwxGC/SpaKS/T8A9LqyU04k6o6yi8TnWxx/X60HKRs+7+l9Z1AK2pwuH3Y4KKy7ctJBsiwuQ==</key>
+    <keytoken>q8TtGB1tapQ=</keytoken>
+  </assembly>
+  <resources name="Microsoft.LearningComponents.SharePoint.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.SharePoint.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CacheCreateDirCleanupFailed</ID>
+        <Source>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPLockTriesExceeded</ID>
+        <Source>Could not get a lock on the file within the allowed tries.</Source>
+        <Translation>Could not get a lock on the file within the allowed tries.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPCannotWriteToLockFile</ID>
+        <Source>Could not write to lock file of cache directory.</Source>
+        <Translation>Could not write to lock file of cache directory.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFoundNoName</ID>
+        <Source>The requested file was not found.</Source>
+        <Translation>The requested file was not found.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CacheLockDirCleanupFailed</ID>
+        <Source>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileVersionNotFound</ID>
+        <Source>The version {0} of file {1} does not exist.</Source>
+        <Translation>The version {0} of file {1} does not exist.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFound</ID>
+        <Source>The file {0} was not found.</Source>
+        <Translation>The file {0} was not found.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CacheCachePathNotAccessible</ID>
+        <Source>The package cache directory is not accessible. It may not exist or you may not have access to it.</Source>
+        <Translation>The package cache directory is not accessible. It may not exist or you may not have access to it.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFormatInvalid</ID>
+        <Source>'{0}' does not have the correct format.</Source>
+        <Translation>'{0}' does not have the correct format.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPInvalidPackage</ID>
+        <Source>The package is not valid and cannot be read. More information: {0}</Source>
+        <Translation>The package is not valid and cannot be read. More information: {0}</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>
