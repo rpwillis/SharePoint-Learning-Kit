@@ -19,7 +19,7 @@ call ..\SignCode.bat Microsoft.LearningComponents.resources.dll
 call ..\SignCode.bat Microsoft.LearningComponents.SharePoint.resources.dll
 call ..\SignCode.bat Microsoft.LearningComponents.Storage.resources.dll
 call ..\SignCode.bat Microsoft.SharePointLearningKit.resources.dll
-call buildLangPack.cmd %1
+call buildLangPack.cmd %1 %2
 del ..\solution\*.resources.dll 2> nul
 del ..\solution\SlkSettings.xml.dat 2> nul
 del ..\solution\culture.txt 2> nul

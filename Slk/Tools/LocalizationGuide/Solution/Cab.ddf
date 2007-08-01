@@ -10,6 +10,5 @@ Microsoft.LearningComponents.resources.dll               Microsoft.LearningCompo
 Microsoft.LearningComponents.SharePoint.resources.dll    Microsoft.LearningComponents.SharePoint.resources.dll
 Microsoft.LearningComponents.Storage.resources.dll       Microsoft.LearningComponents.Storage.resources.dll
 Microsoft.SharePointLearningKit.resources.dll            Microsoft.SharePointLearningKit.resources.dll
-SlkSettings.xml.dat					Admin\SharePointLearningKit\SlkSettings.xml.dat
 manifest.xml                                         manifest.xml
 ;*** <the end>

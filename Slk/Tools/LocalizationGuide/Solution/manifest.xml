@@ -6,7 +6,4 @@
 		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.SharePointLearningKit.resources.dll">
 		</Assembly>
 	</Assemblies>
-	<TemplateFiles>
-		<TemplateFile Location="Admin\SharePointLearningKit\SlkSettings.xml.dat" />
-	</TemplateFiles>
 </Solution>
