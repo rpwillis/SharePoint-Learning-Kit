@@ -1,0 +1,1454 @@
+﻿<root>
+  <assembly culture="bg" name="Microsoft.LearningComponents.resources" version="1.0.799.0">
+    <key>ACQAAASAAACUAAAABgIAAAAkAABSU0ExAAQAAAEAAQCBPrkXiznyGTqeVlETHDcRRUrTL4/fDzNjU6FnYmrFwBQjm2AxJVTCevuJ4q7JU5lY425RPU/Nirg+g9/yYOMPQzB08pcEM+kt+nfwxGC/SpaKS/T8A9LqyU04k6o6yi8TnWxx/X60HKRs+7+l9Z1AK2pwuH3Y4KKy7ctJBsiwuQ==</key>
+    <keytoken>q8TtGB1tapQ=</keytoken>
+  </assembly>
+  <resources name="Microsoft.LearningComponents.Properties.ValidatorResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.ValidatorResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>LrLogCannotBeNullWhenRequired</ID>
+        <Source>The log parameter can not be null when the ValidationBehavior requires a log.</Source>
+        <Translation>Параметърът на записките не може да е празен когато ValidationBehavior го изисква.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ElementRemoved</ID>
+        <Source>(element has been removed)</Source>
+        <Translation>(елементът е премахнат)</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResourceOrOrganizationNotFound</ID>
+        <Source>The referenced resource or organization can not be found.</Source>
+        <Translation>Референтият ресурс или организация не може да бъде открит.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RuleConditionConditionMissing</ID>
+        <Source>The &lt;ruleCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
+        <Translation>&lt;ruleCondition&gt; възелът има атрибут за състояние. Вижте SCORM 1.3 CAM 5.1.3.1.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcNodeViolationTruncated</ID>
+        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by MLC.  It has been truncated to {2} characters.</Source>
+        <Translation>Стойността, която започва с "{0}" във възела {1} е по-дълга от поддържаната от MLC. Намалена е до {2} символа.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueOutOfRange</ID>
+        <Source>The value is out of range.</Source>
+        <Translation>Стойността е извън обхват.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidPresentationNode</ID>
+        <Source>A &lt;presentation&gt; node may only appear, if needed, as a child of a leaf &lt;item&gt;element that references a resource.</Source>
+        <Translation>Възелът &lt;presentation&gt; може, само при необходимост, да се използва като дъщерен на елемента &lt;item&gt;, който реферира към ресурс.</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadValue</ID>
+        <Source>The value "{0}" of element &lt;{1}&gt; is an invalid value.  Extra information: {2}</Source>
+        <Translation>Стойността "{0}" на елемента &lt;{1}&gt; не е валидна. Допълнителна информация: {2}</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrMustHaveCorrectRoot</ID>
+        <Source>A valid index.xml begins with a &lt;LearningResource&gt; node in the "urn:schemas-microsoft-com:learning-resource" namespace.</Source>
+        <Translation>Валидният index.xml започва с &lt;LearningResource&gt; възел в пространството от имена "urn:schemas-microsoft-com:learning-resource".</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResourceHrefMissing</ID>
+        <Source>The resource node is missing the required attribute, 'href'</Source>
+        <Translation>В клона с ресурси липсва атрибут 'href'</Translation>
+      </Resources>
+      <Resources>
+        <ID>ManifestMetaDataMissing</ID>
+        <Source>The &lt;metadata&gt; node is missing or in the wrong namespace on the &lt;manifest&gt;.  See SCORM 1.3 CAM 3.4.1.2.</Source>
+        <Translation>Клонът &lt;metadata&gt; липсва или е в грешното пространство от имена в &lt;manifest&gt;. Вижте SCORM 1.3 CAM 3.4.1.2.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RequiredAttributeMissing</ID>
+        <Source>The required attribute, {0}, is missing on element &lt;{1}&gt;. Extra information:{2}</Source>
+        <Translation>Нужният атрибут {0}, в елемента &lt;{1}&gt; липсва. Повече информация:{2}</Translation>
+      </Resources>
+      <Resources>
+        <ID>OutOfRangeNegOneToOne</ID>
+        <Source>The value is outside the valid range [-1 to 1].</Source>
+        <Translation>Стойността е извън обхват [от -1 до 1].</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcNodeViolation</ID>
+        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by Microsoft Learning Components.</Source>
+        <Translation>Стойността, с която започва "{0}" от клона {1} вече не се поддържа от Microsoft Learning Components.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NodeName</ID>
+        <Source>The name of the erroneous node is: {0}</Source>
+        <Translation>Името на грешния клон е: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadValueReplacement</ID>
+        <Source>The value "{0}" of element &lt;{1}&gt; is an invalid value.  It has been replaced by the default value "{2}".  Extra information: {3}</Source>
+        <Translation>Стойността "{0}" на елемент &lt;{1}&gt; не е валидна. Заменена е със стойността по подразбиране "{2}". Допълнителна информация: {3}</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrChildInLrmNamespaceNotFound</ID>
+        <Source>The node &lt;{0}&gt; can not be found in the correct namespace. Extra information:{1}</Source>
+        <Translation>Клонът &lt;{0}&gt; не може да бъде намерен в правилното пространство от имена. Повече информация:{1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadUri</ID>
+        <Source>The value is an invalid URI.</Source>
+        <Translation>Стойността не е валиден URI.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrDefaultAttributeUsed</ID>
+        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element's "{2}" attribute.</Source>
+        <Translation>Стойността по подразбиране "{0}" беше използвана вместо липсващата или грешна стойност в &lt;{1}&gt; елемента за атрибут "{2}".</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadXmlBase</ID>
+        <Source>The value is an invalid xml:base. xml:base must be a valid URI that does not begin with a "/" but does end with a "/".</Source>
+        <Translation>Стойността не е валидна xml:base. xml:base трябва да е валиден URI, който не започва с "/", но завършва с "/".</Translation>
+      </Resources>
+      <Resources>
+        <ID>EmptyReferencedObjective</ID>
+        <Source>The referencedObjective attribute on the {0} node is whitespace only, which is invalid.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
+        <Translation>Атрибутът referencedObjective на клона {0} е само празно пространство, което не е коректно. Вижте SCORM 1.3 CAM 5.1.3.1.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrNodeLengthException</ID>
+        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long.</Source>
+        <Translation>Клонът &lt;{0}&gt; има стойност, която започва с "{1}", което е твърде дълго.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ParentXml</ID>
+        <Source>The full XML of the parent node is: {0}</Source>
+        <Translation>Пълният XML на родителския клон е: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeValueException</ID>
+        <Source>The value of the &lt;{0}&gt; element's "{1}" attribute is missing or erroneous.</Source>
+        <Translation>Стойността в елемента &lt;{0}&gt; на атрибута "{1}" липсва или е грешен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRuleAction</ID>
+        <Source>The &lt;ruleAction&gt; node may occur 1 and only 1 time within a &lt;preConditionRule&gt;, &lt;postConditionRule&gt;, or &lt;exitConditionRule&gt;.  See SCORM 1.3 CAM 5.1.3.1.2.</Source>
+        <Translation>Клонът &lt;ruleAction&gt; може да се използва само веднъж в &lt;preConditionRule&gt;, &lt;postConditionRule&gt;, или &lt;exitConditionRule&gt;. Вижте SCORM 1.3 CAM 5.1.3.1.2.</Translation>
+      </Resources>
+      <Resources>
+        <ID>GenericDuplicate</ID>
+        <Source>The parent node is {0}.</Source>
+        <Translation>Родителският клон е {0}.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRollupConditions</ID>
+        <Source>The &lt;rollupCondition&gt; node can only appear once in the &lt;rollupRule&gt; node.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
+        <Translation>Клонът &lt;rollupCondition&gt; може да се използва само веднъж в клона &lt;rollupRule&gt;. Вижте SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrNodeLengthViolation</ID>
+        <Source>The node &lt;{0}&gt; has a value that is too long.  It has been truncated to "{1}".</Source>
+        <Translation>Клоът &lt;{0}&gt; има стойнст, която е твърде дълга. Намалена е до "{1}".</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemMustRepresentSco</ID>
+        <Source>The parent node, {0}, must represent a SCO.</Source>
+        <Translation>Родителският клон {0} трябва да представя SCO.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueOutOfRangeToken</ID>
+        <Source>The value is not one of the permitted token values.</Source>
+        <Translation>Стойността не е една от позволените.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NodeXml</ID>
+        <Source>The full XML of the erroneous node is: {0}</Source>
+        <Translation>Пълният XML на грешния клон е: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>MetadataLocationNotFound</ID>
+        <Source>The file, {0}, referenced by the location element inside of metadata in the manifest can not be found in the package.</Source>
+        <Translation>Файлът {0}, рефериран от елемента location в метаданните на манифеста не може да бъде открит в пакета.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrMultiLRNotSupported</ID>
+        <Source>The package is a multiple learning resource package, which is not supported.</Source>
+        <Translation>Пакетът е се състои от множество учебни ресурси, което не се поддържа.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrChildInLrmNamespaceNotFoundTryOther</ID>
+        <Source>The node &lt;{0}&gt; can not be found in the correct namespace  An attempt will be made to find a child node with that name in other namespaces. Extra information:{1}</Source>
+        <Translation>Клонът &lt;{0}&gt; не може да бъде открит в правилното пространство от имена. Ще бъде направен опит да се открие дъщерен клон с това име в другите пространства от имена. Повече информация:{1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRollupAction</ID>
+        <Source>The &lt;rollupAction&gt; node can only appear once in the &lt;rollupRule&gt;node.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
+        <Translation>Клонът &lt;rollupAction&gt; може да се използва само веднъж в клона &lt;rollupRule&gt;. Вижте SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueIncorrectType</ID>
+        <Source>The value is not the expected type.</Source>
+        <Translation>Клонът не е от очаквания тип.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrNodeValueException</ID>
+        <Source>The value of the &lt;{0}&gt; element is missing or erroneous.</Source>
+        <Translation>Стойността на елемента &lt;{0}&gt; е грешна или липсва.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrPageNodeSkipped</ID>
+        <Source>The value of the PageID attribute of the {0} element is invalid. The element has been omitted from the conversion.</Source>
+        <Translation>Стойността на атрибута PageID на елемента {0} не е валиден. Елементът е пропуснат от/при превръщането.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidFileType</ID>
+        <Source>The file {0} is not a valid file type.</Source>
+        <Translation>Типът на файла {0} не е валиден.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidNode</ID>
+        <Source>An element, &lt;{0}&gt;, is invalid because it is illegal or has illegal attribute values. Extra information: {1}</Source>
+        <Translation>Елементът &lt;{0}&gt;  не е валиден, защото е непозволен или има недопустими стойности на атрибутите. Повече информация: {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>ConvertedUriReplacement</ID>
+        <Source>The "{0}" portion of attribute, {1}, on element &lt;{2}&gt; contains invalid URI characters.  These have been converted into valid characters automatically.  The new value is "{3}".  Extra information: {4}.</Source>
+        <Translation>Частта "{0}" от атрибута {1} в елемент &lt;{2}&gt; съдържа невалидни URI символи. Автоматично са преобразувани във валидни символи. Новата стойност е "{3}". Повече информация: {4}.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemTitleMissing</ID>
+        <Source>The &lt;title&gt; node is required on the {0} node in Content Aggregation manifests.  See SCORM 1.3 CAM 3.4.1.10, or SCORM 1.2 CAM 2.3.5.3.1.2.1.</Source>
+        <Translation>Клонът &lt;title&gt; е необходим за клон {0} в манифестите Content Aggregation. Вижте SCORM 1.3 CAM 3.4.1.10 или SCORM 1.2 CAM 2.3.5.3.1.2.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrRemoteContentNotSupported</ID>
+        <Source>Remote content is not supported.</Source>
+        <Translation>Отдалечено съдържание не се поддържа.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrLicensedContentNotSupported</ID>
+        <Source>This learning resource requires a license and licensed Learning Resources are not supported.</Source>
+        <Translation>Този учебен ресурс изисква лиценз и лицензирани учебни ресурси не се поддържат.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PrerequisitesTypeWrong</ID>
+        <Source>The value of the &lt;prerequisites&gt; type attribute must be "aicc_script".</Source>
+        <Translation>Стойността на атрибута &lt;prerequisites&gt; трябва да е "aicc_script".</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrDefaultValueUsed</ID>
+        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element.</Source>
+        <Translation>Стойността по подразбиране на "{0}" е използвана на мястото на липсващата или грешна стойност на елемента &lt;{1}&gt;.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeLengthException</ID>
+        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long for the "{2}" attribute.</Source>
+        <Translation>Клонът &lt;{0}&gt; има стойност, която започва с "{1}" и е твърде дълга за атрибута "{2}".</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemIdentifierMissing</ID>
+        <Source>The &lt;item&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.9, or SCORM 1.2 CAM 2.3.5.3.1.2.</Source>
+        <Translation>Клонът &lt;item&gt; трябва да има атрибут идентификатор. Вижте SCORM 1.3 CAM 3.4.1.9, или SCORM 1.2 CAM 2.3.5.3.1.2.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationActivityMissing</ID>
+        <Source>An Activity node is required for content used in Microsoft Learning Components.</Source>
+        <Translation>Клонът Activity е необходим за съдържанието, използвано в Microsoft Learning Components.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SpmNodeViolation</ID>
+        <Source>The value that begins with "{0}" of the node, &lt;{1}&gt;, is longer than the smallest permitted maximum (SPM), {2}.</Source>
+        <Translation>Стойността, която започва с "{0}" в клона &lt;{1}&gt; е по-дълга от максимално позволеното (SPM){2}.</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadAttributeValue</ID>
+        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  Extra information: {3}</Source>
+        <Translation>Стойността "{0}" на атрибут {1}, в елемент &lt;{2}&gt; не е валидна. Повече информация: {3}</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadAttributeValueReplacement</ID>
+        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  It has been replaced by the default value "{3}".  Extra information: {4}</Source>
+        <Translation>Стойността "{0}" на атрибут {1}, в елемент &lt;{2}&gt; не е валидна. Заместена е със стойността по подразбиране "{3}". Повече информация: {4}</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcViolation</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by Microsoft Learning Components.  Extra information: {2}</Source>
+        <Translation>Стойността, която започва с "{0}", в атрибут {1} е по-дълга от поддържаната от Microsoft Learning Components. Повече информация: {2}</Translation>
+      </Resources>
+      <Resources>
+        <ID>ManifestNodeMissing</ID>
+        <Source>A &lt;manifest&gt; node in the correct namespace is required.</Source>
+        <Translation>Необходим е клон &lt;manifest&gt; в правилното пространство от имена.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ManifestMissing</ID>
+        <Source>A manifest is required and is not present in the package.</Source>
+        <Translation>Необходим е манифест, който липсва в пакета.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrPageIdDuplicate</ID>
+        <Source>The value of the PageID attribute, {0}, on a &lt;Page&gt; element is used more than once.  PageID's must be unique for each &lt;Page&gt; element.</Source>
+        <Translation>Стойността на атрибута PageID {0}, в елемента &lt;Page&gt; е използван повече от веднъж. PageID's трябва да е уникално за всеки &lt;Page&gt; елемент.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResourceIdentifierMissing</ID>
+        <Source>The &lt;resource&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.21, or SCORM 1.2 CAM 2.3.5.4.1.</Source>
+        <Translation>Клонът &lt;resource&gt; трябва да има атрибут идентификатор. Вижте SCORM 1.3 CAM 3.4.1.21, или SCORM 1.2 CAM 2.3.5.4.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeLengthViolation</ID>
+        <Source>The node &lt;{0}&gt; has a value that is too long for the "{1}" attribute.  It has been truncated to "{2}".</Source>
+        <Translation>Клонът &lt;{0}&gt; има твърде дълга стойност за атрибута "{1}". Намалена е до "{2}".</Translation>
+      </Resources>
+      <Resources>
+        <ID>EmptyString</ID>
+        <Source>(empty string)</Source>
+        <Translation>(празен текст)</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidTrueValuesInMapInfo</ID>
+        <Source>In multiple &lt;mapInfo&gt; nodes, true values are restricted.  See SCORM 1.3 CAM 5.1.7.1.2.</Source>
+        <Translation>В множество &lt;mapInfo&gt; клонове, стойностите истина са ограничени. Вижте SCORM 1.3 CAM 5.1.7.1.2.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ReferenceNotFound</ID>
+        <Source>The referenced node can not be found.</Source>
+        <Translation>Реферираният клон не може да бъде намерен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IllegalNegativeInteger</ID>
+        <Source>The value must be 0 or a positive integer.</Source>
+        <Translation>Стойността трябва да е 0 или положително цяло число.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ActivityResourceBadAttribute</ID>
+        <Source>A resource that belongs to an activity must have a type attribute set to "webcontent", an adlcp:scormType attribute set to "sco" or "asset", and a valid href attribute.  {0}</Source>
+        <Translation>Ресурс, който принадлежи на дейност, трябва да има атрибут за тип със стойност "webcontent", adlcp:scormType атрибут със стойност "sco" или "asset" и валиден href атрибут. {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResourceNotAllowedOnActivity</ID>
+        <Source>If an &lt;item&gt; element is a parent element, the &lt;item&gt; may not reference a &lt;resource&gt;.  See SCORM 1.3 CAM 3.4.1.9.  The full XML of the node is: {0}</Source>
+        <Translation>Ако елемент &lt;item&gt; е родителски елемент, той не може да реферира &lt;resource&gt;. Вижте SCORM 1.3 CAM 3.4.1.9. Целият XML на клона е: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupConditionConditionMissing</ID>
+        <Source>The &lt;rollupCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.6.1.2.</Source>
+        <Translation>Клонът &lt;rollupCondition&gt; трябва да има атрибут за условие. Вижте SCORM 1.3 CAM 5.1.6.1.2.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRuleConditions</ID>
+        <Source>The &lt;ruleConditions&gt; node can only appear once in the &lt;{0}&gt; node.  See SCORM 1.3 CAM 5.1.3.1.1.</Source>
+        <Translation>Клонът &lt;ruleConditions&gt; може само веднъж да се използва в &lt;{0}&gt; клон. Вижте SCORM 1.3 CAM 5.1.3.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PrimaryObjectiveMissingOrDuplicate</ID>
+        <Source>In a list of &lt;objectives&gt;, there must be one and only one &lt;primaryObjective&gt; node.</Source>
+        <Translation>В списък от цели трябва да има един &lt;primaryObjective&gt; клон.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidDuplicateNodesIgnored</ID>
+        <Source>There are multiple instances of element, &lt;{0}&gt;. All but the first are ignored. Extra information:{1}</Source>
+        <Translation>Има множество инстанции на елемент, &lt;{0}&gt;. Всички освен първият са игнорирани. Повече информация:{1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdentifier</ID>
+        <Source>The identifier is not a valid xs:ID.</Source>
+        <Translation>Идентификаторът не е валиден xs:ID.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicateMinNormalizedMeasure</ID>
+        <Source>The &lt;minNormalizedMeasure&gt; node can only appear once in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>Клонът &lt;minNormalizedMeasure&gt; може да се среща само веднъж в клона &lt;{0} objectiveID="{1}"&gt;. Вижте SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationOrganizationMissing</ID>
+        <Source>An Organization node is required for content used in Microsoft Learning Components.</Source>
+        <Translation>Клонът Organization е необходим за съдържанието, използвано в Microsoft Learning Components.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IdenticalKeyValues</ID>
+        <Source>The duplicate nodes share the same {0} value, "{1}".  The values must be different.</Source>
+        <Translation>Повтарящи се клонове ползват еднаква стойност {0}, "{1}". Стойностите трябва да са различни.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PackageCouldNotBeOpened</ID>
+        <Source>This package could not be opened. More information: {0}</Source>
+        <Translation>Този пакет не може да се отвори. Повече информация: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadXmlInManifest</ID>
+        <Source>The package contains a manifest that contains badly formed XML.</Source>
+        <Translation>Пакетът съдържа манифест, който съдържа лошо оформен XML.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ObjectiveIdMissing</ID>
+        <Source>The objective must have an objectiveID attribute.  Extra information: {0}</Source>
+        <Translation>Целта трябва да съдържа objectiveID атрибут. Повече информация: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationTruncated</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by for content used in Microsoft Learning Components.  It has been truncated to {2} characters.  Extra information: {3}</Source>
+        <Translation>Стойността, която започва с "{0}" на атрибута {1}, не се поддържа от съдържанието, използвано в Microsoft Learning Components. Намалена е на {2} символа. Повече информация: {3}</Translation>
+      </Resources>
+      <Resources>
+        <ID>PrerequisitesScriptInvalid</ID>
+        <Source>There are problems with the syntax of the prerequisite script, or a referenced identifier can not be found in the manifest.</Source>
+        <Translation>Възникнаха проблеми със синтаксиса на скрипта за предварителни условия или идентификаторът не може да бъде намерен в манифеста.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OrganizationIdentifierMissing</ID>
+        <Source>The &lt;organization&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.7, or SCORM 1.2 CAM 2.3.5.3.1.</Source>
+        <Translation>Клонът &lt;organization&gt; трябва да има атрибут идентификатор. Вижте SCORM 1.3 CAM 3.4.1.7, или SCORM 1.2 CAM 2.3.5.3.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MetadataLocationBadXml</ID>
+        <Source>The file, {0}, referenced by the location element inside of metadata in the manifest contains invalid metadata.</Source>
+        <Translation>Файлът {0}, рефериран от елемента за мястото в метаданните на манифеста съдържа невалидни метаданни.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MinNormalizedMeasureOutOfRange</ID>
+        <Source>The value is out of range [-1 to 1] on the &lt;minNormalizedMeasure&gt; node in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>Стойността е извън обхват [от -1 до 1] за клона &lt;minNormalizedMeasure&gt; в клона &lt;{0} objectiveID="{1}"&gt;. Вижте SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupActionMissing</ID>
+        <Source>The &lt;rollupAction&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
+        <Translation>Клонът &lt;rollupAction&gt; липсва в &lt;rollupRule&gt;. Вижте SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingIdMissing</ID>
+        <Source>The &lt;sequencing&gt; node in a &lt;sequencingCollection&gt; must have an ID attribute.  See SCORM 1.3 CAM 5.1.1.</Source>
+        <Translation>Клонът &lt;sequencing&gt; в &lt;sequencingCollection&gt; трябва да съдържа атрибут ID. Вижте SCORM 1.3 CAM 5.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrFixLmsViolationsNotSet</ID>
+        <Source>Unable to substitute a default value for the missing value of node &lt;{0}&gt; because the conversion process is not allowed to substitute default values for missing or erroneous values in the index.xml.</Source>
+        <Translation>Не е възможно да се замести липсващата стойност с тази по подразбиране на клона &lt;{0}&gt;, защото при конвертирането не е позволено да се заместват грешни или липсващи стойности в index.xml.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SpmViolation</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than the smallest permitted maximum (SPM), {2}.  Extra information: {3}</Source>
+        <Translation>Стойността, която започва с "{0}" на атрибута {1}, е по-дълга от максимално разрешеното {2}. Повече информация: {3}</Translation>
+      </Resources>
+      <Resources>
+        <ID>RequiredElementMissingDefault</ID>
+        <Source>The required element, &lt;{0}&gt;, is missing.  Default values will be used. Extra information:{1}</Source>
+        <Translation>Липсва задължителният елемент &lt;{0}&gt;. Ще се използват стойностите по подразбиране. Повече информация: {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>FileMissing</ID>
+        <Source>The file {0} does not exist.</Source>
+        <Translation>Файлът {0} не съществува.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IllegalAttributeInResourcePackage</ID>
+        <Source>The attribute, {1}, containing the value "{0}" on node &lt;{2}&gt; is illegal in Resource packages.</Source>
+        <Translation>Атрибутът {1}, съдържащ стойността "{0}", в клон &lt;{2}&gt; не е валиден за пакетите с ресурси.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IllegalPercentage</ID>
+        <Source>The value must be a decimal value from 0 to 1, inclusive.</Source>
+        <Translation>Стойността трябва да е десетична дроб от 0 до 1, включително.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupConditionsMissing</ID>
+        <Source>The &lt;rollupConditions&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
+        <Translation>Клонът &lt;rollupConditions&gt; липсва в &lt;rollupRule&gt;. Вижте SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingCollectionInResource</ID>
+        <Source>&lt;sequencingCollection&gt; nodes are not permitted in resource packages. This manifest is considered a resource package because it has no &lt;organization&gt; nodes.  See SCORM CAM 3.5.3.</Source>
+        <Translation>Клонове &lt;sequencingCollection&gt; не са разрешени в пакети с ресурси. Този манифест се разглежда като пакет с ресурс, защото няма &lt;organization&gt; клонове. Вижте SCORM CAM 3.5.3.</Translation>
+      </Resources>
+      <Resources>
+        <ID>FileHrefMissing</ID>
+        <Source>The &lt;file&gt; node must have an href attribute.  See SCORM 1.3 CAM 3.4.1.23, or SCORM 1.2 CAM 2.3.5.4.3.</Source>
+        <Translation>Клонът &lt;file&gt; трябва да има атрибут href. Вижте SCORM 1.3 CAM 3.4.1.23, или SCORM 1.2 CAM 2.3.5.4.3.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OrganiztionTitleMissing</ID>
+        <Source>The &lt;title&gt; node is missing on the &lt;organization&gt; node with identifier="{0}".  See SCORM 1.3 CAM 3.4.1.8, or SCORM 1.2 CAM 2.3.5.3.1.1.</Source>
+        <Translation>Клонът &lt;title&gt; липсва в клона &lt;organization&gt; с идентификатор="{0}". Вижте SCORM 1.3 CAM 3.4.1.8 или SCORM 1.2 CAM 2.3.5.3.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidDuplicateNodes</ID>
+        <Source>UA !There are multiple instances of element, &lt;{0}&gt;. Extra information:{1}</Source>
+        <Translation>Срещат се множество инстанции на елемент &lt;{0}&gt;. Повече информация: {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>ConvertedUriSpaces</ID>
+        <Source>The "{0}" value of attribute, {1}, on element &lt;{2}&gt; contains spaces, which are invalid URI characters.  This URI is still being allowed, but the package may not work as expected.</Source>
+        <Translation>Стойността {0}" на атрибута {1}, в елемент &lt;{2}&gt;, съдържа интервали, които не са валидни URI символи. Този URI е позволен, но пакетът може да не функционира според очакваното.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OrphanedFile</ID>
+        <Source>The file {0} is not referenced in the manifest.</Source>
+        <Translation>Файлът {0} не е рефериран в манифеста.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RequiredElementMissing</ID>
+        <Source>The required element, &lt;{0}&gt;, is missing. Extra information:{1}</Source>
+        <Translation>Липсва задължителният елемент &lt;{0}&gt;. Повече информация:{1}</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>DataModelElementTooLong</ID>
+        <Source>Data model element '{0}' was passed a value that exceeded the supported length.</Source>
+        <Translation>Елементът с модел на данни '{0}' съдържа стойност, която надвишава максимално позволената.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionBadZipFile</ID>
+        <Source>The package compression format is not supported.</Source>
+        <Translation>Форматът на компресия на пакета не се поддържа.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingFlowingTo</ID>
+        <Source>Sequencing is flowing to activity '{0}'.</Source>
+        <Translation>Последователността води до дейност '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionNoFile</ID>
+        <Source>The .zip file cannot be found.</Source>
+        <Translation>Не може да бъде намерен .zip файлът.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_PropertyCannotBeNull</ID>
+        <Source>The value cannot be set to null.</Source>
+        <Translation>Стойността не може да е нула.</Translation>
+      </Resources>
+      <Resources>
+        <ID>UTIL_ParamIsEmptyString</ID>
+        <Source>A parameter contains an empty string, which is not allowed. </Source>
+        <Translation>Параметър съдържа празен текст, което не е позволено. </Translation>
+      </Resources>
+      <Resources>
+        <ID>UnauthorizedAccess</ID>
+        <Source>The requested item, {0}, can not be accessed.</Source>
+        <Translation>Нужният елемент {0} не може да бъде намерен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>UniqueIdNotSupported</ID>
+        <Source>No unique identifiers are defined for items in this list.</Source>
+        <Translation>Няма дефинирани идентификатори за елементите в този списък.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__8</ID>
+        <Source>Choice Exit Sequencing Control Mode violation.</Source>
+        <Translation>Choice Exit Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__9</ID>
+        <Source>No activities to consider.</Source>
+        <Translation>Няма дейности за разглеждане.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__2</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Текущата дейност не е дефинирана. Изпълнението не е започнало.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__3</ID>
+        <Source>A suspended activity is not defined.</Source>
+        <Translation>Не е дефинирана преустановена дейност.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__1</ID>
+        <Source>A current activity is already defined. The sequencing session has already begun.</Source>
+        <Translation>Текущата дейност вече е дефинирана. Изпълнението е започнало.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__6</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Няма дейност преди основната.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__7</ID>
+        <Source>Unsupported navigation request.</Source>
+        <Translation>Невалидна заявка за преход.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__4</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Flow Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__5</ID>
+        <Source>Flow or Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Flow or Forward Only Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupChildMissingPrimaryObjective</ID>
+        <Source>Rollup aborted because child activity '{0}' does not have a primary objective.</Source>
+        <Translation>Събирането е прекъснато, защото дъщерната дейност '{0}' няма основна дейност.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestRetryAll</ID>
+        <Source>RetryAll</Source>
+        <Translation>RetryAll</Translation>
+      </Resources>
+      <Resources>
+        <ID>DB_2__1</ID>
+        <Source>Identified activity is already active.</Source>
+        <Translation>Определената дейност вече е активна.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ReadError</ID>
+        <Source>Read error.</Source>
+        <Translation>Грешка при четене.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPreConditionSkipped</ID>
+        <Source>Activity '{0}' skipped because its pre-condition Skip rules evaluated as true.</Source>
+        <Translation>Дейността '{0}' е пропусната, защото предварителните условия за пропускане са изпълнени.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageReaderErrorState</ID>
+        <Source>The ZipPackageReader has encountered an error and cannot continue.</Source>
+        <Translation>ZipPackageReader срещна грешка и не може да продължи.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AlreadyInList</ID>
+        <Source>The item specified is already added to this or another list belonging to this data model.</Source>
+        <Translation>Посоченият елемент вече е добавен към този или друг списък в модела с данни.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupInitiated</ID>
+        <Source>Rollup initiated for activity '{0}'.</Source>
+        <Translation>Поставено е началото на дейност '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DRLO_CurrentActivityEntryPointIsAbsolute</ID>
+        <Source>The entry point of the current activity is not contained within this package.</Source>
+        <Translation>Входната точка на текущата дейност не се намира в този пакет.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestRetry</ID>
+        <Source>Retry</Source>
+        <Translation>Retry</Translation>
+      </Resources>
+      <Resources>
+        <ID>EndOfStream</ID>
+        <Source>End of stream reached.</Source>
+        <Translation>Достигнат край на потока.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NoIdentifier</ID>
+        <Source>A required identifier was not provided for this element.</Source>
+        <Translation>Необходимият идентификатор за този елемент липсва.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestExitAll</ID>
+        <Source>ExitAll</Source>
+        <Translation>ExitAll</Translation>
+      </Resources>
+      <Resources>
+        <ID>StreamMustReadAndSeek</ID>
+        <Source>Stream must have read and seek capability.</Source>
+        <Translation>Потокът трябва да има възможност за четене и търсене.</Translation>
+      </Resources>
+      <Resources>
+        <ID>KeyDoesNotMatchItem</ID>
+        <Source>The key specified '{0}' does not match the identifier within the item to be added to the dictionary '{1}'.</Source>
+        <Translation>Ключът '{0}' не съвпада с идентификатора в елемента, който ще се добавя в речника '{1}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleResult</ID>
+        <Source>Sequencing Post Condition rule on activity '{0}' resulted in a {1} request.</Source>
+        <Translation>Sequencing Post Condition правило на дейността '{0}' води до заявка {1} .</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_StringCannotBeEmpty</ID>
+        <Source>The value cannot be set to an empty or null string.</Source>
+        <Translation>Стойността не може да бъде празен текст.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_ReactivateNotValid</ID>
+        <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
+        <Translation>Не е коректно да се активира отново текущата сесия. Само изпълнени или отхвърлени сесии в RandomAccess режим могат да бъдат активирани отново.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_ExitNotValid</ID>
+        <Source>It is not valid to exit the current session. Only a session that has started may be exited, and only in Execute view.</Source>
+        <Translation>Не е коректно да се напусне текущата сесия. Само сесия, която е започнала и е в режим на изпълнение може да се напусне.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CannotDeletePrimaryObjective</ID>
+        <Source>Cannot remove or replace the primary objective.</Source>
+        <Translation>Не може да се премахне или промени основната цел.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CurrentActiveActivityRequired</ID>
+        <Source>A CurrentActivity that is active is required to exist before requesting this operation.</Source>
+        <Translation>CurrentActivity, която е активна трябва да съществува, преди обращение към тази операция.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CannotChangeId</ID>
+        <Source>Cannot change the identifier if an item in a dictionary.  Try removing the item, changing the identifier, then re-adding it.</Source>
+        <Translation>Не може да се промени идентификаторът, ако е елемент от речник. Опитайте се да премахнете елемента, да промените идентификатора и да го добавите отново.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OnlyValidForSCORMV1p3</ID>
+        <Source>The '{0}' data model element is only valid in SCORM 2004 packages.</Source>
+        <Translation>Елементът '{0}'от модела на данни е валиден само за SCORM 2004 пакети.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OnlyValidForSCORMV1p2</ID>
+        <Source>The '{0}' data model element is only valid in SCORM 1.2 packages.</Source>
+        <Translation>Елементът '{0}'от модела на данни е валиден само за SCORM 1.2 пакети.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IndexOutOfRange</ID>
+        <Source>The index is out of range.</Source>
+        <Translation>Индексът е извън обхват.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestExitParent</ID>
+        <Source>ExitParent</Source>
+        <Translation>ExitParent</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_ResourceNotInPackage</ID>
+        <Source>The current activity in the session defines an entry point that does not exist in the package. The content cannot be read.</Source>
+        <Translation>Текущата дейност в сесията определя входна точка, която не съществува в пакета. Съдържанието не може да бъде прочетено.</Translation>
+      </Resources>
+      <Resources>
+        <ID>WrongDataModel</ID>
+        <Source>An object created for use by a different data model cannot be added to this data model.</Source>
+        <Translation>Обект, създаден за работа с различен модел на данни не може да се добави към този модел.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_ResumeNotValid</ID>
+        <Source>It is not valid to resume the current session. Only a suspended session may be resumed, and only in Execute view.</Source>
+        <Translation>Не е коректно да се подновява текущата сесия. Само престановени сесии в режим на изпълнение могат да се подновяват.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_SuspendNotValid</ID>
+        <Source>It is not valid to suspend the current session. Only an active session may be suspended, and only in Execute view.</Source>
+        <Translation>Не е коректно да се преустановява текущата сесия. Само активна сесия в режим на изпълнение може да се преустановява.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ImsManifestXmlMissing</ID>
+        <Source>The package is missing the required file, imsmanifest.xml.</Source>
+        <Translation>Пакетът не съдържа нужния файл, imsmanifest.xml.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DirectoryNotFound</ID>
+        <Source>The requested directory, {0}, can not be found.</Source>
+        <Translation>Директорията {0} не може да бъде намерена.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ListCannotBeModified</ID>
+        <Source>The list cannot be modified.</Source>
+        <Translation>Списъкът не може да се променя.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__13</ID>
+        <Source>Undefined navigation request.</Source>
+        <Translation>Неопределен преход.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__12</ID>
+        <Source>The current activty is already terminated.</Source>
+        <Translation>Текущата дейност вече е спряна.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__11</ID>
+        <Source>Target activity does not exist.</Source>
+        <Translation>Дейността не съществува.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__10</ID>
+        <Source>Choice Sequencing Control Mode violation.</Source>
+        <Translation>Choice Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_RelativePathRequired</ID>
+        <Source>The RenderContext.RelativePath must have a value.</Source>
+        <Translation>RenderContext.RelativePath трябва да съдържа стойност.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrmNoManifest</ID>
+        <Source>An error occurred while unbundling the file. The Index.xml or imsmanifest.xml file cannot be found.</Source>
+        <Translation>Възникна грешка при разпакетирането на файла. Index.xml или imsmanifest.xml не могат да бъдат открити.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NonUniqueId</ID>
+        <Source>An item with the identifier '{0}' already exists in this list.</Source>
+        <Translation>Вече съществува елемент с идентификатор '{0}' в този списък.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PackageFileNotFound</ID>
+        <Source>The requested file was not found in the package.</Source>
+        <Translation>Файлът не е намерен в пакета.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidScormV1p3Value</ID>
+        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 2004 specifications.</Source>
+        <Translation>Елементът '{0}' от модела на данни съдържа стойност, която е извън обхват според SCORM 2004 спецификациите.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestContinue</ID>
+        <Source>Continue</Source>
+        <Translation>Continue</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrmUnknownFormat</ID>
+        <Source>An error occurred while unbundling the file. Unable to determine the file format.</Source>
+        <Translation>Възникна грешка при разпакетирането на файла. Не може да се определи файловият формат.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NavigationFinishedNewActivity</ID>
+        <Source>Navigation resulted in making '{0}' the current active activity.</Source>
+        <Translation>Навигацията определи '{0}' като текуща активна дейност.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrmMultiNotSupported</ID>
+        <Source>An error occurred while unbundling the file. A file with multiple Learning Resources is not supported.</Source>
+        <Translation>Възникна грешка при разпакетирането на файла. Файл с множество учебни ресурси не се поддържа.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RequredObjectiveNotFound</ID>
+        <Source>Sequencing cannot proceed because the required objective '{0}' was not found.</Source>
+        <Translation>Изпълнението не може да продължи, защото целта '{0}' не е открита.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidScormV1p2Value</ID>
+        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 1.2 specifications.</Source>
+        <Translation>Елементът '{0}' от модела на данни съдържа стойност, която е извън обхват според SCORM 1.2 спецификациите.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CantWriteToDataModel</ID>
+        <Source>This LearningDataModel object may not be written to.</Source>
+        <Translation>В този LearningDataModel обект не може да се пише.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidExtensionType</ID>
+        <Source>Unsupported type '{0}' added to extension data.</Source>
+        <Translation>Невалиден тип '{0}' е добавен към разширението.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupSettingNormalizedMeasure</ID>
+        <Source>Rollup setting normalized measure to {0} for activity '{1}'.</Source>
+        <Translation>Настройката нормализира измерването на {0} за дейност '{1}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DRLO_InvalidRelativePath</ID>
+        <Source>The relativePath value '{0}' does not represent a valid, package-relative path.</Source>
+        <Translation>relativePath стойността '{0}' не представя валиден път, свързан с пакет.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PackageDirectoryAlreadyExists</ID>
+        <Source>Cannot copy to '{0}' because a file or directory with the same name already exists. This operation can only copy to a destination that does not yet exist.  It will create the destination directory.</Source>
+        <Translation>Не може да се копира в '{0}', защото файл или директория със същото име вече съществува. Тази операция може само да насочи копирането към новосъздадена директория.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NavigationFinishedDone</ID>
+        <Source>Navigation complete.  No current activity.</Source>
+        <Translation>Навигацията е изпълнена. Няма текуща дейност.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingExitRuleExecuted</ID>
+        <Source>Sequencing Exit rule requires that activity '{0}' terminate.</Source>
+        <Translation>Sequencing Exit правилото изисква дейността '{0}' да спре.</Translation>
+      </Resources>
+      <Resources>
+        <ID>UniqueIdNotFound</ID>
+        <Source>No item with the identifier '{0}' was found in this list.</Source>
+        <Translation>Няма елемент с идентификатор '{0}' в този списък.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionDefault</ID>
+        <Source>Error code: {0}</Source>
+        <Translation>Код на грешка: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CurrentActivityRequired</ID>
+        <Source>A CurrentActivity is required to exist before requesting this operation.</Source>
+        <Translation>Необходима е CurrentActivity, преди да се изпълни тази операция.</Translation>
+      </Resources>
+      <Resources>
+        <ID>WrongNameTable</ID>
+        <Source>The object is not in the correct NameTable.</Source>
+        <Translation>Обектът не е в правилната NameTable.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__3</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Flow Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__2</ID>
+        <Source>The current activity is active or suspended.</Source>
+        <Translation>Текущата дейност е активна или преустановена.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Не е дефинирана текуща дейност. Изпълнението не е започнало.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_12__1</ID>
+        <Source>Undefined sequencing request.</Source>
+        <Translation>Неопределена заявка за последователност.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_11__2</ID>
+        <Source>The current activity has not been terminated.</Source>
+        <Translation>Текущата дейност не е спряна.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_11__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Не е дефинирана текуща дейност. Изпълнението не е започнало.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestPrevious</ID>
+        <Source>Previous</Source>
+        <Translation>Previous</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__2</ID>
+        <Source>The Current activity already terminated.</Source>
+        <Translation>Текущата дейност вече е преустановена.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__3</ID>
+        <Source>Cannot suspend an inactive root.</Source>
+        <Translation>Не може да се преустанови неактивен корен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__1</ID>
+        <Source>A Current Activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Не е дефинирана текуща дейност. Изпълнението не е започнало.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__6</ID>
+        <Source>Nothing to abandon; no active activities.</Source>
+        <Translation>Няма нищо за отхвърляне; няма активни дейности.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__7</ID>
+        <Source>Undefined termination request.</Source>
+        <Translation>Неопределена заявка за прекъсване.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__4</ID>
+        <Source>Activity tree root has no parent.</Source>
+        <Translation>Коренът на дървото с дейности няма родител.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__5</ID>
+        <Source>Nothing to suspend; no active activities.</Source>
+        <Translation>Няма нищо за преустановяване; няма активни дейности.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_6__1</ID>
+        <Source>A current activity is defined. The sequencing session already begun.</Source>
+        <Translation>Текущата дейност е дефинирана. Изпълнението вече е започнало.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_6__2</ID>
+        <Source>No Suspended Activity defined.</Source>
+        <Translation>Не е дефинирана преустановена дейност.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_5__1</ID>
+        <Source>A current activity is defined. The sequencing session already begun.</Source>
+        <Translation>Текущата деност е дефинирана. Изпълнението вече е започнало.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_2__1</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Flow Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_2__2</ID>
+        <Source>Activity unavailable.</Source>
+        <Translation>Дейността не е достъпна.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_7__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Текущата дейност не е дефинирана. Изпълнението не е започнало.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_7__2</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Flow Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__2</ID>
+        <Source>Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Forward Only Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__3</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Няма дейност преди основната.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__1</ID>
+        <Source>Forward Traversal Blocked.</Source>
+        <Translation>Forward Traversal е блокирано.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__4</ID>
+        <Source>Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Forward Only Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__3</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Няма дейност преди основната.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__2</ID>
+        <Source>Cluster has no available children.</Source>
+        <Translation>Клъстерът няма достъпни деца.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__1</ID>
+        <Source>Last activity in the tree.</Source>
+        <Translation>Последна дейност в дървото.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__9</ID>
+        <Source>Choice request prevented by Flow-only activity.</Source>
+        <Translation>Изборът е предотвратен от Flow-only дейност.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__8</ID>
+        <Source>Unable to choose target activity - constrained choice.</Source>
+        <Translation>Не може да се определи дейност - объркване.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__7</ID>
+        <Source>Choice Exit Sequencing Control Mode violation.</Source>
+        <Translation>Choice Exit Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__6</ID>
+        <Source>Unable to activate target; target is not a child of the Current Activity.</Source>
+        <Translation>Не може да се активира целта; не е дъщерна на текущата дейност.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__5</ID>
+        <Source>No activities to consider.</Source>
+        <Translation>Няма дености за разглеждане.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__4</ID>
+        <Source>Choice Sequencing Control Mode violation.</Source>
+        <Translation>Choice Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__3</ID>
+        <Source>Target activity hidden from choice.</Source>
+        <Translation>Дейността е скрита.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__2</ID>
+        <Source>Target activity does not exist or is unavailable.</Source>
+        <Translation>Дейността не съществува или не е достъпна.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__1</ID>
+        <Source>No target for Choice.</Source>
+        <Translation>Няма цел за избор.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_8__2</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Flow Sequencing Control Mode нарушение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_8__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Текущата дейност не е дефинирана. Изпълнението не е започнало.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__3</ID>
+        <Source>Activity unavailable.</Source>
+        <Translation>Дейността не е достъпна.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__2</ID>
+        <Source>Nothing to deliver.</Source>
+        <Translation>Нищо за показване.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__1</ID>
+        <Source>Cannot deliver a non-leaf activity.</Source>
+        <Translation>Не може да се предостави дейност.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_AbandonNotValid</ID>
+        <Source>It is not valid to abandon the current session. Only an active or suspended session may be abandoned, and only in Execute view.</Source>
+        <Translation>Не е коректно да се отхвърля текущата сесия. Само активна или преустановена сесия може да се отхвърля и само в режим на изпълнение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_CantRenderManifest</ID>
+        <Source>The requested manifest file cannot be rendered.</Source>
+        <Translation>Манифест файлът не може да бъде обработен.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Properties.AIResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.AIResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CorrectAnswerSeparatorHtml</ID>
+        <Source> or </Source>
+        <Translation> или </Translation>
+      </Resources>
+      <Resources>
+        <ID>HeadExecuteViewScript</ID>
+        <Source>&lt;script language="javascript"&gt;
+var ECS_ViewType=2;
+
+ //=============================================================================
+ //  Handles calls to detach an attached file.  The id of this question will
+ //  be sent in the hidDetach field.   At the server end, if this value is
+ //  non-zero, then there is a file to be detached..
+
+function OnDetach( attachmentId )
+{
+	// attachmentId is of the form &lt;interactionId&gt;*A*&lt;attachmentOrdinal&gt;
+
+	var oForm = document.forms["frmPage"];
+	oForm.elements["hidDetach"].value = attachmentId;
+	oForm.submit();
+}
+&lt;/script&gt;</Source>
+        <Translation>&lt;script language="javascript"&gt;
+var ECS_ViewType=2;
+
+ //=============================================================================
+ //  Handles calls to detach an attached file.  The id of this question will
+ //  be sent in the hidDetach field.   At the server end, if this value is
+ //  non-zero, then there is a file to be detached..
+
+function OnDetach( attachmentId )
+{
+	// attachmentId is of the form &lt;interactionId&gt;*A*&lt;attachmentOrdinal&gt;
+
+	var oForm = document.forms["frmPage"];
+	oForm.elements["hidDetach"].value = attachmentId;
+	oForm.submit();
+}
+&lt;/script&gt;</Translation>
+      </Resources>
+      <Resources>
+        <ID>StudentNotSelectedHtml</ID>
+        <Source>Not selected</Source>
+        <Translation>Не е избран</Translation>
+      </Resources>
+      <Resources>
+        <ID>ChooseFileToAttachHtml</ID>
+        <Source>Choose a file to attach:</Source>
+        <Translation>Изберете файл за добавяне:</Translation>
+      </Resources>
+      <Resources>
+        <ID>MissingFormField</ID>
+        <Source>The form field, {0}, is missing.</Source>
+        <Translation>Полето {0} липсва.</Translation>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedCorrectHtml</ID>
+        <Source>Correct answer</Source>
+        <Translation>Верен отговор</Translation>
+      </Resources>
+      <Resources>
+        <ID>FileNotFound</ID>
+        <Source>A requested file could not be found.</Source>
+        <Translation>Файлът не може да бъде намерен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NoFileAttachedHtml</ID>
+        <Source>No file attached.</Source>
+        <Translation>Няма прикачен файл.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IncorrectAnswerHtml</ID>
+        <Source>Incorrect answer</Source>
+        <Translation>Грешен отговор</Translation>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedIncorrectHtml</ID>
+        <Source>Incorrect answer</Source>
+        <Translation>Грешен отговор</Translation>
+      </Resources>
+      <Resources>
+        <ID>DetachFileHtml</ID>
+        <Source>Detach File</Source>
+        <Translation>Премахни файла</Translation>
+      </Resources>
+      <Resources>
+        <ID>FileAttachmentNotFound</ID>
+        <Source>A requested file attachment could not be found.</Source>
+        <Translation>Заявеният прикрепен файл не може да бъде намерен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ViewFileHtml</ID>
+        <Source>View File</Source>
+        <Translation>Покажи файла</Translation>
+      </Resources>
+      <Resources>
+        <ID>HeadGradingViewScript</ID>
+        <Source>&lt;script language="javascript" type="text/javascript"&gt;
+var ECS_ViewType=6;
+
+function mlc_RoundTwoDecimalPlaces(val)
+{
+	return (Math.round( val * 100 ) / 100);
+}
+
+function mlc_CultureStringToDouble(score)
+{
+	var re = new RegExp( "^[\\+\\-]?[0-9]*(\\x&lt;%=DecimalSeparatorHex%&gt;)?[0-9]*$" );
+	var check = score.match(re);
+	if( check == null ) return NaN;
+	else return parseFloat(score.replace( "&lt;%=DecimalSeparator%&gt;", "." ));
+}
+
+function mlc_DoubleToCultureString(dbl)
+{
+	// convert a double into a string, using the supplied decimal separator.
+	return dbl.toString(10).replace( ".", "&lt;%=DecimalSeparator%&gt;" );
+}
+
+function mlc_ValidateScore(itemscore)
+{
+	var score = itemscore.value.replace(/^\s+|\s+$/g, "");
+	var scoreAsFloat = mlc_CultureStringToDouble(score);
+	if( isNaN(scoreAsFloat) || scoreAsFloat &lt; -1000 || scoreAsFloat &gt; 1000 )
+	{
+		if( score != "" )
+		{
+			alert(&lt;%=ScoreOutOfRange%&gt;); 
+			setTimeout( "document.forms[\"&lt;%=FormId%&gt;\"].elements[\"" + itemscore.id + "\"].select()", 1 );
+			return false;
+		}
+	}
+	else
+	{
+		itemscore.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces( scoreAsFloat ));
+		return true;
+	}
+}
+
+function mlc_ValidateComment(commentField)
+{
+    if( commentField.innerText.length &gt; &lt;%=MaxCommentLength%&gt; )
+    {
+        alert(&lt;%=CommentTooLong%&gt;);
+        setTimeout( "document.forms[\"&lt;%=FormId%&gt;\"].elements[\"" + commentField.id + "\"].select()", 1 );
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+function mlc_RubricClick(checkbox, itemscoreName)
+{
+	// increment or decrement the corresponding ITEMSCORE.  Note that a blank ITEMSCORE is the same as 0.
+	var scoreTextBox = document.forms["&lt;%=FormId%&gt;"].elements[itemscoreName];
+	var scoreAsFloat = mlc_CultureStringToDouble(scoreTextBox.value);
+	var deltaScoreAsFloat = mlc_CultureStringToDouble(checkbox.value);
+	if( isNaN(scoreAsFloat) ) scoreAsFloat = 0;
+	if( isNaN(deltaScoreAsFloat) ) deltaScoreAsFloat = 0;
+	if( checkbox.checked )
+	{
+		scoreTextBox.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces(scoreAsFloat + deltaScoreAsFloat));
+	}
+	else
+	{
+		scoreTextBox.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces(scoreAsFloat - deltaScoreAsFloat));
+	}
+	scoreTextBox.select();
+}
+&lt;/script&gt;</Source>
+        <Translation>&lt;script language="javascript" type="text/javascript"&gt;
+var ECS_ViewType=6;
+
+function mlc_RoundTwoDecimalPlaces(val)
+{
+	return (Math.round( val * 100 ) / 100);
+}
+
+function mlc_CultureStringToDouble(score)
+{
+	var re = new RegExp( "^[\\+\\-]?[0-9]*(\\x&lt;%=DecimalSeparatorHex%&gt;)?[0-9]*$" );
+	var check = score.match(re);
+	if( check == null ) return NaN;
+	else return parseFloat(score.replace( "&lt;%=DecimalSeparator%&gt;", "." ));
+}
+
+function mlc_DoubleToCultureString(dbl)
+{
+	// convert a double into a string, using the supplied decimal separator.
+	return dbl.toString(10).replace( ".", "&lt;%=DecimalSeparator%&gt;" );
+}
+
+function mlc_ValidateScore(itemscore)
+{
+	var score = itemscore.value.replace(/^\s+|\s+$/g, "");
+	var scoreAsFloat = mlc_CultureStringToDouble(score);
+	if( isNaN(scoreAsFloat) || scoreAsFloat &lt; -1000 || scoreAsFloat &gt; 1000 )
+	{
+		if( score != "" )
+		{
+			alert(&lt;%=ScoreOutOfRange%&gt;); 
+			setTimeout( "document.forms[\"&lt;%=FormId%&gt;\"].elements[\"" + itemscore.id + "\"].select()", 1 );
+			return false;
+		}
+	}
+	else
+	{
+		itemscore.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces( scoreAsFloat ));
+		return true;
+	}
+}
+
+function mlc_ValidateComment(commentField)
+{
+    if( commentField.innerText.length &gt; &lt;%=MaxCommentLength%&gt; )
+    {
+        alert(&lt;%=CommentTooLong%&gt;);
+        setTimeout( "document.forms[\"&lt;%=FormId%&gt;\"].elements[\"" + commentField.id + "\"].select()", 1 );
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+function mlc_RubricClick(checkbox, itemscoreName)
+{
+	// increment or decrement the corresponding ITEMSCORE.  Note that a blank ITEMSCORE is the same as 0.
+	var scoreTextBox = document.forms["&lt;%=FormId%&gt;"].elements[itemscoreName];
+	var scoreAsFloat = mlc_CultureStringToDouble(scoreTextBox.value);
+	var deltaScoreAsFloat = mlc_CultureStringToDouble(checkbox.value);
+	if( isNaN(scoreAsFloat) ) scoreAsFloat = 0;
+	if( isNaN(deltaScoreAsFloat) ) deltaScoreAsFloat = 0;
+	if( checkbox.checked )
+	{
+		scoreTextBox.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces(scoreAsFloat + deltaScoreAsFloat));
+	}
+	else
+	{
+		scoreTextBox.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces(scoreAsFloat - deltaScoreAsFloat));
+	}
+	scoreTextBox.select();
+}
+&lt;/script&gt;</Translation>
+      </Resources>
+      <Resources>
+        <ID>BrowseHtml</ID>
+        <Source>Browse...</Source>
+        <Translation>Преглед...</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidType</ID>
+        <Source>The type attribute has an invalid value in the assessment markup: {0}</Source>
+        <Translation>Атрибутът за тип съдържа невалидна стойност: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InstructorCommentsColonHtml</ID>
+        <Source>Instructor comments:</Source>
+        <Translation>Коментари на инструктора:</Translation>
+      </Resources>
+      <Resources>
+        <ID>Unanswered</ID>
+        <Source>&lt;Unanswered&gt;</Source>
+        <Translation>&lt;Не е отговорено&gt;</Translation>
+      </Resources>
+      <Resources>
+        <ID>InstructorCommentTooLong</ID>
+        <Source>"The text entered is formatted incorrectly or greater than the maximum {0} characters."</Source>
+        <Translation>"Въведеният текст не е форматиран коректно или е по-дълъг от {0} символа."</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidOptionValue</ID>
+        <Source>The posted &lt;option&gt; value, {0}, is out of range for the &lt;select&gt; tag with name="{1}".</Source>
+        <Translation>Публикуваната &lt;option&gt; стойност {0} е извън обхват за тагът &lt;select&gt; с име="{1}".</Translation>
+      </Resources>
+      <Resources>
+        <ID>ReviewViewScript</ID>
+        <Source>&lt;script language="javascript"&gt;
+var ECS_ViewType=4;
+&lt;/script&gt;</Source>
+        <Translation>&lt;script language="javascript"&gt;
+var ECS_ViewType=4;
+&lt;/script&gt;</Translation>
+      </Resources>
+      <Resources>
+        <ID>NoScoreHtml</ID>
+        <Source>--</Source>
+        <Translation>--</Translation>
+      </Resources>
+      <Resources>
+        <ID>CorrectAnswerHtml</ID>
+        <Source>Correct answer</Source>
+        <Translation>Верен отговор</Translation>
+      </Resources>
+      <Resources>
+        <ID>ViewTheAttachedFileHtml</ID>
+        <Source>View the attached file.</Source>
+        <Translation>Покажи добавения файл.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidFormFieldValue</ID>
+        <Source>The value, {0}, of the form field, {1}, is invalid.</Source>
+        <Translation>Стойността {0}, на полето {1}, не е валидна.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ScoreOutOfRange</ID>
+        <Source>"The score entered is formatted incorrectly or outside the allowable range of -1000 to 1000."</Source>
+        <Translation>"Стойноста не е въведена коректно или е извън стойностите от -1000 до 1000."</Translation>
+      </Resources>
+      <Resources>
+        <ID>CorrectAnswerColonHtml</ID>
+        <Source>Correct answer:</Source>
+        <Translation>Верен отговор:</Translation>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedHtml</ID>
+        <Source>Selected</Source>
+        <Translation>Избран</Translation>
+      </Resources>
+      <Resources>
+        <ID>StudentNotSelectedIncorrectHtml</ID>
+        <Source>This is the correct answer but it was not selected</Source>
+        <Translation>Това е верния отговор, но не беше избран</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttachedFileHtml</ID>
+        <Source>There is an attached {0} file.</Source>
+        <Translation>Има добавен файл {0}.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ReplaceFileHtml</ID>
+        <Source>Replace the attached file with another file:</Source>
+        <Translation>Замести добавения файл с друг:</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidId</ID>
+        <Source>The value of the id is invalid in the assessment markup: {0}</Source>
+        <Translation>Стойността на идентификатора не е валидна: {0}</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>
