@@ -36,7 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.LearningComponents.Compression, Version=1.0.0.0, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94, processorArchitecture=x86">
+    <Reference Include="Microsoft.LearningComponents.Compression, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\dev\SLK.SDK\Release\Microsoft.LearningComponents.Compression.dll</HintPath>
     </Reference>

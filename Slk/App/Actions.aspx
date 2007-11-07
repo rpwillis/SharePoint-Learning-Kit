@@ -1,8 +1,8 @@
 ﻿<%-- Copyright (c) Microsoft Corporation. All rights reserved. --%>
 
-<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94" %>
+<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
 <%@ Page Language="C#" Inherits="Microsoft.SharePointLearningKit.ApplicationPages.ActionsPage" MasterPageFile="~/_layouts/application.master" ValidateRequest="False" %>
-<%@ Register TagPrefix="slk" Namespace="Microsoft.SharePointLearningKit.WebControls" assembly="Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94" %>
+<%@ Register TagPrefix="slk" Namespace="Microsoft.SharePointLearningKit.WebControls" assembly="Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderPageTitle" runat="server">
 	<asp:Literal runat="server" ID="pageTitle" EnableViewState="false" />

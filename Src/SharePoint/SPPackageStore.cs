@@ -140,7 +140,7 @@ namespace Microsoft.LearningComponents.SharePoint
             return GetPackageReader(packageId, packageLocation);
         }
 
-        protected override internal PackageReader GetPackageReader(PackageItemIdentifier packageId, string packageLocation)
+        protected internal override PackageReader GetPackageReader(PackageItemIdentifier packageId, string packageLocation)
         {
             return new SharePointPackageStoreReader(this, packageId, packageLocation);
         }
