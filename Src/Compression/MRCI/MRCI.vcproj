@@ -67,8 +67,8 @@
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				TargetMachine="1"
-				KeyFile="..\..\Shared\SlkPublicKey.snk"
-				DelaySign="true"
+				KeyFile="..\..\Shared\SlkKey.snk"
+				DelaySign="false"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -145,8 +145,8 @@
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				TargetMachine="17"
-				KeyFile="..\..\Shared\SlkPublicKey.snk"
-				DelaySign="true"
+				KeyFile="..\..\Shared\SlkKey.snk"
+				DelaySign="false"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -221,8 +221,8 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
-				KeyFile="..\..\Shared\SlkPublicKey.snk"
-				DelaySign="true"
+				KeyFile="..\..\Shared\SlkKey.snk"
+				DelaySign="false"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -298,8 +298,8 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				TargetMachine="17"
-				KeyFile="..\..\Shared\SlkPublicKey.snk"
-				DelaySign="true"
+				KeyFile="..\..\Shared\SlkKey.snk"
+				DelaySign="false"
 			/>
 			<Tool
 				Name="VCALinkTool"

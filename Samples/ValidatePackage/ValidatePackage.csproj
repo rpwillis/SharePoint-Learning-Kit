@@ -28,7 +28,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.LearningComponents, Version=1.0.705.0, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.LearningComponents, Version=1.0.705.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Debug\Microsoft.LearningComponents.dll</HintPath>
     </Reference>

@@ -11,6 +11,20 @@ This directory and its subdirectories contain files needed to install the ShareP
 Note: Several executables in this directory tree, including slkadm.exe, won't work until SLK has
 been installed.
 
++--------------------------------------------------------------------------------------------------
+| Special Instructions: Upgrading to 1.3+ from an earlier build
++--------------------------------------------------------------------------------------------------
+
+Due to the change in the signing key in SLK 1.3, SLK must be reconfigured after upgrading.  To
+upgrade to this release, use the steps:
+
+  1.  Follow 2.1. Upgrade the SLK solution in GettingStarted.pdf.
+  2.  Follow 3.2.2. Configure SLK
+  3.  Follow 3.2.3. with the change that you first de-activate SharePoint Learning Kit and then
+      re-activate.
+  3.  Per 3.2.3. Remove the Assignment WebPart from the Gallery.
+  4.  Per 3.2.3. Re-add the Assignment WebPart to the Gallery.
+  5.  Per 3.2.3. Add the My Assignments WebPart to the Site.
 
 +--------------------------------------------------------------------------------------------------
 | To Install SharePointLearningKit.wsp into SharePoint

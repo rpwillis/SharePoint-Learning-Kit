@@ -21,8 +21,8 @@ NONINFRINGEMENT FOR THE SOURCE CODE. --%>
   --%>
 
 <%-- NOTE: If this page displays "File Not Found", check the build number (1.0.nnn.0) below --%>
-<%@ Assembly Name="Microsoft.LearningComponents.Storage, Version=%VERSION4%, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94" %>
-<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94" %>
+<%@ Assembly Name="Microsoft.LearningComponents.Storage, Version=%VERSION4%, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
+<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
 <%@ Assembly Name="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Page Language="C#" MasterPageFile="~/_layouts/application.master" ValidateRequest="False" %>
 <%@ Import namespace="System.Data" %>

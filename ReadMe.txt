@@ -102,20 +102,6 @@ To build SLK, you first need to do some one-time configuration (if not done alre
      computer you're developing on; you can modify the instructions if SQL Server is on a different
      computer.
 
-  -- Make sure gacutil.exe is in your Windows PATH environment variable.  (It's not sufficient for
-     it to be in a command shell PATH.)
-
-  -- Run the batch file C:\dev\SLK\SkipVerification.bat.  Warning: this will disable strong name
-     verification for all assemblies that use SLK's public key token ("abc4ed181d6d6a94").
-     However, if you don't do this step (or an equivalent), you won't be able to execute the
-     assemblies you build, because (for security reasons) the SLK source code does not include the
-     code signing private key (only builds of SLK from Microsoft are fully signed with that key).
-
-     SkipVerification.bat requires that sn.exe be available on your PATH.
-
-     Tip: If you forgot to run SkipVerification.bat, and an assembly failed to load, you may need
-     to reboot after running SkipVerification.bat.
-
 
 Once the one-time configuration above has been done, here's how you build (or rebuild) SLK from the
 source code:

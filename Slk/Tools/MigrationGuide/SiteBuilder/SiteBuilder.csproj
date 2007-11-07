@@ -38,12 +38,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.LearningComponents, Version=1.0.799.0, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.LearningComponents.SharePoint, Version=1.0.799.0, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.LearningComponents.Storage, Version=1.0.799.0, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.LearningComponents, Version=1.0.799.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.LearningComponents.SharePoint, Version=1.0.799.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.LearningComponents.Storage, Version=1.0.799.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.SharePoint.Library, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />

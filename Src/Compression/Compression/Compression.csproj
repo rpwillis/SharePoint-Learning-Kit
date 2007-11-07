@@ -10,8 +10,8 @@
     <RootNamespace>Microsoft.LearningComponents</RootNamespace>
     <AssemblyName>Microsoft.LearningComponents.Compression</AssemblyName>
     <SignAssembly>true</SignAssembly>
-    <DelaySign>true</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\Shared\SlkPublicKey.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\Shared\SlkKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,7 +38,7 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.LearningComponents.MRCI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94, processorArchitecture=x86">
+    <Reference Include="Microsoft.LearningComponents.MRCI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MRCI\bin\debug\Microsoft.LearningComponents.MRCI.dll</HintPath>
     </Reference>

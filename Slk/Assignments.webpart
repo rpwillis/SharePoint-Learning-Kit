@@ -1,7 +1,7 @@
 ﻿<webParts>
   <webPart xmlns="http://schemas.microsoft.com/WebPart/v3">
     <metaData>
-      <type name="Microsoft.SharePointLearningKit.WebParts.AssignmentListWebPart, Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=abc4ed181d6d6a94" />
+      <type name="Microsoft.SharePointLearningKit.WebParts.AssignmentListWebPart, Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" />
       <importErrorMessage>Cannot import this Web Part.</importErrorMessage>
     </metaData>
     <data>
