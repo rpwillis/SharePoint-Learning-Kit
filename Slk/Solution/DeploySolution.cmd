@@ -4,6 +4,6 @@ net start spadmin
 %SPDIR%\bin\stsadm -o deploysolution -name SharePointLearningKit.wsp -url http://localhost -immediate -allowGacDeployment
 @ECHO OFF
 ECHO:
-ECHO  ***** NOTE -- THIS OPERATION MAKE TAKE A MINUTE TO COMPLETE *****
+ECHO  ***** NOTE -- THIS OPERATION MAY TAKE A MINUTE TO COMPLETE *****
 ECHO  ** Use EnumSolutions.cmd to check the status of this operation **
 ECHO:
