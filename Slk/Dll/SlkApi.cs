@@ -185,7 +185,7 @@ public class SlkStore
     /// Enumerating domain groups in <c>GetMemberships</c> will time out if
     /// <c>GetMemberships</c> executes longer for this time span.
     /// </summary>
-    static readonly TimeSpan DomainGroupEnumerationTotalTimeout = new TimeSpan(0, 1, 0);
+    static readonly TimeSpan DomainGroupEnumerationTotalTimeout = new TimeSpan(0, 5, 0);
     
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Internal Fields

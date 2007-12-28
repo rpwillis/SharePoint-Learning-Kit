@@ -1,7 +1,7 @@
 ﻿<%-- Copyright (c) Microsoft Corporation. All rights reserved. --%>
 
 <%@ Assembly Name="Microsoft.SharePoint.ApplicationPages.Administration, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"%>
-<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
+<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
 
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="Microsoft.SharePointLearningKit.AdminPages.ConfigurePage" MasterPageFile="~/_admin/admin.master" ValidateRequest="False" %>
 

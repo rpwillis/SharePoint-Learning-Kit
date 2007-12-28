@@ -352,6 +352,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\Shared\Version.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\GrowBuf.cpp"
 				>
 			</File>

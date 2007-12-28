@@ -14,7 +14,7 @@ using System;
 [assembly: Guid("3581f53e-1ec6-41e3-86bf-5c327e55cdaa")]
 
 // Version information
-[assembly: AssemblyVersion("1.0.0.0")]
+// AssemblyVersion comes from ..\..\Src\Shared\Version.cs
 // AssemblyFileVersion comes from ..\..\Src\Shared\FileVersion.cs
 
 // Other general attributes

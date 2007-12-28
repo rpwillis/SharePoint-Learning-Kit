@@ -1,3 +1,5 @@
-rmj = 1;
-rmm = 3;
-rup = 000;
+function JsVersion()
+{
+    // return the .NET-format version string
+    return "1.3.0.2";
+}
