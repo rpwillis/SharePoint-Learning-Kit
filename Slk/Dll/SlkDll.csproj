@@ -57,6 +57,9 @@
     <Compile Include="..\..\Src\Shared\FileVersion.cs">
       <Link>FileVersion.cs</Link>
     </Compile>
+    <Compile Include="..\..\Src\Shared\Version.cs">
+      <Link>Version.cs</Link>
+    </Compile>
     <Compile Include="Admin.cs" />
     <Compile Include="AppWebControls\ButtonToolbar.cs" />
     <Compile Include="AppWebControls\CustomCheckBoxList.cs" />
