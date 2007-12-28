@@ -344,6 +344,31 @@ namespace Microsoft.SharePointLearningKit.Frameset
         }
 
         /// <summary>
+        /// Given a SharePoint File, find the URL location of the File
+        /// </summary>
+        /// <returns>The url in Ascii format</returns>
+        protected string GetNonElearningDocumentUrl(SharePointFileLocation spFileLocation)
+        {
+            string documentUrl = null;
+
+            SPSecurity.RunWithElevatedPrivileges(delegate()
+            {
+                // If the site does not exist, this throws FileNotFound
+                using (SPSite spSite = new SPSite(spFileLocation.SiteId))
+                {
+                    // If the web does not exist, this throws FileNotFound
+                    using (SPWeb spWeb = spSite.OpenWeb(spFileLocation.WebId))
+                    {
+                        SPFile spFile = spWeb.GetFile(spFileLocation.FileId);
+                        documentUrl = UrlCombine(spSite.Url, HttpUtility.UrlPathEncode(spFile.ServerRelativeUrl));
+                    }
+                }
+            });
+
+            return documentUrl;
+        }
+
+        /// <summary>
         /// Combines url paths in a similar way to Path.Combine for file paths.
         /// Beginning and trailing slashes are not needed but will be accounted for
         /// if they are present.
@@ -534,9 +559,23 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 return;
             }
 
-            using(CachedSharePointFile cachedFile = new CachedSharePointFile(SlkStore.SharePointCacheSettings, spFileLocation, true))
-            {
+            // Find the location of the document in the Sharepoint Document Library and go there
+            string documentUrl = GetNonElearningDocumentUrl(spFileLocation);
 
+            // Special case handling for HTML files:
+            //   * Launch directly from the document library, not from the Cache
+            //   * Add the LearnerAssignmentId to the Query portion of the URL so that we pass the learning context down to the content
+            // This enables us to have more advanced behavior (CMI Tracking, scoring, completion status) for "Non-ELearning" documents.
+            // It is a first step towards a more comprehensive strategy for adding educational workflow to all types of documents.
+            if (documentUrl.EndsWith("html", StringComparison.OrdinalIgnoreCase) || documentUrl.EndsWith("htm", StringComparison.OrdinalIgnoreCase))
+            {
+                string redirectUrl = String.Format("{0}?{1}={2}", documentUrl, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentId.GetKey());
+                Response.Clear();
+                Response.Redirect(redirectUrl, true); // ends response
+            }
+
+            using (CachedSharePointFile cachedFile = new CachedSharePointFile(SlkStore.SharePointCacheSettings, spFileLocation, true))
+            {
                 // If the current request URL does not include the file name of the file, then this request is the first frameset rendering. 
                 // That means this will redirect to a URL that does include the filename of the file. This redirection allows the browser to 
                 // properly handle the content.
@@ -547,13 +586,13 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     Response.Clear();
                     Response.Redirect(redirectUrl, true);   // ends response
                 }
-                
+
                 // This is the first actual access of the file. If it doesn't exist, the exception will be caught by the Page_load method.
                 SetMimeType(cachedFile.FileName);
 
                 // Clear the response and write the file.
                 Response.Clear();
-                
+
                 // If this file is using IIS Compability mode, then we get the stream from the cached file and write it to the 
                 // response, otherwise, use TransmitFile.
                 if (UseCompatibilityMode(cachedFile.FileName))
