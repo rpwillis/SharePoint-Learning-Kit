@@ -566,15 +566,13 @@ static class DomainGroupUtilities
             return users.Values;
         }
 
-        // set <path> to the Directory Services path that we'll enumerate
         DirectoryContext objContext = new DirectoryContext(DirectoryContextType.Domain, domainName);
         Domain objDomain = Domain.GetDomain(objContext);
-        string path = objDomain.Name;
 
-        // enumerate users in <path>
+        // enumerate users
         try
         {
-            using (DirectoryEntry entry = new DirectoryEntry(path))
+            using (DirectoryEntry entry = objDomain.GetDirectoryEntry())
             {
                 using (DirectorySearcher mySearcher = new DirectorySearcher(entry))
                 {
@@ -615,7 +613,7 @@ static class DomainGroupUtilities
         catch (COMException ex)
         {
             throw new DomainGroupEnumerationException(String.Format(CultureInfo.CurrentCulture,
-                AppResources.DomainGroupEnumFailed, path), ex);
+                AppResources.DomainGroupEnumFailed, objDomain.Name), ex);
         }
 
         return users.Values;

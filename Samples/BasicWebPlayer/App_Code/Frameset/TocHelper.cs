@@ -101,7 +101,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return Regex.Match(typeof(LearningStore).Assembly.FullName, @"\bVersion=(\d+\.\d+.\d+)\.").Groups[1].Value;
+                return Regex.Match(typeof(LearningStore).Assembly.FullName, @"\bVersion=(\d+\.\d+\.\d+\.\d+)").Groups[1].Value;
             }
         }
 

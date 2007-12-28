@@ -896,13 +896,6 @@ function FM_ShowErrorMessage ( strTitleHtml, strMessageHtml, bAsInfo )
     this.WaitForContentCompleted(0);
 }
 
-function JsVersion()
-{
-    // return the .NET-format version string corresponding
-    // to <strVerNum>
-    return rmj + "." + rmm + "." + rup;
-}
-
 /************** CommandManager object **********************/
 // CommandMgr implements a queue for pending commands to be sent to the server.
 // It properly encodes command data for posting.
