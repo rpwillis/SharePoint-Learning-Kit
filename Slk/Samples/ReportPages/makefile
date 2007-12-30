@@ -6,7 +6,6 @@ all: deb rel
 
 # "nmake deb" just does a test build to make sure the .aspx files compile
 deb:
-	if exist \SharePointDlls\Microsoft.SharePoint.dll copy /y \SharePointDlls\Microsoft.SharePoint.dll TestBuild\bin
 	for %f in (*.aspx) do cscript /nologo ..\..\..\Tools\CopyAndSetVersion.js %f TestBuild\%f
 	cd TestBuild
 !IF "$(TARGET_ARCH)" == "x64"

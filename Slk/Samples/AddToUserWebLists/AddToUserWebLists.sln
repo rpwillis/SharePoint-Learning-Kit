@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{AAB6FD93-E403-44B6-B966-BE6BDC97FB6D}") = "AddToUserWebLists", "AddToUserWebLists.csproj", "{CFDDD64D-94AF-402C-83C6-36CE8CC5EC5F}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddToUserWebLists", "AddToUserWebLists.csproj", "{CFDDD64D-94AF-402C-83C6-36CE8CC5EC5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

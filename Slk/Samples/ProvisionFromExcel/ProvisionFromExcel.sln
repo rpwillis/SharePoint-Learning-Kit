@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{F3CEF679-D647-48EB-BD3D-C7876512DD08}") = "ProvisionFromExcel", "ProvisionFromExcel.csproj", "{221F0782-27F2-421C-89B9-033EE86F5D97}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvisionFromExcel", "ProvisionFromExcel.csproj", "{221F0782-27F2-421C-89B9-033EE86F5D97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{09B603D9-D6F1-42A8-9B3C-2F3D13344222}") = "SimulateJobTraining", "SimulateJobTraining.csproj", "{241F03E4-BAE6-44E1-8B51-32BF97E38BEA}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulateJobTraining", "SimulateJobTraining.csproj", "{241F03E4-BAE6-44E1-8B51-32BF97E38BEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

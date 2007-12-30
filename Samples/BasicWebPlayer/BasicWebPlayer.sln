@@ -1,8 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\BasicWebPlayer\", ".", "{AC1B115D-8DF3-431A-BB4A-3A0945E98606}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BasicWebPlayer", ".", "{AC1B115D-8DF3-431A-BB4A-3A0945E98606}"
 	ProjectSection(WebsiteProperties) = preProject
+		TargetFramework = "2.0"
 		Debug.AspNetCompiler.VirtualPath = "/BasicWebPlayer"
 		Debug.AspNetCompiler.PhysicalPath = "..\BasicWebPlayer\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\BasicWebPlayer\"

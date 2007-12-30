@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="Schema"
 	ProjectGUID="{5337BF42-BEC3-4361-8361-1D048CCA05F8}"
 	RootNamespace="Schema"
 	Keyword="MakeFileProj"
-	SignManifests="true"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -61,6 +61,4 @@
 	</References>
 	<Files>
 	</Files>
-	<Globals>
-	</Globals>
 </VisualStudioProject>
