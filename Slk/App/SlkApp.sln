@@ -1,8 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\App\", ".", "{81CF373F-C022-42BA-B902-F74EDF209EDA}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "App", ".", "{81CF373F-C022-42BA-B902-F74EDF209EDA}"
 	ProjectSection(WebsiteProperties) = preProject
+		TargetFramework = "2.0"
 		ProjectReferences = "{D4ECA47D-2E5D-4ACF-B713-37BC4BB585B7}|Microsoft.SharePointLearningKit.dll;{AE610073-6C2F-4789-BAF9-8CF1769EC6D7}|Microsoft.LearningComponents.dll;{7E83613A-27E0-49D5-B1B7-9E0DB2942A67}|Microsoft.LearningComponents.Storage.dll;{FACFE4F7-FDF5-46A6-8FB7-76811932C2C8}|Microsoft.LearningComponents.SharePoint.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/App"
 		Debug.AspNetCompiler.PhysicalPath = ".\"

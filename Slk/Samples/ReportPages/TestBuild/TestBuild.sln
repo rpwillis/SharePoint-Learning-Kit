@@ -1,8 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\TestBuild\", ".", "{207F440E-425E-49EC-B40E-2B437D66B146}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TestBuild", ".", "{207F440E-425E-49EC-B40E-2B437D66B146}"
 	ProjectSection(WebsiteProperties) = preProject
+		TargetFramework = "2.0"
 		Debug.AspNetCompiler.VirtualPath = "/TestBuild"
 		Debug.AspNetCompiler.PhysicalPath = "..\TestBuild\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\TestBuild\"

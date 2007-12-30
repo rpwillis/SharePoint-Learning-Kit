@@ -1,15 +1,15 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compression", "Compression\Compression.csproj", "{561657B4-176B-4112-A692-D18521C6BA11}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressionUnitTest", "CompressionUnitTest\CompressionUnitTest.csproj", "{0C637B7D-85EC-4F59-8001-B434BDD72EBB}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47696022-89BA-4C4C-AC55-3C5CFBFECE5A}"
 	ProjectSection(SolutionItems) = preProject
 		Compression1.vsmdi = Compression1.vsmdi
 		localtestrun.testrunconfig = localtestrun.testrunconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compression", "Compression\Compression.csproj", "{561657B4-176B-4112-A692-D18521C6BA11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressionUnitTest", "CompressionUnitTest\CompressionUnitTest.csproj", "{0C637B7D-85EC-4F59-8001-B434BDD72EBB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MRCI", "MRCI\MRCI.vcproj", "{47CE9895-FDC2-4B3C-9A8A-5D94ED72CC17}"
 EndProject
