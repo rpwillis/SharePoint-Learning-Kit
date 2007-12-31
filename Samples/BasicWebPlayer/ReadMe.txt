@@ -4,8 +4,6 @@ WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRA
 MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS NO WARRANTY OF TITLE OR 
 NONINFRINGEMENT FOR THE SOURCE CODE. */
 
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-
 BasicWebPlayer is Microsoft Learning Components (MLC) sample code that runs as a compile-on-demand
 ASP.NET Web application.  (MLC is a set of components distributed with SharePoint Learning Kit.)
 The instructions below explain how to run this sample.
@@ -16,8 +14,9 @@ BasicWebPlayer is an e-learning content playback application.  In some ways Basi
 similar to SharePoint Learning Kit -- both support playback of SCORM 2004, SCORM 1.2, and Class
 Server LRM and IMS+ content -- but there are some differences, such as the following:
 
-  -- SLK requires Windows SharePoint Services 2007, SQL Server 2005, and Windows Server 2003.
-     BasicWebPlayer does not require SharePoint (but does require SQL Server and Windows Server).
+  -- SLK requires Windows SharePoint Services 2007, SQL Server 2005, and Windows Server 2003, and
+     .NET 3.0.  BasicWebPlayer does not require SharePoint (but does require SQL Server and Windows
+     Server).
 
   -- Both SLK and BasicWebPlayer support the concepts of self-assignment, i.e. a user assigning
      content to themself so they can "execute" it.  SLK also supports the concept of assigning
