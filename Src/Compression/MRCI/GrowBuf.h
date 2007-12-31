@@ -1,13 +1,12 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-
 // GrowBuf.h
 //
 // Declares TGrowBuf.
 //
 // Also declares GenericGrowBuf, a helper class used by TGrowBuf.
-//
 
 #pragma once
+
+void memzero(void* pSrc, int cb);
 
 // GenericGrowBuf
 //
@@ -125,7 +124,7 @@ template <class T> TGrowBuf<T>::TGrowBuf()
 //
 template <class T> TGrowBuf<T>::TGrowBuf(unsigned cGrowBy)
 {
-	memset(this, 0, sizeof(*this));
+	memzero(this, sizeof(*this));
 	m_cbGrowBy = cGrowBy * sizeof(T);
 }
 
