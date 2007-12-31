@@ -5,21 +5,12 @@
 all: deb rel
 
 deb:
-!IF "$(TARGET_ARCH)" == "x64"
-		devenv Compression.sln /build Debug /Project MRCI /ProjectConfig "Debug|x64"
-!ELSE
-		devenv Compression.sln /build Debug /Project MRCI /ProjectConfig "Debug|Win32"
-!ENDIF
+	devenv Compression.sln /build Debug /Project Microsoft.LearningComponents.MRCI /ProjectConfig "Debug|Win32"
 	devenv Compression.sln /build Debug /Project Compression
 
 rel:
-!IF "$(TARGET_ARCH)" == "x64"
-		devenv Compression.sln /build Release /Project MRCI /ProjectConfig "Release|x64"
-!ELSE
-		devenv Compression.sln /build Release /Project MRCI /ProjectConfig "Release|Win32"
-!ENDIF
+	devenv Compression.sln /build Release /Project Microsoft.LearningComponents.MRCI /ProjectConfig "Release|Win32"
 	devenv Compression.sln /build Release /Project Compression
-
 
 ide:
 	devenv Compression.sln

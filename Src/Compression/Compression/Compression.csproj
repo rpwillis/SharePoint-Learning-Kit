@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{561657B4-176B-4112-A692-D18521C6BA11}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -43,10 +43,6 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.LearningComponents.MRCI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MRCI\bin\debug\Microsoft.LearningComponents.MRCI.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +68,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CompressionResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MRCI\MRCI.vcproj">
+      <Project>{AAC5277D-606C-42EA-818E-5866480BD380}</Project>
+      <Name>Microsoft.LearningComponents.MRCI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,5 +1,3 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-
 // MRCI.cpp
 //
 
@@ -62,7 +60,7 @@
 //      (resulting in "ABABABA" in the previous example).
 //
 
-#include "StdAfx.h"
+#include "Shared.h"
 #include "GrowBuf.h"
 
 #define ASSERT(f)          ((void)0)
@@ -122,7 +120,10 @@ protected:
 
 // construction
 public:
-    CMRCI() { ZeroMemory(this, sizeof(*this)); }
+    CMRCI()
+	{
+		memzero(this, sizeof(*this));
+	}
 
 // public functions
 public:
@@ -442,7 +443,7 @@ HRESULT MRCIDecompressWrapper(const void *pb, int cb, const void *pOut,
 
 	BYTE* srcOut = pbufOut.Buf();
 	BYTE* tgtOut = (BYTE*) pOut;
-	for(unsigned i=0; i < cbOut; i++)
+	for(int i=0; i < cbOut; i++)
 		*tgtOut++ = *srcOut++;
 
  	return retVal;

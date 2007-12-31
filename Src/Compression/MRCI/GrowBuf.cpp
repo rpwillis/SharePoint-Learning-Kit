@@ -1,16 +1,53 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-
 // GrowBuf.cpp
 //
 // Implements TGrowBuf -- see "GrowBuf.h" for more information.
 //
 // Also implements GenericGrowBuf, a helper class used by TGrowBuf.
-//
 
-#include "stdafx.h"
+#include "Shared.h"
 #include "GrowBuf.h"
-#include <string.h>
 
+void memcpy(void* pSrc, void* pDest, int cb)
+{
+	unsigned char* pS = (unsigned char*) pSrc;
+	unsigned char* pD = (unsigned char*) pDest;
+
+	while (cb > 0)
+	{
+		pD[0] = pS[0];
+		pS++; pD++; cb--;
+	}
+}
+
+void memmove(void* pSrc, void* pDest, int cb)
+{
+	// Dest is lower than Src, perform a forward copy across Src
+	if (pDest <= pSrc)
+	{
+		memcpy(pSrc, pDest, cb);
+	}
+
+	// Dest is above src, perform a reverse copy to be safe
+	unsigned char* pS = (unsigned char*) pSrc + cb;
+	unsigned char* pD = (unsigned char*) pDest + cb;
+
+	while (cb > 0)
+	{
+		pD[0] = pS[0];
+		pS--; pD--; cb--;
+	}
+}
+
+void memzero(void* pSrc, int cb)
+{
+	unsigned char* pS = (unsigned char*) pSrc;
+
+	while (cb > 0)
+	{
+		pS[0] = 0;
+		pS++; cb--;
+	}
+}
 
 // fOK = SetSize(cbNew)
 //
