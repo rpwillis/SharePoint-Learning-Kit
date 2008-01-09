@@ -1,7 +1,5 @@
 ﻿<root>
-  <assembly culture="lt" name="Microsoft.LearningComponents.SharePoint.resources" version="1.0.799.0">
-    <key>ACQAAASAAACUAAAABgIAAAAkAABSU0ExAAQAAAEAAQCBPrkXiznyGTqeVlETHDcRRUrTL4/fDzNjU6FnYmrFwBQjm2AxJVTCevuJ4q7JU5lY425RPU/Nirg+g9/yYOMPQzB08pcEM+kt+nfwxGC/SpaKS/T8A9LqyU04k6o6yi8TnWxx/X60HKRs+7+l9Z1AK2pwuH3Y4KKy7ctJBsiwuQ==</key>
-    <keytoken>q8TtGB1tapQ=</keytoken>
+  <assembly culture="lt" name="Microsoft.LearningComponents.SharePoint.resources" version="1.1.0.0">
   </assembly>
   <resources name="Microsoft.LearningComponents.SharePoint.Properties.Resources.resources" type="StringTable">
     <NewDataSet>
