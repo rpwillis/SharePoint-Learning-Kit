@@ -110,15 +110,7 @@ namespace Loc
                         _assemblyName.CultureInfo = new CultureInfo(reader.GetAttribute("culture"));
                         _assemblyName.Name = reader.GetAttribute("name");
                         _assemblyName.Version = new Version(reader.GetAttribute("version"));
-                        reader.Read();
-                        if (reader.Name == "key")
-                        {
-                            _assemblyName.SetPublicKey(Convert.FromBase64String(reader.ReadInnerXml()));
-                        }
-                        if (reader.Name == "keytoken")
-                        {
-                            _assemblyName.SetPublicKeyToken(Convert.FromBase64String(reader.ReadInnerXml()));
-                        }
+                        _assemblyName.KeyPair = new StrongNameKeyPair(File.Open("..\\..\\..\\..\\src\\Shared\\SlkKey.snk", FileMode.Open, FileAccess.Read));
                         done = true;
                     }
                 }
