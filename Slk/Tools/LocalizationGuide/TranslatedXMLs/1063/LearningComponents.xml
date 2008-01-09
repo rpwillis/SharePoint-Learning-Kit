@@ -1,7 +1,5 @@
 ﻿<root>
-  <assembly culture="lt" name="Microsoft.LearningComponents.resources" version="1.0.799.0">
-    <key>ACQAAASAAACUAAAABgIAAAAkAABSU0ExAAQAAAEAAQCBPrkXiznyGTqeVlETHDcRRUrTL4/fDzNjU6FnYmrFwBQjm2AxJVTCevuJ4q7JU5lY425RPU/Nirg+g9/yYOMPQzB08pcEM+kt+nfwxGC/SpaKS/T8A9LqyU04k6o6yi8TnWxx/X60HKRs+7+l9Z1AK2pwuH3Y4KKy7ctJBsiwuQ==</key>
-    <keytoken>q8TtGB1tapQ=</keytoken>
+  <assembly culture="lt" name="Microsoft.LearningComponents.resources" version="1.1.0.0">
   </assembly>
   <resources name="Microsoft.LearningComponents.Properties.ValidatorResources.resources" type="StringTable">
     <NewDataSet>
@@ -1145,7 +1143,7 @@ function OnDetach( attachmentId ) { // attachmentId is of the form &lt;interacti
       <Resources>
         <ID>ChooseFileToAttachHtml</ID>
         <Source>Choose a file to attach:</Source>
-        <Translation>Pasirinkite failą, kurį norite pridėti:</Translation>
+        <Translation>Pasirinkite failą, kuri norite prideti:</Translation>
       </Resources>
       <Resources>
         <ID>MissingFormField</ID>
@@ -1190,7 +1188,7 @@ function OnDetach( attachmentId ) { // attachmentId is of the form &lt;interacti
       <Resources>
         <ID>ViewFileHtml</ID>
         <Source>View File</Source>
-        <Translation>Peržiūrėti failą</Translation>
+        <Translation>Peržiureti failą</Translation>
       </Resources>
       <Resources>
         <ID>HeadGradingViewScript</ID>
@@ -1306,7 +1304,7 @@ function mlc_RubricClick(checkbox, itemscoreName) { // increment or decrement th
       <Resources>
         <ID>InstructorCommentTooLong</ID>
         <Source>"The text entered is formatted incorrectly or greater than the maximum {0} characters."</Source>
-        <Translation>„Įvestas tekstas netinkamai suformatuotas arba viršija maksimalų leistiną {0} simbolių ilgį.“</Translation>
+        <Translation>„Ivestas tekstas netinkamai suformatuotas arba viršija maksimalu leistiną {0} simboliu ilgi.“</Translation>
       </Resources>
       <Resources>
         <ID>InvalidOptionValue</ID>
@@ -1333,7 +1331,7 @@ var ECS_ViewType=4;
       <Resources>
         <ID>ViewTheAttachedFileHtml</ID>
         <Source>View the attached file.</Source>
-        <Translation>Peržiūrėti pridėtą failą.</Translation>
+        <Translation>Peržiureti pridetą failą.</Translation>
       </Resources>
       <Resources>
         <ID>InvalidFormFieldValue</ID>
@@ -1343,7 +1341,7 @@ var ECS_ViewType=4;
       <Resources>
         <ID>ScoreOutOfRange</ID>
         <Source>"The score entered is formatted incorrectly or outside the allowable range of -1000 to 1000."</Source>
-        <Translation>„Įvesti balai netinkamai suformatuoti arba nepatenka į leistiną diapazoną nuo -1000 iki 1000.“</Translation>
+        <Translation>„Ivesti balai netinkamai suformatuoti arba nepatenka i leistiną diapazoną nuo -1000 iki 1000.“</Translation>
       </Resources>
       <Resources>
         <ID>CorrectAnswerColonHtml</ID>
@@ -1353,22 +1351,22 @@ var ECS_ViewType=4;
       <Resources>
         <ID>StudentSelectedHtml</ID>
         <Source>Selected</Source>
-        <Translation>Pažymėtas</Translation>
+        <Translation>Pažymetas</Translation>
       </Resources>
       <Resources>
         <ID>StudentNotSelectedIncorrectHtml</ID>
         <Source>This is the correct answer but it was not selected</Source>
-        <Translation>Tai teisingas atsakymas, bet jis nebuvo pažymėtas</Translation>
+        <Translation>Tai teisingas atsakymas, bet jis nebuvo pažymetas</Translation>
       </Resources>
       <Resources>
         <ID>AttachedFileHtml</ID>
         <Source>There is an attached {0} file.</Source>
-        <Translation>Pridėtas failas {0}.</Translation>
+        <Translation>Pridetas failas {0}.</Translation>
       </Resources>
       <Resources>
         <ID>ReplaceFileHtml</ID>
         <Source>Replace the attached file with another file:</Source>
-        <Translation>Pakeisti pridėtą failą kitu failu:</Translation>
+        <Translation>Pakeisti pridetą failą kitu failu:</Translation>
       </Resources>
       <Resources>
         <ID>InvalidId</ID>

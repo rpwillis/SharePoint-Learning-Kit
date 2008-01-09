@@ -16,3 +16,5 @@ using System;
 // Cannot be CLSCompliant because the SharePoint classes upon which this assembly 
 // depend are not CLS compliant.
 [assembly: CLSCompliant(false)]
+
+[assembly: System.Resources.SatelliteContractVersion("1.1.0.0")]
