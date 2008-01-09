@@ -126,12 +126,6 @@ namespace Loc
             writer.WriteAttributeString("culture", _assemblyName.CultureInfo.ToString());
             writer.WriteAttributeString("name", _assemblyName.Name + ".resources");
             writer.WriteAttributeString("version", _assemblyName.Version.ToString());
-            writer.WriteStartElement("key");
-            writer.WriteValue(_assemblyName.GetPublicKey());
-            writer.WriteEndElement();
-            writer.WriteStartElement("keytoken");
-            writer.WriteValue(_assemblyName.GetPublicKeyToken());
-            writer.WriteEndElement();
             writer.WriteEndElement();
             foreach (ResourceData rd in _Data)
             {
