@@ -49,7 +49,25 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>   
         Guid? m_spWebScopeMacro;
 
+        SlkStore m_observerRoleLearnerStore;
+
         #endregion
+
+        public override SlkStore SlkStore
+        {
+            get
+            {
+                if (Session["LearnerKey"] != null &&  base.SlkStore.IsObserver(SPWeb) == true)
+                {
+                    if (m_observerRoleLearnerStore == null)
+                    {
+                        m_observerRoleLearnerStore = SlkStore.GetStore(SPWeb, Session["LearnerKey"].ToString());
+                    }
+                    return m_observerRoleLearnerStore;
+                }
+                return base.SlkStore;
+            }
+        }
 
         #region Page_Init
         /// <summary>

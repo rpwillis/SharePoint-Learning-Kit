@@ -7,7 +7,6 @@
 using System;
 using System.Web.UI;
 using System.Text;
-using System.Web.UI.WebControls.WebParts;
 using System.Xml.Serialization;
 using Microsoft.SharePoint;
 using System.ComponentModel;
@@ -19,8 +18,12 @@ using Microsoft.SharePointLearningKit;
 using Microsoft.SharePointLearningKit.WebControls;
 using Microsoft.SharePointLearningKit.ApplicationPages;
 using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
 using System.Threading;
 using System.Data.SqlClient;
+using Microsoft.SharePoint.WebPartPages.Communication;
+
+
 
 namespace Microsoft.SharePointLearningKit.WebParts
 {
@@ -29,8 +32,89 @@ namespace Microsoft.SharePointLearningKit.WebParts
     /// Allows instructors and learners to view a list of their  
     /// SharePoint Learning Kit (SLK) assignments.
     /// </summary>
-    public class AssignmentListWebPart : WebPart
+    public class AssignmentListWebPart : Microsoft.SharePoint.WebPartPages.WebPart, ICellConsumer
     {
+        #region WebPartCommunication
+
+        private int _cellConnectedCount=0;
+        public event CellConsumerInitEventHandler CellConsumerInit;
+
+        public override void EnsureInterfaces()
+        {
+            //Registers an interface for the Web Part.
+            RegisterInterface("Observer_WebPart_Listener",   //InterfaceName
+               InterfaceTypes.ICellConsumer,               //InterfaceType
+               Microsoft.SharePoint.WebPartPages.WebPart.UnlimitedConnections,               //MaxConnections
+               ConnectionRunAt.Server,            //RunAtOptions
+               this,                              //InterfaceObject
+               "CellConsumerInterface_WPQ_",      //InterfaceClientReference
+               AppResources.ObserverRoleCommunicationInterfaceTitle,                       //MenuLabel
+               "Learner Information Receiving Interface");               //Description
+        }
+        public override ConnectionRunAt CanRunAt()
+        {
+            //This Web Part can run only on the server
+            return ConnectionRunAt.Server;
+        }
+    
+        public override void PartCommunicationConnect(string interfaceName,
+         Microsoft.SharePoint.WebPartPages.WebPart connectedPart,
+         string connectedInterfaceName,
+         ConnectionRunAt runAt)
+      {
+          //Check if the connect is for this particular cell interface
+          if (interfaceName == "Observer_WebPart_Listener")
+          {
+              //Keep a count of the connections
+              _cellConnectedCount++;
+          }
+
+      }
+        public override void PartCommunicationInit()
+        {
+            //Initialize the learner id
+            m_observerRoleLearnerLogin = "";
+
+	    // Initialize the session variable on every new communication 
+            Page.Session["LearnerKey"] = "";
+            //If the connection wasn't actually formed then don't want to send Init event
+            if (_cellConnectedCount > 0)
+            {
+                //If there is a listener, send init event
+                if (CellConsumerInit != null)
+                {
+                    //Need to create the args for the CellConsumerInit event
+                    CellConsumerInitEventArgs cellConsumerInitArgs = new CellConsumerInitEventArgs();
+
+                    //Fire the CellConsumerInit event.
+                    CellConsumerInit(this, cellConsumerInitArgs);
+                }
+            }
+        }
+
+        public void CellProviderInit(object sender, CellProviderInitEventArgs cellProviderInitArgs)
+        {
+            //Callback on the Cell Provider's initialization
+            m_observerRoleLearnerLogin = "";
+
+	    // Initialize the session variable on every new communication 
+            Page.Session["LearnerKey"] = "";
+        }
+        public void CellReady(object sender, CellReadyEventArgs cellReadyArgs)
+        {
+            m_observerRoleLearnerLogin = "";
+
+            // in the same browser window. Hence setting the session object to null ("") explicitly during the init
+            Page.Session["LearnerKey"] = "";
+            // On CellReady, validate and set the learner's login id
+            if (cellReadyArgs.Cell != null)
+            {
+                m_observerRoleLearnerLogin = cellReadyArgs.Cell.ToString();
+            }
+        }
+        #endregion
+
+ 
 
         #region Private Variables
         /// <summary>
@@ -61,6 +145,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// Stores the SlkStore
         /// </summary>
         private SlkStore m_slkStore;
+        ///<summary>
+        /// Stores the input learner login in the case of the observer mode
+        ///</summary>
+        private string m_observerRoleLearnerLogin;
 
         #endregion
 
@@ -316,17 +404,19 @@ namespace Microsoft.SharePointLearningKit.WebParts
             //Validates the Alwp Properties 
             ValidateAlwpProperties();
 
+            string observerRoleLearnerKey = GetLearnerKey(m_observerRoleLearnerLogin);
+
             //Adjust the Height to Fit width of zone
 
             string wpHeightStyle = "height: ";
 
-            if (this.Height ==  null || this.Height.IsEmpty)
+            if (this.Height ==  null || this.Height.Length == 0)
             {
                 wpHeightStyle += Constants.WebPartHeight + Constants.SemiColon;
             }
             else
             {
-                wpHeightStyle += this.Height.Value.ToString(CultureInfo.InvariantCulture) + Constants.SemiColon;
+                wpHeightStyle += this.Height.ToString(CultureInfo.InvariantCulture) + Constants.SemiColon;
             }
 
             // create a unique name for the query results iframe based on
@@ -496,22 +586,54 @@ namespace Microsoft.SharePointLearningKit.WebParts
             if (String.IsNullOrEmpty(SlkUtilities.Trim(QuerySetOverride)))
             {
 
-                //Defaluted to Default LearnerQuerySet For all, but instructor.
+                //Defaluted to Default LearnerQuerySet For all, but instructor and observer.
                 QuerySetOverride = Constants.DefaultLearnerQuerySet;               
-                
-                //Set InstructorQuerySet override
-                
-                ////Get the Role SlK Instructor Permission
+               
                 //// check for the role and assign the query set
                 if (SlkStore.IsInstructor(SPWeb))
                 {
                     QuerySetOverride = Constants.DefaultInstructorQuerySet;
+                }
+                else if (SlkStore.IsLearner(SPWeb))
+                {
+                    QuerySetOverride = Constants.DefaultLearnerQuerySet;
+                }
+                else if (SlkStore.IsObserver(SPWeb))
+                {
+                    QuerySetOverride = Constants.DefaultObserverQuerySet;
                 }
 
             }
         }
 
         #endregion       
+
+        #region GetLearnerKey
+        /// <summary>
+        /// Get the learne key corresponding to the input learner login
+        /// If the login is not valid, an error is reported on the page
+        /// </summary>
+        private string GetLearnerKey(string learnerLogin)
+        {
+            // If logged-in user is an observer, return the corresponding key, return empty string otherwise
+            if (!String.IsNullOrEmpty(learnerLogin) && SlkStore.IsObserver(SPWeb) == true)
+            {
+                try
+                {
+                    SPUser inputSPUser = SPWeb.AllUsers[learnerLogin];
+                    string observerRoleLearnerKey = String.IsNullOrEmpty(inputSPUser.Sid) ? inputSPUser.LoginName : inputSPUser.Sid;
+                    //Set the obtained LearnerKey as a session variable available across other pages
+                    Page.Session["LearnerKey"] = observerRoleLearnerKey;
+                    return observerRoleLearnerKey;
+                }
+                catch (SPException spe)
+                {
+                    throw new UserNotFoundException(spe.Message);
+                }
+            }
+            return "";
+        }
+        #endregion
 
         #endregion
 

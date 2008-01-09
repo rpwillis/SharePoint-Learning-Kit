@@ -1229,4 +1229,22 @@ More information may be available in the server event log.</value>
     <comment>When work flow pages  become victom of dead lock displays this  specific message suggesting the user try the operation again.
 </comment>
   </data>
+  <data name="ConfigureInputObserverPermissionsLabelText" xml:space="preserve">
+    <value>Observer Permission:</value>
+  </data>
+  <data name="ConfigureTxtObserverPermissionToolTip" xml:space="preserve">
+    <value>Observer Permission</value>
+  </data>
+  <data name="DefaultSlkObserverPermissionName" xml:space="preserve">
+    <value>SLK Observer</value>
+    <comment>This is the default name of the Sharepoint permission which identifies observers</comment>
+  </data>
+  <data name="ObserverRoleCommunicationInterfaceTitle" xml:space="preserve">
+    <value>SLK Assignment List Web Part</value>
+    <comment>This string is used as the menu label in the communication interface between ALWP and the 3rd party web part.</comment>
+  </data>
+  <data name="SlkObserverPermissionDescription" xml:space="preserve">
+    <value>Appears as a potential observer when new assignments are created using the SharePoint Learning Kit</value>
+    <comment>'SLK Observer' permission is created with this description</comment>
+  </data>
 </root>

@@ -58,6 +58,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// we cannot determine the site name.
         /// </summary>
         int m_unknownSiteCount;
+        /// <summary>
+        /// Holds the learner key which is used as the user for the LearningStore in case of the observer
+        /// </summary>
+        string m_observerRoleLearnerKey;
+        /// <summary>
+        /// Holds the learner store corresponding to the input user in the case of an Observer's role
+        /// </summary>
+        SlkStore m_observerRoleLearnerStore;
+
+        /// <summary>
+        /// Is true if the current user is an observer and false otherwise. Used to avoid repeated calls to
+        /// SlkStore
+        /// </summary>
+        bool? m_isObserver;
+
         #endregion
 
         #region Public Properties
@@ -98,6 +113,57 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 return m_sort;
             }
         }
+
+        /// <summary>
+        /// Gets the learnerKey session parameter which is used as the LearningStore user
+        /// if the user is an SlkObserver
+        /// </summary>
+        private string ObserverRoleLearnerKey
+        {
+            get
+            {
+                if (m_observerRoleLearnerKey == null)
+                {
+                    if(Session["LearnerKey"] != null && IsObserver)
+                        m_observerRoleLearnerKey = Session["LearnerKey"].ToString();
+                }
+                return m_observerRoleLearnerKey;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the current user is an observer
+        /// and false otherwise
+        /// </summary>
+        private bool IsObserver
+        {
+            get
+            {
+                if (m_isObserver == null)
+                {
+                    if (base.SlkStore.IsObserver(SPWeb) == true)
+                        m_isObserver = true;
+                    else
+                        m_isObserver = false;
+                }
+                return (bool) m_isObserver;
+            }
+        }
+
+        public override SlkStore SlkStore
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(ObserverRoleLearnerKey) == false)
+                {
+                    if(m_observerRoleLearnerStore == null)
+                        m_observerRoleLearnerStore = SlkStore.GetStore(SPWeb, ObserverRoleLearnerKey);
+                    return m_observerRoleLearnerStore;
+                }
+                return base.SlkStore;
+            }
+        }
+        
 
         #endregion
 
@@ -182,8 +248,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                     try
                                     {
                                         // set <queryDef> to the QueryDefinition named <queryName>
-                                        QueryDefinition queryDef
+                                        QueryDefinition queryDef 
                                                     = SlkStore.Settings.FindQueryDefinition(Query);
+
                                         if (queryDef == null)
                                         {
                                             throw new SafeToDisplayException
@@ -503,8 +570,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb2");
                                 if (!columnDef.Wrap)
                                     hw.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
+                                bool isObserver = IsObserver;
                                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
-                                    RenderColumnCell(renderedCell, webNameRenderedCell, hw);
+                                    RenderColumnCell(renderedCell, webNameRenderedCell, hw, isObserver);
                                 columnIndex++;
                             }
                         }
@@ -623,7 +691,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="hw">The <c>HtmlTextWriter</c> to write to.</param>
         ///
         static void RenderColumnCell(RenderedCell renderedCell,
-            WebNameRenderedCell webNameRenderedCell, HtmlTextWriter hw)
+            WebNameRenderedCell webNameRenderedCell, HtmlTextWriter hw, bool isObserver)
         {
             // render the cell contents inside a "<span>" (not sure why SharePoint uses a "<span>"
             // here, but I'm copying what they do)
@@ -650,17 +718,36 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     else
                     if (renderedCell.Id.ItemTypeName == Schema.LearnerAssignmentItem.ItemTypeName)
                     {
-                        // render a link to the Learner Assignment Properties page
-                        string url = "Lobby.aspx?LearnerAssignmentId={0}";
-                        if ((webNameRenderedCell != null) &&
-                            (webNameRenderedCell.SPWebUrl != null))
-                            url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
-                        hw.AddAttribute(HtmlTextWriterAttribute.Target, "_parent");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Href,
-                            String.Format(CultureInfo.InvariantCulture, url,
-                                          renderedCell.Id.GetKey()));
-                        using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
-                            hw.WriteEncodedText(renderedCell.ToString());
+                        if (isObserver)
+                        {
+                            // Display this cell as an url and clicking this url will launch frameset in StudentReview mode
+                            string url = "Frameset/Frameset.aspx?SlkView=StudentReview&LearnerAssignmentId={0}";
+                            if ((webNameRenderedCell != null) &&
+                                (webNameRenderedCell.SPWebUrl != null))
+                                url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
+                            hw.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Href,
+                                String.Format(CultureInfo.InvariantCulture, url,
+                                              renderedCell.Id.GetKey()));
+                            using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
+                                hw.WriteEncodedText(renderedCell.ToString());
+
+                        }
+                        else
+                        {
+
+                            // render a link to the Learner Assignment Properties page
+                            string url = "Lobby.aspx?LearnerAssignmentId={0}";
+                            if ((webNameRenderedCell != null) &&
+                                (webNameRenderedCell.SPWebUrl != null))
+                                url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
+                            hw.AddAttribute(HtmlTextWriterAttribute.Target, "_parent");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Href,
+                                String.Format(CultureInfo.InvariantCulture, url,
+                                              renderedCell.Id.GetKey()));
+                            using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
+                                hw.WriteEncodedText(renderedCell.ToString());
+                        }
                     }
                     else
                         hw.WriteEncodedText(renderedCell.ToString());

@@ -73,6 +73,11 @@ namespace Microsoft.SharePointLearningKit
         public const string DefaultInstructorQuerySet = "InstructorQuerySet";
 
         /// <summary>
+        /// Default Value for the LearnerQuerySet
+        /// </summary>
+        public const string DefaultObserverQuerySet = "ObserverQuerySet";
+
+        /// <summary>
         /// Default Value for Height of the Assignmentlist Web Part
         /// </summary>
         public const string WebPartHeight = "250px";

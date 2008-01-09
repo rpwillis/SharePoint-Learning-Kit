@@ -73,9 +73,9 @@ public class SlkAppBasePage : System.Web.UI.Page
     /// <summary>
     /// Gets the current <c>SlkStore</c>.
     /// </summary>
-    public SlkStore SlkStore
+    public virtual SlkStore SlkStore
     {
-        [DebuggerStepThrough]
+        
         get
         {
             if (m_slkStore == null)

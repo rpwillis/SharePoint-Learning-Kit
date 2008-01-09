@@ -223,6 +223,28 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t review this assignment at this moment. This may be because of one of the reasons given below:
+        ///    &lt;ul&gt;&lt;li&gt;Learner not started the assignment
+        ///    &lt;li&gt;Learner completed the assignment and submited to the instructor for grading
+        ///    &lt;li&gt;You do not have access to the requested view of the assignment.
+        ///    &lt;/ul&gt;.
+        /// </summary>
+        internal static string FRM_ObserverReviewNotAvailableMsgHtml {
+            get {
+                return ResourceManager.GetString("FRM_ObserverReviewNotAvailableMsgHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Observer Access Error.
+        /// </summary>
+        internal static string FRM_ObserverReviewNotAvailableTitle {
+            get {
+                return ResourceManager.GetString("FRM_ObserverReviewNotAvailableTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The version of the learning resource assigned for this assignment cannot be found because it has been deleted or modified..
         /// </summary>
         internal static string FRM_PackageNotFound {

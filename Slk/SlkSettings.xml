@@ -242,7 +242,120 @@
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <QuerySet Name="LearnerQuerySet" Title="Learner Query Set" DefaultQueryName="ToDoLearner">
+
+	<Query Name="OverdueObserver" Title="Overdue" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
+		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+		<Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
+		<Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="Now"/>
+		<Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" />
+		<!-- helps SQL perf? -->
+		<Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2"/>
+		<!-- i.e. unsubmitted -->
+		<Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+		<Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+	</Query>
+
+	<Query Name="DueTodayObserver" Title="Due Today" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
+		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+		<Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
+		<Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfToday"/>
+		<Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfTomorrow"/>
+		<Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+		<Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+	</Query>
+
+	<Query Name="DueThisWeekObserver" Title="Due This Week" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
+		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+		<Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
+		<Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfThisWeek"/>
+		<Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfNextWeek"/>
+		<Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+		<Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+	</Query>
+
+	<Query Name="DueNextWeekObserver" Title="Due Next Week" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
+		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+		<Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
+		<Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfNextWeek"/>
+		<Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfWeekAfterNext"/>
+		<Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+		<Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+	</Query>
+
+	<Query Name="ToDoObserver" Title="To Do" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
+		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+		<Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" />
+		<!-- helps SQL perf? -->
+		<Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2"/>
+		<!-- i.e. unsubmitted -->
+		<Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+		<Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+	</Query>
+
+	<Query Name="ReturnedObserver" Title="Returned" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
+		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+		<Condition ViewColumnName="IsFinal" Operator="Equal" Value="1" />
+		<Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
+		<Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+	</Query>
+
+	<Query Name="AllAssignmentsObserver" Title="All Assignments" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
+		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+		<Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
+		<Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+	</Query>
+
+
+	<QuerySet Name="LearnerQuerySet" Title="Learner Query Set" DefaultQueryName="ToDoLearner">
     <IncludeQuery QueryName="ToDoLearner" />
     <IncludeQuery QueryName="OverdueLearner" />
     <IncludeQuery QueryName="DueTodayLearner" />
@@ -262,6 +375,17 @@
     <IncludeQuery QueryName="ReturnedInstructor" />
     <IncludeQuery QueryName="AllAssignmentsInstructor" />
   </QuerySet>
+
+
+	<QuerySet Name="ObserverQuerySet" Title="Observer Query Set" DefaultQueryName="ToDoObserver">
+		<IncludeQuery QueryName="ToDoObserver" />
+		<IncludeQuery QueryName="OverdueObserver" />
+		<IncludeQuery QueryName="DueTodayObserver" />
+		<IncludeQuery QueryName="DueThisWeekObserver" />
+		<IncludeQuery QueryName="DueNextWeekObserver" />
+		<IncludeQuery QueryName="ReturnedObserver" />
+		<IncludeQuery QueryName="AllAssignmentsObserver" />
+	</QuerySet>
   
 </Settings>
 

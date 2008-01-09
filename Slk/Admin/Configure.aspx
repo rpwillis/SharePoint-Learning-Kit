@@ -185,6 +185,12 @@
         <wssawc:InputFormTextBox CssClass="ms-input" ID="TxtLearnerPermission" Columns="35" Runat="server" MaxLength=128 />
       </Template_control>
     </wssuc:InputFormControl>
+        <wssuc:InputFormControl runat="server" id="inputObserverPermissions">
+      <Template_control>
+        <wssawc:InputFormTextBox CssClass="ms-input" ID="TxtObserverPermission" Columns="35" Runat="server" MaxLength=128 />
+      </Template_control>
+    </wssuc:InputFormControl>
+
     <wssuc:InputFormControl runat="server">
       <Template_Control>
         <wssawc:InputFormCheckBox ID="ChkCreatePermissions" runat="server"/>
