@@ -72,7 +72,11 @@ public static class SlkAdministration
 	/// 	identifies learners.  If no database is currently associated with the specified
 	/// 	SPSite, this is set to a default value such as "SLK Learner".</param>
 	///
-	/// <param name="createPermissions">Set to <c>false</c> if both the permission values returned
+    /// <param name="observerPermission">Set to the name of the SharePoint permission that
+    /// 	identifies observers.  If no database is currently associated with the specified
+    /// 	SPSite, this is set to a default value such as "SLK Observer".</param>
+    ///
+    /// <param name="createPermissions">Set to <c>false</c> if both the permission values returned
 	/// 	in parameters <paramref name="instructorPermission"/> and
 	/// 	<paramref name="learnerPermission"/> already exist in the root SPWeb of the
 	/// 	specified SPSite, <c>true</c> otherwise.  This can be used as the default value
@@ -96,7 +100,7 @@ public static class SlkAdministration
     [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
     public static bool LoadConfiguration(Guid spSiteGuid, out string databaseServer,
 		out string databaseName, out bool createDatabase, out string instructorPermission,
-		out string learnerPermission, out bool createPermissions)
+		out string learnerPermission, out string observerPermission, out bool createPermissions)
 	{
 		// only SharePoint administrators can perform this action
         EnsureFarmAdmin();
@@ -114,7 +118,15 @@ public static class SlkAdministration
             databaseName = mapping.DatabaseName;
 		    instructorPermission = mapping.InstructorPermission;
 		    learnerPermission = mapping.LearnerPermission;
-		}
+            
+            // The below given condition will be true only during the migration of SLK from 
+            // 'SLK without Observer role' to 'SLK with Observer role' implementation
+            if (mapping.ObserverPermission == null)
+            {
+                mapping.ObserverPermission = AppResources.DefaultSlkObserverPermissionName;                
+            }
+            observerPermission = mapping.ObserverPermission;
+        }
 		else
 		{
 			// the mapping doesn't exist -- set "out" parameters to default values
@@ -125,6 +137,9 @@ public static class SlkAdministration
             mapping.DatabaseName = databaseName;
             instructorPermission = AppResources.DefaultSlkInstructorPermissionName;
             learnerPermission = AppResources.DefaultSlkLearnerPermissionName;
+            ////////////////////////////////////////////////////////////////////////////////////////////////////
+            observerPermission = AppResources.DefaultSlkObserverPermissionName;
+            ////////////////////////////////////////////////////////////////////////////////////////////////////
         }
 
         // set "out" parameters that need to be computed
@@ -134,7 +149,7 @@ public static class SlkAdministration
             createDatabaseResult = !DatabaseExists(mapping.DatabaseServerConnectionString, mapping.DatabaseName);
         });
         createDatabase = createDatabaseResult;
-		createPermissions = !PermissionsExist(spSiteGuid, instructorPermission, learnerPermission);
+		createPermissions = !PermissionsExist(spSiteGuid, instructorPermission, learnerPermission, observerPermission);
 
 		return mappingExists;
 	}
@@ -169,7 +184,10 @@ public static class SlkAdministration
 	/// <param name="learnerPermission">The name of the SharePoint permission that
 	/// 	identifies learners.</param>
 	///
-	/// <param name="createPermissions">If <c>true</c>, the permissions specified by
+    /// <param name="observerPermission">The name of the SharePoint permission that
+    /// 	identifies observers.</param>
+    ///
+    /// <param name="createPermissions">If <c>true</c>, the permissions specified by
 	/// 	<paramref name="instructorPermission"/> and <paramref name="learnerPermission"/>
 	/// 	are added to the root SPWeb of the specified SPSite (if they don't already
 	/// 	exist).</param>
@@ -202,7 +220,7 @@ public static class SlkAdministration
     [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
     public static void SaveConfiguration(Guid spSiteGuid, string databaseServer,
 		string databaseName, string schemaToCreateDatabase, string instructorPermission,
-		string learnerPermission, bool createPermissions, string settingsFileContents,
+		string learnerPermission,string observerPermission, bool createPermissions, string settingsFileContents,
         string defaultSettingsFileContents, string appPoolAccountName,
         ImpersonationBehavior createDatabaseImpersonationBehavior)
 	{
@@ -215,6 +233,10 @@ public static class SlkAdministration
             throw new ArgumentNullException("instructorPermission");
         if (learnerPermission == null)
             throw new ArgumentNullException("learnerPermission");
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (observerPermission == null)
+            throw new ArgumentNullException("observerPermission");
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
         if (defaultSettingsFileContents == null)
             throw new ArgumentNullException("defaultSettingsFileContents");
             
@@ -252,7 +274,14 @@ public static class SlkAdministration
 			mapping.LearnerPermission = learnerPermission;
 			mappingChanged = true;
 		}
-		if (mappingChanged || !mappingExists)
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (mapping.ObserverPermission != observerPermission)
+        {
+            mapping.ObserverPermission = observerPermission;
+            mappingChanged = true;
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (mappingChanged || !mappingExists)
 			mapping.Update();
 
 		// create the database if specified
@@ -314,6 +343,10 @@ public static class SlkAdministration
                 AppResources.SlkInstructorPermissionDescription, 0);
             CreatePermission(spSiteGuid, learnerPermission,
 				AppResources.SlkLearnerPermissionDescription, 0);
+            ////////////////////////////////////////////////////////////////////////////////////////////////////
+            CreatePermission(spSiteGuid, observerPermission,
+                AppResources.SlkObserverPermissionDescription, 0);
+            ////////////////////////////////////////////////////////////////////////////////////////////////////        
         }
 
         // make sure we can access LearningStore; while we're at it, find out if there's a row
@@ -748,7 +781,16 @@ public class SlkSPSiteMapping : SPPersistedObject
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	string m_learnerPermission;
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Holds the value of the <c>ObserverPermission</c> property.
+    /// </summary>
+    [Persisted]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    string m_observerPermission;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 	// Public Properties
 	//
 
@@ -889,6 +931,25 @@ public class SlkSPSiteMapping : SPPersistedObject
 			m_learnerPermission = value;
 		}
 	}
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Sets or gets the name of SharePoint permission used to identify observers.
+    /// </summary>
+    public string ObserverPermission
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_observerPermission;
+        }
+        [DebuggerStepThrough]
+        set
+        {
+            m_observerPermission = value;
+        }
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////            
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Public Methods

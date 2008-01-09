@@ -286,6 +286,11 @@ namespace Microsoft.SharePointLearningKit
         public const string SPWebScope = "SPWebScope";
 
         /// <summary>
+        /// Name of querystring parameter for passing learner user key for the observer mode
+        /// </summary>
+        public const string LearnerKey = "LearnerKey";
+
+        /// <summary>
         /// Name of querystring parameter for Sorting Order
         /// </summary>
         public const string Sort = "Sort";

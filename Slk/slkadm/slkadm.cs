@@ -206,6 +206,7 @@ class Program
 		bool createDatabase = false;
 		string instructorPermission = null;
 		string learnerPermission = null;
+        string observerPermission = null;
 		bool createPermissions = false;
 		string settingsFileName = null;
         bool defaultSlkSettings = false;
@@ -231,6 +232,9 @@ class Program
 			case "-learnerpermission":
 				learnerPermission = GetNextArg(argEnum);
 				break;
+            case "-observerpermission":
+                observerPermission = GetNextArg(argEnum);
+                break;
 			case "-createpermissions":
 				createPermissions = true;
 				break;
@@ -263,11 +267,11 @@ class Program
 		{
 			// load default parameter values as needed
             string currentDatabaseServer, currentDatabaseName, currentInstructorPermission,
-				currentLearnerPermission;
+				currentLearnerPermission, currentObserverPermission;
             bool currentCreateDatabase, currentCreatePermissions;
             bool mappingFound = SlkAdministration.LoadConfiguration(spSite.ID,
 				out currentDatabaseServer, out currentDatabaseName, out currentCreateDatabase,
-				out currentInstructorPermission, out currentLearnerPermission,
+				out currentInstructorPermission, out currentLearnerPermission, out currentObserverPermission,
 				out currentCreatePermissions);
 			if (databaseServer == null)
 				databaseServer = currentDatabaseServer;
@@ -277,6 +281,9 @@ class Program
 				instructorPermission = currentInstructorPermission;
 			if (learnerPermission == null)
 				learnerPermission = currentLearnerPermission;
+            if (observerPermission == null)
+                observerPermission = currentObserverPermission;
+
 
 			// set <exeDirPath> to the full path of the directory containing this .exe
 			string exeDirPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -307,7 +314,7 @@ class Program
 			// save the SLK configuration for this SPSite
 			Console.WriteLine(AdmResources.ConfiguringSlk, spSite.Url, spSite.ID);
 			SlkAdministration.SaveConfiguration(spSite.ID, databaseServer, databaseName,
-				schemaFileContents, instructorPermission, learnerPermission, createPermissions,
+				schemaFileContents, instructorPermission, learnerPermission, observerPermission, createPermissions,
 				settingsFileContents, defaultSettingsFileContents,
                 spSite.WebApplication.ApplicationPool.Username,
                 ImpersonationBehavior.UseOriginalIdentity);
@@ -350,11 +357,11 @@ class Program
 		// perform the operation
         using (SPSite spSite = new SPSite(url))
 		{
-            string databaseServer, databaseName, instructorPermission, learnerPermission;
+            string databaseServer, databaseName, instructorPermission, learnerPermission, observerPermission;
             bool createDatabase, createPermissions;
             bool mappingFound = SlkAdministration.LoadConfiguration(spSite.ID, out databaseServer,
                 out databaseName, out createDatabase, out instructorPermission,
-                out learnerPermission, out createPermissions);
+                out learnerPermission, out observerPermission, out createPermissions);
             if (mappingFound)
                 Console.WriteLine(AdmResources.SiteConfig_FoundConfig, spSite.Url, spSite.ID);
             else

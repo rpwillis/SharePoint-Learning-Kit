@@ -46,6 +46,7 @@ public class ConfigurePage : System.Web.UI.Page
     protected InputFormCheckBox ChkCreateDatabase;
     protected InputFormTextBox TxtInstructorPermission;
     protected InputFormTextBox TxtLearnerPermission;
+    protected InputFormTextBox TxtObserverPermission;
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Chk")]
     protected InputFormCheckBox ChkCreatePermissions;
     protected HyperLink LinkCurrentSettingsFile;
@@ -72,6 +73,7 @@ public class ConfigurePage : System.Web.UI.Page
 	protected InputFormControl inputDatabaseServer;
 	protected InputFormControl inputInstructorPermissions;
 	protected InputFormControl inputLearnerPermissions;
+    protected InputFormControl inputObserverPermissions;
 	protected InputFormControl inputSlkSettingsFile;
 	protected Label labelSlkSettingDescription;
 	protected InputFormSection inputSlkSettings;
@@ -114,15 +116,17 @@ public class ConfigurePage : System.Web.UI.Page
             bool createDatabase;
             string instructorPermission;
             string learnerPermission;
+            string observerPermission;
             bool createPermissions;
             SlkAdministration.LoadConfiguration(new Guid(SPSiteSelector.CurrentId),
 				out databaseServer, out databaseName, out createDatabase,
-				out instructorPermission, out learnerPermission, out createPermissions);
+				out instructorPermission, out learnerPermission, out observerPermission, out createPermissions);
             TxtDatabaseServer.Text = databaseServer;
             TxtDatabaseName.Text = databaseName;
             ChkCreateDatabase.Checked = createDatabase;
             TxtInstructorPermission.Text = instructorPermission;
             TxtLearnerPermission.Text = learnerPermission;
+            TxtObserverPermission.Text = observerPermission;
             ChkCreatePermissions.Checked = createPermissions;
         }
         catch (SafeToDisplayException ex)
@@ -196,7 +200,7 @@ public class ConfigurePage : System.Web.UI.Page
             // save the SLK configuration for this SPSite
             SlkAdministration.SaveConfiguration(new Guid(SPSiteSelector.CurrentId),
                 TxtDatabaseServer.Text, TxtDatabaseName.Text, schemaFileContents,
-                TxtInstructorPermission.Text, TxtLearnerPermission.Text,
+                TxtInstructorPermission.Text, TxtLearnerPermission.Text, TxtObserverPermission.Text,
                 ChkCreatePermissions.Checked, settingsFileContents, defaultSettingsFileContents,
                 null, ImpersonationBehavior.UseOriginalIdentity);
 
@@ -241,6 +245,7 @@ public class ConfigurePage : System.Web.UI.Page
         ChkCreateDatabase.Enabled = enable;
         TxtInstructorPermission.Enabled = enable;
         TxtLearnerPermission.Enabled = enable;
+        TxtObserverPermission.Enabled = enable;
         ChkCreatePermissions.Enabled = enable;
         LinkCurrentSettingsFile.Enabled = enable;
         if (linkDefaultSettingsFileToo)
@@ -285,6 +290,8 @@ public class ConfigurePage : System.Web.UI.Page
 		TxtInstructorPermission.ToolTip = AppResources.ConfigureTxtInstructorPermissionToolTip;
 		inputLearnerPermissions.LabelText = AppResources.ConfigureInputLearnerPermissionsLabelText;
 		TxtLearnerPermission.ToolTip = AppResources.ConfigureTxtLearnerPermissionToolTip;
+        inputObserverPermissions.LabelText = AppResources.ConfigureInputObserverPermissionsLabelText;
+        TxtObserverPermission.ToolTip = AppResources.ConfigureTxtObserverPermissionToolTip;
 		ChkCreatePermissions.LabelText = AppResources.ConfigureChkCreatePermissionsLabelText;
 		inputSlkSettings.Title = AppResources.ConfigureInputSlkSettingsTitle;
 		labelSlkSettingDescription.Text = AppResources.ConfigureLabelSlkSettingDescriptionText;

@@ -33,9 +33,51 @@ namespace Microsoft.SharePointLearningKit.Frameset
         private LearnerAssignmentItemIdentifier m_learnerAssignmentId;
         private LearnerAssignmentProperties m_learnerAssignmentProperties;
 
+        /////////////////////////////////////////////////////////////////////////////////////
+        private string m_observerRoleLearnerKey;
+        private SlkStore m_observerRoleLearnerStore;
+
+        /// <summary>
+        /// Gets the learnerKey session parameter which is used as the LearningStore user
+        /// if the user is an SlkObserver
+        /// </summary>
+        private string ObserverRoleLearnerKey
+        {
+            get
+            {
+                if (m_observerRoleLearnerKey == null)
+                {
+                    if(Session["LearnerKey"] != null && base.SlkStore.IsObserver(SPWeb))
+                        m_observerRoleLearnerKey = Session["LearnerKey"].ToString();
+                }
+                return m_observerRoleLearnerKey;
+            }
+        }
+
+	/// <summary>
+	/// Overriding the SlkStore property to take the Observer role into account
+	/// </summary>
+        public override SlkStore SlkStore
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(ObserverRoleLearnerKey) == false)
+                {
+                    if(m_observerRoleLearnerStore == null)
+                        m_observerRoleLearnerStore = SlkStore.GetStore(SPWeb, ObserverRoleLearnerKey);
+                    return m_observerRoleLearnerStore;
+                }
+                return base.SlkStore;
+            }
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////
+
+
         public FramesetPage()
             : base()
         {
+            
         }
 
         private FramesetPageHelper FramesetHelper
@@ -133,8 +175,15 @@ namespace Microsoft.SharePointLearningKit.Frameset
                             throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
                         }
 
+                        // If the user is an observer and the assignment state is equal to 'Completed' or 'NotStarted',
+                        // then register error message
+                        if (SlkStore.IsObserver(SPWeb) && ((la.Status == LearnerAssignmentState.Completed) || (la.Status == LearnerAssignmentState.NotStarted)))
+                        {
+                            RegisterError(SlkFrameset.FRM_ObserverReviewNotAvailableTitle, SlkFrameset.FRM_ObserverReviewNotAvailableMsgHtml, false);
+                            return false;
+                        }
                         // If requesting student review, the assignment state must be final
-                        if (la.Status != LearnerAssignmentState.Final)
+                        if ( !SlkStore.IsObserver(SPWeb) && la.Status != LearnerAssignmentState.Final)
                         {
                             RegisterError(SlkFrameset.FRM_ReviewNotAvailableTitle,
                                 SlkFrameset.FRM_LearnerReviewNotAvailableMsgHtml, false);
@@ -222,7 +271,18 @@ namespace Microsoft.SharePointLearningKit.Frameset
             if ((m_learnerAssignmentProperties == null)
                 || forceUpdate)
             {
-                m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentId, GetSlkRole(AssignmentView));
+                SlkRole slkRole;
+                if (SlkStore.IsObserver(SPWeb) && AssignmentView == AssignmentView.StudentReview)
+                {
+                    // If the user is an observer and the AssignmentView is 'StudentReview', then
+                    // set the slkrole to 'Observer'; Otherwise get the role using GetSlkRole method
+                    slkRole = SlkRole.Observer;
+                }
+                else
+                {
+                    slkRole = GetSlkRole(AssignmentView);
+                }
+                m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentId, slkRole);
             }
 
             return m_learnerAssignmentProperties;

@@ -452,11 +452,11 @@ class Program
         {
             // load default parameter values as needed
             string currentDatabaseServer, currentDatabaseName, instructorPermission,
-                learnerPermission;
+                learnerPermission, observerPermission;
             bool createDatabase, createPermissions;
             bool mappingFound = SlkAdministration.LoadConfiguration(spSite.ID,
                 out currentDatabaseServer, out currentDatabaseName, out createDatabase,
-                out instructorPermission, out learnerPermission, out createPermissions);
+                out instructorPermission, out learnerPermission, out observerPermission, out createPermissions);
             if (databaseServer == "CurrentOrDefaultServer")
                 databaseServer = currentDatabaseServer;
             else
@@ -485,7 +485,7 @@ class Program
 
             // save the SLK configuration for this SPSite
             SlkAdministration.SaveConfiguration(spSite.ID, databaseServer, databaseName,
-                schemaFileContents, instructorPermission, learnerPermission, createPermissions,
+                schemaFileContents, instructorPermission, learnerPermission, observerPermission, createPermissions,
                 null, settingsFileContents, spSite.WebApplication.ApplicationPool.Username,
                 ImpersonationBehavior.UseOriginalIdentity);
         }
