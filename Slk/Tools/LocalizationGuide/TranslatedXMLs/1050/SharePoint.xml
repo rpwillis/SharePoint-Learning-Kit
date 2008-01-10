@@ -1,0 +1,62 @@
+﻿<root>
+  <assembly culture="hr" name="Microsoft.LearningComponents.SharePoint.resources" version="1.1.0.0">
+  </assembly>
+  <resources name="Microsoft.LearningComponents.SharePoint.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.SharePoint.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CacheCreateDirCleanupFailed</ID>
+        <Source>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>Kreiranje cache mape nije uspjelo a pogrešna cache mapa i/ili zaključana datoteka ne mogu biti uklonjene.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPLockTriesExceeded</ID>
+        <Source>Could not get a lock on the file within the allowed tries.</Source>
+        <Translation>Nije se mogla zaključati datoteka u okviru dopuštenih pokušaja.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPCannotWriteToLockFile</ID>
+        <Source>Could not write to lock file of cache directory.</Source>
+        <Translation>Nije se moglo zaključati datoteku u cache mapi.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFoundNoName</ID>
+        <Source>The requested file was not found.</Source>
+        <Translation>Tražena datoteka nije pronađena.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CacheLockDirCleanupFailed</ID>
+        <Source>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>Zaključavanje cache mape nije uspjelo a pogrešna cache mapa i/ili zaključana datoteka ne mogu biti uklonjene.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileVersionNotFound</ID>
+        <Source>The version {0} of file {1} does not exist.</Source>
+        <Translation>Verzija {0} datoteke {1} ne postoji.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFound</ID>
+        <Source>The file {0} was not found.</Source>
+        <Translation>Datoteka {0} nije pronađena.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CacheCachePathNotAccessible</ID>
+        <Source>The package cache directory is not accessible. It may not exist or you may not have access to it.</Source>
+        <Translation>Paket cache mapa nije dostupna. Možda ne postoji ili vi nemate pristup do nje.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFormatInvalid</ID>
+        <Source>'{0}' does not have the correct format.</Source>
+        <Translation>'{0}' nema ispravan format.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPInvalidPackage</ID>
+        <Source>The package is not valid and cannot be read. More information: {0}</Source>
+        <Translation>Pakiranje nije ispravno i ne može biti pročitano. Više informacija: {0}</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>
