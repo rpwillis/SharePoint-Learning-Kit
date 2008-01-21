@@ -32,7 +32,7 @@ namespace Microsoft.LearningComponents.Storage
             writer.WriteLine("-- " + String.Format(CultureInfo.CurrentCulture, Resources.SqlInitCreateTable, en.Name));
             writer.WriteLine("CREATE TABLE [" + en.Name + "](");
             writer.Indent++;
-            writer.WriteLine("Id int PRIMARY KEY,");
+            writer.WriteLine("Id int IDENTITY PRIMARY KEY,");
             writer.WriteLine("Name varchar(63) NOT NULL");
             writer.Indent--;
             writer.WriteLine(")");
