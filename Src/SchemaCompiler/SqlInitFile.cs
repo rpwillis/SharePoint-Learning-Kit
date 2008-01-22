@@ -36,6 +36,7 @@ namespace Microsoft.LearningComponents.Storage
             writer.WriteLine("Name varchar(63) NOT NULL");
             writer.Indent--;
             writer.WriteLine(")");
+            writer.WriteLine("SET IDENTITY_INSERT [" + en.Name + "] ON");
             writer.WriteLine("GRANT SELECT ON [" + en.Name + "] TO LearningStore");
 
             // Add code that adds each enum value
@@ -53,7 +54,7 @@ namespace Microsoft.LearningComponents.Storage
                 writer.Indent--;
                 writer.WriteLine(")");
             }
-
+            writer.WriteLine("SET IDENTITY_INSERT [" + en.Name + "] OFF");
             writer.WriteLine();
         }
 
@@ -1030,6 +1031,7 @@ namespace Microsoft.LearningComponents.Storage
 
             if (value == null)
                 return "NULL";
+
 
             switch (property.ValueTypeCode)
             {
