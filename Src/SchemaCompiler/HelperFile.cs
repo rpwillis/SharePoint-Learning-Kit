@@ -353,6 +353,8 @@ namespace Microsoft.LearningComponents.Storage
             {
                 if (property.GetDefaultValue() == null)
                     defaultValue = "null";
+                else if (property.IsDefaultAFunction == true)
+                    defaultValue = property.GetDefaultValue().ToString();
                 else
                 {
                     switch (property.ValueTypeCode)

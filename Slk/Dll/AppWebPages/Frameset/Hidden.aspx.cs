@@ -239,7 +239,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 if (SessionEnded)
                 {
                     // Call FinishLearnerAssignment since the attempt has already been completed.
-                    SlkStore.FinishLearnerAssignment(LearnerAssignmentId);
+                    SlkStore.FinishLearnerAssignment(LearnerAssignmentGuidId);
                 }
             }
             else if (session.View == SessionView.RandomAccess)

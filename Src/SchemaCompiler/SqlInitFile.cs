@@ -84,6 +84,10 @@ namespace Microsoft.LearningComponents.Storage
             {
                 sqlType += " CHECK(LEN([" + property.Name + "])<=" + property.Length.ToString() + ")";
             }
+            if ((property.ValueTypeCode == LearningStoreValueTypeCode.Guid) && (property.RowGuidIsTrue))
+            {
+                sqlType += " ROWGUIDCOL";
+            }
             foreach(string constraint in property.Constraints)
             {
                 sqlType += " " + constraint;
@@ -1032,6 +1036,8 @@ namespace Microsoft.LearningComponents.Storage
             if (value == null)
                 return "NULL";
 
+            if (property.IsDefaultAFunction == true)
+                return value.ToString();
 
             switch (property.ValueTypeCode)
             {

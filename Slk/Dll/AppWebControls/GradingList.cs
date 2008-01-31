@@ -232,6 +232,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             item.LearnerName = gradingProperties.LearnerName;
             item.Status = gradingProperties.Status.GetValueOrDefault();
             item.SuccessStatus = gradingProperties.SuccessStatus;
+            item.LearnerAssignmentGuidId = gradingProperties.LearnerAssignmentGuidId;
 
 
             //adds the GradingItem to the GradingItemCollection
@@ -398,11 +399,12 @@ namespace Microsoft.SharePointLearningKit.WebControls
                         lnkLearnerItem.NavigateUrl
                             = String.Format(
                                        CultureInfo.InvariantCulture,
-                                       "javascript:Slk_DisableGradingFinalScore(\"{0}?{1}={2}&{3}={4}\",{4},{5});",
+                                       "javascript:Slk_DisableGradingFinalScore(\"{0}?{1}={2}&{3}={4}\",{5},{6});",
                                        Constants.FrameSetPage,
                                        FramesetQueryParameter.SlkView,
                                        Frameset.AssignmentView.InstructorReview,
-                                       FramesetQueryParameter.LearnerAssignmentId,
+                                       FramesetQueryParameter.LearnerAssignmentGuidId,
+                                       item.LearnerAssignmentGuidId,
                                        item.LearnerAssignmentId,
                                        IsClassServerContent ? "true" : "false");
                         break;
@@ -414,15 +416,16 @@ namespace Microsoft.SharePointLearningKit.WebControls
                         lnkLearnerItem.NavigateUrl
                             = String.Format(
                                        CultureInfo.InvariantCulture,
-                                       "javascript:Slk_DisableGradingFinalScore(\"{0}?{1}={2}&{3}={4}&{6}={7}\",{4},{5});",
+                                       "javascript:Slk_DisableGradingFinalScore(\"{0}?{1}={2}&{3}={4}&{6}={7}\",{8},{5});",
                                        Constants.FrameSetPage,
                                        FramesetQueryParameter.SlkView,
                                        Frameset.AssignmentView.Grading,
-                                       FramesetQueryParameter.LearnerAssignmentId,
-                                       item.LearnerAssignmentId,
+                                       FramesetQueryParameter.LearnerAssignmentGuidId,
+                                       item.LearnerAssignmentGuidId,
                                        IsClassServerContent ? "true" : "false",
                                        FramesetQueryParameter.Src,
-                                       "Grading");
+                                       "Grading",
+                                       item.LearnerAssignmentId);
                         break;
                     //If LearnerAssignmentState is Final, Opens frameset in a new non-named window 
                     //in Grading View.
@@ -432,15 +435,16 @@ namespace Microsoft.SharePointLearningKit.WebControls
                         lnkLearnerItem.NavigateUrl
                             = String.Format(
                                     CultureInfo.InvariantCulture,
-                                    "javascript:Slk_DisableGradingFinalScore(\"{0}?{1}={2}&{3}={4}&{6}={7}\",{4},{5});",
+                                    "javascript:Slk_DisableGradingFinalScore(\"{0}?{1}={2}&{3}={4}&{6}={7}\",{8},{5});",
                                     Constants.FrameSetPage,
                                     FramesetQueryParameter.SlkView,
                                     Frameset.AssignmentView.Grading,
-                                    FramesetQueryParameter.LearnerAssignmentId,
-                                    item.LearnerAssignmentId,
+                                    FramesetQueryParameter.LearnerAssignmentGuidId,
+                                    item.LearnerAssignmentGuidId,
                                     IsClassServerContent ? "true" : "false",
                                     FramesetQueryParameter.Src,
-                                    "Grading");
+                                    "Grading",
+                                    item.LearnerAssignmentId);
 
                         break;
                 }
@@ -1301,6 +1305,10 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// </summary> 
         private long m_learnerAssignmentId;
         /// <summary>
+        /// Holds the Learner Assignment Guid ID
+        /// </summary> 
+        private Guid m_learnerAssignmentGuidId;
+        /// <summary>
         /// Holds Learner’s name
         /// </summary> 
         private string m_learnerName;
@@ -1357,6 +1365,14 @@ namespace Microsoft.SharePointLearningKit.WebControls
         {
             get { return m_learnerAssignmentId; }
             set { m_learnerAssignmentId = value; }
+        }
+        /// <summary>
+        /// Learner assignment Guid ID
+        /// </summary> 
+        internal Guid LearnerAssignmentGuidId
+        {
+            get { return m_learnerAssignmentGuidId; }
+            set { m_learnerAssignmentGuidId = value; }
         }
         /// <summary>
         /// Learner’s name

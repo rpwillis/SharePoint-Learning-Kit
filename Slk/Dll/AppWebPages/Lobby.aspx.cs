@@ -91,28 +91,31 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 		#endregion
 
 		#region Private Variables
-		private LearnerAssignmentItemIdentifier m_learnerAssignmentId;
+        private Guid m_learnerAssignmentGuidId = Guid.Empty;
 		private LearnerAssignmentProperties m_learnerAssignmentProperties;
 		private bool setStatusToActive;
 		#endregion
 
 		#region Private Properties
-		/// <summary>
-		/// Gets the value of the "LearnerAssignmentId" query parameter.
-		/// </summary>
-		private LearnerAssignmentItemIdentifier LearnerAssignmentId
-		{
-			get
-			{
-				if (m_learnerAssignmentId == null)
-				{
-					long id;
-					QueryString.Parse(QueryStringKeys.LearnerAssignmentId, out id, false);
-					m_learnerAssignmentId = new LearnerAssignmentItemIdentifier(id);
-				}
-				return m_learnerAssignmentId;
-			}
-		}
+
+        /// <summary>
+        /// Gets the value of the "LearnerAssignmentGuidId" query parameter.
+        /// </summary>
+        private Guid LearnerAssignmentGuidId
+        {
+            get
+            {
+                if (m_learnerAssignmentGuidId.Equals(Guid.Empty) == true)
+                {
+                    Guid id;
+                    QueryString.Parse(QueryStringKeys.LearnerAssignmentGuidId, out id);
+
+                    m_learnerAssignmentGuidId = id;
+                }
+                return m_learnerAssignmentGuidId;
+            }
+        }
+
 
 		/// <summary>
 		/// Gets the properties of the learner assignment being displayed by this page.
@@ -123,7 +126,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 			{
 				if (m_learnerAssignmentProperties == null)
 				{
-					m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentId,
+					m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentGuidId,
 						SlkRole.Learner);
 				}
 				return m_learnerAssignmentProperties;
@@ -169,7 +172,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 					// learner assignments into Final state) -- using Completed works because
 					// SlkStore.ChangeLearnerAssignmentState performs auto-return even if the current state is
 					// LearnerAssignmentState.Completed
-					SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentId, LearnerAssignmentState.Completed);
+					SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
 					// Set the property to null so that it will refresh the next time it is referenced
 					LearnerAssignmentProperties = null;
 				}
@@ -291,9 +294,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 					&& learnerAssignmentStatus == LearnerAssignmentState.NotStarted))
 				{
 					slkButtonBegin.OnClientClick = String.Format(CultureInfo.InvariantCulture, "SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}'); return false;",
-						FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentId.GetKey());
+						FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentGuidId, LearnerAssignmentGuidId.ToString());
 					slkButtonBegin.NavigateUrl = String.Format(CultureInfo.InvariantCulture, "javascript:SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}');",
-						FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentId.GetKey());
+						FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentGuidId, LearnerAssignmentGuidId.ToString());
 				}
 				slkButtonBegin.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
 
@@ -338,7 +341,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 			}
 			catch (InvalidOperationException)
 			{
-				errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyInvalidLearnerAssignmentId, LearnerAssignmentId.GetKey()));
+				errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyInvalidLearnerAssignmentId, LearnerAssignmentGuidId.ToString()));
 				contentPanel.Visible = false;
 			}
 			catch (ThreadAbortException)
@@ -383,7 +386,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 			// Only for non-e-learning content
 			ClientScript.RegisterStartupScript(this.GetType(), "SlkOpenFrameset",
 				String.Format(CultureInfo.InvariantCulture, "SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}');",
-				FramesetQueryParameter.SlkView, AssignmentView.Execute, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentId.GetKey()), true);
+				FramesetQueryParameter.SlkView, AssignmentView.Execute, FramesetQueryParameter.LearnerAssignmentGuidId, LearnerAssignmentGuidId.ToString()), true);
 
 			setStatusToActive = true;
 		}
@@ -401,7 +404,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 			{
                 try
                 {
-                    SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentId, LearnerAssignmentState.Completed);
+                    SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
                 }
                 catch (InvalidOperationException)
 				{

@@ -438,6 +438,14 @@ span.Header2 { font-size: 14pt; font-weight: bold }
 				this item automatically deleted when the referenced item is 
 				deleted?&nbsp; The default is &quot;false&quot;.</td>
 			</tr>
+			<tr>
+				<td valign="top">RowGuid</td>
+				<td valign="top">xs:boolean</td>
+				<td valign="top">no</td>
+				<td valign="top">When the type of the property is Guid, this boolean field
+				indicates whether the Guid datatype is a RowGuid or not.
+				The default is &quot;false&quot;</td>
+			</tr>
 			</table>
 		<br>
 		<u>Character data:</u> None<p/>
@@ -485,10 +493,19 @@ span.Header2 { font-size: 14pt; font-weight: bold }
 				should be null.&nbsp; If not provided, then the default value is 
 				assumed not to be null.</td>
 			</tr>
+			<tr>
+				<td valign="top">IsFunction</td>
+				<td valign="top">xs:boolean</td>
+				<td valign="top">no</td>
+				<td valign="top">True if the specified default value for the property 
+				is a sql function.</td>
+			</tr>
 			</table>
 		<br>
 		<u>Character data:</u> Default value of the property, or empty if the 
-		Null attribute is true.&nbsp; The format depends on the Type attribute 
+		Null attribute is true. A SQL Function can be specified as the default
+	        value if the <i>IsFunction</i> attribute is true.	
+	       	&nbsp; The format depends on the Type attribute 
 		of the property:<ul>
 			<li>ItemIdentifier: Invalid.&nbsp; ItemIdentifiers can't have 
 			non-null default values.</li>
