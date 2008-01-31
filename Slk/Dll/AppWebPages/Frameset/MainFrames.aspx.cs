@@ -31,10 +31,10 @@ namespace Microsoft.SharePointLearningKit.Frameset
             // On page load, just get the required parameters. Errors are not registered, as this frame doesn't show errors.
 
             // Compiler doesn't allow passing property as out parameter, so get the value then assign it to the property.
-            LearnerAssignmentItemIdentifier learnerAssignmentId;
-            if (!TryProcessLearnerAssignmentIdParameter(false, out learnerAssignmentId))
+            Guid learnerAssignmentGuidId;
+            if (!TryProcessLearnerAssignmentIdParameter(false, out learnerAssignmentGuidId))
                 return;
-            LearnerAssignmentId = learnerAssignmentId;
+            LearnerAssignmentGuidId = learnerAssignmentGuidId;
 
             if (!TryProcessAssignmentViewParameter(false, out m_view))
                 return;
@@ -51,7 +51,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             {
                 string strUrl = String.Format(CultureInfo.CurrentCulture, "Hidden.aspx?{0}={1}&{2}={3}&{4}=1",
                     FramesetQueryParameter.SlkView, FramesetQueryParameter.GetValueAsParameter(m_view),
-                    FramesetQueryParameter.LearnerAssignmentId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentId),
+                    FramesetQueryParameter.LearnerAssignmentGuidId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId),
                     FramesetQueryParameter.Init);
                 UrlString hiddenUrl = new UrlString(strUrl);
                 return hiddenUrl.ToAscii();
@@ -66,7 +66,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 string strUrl = String.Format(CultureInfo.CurrentCulture,
                                 "Toc.aspx?{0}={1}&{2}={3}",
                                 FramesetQueryParameter.SlkView, FramesetQueryParameter.GetValueAsParameter(m_view),
-                                FramesetQueryParameter.LearnerAssignmentId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentId)) ;
+                                FramesetQueryParameter.LearnerAssignmentGuidId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId)) ;
                 UrlString hiddenUrl = new UrlString(strUrl);
                 return hiddenUrl.ToAscii();
             }

@@ -507,6 +507,17 @@
 			</Remarks>
 		</Documentation>
 		<Properties>
+			<Property Name="GuidId" Type="Guid" RowGuid="true" Nullable="true">
+				<Default IsFunction='true'>(newid())</Default>
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							GuidId is a column that is similar to the Id column that identifies a LearnerAssignment
+							uniquely. It is here as a more non-guessable entity compared to the Id column
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
 			<Property Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem" CascadeDelete="true">
 				<Documentation>
 					<Summary xmlns="">
@@ -766,6 +777,15 @@
 					</Summary>
 				</Documentation>
 			</Column>
+			<Column Name="LearnerAssignmentGuidId" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Holds the value of the GuidId column of the LearnerAssignmentItem
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
 			<Column Name="LearnerId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
 				<Documentation>
 					<Summary xmlns="">
@@ -828,6 +848,7 @@
 			SELECT
 			----- from LearnerAssignmentItem -----
 			lai.Id                          LearnerAssignmentId,
+			lai.GuidId			LearnerAssignmentGuidId,
 			lai.LearnerId                   LearnerId,
 			----- from AssignmentItem -----
 			asi.AutoReturn                  AssignmentAutoReturn,
@@ -1852,6 +1873,15 @@
 					</Summary>
 				</Documentation>
 			</Column>
+			<Column Name="LearnerAssignmentGuidId" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Holds the value of the GuidId column of the LearnerAssignmentItem
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
 			<Column Name="LearnerId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
 				<Documentation>
 					<Summary xmlns="">
@@ -2221,6 +2251,7 @@
 			SELECT
 			----- from LearnerAssignmentItem -----
 			lai.Id                          LearnerAssignmentId,
+			lai.GuidId			LearnerAssignmentGuidId,
 			lai.LearnerId                   LearnerId,
 			lui.[Name]                      LearnerName,
 			lui.[Key]                       LearnerKey,
@@ -2320,6 +2351,15 @@
 					<Summary xmlns="">
 						<para>
 							LearnerAssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Id.Field.htm">LearnerAssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerAssignmentGuidId" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Holds the value of the GuidId column of the LearnerAssignmentItem
 						</para>
 					</Summary>
 				</Documentation>
@@ -2852,6 +2892,7 @@
 			----- from LearnerAssignmentItem -----
 
 			lai.Id                          LearnerAssignmentId,
+			lai.GuidId                      LearnerAssignmentGuidId,
 			lai.LearnerId                   LearnerId,
 			lui.[Name]                      LearnerName,
 			lui.[Key]                       LearnerKey,
@@ -3006,6 +3047,15 @@
 					<Summary xmlns="">
 						<para>
 							LearnerAssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Id.Field.htm">LearnerAssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerAssignmentGuidId" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Holds the value of the GuidId column of the LearnerAssignmentItem
 						</para>
 					</Summary>
 				</Documentation>
@@ -3379,6 +3429,7 @@
 			SELECT
 			----- from LearnerAssignmentItem -----
 			lai.Id                          LearnerAssignmentId,
+			lai.GuidId			LearnerAssignmentGuidId,
 			lai.LearnerId                   LearnerId,
 			lui.[Name]                      LearnerName,
 			lui.[Key]                       LearnerKey,
@@ -3794,7 +3845,7 @@
 	</ExtendRight>
 	<Right Name="StartAttemptOnLearnerAssignmentRight">
 		<Parameters>
-			<Parameter Name="LearnerAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="LearnerAssignmentItem" />
+			<Parameter Name="LearnerAssignmentGuidId" Type="Guid"/>
 		</Parameters>
 		<Grant>
 			<!-- Is the user a learner or instructor on the assignment, and is the assignment an e-learning assignment? -->
@@ -3808,7 +3859,7 @@
 				LEFT OUTER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = lai.AssignmentId
 				INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
 				LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
-				WHERE lai.Id = @LearnerAssignmentId AND
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
 				ati.Id IS NULL AND
 				ai.RootActivityId IS NOT NULL AND
 				(lui.[Key]=@UserKey OR iui.[Key]=@UserKey)
@@ -3818,7 +3869,7 @@
 	</Right>
 	<Right Name="FinishLearnerAssignmentRight">
 		<Parameters>
-			<Parameter Name="LearnerAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="LearnerAssignmentItem" />
+			<Parameter Name="LearnerAssignmentGuidId" Type="Guid"/>
 		</Parameters>
 		<Grant>
 			<!-- Is the user an instructor or learner on the assignment? -->
@@ -3830,7 +3881,7 @@
 				LEFT OUTER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = lai.AssignmentId
 				INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
 				LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
-				WHERE lai.Id = @LearnerAssignmentId AND
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
 				(lui.[Key]=@UserKey OR iui.[Key]=@UserKey)
 				) THEN 1 ELSE 0 END
 			</Expression>
@@ -3838,7 +3889,7 @@
 	</Right>
 	<Right Name="CompleteLearnerAssignmentRight">
 		<Parameters>
-			<Parameter Name="LearnerAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="LearnerAssignmentItem" />
+			<Parameter Name="LearnerAssignmentGuidId" Type="Guid" />
 		</Parameters>
 		<Grant>
 			<!-- Is the user an instructor or learner on the assignment? -->
@@ -3850,7 +3901,7 @@
 				LEFT OUTER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = lai.AssignmentId
 				INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
 				LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
-				WHERE lai.Id = @LearnerAssignmentId AND
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
 				(lui.[Key]=@UserKey OR iui.[Key]=@UserKey)
 				) THEN 1 ELSE 0 END
 			</Expression>
@@ -3858,7 +3909,7 @@
 	</Right>
 	<Right Name="FinalizeLearnerAssignmentRight">
 		<Parameters>
-			<Parameter Name="LearnerAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="LearnerAssignmentItem" />
+			<Parameter Name="LearnerAssignmentGuidId" Type="Guid" />
 		</Parameters>
 		<Grant>
 			<!-- Is the user an instructor on the assignment? -->
@@ -3869,7 +3920,7 @@
 				FROM LearnerAssignmentItem lai
 				INNER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = lai.AssignmentId
 				INNER JOIN UserItem iui ON iai.InstructorId = iui.Id
-				WHERE lai.Id = @LearnerAssignmentId AND
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
 				iui.[Key]=@UserKey
 				) THEN 1 ELSE 0 END
 			</Expression>
@@ -3877,7 +3928,7 @@
 	</Right>
 	<Right Name="ActivateLearnerAssignmentRight">
 		<Parameters>
-			<Parameter Name="LearnerAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="LearnerAssignmentItem" />
+			<Parameter Name="LearnerAssignmentGuidId" Type="Guid" />
 		</Parameters>
 		<Grant>
 			<!-- Is the user an instructor on the assignment? -->
@@ -3888,7 +3939,7 @@
 				FROM LearnerAssignmentItem lai
 				INNER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = lai.AssignmentId
 				INNER JOIN UserItem iui ON iai.InstructorId = iui.Id
-				WHERE lai.Id = @LearnerAssignmentId AND
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
 				iui.[Key]=@UserKey
 				) THEN 1 ELSE 0 END
 			</Expression>
@@ -3901,7 +3952,7 @@
 				FROM LearnerAssignmentItem lai
 				INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
 				INNER JOIN AssignmentItem ai ON lai.AssignmentId = ai.Id
-				WHERE lai.Id = @LearnerAssignmentId AND
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
 				lui.[Key]=@UserKey AND
 				ai.RootActivityId IS NULL AND
 				(lai.NonELearningStatus IS NULL OR lai.NonELearningStatus = 0)

@@ -41,5 +41,13 @@ namespace Microsoft.LearningComponents.Frameset
 
             return value.ToString();
         }
+
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // parameter is verified
+        public static string GetValueAsParameter(Guid value)
+        {
+            FramesetUtil.ValidateNonNullParameter("value", value);
+
+            return value.ToString();
+        }
     }
 }

@@ -2447,7 +2447,7 @@ public class SlkStore
 	/// </remarks>
 	///
     [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-    public LearnerAssignmentItemIdentifier GetCurrentUserLearnerAssignment(
+    public Guid GetCurrentUserLearnerAssignment(
         AssignmentItemIdentifier assignmentId)
     {
         // Security checks: Returns null if not an learner on the assignment
@@ -2460,18 +2460,18 @@ public class SlkStore
         LearningStoreJob job = LearningStore.CreateJob();
 		LearningStoreQuery query = LearningStore.CreateQuery(
 			Schema.LearnerAssignmentListForLearners.ViewName);
-        query.AddColumn(Schema.LearnerAssignmentListForLearners.LearnerAssignmentId);
+        query.AddColumn(Schema.LearnerAssignmentListForLearners.LearnerAssignmentGuidId);
         query.AddCondition(Schema.LearnerAssignmentListForLearners.AssignmentId,
 			LearningStoreConditionOperator.Equal, assignmentId);
 		job.PerformQuery(query);
 		DataRowCollection dataRows = job.Execute<DataTable>().Rows;
 		if (dataRows.Count != 1)
-			return null; // learner assignment not found (or multiple learner assignments?)
-		LearnerAssignmentItemIdentifier learnerAssignmentId;
+			return Guid.Empty; // learner assignment not found (or multiple learner assignments?)
+		Guid learnerAssignmentGuidId;
 		LearningStoreHelper.CastNonNull(
-            dataRows[0][Schema.LearnerAssignmentListForLearners.LearnerAssignmentId],
-			out learnerAssignmentId);
-		return learnerAssignmentId;
+            dataRows[0][Schema.LearnerAssignmentListForLearners.LearnerAssignmentGuidId],
+			out learnerAssignmentGuidId);
+		return learnerAssignmentGuidId;
     }
 
     /// <summary>
@@ -2495,14 +2495,14 @@ public class SlkStore
     /// </exception>
     /// 
     public AttemptItemIdentifier StartAttemptOnLearnerAssignment(
-        LearnerAssignmentItemIdentifier learnerAssignmentId)
+        Guid learnerAssignmentGuidId)
     {
         // Security checks: Fails if the user doesn't have the right to create an
         // attempt on the assignment (checked using a rule in the schema)
 
         // Check parameters
-        if (learnerAssignmentId == null)
-            throw new ArgumentNullException("learnerAssignmentId");
+        if (learnerAssignmentGuidId.Equals(Guid.Empty) == true)
+            throw new ArgumentNullException("learnerAssignmentGuidId");
 
         // create a LearningStore job
         LearningStoreJob job = LearningStore.CreateJob();
@@ -2516,7 +2516,7 @@ public class SlkStore
         {
             // Demand the related right
             Dictionary<string,object> securityParameters = new Dictionary<string,object>();
-            securityParameters.Add(Schema.StartAttemptOnLearnerAssignmentRight.LearnerAssignmentId, learnerAssignmentId);
+            securityParameters.Add(Schema.StartAttemptOnLearnerAssignmentRight.LearnerAssignmentGuidId, learnerAssignmentGuidId);
             job.DemandRight(Schema.StartAttemptOnLearnerAssignmentRight.RightName, securityParameters);
             
             // Verified that the user has the right to create an attempt -- so perform the other
@@ -2528,8 +2528,9 @@ public class SlkStore
     	        query.AddColumn(Schema.LearnerAssignmentView.LearnerId);
 		        query.AddColumn(Schema.LearnerAssignmentView.RootActivityId);
 		        query.AddColumn(Schema.LearnerAssignmentView.AttemptId);
-		        query.AddCondition(Schema.LearnerAssignmentView.LearnerAssignmentId, LearningStoreConditionOperator.Equal,
-		            learnerAssignmentId);
+                query.AddColumn(Schema.LearnerAssignmentView.LearnerAssignmentId);
+		        query.AddCondition(Schema.LearnerAssignmentView.LearnerAssignmentGuidId, LearningStoreConditionOperator.Equal,
+		            learnerAssignmentGuidId);
 		        job.PerformQuery(query);
     		    
 		        // Execute the job
@@ -2541,7 +2542,7 @@ public class SlkStore
                 catch(LearningStoreSecurityException)
                 {
                     throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
-                        AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentId.GetKey()));
+                        AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                 }
                 if (dataRows.Count != 1)
                 {
@@ -2550,7 +2551,7 @@ public class SlkStore
                     // prevented code from getting this far if the learner assignment couldn't
                     // be found in the database
                     throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, 
-                        AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentId.GetKey()));
+                        AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                 }
                 DataRow dataRow = dataRows[0];
             
@@ -2570,6 +2571,10 @@ public class SlkStore
                 // Verify that there isn't already an attempt
                 if(attemptId != null)
 				    throw new InternalErrorException("SLK1013");
+
+                LearningStoreItemIdentifier learnerAssignmentId;
+                LearningStoreHelper.Cast(dataRow[Schema.LearnerAssignmentView.LearnerAssignmentId],
+                    out learnerAssignmentId);
 
                 // Create the attempt
                 StoredLearningSession session = StoredLearningSession.CreateAttempt(PackageStore,
@@ -2604,6 +2609,60 @@ public class SlkStore
         
         return attemptId;
     }
+
+    /// <summary>
+    /// Returns the GuidId corresponding to the LearnerAssignment identifier
+    /// </summary>
+    /// <param name="learnerAssignmentId">The ID of the learner assignment corresponding
+    ///     to the required GuidId</param>
+    /// <returns>The GuidId of the LeanerAssignment item</returns>
+    public Guid GetLearnerAssignmentGuidId(LearningStoreItemIdentifier learnerAssignmentId)
+    {
+        // Since this is a harmless query operation which returns a corresponding identifier
+        // we disable security checks by executing in the privileged scope
+
+        using (LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
+        {
+            LearningStoreJob job = LearningStore.CreateJob();
+
+            LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentView.ViewName);
+            query.AddColumn(Schema.LearnerAssignmentView.LearnerAssignmentGuidId);
+            query.AddCondition(Schema.LearnerAssignmentView.LearnerAssignmentId,
+                    LearningStoreConditionOperator.Equal, learnerAssignmentId);
+            job.PerformQuery(query);
+
+            DataRowCollection dataRows;
+            try
+            {
+                dataRows = job.Execute<DataTable>().Rows;
+            }
+            catch (LearningStoreSecurityException)
+            {
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                    AppResources.LearnerAssignmentNotFoundInDatabase,
+                        learnerAssignmentId.GetKey()));
+            }
+
+            if (dataRows.Count != 1)
+            {
+                // this error message includes the learner assignment ID, but that's okay since
+                // the information we provide does not allow the user to distinguish between the
+                // learner assignment not existing and the user not having access to it
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                    AppResources.LearnerAssignmentNotFoundInDatabase,
+                        learnerAssignmentId.GetKey()));
+            }
+            DataRow dataRow = dataRows[0];
+            Guid learnerAssignmentGuidId;
+            LearningStoreHelper.CastNonNull(dataRow[0], out learnerAssignmentGuidId);
+
+
+            return learnerAssignmentGuidId;
+        }
+
+
+
+    }
     
 	/// <summary>
 	/// Retrieves the properties of a SharePoint Learning Kit learner assignment (i.e. information
@@ -2630,14 +2689,14 @@ public class SlkStore
 	///
     [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
     public LearnerAssignmentProperties GetLearnerAssignmentProperties(
-        LearnerAssignmentItemIdentifier learnerAssignmentId, SlkRole slkRole)
+        Guid learnerAssignmentGuidId, SlkRole slkRole)
     {
         // Security checks: Fails if the user doesn't have access to the learner assignment (since
         // the query is limited to only the information the user has access to, and an exception
         // is thrown if zero rows are returned)
 
         // Check parameters
-        if (learnerAssignmentId == null)
+        if (learnerAssignmentGuidId.Equals(Guid.Empty)== true)
             throw new ArgumentNullException("learnerAssignmentId");
         if ((slkRole != SlkRole.Instructor) && (slkRole != SlkRole.Learner) && (slkRole != SlkRole.Observer))
             throw new ArgumentOutOfRangeException("slkRole");
@@ -2664,6 +2723,7 @@ public class SlkStore
         if (instructorRole)
         {
             query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
+            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentId);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentSPSiteGuid);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentSPWebGuid);
@@ -2689,14 +2749,15 @@ public class SlkStore
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.FinalPoints);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.InstructorComments);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.HasInstructors);
-            query.AddCondition(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId,
-                LearningStoreConditionOperator.Equal, learnerAssignmentId);
+            query.AddCondition(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId,
+                LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
             job.PerformQuery(query);
         }
         else
         if (observerRole)
         {
             query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForObservers.ViewName);
+            query.AddColumn(Schema.LearnerAssignmentListForObservers.LearnerAssignmentId);
             query.AddColumn(Schema.LearnerAssignmentListForObservers.AssignmentId);
             query.AddColumn(Schema.LearnerAssignmentListForObservers.AssignmentSPSiteGuid);
             query.AddColumn(Schema.LearnerAssignmentListForObservers.AssignmentSPWebGuid);
@@ -2722,14 +2783,15 @@ public class SlkStore
             query.AddColumn(Schema.LearnerAssignmentListForObservers.FinalPoints);
             query.AddColumn(Schema.LearnerAssignmentListForObservers.InstructorComments);
             query.AddColumn(Schema.LearnerAssignmentListForObservers.HasInstructors);
-            query.AddCondition(Schema.LearnerAssignmentListForObservers.LearnerAssignmentId,
-                LearningStoreConditionOperator.Equal, learnerAssignmentId);
+            query.AddCondition(Schema.LearnerAssignmentListForObservers.LearnerAssignmentGuidId,
+                LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
             job.PerformQuery(query);
             string str = query.ToString();
         }
         else
         {
             query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForLearners.ViewName);
+            query.AddColumn(Schema.LearnerAssignmentListForLearners.LearnerAssignmentId);
             query.AddColumn(Schema.LearnerAssignmentListForLearners.AssignmentId);
             query.AddColumn(Schema.LearnerAssignmentListForLearners.AssignmentSPSiteGuid);
             query.AddColumn(Schema.LearnerAssignmentListForLearners.AssignmentSPWebGuid);
@@ -2755,8 +2817,8 @@ public class SlkStore
             query.AddColumn(Schema.LearnerAssignmentListForLearners.FinalPoints);
             query.AddColumn(Schema.LearnerAssignmentListForLearners.InstructorComments);
             query.AddColumn(Schema.LearnerAssignmentListForLearners.HasInstructors);
-            query.AddCondition(Schema.LearnerAssignmentListForLearners.LearnerAssignmentId,
-                LearningStoreConditionOperator.Equal, learnerAssignmentId);
+            query.AddCondition(Schema.LearnerAssignmentListForLearners.LearnerAssignmentGuidId,
+                LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
             job.PerformQuery(query);
         }
         // execute the job; set <resultEnumerator> to enumerate the results
@@ -2773,10 +2835,10 @@ public class SlkStore
             // the information we provide does not allow the user to distinguish between the
             // learner assignment not existing and the user not having access to it
             throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, 
-				AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentId.GetKey()));
+				AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
 		}
         DataRow dataRow = dataRows[0];
-        LearnerAssignmentProperties lap = new LearnerAssignmentProperties(learnerAssignmentId);
+        LearnerAssignmentProperties lap = new LearnerAssignmentProperties(learnerAssignmentGuidId);
 
 		// copy information from <dataRow> into properties of <lap>...
 
@@ -2787,7 +2849,12 @@ public class SlkStore
             LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentId], out assignmentId);
             lap.AssignmentId = assignmentId;
 
+            LearnerAssignmentItemIdentifier learnerAssignmentId;
+            LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.LearnerAssignmentId], out learnerAssignmentId);
+            lap.LearnerAssignmentId = learnerAssignmentId;
+
             Guid guid;
+
             LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentSPSiteGuid], out guid);
             lap.SPSiteGuid = guid;
 
@@ -2890,7 +2957,16 @@ public class SlkStore
                 out assignmentId);
             lap.AssignmentId = assignmentId;
 
+            LearnerAssignmentItemIdentifier learnerAssignmentId;
+            LearningStoreHelper.CastNonNull(dataRow[instructorRole
+                ? Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId
+                : Schema.LearnerAssignmentListForLearners.LearnerAssignmentId],
+                out learnerAssignmentId);
+            lap.LearnerAssignmentId = learnerAssignmentId;
+
+
             Guid guid;
+            
             LearningStoreHelper.CastNonNull(dataRow[instructorRole
                 ? Schema.LearnerAssignmentListForInstructors.AssignmentSPSiteGuid
                 : Schema.LearnerAssignmentListForLearners.AssignmentSPSiteGuid],
@@ -3118,6 +3194,7 @@ public class SlkStore
         query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptGradedPoints);
         query.AddColumn(Schema.LearnerAssignmentListForInstructors.FinalPoints);
         query.AddColumn(Schema.LearnerAssignmentListForInstructors.InstructorComments);
+        query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
         query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId,
             LearningStoreConditionOperator.Equal, assignmentId);
         query.AddSort(Schema.LearnerAssignmentListForInstructors.LearnerName,
@@ -3212,6 +3289,12 @@ public class SlkStore
 				out stringValue);
 			gp.InstructorComments = stringValue;
 
+            Guid learnerAssignmentGuidId;
+            LearningStoreHelper.CastNonNull(
+                dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId],
+                out learnerAssignmentGuidId);
+            gp.LearnerAssignmentGuidId = learnerAssignmentGuidId;
+
 			// add <gp> to <gpList>
 			gpList.Add(gp);
 		}
@@ -3300,6 +3383,7 @@ public class SlkStore
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerName);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentState);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptId);
+            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
             query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId,
 				LearningStoreConditionOperator.Equal, assignmentId);
 			job.PerformQuery(query);
@@ -3363,6 +3447,11 @@ public class SlkStore
                     dataRow[Schema.LearnerAssignmentListForInstructors.AttemptId],
                     out attemptId);
                 gp.AttemptId = attemptId;
+
+                Guid learnerAssignmentGuidId;
+                LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId],
+                    out learnerAssignmentGuidId);
+                gp.LearnerAssignmentGuidId = learnerAssignmentGuidId;
 
                 allOldProperties[learnerAssignmentId] = gp;
             }
@@ -3459,7 +3548,7 @@ public class SlkStore
     /// </exception>
     ///
     [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-    public void SetFinalPoints(LearnerAssignmentItemIdentifier learnerAssignmentId,
+    public void SetFinalPoints(Guid learnerAssignmentGuidId,
         float? finalPoints)
     {
         // Security checks: Fails if the user isn't an instructor on the assignment
@@ -3467,8 +3556,8 @@ public class SlkStore
         // and that returns zero rows if the user isn't an instructor on the learner assignment)
 
         // Check parameters
-        if (learnerAssignmentId == null)
-            throw new ArgumentNullException("learnerAssignmentId");
+        if (learnerAssignmentGuidId.Equals(Guid.Empty) == true)
+            throw new ArgumentNullException("learnerAssignmentGuidId");
 
         // Create a transaction
         TransactionOptions transactionOptions = new TransactionOptions();
@@ -3482,8 +3571,9 @@ public class SlkStore
             // request current (stored-in-database) information about the learner assignment
             LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentState);
-            query.AddCondition(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId,
-                LearningStoreConditionOperator.Equal, learnerAssignmentId);
+            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId);
+            query.AddCondition(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId,
+                LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
             job.PerformQuery(query);
 
             // execute the LearningStore job; set <status> to the learner assignment state
@@ -3496,7 +3586,7 @@ public class SlkStore
             {
                 throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
                     AppResources.LearnerAssignmentNotFoundInDatabase,
-                        learnerAssignmentId.GetKey()));
+                        learnerAssignmentGuidId.ToString()));
             }
             if (dataRows.Count != 1)
             {
@@ -3505,11 +3595,14 @@ public class SlkStore
                 // learner assignment not existing and the user not having access to it
                 throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
                     AppResources.LearnerAssignmentNotFoundInDatabase,
-                        learnerAssignmentId.GetKey()));
+                        learnerAssignmentGuidId.ToString()));
             }
             DataRow dataRow = dataRows[0];
             LearnerAssignmentState status;
             LearningStoreHelper.CastNonNull<LearnerAssignmentState>(dataRow[0], out status);
+
+            LearningStoreItemIdentifier learnerAssignmentId;
+            LearningStoreHelper.CastNonNull(dataRow[1], out learnerAssignmentId);
 
             // Only valid if we are in the completed or final state
             if ((status != LearnerAssignmentState.Completed) && (status != LearnerAssignmentState.Final))
@@ -3558,7 +3651,7 @@ public class SlkStore
     /// </exception>
     ///
     [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-    public void IncrementFinalPoints(LearnerAssignmentItemIdentifier learnerAssignmentId,
+    public void IncrementFinalPoints(Guid learnerAssignmentGuidId,
         float points)
     {
         // Security checks: Fails if the user isn't an instructor on the assignment
@@ -3566,8 +3659,8 @@ public class SlkStore
         // and that returns zero rows if the user isn't an instructor on the learner assignment)
 
         // Check parameters
-        if (learnerAssignmentId == null)
-            throw new ArgumentNullException("learnerAssignmentId");
+        if (learnerAssignmentGuidId.Equals(Guid.Empty) == true)
+            throw new ArgumentNullException("learnerAssignmentGuidId");
 
         // Create a transaction
         TransactionOptions transactionOptions = new TransactionOptions();
@@ -3582,8 +3675,9 @@ public class SlkStore
             LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentState);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.FinalPoints);
-            query.AddCondition(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId,
-                LearningStoreConditionOperator.Equal, learnerAssignmentId);
+            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId);
+            query.AddCondition(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId,
+                LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
             job.PerformQuery(query);
 
             // execute the LearningStore job; set <status> to the learner assignment state
@@ -3596,7 +3690,7 @@ public class SlkStore
             {
                 throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
                     AppResources.LearnerAssignmentNotFoundInDatabase,
-                        learnerAssignmentId.GetKey()));
+                        learnerAssignmentGuidId.ToString()));
             }
             if (dataRows.Count != 1)
             {
@@ -3605,13 +3699,15 @@ public class SlkStore
                 // learner assignment not existing and the user not having access to it
                 throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
                     AppResources.LearnerAssignmentNotFoundInDatabase,
-                        learnerAssignmentId.GetKey()));
+                        learnerAssignmentGuidId.ToString()));
             }
             DataRow dataRow = dataRows[0];
             LearnerAssignmentState status;
             LearningStoreHelper.CastNonNull<LearnerAssignmentState>(dataRow[0], out status);
             float? finalPoints;
             LearningStoreHelper.Cast<float>(dataRow[1], out finalPoints);
+            LearnerAssignmentItemIdentifier learnerAssignmentId;
+            LearningStoreHelper.CastNonNull(dataRow[2], out learnerAssignmentId);
 
             // Only valid if we are in the completed or final state
             if ((status != LearnerAssignmentState.Completed) && (status != LearnerAssignmentState.Final))
@@ -3966,15 +4062,15 @@ public class SlkStore
     /// the user doesn't have the right to switch to the requested state.
     /// </exception>
     ///
-	public void ChangeLearnerAssignmentState(LearnerAssignmentItemIdentifier learnerAssignmentId,
+	public void ChangeLearnerAssignmentState(Guid learnerAssignmentGuidId,
 		LearnerAssignmentState newStatus)
 	{
         // Security checks: Fails if the user doesn't have the right to switch to
         // the requested state (checked by using a rule in the schema)
 
         // Check parameters
-        if (learnerAssignmentId == null)
-            throw new ArgumentNullException("learnerAssignmentId");
+        if (learnerAssignmentGuidId.Equals(Guid.Empty) == true)
+            throw new ArgumentNullException("learnerAssignmentGuidId");
         if ((newStatus != LearnerAssignmentState.Active) && (newStatus != LearnerAssignmentState.Completed) &&
             (newStatus != LearnerAssignmentState.Final) && (newStatus != LearnerAssignmentState.NotStarted))
             throw new ArgumentOutOfRangeException("newStatus");
@@ -3993,15 +4089,15 @@ public class SlkStore
             switch(newStatus)
             {
                 case LearnerAssignmentState.Active:
-                    securityParameters.Add(Schema.ActivateLearnerAssignmentRight.LearnerAssignmentId, learnerAssignmentId);
+                    securityParameters.Add(Schema.ActivateLearnerAssignmentRight.LearnerAssignmentGuidId, learnerAssignmentGuidId);
                     job.DemandRight(Schema.ActivateLearnerAssignmentRight.RightName, securityParameters);
                     break;
                 case LearnerAssignmentState.Completed:
-                    securityParameters.Add(Schema.CompleteLearnerAssignmentRight.LearnerAssignmentId, learnerAssignmentId);
+                    securityParameters.Add(Schema.CompleteLearnerAssignmentRight.LearnerAssignmentGuidId, learnerAssignmentGuidId);
                     job.DemandRight(Schema.CompleteLearnerAssignmentRight.RightName, securityParameters);
                     break;
                 case LearnerAssignmentState.Final:
-                    securityParameters.Add(Schema.FinalizeLearnerAssignmentRight.LearnerAssignmentId, learnerAssignmentId);
+                    securityParameters.Add(Schema.FinalizeLearnerAssignmentRight.LearnerAssignmentGuidId, learnerAssignmentGuidId);
                     job.DemandRight(Schema.FinalizeLearnerAssignmentRight.RightName, securityParameters);
                     break;
                 default:
@@ -4019,8 +4115,9 @@ public class SlkStore
                 query.AddColumn(Schema.LearnerAssignmentView.AttemptId);
                 query.AddColumn(Schema.LearnerAssignmentView.LearnerId);
                 query.AddColumn(Schema.LearnerAssignmentView.AssignmentAutoReturn);
-                query.AddCondition(Schema.LearnerAssignmentView.LearnerAssignmentId,
-				    LearningStoreConditionOperator.Equal, learnerAssignmentId);
+                query.AddColumn(Schema.LearnerAssignmentView.LearnerAssignmentId);
+                query.AddCondition(Schema.LearnerAssignmentView.LearnerAssignmentGuidId,
+				    LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
 			    job.PerformQuery(query);
 
                 // execute the LearningStore job; set <oldStatus> to the current
@@ -4038,7 +4135,7 @@ public class SlkStore
 			    {
                     throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
                         AppResources.LearnerAssignmentNotFoundInDatabase,
-                            learnerAssignmentId.GetKey()));
+                            learnerAssignmentGuidId.ToString()));
                 }
 			    
 			    if (dataRows.Count != 1)
@@ -4048,7 +4145,7 @@ public class SlkStore
                     // learner assignment not existing and the user not having access to it
                     throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
 					    AppResources.LearnerAssignmentNotFoundInDatabase,
-						    learnerAssignmentId.GetKey()));
+						    learnerAssignmentGuidId.ToString()));
 			    }
 			    DataRow dataRow = dataRows[0];
 			    LearnerAssignmentState oldStatus;
@@ -4061,6 +4158,9 @@ public class SlkStore
                 LearningStoreHelper.CastNonNull(dataRow[3], out learnerId);
                 bool isAutoReturn;
 			    LearningStoreHelper.CastNonNull(dataRow[4], out isAutoReturn);
+                LearnerAssignmentItemIdentifier learnerAssignmentId;
+                LearningStoreHelper.CastNonNull(dataRow[5], out learnerAssignmentId);
+
 
 			    // create another LearningStore job
 			    job = LearningStore.CreateJob();
@@ -4102,14 +4202,14 @@ public class SlkStore
     /// an instructor or learner on the assignment.
     /// </exception>
     ///
-    public void FinishLearnerAssignment(LearnerAssignmentItemIdentifier learnerAssignmentId)
+    public void FinishLearnerAssignment(Guid learnerAssignmentGuidId)
     {
         // Security checks: Fails if the user doesn't have the right to finish
         // the learner assignment (checked by using a rule in the schema)
 
         // Check parameters
-        if (learnerAssignmentId == null)
-            throw new ArgumentNullException("learnerAssignmentId");
+        if (learnerAssignmentGuidId.Equals(Guid.Empty) == true)
+            throw new ArgumentNullException("learnerAssignmentGuidId");
 
         // Create a transaction
         TransactionOptions transactionOptions = new TransactionOptions();
@@ -4122,7 +4222,7 @@ public class SlkStore
 
             // Demand the correct security
             Dictionary<string, object> securityParameters = new Dictionary<string, object>();
-            securityParameters.Add(Schema.FinishLearnerAssignmentRight.LearnerAssignmentId, learnerAssignmentId);
+            securityParameters.Add(Schema.FinishLearnerAssignmentRight.LearnerAssignmentGuidId, learnerAssignmentGuidId);
             job.DemandRight(Schema.FinishLearnerAssignmentRight.RightName, securityParameters);
 
             // We've verified that the user has the correct right, so do everything else
@@ -4135,8 +4235,9 @@ public class SlkStore
                 query.AddColumn(Schema.LearnerAssignmentView.RootActivityId);
                 query.AddColumn(Schema.LearnerAssignmentView.AttemptGradedPoints);
                 query.AddColumn(Schema.LearnerAssignmentView.AssignmentAutoReturn);
-                query.AddCondition(Schema.LearnerAssignmentView.LearnerAssignmentId,
-                    LearningStoreConditionOperator.Equal, learnerAssignmentId);
+                query.AddColumn(Schema.LearnerAssignmentView.LearnerAssignmentId);
+                query.AddCondition(Schema.LearnerAssignmentView.LearnerAssignmentGuidId,
+                    LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
                 job.PerformQuery(query);
 
                 // execute the LearningStore job; set <status> to the current
@@ -4153,7 +4254,7 @@ public class SlkStore
                 {
                     throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
                         AppResources.LearnerAssignmentNotFoundInDatabase,
-                            learnerAssignmentId.GetKey()));
+                            learnerAssignmentGuidId.ToString()));
                 }
                 if (dataRows.Count != 1)
                 {
@@ -4162,7 +4263,7 @@ public class SlkStore
                     // learner assignment not existing and the user not having access to it
                     throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
                         AppResources.LearnerAssignmentNotFoundInDatabase,
-                            learnerAssignmentId.GetKey()));
+                            learnerAssignmentGuidId.ToString()));
                 }
                 DataRow dataRow = dataRows[0];
                 LearnerAssignmentState status;
@@ -4173,6 +4274,8 @@ public class SlkStore
                 LearningStoreHelper.Cast(dataRow[2], out gradedPoints);                
                 bool isAutoReturn;
                 LearningStoreHelper.CastNonNull(dataRow[3], out isAutoReturn);
+                LearningStoreItemIdentifier learnerAssignmentId;
+                LearningStoreHelper.CastNonNull(dataRow[4], out learnerAssignmentId);
 
                 // Only valid if there's an attempt and we are in the completed state
                 if((rootActivityId == null) || (status != LearnerAssignmentState.Completed))                
@@ -5759,6 +5862,12 @@ public class LearnerAssignmentProperties
     LearnerAssignmentItemIdentifier m_learnerAssignmentId;
 
     /// <summary>
+    /// Holds the value of the <c>GuidId</c> property. The GuidId like the LearnerAssignmentId 
+    /// represents the LearnerAssignment uniquely
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    Guid m_learnerAssignmentGuidId = Guid.Empty;
+    /// <summary>
     /// Holds the value of the <c>AssignmentId</c> property.
     /// </summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -5915,6 +6024,22 @@ public class LearnerAssignmentProperties
         get
         {
             return m_learnerAssignmentId;
+        }
+        internal set
+        {
+            m_learnerAssignmentId = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets the GUID identifier of the learner assignment represented by this object.
+    /// </summary>
+    public Guid LearnerAssignmentGuidId
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_learnerAssignmentGuidId;
         }
     }
 
@@ -6369,6 +6494,10 @@ public class LearnerAssignmentProperties
 	{
 		m_learnerAssignmentId = learnerAssignmentId;
 	}
+    internal LearnerAssignmentProperties(Guid learnerAssignmentGuidId)
+    {
+        m_learnerAssignmentGuidId = learnerAssignmentGuidId;
+    }
 }
 
 /// <summary>
@@ -6388,6 +6517,12 @@ public class GradingProperties
     /// </summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     LearnerAssignmentItemIdentifier m_learnerAssignmentId;
+
+    /// <summary>
+    /// Holds the value of the <c>LearnerAssignmentGuidId</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    Guid m_learnerAssignmentGuidId;
 
     /// <summary>
     /// Holds the value of the <c>LearnerId</c> property.
@@ -6462,6 +6597,23 @@ public class GradingProperties
         get
         {
             return m_learnerAssignmentId;
+        }
+    }
+
+    /// <summary>
+    /// Gets the GUID identifier of the learner assignment represented by this object.
+    /// </summary>
+    public Guid LearnerAssignmentGuidId
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_learnerAssignmentGuidId;
+        }
+        [DebuggerStepThrough]
+        internal set
+        {
+            m_learnerAssignmentGuidId = value;
         }
     }
 

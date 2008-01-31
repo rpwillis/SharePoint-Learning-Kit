@@ -296,6 +296,16 @@ namespace Microsoft.LearningComponents.Storage
         private object m_default;
 
         /// <summary>
+        /// True if the default value is defined as a function
+        /// </summary>
+        private bool m_isDefaultAFunction;
+
+        /// <summary>
+        /// True if this property's RowGuid is true. Valid only for the LearningStore GUID datatype
+        /// </summary>
+        private bool m_rowGuidIsTrue;
+
+        /// <summary>
         /// Constraints
         /// </summary>
         private List<string> m_constraints = new List<string>();
@@ -369,6 +379,29 @@ namespace Microsoft.LearningComponents.Storage
             get
             {
                 return m_nullable;
+            }
+        }
+
+        /// <summary>
+        /// True if the property has a default value which is a function
+        /// </summary>
+
+        public bool IsDefaultAFunction
+        {
+            get
+            {
+                return m_isDefaultAFunction;
+            }
+        }
+        
+        /// <summary>
+        /// True if the GUID column is a RowGuidCol
+        /// </summary>        
+        public bool RowGuidIsTrue
+        {
+            get
+            {
+                return m_rowGuidIsTrue;
             }
         }
 
@@ -624,6 +657,9 @@ namespace Microsoft.LearningComponents.Storage
 
             // Get the nullable flag
             property.m_nullable = (bool)SchemaFileUtil.ReadOptionalBooleanAttribute(navigator, "Nullable", false);
+
+            // Get the rowguid flag
+            property.m_rowGuidIsTrue = (bool)SchemaFileUtil.ReadOptionalBooleanAttribute(navigator, "RowGuid", false);
             
             // Get the cascade delete
             bool? cascadeDelete = SchemaFileUtil.ReadOptionalBooleanAttribute(navigator, "CascadeDelete", null);
@@ -642,6 +678,13 @@ namespace Microsoft.LearningComponents.Storage
                 // Found a default value
                 property.m_hasDefault = true;
                 
+                // Determine if it is a function
+                bool? isDefaultAFunction = SchemaFileUtil.ReadOptionalBooleanAttribute(defaultValue, "IsFunction", false);
+                if (isDefaultAFunction == true)
+                {
+                    property.m_isDefaultAFunction = true;
+                }
+
                 // Determine if it is null
                 bool? nullAttribute = SchemaFileUtil.ReadOptionalBooleanAttribute(defaultValue, "Null", null);
                 if((nullAttribute == false) || (nullAttribute == null))
@@ -653,52 +696,59 @@ namespace Microsoft.LearningComponents.Storage
                         throw new ValidationException(String.Format(CultureInfo.CurrentCulture,
                             Resources.InvalidDefaultValue, property.m_name, itemType.Name));
                     }
-                    
-                    try
+
+                    if (isDefaultAFunction == true)
                     {
-                        switch (property.m_typeCode)
-                        {
-                            case LearningStoreValueTypeCode.Boolean:
-                                property.m_default = defaultValue.ValueAsBoolean;
-                                break;
-                            case LearningStoreValueTypeCode.ByteArray:
-                                property.m_default = Convert.FromBase64String(defaultValue.Value);
-                                break;
-                            case LearningStoreValueTypeCode.DateTime:
-                                property.m_default = defaultValue.ValueAsDateTime;
-                                break;
-                            case LearningStoreValueTypeCode.Double:
-                                property.m_default = defaultValue.ValueAsDouble;
-                                break;
-                            case LearningStoreValueTypeCode.Enumeration:
-                                property.m_default = defaultValue.ValueAsInt;
-                                break;
-                            case LearningStoreValueTypeCode.Guid:
-                                property.m_default = XmlConvert.ToGuid(defaultValue.Value);
-                                break;
-                            case LearningStoreValueTypeCode.Int32:
-                                property.m_default = defaultValue.ValueAsInt;
-                                break;
-                            case LearningStoreValueTypeCode.ItemIdentifier:
-                                throw new ValidationException(String.Format(CultureInfo.CurrentCulture,
-                                    Resources.InvalidDefaultForItemIdentifierProperty, property.m_name, itemType.Name));
-                            case LearningStoreValueTypeCode.Single:
-                                property.m_default = XmlConvert.ToSingle(defaultValue.Value);
-                                break;
-                            case LearningStoreValueTypeCode.String:
-                                property.m_default = defaultValue.Value;
-                                break;
-                            case LearningStoreValueTypeCode.Xml:
-                                property.m_default = defaultValue.Value;
-                                break;
-                            default:
-                                throw new InternalException("SCMP3020");
-                        }
+                        property.m_default = defaultValue.Value;
                     }
-                    catch(FormatException e)
+                    else
                     {
-                        throw new ValidationException(String.Format(CultureInfo.CurrentCulture,
-                            Resources.InvalidDefaultValueWithError, property.m_name, itemType.Name, e.Message));
+                        try
+                        {
+                            switch (property.m_typeCode)
+                            {
+                                case LearningStoreValueTypeCode.Boolean:
+                                    property.m_default = defaultValue.ValueAsBoolean;
+                                    break;
+                                case LearningStoreValueTypeCode.ByteArray:
+                                    property.m_default = Convert.FromBase64String(defaultValue.Value);
+                                    break;
+                                case LearningStoreValueTypeCode.DateTime:
+                                    property.m_default = defaultValue.ValueAsDateTime;
+                                    break;
+                                case LearningStoreValueTypeCode.Double:
+                                    property.m_default = defaultValue.ValueAsDouble;
+                                    break;
+                                case LearningStoreValueTypeCode.Enumeration:
+                                    property.m_default = defaultValue.ValueAsInt;
+                                    break;
+                                case LearningStoreValueTypeCode.Guid:
+                                    property.m_default = XmlConvert.ToGuid(defaultValue.Value);
+                                    break;
+                                case LearningStoreValueTypeCode.Int32:
+                                    property.m_default = defaultValue.ValueAsInt;
+                                    break;
+                                case LearningStoreValueTypeCode.ItemIdentifier:
+                                    throw new ValidationException(String.Format(CultureInfo.CurrentCulture,
+                                        Resources.InvalidDefaultForItemIdentifierProperty, property.m_name, itemType.Name));
+                                case LearningStoreValueTypeCode.Single:
+                                    property.m_default = XmlConvert.ToSingle(defaultValue.Value);
+                                    break;
+                                case LearningStoreValueTypeCode.String:
+                                    property.m_default = defaultValue.Value;
+                                    break;
+                                case LearningStoreValueTypeCode.Xml:
+                                    property.m_default = defaultValue.Value;
+                                    break;
+                                default:
+                                    throw new InternalException("SCMP3020");
+                            }
+                        }
+                        catch (FormatException e)
+                        {
+                            throw new ValidationException(String.Format(CultureInfo.CurrentCulture,
+                                Resources.InvalidDefaultValueWithError, property.m_name, itemType.Name, e.Message));
+                        }
                     }
                 }
                 else

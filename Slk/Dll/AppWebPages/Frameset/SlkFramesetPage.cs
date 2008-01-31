@@ -30,7 +30,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
     public class FramesetPage : SlkAppBasePage
     {
         private FramesetPageHelper m_helper;
-        private LearnerAssignmentItemIdentifier m_learnerAssignmentId;
+        private Guid m_learnerAssignmentGuidId;
         private LearnerAssignmentProperties m_learnerAssignmentProperties;
 
         /////////////////////////////////////////////////////////////////////////////////////
@@ -236,17 +236,17 @@ namespace Microsoft.SharePointLearningKit.Frameset
             return FramesetHelper.TryGetRequiredParameter(name, out value);
         }
 
-        protected LearnerAssignmentItemIdentifier LearnerAssignmentId
+        protected Guid LearnerAssignmentGuidId
         {
             get 
             {
-                if (m_learnerAssignmentId == null)
+                if (m_learnerAssignmentGuidId.Equals(Guid.Empty) == true)
                 {
-                    TryProcessLearnerAssignmentIdParameter(false, out m_learnerAssignmentId);
+                    TryProcessLearnerAssignmentIdParameter(false, out m_learnerAssignmentGuidId);
                 }
-                return m_learnerAssignmentId; 
+                return m_learnerAssignmentGuidId; 
             }
-            set { m_learnerAssignmentId = value; }
+            set { m_learnerAssignmentGuidId = value; }
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 {
                     slkRole = GetSlkRole(AssignmentView);
                 }
-                m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentId, slkRole);
+                m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentGuidId, slkRole);
             }
 
             return m_learnerAssignmentProperties;
@@ -303,13 +303,13 @@ namespace Microsoft.SharePointLearningKit.Frameset
             // If there's a LearnerAssignmentId, then you can use this to get the AttemptId, however it 
             // causes a database call. Not good for routine page rendering (but ok the first time a frame 
             // is shown).
-            LearnerAssignmentItemIdentifier learnerAssignmentId;
-            if (TryProcessLearnerAssignmentIdParameter(showErrorPage, out learnerAssignmentId))
+            Guid learnerAssignmentGuidId;
+            if (TryProcessLearnerAssignmentIdParameter(showErrorPage, out learnerAssignmentGuidId))
             {
                 ClearError();
 
                 // There was a learnerAssignmentId and no AttemptId, so translate from learnerAssignmentId to attemptId
-                LearnerAssignmentId = learnerAssignmentId;
+                LearnerAssignmentGuidId = learnerAssignmentGuidId;
                 LearnerAssignmentProperties la = GetLearnerAssignment();
                 attemptId = la.AttemptId;        // this causes LearningStoreAccess
                 return (attemptId != null);
@@ -324,26 +324,22 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <param name="showErrorPage"></param>
         /// <param name="learnerAssignmentId"></param>
         /// <returns></returns>
-        protected bool TryProcessLearnerAssignmentIdParameter(bool showErrorPage, out LearnerAssignmentItemIdentifier learnerAssignmentId)
+        protected bool TryProcessLearnerAssignmentIdParameter(bool showErrorPage, out Guid learnerAssignmentGuidId)
         {
             // Initialize out parameter
-            learnerAssignmentId = null;
+            learnerAssignmentGuidId = Guid.Empty;
 
             string learnerAssignmentParam;
-            if (!TryGetRequiredParameter(FramesetQueryParameter.LearnerAssignmentId, out learnerAssignmentParam))
+            if (!TryGetRequiredParameter(FramesetQueryParameter.LearnerAssignmentGuidId, out learnerAssignmentParam))
                 return false;
 
             bool isValid = true;    // Assume return value is valid
 
-            // Try converting it to a long value. It must be positive.
+            // Try converting it to a guid value.
             try
             {
-                long learnerAssignmentKey = long.Parse(learnerAssignmentParam, NumberFormatInfo.InvariantInfo);
-
-                if (learnerAssignmentKey <= 0)
-                    isValid = false;
-                else
-                    learnerAssignmentId = new LearnerAssignmentItemIdentifier(learnerAssignmentKey);
+                Guid learnerAssignmentKey = new Guid(learnerAssignmentParam);
+                learnerAssignmentGuidId = learnerAssignmentKey;
             }
             catch (FormatException)
             {
@@ -352,8 +348,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             if (!isValid && showErrorPage)
             {
-                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterTitle, FramesetQueryParameter.LearnerAssignmentId),
-                        ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterMsg, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentParam), false);
+                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterTitle, FramesetQueryParameter.LearnerAssignmentGuidId),
+                        ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterMsg, FramesetQueryParameter.LearnerAssignmentGuidId, learnerAssignmentParam), false);
             }
 
             return isValid;
@@ -495,7 +491,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
             else
             {
-                sb.AppendFormat("/{0}", FramesetUtil.GetStringInvariant(LearnerAssignmentId.GetKey()));
+                sb.AppendFormat("/{0}", LearnerAssignmentGuidId.ToString());
 
                 // In review & ra views, append the current activity id
                 if ((slsSession.View == SessionView.Review) || (slsSession.View == SessionView.RandomAccess)) 

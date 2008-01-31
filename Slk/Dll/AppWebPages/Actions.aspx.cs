@@ -635,10 +635,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 				LearningStoreXml packageWarnings;
 				AssignmentProperties properties = SlkStore.GetNewAssignmentDefaultProperties(SPWeb, Location, OrganizationIndex, SlkRole.Learner, out packageWarnings);
 				AssignmentItemIdentifier assignmentId = SlkStore.CreateAssignment(SPWeb, Location, OrganizationIndex, SlkRole.Learner, properties);
-				LearnerAssignmentItemIdentifier learnerAssignmentId = SlkStore.GetCurrentUserLearnerAssignment(assignmentId);
+				Guid learnerAssignmentGuidId = SlkStore.GetCurrentUserLearnerAssignment(assignmentId);
 
 				string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
-				url = String.Format(CultureInfo.InvariantCulture, "{0}?LearnerAssignmentId={1}", url, learnerAssignmentId.GetKey());
+				url = String.Format(CultureInfo.InvariantCulture, "{0}?LearnerAssignmentGuidId={1}", url, learnerAssignmentGuidId.ToString());
 
 				Response.Redirect(url, true);
 			}

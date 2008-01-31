@@ -41,7 +41,7 @@ namespace SlkSamples
 public class SampleWebService : System.Web.Services.WebService
 {
     [WebMethod]
-    public float? GetLearnerAssignmentScore(long learnerAssignmentId)
+    public float? GetLearnerAssignmentScore(Guid learnerAssignmentId)
     {
         using (SPWeb spWeb = SPControl.GetContextWeb(HttpContext.Current))
         {
@@ -51,7 +51,7 @@ public class SampleWebService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public void SetLearnerAssignmentScore(long learnerAssignmentId, float score)
+    public void SetLearnerAssignmentScore(Guid learnerAssignmentId, float score)
     {
         using (SPWeb spWeb = SPControl.GetContextWeb(HttpContext.Current))
         {
@@ -61,12 +61,12 @@ public class SampleWebService : System.Web.Services.WebService
         }
     }
 
-    StoredLearningSession GetLearningSession(SPWeb spWeb, long learnerAssignmentId)
+    StoredLearningSession GetLearningSession(SPWeb spWeb, Guid learnerAssignmentId)
     {
         SlkStore slkStore = SlkStore.GetStore(spWeb);
         LearnerAssignmentProperties assignmentProperties =
             slkStore.GetLearnerAssignmentProperties(
-                new LearnerAssignmentItemIdentifier(learnerAssignmentId), SlkRole.Learner);
+                learnerAssignmentId, SlkRole.Learner);
         return new StoredLearningSession(Microsoft.LearningComponents.SessionView.Execute,
             assignmentProperties.AttemptId, slkStore.PackageStore);
     }

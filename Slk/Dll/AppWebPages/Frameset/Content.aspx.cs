@@ -185,19 +185,17 @@ namespace Microsoft.SharePointLearningKit.Frameset
             // Initialize out parameter
             attemptId = null;
 
-            long learnerAssignmentKey;
+            Guid learnerAssignmentKey;
             bool isValid = false;
 
             // For views based on an attempt, LearnerAssignmentId is required
             // It must be a positive long value. 
             if (m_contentPathParts.Length >= 3)
             {
-                if (long.TryParse(m_contentPathParts[2], out learnerAssignmentKey))
+                learnerAssignmentKey = new Guid(m_contentPathParts[2]);
+                if (learnerAssignmentKey != null)
                 {
-                    if (learnerAssignmentKey > 0)
-                    {
-                        LearnerAssignmentId = new LearnerAssignmentItemIdentifier(learnerAssignmentKey);
-                    }
+                    LearnerAssignmentGuidId = learnerAssignmentKey;
                 }
             }
 
@@ -543,7 +541,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <param name="points"></param>
         private void SetFinalPoints(float? points)
         {
-            SlkStore.SetFinalPoints(LearnerAssignmentId, points);
+            SlkStore.SetFinalPoints(LearnerAssignmentGuidId, points);
 
             // Force an update to the in-memory record of LearnerAssignment 
             GetLearnerAssignment(true);
@@ -555,7 +553,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <param name="delta"></param>
         private void IncrementFinalPoints(float delta)
         {
-            SlkStore.IncrementFinalPoints(LearnerAssignmentId, delta);
+            SlkStore.IncrementFinalPoints(LearnerAssignmentGuidId, delta);
 
             // Force an update to the in-memory record of LearnerAssignment 
             GetLearnerAssignment(true);

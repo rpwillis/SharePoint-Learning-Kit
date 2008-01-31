@@ -74,6 +74,7 @@
                                             <xs:simpleContent>
                                                 <xs:extension base="xs:normalizedString">
                                                     <xs:attribute name="Null" type="xs:boolean" use="optional" />
+                                                    <xs:attribute name="IsFunction" type="xs:boolean" use="optional" />
                                                 </xs:extension>
                                             </xs:simpleContent>
                                         </xs:complexType>
@@ -94,6 +95,7 @@
                                 <xs:attribute name="EnumName" type="sc:SchemaIdType" use="optional" />
                                 <xs:attribute name="Nullable" type="xs:boolean" use="optional" />
                                 <xs:attribute name="Length" type="xs:int" use="optional" />
+				<xs:attribute name="RowGuid" type="xs:boolean" use="optional" />
                             </xs:complexType>
                         </xs:element>
                     </xs:sequence>
