@@ -1839,7 +1839,7 @@ public class SlkStore
         if (!SharePointFileLocation.TryParse(location, out spFileLocation))
             throw new ArgumentException(AppResources.IncorrectLocationStringSyntax, "location");
 
-        using (SPSite spSite = new SPSite(spFileLocation.SiteId))
+        using (SPSite spSite = new SPSite(spFileLocation.SiteId, SPContext.Current.Site.Zone))
         {
 			// get <spWeb>, <spFile>, and <versionId> from the parsed information above
             using(SPWeb spWeb = spSite.OpenWeb(spFileLocation.WebId))

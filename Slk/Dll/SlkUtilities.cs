@@ -311,7 +311,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (SharePointFileLocation.TryParse(packageLocation, out fileLocation))
             {
-                using (SPSite spSite = new SPSite(fileLocation.SiteId))
+                using (SPSite spSite = new SPSite(fileLocation.SiteId,SPContext.Current.Site.Zone))
                 {
                     using (SPWeb spWeb = spSite.OpenWeb(fileLocation.WebId))
                         return spWeb.GetFile(fileLocation.FileId);

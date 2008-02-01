@@ -184,7 +184,7 @@ namespace Microsoft.LearningComponents.SharePoint
         {
             using (Disposer disposer = new Disposer())
             {
-                SPSite spSite = new SPSite(siteId);
+                SPSite spSite = new SPSite(siteId, SPContext.Current.Site.Zone);
                 disposer.Push(spSite);
 
                 SPWeb spWeb = spSite.OpenWeb(webId);

@@ -601,7 +601,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             //If not redirect to the correct SPWeb.
                             if (SPWeb.ID != AssignmentProperties.SPWebGuid)
                             {
-                                using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid))
+                                using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
                                 {
                                     using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
                                     {

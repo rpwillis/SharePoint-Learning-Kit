@@ -173,7 +173,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     SPSecurity.CatchAccessDeniedException = false;
                     try
                     {
-                        using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid))
+                        using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
                         {
                             using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
                             {
@@ -389,7 +389,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 			try
 			{
 				SlkStore.GetGradingProperties(AssignmentItemIdentifier, out m_assignmentProperties);
-				using(SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid))
+				using(SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
 				{
 				    using(SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
 				    {
