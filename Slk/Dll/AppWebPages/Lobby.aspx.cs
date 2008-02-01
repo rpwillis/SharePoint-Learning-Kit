@@ -186,7 +186,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 				SPSecurity.CatchAccessDeniedException = false;
 				try
 				{
-					using(SPSite assignmentSite = new SPSite(LearnerAssignmentProperties.SPSiteGuid))
+					using(SPSite assignmentSite = new SPSite(LearnerAssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
 					{
 					    using(SPWeb assignmentWeb = assignmentSite.OpenWeb(LearnerAssignmentProperties.SPWebGuid))
 					    {

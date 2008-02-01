@@ -429,7 +429,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             try
             {
-                using(SPSite spSite = new SPSite(spSiteGuid))
+                using(SPSite spSite = new SPSite(spSiteGuid,SPContext.Current.Site.Zone))
                 {
                     using(SPWeb spWeb = spSite.OpenWeb(spWebGuid))
                     {

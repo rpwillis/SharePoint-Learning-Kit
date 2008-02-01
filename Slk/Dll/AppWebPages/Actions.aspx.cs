@@ -538,7 +538,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 				try
 				{
 					SlkUserWebListItem item = userWebList[i];
-					site = new SPSite(item.SPSiteGuid);
+					site = new SPSite(item.SPSiteGuid, SPContext.Current.Site.Zone);
 					web = site.OpenWeb(item.SPWebGuid);
 					if (SPWeb.ID.Equals(item.SPWebGuid))
 						webList.Add(new WebListItem(item, web.Url, string.Format(CultureInfo.CurrentCulture, "{0} {1}", web.Title, AppResources.ActionslblMRUCurrentSite)));

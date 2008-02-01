@@ -802,7 +802,7 @@ namespace Microsoft.LearningComponents.SharePoint
             SPFile spFile;
             using (Disposer disposer = new Disposer())
             {
-                SPSite spSite = new SPSite(fileInfo.SiteId);
+                SPSite spSite = new SPSite(fileInfo.SiteId, SPContext.Current.Site.Zone);
                 disposer.Push(spSite);
 
                 SPWeb spWeb = spSite.OpenWeb(fileInfo.WebId);

@@ -246,7 +246,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 SPSecurity.RunWithElevatedPrivileges(delegate()
                 {
                     // If the site does not exist, this throws FileNotFound
-                    using (SPSite spSite = new SPSite(spFileLocation.SiteId))
+                    using (SPSite spSite = new SPSite(spFileLocation.SiteId, SPContext.Current.Site.Zone))
                     {
                         // If the web does not exist, this throws FileNotFound
                         using (SPWeb spWeb = spSite.OpenWeb(spFileLocation.WebId))
@@ -354,7 +354,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             SPSecurity.RunWithElevatedPrivileges(delegate()
             {
                 // If the site does not exist, this throws FileNotFound
-                using (SPSite spSite = new SPSite(spFileLocation.SiteId))
+                using (SPSite spSite = new SPSite(spFileLocation.SiteId,SPContext.Current.Site.Zone))
                 {
                     // If the web does not exist, this throws FileNotFound
                     using (SPWeb spWeb = spSite.OpenWeb(spFileLocation.WebId))
