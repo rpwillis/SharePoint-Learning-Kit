@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SharePointLearningKit.Services" GeneratedClassName="ServiceConfiguration">
+  <Profiles />
+  <Settings>
+    <Setting Name="DatabaseConnection" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Server=Localhost;Database=SharePointLearningKit;Trusted_Connection=yes</Value>
+    </Setting>
+    <Setting Name="ContentPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Data\Services\Content\</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
