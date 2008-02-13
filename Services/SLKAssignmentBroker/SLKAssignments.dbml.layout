@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11.125, 11" name="SLKAssignments">
+  <DataContextMoniker Name="/SLKAssignmentsDataContext" />
+  <nestedChildShapes>
+    <classShape Id="57a7ce4e-faca-4394-a8ae-887c4ad32e7f" absoluteBounds="0.5, 6.625, 2, 3.5016097005208326">
+      <DataClassMoniker Name="/SLKAssignmentsDataContext/AssignmentItem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6d740805-2978-4ad4-a52c-c3a0387c5c34" absoluteBounds="0.51499999999999968, 7.085, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9ee86bb7-018b-4295-9565-fbea5b50e85a" absoluteBounds="2.75, 7, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/SLKAssignmentsDataContext/LearnerAssignmentItem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="96635e9b-83a3-48bc-8a54-279c69a7b43a" absoluteBounds="2.7650000000000006, 7.46, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.5 : 8.07774983723958); (2.75 : 8.07774983723958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/AssignmentItem/AssignmentItem_LearnerAssignmentItem" />
+      <nodes>
+        <classShapeMoniker Id="57a7ce4e-faca-4394-a8ae-887c4ad32e7f" />
+        <classShapeMoniker Id="9ee86bb7-018b-4295-9565-fbea5b50e85a" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="cc182eb9-8ce9-4772-9951-8d5af37ce05d" absoluteBounds="5.5, 6.375, 2, 3.8862125651041666">
+      <DataClassMoniker Name="/SLKAssignmentsDataContext/AttemptItem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4fce2c61-1fb3-4789-b4fa-73736f264760" absoluteBounds="5.5150000000000006, 6.835, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4.75 : 8.07774983723958); (5.5 : 8.07774983723958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/LearnerAssignmentItem/LearnerAssignmentItem_AttemptItem" />
+      <nodes>
+        <classShapeMoniker Id="9ee86bb7-018b-4295-9565-fbea5b50e85a" />
+        <classShapeMoniker Id="cc182eb9-8ce9-4772-9951-8d5af37ce05d" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="78ce8909-8a5a-4c11-b9eb-8539eac8a0db" absoluteBounds="8.625, 5.75, 2, 5.0400211588541657">
+      <DataClassMoniker Name="/SLKAssignmentsDataContext/ActivityAttemptItem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="23e96dd4-812e-4f51-8d24-15f932f9377c" absoluteBounds="8.64, 6.2100000000000009, 1.9700000000000002, 4.4800211588541661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(7.5 : 8.31810628255208); (8.625 : 8.31810628255208)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/AttemptItem/AttemptItem_ActivityAttemptItem" />
+      <nodes>
+        <classShapeMoniker Id="cc182eb9-8ce9-4772-9951-8d5af37ce05d" />
+        <classShapeMoniker Id="78ce8909-8a5a-4c11-b9eb-8539eac8a0db" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="2fd86dd0-dfa4-442f-9396-700a10fecf22" absoluteBounds="2.75, 0.5, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/SLKAssignmentsDataContext/UserItem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="14329ee3-ffe4-4a45-b66a-3b27581691fb" absoluteBounds="2.7649999999999997, 0.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 1.57774983723958); (1.76562625 : 1.57774983723958); (1.76562625 : 6.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/UserItem/UserItem_AssignmentItem" />
+      <nodes>
+        <classShapeMoniker Id="2fd86dd0-dfa4-442f-9396-700a10fecf22" />
+        <classShapeMoniker Id="57a7ce4e-faca-4394-a8ae-887c4ad32e7f" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(3.75 : 2.65549967447917); (3.75 : 7)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/UserItem/UserItem_LearnerAssignmentItem" />
+      <nodes>
+        <classShapeMoniker Id="2fd86dd0-dfa4-442f-9396-700a10fecf22" />
+        <classShapeMoniker Id="9ee86bb7-018b-4295-9565-fbea5b50e85a" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.75 : 2.65396021294071); (5.125 : 3.02896021294071); (5.125 : 9.20073320117188); (5.5 : 9.20073320117188)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/UserItem/UserItem_AttemptItem" />
+      <nodes>
+        <classShapeMoniker Id="2fd86dd0-dfa4-442f-9396-700a10fecf22" />
+        <classShapeMoniker Id="cc182eb9-8ce9-4772-9951-8d5af37ce05d" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="c404670b-2984-4fcc-925b-f63e1be1892d" absoluteBounds="5.5, 0.5, 2, 5.6169254557291657">
+      <DataClassMoniker Name="/SLKAssignmentsDataContext/ActivityPackageItem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="89c39d36-f599-42f6-a157-818d89e35ca2" absoluteBounds="5.5150000000000006, 0.96, 1.9700000000000002, 5.0569254557291661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5.5 : 3.07774983723958); (0.9687475 : 3.07774983723958); (0.9687475 : 6.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/ActivityPackageItem/ActivityPackageItem_AssignmentItem" />
+      <nodes>
+        <classShapeMoniker Id="c404670b-2984-4fcc-925b-f63e1be1892d" />
+        <classShapeMoniker Id="57a7ce4e-faca-4394-a8ae-887c4ad32e7f" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(6.5 : 6.11692545572917); (6.5 : 6.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/ActivityPackageItem/ActivityPackageItem_AttemptItem" />
+      <nodes>
+        <classShapeMoniker Id="c404670b-2984-4fcc-925b-f63e1be1892d" />
+        <classShapeMoniker Id="cc182eb9-8ce9-4772-9951-8d5af37ce05d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(7.0625 : 6.11692545572917); (7.0625 : 6.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/ActivityPackageItem/ActivityPackageItem_AttemptItem1" />
+      <nodes>
+        <classShapeMoniker Id="c404670b-2984-4fcc-925b-f63e1be1892d" />
+        <classShapeMoniker Id="cc182eb9-8ce9-4772-9951-8d5af37ce05d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.9375 : 6.11692545572917); (5.9375 : 6.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/ActivityPackageItem/ActivityPackageItem_AttemptItem2" />
+      <nodes>
+        <classShapeMoniker Id="c404670b-2984-4fcc-925b-f63e1be1892d" />
+        <classShapeMoniker Id="cc182eb9-8ce9-4772-9951-8d5af37ce05d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(7.5 : 4.54169790494792); (7.79166666666667 : 4.54169790494792 : JumpStart); (7.95833333333333 : 4.54169790494792 : JumpEnd); (8.71875 : 4.54169790494792); (8.71875 : 5.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/ActivityPackageItem/ActivityPackageItem_ActivityAttemptItem" />
+      <nodes>
+        <classShapeMoniker Id="c404670b-2984-4fcc-925b-f63e1be1892d" />
+        <classShapeMoniker Id="78ce8909-8a5a-4c11-b9eb-8539eac8a0db" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(6.20923076923077 : 0.5); (6.20923076923077 : 0.25); (6.80461538461539 : 0.25); (6.80461538461539 : 0.5)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/ActivityPackageItem/ActivityPackageItem_ActivityPackageItem" />
+      <nodes>
+        <classShapeMoniker Id="c404670b-2984-4fcc-925b-f63e1be1892d" />
+        <classShapeMoniker Id="c404670b-2984-4fcc-925b-f63e1be1892d" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="ece80fe6-6efb-40a1-853a-72e980bad173" absoluteBounds="8.875, 1.875, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/SLKAssignmentsDataContext/PackageItem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2c2e72fe-d92d-4ea0-92e3-d4abbdf1f2ea" absoluteBounds="8.89, 2.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(8.875 : 3.64589680989583); (8.5 : 4.02089680989583); (7.875 : 4.02089680989583); (7.875 : 6); (7.5 : 6.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/PackageItem/PackageItem_AttemptItem" />
+      <nodes>
+        <classShapeMoniker Id="ece80fe6-6efb-40a1-853a-72e980bad173" />
+        <classShapeMoniker Id="cc182eb9-8ce9-4772-9951-8d5af37ce05d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.875 : 2.72919590494792); (7.5 : 2.72919590494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/PackageItem/PackageItem_ActivityPackageItem" />
+      <nodes>
+        <classShapeMoniker Id="ece80fe6-6efb-40a1-853a-72e980bad173" />
+        <classShapeMoniker Id="c404670b-2984-4fcc-925b-f63e1be1892d" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="ee56152a-47ce-4254-93ec-e199f604ddae" absoluteBounds="8.875, 0.5, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/SLKAssignmentsDataContext/PackageFormat" />
+      <nestedChildShapes>
+        <elementListCompartment Id="856ea47d-0cd8-481b-9fff-20c27c935b33" absoluteBounds="8.89, 0.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(9.875 : 1.69399251302083); (9.875 : 1.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SLKAssignmentsDataContext/PackageFormat/PackageFormat_PackageItem" />
+      <nodes>
+        <classShapeMoniker Id="ee56152a-47ce-4254-93ec-e199f604ddae" />
+        <classShapeMoniker Id="ece80fe6-6efb-40a1-853a-72e980bad173" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
