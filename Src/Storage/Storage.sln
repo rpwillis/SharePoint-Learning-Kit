@@ -21,13 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningComponents", "..\Le
 		{6DA765C7-8B21-493F-BA62-5FDFFE6568D7} = {6DA765C7-8B21-493F-BA62-5FDFFE6568D7}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Schema", "..\Schema\Schema.vcproj", "{5337BF42-BEC3-4361-8361-1D048CCA05F8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{6DA765C7-8B21-493F-BA62-5FDFFE6568D7} = {6DA765C7-8B21-493F-BA62-5FDFFE6568D7}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaCompiler", "..\SchemaCompiler\SchemaCompiler.csproj", "{6DA765C7-8B21-493F-BA62-5FDFFE6568D7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

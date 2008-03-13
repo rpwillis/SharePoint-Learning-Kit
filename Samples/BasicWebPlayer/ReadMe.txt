@@ -74,14 +74,6 @@ application stores training package files.
 DeleteDatabase.bat
 
 -------------------------------------------------------------------------------
-If you update Schema.xml, you'll need to recompile it (which generates
-Schema.sql and App_Code\Schema.cs) and recreate the database:
-
-CompileSchema.bat
-DeleteDatabase.bat
-CreateDatabase.bat
-
--------------------------------------------------------------------------------
 To test this sample in the debugger, open BasicWebPlayer.sln and click Start,
 Debugging.
 

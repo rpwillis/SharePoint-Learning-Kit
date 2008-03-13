@@ -10,7 +10,7 @@ SAMPLES=AddInstructors.CMD AddToUserWebLists.CMD CreateAssignments.CMD Provision
 
 all: deb rel sdk samples
 
-deb: SlkSchema.sql Dll\SlkSchema.cs
+deb:
 	call LinkFrameset Clone
 	cd Dll
 	$(MAKE) /nologo deb
@@ -25,7 +25,7 @@ deb: SlkSchema.sql Dll\SlkSchema.cs
 	$(MAKE) /nologo init
 	cd $(MAKEDIR)
 
-rel: SlkSchema.sql Dll\SlkSchema.cs
+rel:
 	call LinkFrameset Clone
 	cd Dll
 	$(MAKE) /nologo rel
@@ -70,9 +70,6 @@ $(SAMPLES:CMD=clean):
 	cd Samples\$*
 	$(MAKE) /nologo cleanall
 	cd $(MAKEDIR)
-
-SlkSchema.sql SlkUpgrade.sql Dll\SlkSchema.cs : SlkSchema.xml
-	..\Src\SchemaCompiler\bin\Debug\SchemaCompiler.exe SlkSchema.xml /OutputInit SlkSchema.sql /OutputUpgrade SlkUpgrade.sql /OutputHelper Dll\SlkSchema.cs /SchemaNamespace Microsoft.SharePointLearningKit.Schema /Namespace Microsoft.SharePointLearningKit
 
 # "nmake prop" copies files that solution installs into SharePoint
 prop:

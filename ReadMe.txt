@@ -72,8 +72,6 @@ This directory tree contains the following directories:
   -- Src: Source code for MLC (Microsoft Learning Components).  Contains these subdirectories:
        -- Compression: Source code for Microsoft.LearningComponents.Compression.dll and Microsoft.LearningComponents.MRCI.dll
        -- LearningComponents: Source code for Microsoft.LearningComponents.dll.
-       -- Schema: Build scripts that compile the MLC LearningStore schema.
-       -- SchemaCompiler: Source code for SchemaCompiler.exe.
        -- Shared: Source files shared among subdirectories of Src.
        -- SharePoint: Source code for Microsoft.LearningComponents.SharePoint.dll.
        -- Storage: Source code for Microsoft.LearningComponents.Storage.dll.
@@ -143,26 +141,17 @@ source code:
 
        -- Other executables have been built (Debug file locations):
 
-              C:\dev\SLK\Src\SchemaCompiler\bin\Debug\SchemaCompiler.exe
               C:\dev\SLK\Slk\slkadm\bin\Debug\slkadm.exe
 
        -- Sample code has been built.
 
        -- The MLC LearningStore schema, located here:
 
-              C:\dev\SLK\Src\SchemaCompiler\BaseSchema.xml
-
-          ...is compiled into the following files:
-
               C:\dev\SLK\Src\Schema\InitSchema.sql
               C:\dev\SLK\Src\Schema\SchemaDataComponents.cs
               C:\dev\SLK\Src\Schema\SchemaDataStorage.cs
 
        -- The SLK application LearningStore schema, located here:
-
-              C:\dev\SLK\Slk\SlkSchema.xml
-
-          ...is compiled into the following files:
 
               C:\dev\SLK\Slk\SlkSchema.sql
               C:\dev\SLK\Slk\SlkUpgrade.sql

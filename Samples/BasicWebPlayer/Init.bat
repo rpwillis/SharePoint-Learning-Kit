@@ -10,4 +10,3 @@ copy /y ..\..\Debug\Microsoft.LearningComponents.dll Bin
 copy /y ..\..\Debug\Microsoft.LearningComponents.pdb Bin
 copy /y ..\..\Debug\Microsoft.LearningComponents.Storage.dll Bin
 copy /y ..\..\Debug\Microsoft.LearningComponents.Storage.pdb Bin
-call CompileSchema.bat

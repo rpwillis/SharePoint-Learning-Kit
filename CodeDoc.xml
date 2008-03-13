@@ -172,12 +172,6 @@
 			NewName="WebService_ReadMe.txt.htm"
 			TextToHtml="true"/>
 
-		<!-- for MLC docs -->
-		<CopyFile
-			Path="Src\SchemaCompiler\BaseSchema.xml"
-			NewName="BaseSchema.xml.htm"
-			TextToHtml="true"/>
-
 		<!-- for MLC samples -->
 		<CopyFile
 			Path="Samples\BasicWebPlayer\Schema.xml"
