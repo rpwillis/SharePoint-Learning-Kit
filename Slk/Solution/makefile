@@ -25,9 +25,6 @@ deb:
 	copy ..\Dll\bin\Debug\Microsoft.SharePointLearningKit.dll Build
 	copy ..\Dll\bin\Debug\Microsoft.SharePointLearningKit.pdb Build
 	SignCode.bat Build\Microsoft.SharePointLearningKit.dll
-	copy ..\..\Src\SchemaCompiler\bin\Debug\SchemaCompiler.exe Build
-	copy ..\..\Src\SchemaCompiler\bin\Debug\SchemaCompiler.pdb Build
-	SignCode.bat Build\SchemaCompiler.exe
 	-rmdir /s /q Debug 2> nul
 	mkdir Debug
 	copy Cab.ddf Debug
@@ -53,8 +50,6 @@ rel:
 	SignCode.bat Build\Microsoft.LearningComponents.Storage.dll
 	copy ..\Dll\bin\Release\Microsoft.SharePointLearningKit.dll Build
 	SignCode.bat Build\Microsoft.SharePointLearningKit.dll
-	copy ..\..\Src\SchemaCompiler\bin\Release\SchemaCompiler.exe Build
-	SignCode.bat Build\SchemaCompiler.exe
 	-rmdir /s /q Release 2> nul
 	mkdir Release
 	copy Cab.ddf Release

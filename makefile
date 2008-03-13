@@ -22,7 +22,7 @@
 
 # "all" target (default target): builds everything
 SRCDIRS = \
-	Src\SchemaCompiler.CMD Src\Schema.CMD Src\Compression.CMD Src\LearningComponents.CMD Src\Storage.CMD Src\SharePoint.CMD
+	Src\Compression.CMD Src\LearningComponents.CMD Src\Storage.CMD Src\SharePoint.CMD
 
 # CodeDoc is the location of the CodeDoc (see www.dwell.net)
 CODEDOC=..\SLK.Internal\Tools\CodeDoc\CodeDoc.exe
@@ -96,8 +96,6 @@ samplesdeb: deb
 	copy /y Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.pdb Debug
 	copy /y Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.dll Debug
 	copy /y Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.pdb Debug
-	copy /y Src\SchemaCompiler\bin\Debug\SchemaCompiler.exe Debug
-	copy /y Src\SchemaCompiler\bin\Debug\SchemaCompiler.pdb Debug
 	copy /y Src\SharePoint\bin\Debug\Microsoft.LearningComponents.SharePoint.dll Debug
 	copy /y Src\SharePoint\bin\Debug\Microsoft.LearningComponents.SharePoint.pdb Debug
 	copy /y Slk\Dll\bin\Debug\Microsoft.SharePointLearningKit.dll Debug
@@ -239,7 +237,6 @@ drop: nul
 	mkdir $(SDK_DIR)\SLK
 	copy Slk\SlkSdk\* $(SDK_DIR)\SLK
 	copy Slk\SlkSettings.xml $(SDK_DIR)\SLK
-	copy Src\SchemaCompiler\Schema.xsd $(SDK_DIR)
 
 	rem -- Create the LanguagePacks directory...
 	-rmdir /s /q Drop\Drop\LanguagePacks 2> nul
@@ -278,7 +275,6 @@ drop: nul
 	copy Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.pdb $(RELEASEPDB)
 	copy Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.pdb $(RELEASEPDB)
 	copy Slk\Dll\bin\Release\Microsoft.SharePointLearningKit.pdb $(RELEASEPDB)
-	copy Src\SchemaCompiler\bin\Release\SchemaCompiler.pdb $(RELEASEPDB)
 
 	rem -- Create drop .zip files -- MUST BE DONE AFTER DROP\DROP IS COMPLETE...
 	if exist ..\SLK.Internal cscript /nologo ..\SLK.Internal\Tools\MakeDropZipsBatchFile.js > MakeDropZips.bat

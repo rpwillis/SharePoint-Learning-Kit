@@ -13,9 +13,6 @@ copy /y Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.pdb Debug
 copy /y Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.dll Debug
 copy /y Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.pdb Debug
 
-copy /y Src\SchemaCompiler\bin\Debug\SchemaCompiler.exe Debug
-copy /y Src\SchemaCompiler\bin\Debug\SchemaCompiler.pdb Debug
-
 copy /y Src\Schema\InitSchema.sql .
 
 mkdir Samples\BasicWebPlayer\bin

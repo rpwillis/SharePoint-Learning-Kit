@@ -26,12 +26,6 @@ copy /y Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.pdb Debug
 copy /y Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.dll Release
 copy /y Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.pdb Release
 
-copy /y Src\SchemaCompiler\bin\Debug\SchemaCompiler.exe Debug
-copy /y Src\SchemaCompiler\bin\Debug\SchemaCompiler.pdb Debug
-
-copy /y Src\SchemaCompiler\bin\Release\SchemaCompiler.exe Release
-copy /y Src\SchemaCompiler\bin\Release\SchemaCompiler.pdb Release
-
 copy /y Src\Schema\InitSchema.sql .
 
 echo Local Files > Debug\_ReadMe.txt
