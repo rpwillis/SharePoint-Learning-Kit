@@ -321,12 +321,6 @@ namespace Microsoft.SharePointLearningKit
         public const string LearnerAssignmentId = "LearnerAssignmentId";
 
         /// <summary>
-        /// LearnerAssignmentGuidId
-        /// </summary>
-        public const string LearnerAssignmentGuidId = "LearnerAssignmentGuidId";
-
-
-        /// <summary>
         ///  Name of Location querystring parameter for APP
         /// </summary>
 

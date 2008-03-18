@@ -8,28 +8,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
-using System.Diagnostics;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
-using System.Security.Principal;
-using System.Text;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Xml;
-using System.Xml.Schema;
-using Microsoft.LearningComponents;
+using Microsoft.LearningComponents.Frameset;
 using Microsoft.LearningComponents.Storage;
-using Schema = Microsoft.SharePointLearningKit.Schema;
 using Microsoft.SharePoint;
-using Microsoft.SharePointLearningKit;
 using Microsoft.SharePointLearningKit.WebControls;
-using Microsoft.SharePointLearningKit.WebParts;
 using Resources.Properties;
-using System.Data.SqlClient;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -722,13 +711,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         if (isObserver)
                         {
                             // Display this cell as an url and clicking this url will launch frameset in StudentReview mode
-                            string url = "Frameset/Frameset.aspx?SlkView=StudentReview&LearnerAssignmentGuidId={0}";
+                            string url = "Frameset/Frameset.aspx?SlkView=StudentReview&{0}={1}";
                             if ((webNameRenderedCell != null) &&
                                 (webNameRenderedCell.SPWebUrl != null))
                                 url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
                             hw.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
                             hw.AddAttribute(HtmlTextWriterAttribute.Href,
                                 String.Format(CultureInfo.InvariantCulture, url,
+                                              FramesetQueryParameter.LearnerAssignmentId,
                                               learnerAssignmentGuidId.ToString()));
                             using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
                                 hw.WriteEncodedText(renderedCell.ToString());
@@ -738,13 +728,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
 
                             // render a link to the Learner Assignment Properties page
-                            string url = "Lobby.aspx?LearnerAssignmentGuidId={0}";
+                            string url = "Lobby.aspx?{0}={1}";
                             if ((webNameRenderedCell != null) &&
                                 (webNameRenderedCell.SPWebUrl != null))
                                 url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
                             hw.AddAttribute(HtmlTextWriterAttribute.Target, "_parent");
                             hw.AddAttribute(HtmlTextWriterAttribute.Href,
                                 String.Format(CultureInfo.InvariantCulture, url,
+                                              FramesetQueryParameter.LearnerAssignmentId,
                                               learnerAssignmentGuidId.ToString()));
                             using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
                                 hw.WriteEncodedText(renderedCell.ToString());

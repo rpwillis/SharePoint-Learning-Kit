@@ -330,7 +330,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             learnerAssignmentGuidId = Guid.Empty;
 
             string learnerAssignmentParam;
-            if (!TryGetRequiredParameter(FramesetQueryParameter.LearnerAssignmentGuidId, out learnerAssignmentParam))
+            if (!TryGetRequiredParameter(FramesetQueryParameter.LearnerAssignmentId, out learnerAssignmentParam))
                 return false;
 
             bool isValid = true;    // Assume return value is valid
@@ -348,8 +348,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             if (!isValid && showErrorPage)
             {
-                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterTitle, FramesetQueryParameter.LearnerAssignmentGuidId),
-                        ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterMsg, FramesetQueryParameter.LearnerAssignmentGuidId, learnerAssignmentParam), false);
+                RegisterError(ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterTitle, FramesetQueryParameter.LearnerAssignmentId),
+                        ResHelper.GetMessage(FramesetResources.FRM_InvalidParameterMsg, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentParam), false);
             }
 
             return isValid;

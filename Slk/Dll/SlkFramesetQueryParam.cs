@@ -14,7 +14,7 @@ namespace Microsoft.LearningComponents.Frameset
     /// </summary>
     public partial class FramesetQueryParameter
     {
-        public const string LearnerAssignmentGuidId = "LearnerAssignmentGuidId";
+        public const string LearnerAssignmentId = "LearnerAssignmentId";
         public const string SlkView = "SlkView";
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Src")]
         public const string Src = "Src";    // the page name that opened this page

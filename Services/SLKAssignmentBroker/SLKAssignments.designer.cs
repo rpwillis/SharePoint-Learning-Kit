@@ -33,9 +33,6 @@ namespace SharePointLearningKit.Services
     partial void InsertAssignmentItem(AssignmentItem instance);
     partial void UpdateAssignmentItem(AssignmentItem instance);
     partial void DeleteAssignmentItem(AssignmentItem instance);
-    partial void InsertLearnerAssignmentItem(LearnerAssignmentItem instance);
-    partial void UpdateLearnerAssignmentItem(LearnerAssignmentItem instance);
-    partial void DeleteLearnerAssignmentItem(LearnerAssignmentItem instance);
     partial void InsertAttemptItem(AttemptItem instance);
     partial void UpdateAttemptItem(AttemptItem instance);
     partial void DeleteAttemptItem(AttemptItem instance);
@@ -54,6 +51,9 @@ namespace SharePointLearningKit.Services
     partial void InsertPackageFormat(PackageFormat instance);
     partial void UpdatePackageFormat(PackageFormat instance);
     partial void DeletePackageFormat(PackageFormat instance);
+    partial void InsertLearnerAssignmentItem(LearnerAssignmentItem instance);
+    partial void UpdateLearnerAssignmentItem(LearnerAssignmentItem instance);
+    partial void DeleteLearnerAssignmentItem(LearnerAssignmentItem instance);
     #endregion
 				
 		public SLKAssignmentsDataContext(string connection) : 
@@ -85,14 +85,6 @@ namespace SharePointLearningKit.Services
 			get
 			{
 				return this.GetTable<AssignmentItem>();
-			}
-		}
-		
-		public System.Data.Linq.Table<LearnerAssignmentItem> LearnerAssignmentItems
-		{
-			get
-			{
-				return this.GetTable<LearnerAssignmentItem>();
 			}
 		}
 		
@@ -141,6 +133,14 @@ namespace SharePointLearningKit.Services
 			get
 			{
 				return this.GetTable<PackageFormat>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LearnerAssignmentItem> LearnerAssignmentItems
+		{
+			get
+			{
+				return this.GetTable<LearnerAssignmentItem>();
 			}
 		}
 	}
@@ -515,7 +515,7 @@ namespace SharePointLearningKit.Services
 			}
 		}
 		
-		[Association(Name="AssignmentItem_LearnerAssignmentItem", Storage="_LearnerAssignmentItems", OtherKey="AssignmentId")]
+		[Association(Name="AssignmentItem_LearnerAssignmentItem1", Storage="_LearnerAssignmentItems", OtherKey="AssignmentId")]
 		public EntitySet<LearnerAssignmentItem> LearnerAssignmentItems
 		{
 			get
@@ -629,322 +629,6 @@ namespace SharePointLearningKit.Services
 		}
 	}
 	
-	[Table(Name="dbo.LearnerAssignmentItem")]
-	public partial class LearnerAssignmentItem : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private long _Id;
-		
-		private long _AssignmentId;
-		
-		private long _LearnerId;
-		
-		private bool _IsFinal;
-		
-		private System.Nullable<int> _NonELearningStatus;
-		
-		private System.Nullable<float> _FinalPoints;
-		
-		private string _InstructorComments;
-		
-		private EntitySet<AttemptItem> _AttemptItems;
-		
-		private EntityRef<AssignmentItem> _AssignmentItem;
-		
-		private EntityRef<UserItem> _UserItem;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(long value);
-    partial void OnIdChanged();
-    partial void OnAssignmentIdChanging(long value);
-    partial void OnAssignmentIdChanged();
-    partial void OnLearnerIdChanging(long value);
-    partial void OnLearnerIdChanged();
-    partial void OnIsFinalChanging(bool value);
-    partial void OnIsFinalChanged();
-    partial void OnNonELearningStatusChanging(System.Nullable<int> value);
-    partial void OnNonELearningStatusChanged();
-    partial void OnFinalPointsChanging(System.Nullable<float> value);
-    partial void OnFinalPointsChanged();
-    partial void OnInstructorCommentsChanging(string value);
-    partial void OnInstructorCommentsChanged();
-    #endregion
-		
-		public LearnerAssignmentItem()
-		{
-			this._AttemptItems = new EntitySet<AttemptItem>(new Action<AttemptItem>(this.attach_AttemptItems), new Action<AttemptItem>(this.detach_AttemptItems));
-			this._AssignmentItem = default(EntityRef<AssignmentItem>);
-			this._UserItem = default(EntityRef<UserItem>);
-			OnCreated();
-		}
-		
-		[Column(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="BigInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public long Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_AssignmentId", DbType="BigInt NOT NULL")]
-		public long AssignmentId
-		{
-			get
-			{
-				return this._AssignmentId;
-			}
-			set
-			{
-				if ((this._AssignmentId != value))
-				{
-					if (this._AssignmentItem.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnAssignmentIdChanging(value);
-					this.SendPropertyChanging();
-					this._AssignmentId = value;
-					this.SendPropertyChanged("AssignmentId");
-					this.OnAssignmentIdChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_LearnerId", DbType="BigInt NOT NULL")]
-		public long LearnerId
-		{
-			get
-			{
-				return this._LearnerId;
-			}
-			set
-			{
-				if ((this._LearnerId != value))
-				{
-					if (this._UserItem.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnLearnerIdChanging(value);
-					this.SendPropertyChanging();
-					this._LearnerId = value;
-					this.SendPropertyChanged("LearnerId");
-					this.OnLearnerIdChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_IsFinal", DbType="Bit NOT NULL")]
-		public bool IsFinal
-		{
-			get
-			{
-				return this._IsFinal;
-			}
-			set
-			{
-				if ((this._IsFinal != value))
-				{
-					this.OnIsFinalChanging(value);
-					this.SendPropertyChanging();
-					this._IsFinal = value;
-					this.SendPropertyChanged("IsFinal");
-					this.OnIsFinalChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_NonELearningStatus", DbType="Int")]
-		public System.Nullable<int> NonELearningStatus
-		{
-			get
-			{
-				return this._NonELearningStatus;
-			}
-			set
-			{
-				if ((this._NonELearningStatus != value))
-				{
-					this.OnNonELearningStatusChanging(value);
-					this.SendPropertyChanging();
-					this._NonELearningStatus = value;
-					this.SendPropertyChanged("NonELearningStatus");
-					this.OnNonELearningStatusChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_FinalPoints", DbType="Real")]
-		public System.Nullable<float> FinalPoints
-		{
-			get
-			{
-				return this._FinalPoints;
-			}
-			set
-			{
-				if ((this._FinalPoints != value))
-				{
-					this.OnFinalPointsChanging(value);
-					this.SendPropertyChanging();
-					this._FinalPoints = value;
-					this.SendPropertyChanged("FinalPoints");
-					this.OnFinalPointsChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_InstructorComments", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string InstructorComments
-		{
-			get
-			{
-				return this._InstructorComments;
-			}
-			set
-			{
-				if ((this._InstructorComments != value))
-				{
-					this.OnInstructorCommentsChanging(value);
-					this.SendPropertyChanging();
-					this._InstructorComments = value;
-					this.SendPropertyChanged("InstructorComments");
-					this.OnInstructorCommentsChanged();
-				}
-			}
-		}
-		
-		[Association(Name="LearnerAssignmentItem_AttemptItem", Storage="_AttemptItems", OtherKey="LearnerAssignmentId")]
-		public EntitySet<AttemptItem> AttemptItems
-		{
-			get
-			{
-				return this._AttemptItems;
-			}
-			set
-			{
-				this._AttemptItems.Assign(value);
-			}
-		}
-		
-		[Association(Name="AssignmentItem_LearnerAssignmentItem", Storage="_AssignmentItem", ThisKey="AssignmentId", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
-		public AssignmentItem AssignmentItem
-		{
-			get
-			{
-				return this._AssignmentItem.Entity;
-			}
-			set
-			{
-				AssignmentItem previousValue = this._AssignmentItem.Entity;
-				if (((previousValue != value) 
-							|| (this._AssignmentItem.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._AssignmentItem.Entity = null;
-						previousValue.LearnerAssignmentItems.Remove(this);
-					}
-					this._AssignmentItem.Entity = value;
-					if ((value != null))
-					{
-						value.LearnerAssignmentItems.Add(this);
-						this._AssignmentId = value.Id;
-					}
-					else
-					{
-						this._AssignmentId = default(long);
-					}
-					this.SendPropertyChanged("AssignmentItem");
-				}
-			}
-		}
-		
-		[Association(Name="UserItem_LearnerAssignmentItem", Storage="_UserItem", ThisKey="LearnerId", IsForeignKey=true)]
-		public UserItem UserItem
-		{
-			get
-			{
-				return this._UserItem.Entity;
-			}
-			set
-			{
-				UserItem previousValue = this._UserItem.Entity;
-				if (((previousValue != value) 
-							|| (this._UserItem.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserItem.Entity = null;
-						previousValue.LearnerAssignmentItems.Remove(this);
-					}
-					this._UserItem.Entity = value;
-					if ((value != null))
-					{
-						value.LearnerAssignmentItems.Add(this);
-						this._LearnerId = value.Id;
-					}
-					else
-					{
-						this._LearnerId = default(long);
-					}
-					this.SendPropertyChanged("UserItem");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_AttemptItems(AttemptItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.LearnerAssignmentItem = this;
-		}
-		
-		private void detach_AttemptItems(AttemptItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.LearnerAssignmentItem = null;
-		}
-	}
-	
 	[Table(Name="dbo.AttemptItem")]
 	public partial class AttemptItem : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -985,8 +669,6 @@ namespace SharePointLearningKit.Services
 		
 		private EntitySet<ActivityAttemptItem> _ActivityAttemptItems;
 		
-		private EntityRef<LearnerAssignmentItem> _LearnerAssignmentItem;
-		
 		private EntityRef<UserItem> _UserItem;
 		
 		private EntityRef<ActivityPackageItem> _ActivityPackageItem;
@@ -996,6 +678,8 @@ namespace SharePointLearningKit.Services
 		private EntityRef<ActivityPackageItem> _ActivityPackageItem2;
 		
 		private EntityRef<PackageItem> _PackageItem;
+		
+		private EntityRef<LearnerAssignmentItem> _LearnerAssignmentItem;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1038,12 +722,12 @@ namespace SharePointLearningKit.Services
 		public AttemptItem()
 		{
 			this._ActivityAttemptItems = new EntitySet<ActivityAttemptItem>(new Action<ActivityAttemptItem>(this.attach_ActivityAttemptItems), new Action<ActivityAttemptItem>(this.detach_ActivityAttemptItems));
-			this._LearnerAssignmentItem = default(EntityRef<LearnerAssignmentItem>);
 			this._UserItem = default(EntityRef<UserItem>);
 			this._ActivityPackageItem = default(EntityRef<ActivityPackageItem>);
 			this._ActivityPackageItem1 = default(EntityRef<ActivityPackageItem>);
 			this._ActivityPackageItem2 = default(EntityRef<ActivityPackageItem>);
 			this._PackageItem = default(EntityRef<PackageItem>);
+			this._LearnerAssignmentItem = default(EntityRef<LearnerAssignmentItem>);
 			OnCreated();
 		}
 		
@@ -1404,40 +1088,6 @@ namespace SharePointLearningKit.Services
 			}
 		}
 		
-		[Association(Name="LearnerAssignmentItem_AttemptItem", Storage="_LearnerAssignmentItem", ThisKey="LearnerAssignmentId", IsForeignKey=true, DeleteRule="CASCADE")]
-		public LearnerAssignmentItem LearnerAssignmentItem
-		{
-			get
-			{
-				return this._LearnerAssignmentItem.Entity;
-			}
-			set
-			{
-				LearnerAssignmentItem previousValue = this._LearnerAssignmentItem.Entity;
-				if (((previousValue != value) 
-							|| (this._LearnerAssignmentItem.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._LearnerAssignmentItem.Entity = null;
-						previousValue.AttemptItems.Remove(this);
-					}
-					this._LearnerAssignmentItem.Entity = value;
-					if ((value != null))
-					{
-						value.AttemptItems.Add(this);
-						this._LearnerAssignmentId = value.Id;
-					}
-					else
-					{
-						this._LearnerAssignmentId = default(Nullable<long>);
-					}
-					this.SendPropertyChanged("LearnerAssignmentItem");
-				}
-			}
-		}
-		
 		[Association(Name="UserItem_AttemptItem", Storage="_UserItem", ThisKey="LearnerId", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public UserItem UserItem
 		{
@@ -1604,6 +1254,40 @@ namespace SharePointLearningKit.Services
 						this._PackageId = default(long);
 					}
 					this.SendPropertyChanged("PackageItem");
+				}
+			}
+		}
+		
+		[Association(Name="LearnerAssignmentItem1_AttemptItem", Storage="_LearnerAssignmentItem", ThisKey="LearnerAssignmentId", IsForeignKey=true, DeleteRule="CASCADE")]
+		public LearnerAssignmentItem LearnerAssignmentItem
+		{
+			get
+			{
+				return this._LearnerAssignmentItem.Entity;
+			}
+			set
+			{
+				LearnerAssignmentItem previousValue = this._LearnerAssignmentItem.Entity;
+				if (((previousValue != value) 
+							|| (this._LearnerAssignmentItem.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._LearnerAssignmentItem.Entity = null;
+						previousValue.AttemptItems.Remove(this);
+					}
+					this._LearnerAssignmentItem.Entity = value;
+					if ((value != null))
+					{
+						value.AttemptItems.Add(this);
+						this._LearnerAssignmentId = value.Id;
+					}
+					else
+					{
+						this._LearnerAssignmentId = default(Nullable<long>);
+					}
+					this.SendPropertyChanged("LearnerAssignmentItem");
 				}
 			}
 		}
@@ -2311,9 +1995,9 @@ namespace SharePointLearningKit.Services
 		
 		private EntitySet<AssignmentItem> _AssignmentItems;
 		
-		private EntitySet<LearnerAssignmentItem> _LearnerAssignmentItems;
-		
 		private EntitySet<AttemptItem> _AttemptItems;
+		
+		private EntitySet<LearnerAssignmentItem> _LearnerAssignmentItems;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2338,8 +2022,8 @@ namespace SharePointLearningKit.Services
 		public UserItem()
 		{
 			this._AssignmentItems = new EntitySet<AssignmentItem>(new Action<AssignmentItem>(this.attach_AssignmentItems), new Action<AssignmentItem>(this.detach_AssignmentItems));
-			this._LearnerAssignmentItems = new EntitySet<LearnerAssignmentItem>(new Action<LearnerAssignmentItem>(this.attach_LearnerAssignmentItems), new Action<LearnerAssignmentItem>(this.detach_LearnerAssignmentItems));
 			this._AttemptItems = new EntitySet<AttemptItem>(new Action<AttemptItem>(this.attach_AttemptItems), new Action<AttemptItem>(this.detach_AttemptItems));
+			this._LearnerAssignmentItems = new EntitySet<LearnerAssignmentItem>(new Action<LearnerAssignmentItem>(this.attach_LearnerAssignmentItems), new Action<LearnerAssignmentItem>(this.detach_LearnerAssignmentItems));
 			OnCreated();
 		}
 		
@@ -2496,19 +2180,6 @@ namespace SharePointLearningKit.Services
 			}
 		}
 		
-		[Association(Name="UserItem_LearnerAssignmentItem", Storage="_LearnerAssignmentItems", OtherKey="LearnerId")]
-		public EntitySet<LearnerAssignmentItem> LearnerAssignmentItems
-		{
-			get
-			{
-				return this._LearnerAssignmentItems;
-			}
-			set
-			{
-				this._LearnerAssignmentItems.Assign(value);
-			}
-		}
-		
 		[Association(Name="UserItem_AttemptItem", Storage="_AttemptItems", OtherKey="LearnerId")]
 		public EntitySet<AttemptItem> AttemptItems
 		{
@@ -2519,6 +2190,19 @@ namespace SharePointLearningKit.Services
 			set
 			{
 				this._AttemptItems.Assign(value);
+			}
+		}
+		
+		[Association(Name="UserItem_LearnerAssignmentItem1", Storage="_LearnerAssignmentItems", OtherKey="LearnerId")]
+		public EntitySet<LearnerAssignmentItem> LearnerAssignmentItems
+		{
+			get
+			{
+				return this._LearnerAssignmentItems;
+			}
+			set
+			{
+				this._LearnerAssignmentItems.Assign(value);
 			}
 		}
 		
@@ -2554,18 +2238,6 @@ namespace SharePointLearningKit.Services
 			entity.UserItem = null;
 		}
 		
-		private void attach_LearnerAssignmentItems(LearnerAssignmentItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserItem = this;
-		}
-		
-		private void detach_LearnerAssignmentItems(LearnerAssignmentItem entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserItem = null;
-		}
-		
 		private void attach_AttemptItems(AttemptItem entity)
 		{
 			this.SendPropertyChanging();
@@ -2573,6 +2245,18 @@ namespace SharePointLearningKit.Services
 		}
 		
 		private void detach_AttemptItems(AttemptItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserItem = null;
+		}
+		
+		private void attach_LearnerAssignmentItems(LearnerAssignmentItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserItem = this;
+		}
+		
+		private void detach_LearnerAssignmentItems(LearnerAssignmentItem entity)
 		{
 			this.SendPropertyChanging();
 			entity.UserItem = null;
@@ -3750,7 +3434,7 @@ namespace SharePointLearningKit.Services
 			OnCreated();
 		}
 		
-		[Column(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[Column(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id
 		{
 			get
@@ -3833,6 +3517,346 @@ namespace SharePointLearningKit.Services
 		{
 			this.SendPropertyChanging();
 			entity.PackageFormat1 = null;
+		}
+	}
+	
+	[Table(Name="dbo.LearnerAssignmentItem")]
+	public partial class LearnerAssignmentItem : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private long _Id;
+		
+		private System.Nullable<System.Guid> _GuidId;
+		
+		private long _AssignmentId;
+		
+		private long _LearnerId;
+		
+		private bool _IsFinal;
+		
+		private System.Nullable<int> _NonELearningStatus;
+		
+		private System.Nullable<float> _FinalPoints;
+		
+		private string _InstructorComments;
+		
+		private EntitySet<AttemptItem> _AttemptItems;
+		
+		private EntityRef<AssignmentItem> _AssignmentItem;
+		
+		private EntityRef<UserItem> _UserItem;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(long value);
+    partial void OnIdChanged();
+    partial void OnGuidIdChanging(System.Nullable<System.Guid> value);
+    partial void OnGuidIdChanged();
+    partial void OnAssignmentIdChanging(long value);
+    partial void OnAssignmentIdChanged();
+    partial void OnLearnerIdChanging(long value);
+    partial void OnLearnerIdChanged();
+    partial void OnIsFinalChanging(bool value);
+    partial void OnIsFinalChanged();
+    partial void OnNonELearningStatusChanging(System.Nullable<int> value);
+    partial void OnNonELearningStatusChanged();
+    partial void OnFinalPointsChanging(System.Nullable<float> value);
+    partial void OnFinalPointsChanged();
+    partial void OnInstructorCommentsChanging(string value);
+    partial void OnInstructorCommentsChanged();
+    #endregion
+		
+		public LearnerAssignmentItem()
+		{
+			this._AttemptItems = new EntitySet<AttemptItem>(new Action<AttemptItem>(this.attach_AttemptItems), new Action<AttemptItem>(this.detach_AttemptItems));
+			this._AssignmentItem = default(EntityRef<AssignmentItem>);
+			this._UserItem = default(EntityRef<UserItem>);
+			OnCreated();
+		}
+		
+		[Column(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="BigInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public long Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_GuidId", DbType="UniqueIdentifier", IsDbGenerated=true)]
+		public System.Nullable<System.Guid> GuidId
+		{
+			get
+			{
+				return this._GuidId;
+			}
+			set
+			{
+				if ((this._GuidId != value))
+				{
+					this.OnGuidIdChanging(value);
+					this.SendPropertyChanging();
+					this._GuidId = value;
+					this.SendPropertyChanged("GuidId");
+					this.OnGuidIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_AssignmentId", DbType="BigInt NOT NULL")]
+		public long AssignmentId
+		{
+			get
+			{
+				return this._AssignmentId;
+			}
+			set
+			{
+				if ((this._AssignmentId != value))
+				{
+					if (this._AssignmentItem.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAssignmentIdChanging(value);
+					this.SendPropertyChanging();
+					this._AssignmentId = value;
+					this.SendPropertyChanged("AssignmentId");
+					this.OnAssignmentIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_LearnerId", DbType="BigInt NOT NULL")]
+		public long LearnerId
+		{
+			get
+			{
+				return this._LearnerId;
+			}
+			set
+			{
+				if ((this._LearnerId != value))
+				{
+					if (this._UserItem.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnLearnerIdChanging(value);
+					this.SendPropertyChanging();
+					this._LearnerId = value;
+					this.SendPropertyChanged("LearnerId");
+					this.OnLearnerIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_IsFinal", DbType="Bit NOT NULL")]
+		public bool IsFinal
+		{
+			get
+			{
+				return this._IsFinal;
+			}
+			set
+			{
+				if ((this._IsFinal != value))
+				{
+					this.OnIsFinalChanging(value);
+					this.SendPropertyChanging();
+					this._IsFinal = value;
+					this.SendPropertyChanged("IsFinal");
+					this.OnIsFinalChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_NonELearningStatus", DbType="Int")]
+		public System.Nullable<int> NonELearningStatus
+		{
+			get
+			{
+				return this._NonELearningStatus;
+			}
+			set
+			{
+				if ((this._NonELearningStatus != value))
+				{
+					this.OnNonELearningStatusChanging(value);
+					this.SendPropertyChanging();
+					this._NonELearningStatus = value;
+					this.SendPropertyChanged("NonELearningStatus");
+					this.OnNonELearningStatusChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_FinalPoints", DbType="Real")]
+		public System.Nullable<float> FinalPoints
+		{
+			get
+			{
+				return this._FinalPoints;
+			}
+			set
+			{
+				if ((this._FinalPoints != value))
+				{
+					this.OnFinalPointsChanging(value);
+					this.SendPropertyChanging();
+					this._FinalPoints = value;
+					this.SendPropertyChanged("FinalPoints");
+					this.OnFinalPointsChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_InstructorComments", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string InstructorComments
+		{
+			get
+			{
+				return this._InstructorComments;
+			}
+			set
+			{
+				if ((this._InstructorComments != value))
+				{
+					this.OnInstructorCommentsChanging(value);
+					this.SendPropertyChanging();
+					this._InstructorComments = value;
+					this.SendPropertyChanged("InstructorComments");
+					this.OnInstructorCommentsChanged();
+				}
+			}
+		}
+		
+		[Association(Name="LearnerAssignmentItem1_AttemptItem", Storage="_AttemptItems", OtherKey="LearnerAssignmentId")]
+		public EntitySet<AttemptItem> AttemptItems
+		{
+			get
+			{
+				return this._AttemptItems;
+			}
+			set
+			{
+				this._AttemptItems.Assign(value);
+			}
+		}
+		
+		[Association(Name="AssignmentItem_LearnerAssignmentItem1", Storage="_AssignmentItem", ThisKey="AssignmentId", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public AssignmentItem AssignmentItem
+		{
+			get
+			{
+				return this._AssignmentItem.Entity;
+			}
+			set
+			{
+				AssignmentItem previousValue = this._AssignmentItem.Entity;
+				if (((previousValue != value) 
+							|| (this._AssignmentItem.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AssignmentItem.Entity = null;
+						previousValue.LearnerAssignmentItems.Remove(this);
+					}
+					this._AssignmentItem.Entity = value;
+					if ((value != null))
+					{
+						value.LearnerAssignmentItems.Add(this);
+						this._AssignmentId = value.Id;
+					}
+					else
+					{
+						this._AssignmentId = default(long);
+					}
+					this.SendPropertyChanged("AssignmentItem");
+				}
+			}
+		}
+		
+		[Association(Name="UserItem_LearnerAssignmentItem1", Storage="_UserItem", ThisKey="LearnerId", IsForeignKey=true)]
+		public UserItem UserItem
+		{
+			get
+			{
+				return this._UserItem.Entity;
+			}
+			set
+			{
+				UserItem previousValue = this._UserItem.Entity;
+				if (((previousValue != value) 
+							|| (this._UserItem.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserItem.Entity = null;
+						previousValue.LearnerAssignmentItems.Remove(this);
+					}
+					this._UserItem.Entity = value;
+					if ((value != null))
+					{
+						value.LearnerAssignmentItems.Add(this);
+						this._LearnerId = value.Id;
+					}
+					else
+					{
+						this._LearnerId = default(long);
+					}
+					this.SendPropertyChanged("UserItem");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_AttemptItems(AttemptItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.LearnerAssignmentItem = this;
+		}
+		
+		private void detach_AttemptItems(AttemptItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.LearnerAssignmentItem = null;
 		}
 	}
 }

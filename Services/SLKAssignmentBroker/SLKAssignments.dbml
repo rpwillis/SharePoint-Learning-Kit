@@ -17,23 +17,9 @@
       <Column Name="ShowAnswersToLearners" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="CreatedBy" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
       <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="AssignmentItem_LearnerAssignmentItem" Member="LearnerAssignmentItems" OtherKey="AssignmentId" Type="LearnerAssignmentItem" />
+      <Association Name="AssignmentItem_LearnerAssignmentItem1" Member="LearnerAssignmentItems" OtherKey="AssignmentId" Type="LearnerAssignmentItem" />
       <Association Name="UserItem_AssignmentItem" Member="UserItem" ThisKey="CreatedBy" Type="UserItem" IsForeignKey="true" />
       <Association Name="ActivityPackageItem_AssignmentItem" Member="ActivityPackageItem" ThisKey="RootActivityId" Type="ActivityPackageItem" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.LearnerAssignmentItem" Member="LearnerAssignmentItems">
-    <Type Name="LearnerAssignmentItem">
-      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="AssignmentId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="LearnerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="IsFinal" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="NonELearningStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="FinalPoints" Type="System.Single" DbType="Real" CanBeNull="true" />
-      <Column Name="InstructorComments" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Association Name="LearnerAssignmentItem_AttemptItem" Member="AttemptItems" OtherKey="LearnerAssignmentId" Type="AttemptItem" />
-      <Association Name="AssignmentItem_LearnerAssignmentItem" Member="AssignmentItem" ThisKey="AssignmentId" Type="AssignmentItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
-      <Association Name="UserItem_LearnerAssignmentItem" Member="UserItem" ThisKey="LearnerId" Type="UserItem" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.AttemptItem" Member="AttemptItems">
@@ -55,12 +41,12 @@
       <Column Name="TotalPoints" Type="System.Single" DbType="Real" CanBeNull="true" />
       <Column Name="LearnerAssignmentId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
       <Association Name="AttemptItem_ActivityAttemptItem" Member="ActivityAttemptItems" OtherKey="AttemptId" Type="ActivityAttemptItem" />
-      <Association Name="LearnerAssignmentItem_AttemptItem" Member="LearnerAssignmentItem" ThisKey="LearnerAssignmentId" Type="LearnerAssignmentItem" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="UserItem_AttemptItem" Member="UserItem" ThisKey="LearnerId" Type="UserItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
       <Association Name="ActivityPackageItem_AttemptItem" Member="ActivityPackageItem" ThisKey="CurrentActivityId" Type="ActivityPackageItem" IsForeignKey="true" />
       <Association Name="ActivityPackageItem_AttemptItem1" Member="ActivityPackageItem1" ThisKey="RootActivityId" Type="ActivityPackageItem" IsForeignKey="true" />
       <Association Name="ActivityPackageItem_AttemptItem2" Member="ActivityPackageItem2" ThisKey="SuspendedActivityId" Type="ActivityPackageItem" IsForeignKey="true" />
       <Association Name="PackageItem_AttemptItem" Member="PackageItem" ThisKey="PackageId" Type="PackageItem" IsForeignKey="true" />
+      <Association Name="LearnerAssignmentItem1_AttemptItem" Member="LearnerAssignmentItem" ThisKey="LearnerAssignmentId" Type="LearnerAssignmentItem" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
   <Table Name="dbo.ActivityAttemptItem" Member="ActivityAttemptItems">
@@ -101,8 +87,8 @@
       <Column Name="DeliverySpeed" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Column Name="Language" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Association Name="UserItem_AssignmentItem" Member="AssignmentItems" OtherKey="CreatedBy" Type="AssignmentItem" />
-      <Association Name="UserItem_LearnerAssignmentItem" Member="LearnerAssignmentItems" OtherKey="LearnerId" Type="LearnerAssignmentItem" />
       <Association Name="UserItem_AttemptItem" Member="AttemptItems" OtherKey="LearnerId" Type="AttemptItem" />
+      <Association Name="UserItem_LearnerAssignmentItem1" Member="LearnerAssignmentItems" OtherKey="LearnerId" Type="LearnerAssignmentItem" />
     </Type>
   </Table>
   <Table Name="dbo.ActivityPackageItem" Member="ActivityPackageItems">
@@ -156,9 +142,24 @@
   </Table>
   <Table Name="dbo.PackageFormat" Member="PackageFormats">
     <Type Name="PackageFormat">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id" AutoSync="Never" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(63) NOT NULL" CanBeNull="false" />
       <Association Name="PackageFormat_PackageItem" Member="PackageItems" OtherKey="PackageFormat" Type="PackageItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LearnerAssignmentItem" Member="LearnerAssignmentItems">
+    <Type Name="LearnerAssignmentItem">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GuidId" AutoSync="Never" Type="System.Guid" DbType="UniqueIdentifier" IsDbGenerated="true" CanBeNull="true" />
+      <Column Name="AssignmentId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="LearnerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="IsFinal" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="NonELearningStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FinalPoints" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="InstructorComments" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="LearnerAssignmentItem1_AttemptItem" Member="AttemptItems" OtherKey="LearnerAssignmentId" Type="AttemptItem" />
+      <Association Name="AssignmentItem_LearnerAssignmentItem1" Member="AssignmentItem" ThisKey="AssignmentId" Type="AssignmentItem" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="UserItem_LearnerAssignmentItem1" Member="UserItem" ThisKey="LearnerId" Type="UserItem" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

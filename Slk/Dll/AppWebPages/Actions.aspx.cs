@@ -8,31 +8,23 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Data;
 using System.Globalization;
 using System.IO;
-using System.Security.Principal;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Transactions;
-using System.Web;
+using System.Threading;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.Configuration;
 using System.Xml;
-using System.Xml.Schema;
 using System.Xml.XPath;
 using Microsoft.LearningComponents;
+using Microsoft.LearningComponents.Frameset;
 using Microsoft.LearningComponents.Manifest;
-using Microsoft.LearningComponents.Storage;
 using Microsoft.LearningComponents.SharePoint;
+using Microsoft.LearningComponents.Storage;
 using Microsoft.SharePoint;
-using Microsoft.SharePointLearningKit;
-using Resources.Properties;
-using Schema = Microsoft.SharePointLearningKit.Schema;
 using Microsoft.SharePointLearningKit.WebControls;
-using System.Threading;
+using Resources.Properties;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -638,7 +630,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 				Guid learnerAssignmentGuidId = SlkStore.GetCurrentUserLearnerAssignment(assignmentId);
 
 				string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
-				url = String.Format(CultureInfo.InvariantCulture, "{0}?LearnerAssignmentGuidId={1}", url, learnerAssignmentGuidId.ToString());
+                url = String.Format(CultureInfo.InvariantCulture, "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
 
 				Response.Redirect(url, true);
 			}
