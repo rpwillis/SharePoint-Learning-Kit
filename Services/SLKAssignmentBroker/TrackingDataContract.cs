@@ -72,6 +72,9 @@ namespace SharePointLearningKit.Services
         [DataMember]
         public Score Score;
 
+        [DataMember]
+        public List<Interaction> Interactions;
+
         /// <remarks>
         /// Not in the IEEE 1484.11.3-2005 spec, this is an extension that allows this data to be directly associated with SLK's
         /// assignment workflow.

@@ -51,7 +51,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             {
                 string strUrl = String.Format(CultureInfo.CurrentCulture, "Hidden.aspx?{0}={1}&{2}={3}&{4}=1",
                     FramesetQueryParameter.SlkView, FramesetQueryParameter.GetValueAsParameter(m_view),
-                    FramesetQueryParameter.LearnerAssignmentGuidId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId),
+                    FramesetQueryParameter.LearnerAssignmentId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId),
                     FramesetQueryParameter.Init);
                 UrlString hiddenUrl = new UrlString(strUrl);
                 return hiddenUrl.ToAscii();
@@ -66,7 +66,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 string strUrl = String.Format(CultureInfo.CurrentCulture,
                                 "Toc.aspx?{0}={1}&{2}={3}",
                                 FramesetQueryParameter.SlkView, FramesetQueryParameter.GetValueAsParameter(m_view),
-                                FramesetQueryParameter.LearnerAssignmentGuidId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId)) ;
+                                FramesetQueryParameter.LearnerAssignmentId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId)) ;
                 UrlString hiddenUrl = new UrlString(strUrl);
                 return hiddenUrl.ToAscii();
             }

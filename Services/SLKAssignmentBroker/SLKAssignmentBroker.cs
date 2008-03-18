@@ -21,7 +21,7 @@ namespace SharePointLearningKit.Services
         {
             SLKAssignmentsDataContext db = new SLKAssignmentsDataContext(DBConnection);
 
-            IQueryable<LearnerAssignmentItem> learnerAssignmentQuery = from p in db.LearnerAssignmentItems where p.Id == long.Parse(activityAttempt.LearnerAssignmentIdentifier) select p;
+            IQueryable<LearnerAssignmentItem> learnerAssignmentQuery = from p in db.LearnerAssignmentItems where p.GuidId == new Guid(activityAttempt.LearnerAssignmentIdentifier) select p;
 
             if (learnerAssignmentQuery.Count() == 0)
                 throw new SLKAssignmentException("LearnerAssignment was not found");
@@ -43,12 +43,8 @@ namespace SharePointLearningKit.Services
                 if (gravaPackageFormatQuery.Count() == 0)
                 {
                     gravaPackageFormat = new PackageFormat();
-                    db.PackageFormats.InsertOnSubmit(gravaPackageFormat);
-
-                    // TODO Get the SLK Schema converted so that PackageFormat.Id is an Identity w/ Auto-Increment to get rid of this poo-poo.
-                    // See http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=14657
-                    gravaPackageFormat.Id = 3;
                     gravaPackageFormat.Name = "Grava";
+                    db.PackageFormats.InsertOnSubmit(gravaPackageFormat);
                 }
                 else
                 {

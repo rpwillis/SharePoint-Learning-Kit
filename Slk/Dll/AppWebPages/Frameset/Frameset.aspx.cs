@@ -337,7 +337,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             // Append query parameters
             sb.AppendFormat(CultureInfo.CurrentCulture, "?{0}={1}&{2}={3}", 
-                    FramesetQueryParameter.LearnerAssignmentGuidId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId), 
+                    FramesetQueryParameter.LearnerAssignmentId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId), 
                     FramesetQueryParameter.SlkView, FramesetQueryParameter.GetValueAsParameter(AssignmentView));
 
             return sb.ToString();
@@ -569,7 +569,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             // It is a first step towards a more comprehensive strategy for adding educational workflow to all types of documents.
             if (documentUrl.EndsWith("html", StringComparison.OrdinalIgnoreCase) || documentUrl.EndsWith("htm", StringComparison.OrdinalIgnoreCase))
             {
-                string redirectUrl = String.Format("{0}?{1}={2}", documentUrl, FramesetQueryParameter.LearnerAssignmentGuidId, LearnerAssignmentGuidId.ToString());
+                string redirectUrl = String.Format("{0}?{1}={2}", documentUrl, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId.ToString());
                 Response.Clear();
                 Response.Redirect(redirectUrl, true); // ends response
             }
@@ -725,7 +725,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 GetLearnerAssignment();
 
                 frames.Append(String.Format(CultureInfo.CurrentUICulture, "{0}={1}",
-                                            FramesetQueryParameter.LearnerAssignmentGuidId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId)));
+                                            FramesetQueryParameter.LearnerAssignmentId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId)));
             
                 return new UrlString(frames.ToString()).ToAscii();
             }

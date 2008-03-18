@@ -99,7 +99,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 		#region Private Properties
 
         /// <summary>
-        /// Gets the value of the "LearnerAssignmentGuidId" query parameter.
+        /// Gets the value of the "LearnerAssignmentId" query parameter.
         /// </summary>
         private Guid LearnerAssignmentGuidId
         {
@@ -108,7 +108,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (m_learnerAssignmentGuidId.Equals(Guid.Empty) == true)
                 {
                     Guid id;
-                    QueryString.Parse(QueryStringKeys.LearnerAssignmentGuidId, out id);
+                    QueryString.Parse(QueryStringKeys.LearnerAssignmentId, out id);
 
                     m_learnerAssignmentGuidId = id;
                 }
@@ -294,9 +294,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 					&& learnerAssignmentStatus == LearnerAssignmentState.NotStarted))
 				{
 					slkButtonBegin.OnClientClick = String.Format(CultureInfo.InvariantCulture, "SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}'); return false;",
-						FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentGuidId, LearnerAssignmentGuidId.ToString());
+						FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId.ToString());
 					slkButtonBegin.NavigateUrl = String.Format(CultureInfo.InvariantCulture, "javascript:SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}');",
-						FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentGuidId, LearnerAssignmentGuidId.ToString());
+						FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId.ToString());
 				}
 				slkButtonBegin.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
 
@@ -386,7 +386,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 			// Only for non-e-learning content
 			ClientScript.RegisterStartupScript(this.GetType(), "SlkOpenFrameset",
 				String.Format(CultureInfo.InvariantCulture, "SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}');",
-				FramesetQueryParameter.SlkView, AssignmentView.Execute, FramesetQueryParameter.LearnerAssignmentGuidId, LearnerAssignmentGuidId.ToString()), true);
+				FramesetQueryParameter.SlkView, AssignmentView.Execute, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId.ToString()), true);
 
 			setStatusToActive = true;
 		}
