@@ -1,6 +1,5 @@
 ﻿<root>
-  <assembly culture="" name="Microsoft.LearningComponents.Storage.resources" version="1.1.0.0">
-  </assembly>
+  <assembly culture="" name="Microsoft.LearningComponents.Storage.resources" version="1.1.0.0" />
   <resources name="Microsoft.LearningComponents.Storage.Properties.PackageResources.resources" type="StringTable">
     <NewDataSet>
       <MetaData>
@@ -36,6 +35,197 @@
         <ID>PS_NoOrganization</ID>
         <Source>The package must contain at least one organization and one item in order to be added to LearningStore.</Source>
         <Translation>The package must contain at least one organization and one item in order to be added to LearningStore.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>NotAllowedInExecuteMode</ID>
+        <Source>This operation cannot be performed in Execute view.</Source>
+        <Translation>This operation cannot be performed in Execute view.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NotAllowedWhileInAutoGradingMode</ID>
+        <Source>This operation cannot be performed during the auto-grading process.</Source>
+        <Translation>This operation cannot be performed during the auto-grading process.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptComplete</ID>
+        <Source>The requested operation cannot be performed because the session has been completed.</Source>
+        <Translation>The requested operation cannot be performed because the session has been completed.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptAbandoned</ID>
+        <Source>The requested operation cannot be performed because the session has been abandoned.</Source>
+        <Translation>The requested operation cannot be performed because the session has been abandoned.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttachmentTooLarge</ID>
+        <Source>Attachment exceeds maximum size of {0} bytes.</Source>
+        <Translation>Attachment exceeds maximum size of {0} bytes.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AutoGradingModeNotBegun</ID>
+        <Source>This operation is only valid during auto-grading.</Source>
+        <Translation>This operation is only valid during auto-grading.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidAttemptId</ID>
+        <Source>The attempt could not be accessed. You may not have access to it, the attempt may have been deleted or does not exist.</Source>
+        <Translation>The attempt could not be accessed. You may not have access to it, the attempt may have been deleted or does not exist.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NotAllowedInReviewMode</ID>
+        <Source>This operation cannot be performed in Review view.</Source>
+        <Translation>This operation cannot be performed in Review view.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptHasNotEnded</ID>
+        <Source>The requested operation cannot be performed because the session is not complete.</Source>
+        <Translation>The requested operation cannot be performed because the session is not complete.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidRootActivityId</ID>
+        <Source>The root activity id could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
+        <Translation>The root activity id could not be accessed. Either it does not exist or you do not have permission to access it.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NoCurrentActivity</ID>
+        <Source>A current activity is required for this operation.</Source>
+        <Translation>A current activity is required for this operation.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_SessionCannotBeActive</ID>
+        <Source>This operation cannot be performed on a session with an AttemptStatus of Active.</Source>
+        <Translation>This operation cannot be performed on a session with an AttemptStatus of Active.</Translation>
+      </Resources>
+      <Resources>
+        <ID>GlobalObjectiveDatabaseStateNotValid</ID>
+        <Source>Global Objective database contains non-unique entries.</Source>
+        <Translation>Global Objective database contains non-unique entries.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidLearnerId</ID>
+        <Source>The LearnerId could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
+        <Translation>The LearnerId could not be accessed. Either it does not exist or you do not have permission to access it.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidActivity</ID>
+        <Source>The requested activity cannot be found within the session.</Source>
+        <Translation>The requested activity cannot be found within the session.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.SessionResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.Properties.SessionResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>SLS_MoveToActivityNotValid</ID>
+        <Source>The session is not in a state where a new activity may be selected. In Execute view, only Active sessions may navigate to a selected activity.</Source>
+        <Translation>The session is not in a state where a new activity may be selected. In Execute view, only Active sessions may navigate to a selected activity.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ExitCurrentActivityNotValid</ID>
+        <Source>The current activity cannot be exited. There must be a current activity in an active session in order to exit it. </Source>
+        <Translation>The current activity cannot be exited. There must be a current activity in an active session in order to exit it. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_LoggingFlagsSetNotValid</ID>
+        <Source>The LoggingOptions property may not be set when reviewing a session.</Source>
+        <Translation>The LoggingOptions property may not be set when reviewing a session.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_MoveToPreviousNotValid</ID>
+        <Source>Moving to the previous activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
+        <Translation>Moving to the previous activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ReactivateNotValid</ID>
+        <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
+        <Translation>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ExitNotValid</ID>
+        <Source>The session cannot be exited in its current state. In Execute view, only Active sessions which have been started may be exited. Sessions may not be exited in other views.</Source>
+        <Translation>The session cannot be exited in its current state. In Execute view, only Active sessions which have been started may be exited. Sessions may not be exited in other views.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AbandonCurrentActivityNotValid</ID>
+        <Source>The current activity cannot be abandoned. There must be a current activity in an active session in order to abandon it. </Source>
+        <Translation>The current activity cannot be abandoned. There must be a current activity in an active session in order to abandon it. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CouldNotFindFirstActivity</ID>
+        <Source>An initial activity could not be identified in the session.</Source>
+        <Translation>An initial activity could not be identified in the session.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AttemptEndTimeNotValid</ID>
+        <Source>The attempt associated with this session has not ended.</Source>
+        <Translation>The attempt associated with this session has not ended.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_SuspendNotValid</ID>
+        <Source>The session cannot be suspended in its current state. In Execute view, only Active sessions may be suspended. Sessions may not be suspended in other views.</Source>
+        <Translation>The session cannot be suspended in its current state. In Execute view, only Active sessions may be suspended. Sessions may not be suspended in other views.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_InvalidateSessionCacheNotValid</ID>
+        <Source>The session cache cannot be cleared because the current session contains an active attempt. </Source>
+        <Translation>The session cache cannot be cleared because the current session contains an active attempt. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ProcessNavigationRequestsNotValid</ID>
+        <Source>Navigation requests cannot be processed. In an ExecuteView, the AttemptStatus must be Active. This call is not valid in RandomAccess and Review views.</Source>
+        <Translation>Navigation requests cannot be processed. In an ExecuteView, the AttemptStatus must be Active. This call is not valid in RandomAccess and Review views.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_StartNotValid</ID>
+        <Source>A session may only be started on an active attempt in ExecuteView. The session may not be in Review or RandomAccess view when calling this method.</Source>
+        <Translation>A session may only be started on an active attempt in ExecuteView. The session may not be in Review or RandomAccess view when calling this method.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AbandonNotValid</ID>
+        <Source>The session cannot be abandoned in its current state. In Execute view, only Active sessions may be abandoned. Sessions may not be abandoned in other views.</Source>
+        <Translation>The session cannot be abandoned in its current state. In Execute view, only Active sessions may be abandoned. Sessions may not be abandoned in other views.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ResourceNotFound</ID>
+        <Source>The current activity in the session does not have an associated resource. The content cannot be displayed.</Source>
+        <Translation>The current activity in the session does not have an associated resource. The content cannot be displayed.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_MoveToNextNotValid</ID>
+        <Source>Moving to the next activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
+        <Translation>Moving to the next activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_RenderNotValid</ID>
+        <Source>The content cannot be rendered. In Execute view, the session must have an AttemptStatus of Active.</Source>
+        <Translation>The content cannot be rendered. In Execute view, the session must have an AttemptStatus of Active.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CommitChangesNotValid</ID>
+        <Source>The changes to the current session cannot be committed. The session may not be in Review view when calling this method. </Source>
+        <Translation>The changes to the current session cannot be committed. The session may not be in Review view when calling this method. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AttemptHasStarted</ID>
+        <Source>The attempt has already started. You may not call Start more than once.</Source>
+        <Translation>The attempt has already started. You may not call Start more than once.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ResumeNotValid</ID>
+        <Source>The session cannot be resumed in its current state. In Execute view, only Suspended sessions may be resumed. Sessions may not be resumed in other views.</Source>
+        <Translation>The session cannot be resumed in its current state. In Execute view, only Suspended sessions may be resumed. Sessions may not be resumed in other views.</Translation>
       </Resources>
     </NewDataSet>
   </resources>
@@ -324,197 +514,6 @@
         <ID>ValueCausesOverflow</ID>
         <Source>Overflow.</Source>
         <Translation>Overflow.</Translation>
-      </Resources>
-    </NewDataSet>
-  </resources>
-  <resources name="Microsoft.LearningComponents.Storage.Properties.SessionResources.resources" type="StringTable">
-    <NewDataSet>
-      <MetaData>
-        <Name>Microsoft.LearningComponents.Storage.Properties.SessionResources.resources</Name>
-        <Type>StringTable</Type>
-      </MetaData>
-      <Resources>
-        <ID>SLS_MoveToActivityNotValid</ID>
-        <Source>The session is not in a state where a new activity may be selected. In Execute view, only Active sessions may navigate to a selected activity.</Source>
-        <Translation>The session is not in a state where a new activity may be selected. In Execute view, only Active sessions may navigate to a selected activity.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_ExitCurrentActivityNotValid</ID>
-        <Source>The current activity cannot be exited. There must be a current activity in an active session in order to exit it. </Source>
-        <Translation>The current activity cannot be exited. There must be a current activity in an active session in order to exit it. </Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_LoggingFlagsSetNotValid</ID>
-        <Source>The LoggingOptions property may not be set when reviewing a session.</Source>
-        <Translation>The LoggingOptions property may not be set when reviewing a session.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_MoveToPreviousNotValid</ID>
-        <Source>Moving to the previous activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
-        <Translation>Moving to the previous activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_ReactivateNotValid</ID>
-        <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
-        <Translation>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_ExitNotValid</ID>
-        <Source>The session cannot be exited in its current state. In Execute view, only Active sessions which have been started may be exited. Sessions may not be exited in other views.</Source>
-        <Translation>The session cannot be exited in its current state. In Execute view, only Active sessions which have been started may be exited. Sessions may not be exited in other views.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_AbandonCurrentActivityNotValid</ID>
-        <Source>The current activity cannot be abandoned. There must be a current activity in an active session in order to abandon it. </Source>
-        <Translation>The current activity cannot be abandoned. There must be a current activity in an active session in order to abandon it. </Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_CouldNotFindFirstActivity</ID>
-        <Source>An initial activity could not be identified in the session.</Source>
-        <Translation>An initial activity could not be identified in the session.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_AttemptEndTimeNotValid</ID>
-        <Source>The attempt associated with this session has not ended.</Source>
-        <Translation>The attempt associated with this session has not ended.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_SuspendNotValid</ID>
-        <Source>The session cannot be suspended in its current state. In Execute view, only Active sessions may be suspended. Sessions may not be suspended in other views.</Source>
-        <Translation>The session cannot be suspended in its current state. In Execute view, only Active sessions may be suspended. Sessions may not be suspended in other views.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_InvalidateSessionCacheNotValid</ID>
-        <Source>The session cache cannot be cleared because the current session contains an active attempt. </Source>
-        <Translation>The session cache cannot be cleared because the current session contains an active attempt. </Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_ProcessNavigationRequestsNotValid</ID>
-        <Source>Navigation requests cannot be processed. In an ExecuteView, the AttemptStatus must be Active. This call is not valid in RandomAccess and Review views.</Source>
-        <Translation>Navigation requests cannot be processed. In an ExecuteView, the AttemptStatus must be Active. This call is not valid in RandomAccess and Review views.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_StartNotValid</ID>
-        <Source>A session may only be started on an active attempt in ExecuteView. The session may not be in Review or RandomAccess view when calling this method.</Source>
-        <Translation>A session may only be started on an active attempt in ExecuteView. The session may not be in Review or RandomAccess view when calling this method.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_AbandonNotValid</ID>
-        <Source>The session cannot be abandoned in its current state. In Execute view, only Active sessions may be abandoned. Sessions may not be abandoned in other views.</Source>
-        <Translation>The session cannot be abandoned in its current state. In Execute view, only Active sessions may be abandoned. Sessions may not be abandoned in other views.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_ResourceNotFound</ID>
-        <Source>The current activity in the session does not have an associated resource. The content cannot be displayed.</Source>
-        <Translation>The current activity in the session does not have an associated resource. The content cannot be displayed.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_MoveToNextNotValid</ID>
-        <Source>Moving to the next activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
-        <Translation>Moving to the next activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_RenderNotValid</ID>
-        <Source>The content cannot be rendered. In Execute view, the session must have an AttemptStatus of Active.</Source>
-        <Translation>The content cannot be rendered. In Execute view, the session must have an AttemptStatus of Active.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_CommitChangesNotValid</ID>
-        <Source>The changes to the current session cannot be committed. The session may not be in Review view when calling this method. </Source>
-        <Translation>The changes to the current session cannot be committed. The session may not be in Review view when calling this method. </Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_AttemptHasStarted</ID>
-        <Source>The attempt has already started. You may not call Start more than once.</Source>
-        <Translation>The attempt has already started. You may not call Start more than once.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_ResumeNotValid</ID>
-        <Source>The session cannot be resumed in its current state. In Execute view, only Suspended sessions may be resumed. Sessions may not be resumed in other views.</Source>
-        <Translation>The session cannot be resumed in its current state. In Execute view, only Suspended sessions may be resumed. Sessions may not be resumed in other views.</Translation>
-      </Resources>
-    </NewDataSet>
-  </resources>
-  <resources name="Microsoft.LearningComponents.Storage.Properties.Resources.resources" type="StringTable">
-    <NewDataSet>
-      <MetaData>
-        <Name>Microsoft.LearningComponents.Storage.Properties.Resources.resources</Name>
-        <Type>StringTable</Type>
-      </MetaData>
-      <Resources>
-        <ID>NotAllowedInExecuteMode</ID>
-        <Source>This operation cannot be performed in Execute view.</Source>
-        <Translation>This operation cannot be performed in Execute view.</Translation>
-      </Resources>
-      <Resources>
-        <ID>NotAllowedWhileInAutoGradingMode</ID>
-        <Source>This operation cannot be performed during the auto-grading process.</Source>
-        <Translation>This operation cannot be performed during the auto-grading process.</Translation>
-      </Resources>
-      <Resources>
-        <ID>AttemptComplete</ID>
-        <Source>The requested operation cannot be performed because the session has been completed.</Source>
-        <Translation>The requested operation cannot be performed because the session has been completed.</Translation>
-      </Resources>
-      <Resources>
-        <ID>AttemptAbandoned</ID>
-        <Source>The requested operation cannot be performed because the session has been abandoned.</Source>
-        <Translation>The requested operation cannot be performed because the session has been abandoned.</Translation>
-      </Resources>
-      <Resources>
-        <ID>AttachmentTooLarge</ID>
-        <Source>Attachment exceeds maximum size of {0} bytes.</Source>
-        <Translation>Attachment exceeds maximum size of {0} bytes.</Translation>
-      </Resources>
-      <Resources>
-        <ID>AutoGradingModeNotBegun</ID>
-        <Source>This operation is only valid during auto-grading.</Source>
-        <Translation>This operation is only valid during auto-grading.</Translation>
-      </Resources>
-      <Resources>
-        <ID>InvalidAttemptId</ID>
-        <Source>The attempt could not be accessed. You may not have access to it, the attempt may have been deleted or does not exist.</Source>
-        <Translation>The attempt could not be accessed. You may not have access to it, the attempt may have been deleted or does not exist.</Translation>
-      </Resources>
-      <Resources>
-        <ID>NotAllowedInReviewMode</ID>
-        <Source>This operation cannot be performed in Review view.</Source>
-        <Translation>This operation cannot be performed in Review view.</Translation>
-      </Resources>
-      <Resources>
-        <ID>AttemptHasNotEnded</ID>
-        <Source>The requested operation cannot be performed because the session is not complete.</Source>
-        <Translation>The requested operation cannot be performed because the session is not complete.</Translation>
-      </Resources>
-      <Resources>
-        <ID>InvalidRootActivityId</ID>
-        <Source>The root activity id could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
-        <Translation>The root activity id could not be accessed. Either it does not exist or you do not have permission to access it.</Translation>
-      </Resources>
-      <Resources>
-        <ID>NoCurrentActivity</ID>
-        <Source>A current activity is required for this operation.</Source>
-        <Translation>A current activity is required for this operation.</Translation>
-      </Resources>
-      <Resources>
-        <ID>SLS_SessionCannotBeActive</ID>
-        <Source>This operation cannot be performed on a session with an AttemptStatus of Active.</Source>
-        <Translation>This operation cannot be performed on a session with an AttemptStatus of Active.</Translation>
-      </Resources>
-      <Resources>
-        <ID>GlobalObjectiveDatabaseStateNotValid</ID>
-        <Source>Global Objective database contains non-unique entries.</Source>
-        <Translation>Global Objective database contains non-unique entries.</Translation>
-      </Resources>
-      <Resources>
-        <ID>InvalidLearnerId</ID>
-        <Source>The LearnerId could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
-        <Translation>The LearnerId could not be accessed. Either it does not exist or you do not have permission to access it.</Translation>
-      </Resources>
-      <Resources>
-        <ID>InvalidActivity</ID>
-        <Source>The requested activity cannot be found within the session.</Source>
-        <Translation>The requested activity cannot be found within the session.</Translation>
       </Resources>
     </NewDataSet>
   </resources>

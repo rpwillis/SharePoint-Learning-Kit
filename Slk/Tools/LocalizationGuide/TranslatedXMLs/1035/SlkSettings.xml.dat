@@ -1,14 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Settings xmlns="urn:schemas-microsoft-com:sharepoint-learning-kit:settings"
-    ApprovedAttachmentTypes="bmp, doc, docx, gif, htm, html, jpeg, jnt, jpg, lit, mdi, mix, pdf, png, ppt, pptx, pub, rtf, txt, wdb, wks, xlr, xls, xlsx, zip"
-	ELearningIisCompatibilityModeExtensions="mp3, swf"
-    LoggingOptions="None" 
-    MaxAttachmentKilobytes="10240"
-	NonELearningIisCompatibilityModeExtensions=""
-    PackageCacheExpirationMinutes="4320"
-    PackageCacheLocation="%TEMP%\SLK_PC"
-    UserWebListMruSize="6">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings xmlns="urn:schemas-microsoft-com:sharepoint-learning-kit:settings" ApprovedAttachmentTypes="bmp, doc, docx, gif, htm, html, jpeg, jnt, jpg, lit, mdi, mix, pdf, png, ppt, pptx, pub, rtf, txt, wdb, wks, xlr, xls, xlsx, zip" ELearningIisCompatibilityModeExtensions="mp3, swf" LoggingOptions="None" MaxAttachmentKilobytes="10240" NonELearningIisCompatibilityModeExtensions="" PackageCacheExpirationMinutes="4320" PackageCacheLocation="%TEMP%\SLK_PC" UserWebListMruSize="6">
   <MimeTypeMapping Extension=".css" MimeType="text/css" />
   <MimeTypeMapping Extension=".doc" MimeType="application/msword" />
   <MimeTypeMapping Extension=".docm" MimeType="application/vnd.ms-word.document.macroEnabled.12" />
@@ -46,7 +37,6 @@
   <MimeTypeMapping Extension=".xltm" MimeType="application/vnd.ms-excel.template.macroEnabled.12" />
   <MimeTypeMapping Extension=".xltx" MimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.template" />
   <MimeTypeMapping Extension=".xml" MimeType="text/xml" />
-
   <Query Name="OverdueLearner" Title="Myöhässä olevat" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Nimetön" />
@@ -54,15 +44,16 @@
     <Column Title="Tila" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Pistemäärä" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Pisteet: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
-    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
-    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="Now"/>
-    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" /><!-- helps SQL perf? -->
-    <Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2"/><!-- i.e. unsubmitted -->
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
-    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="Now" />
+    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" />
+    <!-- helps SQL perf? -->
+    <Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2" />
+    <!-- i.e. unsubmitted -->
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true" />
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true" />
   </Query>
-
   <Query Name="DueTodayLearner" Title="Tänään palautettavat" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Nimetön" />
@@ -70,14 +61,13 @@
     <Column Title="Tila" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Pistemäärä" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Pisteet: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
-    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
-    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfToday"/>
-    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfTomorrow"/>
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
-    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfToday" />
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfTomorrow" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true" />
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true" />
   </Query>
-
   <Query Name="DueThisWeekLearner" Title="Tällä viikolla palautettavat" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Nimetön" />
@@ -85,14 +75,13 @@
     <Column Title="Tila" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Pistemäärä" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Pisteet: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
-    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
-    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfThisWeek"/>
-    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfNextWeek"/>
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
-    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfThisWeek" />
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfNextWeek" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true" />
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true" />
   </Query>
-
   <Query Name="DueNextWeekLearner" Title="Ensi viikolla palautettavat" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Nimetön" />
@@ -100,14 +89,13 @@
     <Column Title="Tila" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Pistemäärä" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Pisteet: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
-    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
-    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfNextWeek"/>
-    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfWeekAfterNext"/>
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
-    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfNextWeek" />
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfWeekAfterNext" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true" />
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true" />
   </Query>
-
   <Query Name="ToDoLearner" Title="Keskeneräiset tehtävät" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Nimetön" />
@@ -115,13 +103,14 @@
     <Column Title="Tila" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Pistemäärä" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Pisteet: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
-    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
-    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" /><!-- helps SQL perf? -->
-    <Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2"/><!-- i.e. unsubmitted -->
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
-    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now" />
+    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" />
+    <!-- helps SQL perf? -->
+    <Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2" />
+    <!-- i.e. unsubmitted -->
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true" />
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true" />
   </Query>
-
   <Query Name="ReturnedLearner" Title="Arvioidut" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Nimetön" />
@@ -129,35 +118,32 @@
     <Column Title="Tila" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Pistemäärä" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Pisteet: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
-    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now" />
     <Condition ViewColumnName="IsFinal" Operator="Equal" Value="1" />
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
-    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="false" />
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true" />
   </Query>
-
   <Query Name="AllAssignmentsLearner" Title="Kaikki tehtävät" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Nimetön" />
     <Column Title="Palautusaika" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Palautettava viimeistään: {0:D}, {0:t}" Wrap="false" />
     <Column Title="Tila" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-    <Column Title="Pistemäärä" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Pisteet: {0}" Wrap="false" />
+    <Column Title="Pistemäärä" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
-    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
-    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="false" />
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true" />
   </Query>
-
   <Query Name="ActiveInstructor" Title="Aktiivinen" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Nimetön" />
     <Column Title="Palautusaika" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Palautettava viimeistään: {0:D}, {0:t}" Wrap="false" />
     <Column Title="Palautettu" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
-    <Condition ViewColumnName="CountNotFinal" Operator="GreaterThan" Value="0"/>
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
-    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+    <Condition ViewColumnName="CountNotFinal" Operator="GreaterThan" Value="0" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true" />
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true" />
   </Query>
-
   <Query Name="OverdueInstructor" Title="Myöhässä olevat" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Nimetön" />
@@ -165,36 +151,33 @@
     <Column Title="Palautettu" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
-    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="Now"/>
-    <Condition ViewColumnName="CountNotStartedOrActive" Operator="GreaterThan" Value="0"/>
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
-    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="Now" />
+    <Condition ViewColumnName="CountNotStartedOrActive" Operator="GreaterThan" Value="0" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true" />
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true" />
   </Query>
-
   <Query Name="ReadyToGradeInstructor" Title="Valmis arvosteltavaksi" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Nimetön" />
     <Column Title="Palautusaika" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Palautettava viimeistään: {0:D}, {0:t}" Wrap="false" />
     <Column Title="Palautettu" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
-    <Condition ViewColumnName="CountCompleted" Operator="GreaterThan" Value="0"/>
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
-    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+    <Condition ViewColumnName="CountCompleted" Operator="GreaterThan" Value="0" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true" />
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true" />
   </Query>
-
   <Query Name="DueTodayInstructor" Title="Tänään palautettavat" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Tehtävät" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Nimetön" />
+    <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Nimetön" />
     <Column Title="Palautusaika" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Palautettava viimeistään: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Palautettu" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+    <Column Title="Submitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
-    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfToday"/>
-    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfTomorrow"/>
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
-    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfToday" />
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfTomorrow" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true" />
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true" />
   </Query>
-
   <Query Name="DueThisWeekInstructor" Title="Tällä viikolla palautettavat" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Nimetön" />
@@ -202,12 +185,11 @@
     <Column Title="Palautettu" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
-    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfThisWeek"/>
-    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfNextWeek"/>
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
-    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfThisWeek" />
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfNextWeek" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true" />
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true" />
   </Query>
-
   <Query Name="DueNextWeekInstructor" Title="Ensi viikolla palautettavat" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Nimetön" />
@@ -215,33 +197,30 @@
     <Column Title="Palautettu" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
-    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfNextWeek"/>
-    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfWeekAfterNext"/>
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
-    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfNextWeek" />
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfWeekAfterNext" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true" />
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true" />
   </Query>
-
   <Query Name="ReturnedInstructor" Title="Palautetut" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Nimetön" />
     <Column Title="Palautusaika" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Palautettava viimeistään: {0:D}, {0:t}" Wrap="false" />
     <Column Title="Palautettu" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
-    <Condition ViewColumnName="CountNotFinal" Operator="Equal" Value="0"/>
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
-    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+    <Condition ViewColumnName="CountNotFinal" Operator="Equal" Value="0" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="false" />
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true" />
   </Query>
-
   <Query Name="AllAssignmentsInstructor" Title="Kaikki tehtävät" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
     <Column Title="Sivusto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Tehtävä" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Nimetön" />
     <Column Title="Palautusaika" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Palautettava viimeistään: {0:D}, {0:t}" Wrap="false" />
     <Column Title="Palautettu" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
-    <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
-    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="false" />
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true" />
   </Query>
-
   <QuerySet Name="LearnerQuerySet" Title="Oppija kyselyt" DefaultQueryName="ToDoLearner">
     <IncludeQuery QueryName="ToDoLearner" />
     <IncludeQuery QueryName="OverdueLearner" />
@@ -251,7 +230,6 @@
     <IncludeQuery QueryName="ReturnedLearner" />
     <IncludeQuery QueryName="AllAssignmentsLearner" />
   </QuerySet>
-
   <QuerySet Name="InstructorQuerySet" Title="Ohjaaja kyselyt" DefaultQueryName="ActiveInstructor">
     <IncludeQuery QueryName="ActiveInstructor" />
     <IncludeQuery QueryName="ReadyToGradeInstructor" />
@@ -262,6 +240,4 @@
     <IncludeQuery QueryName="ReturnedInstructor" />
     <IncludeQuery QueryName="AllAssignmentsInstructor" />
   </QuerySet>
-  
 </Settings>
-

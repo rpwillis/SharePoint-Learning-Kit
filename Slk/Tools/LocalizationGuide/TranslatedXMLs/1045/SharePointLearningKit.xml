@@ -1,4 +1,4 @@
-﻿<root>
+<root>
   <assembly culture="pl" name="Microsoft.SharePointLearningKit.resources" version="1.1.0.0">
   </assembly>
   <resources name="Resources.Properties.AppResources.resources" type="StringTable">
@@ -26,6 +26,11 @@
         <ID>LobbyBeginAssignmentText</ID>
         <Source>Begin Assignment</Source>
         <Translation>Rozpocznij zadanie</Translation>
+      </Resources>
+      <Resources>
+        <ID>ConfigureInputObserverPermissionsLabelText</ID>
+        <Source>Observer Permission:</Source>
+        <Translation>Nazwa grupy uprawnień obserwatora (np. rodzica ucznia):</Translation>
       </Resources>
       <Resources>
         <ID>SlkUtilitiesPointsNoValuePointsPossible</ID>
@@ -193,6 +198,11 @@
         <Translation>Usuwa zadanie i prace wszystkich słuchaczy (Alt+X)</Translation>
       </Resources>
       <Resources>
+        <ID>ObserverRoleCommunicationInterfaceTitle</ID>
+        <Source>SLK Assignment List Web Part</Source>
+        <Translation>Web Part SLK Zadania</Translation>
+      </Resources>
+      <Resources>
         <ID>AppRootActivityIDNotFound</ID>
         <Source>QueryString Missing RootActivityId: Activity Package Item Identifier cannot be empty or null.</Source>
         <Translation>QueryString Missing RootActivityId: Identifier elementu pakietu aktywności nie może być pusty ani null.</Translation>
@@ -261,6 +271,11 @@
         <ID>ConfigureLabelConfigurationComplete</ID>
         <Source>Configuration complete.</Source>
         <Translation>Konfiguracja zakończona.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ConfigureTxtObserverPermissionToolTip</ID>
+        <Source>Observer Permission</Source>
+        <Translation>Nazwa grupy uprawnień obserwatora</Translation>
       </Resources>
       <Resources>
         <ID>ConfigureInputInstructorPermissionsLabelText</ID>
@@ -556,6 +571,11 @@ Więcej informacji może być dostępnych w dzienniku zdarzeń serwera.</Transla
         <ID>ConfigureLinkCurrentSettingsFileText</ID>
         <Source>Click here to download the current SLK Settings file</Source>
         <Translation>Kliknij tutaj aby pobrać aktualny plik ustawień SLK</Translation>
+      </Resources>
+      <Resources>
+        <ID>SlkObserverPermissionDescription</ID>
+        <Source>Appears as a potential observer when new assignments are created using the SharePoint Learning Kit</Source>
+        <Translation>Pojawia się jako potencjalny obserwator, gdy nowe zadanie jest przypisywane przy użyciu SharePoint Learning Kit</Translation>
       </Resources>
       <Resources>
         <ID>AlwpDisplaySummaryDescription</ID>
@@ -877,7 +897,7 @@ Więcej informacji może być dostępnych w dzienniku zdarzeń serwera.</Transla
       <Resources>
         <ID>ConfigureLabelSlkSettingDescriptionText</ID>
         <Source>&lt;p style="margin-bottom: 6pt"&gt;Optionally, upload a new SLK Settings XML file. This XML file specifies the queries that are available within Assignment List Web Part, as well as other settings.&lt;/p&gt;</Source>
-        <Translation>&lt;p style="margin-bottom: 6pt"&gt;Ewentualnie, wczytaj plik ustawień SLK. Plik ten określa zapytania które są dostępne wewnątrz elementu Zadania SLK Web Part, jak również inne ustawienia.&lt;/p&gt;</Translation>
+        <Translation>&lt;p style="margin-bottom: 6pt"&gt;Można wczytaj własny plik ustawień SLK, który określa zapytania jakie są dostępne wewnątrz elementu Web Part Zadania SLK, jak również inne ustawienia.&lt;/p&gt;</Translation>
       </Resources>
       <Resources>
         <ID>LearnerAssignmentTransitionNotSupported</ID>
@@ -8330,7 +8350,7 @@ GO
       <Resources>
         <ID>CtrlLabelAPPWhatNextText</ID>
         <Source>What would you like to do next?</Source>
-        <Translation>Co chciałbyś zrobić dalej?</Translation>
+        <Translation>Co następnego chciałbyś zrobić?</Translation>
       </Resources>
       <Resources>
         <ID>SlkUtilitiesColumnReturnedUnexpectedType</ID>
@@ -8510,6 +8530,11 @@ saving, click Cancel.</Source>
         <Translation>Powrót do {0}</Translation>
       </Resources>
       <Resources>
+        <ID>DefaultSlkObserverPermissionName</ID>
+        <Source>SLK Observer</Source>
+        <Translation>SLK Obserwator</Translation>
+      </Resources>
+      <Resources>
         <ID>GradingSave</ID>
         <Source>Save</Source>
         <Translation>Zapisz</Translation>
@@ -8629,7 +8654,7 @@ saving, click Cancel.</Source>
       <Resources>
         <ID>ConfigureLabelPermissionsDescriptionText</ID>
         <Source>&lt;p style="margin-bottom: 6pt"&gt;Specify the SharePoint permissions that will identify instructors and learners in SLK.&lt;/p&gt;&lt;p style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;ul style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;li style="margin-bottom: 6pt"&gt;To use existing SharePoint permissions to identify instructors and learners, enter the permission names; for example, "Contribute" and "Read".&lt;/li&gt;&lt;li&gt;To create new permissions, enter the permission names and select &lt;b&gt;Create permissions&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;&lt;p style="margin-top: -6pt"&gt;&lt;b&gt;Recommended&lt;/b&gt;&amp;nbsp; Create "SLK Instructor" and "SLK Learner" permissions for new installations.&lt;/p&gt;</Source>
-        <Translation>&lt;p style="margin-bottom: 6pt"&gt;Wskaż uprawnienia SharePoint które będą identyfikować prowadzących oraz słuchaczy w SLK.&lt;/p&gt;&lt;p style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;ul style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;li style="margin-bottom: 6pt"&gt;Aby użyć istniejących uprawnień SharePoint do identyfikacji prowadzących oraz słuchaczy, wprowadź nazwy grup, np. "Współtworzenie" and "Czytanie".&lt;/li&gt;&lt;li&gt;Aby utworzyć nowe uprawnienia, wprowadź nazwy uprawnień i zaznacz &lt;b&gt;Utwórz uprawnienia&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;&lt;p style="margin-top: -6pt"&gt;&lt;b&gt;Recommended&lt;/b&gt;&amp;nbsp; Utwórz uprawnienia "SLK Prowadzący" oraz "SLK Słuchacze" dla nowej instalacji.&lt;/p&gt;</Translation>
+        <Translation>&lt;p style="margin-bottom: 6pt"&gt;Wskaż uprawnienia SharePoint które będą identyfikować prowadzących oraz słuchaczy w SLK.&lt;/p&gt;&lt;p style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;ul style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;li style="margin-bottom: 6pt"&gt;Aby użyć istniejących uprawnień SharePoint do identyfikacji prowadzących oraz słuchaczy, wprowadź nazwy grup, np. "Współtworzenie" and "Czytanie".&lt;/li&gt;&lt;li&gt;Aby utworzyć nowe uprawnienia, wprowadź nazwy uprawnień i zaznacz &lt;b&gt;Utwórz uprawnienia&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;&lt;p style="margin-top: -6pt"&gt;&lt;b&gt;Zalecenia:&lt;/b&gt;&amp;nbsp; Utwórz uprawnienia "SLK Prowadzący", "SLK Słuchacze" oraz "SLK Obserwator" dla nowej instalacji.&lt;/p&gt;</Translation>
       </Resources>
       <Resources>
         <ID>LobbyBeginAccessKey</ID>
@@ -9747,6 +9772,24 @@ Więcej informacji zostało zapisanych w dzienniku zdarzeń serwera.</Translatio
           &lt;br&gt;&lt;br&gt; 
         Nieprawidłowe pliki:
         </Translation>
+      </Resources>
+      <Resources>
+        <ID>FRM_ObserverReviewNotAvailableTitle</ID>
+        <Source>Observer Access Error</Source>
+        <Translation>Błąd dostępu</Translation>
+      </Resources>
+      <Resources>
+        <ID>FRM_ObserverReviewNotAvailableMsgHtml</ID>
+        <Source>You can't review this assignment at this moment. This may be because of one of the reasons given below:
+    &lt;ul&gt;&lt;li&gt;Learner not started the assignment
+    &lt;li&gt;Learner completed the assignment and submited to the instructor for grading
+    &lt;li&gt;You do not have access to the requested view of the assignment.
+    &lt;/ul&gt;</Source>
+        <Translation>Nie możesz przeglądać zadania w tej chwili. Być może :
+    &lt;ul&gt;&lt;li&gt;Słuchacz nie rozpoczął pracy z zadaniem
+    &lt;li&gt;Słuchacz zakończył pracę z zadaniem i odesłał celem oceny do prowadzącego
+    &lt;li&gt;Nie posiadasz uprawnień do oczekiwanego podglądu zadania.
+    &lt;/ul&gt;</Translation>
       </Resources>
       <Resources>
         <ID>HID_SessionCompletedTitle</ID>

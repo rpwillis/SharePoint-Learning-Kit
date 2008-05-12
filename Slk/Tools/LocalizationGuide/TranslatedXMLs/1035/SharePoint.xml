@@ -1,6 +1,5 @@
 ﻿<root>
-  <assembly culture="" name="Microsoft.LearningComponents.SharePoint.resources" version="1.1.0.0">
-  </assembly>
+  <assembly culture="fi" name="Microsoft.LearningComponents.SharePoint.resources" version="1.1.0.0" />
   <resources name="Microsoft.LearningComponents.SharePoint.Properties.Resources.resources" type="StringTable">
     <NewDataSet>
       <MetaData>
@@ -25,7 +24,7 @@
       <Resources>
         <ID>SPFileNotFoundNoName</ID>
         <Source>The requested file was not found.</Source>
-        <Translation>The requested file was not found.</Translation>
+        <Translation>Pyydettyä tiedostoa ei löytynyt.</Translation>
       </Resources>
       <Resources>
         <ID>CacheLockDirCleanupFailed</ID>
@@ -35,12 +34,12 @@
       <Resources>
         <ID>SPFileVersionNotFound</ID>
         <Source>The version {0} of file {1} does not exist.</Source>
-        <Translation>The version {0} of file {1} does not exist.</Translation>
+        <Translation>Tiedoston {1} versio {0} ei ole olemassa.</Translation>
       </Resources>
       <Resources>
         <ID>SPFileNotFound</ID>
         <Source>The file {0} was not found.</Source>
-        <Translation>The file {0} was not found.</Translation>
+        <Translation>Tiedostoa {0} ei löytynyt.</Translation>
       </Resources>
       <Resources>
         <ID>CacheCachePathNotAccessible</ID>
@@ -55,7 +54,7 @@
       <Resources>
         <ID>SPInvalidPackage</ID>
         <Source>The package is not valid and cannot be read. More information: {0}</Source>
-        <Translation>The package is not valid and cannot be read. More information: {0}</Translation>
+        <Translation>Paketti ei ole kelvollinen eikä sitä voida lukea. Lisätietoja: {0}</Translation>
       </Resources>
     </NewDataSet>
   </resources>
