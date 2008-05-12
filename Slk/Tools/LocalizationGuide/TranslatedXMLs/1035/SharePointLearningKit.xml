@@ -1,6 +1,5 @@
 ﻿<root>
-  <assembly culture="fi" name="Microsoft.SharePointLearningKit.resources" version="1.1.0.0">
-  </assembly>
+  <assembly culture="fi" name="Microsoft.SharePointLearningKit.resources" version="1.1.0.0" />
   <resources name="Resources.FramesetResources.resources" type="StringTable">
     <NewDataSet>
       <MetaData>
@@ -64,7 +63,7 @@
       <Resources>
         <ID>FRM_ParameterRequiredMsg</ID>
         <Source>The {0} parameter is required in order to display the training.</Source>
-	<Translation>Parametria {0} tarvitaan koulutuskokonaisuuden näyttämiseen.</Translation>
+    <Translation>Parametria {0} tarvitaan koulutuskokonaisuuden näyttämiseen.</Translation>
       </Resources>
       <Resources>
         <ID>CON_ResourceNotFoundTitle</ID>
@@ -91,7 +90,7 @@
       <Resources>
         <ID>CON_ContentCannotBeDisplayedMsg</ID>
         <Source>There is a problem accessing the content. It cannot be displayed.</Source>
-	<Translation>Sisältö ei ole saatavilla. Sitä ei voida näyttää.</Translation>
+    <Translation>Sisältö ei ole saatavilla. Sitä ei voida näyttää.</Translation>
       </Resources>
       <Resources>
         <ID>HID_SubmitLink</ID>
@@ -152,7 +151,7 @@
       <Resources>
         <ID>FRM_UnexpectedErrorNoException</ID>
         <Source>The training cannot be displayed. Try refreshing your browser.</Source>
-	<Translation>Koulutuskokonaisuutta ei voida näyttää. Päivitä selainnäkymä.</Translation>
+        <Translation>Koulutuskokonaisuutta ei voida näyttää. Päivitä selainnäkymä.</Translation>
       </Resources>
       <Resources>
         <ID>NAV_MinimizeTitle</ID>
@@ -248,7 +247,7 @@
       <Resources>
         <ID>HID_MovePreviousFailedHtml</ID>
         <Source>You cannot navigate to the previous page at this time. Click Continue to return to the current page.</Source>
-        <Translation>Edelliselle sivulle ei voida siirtyä juuri nyt. Valitse jatka palataksesi tämähetkiselle sivulle.</Translation>
+        <Translation>Edelliselle sivulle ei voida siirtyä juuri nyt. Valitse Jatka palataksesi tämänhetkiselle sivulle.</Translation>
       </Resources>
       <Resources>
         <ID>CONV_SetValueComment</ID>
@@ -275,7 +274,7 @@
         </Source>
         <Translation>Jos lähetät koulutuskokonaisuuden, et voi enää muuttaa sitä.&lt;br&gt;&lt;br&gt;
         Jos koulutuskokonaisuus on valmis, napsauta &lt;b&gt;Palauta&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
-        Jos koulutuskokonaisuus ei ole valmis, valitse oppimisaktiviteeti jatkaaksesi kokonaisuutta.
+        Jos koulutuskokonaisuus ei ole valmis, valitse oppimisaktiviteetti jatkaaksesi kokonaisuutta.
         </Translation>
       </Resources>
       <Resources>
@@ -384,7 +383,7 @@
         <ID>CONV_SetValueObjective</ID>
         <Source>There was a problem adding or updating objective data associated with this page.
     More information: {0}</Source>
-	<Translation>Sivun palautetietojen lisääminen tai päivittäminen epäonnistui.
+        <Translation>Sivun palautetietojen lisääminen tai päivittäminen epäonnistui. 
     Lisätietoja: {0}</Translation>
       </Resources>
       <Resources>
@@ -408,8 +407,8 @@
       <Resources>
         <ID>ConfigureDescription</ID>
         <Source>Use this page to configure SharePoint Learning Kit (SLK) for one or more Site Collections.</Source>
-	<Translation>Käytä tätä sivua konfiguroidaksesi SharePoint Learning Kit (SLK) käyttämään 
-        yhtä tai useampaa SharePoint-sivustokokoelmaa.</Translation>
+        <Translation>Käytä tätä sivua konfiguroidaksesi SharePoint Learning Kit (SLK) käyttämään
+		yhtä tai useampaa SharePoint-sivustokokoelmaa.</Translation>
       </Resources>
       <Resources>
         <ID>InvalidSlkSettingsFilePath</ID>
@@ -464,7 +463,7 @@
       <Resources>
         <ID>AssignmentNotFoundInDatabase</ID>
         <Source>The assignment (ID {0}) does not exist or you may not have permission to access it.</Source>
-	<Translation>Oppimistehtävää (tunniste {0}) ei ole tai sinulla ei ehkä ole siihen tarvittavia käyttöoikeuksia.</Translation>
+        <Translation>Oppimistehtävää (tunniste {0}) ei ole tai sinulla ei ehkä ole siihen tarvittavia käyttöoikeuksia.</Translation>
       </Resources>
       <Resources>
         <ID>SlkUtilitiesUndefinedQuery</ID>
@@ -489,7 +488,7 @@
       <Resources>
         <ID>CtrlLabelPointsText</ID>
         <Source>Points</Source>
-	<Translation>Pisteet</Translation>
+    <Translation>Pisteet</Translation>
       </Resources>
       <Resources>
         <ID>AppPageCreationTitle</ID>
@@ -505,6 +504,11 @@
         <ID>GradingCollectText</ID>
         <Source>Collect All</Source>
         <Translation>Kerää kaikki</Translation>
+      </Resources>
+      <Resources>
+        <ID>SlkExAlwpSqlDeadLockError</ID>
+        <Source>The server is currently busy. Please refresh your browser.</Source>
+        <Translation>Palvelin on tällä hetkellä varattu. Päivitä selainikkunasi.</Translation>
       </Resources>
       <Resources>
         <ID>SlkUtilitiesValueNullifIsNull</ID>
@@ -574,7 +578,7 @@
       <Resources>
         <ID>DomainGroupEnumSkippedDueToTimeout</ID>
         <Source>Enumeration of the members of domain group "{0}" skipped due to timeout</Source>
-		<Translation>Domain -ryhmän ”{0}” jäsenten luetteleminen aikakatkaistiin.</Translation>
+        <Translation>Domain-ryhmän "{0}" jäsenten luetteleminen aikakatkaistiin.</Translation>
       </Resources>
       <Resources>
         <ID>SlkUtilitiesColumnReturnedNull</ID>
@@ -589,7 +593,7 @@
       <Resources>
         <ID>AppRootActivityIDNotFound</ID>
         <Source>QueryString Missing RootActivityId: Activity Package Item Identifier cannot be empty or null.</Source>
-        <Translation>Kyselymerkkijonosta (QueryString) puuttuu RootActivityId: oppimisaktiviteettispaketin osien tunniste ei voi olla tyhjä tai NULL.</Translation>
+        <Translation>Kyselymerkkijonosta (QueryString) puuttuu RootActivityId: oppimisaktiviteettipaketin osien tunniste ei voi olla tyhjä tai NULL.</Translation>
       </Resources>
       <Resources>
         <ID>AppNotAnInstructorInCurrentSiteError</ID>
@@ -742,7 +746,7 @@
     properties of your assignment such as start date, due date, and instructions to
     the learner, and then choose who will be instructors or learners for this assignment.</Source>
 	<Translation>Tämä sivu auttaa luomaan oppimistehtävän ja toimittamaan sen oppijoille. Voit 
-    määritellä oppimistehtävän ominaisuuksia, esimerkiksi tehtävän aloitus- ja palautuspäivän sekä valita tehtävälle 
+	määritellä oppimistehtävän ominaisuuksia, esimerkiksi tehtävän aloitus- ja palautuspäivän sekä valita tehtävälle 
     ohjaajat ja oppijat.</Translation>
       </Resources>
       <Resources>
@@ -753,7 +757,7 @@
       <Resources>
         <ID>AppInstructorPermissonNotFound</ID>
         <Source>You cannot assign to this site because you are not an instructor.</Source>
-        <Translation>Et voi liittää materiaalia tälle sivustolle koska sinulla ei ole ohjaajan käyttöoikeuksia.</Translation>
+        <Translation>Et voi liittää materiaalia tälle sivustolle, koska sinulla ei ole ohjaajan käyttöoikeuksia.</Translation>
       </Resources>
       <Resources>
         <ID>ConfigureInputSiteSelectorTitle</ID>
@@ -765,7 +769,7 @@
         <Source>The list of instructors or learners may be incomplete because the following groups could not be read:
 {0}
 More information may be available in the server event log.</Source>
-	<Translation>Ohjaajien ja oppijoiden luettelo ei välttämättä sisällä kaikkia käyttäjiä, koska seuraavia ryhmiä ei voitu lukea:
+        <Translation>Ohjaajien ja oppijoiden luettelo ei välttämättä sisällä kaikkia käyttäjiä, koska seuraavia ryhmiä ei voitu lukea:
 {0}
 Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       </Resources>
@@ -870,7 +874,7 @@ Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       <Resources>
         <ID>LobbyDeleteMessage</ID>
         <Source>Deleting an assignment will delete all the associated learner data, including learner work and grades for the assignment. You cannot recover deleted information. Click OK to delete the assignment.</Source>
-        <Translation>Oppimistehtävän poistaminen pyyhkii siihen liittyvät oppijan tiedot kuten oppijan tekemän työn ja arvosanat. Poistettua tietoa ei voida palauttaa. Paina Kyllä poistaaksesi tehtävän.</Translation>
+        <Translation>Oppimistehtävän poistaminen pyyhkii siihen liittyvät oppijan tiedot, kuten oppijan tekemän työn ja arvosanat. Poistettua tietoa ei voida palauttaa. Paina Kyllä poistaaksesi tehtävän.</Translation>
       </Resources>
       <Resources>
         <ID>GradingStatusSubmittedToolTip</ID>
@@ -889,12 +893,14 @@ Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       </Resources>
       <Resources>
         <ID>ActionsPageDescription</ID>
-        <Source>This page allows you to use a document for e-learning. You can preview the document, or assign
-	it to yourself or to someone else. When you assign a document to someone else, you can specify
+        <Source>This page allows you to use a document for e-learning. You can assign
+	the document to yourself or to someone else. When you assign a document to someone else, you can specify
 	a SharePoint site where the assignment will appear, and choose members of that site to be
 	instructors or learners.</Source>
-<Translation>Tällä sivulla voidaan määritellä asiakirjan käyttö opetuksessa. Voit ohjata oppimistehtävän ohjaajille ja oppijoille. Ohjatessasi oppimistehtävän jonkun muun käyttöön
-	voit määrätä mille SharePoint-sivustolle oppimistehtävä tulee ja valita sille ohjaajat ja oppijat.</Translation>
+        <Translation>Tämä sivu antaa sinun käyttää dokumenttia verkko-oppimiseen. Voit määrätä
+	dokumentin itsellesi tai jollekulle toiselle. Kun määräät dokumentin jollekulle toiselle, voit määritellä
+	SharePoint-sivuston jonne tehtävä ilmestyy ja valita sivuston jäsenistä, kuka on
+	ohjaaja tai opiskelija.</Translation>
       </Resources>
       <Resources>
         <ID>AppDescMaxLengthError</ID>
@@ -929,7 +935,7 @@ Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       <Resources>
         <ID>GradingInvalidAssignmentId</ID>
         <Source>The assignment (ID {0}) does not exist or you may not have permission to access it.</Source>
-	<Translation>Oppimistehtävää (tunniste {0}) ei ole tai sinulla ei ehkä ole siihen tarvittavia käyttöoikeuksia.</Translation>
+        <Translation>Oppimistehtävää (tunniste {0}) ei ole tai sinulla ei ehkä ole siihen tarvittavia käyttöoikeuksia.</Translation>
       </Resources>
       <Resources>
         <ID>SlkUtilitiesUnknownRenderAsValue</ID>
@@ -1074,7 +1080,7 @@ Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       <Resources>
         <ID>SlkLearnerPermissionDescription</ID>
         <Source>Appears as a potential learner when new assignments are created using SharePoint Learning Kit.</Source>
-        <Translation>Näkyy mahdollisena oppijana kun uusia oppimistehtäviä luodaan SharePoint Learning Kitillä.</Translation>
+        <Translation>Näkyy mahdollisena oppijana, kun uusia oppimistehtäviä luodaan SharePoint Learning Kitillä.</Translation>
       </Resources>
       <Resources>
         <ID>GradinglblStart</ID>
@@ -1089,7 +1095,7 @@ Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       <Resources>
         <ID>SlkUtilitiesConditionException</ID>
         <Source>At most one of the attributes "Value" or "MacroName" may be provided, and neither may be provided if "Operator" is "IsNull" or "IsNotNull"; "MacroName" must be provided if "NoConditionOnNull" is "true"</Source>
-        <Translation>Attribuuteista "Value" ja "MacroName" voidaan antaa vain jompikumpi. Kumpaakaan ei voida antaa, jos "Operator on "IsNull" tai "IsNotNull". "MacroName" on annettava jos "NoConditionOnNull" on "true".</Translation>
+        <Translation>Attribuuteista "Value" ja "MacroName" voidaan antaa vain jompikumpi. Kumpaakaan ei voida antaa, jos "Operator" on "IsNull" tai "IsNotNull". "MacroName" on annettava, jos "NoConditionOnNull" on "true".</Translation>
       </Resources>
       <Resources>
         <ID>SlkUtilitiesMacroNotDefined</ID>
@@ -1149,7 +1155,7 @@ Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       <Resources>
         <ID>GradingReturnToolTip</ID>
         <Source>Return assignments to all learners (Alt+R)</Source>
-	<Translation>Palauta oppimistehtävät kaikille oppijoille (Alt+R)</Translation>
+        <Translation>Palauta oppimistehtävät kaikille oppijoille (Alt+R)</Translation>
       </Resources>
       <Resources>
         <ID>SelectSiteCollectionHtml</ID>
@@ -1184,7 +1190,7 @@ Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       <Resources>
         <ID>DomainGroupEnumTimeout</ID>
         <Source>Domain group enumeration timed out</Source>
-        <Translation>Domain –ryhmien  luetteleminen aikakatkaistiin.</Translation>
+        <Translation>Domain-ryhmien luetteleminen aikakatkaistiin</Translation>
       </Resources>
       <Resources>
         <ID>GradingStatusNotStartedToolTip</ID>
@@ -1203,14 +1209,14 @@ Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       </Resources>
       <Resources>
         <ID>CtrlLabelAssignmentPropDesc</ID>
-        <Source>Enter the title and description of the assignment, start and due dates, and the number of points&lt;br&gt;
-															possible for the assignment. You can also specify 
-							whether learner assignments will automatically be&lt;br&gt;
-								returned, and whether learners can see the 
-								correct answers when they review the assignment.</Source>
-        <Translation>Syötä oppimistehtävän kuvaus, otsikko, aloitus- ja palautuspäivä ja tehtävän ylin pistemäärä.&lt;br&gt;
-					Voit myös valita palautetaanko oppimistehtävät automaattisesti ja voivatko oppijat nähdä &lt;br&gt;
-					oikeat vastaukset tarkastellessaan oppimistehtävää.</Translation>
+        <Source>Enter the title and description of the assignment, start and due dates, and the number of points
+    possible for the assignment. You can also specify whether learner assignments will 
+    automatically be returned, and whether learners can see the correct answers when they review the assignment.
+    </Source>
+        <Translation>Syötä oppimistehtävän kuvaus, otsikko, aloitus- ja palautuspäivä ja tehtävän ylin pistemäärä.
+		Voit myös valita palautetaanko oppimistehtävät automaattisesti ja voivatko oppijat nähdä
+		oikeat vastaukset tarkastellessaan oppimistehtävää.
+    </Translation>
       </Resources>
       <Resources>
         <ID>AppPageEditTitleInTitleArea</ID>
@@ -1225,7 +1231,7 @@ Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       <Resources>
         <ID>LobbyMarkasCompleteToolTip</ID>
         <Source>Mark as Complete (Alt+S)</Source>
-        <Translation>Merkitse valmiiksi (Alt+S)</Translation>
+        <Translation>Merkkitse valmiiksi (Alt+S)</Translation>
       </Resources>
       <Resources>
         <ID>ConfigureImageConfigurationComplete</ID>
@@ -1250,7 +1256,7 @@ Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       <Resources>
         <ID>SlkNotValidDate</ID>
         <Source>You must specify a valid date within the range of 1/1/1900 and 12/31/8900.</Source>
-        <Translation>Päivämäärän on oltava muodoltaan k/p/vvvv ja 1/1/1900 ja 12/31/8900 välillä.</Translation>
+        <Translation>Päivämäärän on oltava muodoltaan k/p/vvvv ja välillä 1/1/1900 ja 12/31/8900.</Translation>
       </Resources>
       <Resources>
         <ID>GradingEditToolTip</ID>
@@ -1265,7 +1271,7 @@ Lisätietoja voi olla palvelimen tapahtumalokissa.</Translation>
       <Resources>
         <ID>ConfigureLabelSlkSettingDescriptionText</ID>
         <Source>&lt;p style="margin-bottom: 6pt"&gt;Optionally, upload a new SLK Settings XML file. This XML file specifies the queries that are available within Assignment List Web Part, as well as other settings.&lt;/p&gt;</Source>
-        <Translation>&lt;p style="margin-bottom: 6pt"&gt;Voit halutessasi ladata uuden SLK-asetustiedoston ("SLK Settings"). Tämä XML-tiedosto määrittää muiden asetusten lisäksi mitkä pyynnöt ovat saatavilla oppimistehtäväluettelo-ruudussa.&lt;/p&gt;</Translation>
+        <Translation>&lt;p style="margin-bottom: 6pt"&gt;Voit halutessasi ladata uuden SLK-asetustiedoston ("SLK Settings"). Tämä XML-tiedosto määrittää muiden asetusten lisäksi mitkä pyynnöt ovat saatavilla oppimistehtäväluettelo-ruudussa&lt;/p&gt;</Translation>
       </Resources>
       <Resources>
         <ID>LearnerAssignmentTransitionNotSupported</ID>
@@ -1455,12 +1461,11 @@ SET @schema = @schema +
         '&lt;Property Name="ObjectivesGlobalToSystem" TypeCode="3" Nullable="false" HasDefault="true"/&gt;' +
     '&lt;/ItemType&gt;'
 SET @schema = @schema +
-    '&lt;ItemType Name="AttemptGlobalObjectiveItem" ViewFunction="AttemptGlobalObjectiveItem$DefaultView"&gt;' + 
+    '&lt;ItemType Name="PackageGlobalObjectiveItem" ViewFunction="PackageGlobalObjectiveItem$DefaultView"&gt;' + 
         '&lt;Property Name="LearnerId" TypeCode="1" Nullable="false" HasDefault="false" ReferencedItemTypeName="UserItem"/&gt;' +
         '&lt;Property Name="GlobalObjectiveId" TypeCode="1" Nullable="false" HasDefault="false" ReferencedItemTypeName="GlobalObjectiveItem"/&gt;' +
         '&lt;Property Name="ScaledScore" TypeCode="5" Nullable="true" HasDefault="true"/&gt;' +
         '&lt;Property Name="SuccessStatus" TypeCode="8" Nullable="false" HasDefault="true" EnumName="SuccessStatus"/&gt;' +
-        '&lt;Property Name="WasReadByAttempt" TypeCode="3" Nullable="false" HasDefault="true"/&gt;' +
     '&lt;/ItemType&gt;'
 SET @schema = @schema +
     '&lt;ItemType Name="AttemptItem" ViewFunction="AttemptItem$DefaultView"&gt;' + 
@@ -2952,16 +2957,15 @@ CREATE TABLE [ActivityPackageItem](
 )
 GRANT SELECT, INSERT, DELETE, UPDATE ON [ActivityPackageItem] TO LearningStore
 
--- Create AttemptGlobalObjectiveItem table
-CREATE TABLE [AttemptGlobalObjectiveItem](
+-- Create PackageGlobalObjectiveItem table
+CREATE TABLE [PackageGlobalObjectiveItem](
     Id bigint IDENTITY PRIMARY KEY NOT NULL,
     [LearnerId] bigint NOT NULL,
     [GlobalObjectiveId] bigint NOT NULL,
     [ScaledScore] float(24) DEFAULT NULL,
-    [SuccessStatus] int NOT NULL DEFAULT 0,
-    [WasReadByAttempt] bit NOT NULL DEFAULT 0
+    [SuccessStatus] int NOT NULL DEFAULT 0
 )
-GRANT SELECT, INSERT, DELETE, UPDATE ON [AttemptGlobalObjectiveItem] TO LearningStore
+GRANT SELECT, INSERT, DELETE, UPDATE ON [PackageGlobalObjectiveItem] TO LearningStore
 
 -- Create AttemptItem table
 CREATE TABLE [AttemptItem](
@@ -3295,20 +3299,20 @@ ON ActivityPackageItem(PackageId)
 CREATE INDEX ParentActivityIndex
 ON ActivityPackageItem(ParentActivityId)
 
-ALTER TABLE [AttemptGlobalObjectiveItem]
-ADD CONSTRAINT FK_AttemptGlobalObjectiveItem_LearnerId FOREIGN KEY ([LearnerId])
+ALTER TABLE [PackageGlobalObjectiveItem]
+ADD CONSTRAINT FK_PackageGlobalObjectiveItem_LearnerId FOREIGN KEY ([LearnerId])
 REFERENCES [UserItem] (Id) ON DELETE CASCADE
 
-ALTER TABLE [AttemptGlobalObjectiveItem]
-ADD CONSTRAINT FK_AttemptGlobalObjectiveItem_GlobalObjectiveId FOREIGN KEY ([GlobalObjectiveId])
-REFERENCES [GlobalObjectiveItem] (Id)
+ALTER TABLE [PackageGlobalObjectiveItem]
+ADD CONSTRAINT FK_PackageGlobalObjectiveItem_GlobalObjectiveId FOREIGN KEY ([GlobalObjectiveId])
+REFERENCES [GlobalObjectiveItem] (Id) ON DELETE CASCADE
 
-ALTER TABLE [AttemptGlobalObjectiveItem]
-ADD CONSTRAINT FK_AttemptGlobalObjectiveItem_SuccessStatus FOREIGN KEY ([SuccessStatus])
+ALTER TABLE [PackageGlobalObjectiveItem]
+ADD CONSTRAINT FK_PackageGlobalObjectiveItem_SuccessStatus FOREIGN KEY ([SuccessStatus])
 REFERENCES [SuccessStatus] (Id)
 
 CREATE INDEX GlobalObjectiveIndex
-ON AttemptGlobalObjectiveItem(GlobalObjectiveId)
+ON PackageGlobalObjectiveItem(GlobalObjectiveId)
 
 ALTER TABLE [AttemptItem]
 ADD CONSTRAINT FK_AttemptItem_LearnerId FOREIGN KEY ([LearnerId])
@@ -3602,9 +3606,9 @@ CREATE FUNCTION [SeqNavOrganizationGlobalObjectiveView](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT GlobalObjectiveItem.OrganizationId OrganizationId, GlobalObjectiveItem.[Key] [Key], AttemptGlobalObjectiveItem.LearnerId LearnerId, AttemptGlobalObjectiveItem.ScaledScore ScaledScore, AttemptGlobalObjectiveItem.SuccessStatus SuccessStatus
+    SELECT GlobalObjectiveItem.OrganizationId OrganizationId, GlobalObjectiveItem.[Key] [Key], PackageGlobalObjectiveItem.LearnerId LearnerId, PackageGlobalObjectiveItem.ScaledScore ScaledScore, PackageGlobalObjectiveItem.SuccessStatus SuccessStatus
     FROM GlobalObjectiveItem
-    INNER JOIN AttemptGlobalObjectiveItem ON AttemptGlobalObjectiveItem.GlobalObjectiveId=GlobalObjectiveItem.Id
+    INNER JOIN PackageGlobalObjectiveItem ON PackageGlobalObjectiveItem.GlobalObjectiveId=GlobalObjectiveItem.Id
 )
 GO
 GRANT SELECT ON [SeqNavOrganizationGlobalObjectiveView] TO LearningStore
@@ -3945,7 +3949,7 @@ BEGIN
     LEFT OUTER JOIN UserItem lui ON lai.LearnerId = lui.Id
     LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
     WHERE asi.Id = @AssignmentId AND
-    (((lui.[Key] = @UserKey) AND (@IsInstructor = 0))
+    (((lui.[Key] = @UserKey) AND (@IsInstructor = 0) AND (GETUTCDATE() &gt;= asi.StartDate))
     OR
     ((iui.[Key]=@UserKey) AND (@IsInstructor = 1)))
     ) THEN 1 ELSE 0 END
@@ -4195,6 +4199,7 @@ RETURN (
     LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
     LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
     WHERE lui.[Key] = @UserKey
+    AND GETUTCDATE() &gt;= asi.StartDate
 )
 GO
 GRANT SELECT ON [LearnerAssignmentListForLearners] TO LearningStore
@@ -4579,16 +4584,16 @@ GO
 GRANT SELECT ON [ActivityPackageItem$DefaultView] TO LearningStore
 GO
 
--- Create function that implements the default view for the AttemptGlobalObjectiveItem item type
-CREATE FUNCTION [AttemptGlobalObjectiveItem$DefaultView](@UserKey nvarchar(250))
+-- Create function that implements the default view for the PackageGlobalObjectiveItem item type
+CREATE FUNCTION [PackageGlobalObjectiveItem$DefaultView](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT Id, [LearnerId], [GlobalObjectiveId], [ScaledScore], [SuccessStatus], [WasReadByAttempt]
-    FROM [AttemptGlobalObjectiveItem]
+    SELECT Id, [LearnerId], [GlobalObjectiveId], [ScaledScore], [SuccessStatus]
+    FROM [PackageGlobalObjectiveItem]
 )
 GO
-GRANT SELECT ON [AttemptGlobalObjectiveItem$DefaultView] TO LearningStore
+GRANT SELECT ON [PackageGlobalObjectiveItem$DefaultView] TO LearningStore
 GO
 
 -- Create function that implements the default view for the AttemptItem item type
@@ -5015,12 +5020,11 @@ SET @schema = @schema +
         '&lt;Property Name="ObjectivesGlobalToSystem" TypeCode="3" Nullable="false" HasDefault="true"/&gt;' +
     '&lt;/ItemType&gt;'
 SET @schema = @schema +
-    '&lt;ItemType Name="AttemptGlobalObjectiveItem" ViewFunction="AttemptGlobalObjectiveItem$DefaultView"&gt;' + 
+    '&lt;ItemType Name="PackageGlobalObjectiveItem" ViewFunction="PackageGlobalObjectiveItem$DefaultView"&gt;' + 
         '&lt;Property Name="LearnerId" TypeCode="1" Nullable="false" HasDefault="false" ReferencedItemTypeName="UserItem"/&gt;' +
         '&lt;Property Name="GlobalObjectiveId" TypeCode="1" Nullable="false" HasDefault="false" ReferencedItemTypeName="GlobalObjectiveItem"/&gt;' +
         '&lt;Property Name="ScaledScore" TypeCode="5" Nullable="true" HasDefault="true"/&gt;' +
         '&lt;Property Name="SuccessStatus" TypeCode="8" Nullable="false" HasDefault="true" EnumName="SuccessStatus"/&gt;' +
-        '&lt;Property Name="WasReadByAttempt" TypeCode="3" Nullable="false" HasDefault="true"/&gt;' +
     '&lt;/ItemType&gt;'
 SET @schema = @schema +
     '&lt;ItemType Name="AttemptItem" ViewFunction="AttemptItem$DefaultView"&gt;' + 
@@ -6512,16 +6516,15 @@ CREATE TABLE [ActivityPackageItem](
 )
 GRANT SELECT, INSERT, DELETE, UPDATE ON [ActivityPackageItem] TO LearningStore
 
--- Create AttemptGlobalObjectiveItem table
-CREATE TABLE [AttemptGlobalObjectiveItem](
+-- Create PackageGlobalObjectiveItem table
+CREATE TABLE [PackageGlobalObjectiveItem](
     Id bigint IDENTITY PRIMARY KEY NOT NULL,
     [LearnerId] bigint NOT NULL,
     [GlobalObjectiveId] bigint NOT NULL,
     [ScaledScore] float(24) DEFAULT NULL,
-    [SuccessStatus] int NOT NULL DEFAULT 0,
-    [WasReadByAttempt] bit NOT NULL DEFAULT 0
+    [SuccessStatus] int NOT NULL DEFAULT 0
 )
-GRANT SELECT, INSERT, DELETE, UPDATE ON [AttemptGlobalObjectiveItem] TO LearningStore
+GRANT SELECT, INSERT, DELETE, UPDATE ON [PackageGlobalObjectiveItem] TO LearningStore
 
 -- Create AttemptItem table
 CREATE TABLE [AttemptItem](
@@ -6855,20 +6858,20 @@ ON ActivityPackageItem(PackageId)
 CREATE INDEX ParentActivityIndex
 ON ActivityPackageItem(ParentActivityId)
 
-ALTER TABLE [AttemptGlobalObjectiveItem]
-ADD CONSTRAINT FK_AttemptGlobalObjectiveItem_LearnerId FOREIGN KEY ([LearnerId])
+ALTER TABLE [PackageGlobalObjectiveItem]
+ADD CONSTRAINT FK_PackageGlobalObjectiveItem_LearnerId FOREIGN KEY ([LearnerId])
 REFERENCES [UserItem] (Id) ON DELETE CASCADE
 
-ALTER TABLE [AttemptGlobalObjectiveItem]
-ADD CONSTRAINT FK_AttemptGlobalObjectiveItem_GlobalObjectiveId FOREIGN KEY ([GlobalObjectiveId])
-REFERENCES [GlobalObjectiveItem] (Id)
+ALTER TABLE [PackageGlobalObjectiveItem]
+ADD CONSTRAINT FK_PackageGlobalObjectiveItem_GlobalObjectiveId FOREIGN KEY ([GlobalObjectiveId])
+REFERENCES [GlobalObjectiveItem] (Id) ON DELETE CASCADE
 
-ALTER TABLE [AttemptGlobalObjectiveItem]
-ADD CONSTRAINT FK_AttemptGlobalObjectiveItem_SuccessStatus FOREIGN KEY ([SuccessStatus])
+ALTER TABLE [PackageGlobalObjectiveItem]
+ADD CONSTRAINT FK_PackageGlobalObjectiveItem_SuccessStatus FOREIGN KEY ([SuccessStatus])
 REFERENCES [SuccessStatus] (Id)
 
 CREATE INDEX GlobalObjectiveIndex
-ON AttemptGlobalObjectiveItem(GlobalObjectiveId)
+ON PackageGlobalObjectiveItem(GlobalObjectiveId)
 
 ALTER TABLE [AttemptItem]
 ADD CONSTRAINT FK_AttemptItem_LearnerId FOREIGN KEY ([LearnerId])
@@ -7162,9 +7165,9 @@ CREATE FUNCTION [SeqNavOrganizationGlobalObjectiveView](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT GlobalObjectiveItem.OrganizationId OrganizationId, GlobalObjectiveItem.[Key] [Key], AttemptGlobalObjectiveItem.LearnerId LearnerId, AttemptGlobalObjectiveItem.ScaledScore ScaledScore, AttemptGlobalObjectiveItem.SuccessStatus SuccessStatus
+    SELECT GlobalObjectiveItem.OrganizationId OrganizationId, GlobalObjectiveItem.[Key] [Key], PackageGlobalObjectiveItem.LearnerId LearnerId, PackageGlobalObjectiveItem.ScaledScore ScaledScore, PackageGlobalObjectiveItem.SuccessStatus SuccessStatus
     FROM GlobalObjectiveItem
-    INNER JOIN AttemptGlobalObjectiveItem ON AttemptGlobalObjectiveItem.GlobalObjectiveId=GlobalObjectiveItem.Id
+    INNER JOIN PackageGlobalObjectiveItem ON PackageGlobalObjectiveItem.GlobalObjectiveId=GlobalObjectiveItem.Id
 )
 GO
 GRANT SELECT ON [SeqNavOrganizationGlobalObjectiveView] TO LearningStore
@@ -7505,7 +7508,7 @@ BEGIN
     LEFT OUTER JOIN UserItem lui ON lai.LearnerId = lui.Id
     LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
     WHERE asi.Id = @AssignmentId AND
-    (((lui.[Key] = @UserKey) AND (@IsInstructor = 0))
+    (((lui.[Key] = @UserKey) AND (@IsInstructor = 0) AND (GETUTCDATE() &gt;= asi.StartDate))
     OR
     ((iui.[Key]=@UserKey) AND (@IsInstructor = 1)))
     ) THEN 1 ELSE 0 END
@@ -7755,6 +7758,7 @@ RETURN (
     LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
     LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
     WHERE lui.[Key] = @UserKey
+    AND GETUTCDATE() &gt;= asi.StartDate
 )
 GO
 GRANT SELECT ON [LearnerAssignmentListForLearners] TO LearningStore
@@ -8139,16 +8143,16 @@ GO
 GRANT SELECT ON [ActivityPackageItem$DefaultView] TO LearningStore
 GO
 
--- Create function that implements the default view for the AttemptGlobalObjectiveItem item type
-CREATE FUNCTION [AttemptGlobalObjectiveItem$DefaultView](@UserKey nvarchar(250))
+-- Create function that implements the default view for the PackageGlobalObjectiveItem item type
+CREATE FUNCTION [PackageGlobalObjectiveItem$DefaultView](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT Id, [LearnerId], [GlobalObjectiveId], [ScaledScore], [SuccessStatus], [WasReadByAttempt]
-    FROM [AttemptGlobalObjectiveItem]
+    SELECT Id, [LearnerId], [GlobalObjectiveId], [ScaledScore], [SuccessStatus]
+    FROM [PackageGlobalObjectiveItem]
 )
 GO
-GRANT SELECT ON [AttemptGlobalObjectiveItem$DefaultView] TO LearningStore
+GRANT SELECT ON [PackageGlobalObjectiveItem$DefaultView] TO LearningStore
 GO
 
 -- Create function that implements the default view for the AttemptItem item type
@@ -8791,8 +8795,8 @@ GO
         <ID>GradinglblGradeAssignmentDescription</ID>
         <Source>Enter grades and comments for individual learners. When you're done, click Save or OK. To exit without
 saving, click Cancel.</Source>
-	<Translation>Kommentoi ja arvioi yksittäisten oppijoiden töitä. Kun olet valmis, napsauta Tallenna tai OK. 
-Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
+        <Translation>Kommentoi ja arvioi yksittäisten oppijoiden töitä. Kun olet valmis, napsauta Tallenna tai OK.
+		Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
       </Resources>
       <Resources>
         <ID>ActionslblSelfAssignHeader</ID>
@@ -8852,7 +8856,7 @@ Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
       <Resources>
         <ID>GradingDeleteMessage</ID>
         <Source>Deleting an assignment will delete all the associated learner data, including learner work and grades for the assignment. You cannot recover deleted information.</Source>
-        <Translation>Oppimistehtävän poistaminen pyyhkii siihen liittyvät oppijan tiedot, myös oppijan tekemän työn ja arvosanat. Poistettua tietoa ei voida palauttaa. Paina kyllä poistaaksesi tehtävän.</Translation>
+        <Translation>Oppimistehtävän poistaminen pyyhkii siihen liittyvät oppijan tiedot, myös oppijan tekemän työn ja arvosanat. Poistettua tietoa ei voida palauttaa.</Translation>
       </Resources>
       <Resources>
         <ID>AppAllLearnersGroup</ID>
@@ -8912,7 +8916,7 @@ Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
       <Resources>
         <ID>GradingConfirmOverrideFinalPoints</ID>
         <Source>You previously cleared the final score for this learner. Click OK to overwrite the blank score with the new score of {0}. Click Cancel to leave the final score blank.</Source>
-        <Translation>Poistit aiemmin oppijan lopulliset pisteet. Napsauta Kyllä kirjoittaaksesi tyhjään pisteruutuun uudet pisteet, {0}. Napsauta Peruuta jättääksesi pisteruudun tyhjäksi.</Translation>
+        <Translation>Poistit aiemmin oppijan lopulliset pisteet. Napsauta Kyllä kirjoittaaksesi tyhjään pisteruutuun uudet pisteet, {0}. Napsauta Peruuta jättääksesi pisteruutu tyhjäksi.</Translation>
       </Resources>
       <Resources>
         <ID>LearnerAssignmentNotFoundInDatabase</ID>
@@ -8922,7 +8926,7 @@ Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
       <Resources>
         <ID>AppPageEditDescription</ID>
         <Source>This page helps you edit an assignment’s properties or change instructors or learners for the assignment.</Source>
-        <Translation>Tällä sivulla voit muokata oppimistehtävien asetuksia tai vaihtaa oppimistehtäjien ohjaajia tai oppijoita.</Translation>
+        <Translation>Tällä sivulla voit muokata oppimistehtävien asetuksia tai vaihtaa oppimistehtävien ohjaajia tai oppijoita.</Translation>
       </Resources>
       <Resources>
         <ID>AppPointsPossibleNaNError</ID>
@@ -8938,12 +8942,12 @@ Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
       <Resources>
         <ID>SlkUtilitiesValueNullifIsNotNull</ID>
         <Source>value and macroName arguments must be null if oper is "IsNotNull"</Source>
-        <Translation>argumenttien value ja macroName pitää olla null jos oper on "IsNotNull"</Translation>
+        <Translation>argumenttien value ja macroName pitää olla null, jos oper on "IsNotNull"</Translation>
       </Resources>
       <Resources>
         <ID>ActionsVersioningOff</ID>
         <Source>The document library ({0}) does not have versioning turned on or the number of versions is limited. Editing this learning resource after you assign it could cause unpredictable results.</Source>
-	<Translation> Asiakirjojen versiointi ei ole päällä tai versioiden määrää on rajoitettu SP-kirjastossa ({0}). Sisällön muokkaamisella sen jälkeen kun se on liitetty johonkin voi olla odottamattomia vaikutuksia.</Translation>
+        <Translation>Asiakirjojen versiointi ei ole päällä tai versioiden määrää on rajoitettu SP-kirjastossa ({0}). Sisällön muokkaamisella sen jälkeen, kun se on liitetty johonkin voi olla odottamattomia vaikutuksia.</Translation>
       </Resources>
       <Resources>
         <ID>GradingClose</ID>
@@ -8963,7 +8967,7 @@ Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
       <Resources>
         <ID>ConfigureLabelDatabaseDescriptionText</ID>
         <Source>&lt;p style="margin-bottom: 6pt"&gt;Specify the SLK database that will contain e-learning assignments for the selected site collection.&lt;/p&gt;&lt;p style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;ul style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;li style="margin-bottom: 6pt"&gt;Multiple site collections can share the same SLK database.  To use an existing SLK database, enter the server and database name.&lt;/li&gt;&lt;li&gt;To create a new database, enter an existing database server and a new database name, and select &lt;b&gt;Create a new database&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;</Source>
-        <Translation>&lt;p style="margin-bottom: 6pt"&gt;Määritä SLK-tietokanta, johon valitun sivuston e-oppimistehtävät sijoitetaan.&lt;/p&gt;&lt;p style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;ul style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;li style="margin-bottom: 6pt"&gt;Useat sivustot voivat jakaa saman SLK-tietokannan. Käyttääksesi olemassaolevaa SLK-tietokantaa, kirjoita palvelimen ja tietokannan nimi.&lt;/li&gt;&lt;li&gt;Luodaksesi uuden tietokannan, kirjoita olemassaolevan tietokantapalvelimen nimi ja uuden tietokannan nimi, ja valitse &lt;b&gt;Luo uusi tietokanta&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;</Translation>
+        <Translation>&lt;p style="margin-bottom: 6pt"&gt;Määritä SLK-tietokanta, johon valitun sivuston e-oppimistehtävät sijoitetaan.&lt;/p&gt;&lt;p style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;ul style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;li style="margin-bottom: 6pt"&gt;Useat sivustot voivat jakaa saman SLK-tietokantaa. Käyttääksesi olemassaolevaa SLK-tietokantaa, kirjoita palvelimen ja tietokannan nimi.&lt;/li&gt;&lt;li&gt;Luodaksesi uuden tietokannan, kirjoita olemassaolevan tietokantapalvelimen nimi ja uuden tietokannan nimi, ja valitse &lt;b&gt;Luo uusi tietokanta&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;</Translation>
       </Resources>
       <Resources>
         <ID>AppSharePointSiteToolTip</ID>
@@ -8973,7 +8977,7 @@ Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
       <Resources>
         <ID>ActionsPageTitleinTitlePage</ID>
         <Source>E-Learning Actions:</Source>
-		<Translation>E-oppimistoiminnot:</Translation>
+        <Translation>E-oppimistoiminnot:</Translation>
       </Resources>
       <Resources>
         <ID>DownloadSettingsIncorrectUrl</ID>
@@ -9018,7 +9022,7 @@ Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
       <Resources>
         <ID>ConfigureLabelPermissionsDescriptionText</ID>
         <Source>&lt;p style="margin-bottom: 6pt"&gt;Specify the SharePoint permissions that will identify instructors and learners in SLK.&lt;/p&gt;&lt;p style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;ul style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;li style="margin-bottom: 6pt"&gt;To use existing SharePoint permissions to identify instructors and learners, enter the permission names; for example, "Contribute" and "Read".&lt;/li&gt;&lt;li&gt;To create new permissions, enter the permission names and select &lt;b&gt;Create permissions&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;&lt;p style="margin-top: -6pt"&gt;&lt;b&gt;Recommended&lt;/b&gt;&amp;nbsp; Create "SLK Instructor" and "SLK Learner" permissions for new installations.&lt;/p&gt;</Source>
-        <Translation>Käyttääksesi olemassaolevia SharePoint-käyttöoikeuksia erottamaan ohjaajat oppijoista, kirjoita käyttöoikeuksien nimet kuten "Contribute" ja "Read".&lt;/li&gt;&lt;li&gt;Luodaksesi uusia käyttöoikeuksia, kirjoita käyttöoikeuksien nimet ja valitse&lt;b&gt;Luo käyttöoikeudet&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;&lt;p style="margin-top: -6pt"&gt;&lt;b&gt;Suositus&lt;/b&gt;&amp;nbsp;Luo "SLK-ohjaaja" ja "SLK-oppija" -käyttöoikeudet jos SLK on vasta asennettu.&lt;/p&gt;</Translation>
+        <Translation>&lt;p style="margin-bottom: 6pt"&gt;Määritä SharePoint-käyttöoikeuksia erottamaan ohjaajat oppijoista.&lt;/p&gt;&lt;p style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;ul style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;li style="margin-bottom: 6pt"&gt;Käyttääksesi olemassaolevia SharePoint-käyttöoikeuksia ohjaajien ja opiskelijoiden tunnistamiseen, kirjoita käyttöoikeuksien nimet, kuten "Contribute" tai "Read".&lt;/li&gt;&lt;li&gt;Luodaksesi uusia käyttöoikeuksia, kirjoita käyttöoikeuksien nimet ja valitse &lt;b&gt;Luo käyttöoikeudet&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;&lt;p style="margin-top: -6pt"&gt;&lt;b&gt;Suositus&lt;/b&gt;&amp;nbsp; Luo "SLK-ohjaaja" sekä "SLK-opiskelija" -käyttöoikeudet, jos SLK on vasta asennettu.&lt;/p&gt;</Translation>
       </Resources>
       <Resources>
         <ID>LobbyBeginAccessKey</ID>
@@ -9202,7 +9206,7 @@ Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
       <Resources>
         <ID>ActionsDraftVersion</ID>
         <Source>The learning resource is a draft. If you assign it, learners may lose access to it once it is published or approved.</Source>
-        <Translation>Oppimateriaali on luonnos. Jos liität sen sivulle, oppijat voivat menettää pääsyn siihen kun se julkaistaan.</Translation>
+        <Translation>Oppimateriaali on luonnos. Jos liität sen sivulle, oppijat voivat menettää pääsyn siihen, kun se julkaistaan.</Translation>
       </Resources>
       <Resources>
         <ID>LobbylblScore</ID>
@@ -9232,7 +9236,7 @@ Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
       <Resources>
         <ID>ActionsCheckedOutError</ID>
         <Source>You cannot assign the learning resource because it is currently checked out to you. You must check it in before assigning it.</Source>
-        <Translation>Et voi antaa oppimateriaalia tehtäväksi, koska olet varannut sen itsellesi muokattavaksi (Check out). Hylkää tiedoston uloskuittaus (Check in) niin voit määrittää sen tehtäväksi.</Translation>
+        <Translation>Et voi antaa oppimateriaalia tehtäväksi, koska olet varannut sen itsellesi muokattavaksi. </Translation>
       </Resources>
       <Resources>
         <ID>AppCalendarToolTip</ID>
@@ -9302,7 +9306,7 @@ Jos haluat lopettaa tallentamatta, napsauta Peruuta.</Translation>
       <Resources>
         <ID>AlwpQuerySetOverrideDescription</ID>
         <Source>Query or query set to display for all users instead of the default. For example, "LearnerQuerySet" or "InstructorQuerySet".</Source>
-        <Translation>Perusnäkymän sijaan kysely tai kyselysarja näkyy kaikilla käyttäjillä. Esimerkiksi "LearnerQuerySet" tai "InstructorQuerySet".</Translation>
+        <Translation>Perusnäkymän sijaan kysely tai kyselysarja näkyy kaikilla käyttäjillä. Esimerkiksi "LearnerQuerySet" tai "InstuctorQuerySet".</Translation>
       </Resources>
       <Resources>
         <ID>WssEventLogSource</ID>
@@ -9344,6 +9348,11 @@ Lisätietoja on palvelimen tapahtumalokissa.</Translation>
         <Translation>Tarkastele oppijan työn edistymistä</Translation>
       </Resources>
       <Resources>
+        <ID>SlkExWorkFlowSqlDeadLockError</ID>
+        <Source>The server is currently busy. Please retry your operation.</Source>
+        <Translation>Palvelin on juuri nyt varattu. Kokeile uudestaan, ole hyvä.</Translation>
+      </Resources>
+      <Resources>
         <ID>LobbySubmitAccessKey</ID>
         <Source>S</Source>
         <Translation>S</Translation>
@@ -9366,7 +9375,7 @@ Lisätietoja on palvelimen tapahtumalokissa.</Translation>
       <Resources>
         <ID>GradingReturnMessage</ID>
         <Source>All learner assignments will be returned to the learners. If you have not graded all the assignments, some learners may receive zero points.</Source>
-	<Translation>Kaikki oppimistehtävät palautetaan oppijoille. Jos et ole arvioinut kaikkia tehtäviä, jotkut oppijoista voivat saada tehtävistä nolla pistettä.</Translation>
+        <Translation>Kaikkien oppimistehtävät palautetaan oppijoille. Jos et ole arvioinut kaikkia tehtäviä, jotkut oppijoista voivat saada tehtävistä nolla pistettä.</Translation>
       </Resources>
       <Resources>
         <ID>ConfigureInputSiteSelectorDescription</ID>
@@ -9496,7 +9505,7 @@ Lisätietoja on palvelimen tapahtumalokissa.</Translation>
       <Resources>
         <ID>FRM_GradingPageNotUpdated</ID>
         <Source>Changes to this page will no longer be reflected in the grading page when you close this window. To fix this, save your changes and re-open the assignment from the grading page.</Source>
-        <Translation>Sivulle tehdyt muutokset eivät vaikuta arvostelusivuun enää sen jälkeen kun sivu suljetaan. Jotta muutokset vaikuttaisivat, muutokset on tallennettava ja oppimistehtävä on avattava uudestaan arviointisivulta.</Translation>
+        <Translation>Sivulle tehdyt muutokset eivät vaikuta arvostelusivuun enää sen jälkeen, kun sivu suljetaan. Jotta muutokset vaikuttaisivat, muutokset on tallennettava ja oppimistehtävä on avattava uudestaan arviointisivulta.</Translation>
       </Resources>
       <Resources>
         <ID>FRM_Title</ID>
@@ -9527,7 +9536,7 @@ Lisätietoja on palvelimen tapahtumalokissa.</Translation>
         </Source>
         <Translation>Jos palautat oppimistehtävän, et voi enää muuttaa sitä.&lt;br&gt;&lt;br&gt;
         Jos olet saanut oppimistehtävän valmiiksi, valitse &lt;b&gt;Palauta&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
-        Jos et ole valmis lähettämään oppimistehtävää, valitse &lt;b&gt;Peruuta&lt;/b&gt; palataksesi edelliselle sivulle.
+        Joe et ole valmis lähettämään oppimistehtävää, valitse &lt;b&gt;Peruuta&lt;/b&gt; palataksesi edelliselle sivulle.
         </Translation>
       </Resources>
       <Resources>
@@ -9630,7 +9639,7 @@ Lisätietoja on palvelimen tapahtumalokissa.</Translation>
         Click &lt;b&gt;Finish&lt;/b&gt; to end this grading session. You can return to this assignment later to add or change grading information. 
         &lt;br&gt;&lt;br&gt;If you are not ready to finish grading, click &lt;b&gt;Cancel&lt;/b&gt; to return to the previous page.</Source>
         <Translation>Kaikki arviointitieto on tallennettu. &lt;br&gt;&lt;br&gt;
-        Lopeta arviointi-istunto valitsemalla &lt;b&gt;Valmis&lt;/b&gt;. Voit lisätä tai muokata arvosanoja myöhemmin. 
+        Lopeta arviointi-istunto valitsemalla &lt;b&gt;Valmis&lt;/b&gt;. Voit lisätä tai muokata arvosanoja myöhemmin.
         &lt;br&gt;&lt;br&gt;Jos haluat jatkaa arviointia, valitse &lt;b&gt;Peruuta&lt;/b&gt; palataksesi edelliselle sivulle.</Translation>
       </Resources>
       <Resources>
@@ -9648,8 +9657,8 @@ Lisätietoja on palvelimen tapahtumalokissa.</Translation>
         <Source>This assignment is not available because it has been submitted as complete.&lt;br&gt;&lt;br&gt; 
     You can review this assignment after it is returned by your instructor.
     </Source>
-    <Translation>Oppimistehtävä ei ole saatavilla, koska se on palautettu valmiina.&lt;br&gt;&lt;br&gt; 
-    Voit tarkastella oppimistehtävää sen jälkeen kun ohjaaja on palauttanut sen.
+        <Translation>Oppimistehtävä ei ole saatavilla, koska se on palautettu valmiina.&lt;br&gt;&lt;br&gt; 
+    Voit tarkastella oppimistehtävää sen jälkeen, kun ohjaaja on palauttanut sen.
     </Translation>
       </Resources>
       <Resources>
@@ -9675,7 +9684,7 @@ Lisätietoja on palvelimen tapahtumalokissa.</Translation>
         </Source>
         <Translation>Jos palautat oppimistehtävän, et voi enää muuttaa sitä.&lt;br&gt;&lt;br&gt;
         Jos olet saanut oppimistehtävän valmiiksi, valitse &lt;b&gt;Palauta&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
-        Jos et ole valmis lähettämään koulutuskokonaisuutta, valitse oppimisaktiviteeti jatkaaksesi oppimistehtävän tekemistä.
+        Jos et ole valmis lähettämään koulutuskokonaisuutta, valitse oppimisaktiviteetti jatkaaksesi oppimistehtävän tekemistä.
         </Translation>
       </Resources>
       <Resources>

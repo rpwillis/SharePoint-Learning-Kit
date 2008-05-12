@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns="urn:schemas-microsoft-com:sharepoint-learning-kit:settings"
     ApprovedAttachmentTypes="bmp, doc, docx, gif, htm, html, jpeg, jnt, jpg, lit, mdi, mix, pdf, png, ppt, pptx, pub, rtf, txt, wdb, wks, xlr, xls, xlsx, zip"
 	ELearningIisCompatibilityModeExtensions="mp3, swf"
@@ -48,10 +48,10 @@
   <MimeTypeMapping Extension=".xml" MimeType="text/xml" />
 
   <Query Name="OverdueLearner" Title="Te laat" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
@@ -64,10 +64,10 @@
   </Query>
 
   <Query Name="DueTodayLearner" Title="Vandaag af" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
@@ -79,10 +79,10 @@
   </Query>
 
   <Query Name="DueThisWeekLearner" Title="Deze week af" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
@@ -93,11 +93,11 @@
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
   </Query>
 
-  <Query Name="DueNextWeekLearner" Title="Volgende week af" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+  <Query Name="DueNextWeekLearner" Title="Volgende week" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
@@ -108,11 +108,11 @@
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
   </Query>
 
-  <Query Name="ToDoLearner" Title="Opdrachten" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+  <Query Name="ToDoLearner" Title="Nog te doen" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
@@ -122,11 +122,11 @@
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
   </Query>
 
-  <Query Name="ReturnedLearner" Title="Beoordeeld" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+  <Query Name="ReturnedLearner" Title="Nagekeken" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
@@ -135,11 +135,11 @@
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="AllAssignmentsLearner" Title="Alle opdrachten" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+  <Query Name="AllAssignmentsLearner" Title="Alle taken" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
@@ -147,11 +147,11 @@
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
   </Query>
 
-  <Query Name="ActiveInstructor" Title="Te doen" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Score" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="ActiveInstructor" Title="Toegewezen taken" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Ingeleverd" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="CountNotFinal" Operator="GreaterThan" Value="0"/>
     <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
@@ -159,10 +159,10 @@
   </Query>
 
   <Query Name="OverdueInstructor" Title="Te laat" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Ingeleverd op" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Ingeleverd" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="Now"/>
@@ -171,11 +171,11 @@
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="ReadyToGradeInstructor" Title="Te beoordelen" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Ingeleverd op" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="ReadyToGradeInstructor" Title="Na te kijken" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Ingeleverd" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="CountCompleted" Operator="GreaterThan" Value="0"/>
     <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
@@ -183,10 +183,10 @@
   </Query>
 
   <Query Name="DueTodayInstructor" Title="Vandaag af" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Ingeleverd op" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Ingeleverd" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfToday"/>
@@ -196,10 +196,10 @@
   </Query>
 
   <Query Name="DueThisWeekInstructor" Title="Deze week af" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Ingeleverd op" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Ingeleverd" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfThisWeek"/>
@@ -208,11 +208,11 @@
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="DueNextWeekInstructor" Title="Volgende week af" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Ingeleverd op" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="DueNextWeekInstructor" Title="Volgende week" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Ingeleverd" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfNextWeek"/>
@@ -221,28 +221,139 @@
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="ReturnedInstructor" Title="Beoordeeld" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Ingeleverd op" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="ReturnedInstructor" Title="Nagekeken" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Ingeleverd" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="CountNotFinal" Operator="Equal" Value="0"/>
     <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="AllAssignmentsInstructor" Title="Alle opdrachten" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Opdracht" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Inleveren op" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Ingeleverd op" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="AllAssignmentsInstructor" Title="Alle taken" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Ingeleverd" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <QuerySet Name="LearnerQuerySet" Title="Leerling Query Set" DefaultQueryName="ToDoLearner">
+  <Query Name="OverdueObserver" Title="Te laat" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+    <Column Title="Gemiddeld" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="Now"/>
+    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" />
+    <!-- helps SQL perf? -->
+    <Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2"/>
+    <!-- i.e. unsubmitted -->
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <Query Name="DueTodayObserver" Title="Vandaag af" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+    <Column Title="Gemiddeld" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfToday"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfTomorrow"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <Query Name="DueThisWeekObserver" Title="Deze week af" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+    <Column Title="Gemiddeld" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfThisWeek"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfNextWeek"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <Query Name="DueNextWeekObserver" Title="Volgende week" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+    <Column Title="Gemiddeld" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfNextWeek"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfWeekAfterNext"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <Query Name="ToDoObserver" Title="Nog te doen" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+    <Column Title="Gemiddeld" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" />
+    <!-- helps SQL perf? -->
+    <Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2"/>
+    <!-- i.e. unsubmitted -->
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <Query Name="ReturnedObserver" Title="Nagekeken" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+    <Column Title="Gemiddeld" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="IsFinal" Operator="Equal" Value="1" />
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+  </Query>
+
+  <Query Name="AllAssignmentsObserver" Title="Alle taken" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+    <Column Title="Gebied" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="Taak" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Naamloos" />
+    <Column Title="Einddatum" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Inleveren: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="Voortgang" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+    <Column Title="Gemiddeld" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <QuerySet Name="LearnerQuerySet" Title="Overzicht leerling" DefaultQueryName="ToDoLearner">
     <IncludeQuery QueryName="ToDoLearner" />
     <IncludeQuery QueryName="OverdueLearner" />
     <IncludeQuery QueryName="DueTodayLearner" />
@@ -252,7 +363,7 @@
     <IncludeQuery QueryName="AllAssignmentsLearner" />
   </QuerySet>
 
-  <QuerySet Name="InstructorQuerySet" Title="Leraar Query Set" DefaultQueryName="ActiveInstructor">
+  <QuerySet Name="InstructorQuerySet" Title="Overzicht leraar" DefaultQueryName="ActiveInstructor">
     <IncludeQuery QueryName="ActiveInstructor" />
     <IncludeQuery QueryName="ReadyToGradeInstructor" />
     <IncludeQuery QueryName="OverdueInstructor" />
@@ -261,6 +372,16 @@
     <IncludeQuery QueryName="DueNextWeekInstructor" />
     <IncludeQuery QueryName="ReturnedInstructor" />
     <IncludeQuery QueryName="AllAssignmentsInstructor" />
+  </QuerySet>
+
+  <QuerySet Name="ObserverQuerySet" Title="Overzicht meelezer" DefaultQueryName="ToDoObserver">
+    <IncludeQuery QueryName="ToDoObserver" />
+    <IncludeQuery QueryName="OverdueObserver" />
+    <IncludeQuery QueryName="DueTodayObserver" />
+    <IncludeQuery QueryName="DueThisWeekObserver" />
+    <IncludeQuery QueryName="DueNextWeekObserver" />
+    <IncludeQuery QueryName="ReturnedObserver" />
+    <IncludeQuery QueryName="AllAssignmentsObserver" />
   </QuerySet>
   
 </Settings>
