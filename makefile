@@ -3,7 +3,7 @@
 # makefile
 #
 # Implements the following targets:
-#   -- all: same as "nmake deb rel slk sdkdoc samplesdeb samplesrel loc"
+#   -- all: same as "nmake deb rel slk samplesdeb samplesrel loc"
 #   -- deb: builds Debug configurations of all sources
 #   -- rel: builds Release configurations of all sources
 #   -- samplesdeb: builds Debug configuration of samples
@@ -12,7 +12,6 @@
 #   -- slkdeb: builds Debug configuration of SLK Application components
 #   -- loc: builds localized versions of SLK
 #   -- runtests: runs unit tests
-#   -- sdkdoc: builds SDK documentation (do "deb" or "rel" first)
 #   -- drop: creates Drop directory, which contains files to be copied to the
 #      network drop location by the build machine
 #   -- clean: deletes all files which this makefile can regenerate
@@ -83,7 +82,7 @@ API_XML_SPACES = $(API_XML:!= )
 API_IMG_SPACES = $(API_IMG:!= )
 
 # "all" target (default target): builds everything
-all: deb rel slk sdkdoc samplesdeb samplesrel loc
+all: deb rel slk samplesdeb samplesrel loc
 
 # "samplesdeb" target: builds Debug samples
 samplesdeb: deb
@@ -163,13 +162,6 @@ $(SRCDIRS:CMD=runtests):
     $(MAKE) /nologo runtests
     cd $(MAKEDIR)
 
-# sdkdoc: builds SDK documentation
-sdkdoc: nul
-	if exist $(CODEDOC) cscript Tools\MakeSchemaDataStorage2.js
-	-if exist $(CODEDOC) $(CODEDOC) CodeDoc.xml
-	if exist $(CODEDOC) Tools\FixDocIndex SdkDoc\Pages\Default_Index.htm
-	if exist $(CODEDOC) cscript Tools\FixSdkDoc.js
-
 # drop: create Drop directory containing files to go to network drop location
 drop: nul
     @echo.
@@ -197,8 +189,6 @@ drop: nul
 	rem -- copy Documentation.htm $(SDK_DIR)
 	rem -- mkdir $(SDK_DIR)\Pages
 	rem -- copy ApiRef\* $(SDK_DIR)\Pages
-	xcopy /Q /I /S SdkDoc $(SDK_DIR)
-	cscript Tools\CopyAndSetVersion.js SdkDoc\Pages\Default.htm $(SDK_DIR)\Pages\Default.htm
 	xcopy /I Slk\Solution\DebugFiles $(SDK_DIR)\Debug
 	xcopy /I Slk\Solution\ReleaseFiles $(SDK_DIR)\Release
 	mkdir $(SDK_DIR)\Samples
@@ -304,26 +294,7 @@ $(SRCDIRS:CMD=cleanall): cleancommon
     cd $(MAKEDIR)
 
 # "cleancommon" target: common to "clean" and "cleanall"
-cleancommon: clean_sdkdoc clean_slk clean_latestsdk clean_samples
-
-# "clean_sdkdoc" target: clean SDK documentation generated files
-clean_sdkdoc:
-	-del SdkDoc.csproj.user 2> nul
-	-attrib -h -r SdkDoc.suo > nul
-	-del SdkDoc.suo 2> nul
-	-del SdkDoc.ncb 2> nul
-	-del bin\Debug\SdkDoc.dll 2> nul
-	-del bin\Debug\SdkDoc.pdb 2> nul
-	-rmdir bin\Debug 2> nul
-	-rmdir bin 2> nul
-	-del obj\Debug\SdkDoc.dll 2> nul
-	-del obj\Debug\SdkDoc.pdb 2> nul
-	-del obj\SdkDoc.csproj.FileList.txt 2> nul
-	-rmdir obj\Debug 2> nul
-	-rmdir obj 2> nul
-	-rmdir /s /q SdkDoc 2> nul
-	-rmdir /s /q TempDoc 2> nul
-	-del Src\Schema\SchemaDataStorage2.cs 2> nul
+cleancommon: clean_slk clean_latestsdk clean_samples
 
 # "clean_samples" target: Clean the samples directory
 clean_samples:

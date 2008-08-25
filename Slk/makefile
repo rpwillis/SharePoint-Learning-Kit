@@ -97,10 +97,6 @@ prop:
 
 clean cleanall: cleansamples
 	call LinkFrameset Clean
-	-del SlkSchema.sql 2> nul
-	-del SlkUpgrade.sql 2> nul
-	-del TempSlkUpgrade.sql 2> nul
-	-del Dll\SlkSchema.cs 2> nul
 	-del App\localtestrun.testrunconfig
 	-del SlkUnitTests\SlkUnitTests.csproj.user 2> nul
  	-rd /s /q SlkSdk 2> nul

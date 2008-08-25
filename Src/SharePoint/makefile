@@ -35,5 +35,5 @@ cleanall: clean
 	-del SharePoint.suo 2> nul
 	-del SharePoint.ncb 2> nul
 	-del UnitTests\UnitTests.csproj.user 2> nul
-	-rd /q /s TestResults
+	-rmdir /s /q TestResults 2> nul
 
