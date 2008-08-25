@@ -15,11 +15,11 @@ NONINFRINGEMENT FOR THE SOURCE CODE. --%>
 //
 
 <%-- NOTE: If this page displays "File Not Found", check the build number (1.0.nnn.0) below --%>
-<%@ Assembly Name="Microsoft.LearningComponents, Version=%VERSION4%, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
-<%@ Assembly Name="Microsoft.LearningComponents.SharePoint, Version=%VERSION4%, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
-<%@ Assembly Name="Microsoft.LearningComponents.Storage, Version=%VERSION4%, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
+<%@ Assembly Name="Microsoft.LearningComponents, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
+<%@ Assembly Name="Microsoft.LearningComponents.SharePoint, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
+<%@ Assembly Name="Microsoft.LearningComponents.Storage, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
 <%@ Assembly Name="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
-<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
+<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
 
 <%@ WebService Language="C#" Class="SlkSamples.SampleWebService" %>
 
