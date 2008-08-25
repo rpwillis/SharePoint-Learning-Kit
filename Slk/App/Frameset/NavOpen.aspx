@@ -1,6 +1,6 @@
 ﻿<%-- Copyright (c) Microsoft Corporation. All rights reserved. --%>
 
-<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
+<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
 <%@ Page Language="C#" Inherits="Microsoft.SharePointLearningKit.Frameset.NavOpen" ValidateRequest="False" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

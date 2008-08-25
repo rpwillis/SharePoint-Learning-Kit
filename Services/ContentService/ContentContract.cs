@@ -11,7 +11,7 @@ namespace SharePointLearningKit.Services
         [OperationContract, WebGet(UriTemplate = "{name}")]
         Stream GetFile(string name);
 
-        [OperationContract, WebGet(UriTemplate = "{name}/Headers")]
+        [OperationContract, WebInvoke(UriTemplate = "{name}", Method="HEAD")]
         void GetFileHeaders(string name);
     }
 
