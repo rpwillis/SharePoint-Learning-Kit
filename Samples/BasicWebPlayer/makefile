@@ -2,7 +2,7 @@
 
 # BasicWebPlayer makefile
 
-all: init deb rel
+all: init deb
 
 init:
 	cmd /c Init.bat
@@ -26,7 +26,5 @@ cleanall: clean
 	-del BasicWebPlayer.csproj.user 2> nul
 	-attrib -h -r BasicWebPlayer.suo > nul
 	-del BasicWebPlayer.suo 2> nul
-	-del Schema.sql 2> nul
-	 del App_Code\Schema.cs 2> nul
  	-rmdir /s /q Bin 2> nul
 
