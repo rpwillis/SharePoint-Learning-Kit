@@ -932,6 +932,90 @@ public class SlkStore
         }
     }
 
+    private bool IsInRole(SPWeb spWeb, string roleDefinitionName)
+    {
+        // Security checks: Fails if the user doesn't have Reader access (implemented
+        // by SharePoint)
+
+        // Check parameters
+        if (spWeb == null)
+            throw new ArgumentNullException("spWeb");
+
+        // Verify that the web is in the site
+        if (spWeb.Site.ID != m_anonymousSlkStore.SPSiteGuid)
+            throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
+
+        bool isInRole = false;
+
+        SPRoleDefinitionBindingCollection roleDefinitionCollection = null;
+        try
+        {
+            // In some cases this fails and we must take an alternate approach.
+            roleDefinitionCollection = spWeb.AllRolesForCurrentUser;
+        }
+        catch (System.Runtime.InteropServices.COMException comException)
+        {
+            if (comException.ErrorCode != unchecked((int)0x80040E14)) // Not the specific case we're looking for, rethrow
+                throw;
+
+            // Use a brute force iteration approach if the attempt to get AllRolesForCurrentUser fails with COMException 0x80040E14
+            SPSecurity.RunWithElevatedPrivileges(delegate
+            {
+                using (SPSite site = new SPSite(spWeb.Site.ID))
+                {
+                    using (SPWeb web = site.OpenWeb(spWeb.ID))
+                    {
+                        foreach (SPRoleAssignment roleAssignment in web.RoleAssignments)
+                        {
+                            SPUser user = roleAssignment.Member as SPUser;
+                            if (user != null)
+                            {
+                                if (string.Compare(user.LoginName, HttpContext.Current.User.Identity.Name, true, CultureInfo.InvariantCulture) != 0)
+                                {
+                                    continue; // the roleAssignment is for a different user
+                                }
+                            }
+                            else
+                            {
+                                SPGroup group = roleAssignment.Member as SPGroup;
+                                if (group != null)
+                                {
+                                    if (!group.ContainsCurrentUser)
+                                    {
+                                        continue; // the roleAssignment is for a group the user is not a member of
+                                    }
+                                }
+                            }
+
+                            foreach (SPRoleDefinition roleDefinition in roleAssignment.RoleDefinitionBindings)
+                            {
+                                if (roleDefinition.Name == roleDefinitionName)
+                                {
+                                    isInRole = true;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        if (roleDefinitionCollection != null)
+        {
+            foreach (SPRoleDefinition roleDefinition in roleDefinitionCollection)
+            {
+                if (roleDefinition.Name == roleDefinitionName)
+                {
+                    isInRole = true;
+                    break;
+                }
+            }
+        }
+
+        return isInRole;
+    }
+
     /// <summary>
     /// Returns <c>true</c> if the current user is an instructor on a given SPWeb, <c>false</c>
 	/// if not.
@@ -954,24 +1038,7 @@ public class SlkStore
     ///
     public bool IsInstructor(SPWeb spWeb)
     {
-        // Security checks: Fails if the user doesn't have Reader access (implemented
-        // by SharePoint)
-
-        // Check parameters
-        if (spWeb == null)
-            throw new ArgumentNullException("spWeb");
-
-        // Verify that the web is in the site
-        if (spWeb.Site.ID != m_anonymousSlkStore.SPSiteGuid)
-            throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
-
-        foreach (SPRoleDefinition roleDefinition in spWeb.AllRolesForCurrentUser)
-        {
-            if (roleDefinition.Name == m_anonymousSlkStore.Mapping.InstructorPermission)
-                return true;
-        }
-
-		return false;
+		return IsInRole(spWeb, m_anonymousSlkStore.Mapping.InstructorPermission);
     }
 
     /// <summary>
@@ -996,49 +1063,32 @@ public class SlkStore
     ///
     public bool IsObserver(SPWeb spWeb)
     {
-        
-        // Security checks: Fails if the user doesn't have Reader access (implemented
-        // by SharePoint)
-
-        // Check parameters
-        if (spWeb == null)
-            throw new ArgumentNullException("spWeb");
-
-        // Verify that the web is in the site
-        if (spWeb.Site.ID != m_anonymousSlkStore.SPSiteGuid)
-            throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
-
-        foreach (SPRoleDefinition roleDefinition in spWeb.AllRolesForCurrentUser)
-        {
-            if (roleDefinition.Name == m_anonymousSlkStore.Mapping.ObserverPermission)
-                return true;
-        }
-
-        return false;
-        
+        return IsInRole(spWeb, m_anonymousSlkStore.Mapping.ObserverPermission);        
     }
 
+    /// <summary>
+    /// Returns <c>true</c> if the current user is a learner on a given SPWeb, <c>false</c>
+    /// if not.
+    /// </summary>
+    /// 
+    /// <param name="spWeb">SPWeb that should be checked.</param>
+    ///
+    /// <remarks>
+    /// <b>Security:</b>&#160; Fails if the <a href="SlkApi.htm#AccessingSlkStore">current
+    /// user</a> doesn't have SharePoint "Reader" access.
+    /// </remarks>
+    /// 
+    /// <exception cref="InvalidOperationException">
+    /// <pr>spWeb</pr> is not in the SPSite that this <r>SlkStore</r> is associated with.
+    /// </exception>
+    ///
+    /// <exception cref="UnauthorizedAccessException">
+    /// The user is not a Reader on <pr>spWeb</pr>.
+    /// </exception>
+    ///
     public bool IsLearner(SPWeb spWeb)
     {
-        // Security checks: Fails if the user doesn't have Reader access (implemented
-        // by SharePoint)
-
-        // Check parameters
-        if (spWeb == null)
-            throw new ArgumentNullException("spWeb");
-
-        // Verify that the web is in the site
-        if (spWeb.Site.ID != m_anonymousSlkStore.SPSiteGuid)
-            throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
-
-        foreach (SPRoleDefinition roleDefinition in spWeb.AllRolesForCurrentUser)
-        {
-            if (roleDefinition.Name == m_anonymousSlkStore.Mapping.LearnerPermission)
-                return true;
-        }
-
-        return false;
-
+        return IsInRole(spWeb, m_anonymousSlkStore.Mapping.LearnerPermission);        
     }
     
     /// <summary>
