@@ -1,0 +1,23 @@
+;*** BEGIN **********************************************************
+;**                                                                **
+;** Automatically generated on: Wed Jun 25 18:11:58 2008           **
+;**                                                                **
+;** MakeCAB Version: 5.2.3790.0                     **
+;**                                                                **
+;*** BEGIN **********************************************************
+[disk list]
+1,Disk 1
+[cabinet list]
+1,1,CourseManagerWebParts.cab
+[file list]
+1,1,manifest.xml,687
+1,1,CourseManagerPages.dwp,453
+1,1,MonitorAndAssess.dwp,445
+1,1,PlanAndAssign.dwp,436
+1,1,Axelerate.SlkCourseManagerLogicalLayer.dll,158208
+1,1,SPDocumentSelectorIFrame.js,949
+;*** END ************************************************************
+;**                                                                **
+;** Automatically generated on: Wed Jun 25 18:11:58 2008           **
+;**                                                                **
+;*** END ************************************************************

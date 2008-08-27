@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DSFilterProvider" targetNamespace="http://tempuri.org/DSFilterProvider.xsd"
+	elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/DSFilterProvider.xsd"
+	xmlns:mstns="http://tempuri.org/DSFilterProvider.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop">
+	<xs:element name="DSFilterProvider" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="BusinessCollections">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BusinessCollectionName" type="xs:string" minOccurs="0" />
+							<xs:element name="BusinessObjectName" type="xs:string" minOccurs="0" />
+							<xs:element name="Query" type="xs:string" minOccurs="0" />
+							<xs:element name="FilterName" type="xs:string" minOccurs="0" />
+							<xs:element name="OrderBy" type="xs:string" minOccurs="0" />
+							<xs:element name="Asc" type="xs:boolean" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Filters">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FilterName" type="xs:string" minOccurs="0" />
+							<xs:element name="FieldName" type="xs:string" minOccurs="0" />
+							<xs:element name="Value" type="xs:string" minOccurs="0" />
+							<xs:element name="ValueType" type="xs:string" minOccurs="0" />
+							<xs:element name="Condition" type="xs:string" minOccurs="0" />
+							<xs:element name="FilterKey" type="xs:string" minOccurs="0" />
+							<xs:element name="FieldDesc" type="xs:string" minOccurs="0" />
+							<xs:element name="EsFiltroSede" type="xs:boolean" minOccurs="0" default="0" msprop:nullValue="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

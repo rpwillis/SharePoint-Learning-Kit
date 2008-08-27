@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A27A9360-8817-40F4-8A5E-3127A67BB805}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Axelerate.SlkCourseManagerLogicalLayer</RootNamespace>
+    <AssemblyName>Axelerate.SlkCourseManagerLogicalLayer</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>SlkCourseManagerLogicalLayer.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SlkCourseManagerLogicalLayer.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Axelerate.BusinessLayerFrameWork, Version=1.3.0.1, Culture=neutral, PublicKeyToken=783dbd9b30afb604, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\External Branches\CodePlex\CodePlex-1.1\CodePlex\UI\bin\Debug\Axelerate.BusinessLayerFrameWork.dll</HintPath>
+    </Reference>
+    <Reference Include="Axelerate.BusinessLayerUITools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4f9a37917b02d1a2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\External Branches\CodePlex\CodePlex-1.1\CodePlex\UI\bin\Debug\Axelerate.BusinessLayerUITools.dll</HintPath>
+    </Reference>
+    <Reference Include="Axelerate.DataAccessApplicationBlock, Version=1.0.0.2, Culture=neutral, PublicKeyToken=8aeca469e4966909, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\External Branches\CodePlex\CodePlex-1.1\CodePlex\UI\bin\Debug\Axelerate.DataAccessApplicationBlock.dll</HintPath>
+    </Reference>
+    <Reference Include="Axelerate.SharedBusinessLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=68060410e0087d0c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\External Branches\CodePlex\CodePlex-1.1\CodePlex\UI\bin\Debug\Axelerate.SharedBusinessLogic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.LearningComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents.Compression, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.LearningComponents.Compression.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents.MRCI, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.LearningComponents.MRCI.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents.SharePoint, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.LearningComponents.SharePoint.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents.Storage, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.LearningComponents.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\Documents and Settings\adrianr\My Documents\Visual Studio 2008\Projects\DBConfig\DBConfig\bin\Debug\Microsoft.SharePoint.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePointLearningKit, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.SharePointLearningKit.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Workflow.ComponentModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activities\actCreateActivityOnCurrentSite.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actDecreasePriority.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetAssignedActivityStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetCompletedActivityGroupStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetCompletedActivityStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetCourseT.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetPendingStartActivityGroupSatatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetPendingSubmitAssignedActivityStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetActivityGroupCollectionByCourse.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetActivityCollectionByActivityGroupGUID.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetCurrentCourse.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetInstructorUserRole.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetLearnerCollection.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetLearnerCollectionFromCurrentSite.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetLearnerUserRole.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetReadyToReturnAssignedActivityStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetSittingOnInboxAssignedActivityStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetStartedActivityGroupStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetUser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actIncreasePriority.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actIsInstructor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetReturnedAssignedAcitivityStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actReIndexPriorities.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actReturnAssignmentToLearners.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actReturnToLearners.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actGetUnassignedActivityStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Activities\actSetLearnerAssignmentGrade.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Resources\ActivityStatusImages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActivityStatusImages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Adapters\clsSLKAssigmentAdapter.cs" />
+    <Compile Include="Adapters\clsSLKCourseAdapter.cs" />
+    <Compile Include="Adapters\clsSLKLearnerAssignmentAdapter.cs" />
+    <Compile Include="Adapters\clsSLKUserAdapter.cs" />
+    <Compile Include="Adapters\DataLayer\clsAdapterBase.cs" />
+    <Compile Include="Adapters\DataLayer\clsAdapterCommandBase.cs" />
+    <Compile Include="Adapters\DataLayer\clsAdapterDataLayer.cs" />
+    <Compile Include="Adapters\DataLayer\clsAdapterDeleteCommand.cs" />
+    <Compile Include="Adapters\DataLayer\clsAdapterInsertCommand.cs" />
+    <Compile Include="Adapters\DataLayer\clsAdapterReadCommand.cs" />
+    <Compile Include="Adapters\DataLayer\clsAdapterUpdateCommand.cs" />
+    <Compile Include="Adapters\dtsAssignments.Designer.cs">
+      <DependentUpon>dtsAssignments.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Adapters\dtsCourses.cs">
+      <DependentUpon>dtsCourses.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Adapters\dtsCourses.Designer.cs">
+      <DependentUpon>dtsCourses.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Adapters\dtsGragingProperties.cs">
+      <DependentUpon>dtsGragingProperties.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Adapters\dtsGragingProperties.Designer.cs">
+      <DependentUpon>dtsGragingProperties.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Adapters\dtsLearnerAssignments.cs">
+      <DependentUpon>dtsLearnerAssignments.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Adapters\dtsLearnerAssignments.Designer.cs">
+      <DependentUpon>dtsLearnerAssignments.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Adapters\dtsUsers.cs">
+      <DependentUpon>dtsUsers.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Adapters\dtsUsers.Designer.cs">
+      <DependentUpon>dtsUsers.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Adapters\NoLearnersOnSiteException.cs" />
+    <Compile Include="Adapters\NotInstructorOnAssignmentException.cs" />
+    <Compile Include="clsActivities.cs" />
+    <Compile Include="clsActivity.cs" />
+    <Compile Include="clsActivityGroup.cs" />
+    <Compile Include="clsActivityGroups.cs" />
+    <Compile Include="clsActivityGroupStatus.cs" />
+    <Compile Include="clsActivityGroupStatuses.cs" />
+    <Compile Include="clsActivityStatus.cs" />
+    <Compile Include="clsActivityStatuses.cs" />
+    <Compile Include="clsAssignedActivityStatus.cs" />
+    <Compile Include="clsAssignedActivityStatuses.cs" />
+    <Compile Include="clsCourse.cs" />
+    <Compile Include="clsCourses.cs" />
+    <Compile Include="clsSLKAssignment.cs" />
+    <Compile Include="clsSLKAssignments.cs" />
+    <Compile Include="clsUserRole.cs" />
+    <Compile Include="clsUserRoles.cs" />
+    <Compile Include="clsUser.cs" />
+    <Compile Include="clsUsers.cs" />
+    <Compile Include="clsUser_Assignment.cs" />
+    <Compile Include="clsUser_Assignments.cs" />
+    <Compile Include="Resources\ErrorMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="WebControls\SPDocumentSelector.cs" />
+    <Compile Include="WebParts\CourseManagerPages.cs" />
+    <Compile Include="WebParts\MonitorAndAssess.cs" />
+    <Compile Include="WebParts\PlanAndAssign.cs" />
+    <Compile Include="WebParts\SPDocumentLibrarySelector.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SlkCourseManagerLogicalLayer.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ActivityStatusImages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ActivityStatusImages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Adapters\dtsLearnerAssignments.resx">
+      <DependentUpon>dtsLearnerAssignments.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ErrorMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WebControls\SPDocumentSelector.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Adapters\dtsAssignments.xsc">
+      <DependentUpon>dtsAssignments.xsd</DependentUpon>
+    </None>
+    <None Include="Adapters\dtsAssignments.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dtsAssignments.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Adapters\dtsAssignments.xss">
+      <DependentUpon>dtsAssignments.xsd</DependentUpon>
+    </None>
+    <None Include="Adapters\dtsCourses.xsc">
+      <DependentUpon>dtsCourses.xsd</DependentUpon>
+    </None>
+    <None Include="Adapters\dtsCourses.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dtsCourses.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Adapters\dtsCourses.xss">
+      <DependentUpon>dtsCourses.xsd</DependentUpon>
+    </None>
+    <None Include="Adapters\dtsGragingProperties.xsc">
+      <DependentUpon>dtsGragingProperties.xsd</DependentUpon>
+    </None>
+    <None Include="Adapters\dtsGragingProperties.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dtsGragingProperties.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Adapters\dtsGragingProperties.xss">
+      <DependentUpon>dtsGragingProperties.xsd</DependentUpon>
+    </None>
+    <None Include="Adapters\dtsLearnerAssignments.xsc">
+      <DependentUpon>dtsLearnerAssignments.xsd</DependentUpon>
+    </None>
+    <None Include="Adapters\dtsLearnerAssignments.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dtsLearnerAssignments.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Adapters\dtsLearnerAssignments.xss">
+      <DependentUpon>dtsLearnerAssignments.xsd</DependentUpon>
+    </None>
+    <None Include="Adapters\dtsUsers.xsc">
+      <DependentUpon>dtsUsers.xsd</DependentUpon>
+    </None>
+    <None Include="Adapters\dtsUsers.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dtsUsers.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Adapters\dtsUsers.xss">
+      <DependentUpon>dtsUsers.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\arrow_up_blue_16_h.gif" />
+    <None Include="Resources\arrow_down_blue_16_h.gif" />
+    <Content Include="Resources\slk_assigned.gif" />
+    <Content Include="Resources\slk_delete.png" />
+    <Content Include="Resources\slk_returntolearners.gif" />
+    <Content Include="Resources\slk_save.png" />
+    <Content Include="Resources\slk_submitted.png" />
+    <Content Include="Resources\slk_unassigned.gif" />
+    <Content Include="WebControls\SPDocumentSelectorIFrame.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

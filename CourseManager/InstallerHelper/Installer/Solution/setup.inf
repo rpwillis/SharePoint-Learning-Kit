@@ -1,0 +1,42 @@
+;*** BEGIN **********************************************************
+;**                                                                **
+;** Automatically generated on: Wed Jun 25 18:45:29 2008           **
+;**                                                                **
+;** MakeCAB Version: 5.2.3790.0                     **
+;**                                                                **
+;*** BEGIN **********************************************************
+[disk list]
+1,Disk 1
+[cabinet list]
+1,1,Course_Manager_Configure.wsp
+[file list]
+1,1,manifest.xml,5678
+1,1,Admin\Course_Manager_Configure\CourseManagerConfigure.aspx,8637
+1,1,Admin\Course_Manager_Configure\Info.gif,2126
+1,1,Admin\Course_Manager_Configure\Wait.gif,2355
+1,1,Admin\Course_Manager_Configure\CourseManagerDBSchema.sql,59268
+1,1,Admin\Course_Manager_Configure\Microsoft.SharePointLearningKit.dll,684032
+1,1,Admin\Course_Manager_Configure\CourseManagerConfCs.dll,118784
+1,1,Admin\Course_Manager_Configure\Microsoft.LearningComponents.dll,362496
+1,1,Admin\Course_Manager_Configure\Microsoft.LearningComponents.SharePoint.dll,29696
+1,1,Admin\Course_Manager_Configure\Microsoft.LearningComponents.Storage.dll,203776
+1,1,InstallerHelper.dll,13312
+1,1,Axelerate.BusinessLayerFrameWork.dll,253440
+1,1,Axelerate.BusinessLayerUITools.dll,460800
+1,1,Axelerate.DataAccessApplicationBlock.dll,18944
+1,1,Axelerate.SharedBusinessLogic.dll,97792
+1,1,Axelerate.SlkCourseManagerLogicalLayer.dll,158208
+1,1,AjaxControlToolkit.dll,1179648
+1,1,Course_Manager_Configure\elements.xml,1853
+1,1,Course_Manager_Configure\feature.xml,353
+1,1,Features\Course_Manager_Configure\SPDocumentSelectorIFrame.js,949
+1,1,Features\Course_Manager_Configure\CourseManager.master,21469
+1,1,Features\Course_Manager_Configure\DocumentViewer.aspx,5058
+1,1,Features\Course_Manager_Configure\Monitor_and_Assess.aspx,3944
+1,1,Features\Course_Manager_Configure\Plan_and_Assign.aspx,3944
+1,1,Features\Course_Manager_Configure\Placeholder.txt,358
+;*** END ************************************************************
+;**                                                                **
+;** Automatically generated on: Wed Jun 25 18:45:29 2008           **
+;**                                                                **
+;*** END ************************************************************

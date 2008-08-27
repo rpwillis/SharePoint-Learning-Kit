@@ -1,0 +1,197 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C9F00977-EDF7-4854-8031-607688D22B43}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Axelerate.BusinessLogic.SharedBusinessLogic</RootNamespace>
+    <AssemblyName>Axelerate.SharedBusinessLogic</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>SharedBusinessLogic.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Workflow.ComponentModel, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Adapter\clsAdapterBase.cs" />
+    <Compile Include="Adapter\clsAdapterCommandBase.cs" />
+    <Compile Include="Adapter\clsAdapterDataLayer.cs" />
+    <Compile Include="Adapter\clsAdapterDeleteCommand.cs" />
+    <Compile Include="Adapter\clsAdapterInsertCommand.cs" />
+    <Compile Include="Adapter\clsAdapterReadCommand.cs" />
+    <Compile Include="Adapter\clsAdapterUpdateCommand.cs" />
+    <Compile Include="ConfigurationProperties\clsConfigurationProfile.cs" />
+    <Compile Include="ConfigurationProperties\clsConfigurationProfiles.cs" />
+    <Compile Include="ConfigurationProperties\clsConfigurationProperties.cs" />
+    <Compile Include="ConfigurationProperties\clsConfigurationProperty.cs" />
+    <Compile Include="ConfigurationProperties\clsProfile_Properties.cs" />
+    <Compile Include="ConfigurationProperties\clsProfile_Property.cs" />
+    <Compile Include="Contacts\clsContacts.cs" />
+    <Compile Include="Contacts\clsDistributionList.cs" />
+    <Compile Include="Contacts\clsDistributionLists.cs" />
+    <Compile Include="Contacts\clsDistributionList_Contact.cs" />
+    <Compile Include="Contacts\clsDistributionList_Contacts.cs" />
+    <Compile Include="Contacts\clsEmailActionRequest.cs" />
+    <Compile Include="Contacts\clsEmailActionRequests.cs" />
+    <Compile Include="Contacts\clsEmailMessages.cs" />
+    <Compile Include="Contacts\clsMNDistributionListContacts.cs" />
+    <Compile Include="Continuous Integration\clsMetadataTable.cs" />
+    <Compile Include="Continuous Integration\clsMetadataTables.cs" />
+    <Compile Include="Dictionaries\clsActivityDictionary.cs" />
+    <Compile Include="Dictionaries\clsBusinessObjectDictionary.cs" />
+    <Compile Include="Dynamic Properties\clsProperties.cs" />
+    <Compile Include="Dynamic Properties\clsProperty.cs" />
+    <Compile Include="Dynamic Properties\clsUILayout.cs" />
+    <Compile Include="Dynamic Properties\clsUILayouts.cs" />
+    <Compile Include="Dynamic Properties\clsPropertyValue.cs" />
+    <Compile Include="Dynamic Properties\clsPropertyValues.cs" />
+    <Compile Include="Language\clsLanguage.cs" />
+    <Compile Include="Language\clsLanguages.cs" />
+    <Compile Include="Locks\actMasterPersistentUnLock.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Locks\actPersistentLock.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Locks\actPersistentUnLock.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Locks\clsPersistentLock.cs" />
+    <Compile Include="Locks\clsPersistentLocks.cs" />
+    <Compile Include="Locks\clsPersistentLockType.cs" />
+    <Compile Include="Locks\clsPersistentLockTypes.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessActionRequest.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessActionRequestInstance.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessActionRequestInstances.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessActionRequestParameter.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessActionRequestParameters.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessActionRequestParameterValues.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessActionRequestParemeterValue.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessActionRequests.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessActionRequestState.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessActionRequestStates.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessSchedule.cs" />
+    <Compile Include="OffprocessRequest\clsOffProcessSchedules.cs" />
+    <Compile Include="PoolCore\clsIPoolable.cs" />
+    <Compile Include="PoolCore\clsPool.cs" />
+    <Compile Include="PoolCore\clsPoolCluster.cs" />
+    <Compile Include="PoolCore\clsPoolConnectionInfo.cs" />
+    <Compile Include="PoolCore\clsPoolObject.cs" />
+    <Compile Include="PoolCore\clsPoolParameters.cs" />
+    <Compile Include="Resources\ErrorMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Security\clsADUsers.cs" />
+    <Compile Include="Security\clsADUsers_Roles.cs" />
+    <Compile Include="Security\clsPermissions.cs" />
+    <Compile Include="Security\clsPermissionTypes.cs" />
+    <Compile Include="Ranking\clsRecommendations.cs" />
+    <Compile Include="Security\clsRoles.cs" />
+    <Compile Include="Security\clsADUser.cs" />
+    <Compile Include="Security\clsADUser_Role.cs" />
+    <Compile Include="Contacts\clsContact.cs" />
+    <Compile Include="Contacts\clsEmailMessage.cs" />
+    <Compile Include="Support\clsBusinessGlobals.cs" />
+    <Compile Include="Support\clsRemoteImpersonateUser.cs" />
+    <Compile Include="Trace\clsGenericLog.cs" />
+    <Compile Include="Security\clsPermission.cs" />
+    <Compile Include="Security\clsPermissionType.cs" />
+    <Compile Include="Ranking\clsRecommendation.cs" />
+    <Compile Include="Security\clsBaseRole.cs" />
+    <Compile Include="Ranking\IRankeable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\ProjectResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProjectResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StateManagement\clsWebStateManager.cs" />
+    <Compile Include="Support\clsActiveDirectory.cs" />
+    <Compile Include="Support\clsDirectory.cs" />
+    <Compile Include="Support\clsImpersonateUser.cs" />
+    <Compile Include="Trace\clsLog.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ErrorMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ProjectResources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SharedBusinessLogic.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLayerFrameWork\BusinessLayerFrameWork.vbproj">
+      <Project>{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}</Project>
+      <Name>BusinessLayerFrameWork</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data Access Application Block\Data Access Application Block.vbproj">
+      <Project>{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}</Project>
+      <Name>Data Access Application Block</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Object\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

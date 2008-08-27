@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSDataLayerMetaData" targetNamespace="http://tempuri.org/DSDataLayerSelectors.xsd" xmlns:mstns="http://tempuri.org/DSDataLayerSelectors.xsd" xmlns="http://tempuri.org/DSDataLayerSelectors.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSDataLayerMetaData" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSDataLayerSelectors" msprop:Generator_DataSetName="DSDataLayerSelectors">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataLayers" msprop:Generator_UserTableName="DataLayers" msprop:Generator_RowDeletedName="DataLayersRowDeleted" msprop:Generator_RowChangedName="DataLayersRowChanged" msprop:Generator_RowClassName="DataLayersRow" msprop:Generator_RowChangingName="DataLayersRowChanging" msprop:Generator_RowEvArgName="DataLayersRowChangeEvent" msprop:Generator_RowEvHandlerName="DataLayersRowChangeEventHandler" msprop:Generator_TableClassName="DataLayersDataTable" msprop:Generator_TableVarName="tableDataLayers" msprop:Generator_RowDeletingName="DataLayersRowDeleting" msprop:Generator_TablePropName="DataLayers">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn" type="xs:string" />
+              <xs:element name="TypeName" msprop:Generator_UserColumnName="TypeName" msprop:Generator_ColumnPropNameInRow="TypeName" msprop:Generator_ColumnVarNameInTable="columnTypeName" msprop:Generator_ColumnPropNameInTable="TypeNameColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="BusinessObjects" msprop:Generator_UserTableName="BusinessObjects" msprop:Generator_RowDeletedName="BusinessObjectsRowDeleted" msprop:Generator_RowChangedName="BusinessObjectsRowChanged" msprop:Generator_RowClassName="BusinessObjectsRow" msprop:Generator_RowChangingName="BusinessObjectsRowChanging" msprop:Generator_RowEvArgName="BusinessObjectsRowChangeEvent" msprop:Generator_RowEvHandlerName="BusinessObjectsRowChangeEventHandler" msprop:Generator_TableClassName="BusinessObjectsDataTable" msprop:Generator_TableVarName="tableBusinessObjects" msprop:Generator_RowDeletingName="BusinessObjectsRowDeleting" msprop:Generator_TablePropName="BusinessObjects">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn" type="xs:string" />
+              <xs:element name="TypeName" msprop:Generator_UserColumnName="TypeName" msprop:Generator_ColumnPropNameInRow="TypeName" msprop:Generator_ColumnVarNameInTable="columnTypeName" msprop:Generator_ColumnPropNameInTable="TypeNameColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="BusinessObjects_DataLayers" msprop:Generator_UserTableName="BusinessObjects_DataLayers" msprop:Generator_RowDeletedName="BusinessObjects_DataLayersRowDeleted" msprop:Generator_RowChangedName="BusinessObjects_DataLayersRowChanged" msprop:Generator_RowClassName="BusinessObjects_DataLayersRow" msprop:Generator_RowChangingName="BusinessObjects_DataLayersRowChanging" msprop:Generator_RowEvArgName="BusinessObjects_DataLayersRowChangeEvent" msprop:Generator_RowEvHandlerName="BusinessObjects_DataLayersRowChangeEventHandler" msprop:Generator_TableClassName="BusinessObjects_DataLayersDataTable" msprop:Generator_TableVarName="tableBusinessObjects_DataLayers" msprop:Generator_RowDeletingName="BusinessObjects_DataLayersRowDeleting" msprop:Generator_TablePropName="BusinessObjects_DataLayers">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DataLayerName" msprop:Generator_UserColumnName="DataLayerName" msprop:Generator_ColumnPropNameInRow="DataLayerName" msprop:Generator_ColumnVarNameInTable="columnDataLayerName" msprop:Generator_ColumnPropNameInTable="DataLayerNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="BusinessObjectName" msprop:Generator_UserColumnName="BusinessObjectName" msprop:Generator_ColumnPropNameInRow="BusinessObjectName" msprop:Generator_ColumnVarNameInTable="columnBusinessObjectName" msprop:Generator_ColumnPropNameInTable="BusinessObjectNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="isDefaultDataLayer" msprop:Generator_UserColumnName="isDefaultDataLayer" msprop:Generator_ColumnPropNameInRow="isDefaultDataLayer" msprop:Generator_ColumnVarNameInTable="columnisDefaultDataLayer" msprop:Generator_ColumnPropNameInTable="isDefaultDataLayerColumn" type="xs:boolean" minOccurs="0" />
+              <xs:element name="InitializationString" msprop:Generator_UserColumnName="InitializationString" msprop:Generator_ColumnPropNameInRow="InitializationString" msprop:Generator_ColumnVarNameInTable="columnInitializationString" msprop:Generator_ColumnPropNameInTable="InitializationStringColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DataLayers" />
+      <xs:field xpath="mstns:Name" />
+    </xs:unique>
+    <xs:unique name="BusinessObjects_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:BusinessObjects" />
+      <xs:field xpath="mstns:Name" />
+    </xs:unique>
+    <xs:keyref name="FK_BusinessObjects_BusinessObjects_DataLayers" refer="BusinessObjects_Constraint1" msprop:rel_Generator_UserRelationName="FK_BusinessObjects_BusinessObjects_DataLayers" msprop:rel_Generator_RelationVarName="relationFK_BusinessObjects_BusinessObjects_DataLayers" msprop:rel_Generator_UserChildTable="BusinessObjects_DataLayers" msprop:rel_Generator_UserParentTable="BusinessObjects" msprop:rel_Generator_ParentPropName="BusinessObjectsRow" msprop:rel_Generator_ChildPropName="GetBusinessObjects_DataLayersRows" msdata:AcceptRejectRule="Cascade">
+      <xs:selector xpath=".//mstns:BusinessObjects_DataLayers" />
+      <xs:field xpath="mstns:BusinessObjectName" />
+    </xs:keyref>
+    <xs:keyref name="FK_DataLayers_BusinessObjects_DataLayers" refer="Constraint1" msprop:rel_Generator_UserRelationName="FK_DataLayers_BusinessObjects_DataLayers" msprop:rel_Generator_RelationVarName="relationFK_DataLayers_BusinessObjects_DataLayers" msprop:rel_Generator_UserChildTable="BusinessObjects_DataLayers" msprop:rel_Generator_UserParentTable="DataLayers" msprop:rel_Generator_ParentPropName="DataLayersRow" msprop:rel_Generator_ChildPropName="GetBusinessObjects_DataLayersRows" msdata:AcceptRejectRule="Cascade">
+      <xs:selector xpath=".//mstns:BusinessObjects_DataLayers" />
+      <xs:field xpath="mstns:DataLayerName" />
+    </xs:keyref>
+  </xs:element>
+</xs:schema>

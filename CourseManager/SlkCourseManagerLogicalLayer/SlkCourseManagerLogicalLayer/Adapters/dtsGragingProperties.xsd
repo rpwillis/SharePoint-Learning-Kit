@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dtsGragingProperties" targetNamespace="http://tempuri.org/dtsGragingProperties.xsd" xmlns:mstns="http://tempuri.org/dtsGragingProperties.xsd" xmlns="http://tempuri.org/dtsGragingProperties.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dtsGragingProperties" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dtsGragingProperties" msprop:Generator_DataSetName="dtsGragingProperties" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="GradingProperties" msprop:Generator_UserTableName="GradingProperties" msprop:Generator_RowDeletedName="GradingPropertiesRowDeleted" msprop:Generator_RowChangedName="GradingPropertiesRowChanged" msprop:Generator_RowClassName="GradingPropertiesRow" msprop:Generator_RowChangingName="GradingPropertiesRowChanging" msprop:Generator_RowEvArgName="GradingPropertiesRowChangeEvent" msprop:Generator_RowEvHandlerName="GradingPropertiesRowChangeEventHandler" msprop:Generator_TableClassName="GradingPropertiesDataTable" msprop:Generator_TableVarName="tableGradingProperties" msprop:Generator_RowDeletingName="GradingPropertiesRowDeleting" msprop:Generator_TablePropName="GradingProperties">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FinalPoints" msprop:Generator_UserColumnName="FinalPoints" msprop:Generator_ColumnPropNameInRow="FinalPoints" msprop:Generator_ColumnVarNameInTable="columnFinalPoints" msprop:Generator_ColumnPropNameInTable="FinalPointsColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="GradedPoints" msprop:Generator_UserColumnName="GradedPoints" msprop:Generator_ColumnPropNameInRow="GradedPoints" msprop:Generator_ColumnVarNameInTable="columnGradedPoints" msprop:Generator_ColumnPropNameInTable="GradedPointsColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="InstructorComments" msprop:Generator_UserColumnName="InstructorComments" msprop:Generator_ColumnPropNameInRow="InstructorComments" msprop:Generator_ColumnVarNameInTable="columnInstructorComments" msprop:Generator_ColumnPropNameInTable="InstructorCommentsColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="LearnerId" msprop:Generator_UserColumnName="LearnerId" msprop:Generator_ColumnPropNameInRow="LearnerId" msprop:Generator_ColumnVarNameInTable="columnLearnerId" msprop:Generator_ColumnPropNameInTable="LearnerIdColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="LearnerName" msprop:Generator_UserColumnName="LearnerName" msprop:Generator_ColumnPropNameInRow="LearnerName" msprop:Generator_ColumnVarNameInTable="columnLearnerName" msprop:Generator_ColumnPropNameInTable="LearnerNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Status" msprop:Generator_UserColumnName="Status" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInTable="StatusColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="LearnerAssignmentID" msprop:Generator_UserColumnName="LearnerAssignmentID" msprop:Generator_ColumnVarNameInTable="columnLearnerAssignmentID" msprop:Generator_ColumnPropNameInRow="LearnerAssignmentID" msprop:Generator_ColumnPropNameInTable="LearnerAssignmentIDColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

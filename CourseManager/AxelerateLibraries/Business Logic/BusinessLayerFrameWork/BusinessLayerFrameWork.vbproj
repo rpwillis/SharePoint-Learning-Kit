@@ -1,0 +1,427 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Axelerate.BusinessLayerFrameWork</RootNamespace>
+    <AssemblyName>Axelerate.BusinessLayerFrameWork</AssemblyName>
+    <MyType>Windows</MyType>
+    <OptionStrict>On</OptionStrict>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>BusinessLayerFrameWork.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Axelerate.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DocumentationFile>Axelerate.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'All Projects|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\All Projects\</OutputPath>
+    <DocumentationFile>Axelerate.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'MianWebsite|AnyCPU' ">
+    <OutputPath>bin\MianWebsite\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Full Release|AnyCPU' ">
+    <OutputPath>bin\Full Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DeploymentRelease|AnyCPU' ">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\DeploymentRelease\</OutputPath>
+    <DocumentationFile>Axelerate.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Interop.Security.AzRoles, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\AuthMan\Microsoft.Interop.Security.AzRoles.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Workflow.ComponentModel, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Trustee, Version=1.0.1773.40956, Culture=neutral, PublicKeyToken=2b354b98686c6257">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Configuration\Trustee\Trustee.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Axelerate" />
+    <Import Include="Axelerate.BusinessLayerFrameWork" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.BLCodeGeneration" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.BLCore" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.BLCore.Attributes" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.BLCore.Core" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.BLCore.DataTypes" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.BLCore.Security" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.BLCore.Templates" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.BLCore.Validation" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.BLCore.Validation.ValidationAttributes" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.DLCore" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.DLFilters" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.My" />
+    <Import Include="Axelerate.BusinessLayerFrameWork.My.Resources" />
+    <Import Include="BusinessLayerFrameWork.BLCodeGeneration" />
+    <Import Include="BusinessLayerFrameWork.BLCore" />
+    <Import Include="BusinessLayerFrameWork.BLCore.Attributes" />
+    <Import Include="BusinessLayerFrameWork.BLCore.Security" />
+    <Import Include="BusinessLayerFrameWork.BLCore.Templates" />
+    <Import Include="BusinessLayerFrameWork.DLCore" />
+    <Import Include="BusinessLayerFrameWork.My" />
+    <Import Include="BusinessLayerFrameWork.My.Resources" />
+    <Import Include="BusinessLayerFrameWork.ValidationAttributes" />
+    <Import Include="DataLayerFrameWork.BLCore.Attributes" />
+    <Import Include="DataLayerFrameWork.BLCore.Templates" />
+    <Import Include="DataLayerFrameWork.DLCore" />
+    <Import Include="Microsoft" />
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.ComponentModel" />
+    <Import Include="System.Data" />
+    <Import Include="System.Data.SqlClient" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Runtime.Serialization" />
+    <Import Include="System.Transactions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BLCodeGeneration\BLCodeGenerator.vb" />
+    <Compile Include="BLCodeGeneration\CodeGeneratorTemplate.vb" />
+    <Compile Include="BLCodeGeneration\ModuleGenerator.vb" />
+    <Compile Include="BLCore\Attributes\CachedForeignObjectAttribute.vb" />
+    <Compile Include="BLCore\Attributes\ClassFieldMapAttribute.vb" />
+    <Compile Include="BLCore\Attributes\DoubleNullableAttribute.vb" />
+    <Compile Include="BLCore\Attributes\DynamicDataKeyAttribute.vb" />
+    <Compile Include="BLCore\Attributes\DataLayerInfoAttribute.vb" />
+    <Compile Include="BLCore\Attributes\ForeignObjectPropertyAttribute.vb" />
+    <Compile Include="BLCore\Attributes\IntNullableAttribute.vb" />
+    <Compile Include="BLCore\Attributes\ListFieldMapAttribute.vb" />
+    <Compile Include="BLCore\Attributes\DataKeyAttribute.vb" />
+    <Compile Include="BLCore\Attributes\FieldMapAttribute.vb" />
+    <Compile Include="BLCore\Attributes\NumericNullableAttribute.vb" />
+    <Compile Include="BLCore\Attributes\staBaseAttribute.vb" />
+    <Compile Include="BLCore\Attributes\staCRDAttribute.vb" />
+    <Compile Include="BLCore\Attributes\staFactoryAttribute.vb" />
+    <Compile Include="BLCore\Attributes\staReadOnlyAttribute.vb" />
+    <Compile Include="BLCore\Attributes\staSkipAttribute.vb" />
+    <Compile Include="BLCore\BLAuditableBase.vb" />
+    <Compile Include="BLCore\BLBusinessActivity.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BLCore\BLBusinessBase.vb" />
+    <Compile Include="BLCore\BLCountCommand.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BLCore\BLCriteriaExpression.vb" />
+    <Compile Include="BLCore\BLDynamicBusinessObject.vb" />
+    <Compile Include="BLCore\BLDynamicList.vb" />
+    <Compile Include="BLCore\BLCriteria.vb" />
+    <Compile Include="BLCore\BLCommandBase.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BLCore\BLValueListCommand.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BLCore\BusinessListBase.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BLCore\IBLMNRelationBusinessBase.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BLCore\ObjectCloner.vb" />
+    <Compile Include="Validation\PropertyValidationRule.vb" />
+    <Compile Include="Validation\ValidationError.vb" />
+    <Compile Include="Validation\ValidationRule.vb" />
+    <Compile Include="Validation\ValidationRules.vb" />
+    <Compile Include="BLCore\DataTypes\Pair.vb" />
+    <Compile Include="BLCore\IBLCommandBase.vb" />
+    <Compile Include="BLCore\INode.vb" />
+    <Compile Include="BLCore\Security\Attributes\SecurableMethodAttribute.vb" />
+    <Compile Include="BLCore\Security\Attributes\SecurablePropertyAttribute.vb" />
+    <Compile Include="BLCore\Security\Exceptions\SecurityException.vb" />
+    <Compile Include="BLCore\Security\Operations\clsActivityExecutionOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsAzmanOperation.vb" />
+    <Compile Include="BLCore\Security\clsAzmanUtility.vb" />
+    <Compile Include="BLCore\Security\Operations\clsBLSecurityOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsBOOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsCollectionOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsCreateBOOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsDeleteBOOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsDeniedSecurityOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsExecuteBOMethodOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsFactoryCollectionOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsGrantedSecurityOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsReadBOOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsReadBOPropertyOperation.vb" />
+    <Compile Include="BLCore\Security\clsSecurityAssuranceHelper.vb" />
+    <Compile Include="BLCore\Security\Operations\clsRoleOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsUpdateBOOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsUpdateBOPropertyOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsCustomSecurityOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsReadWebPartOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsSecurityOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsTaskExecutionOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsUIOperation.vb" />
+    <Compile Include="BLCore\Security\Operations\clsUpdateWebPartOperation.vb" />
+    <Compile Include="BLCore\Security\Attributes\SecurableAttribute.vb" />
+    <Compile Include="BLCore\Security\Attributes\SecurableClassAttribute.vb" />
+    <Compile Include="BLCore\Security\SecurityForm.Designer.vb">
+      <DependentUpon>SecurityForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BLCore\Security\SecurityForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BLTemplates\GUIDTemplates\BLGUIDForeignPropertyCache.vb" />
+    <Compile Include="BLTemplates\GUIDTemplates\DetailGUIDBussinessTemplate.vb" />
+    <Compile Include="BLTemplates\GUIDTemplates\DetailsGUIDCollectionTemplate.vb" />
+    <Compile Include="BLTemplates\GUIDTemplates\MNGUIDDetailsCollectionTemplate.vb" />
+    <Compile Include="BLTemplates\GUIDTemplates\MNGUIDRelationBusinessTemplate.vb" />
+    <Compile Include="BLTemplates\GUIDTemplates\OneToOneGUIDBusinessTemplate.vb" />
+    <Compile Include="BLTemplates\GUIDTemplates\GUIDNameBusinessTemplate.vb" />
+    <Compile Include="BLTemplates\GUIDTemplates\GUIDTemplate.vb" />
+    <Compile Include="Compression\clsCompressionHelper.vb" />
+    <Compile Include="Configuration\ConfigurationHelper.vb" />
+    <Compile Include="DLCore\OLEDB\DataLayerOLEDBCommand.vb" />
+    <Compile Include="DLCore\OLEDB\OLEDBDataLayer.vb" />
+    <Compile Include="DLCore\DataLayerContextInfo.vb" />
+    <Compile Include="BLCore\BLDataKey.vb" />
+    <Compile Include="BLCore\IBLListBase.vb" />
+    <Compile Include="BLCore\ReflectionHelper.vb" />
+    <Compile Include="BLCore\Security\AsymmetricEncryption.vb" />
+    <Compile Include="BLCore\Security\DecryptHelper.vb" />
+    <Compile Include="BLCore\Security\MyGenericPrincipal.vb" />
+    <Compile Include="BLTemplates\BLForeignPropertyCache.vb" />
+    <Compile Include="BLCore\Security\SecurityTokenAttribute.vb" />
+    <Compile Include="BLTemplates\AutonumericIDTemplate.vb" />
+    <Compile Include="BLTemplates\BLBusinessBase.vb" />
+    <Compile Include="BLTemplates\BLAutonumericForeignPropertyCache.vb" />
+    <Compile Include="BLTemplates\DetailBussinessTemplate.vb" />
+    <Compile Include="BLTemplates\DetailsCollectionTemplate.vb" />
+    <Compile Include="BLTemplates\IDNameBusinessTamplate.vb" />
+    <Compile Include="BLTemplates\MNDetailsCollectionTemplate.vb" />
+    <Compile Include="BLTemplates\MNRelationBusinessTemplate.vb" />
+    <Compile Include="BLTemplates\OneToOneBusinessTemplate.vb" />
+    <Compile Include="DLCore\DataLayerParameter.vb" />
+    <Compile Include="DLCore\DataLayerCache.vb" />
+    <Compile Include="BLCore\BLFieldMapList.vb" />
+    <Compile Include="BLCore\BLListBase.vb" />
+    <Compile Include="BLCore\BLFieldMap.vb" />
+    <Compile Include="BLCore\Security\SecurityScope.vb" />
+    <Compile Include="DLCore\DataLayerAbstraction.vb" />
+    <Compile Include="DLCore\DataLayerCommandBase.vb" />
+    <Compile Include="DLCore\DataLayerFilterBase.vb" />
+    <Compile Include="DLCore\SQLServer\DataLayerSQLCommand.vb" />
+    <Compile Include="DLCore\TestException.vb" />
+    <Compile Include="DLCore\XML\DataLayerXMLCommand.vb" />
+    <Compile Include="DLCore\XML\DataLayerXMLDeleteCommand.vb" />
+    <Compile Include="DLCore\XML\DataLayerXMLInsertCommand.vb" />
+    <Compile Include="DLCore\XML\DataLayerXMLReadCommand.vb" />
+    <Compile Include="DLCore\XML\DataLayerXMLUpdateCommand.vb" />
+    <Compile Include="DLCore\DataSets\DSDataLayerMetaData.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSDataLayerMetaData.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DLCore\DataSets\DSDataLayerMetaData.vb">
+      <DependentUpon>DSDataLayerMetaData.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DLCore\DataTableInformation.vb" />
+    <Compile Include="DLCore\SQLServer\SQLDataLayer.vb" />
+    <Compile Include="DLCore\SQLServer\BCSQLInformationSchema_Columns.vb" />
+    <Compile Include="DLCore\SQLServer\BOSQLInformationSchema_Columns.vb" />
+    <Compile Include="DLCore\SQLServer\BCSQLInformationSchema_Keys.vb" />
+    <Compile Include="DLCore\SQLServer\BOSQLInformationSchema_Keys.vb" />
+    <Compile Include="DLCore\SQLServer\BCSQLInformationSchema_Tables.vb" />
+    <Compile Include="DLCore\SQLServer\BOSQLInformationSchema_Tables.vb" />
+    <Compile Include="DLCore\XML\XmlCache.vb" />
+    <Compile Include="DLCore\XML\XMLDataLayer.vb" />
+    <Compile Include="DLCore\XML\XMLDataSetContainer.vb" />
+    <Compile Include="DSFilterProvider.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSFilterProvider.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DLFilters\DynamicRelationFilter.vb" />
+    <Compile Include="Formatting\FormatHelper.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Resources\BLResources.Designer.vb">
+      <DependentUpon>BLResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Validation\ValidationAttributes\AllowedValuesAttribute.vb" />
+    <Compile Include="Validation\ValidationAttributes\BCAllowedValueAttribute.vb" />
+    <Compile Include="Validation\ValidationAttributes\EnumAllowedValuesAttribute.vb" />
+    <Compile Include="Validation\ValidationAttributes\StringListAllowedValueAttribute.vb" />
+    <Compile Include="Validation\ValidationAttributes\UniqueFieldValueValidationAttribute.vb" />
+    <Compile Include="Validation\ValidationAttributes\FutureDateValidationAttribute.vb" />
+    <Compile Include="Validation\ValidationAttributes\TextVersionValidationAttribute.vb" />
+    <Compile Include="Validation\ValidationAttributes\DuplicateKeyValidationAttribute.vb" />
+    <Compile Include="Validation\ValidationAttributes\NumericRangeValidationAttribute.vb" />
+    <Compile Include="Validation\SinglePropertyValidation.vb" />
+    <Compile Include="Validation\ValidationAttributes\StringLengthValidationAttribute.vb" />
+    <Compile Include="Validation\ValidationAttributes\StringRequiredValidationAttribute.vb" />
+    <Compile Include="Validation\VldDuplicate.vb" />
+    <Compile Include="Validation\VldFieldValue.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BLCore\Security\SecurityForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SecurityForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\BLResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BLResources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BusinessLayerFrameWork.snk" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Configuration\BLSecurity.Config" />
+    <None Include="Configuration\Trustee\Trustee.doc" />
+    <None Include="DLCore\DataSets\DSDataLayerMetaData.xsc">
+      <DependentUpon>DSDataLayerMetaData.xsd</DependentUpon>
+    </None>
+    <None Include="DLCore\DataSets\DSDataLayerMetaData.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSDataLayerMetaData.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="DLCore\DataSets\DSDataLayerMetaData.xss">
+      <DependentUpon>DSDataLayerMetaData.xsd</DependentUpon>
+    </None>
+    <None Include="DSFilterProvider.xsc">
+      <DependentUpon>DSFilterProvider.xsd</DependentUpon>
+    </None>
+    <None Include="DSFilterProvider.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSFilterProvider.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="DSFilterProvider.xss">
+      <DependentUpon>DSFilterProvider.xsd</DependentUpon>
+    </None>
+    <None Include="DSFilterProvider.xsx">
+      <DependentUpon>DSFilterProvider.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BLCodeGeneration\CDataLayerIncludeTemplate.h" />
+    <Content Include="BLCodeGeneration\CDataLayerTemplate.cpp" />
+    <Content Include="BLCodeGeneration\CDataLayerTemplate.h" />
+    <Content Include="Configuration\Trustee\regtool.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data Access Application Block\Data Access Application Block.vbproj">
+      <Project>{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}</Project>
+      <Name>Data Access Application Block</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Component Include="Configuration\Trustee\Trustee.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
