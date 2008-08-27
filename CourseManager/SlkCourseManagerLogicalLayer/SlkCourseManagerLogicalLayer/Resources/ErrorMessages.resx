@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AssignedActivityDeleteError" xml:space="preserve">
+    <value>You cannot delete an activity that is assigned to learners. Unassign the activity and then try again.</value>
+  </data>
+  <data name="AssignedActivityResourceChangeError" xml:space="preserve">
+    <value>Resource can't be changed on assigned Activities</value>
+  </data>
+  <data name="CheckForInstructorError" xml:space="preserve">
+    <value>User instructor credentials validation failed.</value>
+  </data>
+  <data name="CreateAssignmentError" xml:space="preserve">
+    <value>New Assignment Creation Failed.</value>
+  </data>
+  <data name="DeleteAssignmentError" xml:space="preserve">
+    <value>Failed to delete (Unassign) from SLK database assignment with GUID: </value>
+  </data>
+  <data name="GetAssignmentDataError" xml:space="preserve">
+    <value>Failed to retrieve Assignment data.</value>
+  </data>
+  <data name="GetCourseDataError" xml:space="preserve">
+    <value>Failed to retrieve Course (web site) data.</value>
+  </data>
+  <data name="GetLearnerAssignmentDataError" xml:space="preserve">
+    <value>Failed  to retrieve LearnerAssignment data. The data may not exist or you dont have permission to access it.</value>
+  </data>
+  <data name="GetUserCollectionError" xml:space="preserve">
+    <value>Error Retrieving User Collection.</value>
+  </data>
+  <data name="GetUserDataError" xml:space="preserve">
+    <value>Error retrieving user data. The data may not exist or you dont have permission to access it.</value>
+  </data>
+  <data name="InvalidDueDateError" xml:space="preserve">
+    <value>Invalid Due Date. Due Date must be later than Start Date</value>
+  </data>
+  <data name="InvalidFieldError" xml:space="preserve">
+    <value>The {0} field requires a positive integer.</value>
+  </data>
+  <data name="InvalidUriError" xml:space="preserve">
+    <value>Cannot create an assignment without an assigned resource. Please check that the resource field is not empty and that the resource still exists in the document library.</value>
+  </data>
+  <data name="NoPermissionToUnassignError" xml:space="preserve">
+    <value>You do not have permission to unassign</value>
+  </data>
+  <data name="NotEmptyActivityGroupDeleteError" xml:space="preserve">
+    <value>You cannot delete an activity group that contains activities. Delete the activities and then try again.</value>
+  </data>
+  <data name="NotLearnersOnSiteError" xml:space="preserve">
+    <value>You cannot assign activities until you add learners to the site.</value>
+  </data>
+  <data name="RetrievingUserError" xml:space="preserve">
+    <value>Error Retrieving Data for User with GUID:</value>
+  </data>
+  <data name="ReturnLearnerAssignmentError" xml:space="preserve">
+    <value>Return assignment to learner failed.</value>
+  </data>
+  <data name="SaveUserError" xml:space="preserve">
+    <value>Failed to save: error Saving User Assigned Activities List.</value>
+  </data>
+  <data name="UpdateAssignmentError" xml:space="preserve">
+    <value>Failed to update Assignment data for Assignment with GUID:</value>
+  </data>
+  <data name="UpdateLearnerAssignmentError" xml:space="preserve">
+    <value>Failed to update Learner Assignment data for Learner Assignment with GUID:</value>
+  </data>
+  <data name="UserNotInstructorError" xml:space="preserve">
+    <value>User is not an Instructor on the assignment.</value>
+  </data>
+  <data name="UserNotInstructorOnSiteError" xml:space="preserve">
+    <value>You are not an Instructor on this site.</value>
+  </data>
+</root>

@@ -1,0 +1,93 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessLogic", "BusinessLogic", "{378DECD6-8F84-4A2D-878A-5FB0F1386873}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Data Access Application Block", "Business Logic\Data Access Application Block\Data Access Application Block.vbproj", "{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BusinessLayerFrameWork", "Business Logic\BusinessLayerFrameWork\BusinessLayerFrameWork.vbproj", "{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedBusinessLogic", "Business Logic\SharedBusinessLogic\SharedBusinessLogic.csproj", "{C9F00977-EDF7-4854-8031-607688D22B43}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{9A1C2882-075F-4A31-A94B-36DF7BFBAB81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayerUITools", "UI\UITools\BusinessLayerUITools.csproj", "{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		All Projects|Any CPU = All Projects|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		DeploymentRelease|Any CPU = DeploymentRelease|Any CPU
+		Full Release|Any CPU = Full Release|Any CPU
+		IDEDebug|Any CPU = IDEDebug|Any CPU
+		MianWebsite|Any CPU = MianWebsite|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.All Projects|Any CPU.ActiveCfg = All Projects|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.All Projects|Any CPU.Build.0 = All Projects|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.DeploymentRelease|Any CPU.ActiveCfg = DeploymentRelease|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.DeploymentRelease|Any CPU.Build.0 = DeploymentRelease|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.Full Release|Any CPU.ActiveCfg = Full Release|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.Full Release|Any CPU.Build.0 = Full Release|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.IDEDebug|Any CPU.ActiveCfg = IDEDebug|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.IDEDebug|Any CPU.Build.0 = IDEDebug|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.MianWebsite|Any CPU.ActiveCfg = MianWebsite|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.MianWebsite|Any CPU.Build.0 = MianWebsite|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.All Projects|Any CPU.ActiveCfg = All Projects|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.All Projects|Any CPU.Build.0 = All Projects|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.DeploymentRelease|Any CPU.ActiveCfg = DeploymentRelease|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.DeploymentRelease|Any CPU.Build.0 = DeploymentRelease|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.Full Release|Any CPU.ActiveCfg = Full Release|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.Full Release|Any CPU.Build.0 = Full Release|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.IDEDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.IDEDebug|Any CPU.Build.0 = Debug|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.MianWebsite|Any CPU.ActiveCfg = MianWebsite|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.MianWebsite|Any CPU.Build.0 = MianWebsite|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.All Projects|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.All Projects|Any CPU.Build.0 = Release|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.DeploymentRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.DeploymentRelease|Any CPU.Build.0 = Release|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.Full Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.Full Release|Any CPU.Build.0 = Release|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.IDEDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.IDEDebug|Any CPU.Build.0 = Debug|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.MianWebsite|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.MianWebsite|Any CPU.Build.0 = Release|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F00977-EDF7-4854-8031-607688D22B43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.All Projects|Any CPU.ActiveCfg = All Projects|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.All Projects|Any CPU.Build.0 = All Projects|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.DeploymentRelease|Any CPU.ActiveCfg = DeploymentRelease|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.DeploymentRelease|Any CPU.Build.0 = DeploymentRelease|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.Full Release|Any CPU.ActiveCfg = Full Release|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.Full Release|Any CPU.Build.0 = Full Release|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.IDEDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.IDEDebug|Any CPU.Build.0 = Debug|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.MianWebsite|Any CPU.ActiveCfg = MianWebsite|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.MianWebsite|Any CPU.Build.0 = MianWebsite|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B7FF1D21-AA7F-4AA5-9E71-48197B7FBC45} = {378DECD6-8F84-4A2D-878A-5FB0F1386873}
+		{53F7BB57-AEC8-422B-8848-AEDF2FACD7E6} = {378DECD6-8F84-4A2D-878A-5FB0F1386873}
+		{C9F00977-EDF7-4854-8031-607688D22B43} = {378DECD6-8F84-4A2D-878A-5FB0F1386873}
+		{707746E5-CEF7-45D5-9CC8-5BDA3279DA64} = {9A1C2882-075F-4A31-A94B-36DF7BFBAB81}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WebPartManifest xmlns="http://schemas.microsoft.com/WebPart/v2/Manifest">
+  <Assemblies>
+    <Assembly FileName="Axelerate.SlkCourseManagerLogicalLayer.dll">
+      <ClassResources>
+        <ClassResource FileName="SPDocumentSelectorIFrame.js"/>
+      </ClassResources>
+      <SafeControls>
+        <SafeControl Namespace="Axelerate.SlkCourseManagerLogicalLayer.WebParts" TypeName="*"/>
+      </SafeControls>
+    </Assembly>
+  </Assemblies>
+  <DwpFiles>
+    <DwpFile FileName="CourseManagerPages.dwp"/>
+    <DwpFile FileName="PlanAndAssign.dwp"/>
+    <DwpFile FileName="MonitorAndAssess.dwp"/>
+  </DwpFiles>
+</WebPartManifest>
