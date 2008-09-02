@@ -953,9 +953,10 @@ public class SlkStore
             // In some cases this fails and we must take an alternate approach.
             roleDefinitionCollection = spWeb.AllRolesForCurrentUser;
         }
-        catch (System.Runtime.InteropServices.COMException comException)
+        catch (SPException spException)
         {
-            if (comException.ErrorCode != unchecked((int)0x80040E14)) // Not the specific case we're looking for, rethrow
+            System.Runtime.InteropServices.COMException comException = spException.InnerException as System.Runtime.InteropServices.COMException;
+            if (comException == null || comException.ErrorCode != unchecked((int)0x80040E14)) // Not the specific case we're looking for, rethrow
                 throw;
 
             // Use a brute force iteration approach if the attempt to get AllRolesForCurrentUser fails with COMException 0x80040E14
