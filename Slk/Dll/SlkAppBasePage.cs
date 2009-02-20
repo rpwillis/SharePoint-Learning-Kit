@@ -52,6 +52,17 @@ public class SlkAppBasePage : System.Web.UI.Page
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     SlkStore m_slkStore;
 
+    /// <summary>
+    /// Is true if the current user is an observer and false otherwise. Used to avoid repeated calls to
+    /// SlkStore
+    /// </summary>
+    bool? m_isObserver;
+
+    /// <summary>
+    /// Holds the learner key which is used as the user for the LearningStore in case of the observer
+    /// </summary>
+    string m_observerRoleLearnerKey;
+
     //////////////////////////////////////////////////////////////////////////////////////////////
     // Public Properties
     //
@@ -75,13 +86,7 @@ public class SlkAppBasePage : System.Web.UI.Page
     /// </summary>
     public virtual SlkStore SlkStore
     {
-        
-        get
-        {
-            if (m_slkStore == null)
-                m_slkStore = SlkStore.GetStore(SPWeb);
-            return m_slkStore;
-        }
+        get { return LocalSlkStore ;}
     }
 
     /// <summary>
@@ -95,6 +100,80 @@ public class SlkAppBasePage : System.Web.UI.Page
             return CultureInfo.CurrentCulture.NumberFormat;
         }
     }
+
+#region protected properties
+        /// <summary>
+        /// Gets the learnerKey session parameter which is used as the LearningStore user
+        /// if the user is an SlkObserver
+        /// </summary>
+        protected string ObserverRoleLearnerKey
+        {
+            get
+            {
+                if (m_observerRoleLearnerKey == null)
+                {
+                    if (IsObserver)
+                    {
+                        try
+                        {
+                            if(Session["LearnerKey"] != null)
+                            {
+                                m_observerRoleLearnerKey = Session["LearnerKey"].ToString();
+                            }
+                        }
+                        catch (HttpException)
+                        {
+                            throw new SafeToDisplayException(AppResources.SessionNotConfigured);
+                        }
+                    }
+                }
+                return m_observerRoleLearnerKey;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the current user is an observer
+        /// and false otherwise
+        /// </summary>
+        protected bool IsObserver
+        {
+            get
+            {
+                if (m_isObserver == null)
+                {
+                    if (this.LocalSlkStore.IsObserver(SPWeb) == true)
+                    {
+                        m_isObserver = true;
+                    }
+                    else
+                    {
+                        m_isObserver = false;
+                    }
+                }
+                return (bool) m_isObserver;
+            }
+        }
+
+#endregion protected properties
+
+#region private properties
+    /// <summary>
+    /// Gets the current <c>SlkStore</c>.
+    /// </summary>
+    public virtual SlkStore LocalSlkStore
+    {
+        
+        get
+        {
+            if (m_slkStore == null)
+            {
+                m_slkStore = SlkStore.GetStore(SPWeb);
+            }
+            return m_slkStore;
+        }
+    }
+#endregion private properties
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     // Protected Methods

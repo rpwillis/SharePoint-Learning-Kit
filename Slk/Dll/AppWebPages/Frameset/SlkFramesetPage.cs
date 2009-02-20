@@ -34,25 +34,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         private LearnerAssignmentProperties m_learnerAssignmentProperties;
 
         /////////////////////////////////////////////////////////////////////////////////////
-        private string m_observerRoleLearnerKey;
         private SlkStore m_observerRoleLearnerStore;
-
-        /// <summary>
-        /// Gets the learnerKey session parameter which is used as the LearningStore user
-        /// if the user is an SlkObserver
-        /// </summary>
-        private string ObserverRoleLearnerKey
-        {
-            get
-            {
-                if (m_observerRoleLearnerKey == null)
-                {
-                    if(Session["LearnerKey"] != null && base.SlkStore.IsObserver(SPWeb))
-                        m_observerRoleLearnerKey = Session["LearnerKey"].ToString();
-                }
-                return m_observerRoleLearnerKey;
-            }
-        }
 
 	/// <summary>
 	/// Overriding the SlkStore property to take the Observer role into account
@@ -64,7 +46,9 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 if (String.IsNullOrEmpty(ObserverRoleLearnerKey) == false)
                 {
                     if(m_observerRoleLearnerStore == null)
+                    {
                         m_observerRoleLearnerStore = SlkStore.GetStore(SPWeb, ObserverRoleLearnerKey);
+                    }
                     return m_observerRoleLearnerStore;
                 }
                 return base.SlkStore;
