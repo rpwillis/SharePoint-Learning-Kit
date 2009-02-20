@@ -5,23 +5,24 @@
 // Implements the SLK Assignment List Web Part.
 //
 using System;
-using System.Web.UI;
-using System.Text;
-using System.Xml.Serialization;
-using Microsoft.SharePoint;
-using System.ComponentModel;
-using Resources.Properties;
-using System.Security;
 using System.Collections;
-using System.Globalization;
-using Microsoft.SharePointLearningKit;
-using Microsoft.SharePointLearningKit.WebControls;
-using Microsoft.SharePointLearningKit.ApplicationPages;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Threading;
+using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Globalization;
+using System.Security;
+using System.Text;
+using System.Threading;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.WebControls;
+using System.Web.UI;
+using System.Web;
+using System.Xml.Serialization;
 using Microsoft.SharePoint.WebPartPages.Communication;
+using Microsoft.SharePoint;
+using Microsoft.SharePointLearningKit.ApplicationPages;
+using Microsoft.SharePointLearningKit.WebControls;
+using Microsoft.SharePointLearningKit;
+using Resources.Properties;
 
 
 
@@ -75,8 +76,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             //Initialize the learner id
             m_observerRoleLearnerLogin = "";
 
-	    // Initialize the session variable on every new communication 
-            Page.Session["LearnerKey"] = "";
+            InitializeLearnerKey();
             //If the connection wasn't actually formed then don't want to send Init event
             if (_cellConnectedCount > 0)
             {
@@ -97,15 +97,13 @@ namespace Microsoft.SharePointLearningKit.WebParts
             //Callback on the Cell Provider's initialization
             m_observerRoleLearnerLogin = "";
 
-	    // Initialize the session variable on every new communication 
-            Page.Session["LearnerKey"] = "";
+            InitializeLearnerKey();
         }
         public void CellReady(object sender, CellReadyEventArgs cellReadyArgs)
         {
             m_observerRoleLearnerLogin = "";
 
-            // in the same browser window. Hence setting the session object to null ("") explicitly during the init
-            Page.Session["LearnerKey"] = "";
+            InitializeLearnerKey();
             // On CellReady, validate and set the learner's login id
             if (cellReadyArgs.Cell != null)
             {
@@ -356,32 +354,26 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 //Render Assignment List webpart
                 RenderAssignmentList(writer);
             }
+            catch (SafeToDisplayException e)
+            {
+                SlkError slkError = new SlkError(ErrorType.Error, Constants.Space + e.Message);
+                ErrorBanner.RenderErrorItems(writer, slkError);
+            }
+            catch (UserNotFoundException e)
+            {
+                SlkError slkError = new SlkError(ErrorType.Info, Constants.Space + e.Message);
+                ErrorBanner.RenderErrorItems(writer, slkError);
+            }
+            catch (SqlException e)
+            {
+                SlkError slkError;
+                ErrorBanner.WriteException(e, out slkError);
+                ErrorBanner.RenderErrorItems(writer, slkError);
+            }
             catch (Exception ex)
             {
                 SlkError slkError;
-                //Explicitly Handled for Alwp Alone.
-                if (ex is UserNotFoundException)
-                {
-                    //User is not in current SPWeb.
-                    slkError = new SlkError(ErrorType.Info, 
-                                            Constants.Space +
-                                            ex.Message);
-                }
-                else
-                {
-                    SqlException sqlEx = ex as SqlException;
-                    if (sqlEx != null)
-                    {
-                        ErrorBanner.WriteException(sqlEx, out slkError);
-                    }
-                    else
-                    {
-                        //Call the WriteException to Add the Standard Error Message 
-                        //to collection and log the exception in EventLog.                    
-                        SlkError.WriteException(ex, out slkError);
-                    }
-                    
-                }
+                SlkError.WriteException(ex, out slkError);
                 ErrorBanner.RenderErrorItems(writer, slkError);
             }
         }
@@ -610,20 +602,27 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
         #region GetLearnerKey
         /// <summary>
-        /// Get the learne key corresponding to the input learner login
+        /// Get the learner key corresponding to the input learner login
         /// If the login is not valid, an error is reported on the page
         /// </summary>
         private string GetLearnerKey(string learnerLogin)
         {
             // If logged-in user is an observer, return the corresponding key, return empty string otherwise
-            if (!String.IsNullOrEmpty(learnerLogin) && SlkStore.IsObserver(SPWeb) == true)
+            if (String.IsNullOrEmpty(learnerLogin) == false && SlkStore.IsObserver(SPWeb) == true)
             {
                 try
                 {
                     SPUser inputSPUser = SPWeb.AllUsers[learnerLogin];
                     string observerRoleLearnerKey = String.IsNullOrEmpty(inputSPUser.Sid) ? inputSPUser.LoginName : inputSPUser.Sid;
-                    //Set the obtained LearnerKey as a session variable available across other pages
-                    Page.Session["LearnerKey"] = observerRoleLearnerKey;
+                    try
+                    {
+                        // Set the obtained LearnerKey as a session variable available across other pages
+                        Page.Session["LearnerKey"] = observerRoleLearnerKey;
+                    }
+                    catch (HttpException)
+                    {
+                        throw new SafeToDisplayException(AppResources.SessionNotConfigured);
+                    }
                     return observerRoleLearnerKey;
                 }
                 catch (SPException spe)
@@ -631,9 +630,25 @@ namespace Microsoft.SharePointLearningKit.WebParts
                     throw new UserNotFoundException(spe.Message);
                 }
             }
-            return "";
+            else
+            {
+                return String.Empty;
+            }
         }
         #endregion
+
+        ///<summary>Initializes the LearnerKey session variable to a blank string.</summary>
+        void InitializeLearnerKey()
+        {
+            try
+            {
+                Page.Session["LearnerKey"] = String.Empty;
+            }
+            catch (HttpException)
+            {
+                // Session state is not turned on
+            }
+        }
 
         #endregion
 

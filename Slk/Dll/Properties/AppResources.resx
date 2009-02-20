@@ -222,6 +222,10 @@ More information has been written to the server event log.</value>
     <value>You must sign in to use SharePoint Learning Kit.</value>
     <comment>Occurs if Current user not signed in.</comment>
   </data>
+  <data name="SessionNotConfigured" xml:space="preserve">
+    <value>To use the observor role session state must be enabled for the web application.</value>
+    <comment>Tried to use observor role without setting session state up.</comment>
+  </data>
   <data name="AlwpQuerySetNotFound" xml:space="preserve">
     <value>The query or query set, {0}, does not exist. Open the tool pane to specify a different query set override or remove the entry to use the default query set.</value>
     <comment>QuerySet of Assignment List Wep Part is null or empty</comment>

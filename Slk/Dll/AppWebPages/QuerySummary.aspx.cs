@@ -57,11 +57,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             get
             {
-                if (Session["LearnerKey"] != null &&  base.SlkStore.IsObserver(SPWeb) == true)
+                if (String.IsNullOrEmpty(ObserverRoleLearnerKey) == false)
                 {
                     if (m_observerRoleLearnerStore == null)
                     {
-                        m_observerRoleLearnerStore = SlkStore.GetStore(SPWeb, Session["LearnerKey"].ToString());
+                        m_observerRoleLearnerStore = SlkStore.GetStore(SPWeb, ObserverRoleLearnerKey);
                     }
                     return m_observerRoleLearnerStore;
                 }

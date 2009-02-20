@@ -47,21 +47,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// we cannot determine the site name.
         /// </summary>
         int m_unknownSiteCount;
-        /// <summary>
-        /// Holds the learner key which is used as the user for the LearningStore in case of the observer
-        /// </summary>
-        string m_observerRoleLearnerKey;
+
         /// <summary>
         /// Holds the learner store corresponding to the input user in the case of an Observer's role
         /// </summary>
         SlkStore m_observerRoleLearnerStore;
-
-        /// <summary>
-        /// Is true if the current user is an observer and false otherwise. Used to avoid repeated calls to
-        /// SlkStore
-        /// </summary>
-        bool? m_isObserver;
-
         #endregion
 
         #region Public Properties
@@ -103,50 +93,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        /// <summary>
-        /// Gets the learnerKey session parameter which is used as the LearningStore user
-        /// if the user is an SlkObserver
-        /// </summary>
-        private string ObserverRoleLearnerKey
-        {
-            get
-            {
-                if (m_observerRoleLearnerKey == null)
-                {
-                    if(Session["LearnerKey"] != null && IsObserver)
-                        m_observerRoleLearnerKey = Session["LearnerKey"].ToString();
-                }
-                return m_observerRoleLearnerKey;
-            }
-        }
-
-        /// <summary>
-        /// Returns true if the current user is an observer
-        /// and false otherwise
-        /// </summary>
-        private bool IsObserver
-        {
-            get
-            {
-                if (m_isObserver == null)
-                {
-                    if (base.SlkStore.IsObserver(SPWeb) == true)
-                        m_isObserver = true;
-                    else
-                        m_isObserver = false;
-                }
-                return (bool) m_isObserver;
-            }
-        }
-
         public override SlkStore SlkStore
         {
             get
             {
                 if (String.IsNullOrEmpty(ObserverRoleLearnerKey) == false)
                 {
-                    if(m_observerRoleLearnerStore == null)
+                    if (m_observerRoleLearnerStore == null)
+                    {
                         m_observerRoleLearnerStore = SlkStore.GetStore(SPWeb, ObserverRoleLearnerKey);
+                    }
                     return m_observerRoleLearnerStore;
                 }
                 return base.SlkStore;
@@ -547,8 +503,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             WebNameRenderedCell webNameRenderedCell = null;
                             foreach (RenderedCell renderedCell in renderedRow)
                             {
-								if (webNameRenderedCell == null)
-									webNameRenderedCell = renderedCell as WebNameRenderedCell;
+                                if (webNameRenderedCell == null)
+                                {
+                                    webNameRenderedCell = renderedCell as WebNameRenderedCell;
+                                }
                             }
 
                             // render the cells in this row
@@ -558,10 +516,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 ColumnDefinition columnDef = columnDefs[columnIndex];
                                 hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb2");
                                 if (!columnDef.Wrap)
+                                {
                                     hw.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
-                                bool isObserver = IsObserver;
+                                }
                                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
-                                    RenderColumnCell(renderedCell, webNameRenderedCell, hw, isObserver, SlkStore);
+                                {
+                                    RenderColumnCell(renderedCell, webNameRenderedCell, hw, SlkStore);
+                                }
                                 columnIndex++;
                             }
                         }
@@ -679,8 +640,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         ///
         /// <param name="hw">The <c>HtmlTextWriter</c> to write to.</param>
         ///
-        static void RenderColumnCell(RenderedCell renderedCell,
-            WebNameRenderedCell webNameRenderedCell, HtmlTextWriter hw, bool isObserver, SlkStore slkStore)
+        void RenderColumnCell(RenderedCell renderedCell,
+            WebNameRenderedCell webNameRenderedCell, HtmlTextWriter hw, SlkStore slkStore)
         {
             // render the cell contents inside a "<span>" (not sure why SharePoint uses a "<span>"
             // here, but I'm copying what they do)
@@ -708,7 +669,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     if (renderedCell.Id.ItemTypeName == Schema.LearnerAssignmentItem.ItemTypeName)
                     {
                         Guid learnerAssignmentGuidId = slkStore.GetLearnerAssignmentGuidId(renderedCell.Id);
-                        if (isObserver)
+                        if (IsObserver)
                         {
                             // Display this cell as an url and clicking this url will launch frameset in StudentReview mode
                             string url = "Frameset/Frameset.aspx?SlkView=StudentReview&{0}={1}";
