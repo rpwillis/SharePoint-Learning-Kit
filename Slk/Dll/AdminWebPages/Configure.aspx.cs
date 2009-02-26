@@ -118,8 +118,8 @@ public class ConfigurePage : System.Web.UI.Page
             string learnerPermission;
             string observerPermission;
             bool createPermissions;
-            SlkAdministration.LoadConfiguration(new Guid(SPSiteSelector.CurrentId),
-				out databaseServer, out databaseName, out createDatabase,
+            Guid siteGuid = string.IsNullOrEmpty(SPSiteSelector.CurrentId) ? Guid.Empty : new Guid(SPSiteSelector.CurrentId);
+            SlkAdministration.LoadConfiguration(siteGuid, out databaseServer, out databaseName, out createDatabase,
 				out instructorPermission, out learnerPermission, out observerPermission, out createPermissions);
             TxtDatabaseServer.Text = databaseServer;
             TxtDatabaseName.Text = databaseName;
