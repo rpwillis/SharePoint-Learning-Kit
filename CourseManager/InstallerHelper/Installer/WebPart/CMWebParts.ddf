@@ -1,7 +1,7 @@
 ;*** Sample Source Code MakeCAB Directive file example
 ;
 .OPTION EXPLICIT     ;Generate errors 
-.Set CabinetNameTemplate=CourseManagerWebParts.cab       
+.Set CabinetNameTemplate=..\Output\CourseManagerWebParts.cab       
 .set DiskDirectoryTemplate=CDROM ;All cabinets go in a single directory
 .Set CompressionType=MSZIP ;** All files are compressed in cabinet files
 .Set UniqueFiles="OFF"
@@ -11,6 +11,6 @@ manifest.xml
 CourseManagerPages.dwp
 MonitorAndAssess.dwp
 PlanAndAssign.dwp
-..\Solution\Files\Solution\Dlls\Axelerate.SlkCourseManagerLogicalLayer.dll
+..\..\..\SlkCourseManagerLogicalLayer\SlkCourseManagerLogicalLayer\bin\Release\Axelerate.SlkCourseManagerLogicalLayer.dll
 SPDocumentSelectorIFrame.js
 ;*** <the end>

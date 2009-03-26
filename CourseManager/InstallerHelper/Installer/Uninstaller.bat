@@ -1,5 +1,5 @@
 @echo off
-@SET SPDIR="c:\program files\common files\microsoft shared\web server extensions\12"
+@SET SPDIR="%commonprogramfiles%\microsoft shared\web server extensions\12"
 
 echo.Uninstalling Course Manager from %1...
 echo. >> log.txt

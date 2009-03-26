@@ -78,7 +78,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.Interop.Security.AzRoles, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\AuthMan\Microsoft.Interop.Security.AzRoles.dll</HintPath>
+      <HintPath>..\..\..\References\Microsoft.Interop.Security.Azroles.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -96,10 +96,12 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <!--
     <Reference Include="Trustee, Version=1.0.1773.40956, Culture=neutral, PublicKeyToken=2b354b98686c6257">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Configuration\Trustee\Trustee.dll</HintPath>
     </Reference>
+    -->
   </ItemGroup>
   <ItemGroup>
     <Import Include="Axelerate" />
@@ -410,7 +412,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Component Include="Configuration\Trustee\Trustee.dll" />
+    <!--<Component Include="Configuration\Trustee\Trustee.dll" />-->
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,14 +11,6 @@
       </SafeControls>
     </Assembly>
 
-    <!--<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.Adapters.dll">
-      <SafeControls>
-        <SafeControl
-          Assembly="Axelerate.Adapters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=680ea5ed93fcf256"
-          Namespace="Axelerate.Adapters.WebParts" TypeName="*" Safe="True" />
-      </SafeControls>
-    </Assembly>-->
-
     <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.BusinessLayerFrameWork.dll">
       <SafeControls>
         <SafeControl
@@ -34,14 +26,6 @@
           Namespace="Axelerate.SlkCourseManagerLogicalLayer.WebParts" TypeName="*" Safe="True" />
       </SafeControls>
     </Assembly>
-
-    <!--<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.Csla.dll">
-      <SafeControls>
-        <SafeControl
-          Assembly="Axelerate.Csla, Version=2.0.4.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30"
-          Namespace="Axelerate.Csla.WebParts" TypeName="*" Safe="True" />
-      </SafeControls>
-    </Assembly>-->
 
     <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.DataAccessApplicationBlock.dll">
       <SafeControls>
@@ -100,13 +84,6 @@
     <TemplateFile Location="Features\Course_Manager_Configure\Plan_and_Assign.aspx" />
     <TemplateFile Location="Features\Course_Manager_Configure\Placeholder.txt" />
 
-    <!--Dlls-->
-    <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.SharePointLearningKit.dll" />
-    <!--<TemplateFile Location="Admin\Course_Manager_Configure\InstallerHelper.dll" />-->
-    <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerConfCs.dll" />
-    <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.dll" />
-    <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.SharePoint.dll" />
-    <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.Storage.dll" />
   </TemplateFiles>
   
   

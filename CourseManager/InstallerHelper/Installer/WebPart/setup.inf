@@ -1,14 +1,14 @@
 ;*** BEGIN **********************************************************
 ;**                                                                **
-;** Automatically generated on: Wed Jun 25 18:11:58 2008           **
+;** Automatically generated on: Tue Mar 24 11:14:16 2009           **
 ;**                                                                **
-;** MakeCAB Version: 5.2.3790.0                     **
+;** MakeCAB Version: 6.0.6001.18000                                 **
 ;**                                                                **
 ;*** BEGIN **********************************************************
 [disk list]
 1,Disk 1
 [cabinet list]
-1,1,CourseManagerWebParts.cab
+1,1,..\Output\CourseManagerWebParts.cab
 [file list]
 1,1,manifest.xml,687
 1,1,CourseManagerPages.dwp,453
@@ -18,6 +18,6 @@
 1,1,SPDocumentSelectorIFrame.js,949
 ;*** END ************************************************************
 ;**                                                                **
-;** Automatically generated on: Wed Jun 25 18:11:58 2008           **
+;** Automatically generated on: Tue Mar 24 11:14:16 2009           **
 ;**                                                                **
 ;*** END ************************************************************
