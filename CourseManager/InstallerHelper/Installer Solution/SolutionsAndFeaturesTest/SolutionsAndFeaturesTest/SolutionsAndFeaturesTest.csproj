@@ -3,19 +3,24 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0861CF0A-6ABD-468B-89A9-29FB8EBD4796}</ProjectGuid>
+    <ProjectGuid>{897ABF89-221D-41D9-9925-DC9B8F74AB18}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RestoreWebConfig</RootNamespace>
-    <AssemblyName>RestoreWebConfig</AssemblyName>
+    <RootNamespace>SolutionsAndFeaturesTest</RootNamespace>
+    <AssemblyName>SolutionsAndFeaturesTest</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <StartupObject>SolutionsAndFeaturesTest.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,12 +40,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="InstallerHelper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=af5ed81c0ef88811, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\InstallerHelper\bin\Release\InstallerHelper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\..\Documents and Settings\adrianr\My Documents\Visual Studio 2008\Projects\InstallerHelper\InstallerHelper\bin\Debug\Microsoft.SharePoint.dll</HintPath>
+      <HintPath>..\..\..\..\..\References\Microsoft.SharePoint.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -55,20 +64,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UninstallerResources.Designer.cs">
+    <Compile Include="InstallerResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UninstallerResources.resx</DependentUpon>
+      <DependentUpon>InstallerResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RestoreWebConfig.cs">
-      <!--<CopyToOutputDirectory>Always</CopyToOutputDirectory>-->
-    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UninstallerResources.resx">
+    <EmbeddedResource Include="InstallerResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>UninstallerResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>InstallerResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

@@ -32,7 +32,7 @@ namespace RestoreWebConfig
                 {
                     site = new SPSite(args[0].ToString());
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     System.Console.WriteLine(UninstallerResources.strErrorOpeningWeb);
                     return 1;

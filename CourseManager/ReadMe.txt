@@ -21,6 +21,11 @@ The SLK Course Manager Source Code and SDK package includes the items in the lis
 * SharePoint Learning Kit Course Manager Libraries Build Guide
 * SDK describing the API set
 
++-------------------------------------------------------------------------------------------
+| Build process
++-------------------------------------------------------------------------------------------
+
+To build Course Manager run msbuild build.proj
 
 +-------------------------------------------------------------------------------------------
 | System Requirements

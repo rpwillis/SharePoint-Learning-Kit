@@ -44,46 +44,46 @@
   <ItemGroup>
     <Reference Include="Axelerate.BusinessLayerFrameWork, Version=1.3.0.1, Culture=neutral, PublicKeyToken=783dbd9b30afb604, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\External Branches\CodePlex\CodePlex-1.1\CodePlex\UI\bin\Debug\Axelerate.BusinessLayerFrameWork.dll</HintPath>
+      <HintPath>..\..\AxelerateLibraries\bin\Release\Axelerate.BusinessLayerFrameWork.dll</HintPath>
     </Reference>
     <Reference Include="Axelerate.BusinessLayerUITools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4f9a37917b02d1a2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\External Branches\CodePlex\CodePlex-1.1\CodePlex\UI\bin\Debug\Axelerate.BusinessLayerUITools.dll</HintPath>
+      <HintPath>..\..\AxelerateLibraries\bin\Release\Axelerate.BusinessLayerUITools.dll</HintPath>
     </Reference>
     <Reference Include="Axelerate.DataAccessApplicationBlock, Version=1.0.0.2, Culture=neutral, PublicKeyToken=8aeca469e4966909, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\External Branches\CodePlex\CodePlex-1.1\CodePlex\UI\bin\Debug\Axelerate.DataAccessApplicationBlock.dll</HintPath>
+      <HintPath>..\..\AxelerateLibraries\bin\Release\Axelerate.DataAccessApplicationBlock.dll</HintPath>
     </Reference>
     <Reference Include="Axelerate.SharedBusinessLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=68060410e0087d0c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\External Branches\CodePlex\CodePlex-1.1\CodePlex\UI\bin\Debug\Axelerate.SharedBusinessLogic.dll</HintPath>
+      <HintPath>..\..\AxelerateLibraries\bin\Release\Axelerate.SharedBusinessLogic.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.LearningComponents, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.LearningComponents, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.LearningComponents.dll</HintPath>
+      <HintPath>..\..\..\Debug\Microsoft.LearningComponents.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.LearningComponents.Compression, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.LearningComponents.Compression, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.LearningComponents.Compression.dll</HintPath>
+      <HintPath>..\..\..\Debug\Microsoft.LearningComponents.Compression.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.LearningComponents.MRCI, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=x86">
+    <Reference Include="Microsoft.LearningComponents.MRCI, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.LearningComponents.MRCI.dll</HintPath>
+      <HintPath>..\..\..\Debug\Microsoft.LearningComponents.MRCI.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.LearningComponents.SharePoint, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.LearningComponents.SharePoint, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.LearningComponents.SharePoint.dll</HintPath>
+      <HintPath>..\..\..\Debug\Microsoft.LearningComponents.SharePoint.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.LearningComponents.Storage, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.LearningComponents.Storage, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.LearningComponents.Storage.dll</HintPath>
+      <HintPath>..\..\..\Debug\Microsoft.LearningComponents.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\Documents and Settings\adrianr\My Documents\Visual Studio 2008\Projects\DBConfig\DBConfig\bin\Debug\Microsoft.SharePoint.dll</HintPath>
+        <HintPath>..\..\..\References\Microsoft.SharePoint.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SharePointLearningKit, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\External Branches\SharePoint Learning Kit\Microsoft.SharePointLearningKit.dll</HintPath>
+      <HintPath>..\..\..\Debug\Microsoft.SharePointLearningKit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
