@@ -1,0 +1,46 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup>
+        <SolutionOutput>InstallerHelper\Installer\Output\</SolutionOutput>
+        <ReleaseFolder>Release</ReleaseFolder>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Solution Include="$(SolutionOutput)*"/>
+        <Javascript Include="InstallerHelper\Installer\SPDocumentSelectorIFrame.js"/>
+        <BatFiles Include="InstallerHelper\Installer\*.bat"/>
+        <Documentation Include="doc\*.pdf"/>
+        <Documentation Include="doc\*.txt"/>
+        <InstallerExe Include="InstallerHelper\Installer Solution\SolutionsAndFeaturesTest\SolutionsAndFeaturesTest\bin\Release\SolutionsAndFeaturesTest.exe"/>
+        <InstallerExe Include="InstallerHelper\Uninstaller\RestoreWebConfig\RestoreWebConfig\bin\Release\RestoreWebConfig.exe"/>
+    </ItemGroup>
+
+    <Target Name="Build">
+        <!-- Build projects -->
+        <MSBuild Projects="AxelerateLibraries\Business Logic\Data Access Application Block\Data Access Application Block.vbproj" Targets="Build" Properties="Configuration=Release;Platform=AnyCPU" StopOnFirstFailure="true"/>
+        <MSBuild Projects="AxelerateLibraries\Business Logic\BusinessLayerFrameWork\BusinessLayerFrameWork.vbproj" Targets="Build" Properties="Configuration=Release;Platform=AnyCPU" StopOnFirstFailure="true"/>
+        <MSBuild Projects="AxelerateLibraries\Business Logic\SharedBusinessLogic\SharedBusinessLogic.csproj" Targets="Build" Properties="Configuration=Release;Platform=AnyCPU" StopOnFirstFailure="true"/>
+        <MSBuild Projects="AxelerateLibraries\UI\UITools\BusinessLayerUITools.csproj" Targets="Build" Properties="Configuration=Release;Platform=AnyCPU" StopOnFirstFailure="true"/>
+        <MSBuild Projects="SlkCourseManagerLogicalLayer\SlkCourseManagerLogicalLayer\SlkCourseManagerLogicalLayer.csproj" Targets="Build" Properties="Configuration=Release;Platform=AnyCPU" StopOnFirstFailure="true"/>
+
+        <!-- Build installer projects -->
+        <MSBuild Projects="InstallerHelper\Uninstaller\RestoreWebConfig\RestoreWebConfig\RestoreWebConfig.csproj" Targets="Build" Properties="Configuration=Release;Platform=AnyCPU" StopOnFirstFailure="true"/>
+        <MSBuild Projects="InstallerHelper\Installer Solution\InstallerHelper\InstallerHelper.csproj" Targets="Build" Properties="Configuration=Release;Platform=AnyCPU" StopOnFirstFailure="true"/>
+        <MSBuild Projects="InstallerHelper\Installer Solution\SolutionsAndFeaturesTest\SolutionsAndFeaturesTest\SolutionsAndFeaturesTest.csproj" Targets="Build" Properties="Configuration=Release;Platform=AnyCPU" StopOnFirstFailure="true"/>
+        <MSBuild Projects="InstallerHelper\Installer Solution\CourseManagerConfCs\CourseManagerConfCs\CourseManagerConfCs.csproj" Targets="Build" Properties="Configuration=Release;Platform=AnyCPU" StopOnFirstFailure="true"/>
+
+        <!-- Build solutions -->
+        <MakeDir Directories="$(SolutionOutput)"/>
+        <Exec WorkingDirectory="InstallerHelper\Installer\Solution" Command="makecab /F configure.ddf"/>
+        <Exec WorkingDirectory="InstallerHelper\Installer\WebPart" Command="makecab /F CMWebParts.ddf"/>
+
+        <!-- Package solution -->
+        <MakeDir Directories="$(ReleaseFolder)"/>
+        <MakeDir Directories="$(ReleaseFolder)\Files"/>
+        <Copy SourceFiles="@(Solution);@(Javascript)" DestinationFolder="$(ReleaseFolder)\Files" SkipUnchangedFiles="true"/>
+        <Copy SourceFiles="@(BatFiles);@(Documentation);@(InstallerExe)" DestinationFolder="$(ReleaseFolder)" SkipUnchangedFiles="true"/>
+
+    </Target>
+
+</Project>
+

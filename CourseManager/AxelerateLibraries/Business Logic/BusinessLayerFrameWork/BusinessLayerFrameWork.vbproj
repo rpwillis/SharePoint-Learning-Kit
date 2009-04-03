@@ -76,10 +76,6 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Interop.Security.AzRoles, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\References\Microsoft.Interop.Security.Azroles.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -201,7 +197,6 @@
     <Compile Include="BLCore\Security\Exceptions\SecurityException.vb" />
     <Compile Include="BLCore\Security\Operations\clsActivityExecutionOperation.vb" />
     <Compile Include="BLCore\Security\Operations\clsAzmanOperation.vb" />
-    <Compile Include="BLCore\Security\clsAzmanUtility.vb" />
     <Compile Include="BLCore\Security\Operations\clsBLSecurityOperation.vb" />
     <Compile Include="BLCore\Security\Operations\clsBOOperation.vb" />
     <Compile Include="BLCore\Security\Operations\clsCollectionOperation.vb" />

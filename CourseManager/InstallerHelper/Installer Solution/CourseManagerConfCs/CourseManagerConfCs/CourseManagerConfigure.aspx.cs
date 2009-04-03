@@ -404,8 +404,6 @@ namespace CourseManagerConfCs
             InstallerHelperWebConf.EditAppSetting(Direction, "FeedPageUrl", "/_layouts/feed.aspx?");
             InstallerHelperWebConf.EditAppSetting(Direction, "FeedXsl1", "/Style Library/Xsl Style Sheets/Rss.xsl");
             InstallerHelperWebConf.EditAppSetting(Direction, "ReportViewerMessages", "Microsoft.SharePoint.Portal.Analytics.UI.ReportViewerMessages, Microsoft.SharePoint.Portal, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c");
-            InstallerHelperWebConf.EditAppSetting(Direction, "AzmanStore", "msldap://CN=AZMAN DEMO2,CN=Program Data,DC=guayabo");
-            InstallerHelperWebConf.EditAppSetting(Direction, "AzmanApplication", "MyApplication");
             InstallerHelperWebConf.EditAppSetting(Direction, "EnableSecurity", "false");
         }
 

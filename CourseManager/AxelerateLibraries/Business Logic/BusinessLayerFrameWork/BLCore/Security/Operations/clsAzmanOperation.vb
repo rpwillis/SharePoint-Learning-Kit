@@ -34,7 +34,7 @@ Namespace BLCore.Security
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function CheckAccess() As Boolean
-            Return clsAzmanUtility.CheckAccess(Name)
+            Return True
         End Function
 
 
@@ -45,7 +45,7 @@ Namespace BLCore.Security
         ''' Returns a integer with the number of the operation
         ''' <remarks></remarks>
         Public Overridable Function GetOperationID() As Integer
-            Return clsAzmanUtility.GetOperationID(Name)
+                Throw New NotSupportedException()
 
         End Function
 
