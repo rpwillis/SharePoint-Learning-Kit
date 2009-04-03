@@ -10,17 +10,6 @@ Namespace BLCore.Security
     Public Class clsRoleOperation
         Inherits clsAzmanOperation
 
-
-
-        ''' <summary>
-        ''' Check access for User using the role
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Overrides Function CheckAccess() As Boolean
-            Return clsAzmanUtility.CheckRoleAccess(Name)
-        End Function
-
         ''' <summary>
         ''' Initializes the role operations
         ''' </summary>

@@ -24,7 +24,7 @@ Namespace BLCore.Security
         Private Sub buttonGenerateSecurity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles buttonGenerateSecurity.Click
             Dim MyAssembly As Assembly = Assembly.LoadFile(textBoxDLL.Text)
             Try
-                clsAzmanUtility.SaveOperations(MyAssembly)
+                Throw New NotSupportedException()
             Catch ex As Exception
                 Throw ex
             End Try
