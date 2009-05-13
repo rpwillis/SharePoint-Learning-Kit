@@ -17,3 +17,5 @@ using System;
 
 [assembly: CLSCompliant(true)]
 [assembly: System.Resources.SatelliteContractVersion("1.1.0.0")]
+
+[assembly: AssemblyFileVersion("1.4.0.0")]

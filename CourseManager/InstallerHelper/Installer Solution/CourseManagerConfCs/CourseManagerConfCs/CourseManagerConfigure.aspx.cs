@@ -282,12 +282,13 @@ namespace CourseManagerConfCs
                 //String.Format(CultureInfo.CurrentCulture, AppResources.AdminGenericException, ex.Message));
                 //SlkUtilities.LogEvent(EventLogEntryType.Error, "{0}", ex.Message);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // exception that may contain sensitive information -- since the user is an
                 // administrator, we'll show them the error, but we'll write additional information
                 // (e.g. stack trace) to the event log
                 EnableUi(false, true);
+                LabelErrorMessage.Text = Html(ex.ToString());
             }
         }
 

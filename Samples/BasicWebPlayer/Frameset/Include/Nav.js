@@ -25,9 +25,15 @@ var IMG_ONE_PIXEL = VIEWER_ART_PATH + "1px.gif";
 
 var frameMgr;
 
-function document.onkeypress()
+document.onkeypress = function(e)
 {
-	switch (event.srcElement.id)
+   var e = e || window.event;
+   //notice that when assigning variables you can use the OR to differentiate between the methods each broswer accepts
+
+   var target = e.target || e.srcElement;
+   //now we have established the target which fired the event
+   
+	switch (target.id)
 	{
 		case "imgPrevious":
 		case "imgNext":
@@ -35,21 +41,32 @@ function document.onkeypress()
 		case "imgCloseToc":
 		case "imgOpenToc":
 		{
-			if ((event.keyCode == 13) || (event.keyCode == 32))
+			if ((e.keyCode == 13) || (e.keyCode == 32)){
 				document.onclick();
 			break;
+			}
+			else if ((e.which == 13) || (e.which == 32)){
+				document.onclick();
+			break;
+			}
 		}
 		default:
 			return;
 	}
 							
-	event.cancelBubble = true;
-	event.returnValue = false;
-}
+	e.cancelBubble = true;
+    e.returnValue = false;
+ }
 
-function document.onclick()
+document.onclick = function(e)
 {
-	switch (event.srcElement.id)
+   var e = e || window.event;
+   //notice that when assigning variables you can use the OR to differentiate between the methods each broswer accepts
+
+   var target = e.target || e.srcElement;
+   //now we have established the target which fired the event
+   
+	switch (target.id)
 	{
 		case "imgPrevious":
 
@@ -80,170 +97,194 @@ function document.onclick()
 			return;
 	}
 							
-	event.cancelBubble = true;
-	event.returnValue = false;
+	e.cancelBubble = true;
+    e.returnValue = false;
 }
 
 function CloseTOC()
 {
-	// save the current frameset width
-	parent.strFrameCols = parent.frames.framesetParentUI.cols;
-
-	// collapse the frameset
-	parent.frames.framesetParentUI.cols = "0px,*";
-
-	// increase the height of our frameset to accommodate larger graphics
-	parent.frames.framesetParentContent.rows = "21px,*";
-				
-	// swap NavClosed.htm images so we can allow the end-user to restore the TOC frameset
-	parent.frames.frameNavClosed.document.all("TOCFrameVisibleDiv").style.display = "none";
-	parent.frames.frameNavClosed.document.all("TOCFrameHiddenDiv").style.display = "inline";
+ 	// save the current frameset width
+	parent.strFrameCols = parent.document.getElementById("framesetParentUI").cols;
+ 
+ 	// collapse the frameset
+	parent.document.getElementById("framesetParentUI").cols = "0px,*";
+ 
+ 	// increase the height of our frameset to accommodate larger graphics
+	parent.document.getElementById("framesetParentContent").rows = "21px,*";
+ 				
+ 	// swap NavClosed.htm images so we can allow the end-user to restore the TOC frameset
+	parent.document.getElementById("frameNavClosed").contentWindow.document.getElementById("TOCFrameVisibleDiv").style.display = "none";
+	parent.document.getElementById("frameNavClosed").contentWindow.document.getElementById("TOCFrameHiddenDiv").style.display = "inline";
 }
 
 function OpenTOC()
 {
-	// restore frameset to its original width
-	parent.framesetParentUI.cols = window.parent.strFrameCols;
-
-	// Reset frameset height to its original size
-	parent.framesetParentContent.rows = "12px,*";
-				
-	// swap NavClosed.htm images, restoring them to their defaults
-	parent.frameNavClosed.document.all("TOCFrameVisibleDiv").style.display = "inline";
-	parent.frameNavClosed.document.all("TOCFrameHiddenDiv").style.display = "none";
+   	// restore frameset to its original width
+	parent.document.getElementById("framesetParentUI").cols = window.parent.strFrameCols;
+ 
+ 	// Reset frameset height to its original size
+	parent.document.getElementById("framesetParentContent").rows = "12px,*";
+ 				
+ 	// swap NavClosed.htm images, restoring them to their defaults
+	parent.document.getElementById("frameNavClosed").contentWindow.document.getElementById("TOCFrameVisibleDiv").style.display = "inline";
+	parent.document.getElementById("frameNavClosed").contentWindow.document.getElementById("TOCFrameHiddenDiv").style.display = "none";
 }
 
-function document.onmouseover()
+document.onmouseover = function(e)
 {
-	switch (event.srcElement.id)
+   var e = e || window.event;
+   //notice that when assigning variables you can use the OR to differentiate between the methods each broswer accepts
+
+   var target = e.target || e.srcElement;
+   //now we have established the target which fired the event
+
+	switch (target.id)
 	{
 		case "imgPrevious":
-			document.all("imgPrevious").src = IMG_PREVIOUS_BUTTON_HOVER;
+			document.getElementById("imgPrevious").src = IMG_PREVIOUS_BUTTON_HOVER;
 			break;
 
 		case "imgNext":
-			document.all("imgNext").src = IMG_NEXT_BUTTON_HOVER;
+			document.getElementById("imgNext").src = IMG_NEXT_BUTTON_HOVER;
 			break;
 
 		case "imgSave":
-			document.all("imgSave").src = IMG_SAVE_BUTTON_HOVER;
+			document.getElementById("imgSave").src = IMG_SAVE_BUTTON_HOVER;
 			break;
 
 		case "imgCloseToc":
-			document.all("imgCloseToc").src = IMG_TOC_MINIMIZE_BUTTON_HOVER;
+			document.getElementById("imgCloseToc").src = IMG_TOC_MINIMIZE_BUTTON_HOVER;
 			break;
 
 		case "imgOpenToc":
-			document.all("imgOpenToc").src = IMG_TOC_OPEN_BUTTON_HOVER;
+			document.getElementById("imgOpenToc").src = IMG_TOC_OPEN_BUTTON_HOVER;
 			break;
 
 		default:
 			return;
 	}
 
-	event.cancelBubble = true;
-	event.returnValue = false;
+	e.cancelBubble = true;
+    e.returnValue = false;
 }
 
-function document.onmouseout()
+document.onmouseout = function(e)
 {
-	switch (event.srcElement.id)
+   var e = e || window.event;
+   //notice that when assigning variables you can use the OR to differentiate between the methods each broswer accepts
+
+   var target = e.target || e.srcElement;
+   //now we have established the target which fired the event
+   
+	switch (target.id)
 	{
 		case "imgPrevious":
-			document.all("imgPrevious").src = IMG_PREVIOUS_BUTTON_NORMAL;
+			document.getElementById("imgPrevious").src = IMG_PREVIOUS_BUTTON_NORMAL;
 			break;
 
 		case "imgNext":
-			document.all("imgNext").src = IMG_NEXT_BUTTON_NORMAL;
+			document.getElementById("imgNext").src = IMG_NEXT_BUTTON_NORMAL;
 			break;
 
 		case "imgSave":
-			document.all("imgSave").src = IMG_SAVE_BUTTON_NORMAL;
+			document.getElementById("imgSave").src = IMG_SAVE_BUTTON_NORMAL;
 			break;
 
 		case "imgCloseToc":
-			document.all("imgCloseToc").src = IMG_TOC_MINIMIZE_BUTTON_NORMAL;
+			document.getElementById("imgCloseToc").src = IMG_TOC_MINIMIZE_BUTTON_NORMAL;
 			break;
 
 		case "imgOpenToc":
-			document.all("imgOpenToc").src = IMG_TOC_OPEN_BUTTON_NORMAL;
+			document.getElementById("imgOpenToc").src = IMG_TOC_OPEN_BUTTON_NORMAL;
 			break;
 
 		default:
 			return;
 	}
 
-	event.cancelBubble = true;
-	event.returnValue = false;
+	e.cancelBubble = true;
+    e.returnValue = false;
 }
 
-function document.onmousedown()
+document.onmousedown = function(e)
 {
-	switch (event.srcElement.id)
+   var e = e || window.event;
+   //notice that when assigning variables you can use the OR to differentiate between the methods each broswer accepts
+
+   var target = e.target || e.srcElement;
+   //now we have established the target which fired the event
+   
+	switch (target.id)
 	{
 		case "imgPrevious":
-			document.all("imgPrevious").src = IMG_PREVIOUS_BUTTON_PRESSED;
+			document.getElementById("imgPrevious").src = IMG_PREVIOUS_BUTTON_PRESSED;
 			break;
 
 		case "imgNext":
-			document.all("imgNext").src = IMG_NEXT_BUTTON_PRESSED;
+			document.getElementById("imgNext").src = IMG_NEXT_BUTTON_PRESSED;
 			break;
 
 		case "imgSave":
-			document.all("imgSave").src = IMG_SAVE_BUTTON_PRESSED;
+			document.getElementById("imgSave").src = IMG_SAVE_BUTTON_PRESSED;
 			break;
 
 		case "imgCloseToc":
-			document.all("imgCloseToc").src = IMG_TOC_MINIMIZE_BUTTON_PRESSED;
+			document.getElementById("imgCloseToc").src = IMG_TOC_MINIMIZE_BUTTON_PRESSED;
 			break;
 
 		case "imgOpenToc":
-			document.all("imgOpenToc").src = IMG_TOC_OPEN_BUTTON_PRESSED;
+			document.getElementById("imgOpenToc").src = IMG_TOC_OPEN_BUTTON_PRESSED;
 			break;
 
 		default:
 			return;
 	}
 
-	event.cancelBubble = true;
-	event.returnValue = false;
+	e.cancelBubble = true;
+    e.returnValue = false;
 }
 
-function document.onmouseup()
+document.onmouseup = function(e)
 {
-	switch (event.srcElement.id)
+   var e = e || window.event;
+   //notice that when assigning variables you can use the OR to differentiate between the methods each broswer accepts
+
+   var target = e.target || e.srcElement;
+   //now we have established the target which fired the event
+   
+	switch (target.id)
 	{
 		case "imgPrevious":
-			document.all("imgPrevious").src = IMG_PREVIOUS_BUTTON_NORMAL;
+			document.getElementById("imgPrevious").src = IMG_PREVIOUS_BUTTON_NORMAL;
 			break;
 
 		case "imgNext":
-			document.all("imgNext").src = IMG_NEXT_BUTTON_NORMAL;
+			document.getElementById("imgNext").src = IMG_NEXT_BUTTON_NORMAL;
 			break;
 
 		case "imgSave":
-			document.all("imgSave").src = IMG_SAVE_BUTTON_NORMAL;
+			document.getElementById("imgSave").src = IMG_SAVE_BUTTON_NORMAL;
 			break;
 
 		case "imgCloseToc":
-			document.all("imgCloseToc").src = IMG_TOC_MINIMIZE_BUTTON_NORMAL;
+			document.getElementById("imgCloseToc").src = IMG_TOC_MINIMIZE_BUTTON_NORMAL;
 			break;
 
 		case "imgOpenToc":
-			document.all("imgOpenToc").src = IMG_TOC_OPEN_BUTTON_NORMAL;
+			document.getElementById("imgOpenToc").src = IMG_TOC_OPEN_BUTTON_NORMAL;
 			break;
 
 		default:
 			return;
 	}
 
-	event.cancelBubble = true;
-	event.returnValue = false;
+	e.cancelBubble = true;
+    e.returnValue = false;
 }
 
 function OnLoad( frameName )
 {
-    frameMgr = API_GetFramesetManager()
+    frameMgr = API_GetFramesetManager();
     // Register with framemanager that loading is complete
-    frameMgr.RegisterFrameLoad(frameName); 
+    frameMgr.RegisterFrameLoad(frameName);
 }

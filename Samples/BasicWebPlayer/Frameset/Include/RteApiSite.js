@@ -228,15 +228,21 @@ function Site_IsChoiceRequestValid(strActivityId)
 
 function Site_ClearError()
 {
-    m_errorManager.SetError("0");
+    this.m_errorManager.SetError("0");
 }
+
 
 // Set an error condition in the api. This function takes optional additional parameters to substitute into
 // the error string. For instance, if errorID 25 corresponds to the string "The {0} parameter is not valid", then
 // an additional parameter would be expected to be provided to replace the {0} value.
 function Site_SetError( strErrorCode, strErrorMessageId, param1, param2, param3)
 {
-    this.m_errorManager.SetError(strErrorCode, strErrorMessageId, param1, param2, param3);    
+     if(this.m_errorManager == undefined)
+     {
+        this.m_errorManager = new ErrorMessageManager ( this.m_scormVersion );
+     }
+     
+     this.m_errorManager.SetError(strErrorCode, strErrorMessageId, param1, param2, param3);    
 }
  	
 function Site_GetLastErrorCode()

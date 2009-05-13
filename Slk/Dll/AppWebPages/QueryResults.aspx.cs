@@ -172,7 +172,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
 
                     // render the "<body>" element and its contents
-                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 90%; overflow-y: auto;");
+
+                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%; overflow-y: auto; overflow-x: auto;");
                     using (new HtmlBlock(HtmlTextWriterTag.Body, 0, hw))
                     {
                         // render the outer table -- this contains only one row and one column, which

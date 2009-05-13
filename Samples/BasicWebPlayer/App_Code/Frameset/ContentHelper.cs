@@ -415,7 +415,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             // Write frame to post. When displaying an error (which is the case, since we are here) the hidden frame is posted next
             Response.Write("frameMgr.SetPostFrame('frameHidden');\r\n");
-            Response.Write("frameMgr.SetPostableForm(window.top.frames[MAIN_FRAME].document.all[HIDDEN_FRAME].contentWindow.document.forms[0]);\r\n");
+            Response.Write("frameMgr.SetPostableForm(window.top.frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME).contentWindow.document.forms[0]);\r\n");
 
             if (HasError || SubmitPageDisplayed)
             {
@@ -831,7 +831,8 @@ namespace Microsoft.LearningComponents.Frameset
             if (Session != null)
             {
                 controls.Add(HiddenFieldNames.AttemptId, FramesetUtil.GetStringInvariant(Session.AttemptId.GetKey()));
-                onLoadScript.AppendFormat("frameMgr.SetAttemptId(document.all[{0}].value);\r\n", 
+
+                onLoadScript.AppendFormat("frameMgr.SetAttemptId(document.getElementById({0}).value);\r\n", 
                     JScriptString.QuoteString(HiddenFieldNames.AttemptId, false));
             }
 
@@ -844,12 +845,12 @@ namespace Microsoft.LearningComponents.Frameset
 
             // Write view to display. 
             controls.Add(HiddenFieldNames.View, FramesetUtil.GetString(Session.View));
-            onLoadScript.AppendFormat("frameMgr.SetView(document.all[{0}].value);\r\n",
+            onLoadScript.AppendFormat("frameMgr.SetView(document.getElementById({0}).value);\r\n",
                     JScriptString.QuoteString(HiddenFieldNames.View, false));
-            
-            // Write frame to post. 
-            controls.Add(HiddenFieldNames.PostFrame, "frameContent");   
-            onLoadScript.AppendFormat("frameMgr.SetPostFrame(document.all[{0}].value);\r\n",
+
+            // Write frame to post.
+            controls.Add(HiddenFieldNames.PostFrame, "frameContent");
+            onLoadScript.AppendFormat("frameMgr.SetPostFrame(document.getElementById({0}).value);\r\n",
                     JScriptString.QuoteString(HiddenFieldNames.PostFrame, false));
 
             // Set contentFrameUrl to be null. This prevents the content frame from being re-loaded.
@@ -869,7 +870,7 @@ namespace Microsoft.LearningComponents.Frameset
 
             // Write the current activity Id. Write -1 if there isn't one.
             controls.Add(HiddenFieldNames.ActivityId, (Session.HasCurrentActivity ? FramesetUtil.GetStringInvariant(Session.CurrentActivityId) : "-1"));
-            onLoadScript.AppendFormat("frameMgr.SetActivityId(document.all[{0}].value);\r\n",
+            onLoadScript.AppendFormat("frameMgr.SetActivityId(document.getElementById({0}).value);\r\n",
                     JScriptString.QuoteString(HiddenFieldNames.ActivityId, false));
            
             // Write the navigation control state. Format of the control state is a series of T (to show) or F (to hide)

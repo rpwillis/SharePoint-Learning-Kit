@@ -331,11 +331,11 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
                 scriptBlock.AppendLine("slkMgr = Slk_GetSlkManager();");
                 context.FormHiddenControls.Add(HiddenFieldNames.LearnerAssignmentId, FramesetUtil.GetStringInvariant(la.LearnerAssignmentId.GetKey()));
-                scriptBlock.AppendFormat("slkMgr.LearnerAssignmentId = document.all[{0}].value;\r\n",
+                scriptBlock.AppendFormat("slkMgr.LearnerAssignmentId = document.getElementById({0}).value;\r\n",
                     JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentId, false));
 
                 context.FormHiddenControls.Add(HiddenFieldNames.LearnerAssignmentStatus, SlkUtilities.GetLearnerAssignmentState(la.Status));
-                scriptBlock.AppendFormat("slkMgr.Status = document.all[{0}].value;\r\n",
+                scriptBlock.AppendFormat("slkMgr.Status = document.getElementById({0}).value;\r\n",
                     JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentStatus, false));
 
                 // Set the change in final points. This can only happen in grading.

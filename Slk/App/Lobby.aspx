@@ -13,6 +13,20 @@
 </asp:Content>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderAdditionalPageHead" runat="server">
+ 
+<style type="text/css">
+.ms-propertysheet a[disabled='disabled']{
+color:#999999;
+text-decoration:none;
+}
+
+.ms-areaseparatorright img{
+visibility:hidden;
+}
+
+</style>
+
+
 <script type="text/javascript">
 
 // When Frameset closes, this method is called with the above information. The only data this page cares 

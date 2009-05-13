@@ -5,14 +5,14 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<html xmlns="http://www.w3.org/1999/xhtml"> 
 <head>
-<LINK rel="stylesheet" type="text/css" href="Theme/Styles.css" />
-<SCRIPT src="./Include/FramesetMgr.js"></SCRIPT>
-<SCRIPT src="./Include/Toc.js"></SCRIPT>
-<SCRIPT src="./Include/vernum.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="Theme/Styles.css" />
+<script type="text/javascript" src="./Include/FramesetMgr.js"></script>
+<script type="text/javascript" src="./Include/Toc.js"></script>
+<script type="text/javascript" src="./Include/vernum.js"></script>
 
-<SCRIPT language="jscript">
+<script language="javascript" type="text/javascript">
     g_currentActivityId = null;
     g_previousActivityId = null;
     g_frameMgr = API_GetFramesetManager();
@@ -29,15 +29,16 @@
         // Register with framemanager that loading is complete
 	    g_frameMgr.RegisterFrameLoad(TOC_FRAME); 
     }
-</SCRIPT>
+</script>
 </head>
-<body class=NavBody onclick="body_onclick();" onload="body_onload()">
-<DIV id=divMain style="visibility:hidden;MARGIN: 5px">
-	<DIV noWrap >
+
+<body class=NavBody onclick="body_onclick(event);" onload="body_onload();">
+<div id="divMain" style="visibility:hidden;MARGIN: 5px">
+	<div  noWrap>
 		<!-- <p class="NavClosedPreviousBtnGrphic">&nbsp;</p> -->
 		<% WriteToc(); %>		
-    </DIV>
-</DIV>
+    </div>
+</div>
 <script type="text/javascript" defer="true">
         
   // If the version of the page differs from the version of the script, don't render
@@ -49,5 +50,5 @@
   }
         
 </script>
-</BODY>
+</body>
 </html>

@@ -614,8 +614,10 @@ namespace Microsoft.LearningComponents.Frameset
                 hiddenCtrlInfo = new HiddenControlInfo();
                 hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.AttemptId);
                 hiddenCtrlInfo.Value = new PlainTextString(FramesetUtil.GetString(Session.AttemptId));
-                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant("frameMgr.SetAttemptId(document.all[{0}].value);",
+
+                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant("frameMgr.SetAttemptId(document.getElementById({0}).value);",
                     JScriptString.QuoteString(HiddenFieldNames.AttemptId, false)));
+
                 hiddenControlInfos.Add(hiddenCtrlInfo);
             }
 
@@ -637,8 +639,10 @@ namespace Microsoft.LearningComponents.Frameset
             hiddenCtrlInfo = new HiddenControlInfo();
             hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.View);
             hiddenCtrlInfo.Value = new PlainTextString(FramesetUtil.GetString(Session.View));
-            hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant("frameMgr.SetView(document.all[{0}].value);",
+
+            hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant("frameMgr.SetView(document.getElementById({0}).value);",
                     JScriptString.QuoteString(HiddenFieldNames.View, false)));
+
             hiddenControlInfos.Add(hiddenCtrlInfo);
             
             // Write frame and form to post. They depend on whether this is LRM content or SCORM content. If the submit 
@@ -664,8 +668,10 @@ namespace Microsoft.LearningComponents.Frameset
                 postableFormScript = new JScriptString("frameMgr.SetPostableForm(document.forms[0]);");
             }
             hiddenCtrlInfo.Value = frameName;
-            hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant("frameMgr.SetPostFrame(document.all[{0}].value);",
+
+            hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant("frameMgr.SetPostFrame(document.getElementById({0}).value);",
                     JScriptString.QuoteString(HiddenFieldNames.PostFrame, false)));
+
             hiddenControlInfos.Add(hiddenCtrlInfo);
 
             // Set postable form. 
@@ -769,12 +775,12 @@ namespace Microsoft.LearningComponents.Frameset
                 hiddenCtrlInfo.Value = ErrorMessage;
                 if (String.IsNullOrEmpty(ErrorTitle))
                 {
-                    hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("frameMgr.SetErrorMessage(document.all[{0}].value);",
+                    hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("frameMgr.SetErrorMessage(document.getElementById({0}).value);",
                         JScriptString.QuoteString(HiddenFieldNames.ErrorMessage, false)));
                 }
                 else
                 {
-                    hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("frameMgr.SetErrorMessage(document.all[{0}].value, {1}, {2});",
+                    hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("frameMgr.SetErrorMessage(document.getElementById({0}).value, {1}, {2});",
                         JScriptString.QuoteString(HiddenFieldNames.ErrorMessage, false),
                         JScriptString.QuoteString(ErrorTitle, false),
                         ErrorAsInfo ? "true" : "false"));
@@ -788,8 +794,10 @@ namespace Microsoft.LearningComponents.Frameset
                 hiddenCtrlInfo = new HiddenControlInfo();
                 hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.Title);
                 hiddenCtrlInfo.Value = GetSessionTitle(Session).ToHtmlString().ToString();
-                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("frameMgr.SetTitle(document.all[{0}].value);",
+
+                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("frameMgr.SetTitle(document.getElementById({0}).value);",
                     JScriptString.QuoteString(HiddenFieldNames.Title, false)));
+
                 hiddenControlInfos.Add(hiddenCtrlInfo);
             }
             else
@@ -799,8 +807,10 @@ namespace Microsoft.LearningComponents.Frameset
                 hiddenCtrlInfo = new HiddenControlInfo();
                 hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.TocState);
                 hiddenCtrlInfo.Value = new PlainTextString(GetTocStates());
-                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant("frameMgr.SetTocNodes(document.all[{0}].value);",
+
+                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant("frameMgr.SetTocNodes(document.getElementById({0}).value);",
                         JScriptString.QuoteString(HiddenFieldNames.TocState, false)));
+
                 hiddenControlInfos.Add(hiddenCtrlInfo);
             }
 
@@ -819,8 +829,10 @@ namespace Microsoft.LearningComponents.Frameset
                     sb.Append(GetContentFrameUrl());
             }
             hiddenCtrlInfo.Value = new PlainTextString(new UrlString(sb.ToString()).ToAscii());
-            hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("frameMgr.SetContentFrameUrl(document.all[{0}].value);",
+
+            hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("frameMgr.SetContentFrameUrl(document.getElementById({0}).value);",
             JScriptString.QuoteString(HiddenFieldNames.ContentHref, false)));
+
             hiddenControlInfos.Add(hiddenCtrlInfo);
             
             // Write the data model information, only if the current activity requires it.
@@ -841,8 +853,10 @@ namespace Microsoft.LearningComponents.Frameset
                 hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.DataModel);
                 hiddenCtrlInfo.Value = dmValues.Values;
                 StringBuilder initCommand = new StringBuilder(1000);
-                initCommand.AppendLine(ResHelper.Format("var hidDM = document.all[{0}];", JScriptString.QuoteString(HiddenFieldNames.DataModel, false)));
-                initCommand.AppendLine(ResHelper.Format("var hidObjectiveMap = document.all[{0}];", JScriptString.QuoteString(HiddenFieldNames.ObjectiveIdMap, false)));
+
+                initCommand.AppendLine(ResHelper.Format("var hidDM = document.getElementById({0});", JScriptString.QuoteString(HiddenFieldNames.DataModel, false)));
+
+                initCommand.AppendLine(ResHelper.Format("var hidObjectiveMap = document.getElementById({0});", JScriptString.QuoteString(HiddenFieldNames.ObjectiveIdMap, false)));
                 initCommand.Append("frameMgr.InitDataModelValues(hidDM.value, hidObjectiveMap.value);");
                 initCommand.AppendFormat("hidDM.value = {0};", JScriptString.QuoteString("", false));
                 initCommand.AppendFormat("hidObjectiveMap.value = {0};", JScriptString.QuoteString("", false));
@@ -856,8 +870,10 @@ namespace Microsoft.LearningComponents.Frameset
                 hiddenCtrlInfo = new HiddenControlInfo();
                 hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.IsNavigationValidResponse);
                 hiddenCtrlInfo.Value = m_isNavValidResponse.ClientFieldResponse;
-                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant("frameMgr.SetIsNavigationValid(document.all[{0}].value);",
+
+                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant("frameMgr.SetIsNavigationValid(document.getElementById({0}).value);",
                     JScriptString.QuoteString(HiddenFieldNames.IsNavigationValidResponse, false)));
+
                 hiddenControlInfos.Add(hiddenCtrlInfo);
             }
 

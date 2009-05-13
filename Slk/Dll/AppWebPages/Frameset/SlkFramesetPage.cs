@@ -32,7 +32,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         private FramesetPageHelper m_helper;
         private Guid m_learnerAssignmentGuidId;
         private LearnerAssignmentProperties m_learnerAssignmentProperties;
-
+        
         /////////////////////////////////////////////////////////////////////////////////////
         private SlkStore m_observerRoleLearnerStore;
 
@@ -45,7 +45,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             {
                 if (String.IsNullOrEmpty(ObserverRoleLearnerKey) == false)
                 {
-                    if(m_observerRoleLearnerStore == null)
+                    if (m_observerRoleLearnerStore == null)
                     {
                         m_observerRoleLearnerStore = SlkStore.GetStore(SPWeb, ObserverRoleLearnerKey);
                     }
@@ -118,7 +118,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 case AssignmentView.Grading:
                     {
                         // Verify that session view matches what you expect
-                        if (sessionView != SessionView.RandomAccess)
+
+                        if (sessionView != SessionView.Review)
                         {
                             throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
                         }
@@ -414,7 +415,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     return SessionView.Execute;
 
                 case AssignmentView.Grading:
-                    return SessionView.RandomAccess;
+                    //return SessionView.RandomAccess;
+                    return SessionView.Review;
 
                 case AssignmentView.InstructorReview:
                     return SessionView.Review;

@@ -11,8 +11,8 @@
      the content rendered from the package. */ %>
 
 <LINK rel="stylesheet" type="text/css" href="<%=SlkEmbeddedUIPath.OriginalString %>/Theme/Styles.css"/>
-<script src="<%=SlkEmbeddedUIPath.OriginalString %>/Include/FramesetMgr.js"></script>
-<script>
+<script type="text/javascript" src="<%=SlkEmbeddedUIPath.OriginalString %>/Include/FramesetMgr.js"></script>
+<script language="javascript">
 function OnLoad()
 {
     // Get frameset manager

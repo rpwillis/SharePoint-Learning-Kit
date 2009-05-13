@@ -14,6 +14,16 @@
 
 <asp:Content ContentPlaceHolderId="PlaceHolderAdditionalPageHead" runat="server">
     <%//script and styles go here %>
+
+<style type="text/css">
+    .ms-vb textarea{
+    overflow: auto !important;
+    }
+    
+    .ms-areaseparatorright img{
+	visibility:hidden;
+	}
+</style>
   <link rel="stylesheet" type="text/css" href="Styles.css"/>     
 </asp:Content>
 

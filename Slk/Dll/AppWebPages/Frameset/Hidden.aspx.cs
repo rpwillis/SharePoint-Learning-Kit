@@ -59,16 +59,20 @@ namespace Microsoft.SharePointLearningKit.Frameset
                    HiddenControlInfo hiddenCtrlInfo = new HiddenControlInfo();
                    hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.LearnerAssignmentId);
                    hiddenCtrlInfo.Value = new PlainTextString(FramesetUtil.GetStringInvariant(la.LearnerAssignmentId.GetKey()));
-                   hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.LearnerAssignmentId = document.all[{0}].value;",
-                       JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentId, false)));
+
+                   hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.LearnerAssignmentId = document.getElementById({0}).value;",
+                      JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentId, false)));
+
                    m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
 
                    // Learner assignment status ('not started', 'in progress', etc)
                    hiddenCtrlInfo = new HiddenControlInfo();
                    hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.LearnerAssignmentStatus);
                    hiddenCtrlInfo.Value = new PlainTextString(SlkUtilities.GetLearnerAssignmentState(la.Status));
-                   hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.Status = document.all[{0}].value;",
-                       JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentStatus, false)));
+
+                   hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.Status = document.getElementById({0}).value;",
+                      JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentStatus, false)));
+
                    m_hiddenHelper.HiddenControls.Add(hiddenCtrlInfo);
 
                    hiddenCtrlInfo = new HiddenControlInfo();
