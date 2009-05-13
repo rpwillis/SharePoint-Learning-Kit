@@ -86,10 +86,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 1, hw);
 
                         //Adds the Theme Css Url to Enable Theming in the frame.
-                        hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Href, SPWeb.ThemeCssUrl);
-                        HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 0, hw);
+                        if (!string.IsNullOrEmpty(SPWeb.ThemeCssUrl))
+                        {
+                            hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Href, SPWeb.ThemeCssUrl);
+                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 0, hw);
+                        }
 
                         // create a link to ALWP's "Styles.css"
                         hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
@@ -119,8 +122,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         }
 
                         // render the "<body>" element and its contents
+
                         //hw.AddAttribute(HtmlTextWriterAttribute.Style, "overflow: hidden;");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 90%; overflow-y: auto;");
+                        hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%; overflow-y: auto;");
                         hw.AddAttribute(HtmlTextWriterAttribute.Id, "SlkAlwpQuerySet");
                         using (new HtmlBlock(HtmlTextWriterTag.Body, 0, hw))
                         {

@@ -24,10 +24,13 @@ namespace Microsoft.LearningComponents.Frameset
     public class TocHelper
     {
         LearningSession m_session;
-
+        
         private HttpResponse m_response;
         private HttpResponse Response { get { return m_response; } }
 
+        private HttpRequest m_Request;
+        private HttpRequest Request { get { return m_Request; } }
+        
         // The text for the submit page link. This is only used in Execute & RandomAccess (SLK only) views.
         private string m_submitPageLinkText;
 
@@ -73,11 +76,41 @@ namespace Microsoft.LearningComponents.Frameset
         /// Write TOC Html elements for the table of contents
         /// </summary>
         /// <returns></returns>
-        public void TocElementsHtml()
+        /// 
+        public void TocElementsHtml(HttpRequest Request, string AssignmentGradingViewName)
         {
             // If there was an error on page load, do nothing here.
             if (m_session == null)
                 return; 
+
+            TableOfContentsElement toc = m_session.GetTableOfContents(true);    // get toc without sequencing information
+            using (HtmlStringWriter sw = new HtmlStringWriter(Response.Output))
+            {
+                sw.Indent = 2;  // start at table level 2, since that's where we are
+
+                WriteTocEntry(sw, toc);
+
+                string SLKView =  Request.QueryString["SlkView"];
+                
+                // Write the TOC entry to submit the training, only in Execute view or RandomAccess (SLK only) views
+
+                if ((m_session.View == SessionView.Execute)
+                    || ((m_session.View == SessionView.Review) && (SLKView.ToLower() == AssignmentGradingViewName.ToLower())))
+                    WriteSubmitPageEntry(sw);
+            }
+        }
+
+
+        /// <summary>
+        /// Write TOC Html elements for the table of contents
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        public void TocElementsHtml()
+        {
+            // If there was an error on page load, do nothing here.
+            if (m_session == null)
+                return;
 
             TableOfContentsElement toc = m_session.GetTableOfContents(true);    // get toc without sequencing information
             using (HtmlStringWriter sw = new HtmlStringWriter(Response.Output))
@@ -160,10 +193,14 @@ namespace Microsoft.LearningComponents.Frameset
                     sw.RenderEndTag();
                     sw.WriteLine();
 
-                    sw.AddAttribute(HtmlTextWriterAttribute.Href, "");
+                    sw.AddAttribute(HtmlTextWriterAttribute.Href, "javascript:void(0)");
                     sw.AddAttribute(HtmlTextWriterAttribute.Id, ResHelper.FormatInvariant("a{0}", activityIdHtml));
                     if (!currentElement.IsValidChoiceNavigationDestination)
-                        sw.AddAttribute(HtmlTextWriterAttribute.Disabled, (HtmlString)null);
+                    {
+                        sw.AddAttribute(HtmlTextWriterAttribute.Disabled, "true");
+                        sw.AddAttribute("class", "disable");
+                    }
+
                     sw.AddAttribute(HtmlTextWriterAttribute.Style,
                                         ResHelper.FormatInvariant("FONT-WEIGHT: normal;visibility:{0}", (currentElement.IsVisible ? "visible" : "hidden")));
                     sw.AddAttribute(HtmlTextWriterAttribute.Title, titleHtml);

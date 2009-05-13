@@ -10,12 +10,27 @@ NONINFRINGEMENT FOR THE SOURCE CODE. */
 
 // Functions used in the table of contents of the frameset. This code is shared between SLK and BWP.
 function FindActivityId( element )
-{
-    while ((element.activityId == undefined) && (element.parentElement != null))
+{ 
+    try
     {
-        element = element.parentElement;
+        if (element != undefined)
+         {
+            while ((element.attributes["activityId"] == undefined) && (element.parentNode != null))
+            {
+                element = element.parentNode;
+            }
+           
+            return element.attributes["activityId"].nodeValue;
+         }
+        else
+        {
+            return null;
+        }
     }
-    return element.activityId;
+    catch(err)
+    {
+  	    return null;
+    }
 }
 
 // Find the <a> element that is visible. It's either the one with the activityId = strActivityId, or,
@@ -27,24 +42,29 @@ function FindVisibleActivity( strActivityId )
         
     // visible activity is always an <a> element
     var aId = "a" + strActivityId;
-    var element = document.all[aId];
+    var element = document.getElementById(aId);
     if (element == undefined)   
     {
         // there's no 'a', so look for a div (indicating the leaf is invisible)
-        element = document.all["div" + strActivityId];
+        element = document.getElementById("div" + strActivityId);
     }
     else
     {
         // return the activity if it's visible
         if (element.style.visibility == "visible")
-             return element;
+        {
+            //alert("inside the else returning element with value of " + element);
+            return element;
+        }
     }
     
     // search for a child in the parent hierarchy that is visible
-    while (element.parentElement != null)
+    //while (element.parentElement != null)
+    while (element.parentNode != null)
     {        
         // go up the hierarchy until we find the next <a> element
-        var parent = element.parentElement;
+        //var parent = element.parentElement;
+        var parent = element.parentNode;
         
         for (i in parent.childNodes)
         {
@@ -71,7 +91,7 @@ function ExpandActivity( strActivityId )
     if (strActivityId == undefined)
         return;
         
-    var elCluster = document.all["divCluster" + strActivityId];
+    var elCluster = document.getElementById("divCluster" + strActivityId);
     
     if (elCluster != undefined)
     {
@@ -80,8 +100,9 @@ function ExpandActivity( strActivityId )
     
     // Check parent hierarchy. We first find the div containing the current activity, then 
     // find the next parent in the chain that has an activity id. 
-    var divCurrentActivity = document.all["div" + strActivityId];
-    var parentActivityId = FindActivityId ( divCurrentActivity.parentElement );
+    var divCurrentActivity = document.getElementById("div" + strActivityId);
+    //var parentActivityId = FindActivityId ( divCurrentActivity.parentElement );
+    var parentActivityId = FindActivityId ( divCurrentActivity.parentNode );
     
     ExpandActivity( parentActivityId );        
 }
@@ -97,7 +118,7 @@ function SetCurrentElement( strActivityIdNew )
     
     var elNewActivity = FindVisibleActivity( strActivityIdNew );
     elNewActivity.style.fontWeight = "bold";
-    elNewActivity.setActive();
+    elNewActivity.focus();
     
     var elOldActivity = FindVisibleActivity( g_currentActivityId );
     if ((elOldActivity != null)
@@ -108,8 +129,9 @@ function SetCurrentElement( strActivityIdNew )
     
     // Make sure the current element is visible in an expanded node in the toc. We ask it to expand 
     // the node above it, to ensure its child nodes are not expanded.
-    var elClusterNewActivity = document.all["div" + strActivityIdNew];
-    ExpandActivity( FindActivityId(elClusterNewActivity.parentElement) );
+    var elClusterNewActivity = document.getElementById("div" + strActivityIdNew);
+    //ExpandActivity( FindActivityId(elClusterNewActivity.parentElement) );
+    ExpandActivity( FindActivityId(elClusterNewActivity.parentNode) );
     
     // Save the current activity id.
     g_previousActivityId = g_currentActivityId;
@@ -124,11 +146,17 @@ function ResetToPreviousSelection()
     SetCurrentElement(g_previousActivityId);
 }
 
-function body_onclick()
-{
-    // When something on the TOC is clicked, this function is called. 
-    var eSrc = event.srcElement;          
+//function body_onclick(e)
+//document.body.onclick = function(e)
+
+function body_onclick(e)
+{   
+   var e = e || window.event;
+
+   var eSrc = e.target || e.srcElement;
+            
     var nameSelected = (eSrc.tagName == "A");
+    
     // Find the activity id corresponding to the clicked element
     var strActivityId = FindActivityId(eSrc);
     
@@ -137,7 +165,7 @@ function body_onclick()
     if (!eSrc.disabled && (strActivityId != undefined))
     {
         // The cluster div contains just this activity
-        var elCluster = document.all["divCluster" + strActivityId];
+        var elCluster = document.getElementById("divCluster" + strActivityId);
        
         // If the cluster has children, then determine whether to show an activity or 
         // show/hide the cluster
@@ -170,15 +198,16 @@ function body_onclick()
             }
         }
     }
-    event.cancelBubble = true;
-    event.returnValue = false;
+    
+   e.cancelBubble = true;
+   e.returnValue = false;
 }
 
 // Expands or collapses the group associated with strActivityId.
 // If bExpandOnly is true, the group is not collapsed.
 function ExpandCollapseGroup( strActivityId, elCluster, bExpandOnly )
 {
-    var elClusterImg = document.all["icon" + strActivityId];
+    var elClusterImg = document.getElementById("icon" + strActivityId);
     if (elCluster.style.display == "none")
     {
         // Currently not shown. Expand the child div.
@@ -209,7 +238,7 @@ function MoveToActivity ( strActivityId )
     if (SetCurrentElement( strActivityId ))
     {
         // The current activity has changed, so update the content frame.
-        var elA = document.all["a" + strActivityId];
+        var elA = document.getElementById("a" + strActivityId);
         if (elA != undefined)
         {
             g_frameMgr.DoChoice( strActivityId, false /* dontClearContent */, true /* forceReloadCurrentActivity */ );
@@ -231,17 +260,21 @@ function IsParentElement( elCluster )
 function IsValidChoice( strActivityId )
 {
     if (strActivityId == undefined)
+    {
         return false;
+    }
         
     // If the frameset mgr is not ready for a navigation command, then just 
     // eat this one.
     if (!g_frameMgr.ReadyForNavigation())
+    {
         return false;
+    }
         
-    var divParent = document.all["div" + strActivityId];
-    return (divParent.isValidChoice == "true");
+    var divParent = document.getElementById("div" + strActivityId);
+    return (divParent.attributes["isValidChoice"].nodeValue == "true");
 }
-    
+
 // Sets the disable / or not state in each toc node.
 function SetTocNodes( strNodeStates )
 {
@@ -260,11 +293,19 @@ function SetTocNodes( strNodeStates )
         
         aActivityDisabled = activityPairs[i].split(",");
         isDisabled = (aActivityDisabled[1] == "false");
-        var elActivity = document.all["a" + aActivityDisabled[0]];
-        elActivity.disabled = isDisabled;
-                    
-        var elDiv = document.all["div" + aActivityDisabled[0]];
-        elDiv.isValidChoice = isDisabled ? "false" : "true";
+        
+        var elActivity = document.getElementById("a" + aActivityDisabled[0]);
+        if (elActivity != undefined)
+        {
+            elActivity.disabled = isDisabled;
+            elActivity.className = isDisabled ? "disable" : "enable";
+        }
+                
+        var elDiv = document.getElementById("div" + aActivityDisabled[0]);
+        if (elDiv != undefined)
+        {
+            elDiv.setAttribute("isValidChoice", isDisabled ? "false" : "true");
+        }
     }
 }
 

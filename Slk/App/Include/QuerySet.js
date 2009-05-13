@@ -10,15 +10,15 @@ function HighlightQuery(iQuery)
 	// highlight query <iQuery> (zero-based)...
 
 	// update query label "<td>"
-	var tdLabelStyle = document.all["QueryLabelTD" + iQuery].style;
+	var tdLabelStyle = document.getElementById("QueryLabelTD" + iQuery).style;
 	tdLabelStyle.backgroundColor = "white";
 
 	// update query label "<a>"
-	var aLabelStyle = document.all["QueryLabelA" + iQuery].style;
+	var aLabelStyle = document.getElementById("QueryLabelA" + iQuery).style;
 	aLabelStyle.color = "black";
 
 	// update query count "<td>"
-	var tdCountStyle = document.all["QueryCountTD" + iQuery].style;
+	var tdCountStyle = document.getElementById("QueryCountTD" + iQuery).style;
 	tdCountStyle.backgroundColor = "white";
 
 	//tdCountStyle.borderRight = "solid 1px white";
@@ -26,15 +26,15 @@ function HighlightQuery(iQuery)
 	tdCountStyle.paddingRight = "15px";
 
 	// update query count "<a>"
-	var aCountStyle = document.all["QueryCountA" + iQuery].style;
+	var aCountStyle = document.getElementById("QueryCountA" + iQuery).style;
 	aCountStyle.color = "black";
 
 	// update borders
-	document.all["QueryLabelBorderTop" + iQuery].style.backgroundColor = "#E0E0E0";
-	document.all["QueryCountBorderTop" + iQuery].style.backgroundColor = "#E0E0E0";
-	document.all["QueryLeftBorder" + iQuery].style.backgroundColor = "#E0E0E0";
-	document.all["QueryLabelBorderBottom" + iQuery].style.backgroundColor = "#E0E0E0";
-	document.all["QueryCountBorderBottom" + iQuery].style.backgroundColor = "#E0E0E0";
+	document.getElementById("QueryLabelBorderTop" + iQuery).style.backgroundColor = "#E0E0E0";
+	document.getElementById("QueryCountBorderTop" + iQuery).style.backgroundColor = "#E0E0E0";
+	document.getElementById("QueryLeftBorder" + iQuery).style.backgroundColor = "#E0E0E0";
+	document.getElementById("QueryLabelBorderBottom" + iQuery).style.backgroundColor = "#E0E0E0";
+	document.getElementById("QueryCountBorderBottom" + iQuery).style.backgroundColor = "#E0E0E0";
 }
 
 function UnhighlightQuery(iQuery)
@@ -73,7 +73,10 @@ function SetQueryCounts(aCounts)
 	// the count of results of each query; this function updates the counts on this page, replacing
 	// the initial hourglasses
 	for (var iQuery = 0; iQuery < aCounts.length; iQuery++)
+	{
 		document.getElementById("QueryCountA" + iQuery).innerText = aCounts[iQuery];
+		document.getElementById("QueryCountA" + iQuery).textContent  = aCounts[iQuery];
+	}
 }
 
 function SetQueryCount(queryName, queryCount)
@@ -87,6 +90,7 @@ function SetQueryCount(queryName, queryCount)
 	        if(QueryNames[iQuery] == queryName)
 	        {
 	            document.getElementById("QueryCountA" + iQuery).innerText = queryCount;
+	            document.getElementById("QueryCountA" + iQuery).textContent = queryCount;
 	            break;
 	        }
 	    }

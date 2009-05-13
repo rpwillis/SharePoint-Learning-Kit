@@ -69,7 +69,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             SlkUtilities.RetryOnDeadlock(delegate()
             {
                 // This accesses the database to get the list of nodes
-                m_tocHelper.TocElementsHtml();
+                m_tocHelper.TocElementsHtml(Request, AssignmentView.Grading.ToString());
             });
         }
 

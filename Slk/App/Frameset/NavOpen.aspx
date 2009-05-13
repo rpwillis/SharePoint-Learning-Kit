@@ -8,8 +8,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
 <LINK rel="stylesheet" type="text/css" href="Theme/Styles.css"/>
-<SCRIPT src="./Include/FramesetMgr.js"></SCRIPT>
-<SCRIPT src="./Include/Nav.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="./Include/FramesetMgr.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="./Include/Nav.js"></SCRIPT>
 
 <script>
     
@@ -27,12 +27,12 @@
 							<TD width=7 height=20><IMG height=2 src="Theme/1px.gif" width=7></TD>
 							
 							<TD height=20><div id="divPrevious" style="visibility:hidden"><nobr><SPAN class=NavOpenNav>
-							        <IMG id=imgPrevious title="<%=PreviousTitleHtml%>" tabIndex=3 src="Theme/Prev.gif"></SPAN></nobr></div></TD>
+							        <IMG tabIndex=1 id=imgPrevious title="<%=PreviousTitleHtml%>" tabIndex=3 src="Theme/Prev.gif"></SPAN></nobr></div></TD>
 							<TD height=20><div id="divNext" style="visibility:hidden"><SPAN class=NavOpenNav>
-							        <IMG id=imgNext title="<%=NextTitleHtml%>"  tabIndex=2 src="Theme/Next.gif" border=0></SPAN></div></TD>
+							        <IMG tabIndex=1 id=imgNext title="<%=NextTitleHtml%>"  tabIndex=2 src="Theme/Next.gif" border=0></SPAN></div></TD>
 							<TD width=6 height=20><IMG height=2 src="Theme/1px.gif" width=6 border=0></TD>
 							<TD height=20><div id="divSave" style="visibility:hidden"><nobr><SPAN class=NavOpenNav>
-							        <IMG id=imgSave title="<%=SaveTitleHtml%>" tabIndex=4 src="Theme/Save.gif"></SPAN></nobr></div></TD>
+							        <IMG tabIndex=1 id=imgSave title="<%=SaveTitleHtml%>" tabIndex=4 src="Theme/Save.gif"></SPAN></nobr></div></TD>
 						</TR>
 					</TBODY>
 				</TABLE>
@@ -42,7 +42,7 @@
 					<TBODY>
 						<TR>
 							<TD width=53 height=20><IMG height=2 src="Theme/1px.gif" width=53 border=0></TD>
-							<TD height=20><NOBR><SPAN class=NavOpenCloseToc><IMG id=imgCloseToc title="<%=MinimizeTitleHtml%>" tabIndex=5 src="Theme/TocClose.gif" border=0></SPAN></NOBR></TD>
+							<TD height=20><NOBR><SPAN class=NavOpenCloseToc><IMG id=imgCloseToc title="<%=MinimizeTitleHtml%>" tabIndex=1 src="Theme/TocClose.gif" border=0></SPAN></NOBR></TD>
 							<TD width=7 height=20><IMG height=2 src="Theme/1px.gif" width=7 border=0></TD>
 						</TR>
 					</TBODY>

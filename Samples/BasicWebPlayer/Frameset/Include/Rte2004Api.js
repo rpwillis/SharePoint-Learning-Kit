@@ -378,6 +378,10 @@ function Rte2004Api(apiSite, parser, validator)
 		    InternalSetError("351");
 		    return "false";
 		}
+		else if(name.toString().indexOf(".timestamp") != -1)
+		{		    
+		    value = value.toString().replace(value.toString().substring(0, value.toString().indexOf("-", 0)), new Date().getFullYear().toString());
+		}
 		
 		
 		var handledByNavRequest = false;

@@ -13,8 +13,13 @@
 </asp:Content>
 <asp:Content ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
   <%// script and styles go here %>
-  <link rel="stylesheet" type="text/css" href="Include/Styles.css"/>     
-    
+  <link rel="stylesheet" type="text/css" href="Include/Styles.css"/>
+
+<style type="text/css">
+	.ms-titlearearight .ms-areaseparatorright img{
+		display:none !important;
+	}
+</style>
 </asp:Content>
 <asp:Content ContentPlaceHolderID="PlaceHolderPageDescription" runat="server">
     <asp:Literal ID="pageDescription" runat="server"></asp:Literal>
@@ -38,7 +43,7 @@
                                 <tr><td></td></tr>
                                 <!-- Validation Summary  -->
                                 <tr>
-                                    <td class="ms-formbody" style="border: black 1px solid;">
+                                    <td class="ms-formbody" style="border: black 1px solid;background-color:transparent">
                                         <asp:ValidationSummary CssClass="SlkError" ID="appValidationSummary" runat="server" />
                                     </td>
                                 </tr>
@@ -98,7 +103,7 @@
                                             <h3 class="ms-standardheader"><nobr><asp:Label ID="lblTitle" runat="server" EnableViewState="false" ></asp:Label></nobr></h3>
                                         </slk:TableGridColumn>
                                         <slk:TableGridColumn  runat="server" ColumnType="FormBody">
-                                              <asp:TextBox ID="txtTitle" runat="server" CssClass="ms-long" TextMode="MultiLine" style="overflow:visible"></asp:TextBox>                                                      
+                                              <asp:TextBox ID="txtTitle" runat="server" CssClass="ms-long" TextMode="MultiLine" style="overflow:visible; height:40px; width:98%"></asp:TextBox>                                                      
                                               <div>
                                                 <asp:RequiredFieldValidator ID="rfvAppTitle" runat="server" ></asp:RequiredFieldValidator> 
                                                 <asp:RegularExpressionValidator ID="regexAppTitle" runat="server" ></asp:RegularExpressionValidator>
@@ -110,7 +115,7 @@
                                              <h3 class="ms-standardheader"><nobr><asp:Label ID="lblDescription" runat="server" EnableViewState="false"></asp:Label></nobr></h3>
                                         </slk:TableGridColumn>
                                         <slk:TableGridColumn runat="server" ColumnType="FormBody">
-                                              <asp:TextBox ID="txtDescription" runat="server" CssClass="ms-long"  TextMode="MultiLine" Height="60"></asp:TextBox>                                               
+                                              <asp:TextBox ID="txtDescription" runat="server" CssClass="ms-long"  TextMode="MultiLine" Height="60" style="width:98%"></asp:TextBox>                                               
                                         </slk:TableGridColumn>
                                     </slk:TableGridRow>
                                     <slk:TableGridRow runat="server">

@@ -93,7 +93,9 @@ function FramesetManager()
     this.PostIsComplete = FM_PostIsComplete;    // Indicates an in-process post operation has finished
     this.DoSubmit = FM_DoSubmit;    // submit the attempt as complete
     this.IsClosing = FM_IsClosing;  // returns true if the frameset is closing.
-        
+    this.getContentFrame = GetContentFrame;
+    this.getHiddenFrame = GetHiddenFrame;
+    
     // Frames that have registered as being loaded
     this.m_framesRegistered = new Array();
     //this.m_framesRegistered[CONTENT_FRAME] = false;   -- don't have to register this frame
@@ -196,6 +198,7 @@ function FM_RegisterFrameLoad(frameName)
             // Update all the ui controls
             UpdateNavVisibility(this.m_showNext, this.m_showPrevious, this.m_showAbandon, this.m_showExit, this.m_showSave);
             UpdateTitle(this.m_title);
+            
             this.ShowActivityId( this.m_activityId );    // tell TOC about the activity
             
             // If there was an error in server processing, don't render content frame. Instead, show error message.
@@ -228,7 +231,19 @@ function OnReadyStateChange_ContentFrame()
 // Register for the ready state change event on the window.
 function FM_RegisterReadyStateChange_ContentFrame()
 {
-    GetContentFrame().onreadystatechange = OnReadyStateChange_ContentFrame;
+    /* readystatechange is IE specific, so only wire up the event for IE.
+     * For other browers decrement m_waitForContentCount as this is only called from RegisterFrameLoad anyway
+     */
+
+    var contentFrame = GetContentFrame();
+    if (contentFrame.onreadystatechange != undefined)
+    {
+        GetContentFrame().onreadystatechange = OnReadyStateChange_ContentFrame;
+    }
+    else
+    {
+        g_frameMgr.ReadyStateReceived();
+    }
 }
 
 // Wait for the specified number of times the content frame is loaded before allowing another navigation request
@@ -280,11 +295,11 @@ function FM_IsTrainingComplete()
 // Hides the UI controls frameset. 
 function HideUIControls()
 {
-    window.top.frames[MAIN_FRAME].document.all["framesetParentUI"].cols = "0px,*";
+    window.top.frames[MAIN_FRAME].document.getElementById("framesetParentUI").cols = "0px,*";
     
     var titleDoc = window.top.frames[TITLE_FRAME].document;
-    titleDoc.all["imgSaveAndCloseTd"].innerHTML = "&nbsp;";
-    titleDoc.all["aSaveAndClose"].innerHTML = "&nbsp;";
+    titleDoc.getElementById("imgSaveAndCloseTd").innerHTML = "&nbsp;";
+    titleDoc.getElementById("aSaveAndClose").innerHTML = "&nbsp;";
 }
 
 // Returns true if all frames have been registered as loaded.
@@ -300,35 +315,35 @@ function AllFramesRegistered(framesRegistered)
 // Return the document in the Title frame.
 function GetTitleDoc()
 {
-    return document.all[TITLE_FRAME].contentWindow.document;
+    return document.getElementById(TITLE_FRAME).contentWindow.document;
 }
 
 function GetTocDoc()
-{
-    return window.top.frames[MAIN_FRAME].document.all[TOC_FRAME].contentWindow.document;
+{   
+    return window.top.frames[MAIN_FRAME].document.getElementById(TOC_FRAME).contentWindow.document;
 }
 
 function GetContentFrame()
 {
-     return window.top.frames[MAIN_FRAME].document.all[CONTENT_FRAME];
+     return window.top.frames[MAIN_FRAME].document.getElementById(CONTENT_FRAME);
 }
 
 function GetNavFrame( navFrameName )
 {
-    return window.top.frames[MAIN_FRAME].document.all[navFrameName];    
+    return window.top.frames[MAIN_FRAME].document.getElementById(navFrameName);    
 }
 
 function GetHiddenFrame()
 {
-    return window.top.frames[MAIN_FRAME].document.all[HIDDEN_FRAME];    
+    return window.top.frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME);    
 }
 
 // Set all values in the various frames and then make them visible.
 function FM_MakeFramesVisible()
 {
     // Make title and toc visible
-    GetTitleDoc().all["txtTitle"].style.display = "block";
-    GetTocDoc().all["divMain"].style.visibility = "visible";
+    GetTitleDoc().getElementById("txtTitle").style.display = "block";
+    GetTocDoc().getElementById("divMain").style.visibility = "visible";
 }
 
 // Save the value to set the title string to. Later, call UpdateTitle to change the contents of the frame.
@@ -341,7 +356,7 @@ function FM_SetTitle(title)
 function UpdateTitle(title)
 {
     var titleDoc = GetTitleDoc();
-    titleDoc.all["txtTitle"].innerHTML = title;
+    titleDoc.getElementById("txtTitle").innerHTML = title;
 }
 
 // Returns true if the frameset is closing.
@@ -588,16 +603,16 @@ function UpdateNavVisibility ( showNext, showPrevious, showAbandon, showExit, sh
     var frame = GetNavFrame ( NAVOPEN_FRAME );
     var navDoc = frame.contentWindow.document;
     
-    SetVisibility(navDoc.all["divNext"], showNext);
-    SetVisibility(navDoc.all["divPrevious"], showPrevious);
-    SetVisibility(navDoc.all["divSave"], showSave);
+    SetVisibility(navDoc.getElementById("divNext"), showNext);
+    SetVisibility(navDoc.getElementById("divPrevious"), showPrevious);
+    SetVisibility(navDoc.getElementById("divSave"), showSave);
     
     frame = GetNavFrame ( NAVCLOSED_FRAME );
     navDoc = frame.contentWindow.document;
     
-    SetVisibility(navDoc.all["divNext"], showNext);
-    SetVisibility(navDoc.all["divPrevious"], showPrevious);
-    SetVisibility(navDoc.all["divSave"], showSave);
+    SetVisibility(navDoc.getElementById("divNext"), showNext);
+    SetVisibility(navDoc.getElementById("divPrevious"), showPrevious);
+    SetVisibility(navDoc.getElementById("divSave"), showSave);
 }
 
 // Helper function to set the visibility style of a div based on showUI.
@@ -629,7 +644,7 @@ function LoadContentFrame ( url )
         return;
        
     var fr = GetContentFrame();
-    fr.contentWindow.navigate(url);
+    fr.contentWindow.location.href =url;
     g_frameMgr.DebugLog("SetContentFrameUrl: End. Navigation complete. ");
 }
 
@@ -671,7 +686,7 @@ function FM_DoPost( bIsRetry )
     {
         try
         {
-            form = window.top.frames[MAIN_FRAME].document.all[this.m_postFrameName].contentWindow.document.forms[0];
+            form = window.top.frames[MAIN_FRAME].document.getElementById(this.m_postFrameName).contentWindow.document.forms[0];
         }
         catch (e) { 
             // do nothing
@@ -782,7 +797,9 @@ function FM_PostIsComplete()
 // If the control doesn't already exist in the form, create it.
 function SetHiddenControl( form, ctrlName, ctrlValue )
 {
-    var ctrl = form.item( ctrlName );
+    //var ctrl = form.item( ctrlName );
+    var ctrl = form[ctrlName];
+    
     if ( ctrl == null )
     {
         var elInput = form.ownerDocument.createElement("input");

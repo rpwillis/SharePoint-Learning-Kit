@@ -751,7 +751,8 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     txtInstructorComments.ID
                         = CommentsId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                     txtInstructorComments.TextMode = TextBoxMode.MultiLine;
-                    txtInstructorComments.Style.Value = "width: 100%; overflow:visible";
+
+                    txtInstructorComments.Style.Value = "width: 100%; height:40px; overflow:visible";
                     txtInstructorComments.Text = item.InstructorComments;
                     string onFocusHandler
                         = String.Format(CultureInfo.InvariantCulture,
