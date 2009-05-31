@@ -15,10 +15,10 @@
 function LoadAPI()
 {
     initializeCommunication();
-    passed.style.display = 'none';
+    document.getElementById("passed").style.display = 'none';
 	if(checkObjectiveStatus("IntroQuizSatisfied")=="passed") {
-		failed.style.display = 'none';
-		passed.style.display = 'block';
+		document.getElementById("failed").style.display = 'none';
+		document.getElementById("passed").style.display = 'block';
 	}
 }
 

@@ -15,10 +15,13 @@
 var rawScore=0;
 var passingScore=2;
 var scorePossible=2;
-var g_state = "begin_Move1"; // current state of simulation
-var g_dx = 0; // delta between where user clicked and left edge of card(s)
-var g_dy = 0; // delta between where user clicked and top edge of card(s)
+var g_state = "begin_Move"; // current state of simulation
+var g_card = "Move1";
 var displayMode="unknown"; // Set to cmi.mode during load.
+var origX = 0;
+var origY = 0;
+var origEventX = 0;
+var origEventY = 0;
 
 //Function: Reads Answers from the interactions in the data model and fills out the exam from with those answers.
 //Function is designed to work with multiple interactions. In this case there is only one interaction.
@@ -53,6 +56,15 @@ function LoadAPI()
     // Retrieve the display mode from the LMS. The page will disable inputs during "review" or "browse" modes.
     displayMode = retrieveDataValue("cmi.mode");
     if (displayMode == "review" | "browse") {disableInputs();}
+    var move1 = document.getElementById("Move1");
+    move1.onmousedown = CardOnMouseDown;
+    move1.onmousemove = CardOnMouseMove;
+    move1.onmouseup = CardOnMouseUp;
+    var move2 = document.getElementById("Move2");
+    move2.onmousedown = CardOnMouseDown;
+    move2.onmousemove = CardOnMouseMove;
+    move2.onmouseup = CardOnMouseUp;
+
 }
 
 function UnloadAPI()
@@ -66,8 +78,8 @@ function UnloadAPI()
 // Disable all user inputs on the page. Function is called in "review" and "browse" modes.
 function disableInputs()
 {
-	Move1.disabled = "true";
-	Move2.disabled = "true";
+	document.getElementById("Move1").disabled = "true";
+	document.getElementById("Move2").disabled = "true";
 }
 
 
@@ -88,26 +100,26 @@ function CompleteSimulationStep(stepNumber)
 	// zero, the simulation is started from the beginning...
 
 	// reset global variables
-	g_state = "begin_Move1"; // current state of simulation
-	g_dx = 0; // delta between where user clicked and left edge of card(s)
-	g_dy = 0; // delta between where user clicked and top edge of card(s)
+	g_state = "begin_Move"; // current state of simulation
+        g_card = "Move1";
 
 	// restore the UI state to step 1 or 2 if so specified by <stepNumber>
 	if (stepNumber >= 1)
 	{
-		Move1.style.left = 93;
-		Move1.style.top = 122;
-		g_state = "begin_Move2";
-		Instructions.innerHTML = "<p>Correct, you can play the 8 of clubs on the 9 of hearts.</p><p>What's the next move you can make?</p>";
-		InstructionsTable.style.backgroundColor = "#98FB98"; // green
+		document.getElementById("Move1").style.left = "93px";
+		document.getElementById("Move1").style.top = "122px";
+		g_state = "begin_Move";
+                g_card = "Move2";
+		document.getElementById("Instructions").innerHTML = "<p>Correct, you can play the 8 of clubs on the 9 of hearts.</p><p>What's the next move you can make?</p>";
+		document.getElementById("InstructionsTable").style.backgroundColor = "#98FB98"; // green
 	}
 	if (stepNumber == 2)
 	{
-		Move2.style.left = 93;
-		Move2.style.top = 137;
+		document.getElementById("Move2").style.left = "93px";
+		document.getElementById("Move2").style.top = "137px";
 		g_state = "done";
-		Instructions.innerHTML = "<p>That's correct.</p><p>You've now completed this simulation. Continue to the summary to review what you learned in this unit.</p>";
-		InstructionsTable.style.backgroundColor = "#98FB98"; // green
+		document.getElementById("Instructions").innerHTML = "<p>That's correct.</p><p>You've now completed this simulation. Continue to the summary to review what you learned in this unit.</p>";
+		document.getElementById("InstructionsTable").style.backgroundColor = "#98FB98"; // green
 	}
 }
 
@@ -125,117 +137,66 @@ function OnSimulationStepComplete(stepNumber)
 	calcScore();
 }
 
-function Move1_OnMouseDown()
+function CardOnMouseDown(e)
 {
-    if (g_state == "begin_Move1")
+    var e = e || window.event;
+    var card = e.target || e.srcElement;
+    if (g_card == "Move")
+    {alert("2")}
+    if (g_state == "begin_Move" && g_card == card.id)
     {
-        g_dx = event.clientX - ClientX(Move1);
-        g_dy = event.clientY - ClientY(Move1);
-        Move1.style.zIndex = 1;
-        g_state = "dragging_Move1";
+        origX = card.offsetLeft;
+        origY = card.offsetTop;
+        origEventX = e.clientX;
+        origEventY = e.clientY;
+        card.style.zIndex = 1;
+        card.style.left = card.offsetLeft;
+        card.style.top = card.offsetTop;
+        g_state = "dragging_Move";
     }
     return false;
 }
 
-function Move1_OnMouseMove()
+function CardOnMouseMove(e)
 {
-    if (g_state == "dragging_Move1")
+    var e = e || window.event;
+    var card = e.target || e.srcElement;
+    if (g_state == "dragging_Move" && g_card == card.id)
     {
-        Move1.style.left = event.x - g_dx + 2;
-        Move1.style.top = event.y - g_dy + 2;
+        card.style.left = origX + (e.clientX - origEventX);
+        card.style.top = origY + (e.clientY - origEventY);
     }
-    status = Move1.offsetLeft + "," + Move1.offsetTop;
+    status = card.offsetLeft + "," + card.offsetTop;
     return false;
 }
 
-function Move1_OnMouseUp()
+function CardOnMouseUp(e)
 {
-    if (g_state == "dragging_Move1")
+    var e = e || window.event;
+    var card = e.target || e.srcElement;
+    if (g_state == "dragging_Move" && g_card == card.id)
     {
-        if ((Move1.offsetLeft >= 58) && (Move1.offsetLeft <= 128) &&
-            (Move1.offsetTop >= 62) && (Move1.offsetTop <= 205))
+        if (g_card == "Move1" && (card.offsetLeft >= 58) && (card.offsetLeft <= 128) &&
+            (card.offsetTop >= 62) && (card.offsetTop <= 205))
         {
-			CompleteSimulationStep(1)
-			OnSimulationStepComplete(1);
+            CompleteSimulationStep(1)
+            OnSimulationStepComplete(1);
         }
-        else
-        {
-            Instructions.innerHTML = "<p>Sorry, that's not correct.  Remember, a black card must be placed on a red card that's one higher.</p><p>Please try again.</p>";
-            InstructionsTable.style.backgroundColor = "#FA8072"; // red
-            g_state = "begin_Move1";
-        }
-    }
-}
-
-function Move2_OnMouseDown()
-{
-    if (g_state == "begin_Move2")
-    {
-        g_dx = event.clientX - ClientX(Move2);
-        g_dy = event.clientY - ClientY(Move2);
-        Move2.style.zIndex = 2;
-        g_state = "dragging_Move2";
-    }
-    return false;
-}
-
-function Move2_OnMouseMove()
-{
-    if (g_state == "dragging_Move2")
-    {
-        Move2.style.left = event.x - g_dx + 2;
-        Move2.style.top = event.y - g_dy + 2;
-    }
-    status = Move2.offsetLeft + "," + Move2.offsetTop;
-    return false;
-}
-
-function Move2_OnMouseUp()
-{
-    if (g_state == "dragging_Move2")
-    {
-        if ((Move2.offsetLeft >= 58) && (Move2.offsetLeft <= 128) &&
-            (Move2.offsetTop >= 77) && (Move2.offsetTop <= 220))
+        else if (g_card == "Move2" && (card.offsetLeft >= 58) && (card.offsetLeft <= 128) &&
+            (card.offsetTop >= 77) && (card.offsetTop <= 220))
         {
 			CompleteSimulationStep(2)
 			OnSimulationStepComplete(2);
         }
         else
         {
-            Instructions.innerHTML = "<p>Sorry, that's not correct.  Remember, a red card must be placed on a black card that's one higher.</p><p>Please try again.</p>";
-            InstructionsTable.style.backgroundColor = "#FA8072"; // red
-            g_state = "begin_Move2";
+            document.getElementById("Instructions").innerHTML = "<p>Sorry, that's not correct.  Remember, a black card must be placed on a red card that's one higher.</p><p>Please try again.</p>";
+            document.getElementById("InstructionsTable").style.backgroundColor = "#FA8072"; // red
+            g_state = "begin_Move";
         }
     }
 }
 
-function ClientX(el)
-{
-	// returns the x-coordinate of DHTML element <el> relative to the left edge of the browser's
-	// client area
-	var x = 0;
-	while (el != null)
-	{
-		x += el.offsetLeft;
-		el = el.offsetParent;
-	}
-	return x;
-}
-
-function ClientY(el)
-{
-	// returns the y-coordinate of DHTML element <el> relative to the top edge of the browser's
-	// client area
-	var y = 0;
-	while (el != null)
-	{
-		y += el.offsetTop;
-		el = el.offsetParent;
-		if (el != null)
-			y -= el.scrollTop;
-	}
-	return y;
-}
 // ]]>
 </script>
 <style>
@@ -314,8 +275,8 @@ function ClientY(el)
 	</table>
 </div>
 <div id="CardTable">
-	<img id="Move1" src="images/Simulation_8c.gif" alt="" onmousedown="return Move1_OnMouseDown()" onmousemove="return Move1_OnMouseMove()" onmouseup="return Move1_OnMouseUp()" />
-	<img id="Move2" src="images/Simulation_567.gif" alt="" onmousedown="return Move2_OnMouseDown()" onmousemove="return Move2_OnMouseMove()" onmouseup="return Move2_OnMouseUp()" />&nbsp;
+	<img id="Move1" src="images/Simulation_8c.gif" alt=""/>
+	<img id="Move2" src="images/Simulation_567.gif" alt=""/>&nbsp;
 	<!--double-click selects this-->&nbsp;</div>
 
 </td></tr>

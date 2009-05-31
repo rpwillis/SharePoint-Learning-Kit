@@ -30,9 +30,9 @@ var displayMode="unknown"; // Set to cmi.mode during load.
 function SelectCard(cardNumber)
 {
     for (var i = 1; i <= 4; i++)
-		document.all["Card" + i].style.border = "3px solid white";
+		document.getElementById("Card" + i).style.border = "3px solid white";
 	if (cardNumber != 0)
-		document.all["Card" + cardNumber].style.border = "3px solid green";
+		document.getElementById("Card" + cardNumber).style.border = "3px solid green";
 	selectedCardNumber = cardNumber;
 }
 
@@ -46,17 +46,18 @@ function readAnswers()
 		var interaction = "cmi.interactions."+n;
 		var id = retrieveDataValue(interaction+".id");
 		var learnerResponse = retrieveDataValue(interaction+".learner_response");
+                var quizForm = document.getElementById("examForm");
 		
 		//Switch on the interaction id to fill out the form with the appropriate information.
 		switch (id) {
 		case "Q1":
 			for (i=0;i<4;i++){
-				if (examForm.Q1[i].value == learnerResponse) examForm.Q1[i].checked=1;
+				if (quizForm.Q1[i].value == learnerResponse) quizForm.Q1[i].checked=1;
 			}
 		break;
 		case "Q2":
 			for (i=0;i<2;i++){
-				if (examForm.Q2[i].value == learnerResponse) examForm.Q2[i].checked=1;
+				if (quizForm.Q2[i].value == learnerResponse) quizForm.Q2[i].checked=1;
 			}
 		break;
 		case "Q3":
@@ -74,16 +75,16 @@ function storeAnswers()
 	storeDataValue("cmi.interactions.0.id","Q1");
 	storeDataValue("cmi.interactions.0.type","choice");
 	for (i=0;i<4;i++){
-		if (examForm.Q1[i].checked)
-			storeDataValue("cmi.interactions.0.learner_response",examForm.Q1[i].value);
+		if (document.getElementById("examForm").Q1[i].checked)
+			storeDataValue("cmi.interactions.0.learner_response",document.getElementById("examForm").Q1[i].value);
 	}
 
 	//Q2, set the true_false depending on what is checked.
 	storeDataValue("cmi.interactions.1.id","Q2");
 	storeDataValue("cmi.interactions.1.type","true-false"); 
 	for (i=0;i<2;i++){
-		if (examForm.Q2[i].checked)
-			storeDataValue("cmi.interactions.1.learner_response",examForm.Q2[i].value);
+		if (document.getElementById("examForm").Q2[i].checked)
+			storeDataValue("cmi.interactions.1.learner_response",document.getElementById("examForm").Q2[i].value);
 	}
 		
 	//Q3, set the multiple choice depending on what is checked.
@@ -118,17 +119,17 @@ function UnloadAPI()
 // Disable all user inputs on the page. Function is called in "review" and "browse" modes.
 function disableInputs()
 {
-	examForm.Q1[0].disabled = true;
-	examForm.Q1[1].disabled = true;
-	examForm.Q1[2].disabled = true;
-	examForm.Q1[3].disabled = true;
-	examForm.Q2[0].disabled = true;
-	examForm.Q2[1].disabled = true;
-	examForm.Card1.disabled = true;
-	examForm.Card2.disabled = true;
-	examForm.Card3.disabled = true;
-	examForm.Card4.disabled = true;
-	examForm.submitButton.disabled = true;
+	document.getElementById("examForm").Q1[0].disabled = true;
+	document.getElementById("examForm").Q1[1].disabled = true;
+	document.getElementById("examForm").Q1[2].disabled = true;
+	document.getElementById("examForm").Q1[3].disabled = true;
+	document.getElementById("examForm").Q2[0].disabled = true;
+	document.getElementById("examForm").Q2[1].disabled = true;
+	document.getElementById("examForm").Card1.disabled = true;
+	document.getElementById("examForm").Card2.disabled = true;
+	document.getElementById("examForm").Card3.disabled = true;
+	document.getElementById("examForm").Card4.disabled = true;
+	document.getElementById("examForm").submitButton.disabled = true;
 	
 	if (displayMode == "review") {checkAnswers();} //Call check answers to display the user's results if in the review mode.
 }
@@ -140,21 +141,21 @@ function checkAnswers()
 {
 	rawScore=0;
 	
-	var displayResult = Q1Result;
-	if (examForm.Q1[1].checked)
+	var displayResult = document.getElementById("Q1Result");
+	if (document.getElementById("examForm").Q1[1].checked)
 	   { 
 	      rawScore++;
 		  displayResult.innerHTML = correctAns();
  	   } else {displayResult.innerHTML = incorrectAns();}
 
-	displayResult = Q2Result;
-	if (examForm.Q2[0].checked)
+	displayResult = document.getElementById("Q2Result");
+	if (document.getElementById("examForm").Q2[0].checked)
 	   { 
 	      rawScore++;
 		  displayResult.innerHTML = correctAns();
  	   } else {displayResult.innerHTML = incorrectAns();}
 
-	displayResult = Q3Result;
+	displayResult = document.getElementById("Q3Result");
 	if (selectedCardNumber == 3)
 	   { 
 	      rawScore++;
@@ -177,13 +178,13 @@ function calcScore()
   //  Inform the user that they were successful or not
   if (rawScore < passingScore)
   {
-  	directions.className = "incorrect";
-	dirText.innerHTML = '<p>Try again. You must get 2 of 3 correct on this page to continue.</p>';
+  	document.getElementById("directions").className = "incorrect";
+	document.getElementById("dirText").innerHTML = '<p>Try again. You must get 2 of 3 correct on this page to continue.</p>';
   }
   else 
   {
-    directions.className = "correct";
-	dirText.innerHTML = '<p>Congratulations!<br><br> Continue to the next page of this quick check.</p>';
+        document.getElementById("directions").className = "correct";
+	document.getElementById("dirText").innerHTML = '<p>Congratulations!<br><br> Continue to the next page of this quick check.</p>';
   }
   
 	//Call commit to commit the updated data model elements.
@@ -209,7 +210,7 @@ function calcScore()
 	</tr>
 </table>
 <p></p>
-<form name="examForm">
+<form id="examForm">
 	<table width="640">
 		<tr>
 			<td>
