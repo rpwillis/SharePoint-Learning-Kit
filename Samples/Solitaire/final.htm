@@ -19,7 +19,7 @@ function LoadAPI()
     
     // Retrieve the display mode from the LMS. The page will disable inputs during "review" or "browse" modes.
     displayMode = retrieveDataValue("cmi.mode");
-    if (displayMode == "review" | "browse") {submitButton.disabled = true;}
+    if (displayMode == "review" | "browse") {document.getElementById("submitButton").style.display = "none";}
 }
 function UnloadAPI()
 {
@@ -52,7 +52,7 @@ function finishTraining()
 <p>Now that you have completed the training, be sure to practice and have fun playing!</p>
 <p>Click Finish Lesson to finish this training.</p>
 <p>
-<input type="button" name="submitButton" value="Finish Lesson" onclick="finishTraining()" tabindex="6">&nbsp;
+<input type="button" id="submitButton" value="Finish Lesson" onclick="finishTraining()" tabindex="6">&nbsp;
 </p>
 <p><img border="0" src="images/klondike_opening.GIF" width="578" height="223"></p>
 </td></tr>

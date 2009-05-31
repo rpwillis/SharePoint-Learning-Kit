@@ -28,25 +28,26 @@ function readAnswers()
 		var id = retrieveDataValue(interaction+".id");
 		var learnerResponse = retrieveDataValue(interaction+".learner_response");
 		
+                var quizForm = document.getElementById("examForm");
 		// SCORM requires interactions and objectives to be referenced by ID and the content
 		// cannot assume an order of the interactions array.
 		// Switch on the interaction id to fill out the form with the appropriate information.
 		switch (id) {
 		case "Q1":
-			examForm.Q1String.value = learnerResponse;
+			quizForm.Q1String.value = learnerResponse;
 		break;
 		case "Q2":
 			if (learnerResponse == "true"){
-				examForm.Q2[0].checked = 1;
+				quizForm.Q2[0].checked = 1;
 			} 
 			if (learnerResponse == "false"){
-				examForm.Q2[1].checked = 1;
+				quizForm.Q2[1].checked = 1;
 			}
 		break;
 		case "Q3":
 			var responses = learnerResponse.split("[,]");
-			examForm.Q3String1.value = responses[0];
-			examForm.Q3String2.value = responses[1];
+			quizForm.Q3String1.value = responses[0];
+			quizForm.Q3String2.value = responses[1];
 		break;
 		default: alert("Unknown interaction ID")	
 		}
@@ -59,20 +60,20 @@ function storeAnswers()
 	// Q1, fill out the fill-in response
 	storeDataValue("cmi.interactions.0.id","Q1");
 	storeDataValue("cmi.interactions.0.type","fill-in");
-	storeDataValue("cmi.interactions.0.learner_response",document.examForm.Q1String.value);
+	storeDataValue("cmi.interactions.0.learner_response",document.getElementById("Q1String").value);
 
 	// Q2, set the true_false depending on what is checked.
 	storeDataValue("cmi.interactions.1.id","Q2");
 	storeDataValue("cmi.interactions.1.type","true-false"); 
-    if (document.examForm.Q2[0].checked)
+    if (document.getElementById("Q2t").checked)
 		storeDataValue("cmi.interactions.1.learner_response","true");
-	if (document.examForm.Q2[1].checked)	
+	if (document.getElementById("Q2f").checked)	
 		storeDataValue("cmi.interactions.1.learner_response","false");
 	
 	// Q3 set the values from fill-in response (two values)
 	storeDataValue("cmi.interactions.2.id","Q3");
 	storeDataValue("cmi.interactions.2.type","fill-in");
-	storeDataValue("cmi.interactions.2.learner_response",document.examForm.Q3String1.value+"[,]"+document.examForm.Q3String2.value);
+	storeDataValue("cmi.interactions.2.learner_response",document.getElementById("Q3String1").value+"[,]"+document.getElementById("Q3String2").value);
 }
 
 // Initialize communication with the SCORM API and set-up the page with previously stored answers.
@@ -101,12 +102,12 @@ function UnloadAPI()
 // Disable all user inputs on the page. Function is called in "review" and "browse" modes.
 function disableInputs()
 {
-	examForm.Q1String.disabled = true;
-	examForm.Q2[0].disabled = true;
-	examForm.Q2[1].disabled = true;
-	examForm.Q3String1.disabled = true;
-	examForm.Q3String2.disabled = true;
-	examForm.submitButton.disabled = true;
+	document.getElementById("Q1String").disabled = true;
+	document.getElementById("Q2t").disabled = true;
+	document.getElementById("Q2f").disabled = true;
+	document.getElementById("Q3String1").disabled = true;
+	document.getElementById("Q3String2").disabled = true;
+	document.getElementById("submitButton").disabled = true;
 	
 	if (displayMode == "review") {checkAnswers();} //Call check answers to display the user's results if in the review mode.
 }
@@ -118,24 +119,24 @@ function checkAnswers()
 	rawScore=0; //reset the rawScore to 0.
 	
 	// Question 1: 
-	var displayResult = Q1Result;
-	if (examForm.Q1String.value == "Patience" || examForm.Q1String.value == "patience") //Check learner answers
+	var displayResult = document.getElementById("Q1Result");
+	if (document.getElementById("Q1String").value == "Patience" || document.getElementById("Q1String").value == "patience") //Check learner answers
 	   { 
 	      rawScore++;
 		  displayResult.innerHTML = correctAns();
  	   } else {displayResult.innerHTML = incorrectAns();}
  	   
 	// Question 2: 
-	displayResult = Q2Result;
- 	if (examForm.Q2[1].checked)
+	displayResult = document.getElementById("Q2Result");
+ 	if (document.getElementById("Q2f").checked)
 	   { 
 	      rawScore++;
 		  displayResult.innerHTML = correctAns();
  	   } else {displayResult.innerHTML = incorrectAns();}
  	
  	// Question 3: 
-	displayResult = Q3Result;   
- 	if (examForm.Q3String1.value == "red" && examForm.Q3String2.value == "black")
+	displayResult = document.getElementById("Q3Result");   
+ 	if (document.getElementById("Q3String1").value == "red" && document.getElementById("Q3String2").value == "black")
 	   { 
 	      rawScore++;
 		  displayResult.innerHTML = correctAns();
@@ -156,13 +157,13 @@ function calcScore()
   //  Inform the user that they were successful or not
   if (rawScore < passingScore)
   {
-  	directions.className = "incorrect";
-	dirText.innerHTML = '<p>Try again. You must get 2 of 3 correct to pass this unit.</p>';
+  	document.getElementById("directions").className = "incorrect";
+	document.getElementById("dirText").innerHTML = '<p>Try again. You must get 2 of 3 correct to pass this unit.</p>';
   }
   else 
   {
-    directions.className = "correct";
-	dirText.innerHTML = '<p>Congratulations!<br><br> Continue to the summary to review what you learned in this unit.</p>';
+        document.getElementById("directions").className = "correct";
+	document.getElementById("dirText").innerHTML = '<p>Congratulations!<br><br> Continue to the summary to review what you learned in this unit.</p>';
   }
 
   //Commit the updated data model elements to the server.
@@ -187,7 +188,7 @@ function calcScore()
 		</td>
 	</tr>
 </table>
-<form name="examForm">
+<form id="examForm">
 	<table width="650">
 		<tr id="questions">
 			<td>1.&nbsp; The British term for solitaire is
@@ -200,17 +201,17 @@ function calcScore()
 			<td><i>2.&nbsp;
 			<img border="0" src="images/DiamondSpade.gif" width="100" height="116" align="right"></i>True/False: 
 			Spades rank higher in solitaire than diamonds? <i>(False)</i><p>
-			<input type="radio" name="Q2" value="true" tabindex="2" />True
-			<input type="radio" name="Q2" value="false" tabindex="3" /> False
+			<input type="radio" name="Q2" id="Q2t" value="true" tabindex="2" />True
+			<input type="radio" name="Q2" id="Q2f" value="false" tabindex="3" /> False
 			</p>
 			</td>
 			<td width="150" valign="top" id="Q2Result"></td>
 		</tr>
 		<tr>
 			<td>3.&nbsp; Hearts and diamonds are called
-			<input type="text" name="Q3String1" value size="12" tabindex="4" />cards 
+			<input type="text" id="Q3String1" value size="12" tabindex="4" />cards 
 			and spades and clubs are called
-			<input type="text" name="Q3String2" value size="12" tabindex="5" />cards.
+			<input type="text" id="Q3String2" value size="12" tabindex="5" />cards.
 			<i>(red/black)</i><p align="center">
 			<img border="0" src="images/RedBlack.gif" width="194" height="90">
 			</p>
@@ -218,7 +219,7 @@ function calcScore()
 			<td width="150" valign="top" id="Q3Result"></td>
 		</tr>
 	</table>
-	<input type="button" name="submitButton" value="Check Answers" onclick="calcScore()" tabindex="6">
+	<input type="button" id="submitButton" value="Check Answers" onclick="calcScore()" tabindex="6">
 </form>
 
 </td></tr>
