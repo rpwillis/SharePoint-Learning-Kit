@@ -64,7 +64,6 @@ namespace InstallerHelper
             modification.Value = "<add name=\"" + Name + "\" connectionString=\"Data Source=" + DataSource + ";Initial Catalog=" + InitialCatalog + ";User ID=" + User + ";Password=" + Pwd + ";Timeout=" + TimeOut + "\" providerName=\"" + ProviderName + "\" />";
             modification.Sequence = 1;
             Modific.Add(modification);
-            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
             webApp.Update();
         }
 
@@ -87,7 +86,6 @@ namespace InstallerHelper
             modification.Value = "<add name=\"" + Name + "\" connectionString=\"Data Source=" + DataSource + ";Initial Catalog=" + InitialCatalog + ";Integrated Security=SSPI;Timeout=" + TimeOut + "\" providerName=\"" + ProviderName + "\" />";
             modification.Sequence = 1;
             Modific.Add(modification);
-            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
             webApp.Update();
         }
 
@@ -106,7 +104,6 @@ namespace InstallerHelper
             Modification.Type = SPWebConfigModification.SPWebConfigModificationType.EnsureSection;
             Modification.Owner = "";
             Modifications.Add(Modification);
-            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
 
         }
 
@@ -120,7 +117,6 @@ namespace InstallerHelper
             System.Collections.ObjectModel.Collection<SPWebConfigModification> Modific = webApp.WebConfigModifications;
             Modific.Clear();
             webApp.Update();
-            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
         }
 
         /// <summary>
@@ -138,7 +134,6 @@ namespace InstallerHelper
             modification.Value = "<add key=\"" + Key + "\" value=\"" + Value + "\" />";
             modification.Sequence = 1;
             Modific.Add(modification);
-            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
             webApp.Update();
         }
 
@@ -163,8 +158,6 @@ namespace InstallerHelper
             modification.Value = "<add verb=\"" + Verb + "\" path=\"" + path + "\" type=\"" + TypeName + ", Version=" + TypeVersion + ", Culture=" + TypeCulture + ", PublicKeyToken=" + TypeToken + "\" validate=\"" + Validate + "\" />";
             modification.Sequence = 1;
             Modific.Add(modification);
-            webApp.Farm.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
-            //SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
             webApp.Update();
         }
 
@@ -193,7 +186,6 @@ namespace InstallerHelper
                 TypeName + "\" Safe=\"" + Safe + "\" />";
             modification.Sequence = 1;
             Modific.Add(modification);
-            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
             webApp.Update();
         }
 
@@ -218,7 +210,6 @@ namespace InstallerHelper
                 ", Culture=" + Culture + ", PublicKeyToken=" + Publickeytoken + "\"></sectionGroup>";
             modification.Sequence = 1;
             Modific.Add(modification);
-            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
             webApp.Update();
         }
 
@@ -244,7 +235,6 @@ namespace InstallerHelper
                 RequirePermission + "\" allowDefinition=\"" + AllowDefinition + "\"/>";
             modification.Sequence = 1;
             Modific.Add(modification);
-            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
             webApp.Update();
         }
 
@@ -270,7 +260,6 @@ namespace InstallerHelper
                 ", Version=" + Version + ", Culture=" + Culture + ", PublicKeyToken=" + Publickeytoken + "\"/>";
             modification.Sequence = 1;
             Modific.Add(modification);
-            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
             webApp.Update();
         }
 
@@ -296,7 +285,6 @@ namespace InstallerHelper
                 Culture + ", PublicKeyToken=" + Publickeytoken + "\"/>";
             modification.Sequence = 1;
             Modific.Add(modification);
-            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
             webApp.Update();
         }
 
@@ -316,7 +304,6 @@ namespace InstallerHelper
             Modification.Type = SPWebConfigModification.SPWebConfigModificationType.EnsureChildNode;
             Modification.Owner = "";
             Modifications.Add(Modification);
-            SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
 
         }
 
