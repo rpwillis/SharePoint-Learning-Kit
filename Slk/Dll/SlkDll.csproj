@@ -95,6 +95,7 @@
     <Compile Include="Rte1p2DataModelConverter.cs" />
     <Compile Include="Rte2004DataModelConverter.cs" />
     <Compile Include="SlkApi.cs" />
+    <Compile Include="api\SlkStore.cs" />
     <Compile Include="FramesetQueryParam.cs">
       <SubType>Code</SubType>
     </Compile>

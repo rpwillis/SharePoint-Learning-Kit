@@ -74,6 +74,9 @@ public class SlkSettings
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
     int? m_packageCacheExpirationMinutes;
 
+        ///<summary>Indicates whether to hide disabled users on the assignment page.</summary>
+        bool hideDisabledUsers;
+
 	/// <summary>
 	/// Holds the value of the <c>PackageCacheLocation</c> property.
 	/// </summary>
@@ -199,6 +202,12 @@ public class SlkSettings
 			return m_packageCacheExpirationMinutes;
 		}
 	}
+
+        ///<summary>Indicates whether to hide disabled users on the assignment page.</summary>
+        public bool HideDisabledUsers
+        {
+            get { return hideDisabledUsers ;}
+        }
 
 	/// <summary>
     /// Gets the value of the "PackageCacheLocation" attribute of the "&lt;Settings&gt;" element
@@ -393,8 +402,20 @@ public class SlkSettings
 
 					// parse "MaxAttachmentKilobytes" attribute
 					if (!xmlReader.MoveToAttribute("MaxAttachmentKilobytes"))
-                        throw new InternalErrorException("SLKSET1002");
+                                        {
+                                            throw new InternalErrorException("SLKSET1002");
+                                        }
 					slkSettings.m_maxAttachmentKilobytes = xmlReader.ReadContentAsInt();
+
+					// parse "HideDisabledUsers" attribute
+					if (!xmlReader.MoveToAttribute("HideDisabledUsers"))
+                                        {
+                                            slkSettings.hideDisabledUsers = false;
+                                        }
+					else
+                                        {
+                                            slkSettings.hideDisabledUsers = xmlReader.ReadContentAsBoolean();
+                                        }
 
 					// parse "PackageCacheExpirationMinutes" attribute
 					if (!xmlReader.MoveToAttribute("PackageCacheExpirationMinutes"))

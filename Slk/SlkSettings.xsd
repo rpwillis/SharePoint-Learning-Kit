@@ -102,6 +102,7 @@
 			</xs:sequence>
 			<xs:attribute name="ApprovedAttachmentTypes" type="xs:string" use="required" />
 			<xs:attribute name="ELearningIisCompatibilityModeExtensions" type="xs:string" use="optional" />
+			<xs:attribute name="HideDisabledUsers" type="xs:boolean" use="optional" />
 			<xs:attribute name="LoggingOptions" type="LoggingOptions" use="required" />
 			<xs:attribute name="MaxAttachmentKilobytes" type="xs:int" use="required" />
 			<xs:attribute name="NonELearningIisCompatibilityModeExtensions" type="xs:string" use="optional" />
