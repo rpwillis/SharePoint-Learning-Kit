@@ -662,7 +662,8 @@ namespace Microsoft.LearningComponents {
             [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
             [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
             [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-            public const int MaxSuspendDataLength = 4096;
+            public const int MaxSuspendDataLength = 64000;
+            //public const int MaxSuspendDataLength = 4096;
         }
         
         /// <summary>
