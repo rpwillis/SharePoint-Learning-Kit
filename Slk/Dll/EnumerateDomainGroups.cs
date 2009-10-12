@@ -82,7 +82,7 @@ static class DomainGroupUtilities
     ///
     static private void GetSPUserInfoFromLocalGroupMembersInfo(LOCALGROUP_MEMBERS_INFO_3 lgmi3,
         DateTime timeoutTime, Dictionary<string, SPUserInfo> users,
-        ref DirectoryEntry configRoot, ref SearchResult configResult, ref String configPath)
+        ref DirectoryEntry configRoot, ref SearchResult configResult, ref String configPath, bool hideDisabledUsers)
     {
         IntPtr bufPtr;
         USER_INFO_2 user = new USER_INFO_2();
@@ -103,7 +103,7 @@ static class DomainGroupUtilities
                         if (result != null)
                         {
                             DirectoryEntry de = result.GetDirectoryEntry();
-                            ProcessDirectoryEntry(de, timeoutTime, users, ref configRoot, ref configResult, ref configPath);
+                            ProcessDirectoryEntry(de, timeoutTime, users, ref configRoot, ref configResult, ref configPath, hideDisabledUsers);
                         }
                     }
                 }
@@ -147,7 +147,7 @@ static class DomainGroupUtilities
     /// <returns>True if this is a local group, false otherwise.</returns>
     private static bool ReadLocalGroup(string domainName, string groupName, DateTime timeoutTime,
         Dictionary<string, SPUserInfo> users, ref DirectoryEntry configRoot, 
-        ref SearchResult configResult, ref String configPath)
+        ref SearchResult configResult, ref String configPath, bool hideDisabledUsers)
     {
         int entriesRead;
         int totalEntries;
@@ -165,13 +165,12 @@ static class DomainGroupUtilities
                 TimeSpan remainingTime = timeoutTime - DateTime.Now;
                 if(remainingTime <= TimeSpan.Zero)
                 {
-                    throw new DomainGroupEnumerationException(
-                        AppResources.DomainGroupEnumTimeout);
+                    throw new DomainGroupEnumerationException(AppResources.DomainGroupEnumTimeout);
                 }
                 members[i] = (LOCALGROUP_MEMBERS_INFO_3)Marshal.PtrToStructure(iter, typeof(LOCALGROUP_MEMBERS_INFO_3));
                 iter = (IntPtr)((int)iter + Marshal.SizeOf(typeof(LOCALGROUP_MEMBERS_INFO_3)));
 
-                GetSPUserInfoFromLocalGroupMembersInfo(members[i], timeoutTime, users, ref configRoot, ref configResult, ref configPath);
+                GetSPUserInfoFromLocalGroupMembersInfo(members[i], timeoutTime, users, ref configRoot, ref configResult, ref configPath, hideDisabledUsers);
             }
             NetApiBufferFree(bufPtr);
 
@@ -191,6 +190,7 @@ static class DomainGroupUtilities
     /// <param name="configRoot">Last successful AD Configuration root searched.</param>
     /// <param name="configResult">Last successful AD Configuration search result.</param>
     /// <param name="configPath">DN Path from last successfully processed directory entry.</param>
+    /// <param name="hideDisabledUsers">Whether to hide disabled users or not.</param>
     /// 
     /// <exception cref="DomainGroupEnumerationException">
 	/// Enumeration of the domain group failed.
@@ -198,16 +198,33 @@ static class DomainGroupUtilities
 	///
     private static void ProcessDirectoryEntry(DirectoryEntry entry, DateTime timeoutTime,
         Dictionary<string, SPUserInfo> users, ref DirectoryEntry configRoot, 
-        ref SearchResult configResult, ref String configPath)
+        ref SearchResult configResult, ref String configPath, bool hideDisabledUsers)
     {
         if (entry.SchemaClassName == "group")
         {
-            AddGroupChildren(entry, timeoutTime, users, ref configRoot, ref configResult, ref configPath);
+            AddGroupChildren(entry, timeoutTime, users, ref configRoot, ref configResult, ref configPath, hideDisabledUsers);
         }
         else if (entry.SchemaClassName == "user")
         {
-            SPUserInfo spUserInfo = GetSPUserInfoFromDirectoryEntry(entry, ref configRoot, ref configResult, ref configPath);
-            users[spUserInfo.LoginName] = spUserInfo;
+            bool addUser = true;
+            if (hideDisabledUsers)
+            {
+                PropertyValueCollection accountControl = entry.Properties["userAccountControl"]; 
+                if (accountControl != null && accountControl.Value != null)
+                {
+                    // 2 is the flag for account disabled
+                    if (((int)accountControl.Value & 2) == 2)
+                    {
+                        addUser = false;
+                    }
+                }
+            }
+            
+            if (addUser)
+            {
+                SPUserInfo spUserInfo = GetSPUserInfoFromDirectoryEntry(entry, ref configRoot, ref configResult, ref configPath);
+                users[spUserInfo.LoginName] = spUserInfo;
+            }
         }
     }
 
@@ -230,50 +247,49 @@ static class DomainGroupUtilities
 	///
 	private static void AddGroupChildren(DirectoryEntry entry, DateTime timeoutTime,
         Dictionary<string, SPUserInfo> users, ref DirectoryEntry configRoot, 
-        ref SearchResult configResult, ref String configPath)
+        ref SearchResult configResult, ref String configPath, bool hideDisabledUsers)
 	{
-		try
-		{
+            try
+            {
             // enumerate the domain group using a DirectorySearcher
-			using(DirectorySearcher mySearcher = new DirectorySearcher(entry))
-			{
-                // calculate the remaining time before timeout and set the timeout of the
-                // DirectorySearcher to that value; if we've already exceeded the timeout,
-                // throw an exception
-                TimeSpan remainingTime = timeoutTime - DateTime.Now;
-                if (remainingTime <= TimeSpan.Zero)
+                using(DirectorySearcher mySearcher = new DirectorySearcher(entry))
                 {
-                    throw new DomainGroupEnumerationException(
-                        AppResources.DomainGroupEnumTimeout);
-                }
-                mySearcher.ClientTimeout = remainingTime;
+                    // calculate the remaining time before timeout and set the timeout of the
+                    // DirectorySearcher to that value; if we've already exceeded the timeout,
+                    // throw an exception
+                    TimeSpan remainingTime = timeoutTime - DateTime.Now;
+                    if (remainingTime <= TimeSpan.Zero)
+                    {
+                        throw new DomainGroupEnumerationException(
+                            AppResources.DomainGroupEnumTimeout);
+                    }
+                    mySearcher.ClientTimeout = remainingTime;
 
-                // specify other parameters for the DirectorySearcher
-				mySearcher.Filter = "(objectClass=group)";
+                    // specify other parameters for the DirectorySearcher
+                    mySearcher.Filter = "(objectClass=group)";
 
-                // do the search
-				using(SearchResultCollection resultCollection = mySearcher.FindAll())
-				{
-					foreach(SearchResult result in resultCollection)
-					{
-						foreach(object member in result.Properties["member"])
-						{
-							// check for timeout here because the DirectoryEntry constructor may
-							// take some time and has no timeout
-							// alternately, we could just parse the string for member, but that is
-							// somewhat iffy as to getting the various pieces (e.g. SchemaClassName)
-							// and definitely doesn't tell us if the member returned is valid or not
+                    // do the search
+                    using(SearchResultCollection resultCollection = mySearcher.FindAll())
+                    {
+                        foreach(SearchResult result in resultCollection)
+                        {
+                                foreach(object member in result.Properties["member"])
+                                {
+                                        // check for timeout here because the DirectoryEntry constructor may
+                                        // take some time and has no timeout
+                                        // alternately, we could just parse the string for member, but that is
+                                        // somewhat iffy as to getting the various pieces (e.g. SchemaClassName)
+                                        // and definitely doesn't tell us if the member returned is valid or not
                             remainingTime = timeoutTime - DateTime.Now;
                             if (remainingTime <= TimeSpan.Zero)
                             {
-                                throw new DomainGroupEnumerationException(
-                                    AppResources.DomainGroupEnumTimeout);
+                                throw new DomainGroupEnumerationException( AppResources.DomainGroupEnumTimeout);
                             }
 							try
 							{
 								using(DirectoryEntry de = new DirectoryEntry("LDAP://" + (string)member))
 								{
-                                    ProcessDirectoryEntry(de, timeoutTime, users, ref configRoot, ref configResult, ref configPath);
+                                    ProcessDirectoryEntry(de, timeoutTime, users, ref configRoot, ref configResult, ref configPath, hideDisabledUsers);
 								}
 							}
 							catch(COMException)
@@ -518,22 +534,18 @@ static class DomainGroupUtilities
         return spUserInfo;
     }
 
-    /// <summary>
+    ///<summary>
     /// Enumerates the members of a domain group.
     /// </summary>
-    /// 
-    /// <param name="groupName">The name of the group to enumerate; e.g. "mydomain\mygroup".</param>
-    ///
-    /// <param name="timeout">An exception is thrown if enumeration takes longer than approximately
+    ///<param name="groupName">The name of the group to enumerate; e.g. "mydomain\mygroup".</param>
+    ///<param name="timeout">An exception is thrown if enumeration takes longer than approximately
     ///     this amount of time.</param>
-    ///
-    /// <returns>
+    ///<param name="hideDisabledUsers">Whether to retrieve disabled users or not.</param>
+    ///<returns>
     /// A collection of <c>SPUserInfo</c> objects referring to the members of the group.  Note that
     /// these users are not necessarily members of any SharePoint site collection --
-    /// <c>SpUserInfo</c> is used simply as a convenient class to contain information about users.
-    /// </returns>
-    ///
-	static public ICollection<SPUserInfo> EnumerateDomainGroup(string groupName, TimeSpan timeout)
+    /// <c>SpUserInfo</c> is used simply as a convenient class to contain information about users.</returns>
+	static public ICollection<SPUserInfo> EnumerateDomainGroup(string groupName, TimeSpan timeout, bool hideDisabledUsers)
 	{
         /* Placeholders for cached last AD Configuration processed
          * to speed up NETBIOS domain name retrieval - most group entries 
@@ -551,8 +563,7 @@ static class DomainGroupUtilities
         int backslashIndex = groupName.IndexOf('\\');
         if (backslashIndex <= 0)
         {
-            throw new DomainGroupEnumerationException(
-                String.Format(CultureInfo.CurrentCulture, AppResources.DomainGroupNameHasNoBackslash, groupName));
+            throw new DomainGroupEnumerationException(String.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupNameHasNoBackslash, groupName));
         }
         string domainName = groupName.Substring(0, backslashIndex);
         string loginName = groupName.Substring(backslashIndex + 1);
@@ -561,7 +572,7 @@ static class DomainGroupUtilities
         // the enumerated group; the key is the login name of the user, e.g. "domain\username"
         Dictionary<string, SPUserInfo> users = new Dictionary<string, SPUserInfo>();
 
-        if (ReadLocalGroup(domainName, loginName, timeoutTime, users, ref configRoot, ref configResult, ref configPath))
+        if (ReadLocalGroup(domainName, loginName, timeoutTime, users, ref configRoot, ref configResult, ref configPath, hideDisabledUsers))
         {
             return users.Values;
         }
@@ -577,8 +588,7 @@ static class DomainGroupUtilities
                 using (DirectorySearcher mySearcher = new DirectorySearcher(entry))
                 {
                     mySearcher.ClientTimeout = timeout;
-                    mySearcher.Filter = "(&(objectClass=group)(sAMAccountName=" +
-                        loginName + "))";
+                    mySearcher.Filter = string.Format(CultureInfo.InvariantCulture, "(&(objectClass=group)(sAMAccountName={0}))", loginName);
                     using (SearchResultCollection resultCollection = mySearcher.FindAll())
                     {
                         foreach (SearchResult result in resultCollection)
@@ -597,7 +607,7 @@ static class DomainGroupUtilities
                                 {
                                     using (DirectoryEntry de = new DirectoryEntry("LDAP://" + (string)member))
                                     {
-                                        ProcessDirectoryEntry(de, timeoutTime, users, ref configRoot, ref configResult, ref configPath);
+                                        ProcessDirectoryEntry(de, timeoutTime, users, ref configRoot, ref configResult, ref configPath, hideDisabledUsers);
                                     }
                                 }
                                 catch (COMException)
