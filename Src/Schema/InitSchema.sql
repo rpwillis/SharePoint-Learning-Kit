@@ -1240,7 +1240,7 @@ CREATE TABLE [ActivityAttemptItem](
     [SessionStartTimestamp] datetime DEFAULT NULL,
     [SessionTime] float(53) DEFAULT NULL,
     [SuccessStatus] int DEFAULT NULL,
-    [SuspendData] nvarchar(max) DEFAULT NULL CHECK(LEN([SuspendData])<=4096),
+    [SuspendData] nvarchar(max) DEFAULT NULL CHECK(LEN([SuspendData])<=64000),
     [TotalTime] float(53) DEFAULT 0
 )
 GRANT SELECT, INSERT, DELETE, UPDATE ON [ActivityAttemptItem] TO LearningStore
