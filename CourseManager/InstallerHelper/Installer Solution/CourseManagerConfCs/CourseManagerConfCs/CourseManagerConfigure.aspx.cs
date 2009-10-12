@@ -263,6 +263,7 @@ namespace CourseManagerConfCs
 
 
                     ConfigureConnectionStringIntegratedSecurity(sitecollection, databaseserver, databasename);
+                    SPFarm.Local.Services.GetValue<SPWebService>().ApplyWebConfigModifications();
                     #endregion
 
                     BtnOK.Visible = true;
