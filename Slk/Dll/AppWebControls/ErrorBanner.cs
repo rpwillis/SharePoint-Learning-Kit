@@ -16,6 +16,7 @@ using System.Web.UI.Design;
 using Resources.Properties;
 using Microsoft.LearningComponents;
 using Microsoft.SharePointLearningKit;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.WebControls
 {
@@ -214,6 +215,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="htmlTextWriter">htmlTextWriter</param>
         private static void RenderErrorItem(SlkError item, HtmlTextWriter htmlTextWriter)
         {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             //Controls to Render Error
             Image imgErrorType = new Image();
             Literal lcErrorText = new Literal();

@@ -19,6 +19,9 @@ using Microsoft.LearningComponents.Storage;
 using Microsoft.SharePoint;
 using Microsoft.SharePointLearningKit.WebControls;
 using Resources.Properties;
+using System.Text;
+using System.Configuration;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -52,6 +55,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Holds the learner store corresponding to the input user in the case of an Observer's role
         /// </summary>
         SlkStore m_observerRoleLearnerStore;
+
         #endregion
 
         #region Public Properties
@@ -108,7 +112,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 return base.SlkStore;
             }
         }
-        
 
         #endregion
 
@@ -136,6 +139,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected void Page_Load(object sender, EventArgs e)
         {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             String queryCount = String.Empty;
             // render the HTML for the page
             using (HtmlTextWriter hw = new HtmlTextWriter(Response.Output, "  "))
@@ -172,8 +176,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
 
                     // render the "<body>" element and its contents
-
                     hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%; overflow-y: auto; overflow-x: auto;");
+
                     using (new HtmlBlock(HtmlTextWriterTag.Body, 0, hw))
                     {
                         // render the outer table -- this contains only one row and one column, which
@@ -350,6 +354,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected void ResolveSPWebName(Guid spWebGuid, Guid spSiteGuid, out string spWebName,
 			out string spWebUrl)
         {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
             //Restore previously assigned value 
             bool previousValue = SPSecurity.CatchAccessDeniedException;
@@ -430,6 +435,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 List<RenderedCell[]> renderedRows,
                                 HtmlTextWriter hw)
         {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
+
             // get the column definitions
             IList<ColumnDefinition> columnDefs = queryDef.Columns;
 
@@ -465,6 +472,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         else
                             ascendingSort = null;
                         RenderColumnHeader(columnDef, columnIndex, ascendingSort, hw);
+
                         columnIndex++;
                     }
                 }
@@ -510,6 +518,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 }
                             }
 
+                            Guid assignmentGUID = Guid.Empty;
+                            if (renderedRow[1].Id.ItemTypeName == Schema.LearnerAssignmentItem.ItemTypeName)
+                            {
+                                assignmentGUID = SlkStore.GetLearnerAssignmentGuidId(renderedRow[1].Id);
+                            }
+
                             // render the cells in this row
                             int columnIndex = 0;
                             foreach (RenderedCell renderedCell in renderedRow)
@@ -522,8 +536,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 }
                                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
                                 {
-                                    RenderColumnCell(renderedCell, webNameRenderedCell, hw, SlkStore);
+                                    if (columnDef.Title.Equals(AppResources.AlwpFileSubmissionColumnTitle))
+                                    {
+                                        RenderFileSubmissionCell(renderedCell, assignmentGUID, hw);
+                                    }
+                                    else    
+                                        RenderColumnCell(renderedCell, webNameRenderedCell, hw, SlkStore);
                                 }
+
                                 columnIndex++;
                             }
                         }
@@ -625,6 +645,105 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
             }
         }
+        #endregion
+
+        #region RenderFileSubmissionCell
+
+        /// <summary>
+        /// Renders the File Submission column cell
+        /// </summary>
+        /// <param name="renderedCell">The value to render, from the query results.</param>
+        /// <param name="assignmentGUID">The GUID of the current assignment</param>
+        /// <param name="hw">The HtmlTextWriter to write to.</param>
+        void RenderFileSubmissionCell(RenderedCell renderedCell, Guid assignmentGUID, HtmlTextWriter hw)
+        {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
+            if (renderedCell.ToString().Equals(AppResources.AlwpFileSubmissionSubmitText))
+            {
+                RenderFileSubmissionCellAsSubmitLink(
+                    "{0}/_layouts/SharePointLearningKit/FilesUploadPage.aspx?LearnerAssignmentId={1}",
+                    assignmentGUID,
+                    renderedCell.ToString(),
+                    hw);
+            }
+            else if (renderedCell.ToString().Equals(AppResources.AlwpFileSubmissionSubmittedText))
+            {
+                RenderFileSubmissionCellAsSubmittedLink(
+                    "{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}",
+                    assignmentGUID,
+                    renderedCell.ToString().Replace(" LINK",string.Empty),
+                    hw);
+            }
+            else
+            {
+                hw.WriteEncodedText(renderedCell.ToString());
+            }
+        }
+
+        #endregion
+
+        #region RenderFileSubmissionCellAsSubmittedLink
+
+        /// <summary>
+        /// Renders The File Submission column cell as "Submitted" link
+        /// </summary>
+        /// <param name="fileURL">The URL of the file to be redirected to when the cell link is clicked</param>
+        /// <param name="assignmentGUID">The GUID of the current assignment</param>
+        /// <param name="renderedCellValue">The text to be displayed in the cell</param>
+        /// <param name="hw">The HtmlTextWriter to write to.</param>
+        void RenderFileSubmissionCellAsSubmittedLink(string fileURL, Guid assignmentGUID, 
+            string renderedCellValue, HtmlTextWriter hw)
+        {
+            string url = CheckSubmittedFilesNumber(assignmentGUID);
+
+            if (url.Equals(string.Empty))
+            {
+                StringBuilder pageURL = new StringBuilder();
+                pageURL.AppendFormat(fileURL, SPWeb.Url, assignmentGUID.ToString());
+
+                url = pageURL.ToString();
+            }
+
+            StringBuilder anchorOnClick = new StringBuilder();
+            anchorOnClick.AppendFormat("{0}{1}{2}", "window.open('", url, 
+                                "','popupwindow','width=400,height=300,scrollbars,resizable');return false; ");
+
+            hw.AddAttribute(HtmlTextWriterAttribute.Onclick, anchorOnClick.ToString());
+            hw.AddAttribute(HtmlTextWriterAttribute.Href, url);
+
+            using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
+            {
+                hw.WriteEncodedText(renderedCellValue);
+            }
+        }
+
+        #endregion
+
+        #region RenderFileSubmissionCellAsSubmitLink
+
+        /// <summary>
+        /// Renders The File Submission column cell as "Submit File(s)" link
+        /// </summary>
+        /// <param name="fileURL">The URL of the file to be redirected to when the cell link is clicked</param>
+        /// <param name="assignmentGUID">The GUID of the current assignment</param>
+        /// <param name="renderedCellValue">The text to be displayed in the cell</param>
+        /// <param name="hw">The HtmlTextWriter to write to.</param>
+        void RenderFileSubmissionCellAsSubmitLink(string fileURL, Guid assignmentGUID,
+            string renderedCellValue, HtmlTextWriter hw)
+        {
+
+            StringBuilder url = new StringBuilder();
+            url.AppendFormat(fileURL, SPWeb.Url, assignmentGUID.ToString());
+
+            hw.AddAttribute(HtmlTextWriterAttribute.Target, "_top");
+            hw.AddAttribute(HtmlTextWriterAttribute.Href, url.ToString());
+
+            using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
+            {
+                hw.WriteEncodedText(renderedCellValue);
+            }
+        }
+
         #endregion
 
         #region RenderColumnCell
@@ -751,7 +870,153 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         }
         #endregion
-        
+
+        #region CheckSubmittedFilesNumber
+
+        /// <summary>
+        /// Checks the number of the assignment submitted files. 
+        /// </summary>
+        /// <param name="assignmentGUID">The assignment GUID</param>
+        /// <returns> If one assignment submitted, returns its URL.
+        /// If more than one, returns an empty string.</returns>
+        private string CheckSubmittedFilesNumber(Guid assignmentGUID)
+        {
+            LearnerAssignmentProperties learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(
+                                                                      assignmentGUID,
+                                                                      SlkRole.Learner);
+
+            AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(
+                                                               learnerAssignmentProperties.AssignmentId,
+                                                               SlkRole.Learner);
+            if (SlkStore.IsObserver(SPWeb))
+            {
+                string result = string.Empty;
+
+                SPSecurity.RunWithElevatedPrivileges(delegate
+                {
+                     result = PerformFilesNumberChecking(learnerAssignmentProperties, assignmentProperties);
+                });
+
+                return result;
+            }
+            else
+            {
+                return PerformFilesNumberChecking(learnerAssignmentProperties, assignmentProperties);
+            }
+        }
+
+        #endregion
+
+        #region PerformFilesNumberChecking
+
+        /// <summary>
+        /// Checks the number of the assignment submitted files. 
+        /// </summary>
+        /// <param name="learnerAssignmentProperties">The LearnerAssignmentProperties</param>
+        /// <param name="assignmentProperties">The AssignmentProperties</param>
+        /// <returns> If one assignment submitted, returns its URL.
+        /// If more than one, returns an empty string.</returns>
+        private string PerformFilesNumberChecking(
+                                LearnerAssignmentProperties learnerAssignmentProperties, 
+                                AssignmentProperties assignmentProperties)
+        {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
+            using (SPSite site = new SPSite(assignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
+            {
+                using (SPWeb web = site.OpenWeb(assignmentProperties.SPWebGuid))
+                {
+                    SPList list = web.Lists[AppResources.DropBoxDocLibName];
+
+                    StringBuilder assignmentCreationDate = new StringBuilder();
+                    assignmentCreationDate.AppendFormat(
+                                            "{0}{1}{2}",
+                                            assignmentProperties.DateCreated.Month.ToString(),
+                                            assignmentProperties.DateCreated.Day.ToString(),
+                                            assignmentProperties.DateCreated.Year.ToString());
+
+                    /* Searching for the assignment folder using the naming format: "AssignmentTitle AssignmentCreationDate" 
+                         * (This is the naming format defined in AssignmentProperties.aspx.cs page) */
+                    SPQuery query = new SPQuery();
+                    query.Folder = list.RootFolder;
+                    query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + learnerAssignmentProperties.Title + " " + assignmentCreationDate.ToString() + "</Value></Eq></Where>";
+                    SPListItemCollection assignmentFolders = list.GetItems(query);
+
+                    if (assignmentFolders.Count == 0)
+                    {
+                        throw new Exception(AppResources.SubmittedFilesNoAssignmentFolderException);
+                    }
+
+                    SPFolder assignmentFolder = assignmentFolders[0].Folder;
+
+                    query = new SPQuery();
+                    query.Folder = assignmentFolder;
+                    query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + learnerAssignmentProperties.LearnerName + "</Value></Eq></Where>";
+                    SPListItemCollection assignmentSubFolders = list.GetItems(query);
+
+                    if (assignmentSubFolders.Count == 0)
+                    {
+                        throw new Exception(AppResources.SubmittedFilesNoAssignmentSubFolderException);
+                    }
+
+                    SPFolder assignmentSubFolder = assignmentSubFolders[0].Folder;
+
+                    if (SlkStore.IsObserver(SPWeb))
+                    {
+                        ApplyObserverReadAccessPermissions(assignmentSubFolders[0]);
+                    }
+
+                    ////Getting the latest assignment files (files included in the latest assignment submission)
+                    query = new SPQuery();
+                    query.Folder = assignmentSubFolder;
+                    query.Query = "<Where><Eq><FieldRef Name='IsLatest'/><Value Type='Text'>True</Value></Eq></Where>";
+                    SPListItemCollection assignmentFiles = list.GetItems(query);
+
+                    if (assignmentFiles.Count != 1)
+                    {
+                        return string.Empty;
+                    }
+
+                    SPFile assignmentFile = assignmentFiles[0].File;
+
+                    StringBuilder fileURL = new StringBuilder();
+                    fileURL.AppendFormat("{0}{1}{2}", web.Url, "/", assignmentFile.Url);
+
+                    return fileURL.ToString();
+
+                }
+            }
+        }
+        #endregion
+
+
+        #region ApplyObserverReadAccessPermissions
+
+        /// <summary>
+        /// Gives the observer read access on the assignment folder and the sub folder of his child.
+        /// </summary>
+        /// <param name="assignmentSubFolder">The assignment subfolder</param>
+        private void ApplyObserverReadAccessPermissions(SPListItem assignmentSubFolder)
+        {
+            SPListItem assignmentFolder = assignmentSubFolder.Folder.ParentFolder.Item;
+            SPWeb web = assignmentSubFolder.Web;
+
+            SPRoleDefinition roleDefinition = web.RoleDefinitions["Read"];
+            SPRoleAssignment roleAssignment = new SPRoleAssignment(SPContext.Current.Web.CurrentUser);
+            roleAssignment.RoleDefinitionBindings.Add(roleDefinition);
+
+            web.AllowUnsafeUpdates = true;
+
+            assignmentFolder.RoleAssignments.Add(roleAssignment);
+            assignmentFolder.Update();
+
+            assignmentSubFolder.RoleAssignments.Add(roleAssignment);
+            assignmentSubFolder.Update();
+
+            web.AllowUnsafeUpdates = false;
+        }
+
+        #endregion
+
         #endregion
     }
 

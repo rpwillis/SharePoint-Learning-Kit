@@ -28,6 +28,7 @@ using Schema = Microsoft.SharePointLearningKit.Schema;
 using System.Web.UI.WebControls;
 using Microsoft.SharePoint.WebControls;
 using System.Web.UI;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.AdminPages
 {
@@ -77,6 +78,11 @@ public class ConfigurePage : System.Web.UI.Page
 	protected InputFormControl inputSlkSettingsFile;
 	protected Label labelSlkSettingDescription;
 	protected InputFormSection inputSlkSettings;
+    
+    protected InputFormTextBox TxtDropBoxFilesExtensions;
+    protected InputFormSection inputDropBoxFilesExtensionsSection;
+    protected Label labelDropBoxFilesExtensionsDescription;
+    protected InputFormControl inputDropBoxFilesExtensions;
 
     protected override void OnInit(EventArgs e)
     {
@@ -118,9 +124,11 @@ public class ConfigurePage : System.Web.UI.Page
             string learnerPermission;
             string observerPermission;
             bool createPermissions;
+            string dropBoxFilesExtensions;
+
             Guid siteGuid = string.IsNullOrEmpty(SPSiteSelector.CurrentId) ? Guid.Empty : new Guid(SPSiteSelector.CurrentId);
             SlkAdministration.LoadConfiguration(siteGuid, out databaseServer, out databaseName, out createDatabase,
-				out instructorPermission, out learnerPermission, out observerPermission, out createPermissions);
+                out instructorPermission, out learnerPermission, out observerPermission, out createPermissions, out dropBoxFilesExtensions);
             TxtDatabaseServer.Text = databaseServer;
             TxtDatabaseName.Text = databaseName;
             ChkCreateDatabase.Checked = createDatabase;
@@ -128,6 +136,8 @@ public class ConfigurePage : System.Web.UI.Page
             TxtLearnerPermission.Text = learnerPermission;
             TxtObserverPermission.Text = observerPermission;
             ChkCreatePermissions.Checked = createPermissions;
+
+            TxtDropBoxFilesExtensions.Text = dropBoxFilesExtensions;
         }
         catch (SafeToDisplayException ex)
         {
@@ -197,12 +207,14 @@ public class ConfigurePage : System.Web.UI.Page
 			string defaultSettingsFileContents =
 				File.ReadAllText(Server.MapPath("SlkSettings.xml.dat"));
 
+            string txtDropBoxFilesExtensionsText = TxtDropBoxFilesExtensions.Text.Trim().Replace(" ", string.Empty);
+
             // save the SLK configuration for this SPSite
             SlkAdministration.SaveConfiguration(new Guid(SPSiteSelector.CurrentId),
                 TxtDatabaseServer.Text, TxtDatabaseName.Text, schemaFileContents,
                 TxtInstructorPermission.Text, TxtLearnerPermission.Text, TxtObserverPermission.Text,
                 ChkCreatePermissions.Checked, settingsFileContents, defaultSettingsFileContents,
-                null, ImpersonationBehavior.UseOriginalIdentity);
+                null, ImpersonationBehavior.UseOriginalIdentity, txtDropBoxFilesExtensionsText);
 
 #if false
             // redirect back to the Application Management page
@@ -247,6 +259,7 @@ public class ConfigurePage : System.Web.UI.Page
         TxtLearnerPermission.Enabled = enable;
         TxtObserverPermission.Enabled = enable;
         ChkCreatePermissions.Enabled = enable;
+        TxtDropBoxFilesExtensions.Enabled = enable;
         LinkCurrentSettingsFile.Enabled = enable;
         if (linkDefaultSettingsFileToo)
             LinkDefaultSettingsFile.Enabled = enable;
@@ -268,6 +281,8 @@ public class ConfigurePage : System.Web.UI.Page
 	/// </summary>
 	private void SetResourceText()
 	{
+        AppResources.Culture = LocalizationManager.GetCurrentCulture();
+
 		pageTitle.Text = AppResources.ConfigureTitle;
 		pageTitleInTitlePage.Text = AppResources.ConfigureTitle;
 		pageDescription.Text = AppResources.ConfigureDescription;
@@ -299,6 +314,11 @@ public class ConfigurePage : System.Web.UI.Page
 		LinkDefaultSettingsFile.Text = AppResources.ConfigureLinkDefaultSettingsFileText;
 		inputSlkSettingsFile.LabelText = AppResources.ConfigureInputSlkSettingsFileLabelText;
 		BtnOK.Text = AppResources.ConfigureBtnOKText;
+
+        inputDropBoxFilesExtensionsSection.Title = AppResources.ConfigureInputDropBoxFilesExtensionsSectionTitle;
+        labelDropBoxFilesExtensionsDescription.Text = AppResources.ConfigurelabelDropBoxFilesExtensionsDescriptionText;
+        TxtDropBoxFilesExtensions.ToolTip = AppResources.ConfigureTxtDropBoxFilesExtensionsToolTip;
+        inputDropBoxFilesExtensions.LabelText = AppResources.ConfigureInputDropBoxFilesExtensionsLabelText;
 	}
 }
 

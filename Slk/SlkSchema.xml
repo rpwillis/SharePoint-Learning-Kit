@@ -3,76 +3,124 @@
 <StoreSchema xmlns="urn:schemas-microsoft-com:learning-components:learning-store-schema">
 	<!-- Common functions that return the learner assignment state information-->
 	<SqlBefore>
-		GO
+    GO
 
-		CREATE FUNCTION GetLearnerAssignmentState(
-		@RootActivityId bigint,
-		@IsFinal bit,
-		@NonELearningStatus int,
-		@AttemptStatus int)
-		RETURNS int
-		AS
-		BEGIN
-		RETURN CASE WHEN @RootActivityId IS NOT NULL
-		THEN
-		-- e-learning content
-		CASE WHEN @AttemptStatus IS NULL
-		THEN 0 -- LearnerAssignmentState.NotStarted
-		ELSE
-		CASE WHEN @IsFinal = 1
-		THEN 3 -- LearnerAssignmentState.Final
-		ELSE
-		CASE WHEN @AttemptStatus = 0 OR @AttemptStatus = 3
-		THEN 1 -- LearnerAssignmentState.Active
-		ELSE 2 -- LearnerAssignmentState.Completed
-		END
-		END
-		END
-		ELSE
-		-- non-e-learning content
-		CASE WHEN @NonELearningStatus IS NULL
-		THEN 0 -- LearnerAssignmentState.NotStarted
-		ELSE
-		CASE WHEN @IsFinal = 1
-		THEN 3 -- LearnerAssignmentState.Final
-		ELSE
-		CASE WHEN @NonELearningStatus = 0 OR @NonELearningStatus = 3
-		THEN 1 -- LearnerAssignmentState.Active
-		ELSE 2 -- LearnerAssignmentState.Completed
-		END
-		END
-		END
-		END
-		END
+    CREATE FUNCTION GetLearnerFileSubmissionState(
+    @RootActivityId bigint,
+    @IsFinal bit,
+    @NonELearningStatus int)
+    RETURNS varchar(20)
+    AS
+    BEGIN
+    RETURN CASE WHEN @RootActivityId IS NOT NULL -- e-learning content
+    THEN 'Not Available'
+    ELSE -- non-e-learning content
+    CASE WHEN @NonELearningStatus IS NULL OR @NonELearningStatus = 0 OR @NonELearningStatus = 3
+    -- LearnerAssignmentState.NotStarted or LearnerAssignmentState.Active
+    THEN 'Submit File(s)'
+    ELSE
+    CASE WHEN @IsFinal = 1 -- LearnerAssignmentState.Final
+    THEN 'Submitted LINK'
+    ELSE 'Submitted' -- LearnerAssignmentState.Completed
+    END
+    END
+    END
+    END
 
-		GO
+    GO
 
-		CREATE FUNCTION IsLearnerAssignmentStarted(
-		@RootActivityId bigint,
-		@NonELearningStatus int,
-		@AttemptStatus int)
-		RETURNS int
-		AS
-		BEGIN
-		RETURN CASE WHEN @RootActivityId IS NOT NULL
-		THEN
-		-- e-learning content
-		CASE WHEN @AttemptStatus IS NULL
-		THEN 0 -- LearnerAssignmentState.NotStarted
-		ELSE 1 -- LearnerAssignmentState.Active or Completed or Final
-		END
-		ELSE
-		-- non-e-learning content
-		CASE WHEN @NonELearningStatus IS NULL
-		THEN 0 -- LearnerAssignmentState.NotStarted
-		ELSE 1 -- LearnerAssignmentState.Active or Completed or Final
-		END
-		END
-		END
+    CREATE FUNCTION GetObserverFileSubmissionState(
+    @RootActivityId bigint,
+    @IsFinal bit,
+    @NonELearningStatus int)
+    RETURNS varchar(20)
+    AS
+    BEGIN
+    RETURN CASE WHEN @RootActivityId IS NOT NULL -- e-learning content
+    THEN 'Not Available'
+    ELSE -- non-e-learning content
+    CASE WHEN @NonELearningStatus IS NULL OR @NonELearningStatus = 0 OR @NonELearningStatus = 3
+    -- LearnerAssignmentState.NotStarted or LearnerAssignmentState.Active
+    THEN 'Not Submitted'
+    ELSE
+    CASE WHEN @IsFinal = 1 -- LearnerAssignmentState.Final
+    THEN 'Submitted LINK'
+    ELSE 'Submitted' -- LearnerAssignmentState.Completed
+    END
+    END
+    END
+    END
 
-		GO
+    GO
 
-	</SqlBefore>
+    CREATE FUNCTION GetLearnerAssignmentState(
+    @RootActivityId bigint,
+    @IsFinal bit,
+    @NonELearningStatus int,
+    @AttemptStatus int)
+    RETURNS int
+    AS
+    BEGIN
+    RETURN CASE WHEN @RootActivityId IS NOT NULL
+    THEN
+    -- e-learning content
+    CASE WHEN @AttemptStatus IS NULL
+    THEN 0 -- LearnerAssignmentState.NotStarted
+    ELSE
+    CASE WHEN @IsFinal = 1
+    THEN 3 -- LearnerAssignmentState.Final
+    ELSE
+    CASE WHEN @AttemptStatus = 0 OR @AttemptStatus = 3
+    THEN 1 -- LearnerAssignmentState.Active
+    ELSE 2 -- LearnerAssignmentState.Completed
+    END
+    END
+    END
+    ELSE
+    -- non-e-learning content
+    CASE WHEN @NonELearningStatus IS NULL
+    THEN 0 -- LearnerAssignmentState.NotStarted
+    ELSE
+    CASE WHEN @IsFinal = 1
+    THEN 3 -- LearnerAssignmentState.Final
+    ELSE
+    CASE WHEN @NonELearningStatus = 0 OR @NonELearningStatus = 3
+    THEN 1 -- LearnerAssignmentState.Active
+    ELSE 2 -- LearnerAssignmentState.Completed
+    END
+    END
+    END
+    END
+    END
+
+    GO
+
+    CREATE FUNCTION IsLearnerAssignmentStarted(
+    @RootActivityId bigint,
+    @NonELearningStatus int,
+    @AttemptStatus int)
+    RETURNS int
+    AS
+    BEGIN
+    RETURN CASE WHEN @RootActivityId IS NOT NULL
+    THEN
+    -- e-learning content
+    CASE WHEN @AttemptStatus IS NULL
+    THEN 0 -- LearnerAssignmentState.NotStarted
+    ELSE 1 -- LearnerAssignmentState.Active or Completed or Final
+    END
+    ELSE
+    -- non-e-learning content
+    CASE WHEN @NonELearningStatus IS NULL
+    THEN 0 -- LearnerAssignmentState.NotStarted
+    ELSE 1 -- LearnerAssignmentState.Active or Completed or Final
+    END
+    END
+    END
+
+    GO
+
+  </SqlBefore>
 	<Enum Name="LearnerAssignmentState">
 		<Values>
 			<Value Name="NotStarted" Value="0">
@@ -1791,49 +1839,49 @@
 			</Column>
 		</Columns>
 		<Implementation>
-			SELECT
-			----- from InstructorAssignmentItem -----
-			iai.Id                          InstructorAssignmentId,
-			iai.InstructorId                InstructorId,
-			iui.[Name]                      InstructorName,
-			iui.[Key]                       InstructorKey,
-			----- from AssignmentItem -----
-			asi.Id                          AssignmentId,
-			asi.SPSiteGuid                  AssignmentSPSiteGuid,
-			asi.SPWebGuid                   AssignmentSPWebGuid,
-			asi.NonELearningLocation        AssignmentNonELearningLocation,
-			asi.Title                       AssignmentTitle,
-			asi.StartDate                   AssignmentStartDate,
-			asi.DueDate                     AssignmentDueDate,
-			asi.PointsPossible              AssignmentPointsPossible,
-			asi.Description                 AssignmentDescription,
-			asi.AutoReturn                  AssignmentAutoReturn,
-			asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
-			asi.CreatedBy                   AssignmentCreatedById,
-			cbui.[Name]                     AssignmentCreatedByName,
-			cbui.[Key]                      AssignmentCreatedByKey,
-			----- from PackageItem -----
-			pki.Id                          PackageId,
-			pki.PackageFormat               PackageFormat,
-			pki.Location                    PackageLocation,
-			pki.Manifest                    PackageManifest
-			-----
-			FROM InstructorAssignmentItem iai
-			INNER JOIN AssignmentItem asi ON iai.AssignmentId = asi.Id
-			INNER JOIN UserItem iui ON iui.Id = iai.InstructorId
-			INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
-			LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
-			LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
-			WHERE EXISTS
-			(
-			SELECT *
-			FROM InstructorAssignmentItem iai2
-			INNER JOIN UserItem ui2
-			ON iai2.InstructorId = ui2.Id
-			WHERE iai2.AssignmentId = asi.Id
-			AND ui2.[Key] = @UserKey
-			)
-		</Implementation>
+      SELECT
+      ----- from InstructorAssignmentItem -----
+      iai.Id                          InstructorAssignmentId,
+      iai.InstructorId                InstructorId,
+      iui.[Name]                      InstructorName,
+      iui.[Key]                       InstructorKey,
+      ----- from AssignmentItem -----
+      asi.Id                          AssignmentId,
+      asi.SPSiteGuid                  AssignmentSPSiteGuid,
+      asi.SPWebGuid                   AssignmentSPWebGuid,
+      asi.NonELearningLocation        AssignmentNonELearningLocation,
+      asi.Title                       AssignmentTitle,
+      asi.StartDate                   AssignmentStartDate,
+      asi.DueDate                     AssignmentDueDate,
+      asi.PointsPossible              AssignmentPointsPossible,
+      asi.Description                 AssignmentDescription,
+      asi.AutoReturn                  AssignmentAutoReturn,
+      asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+      asi.CreatedBy                   AssignmentCreatedById,
+      cbui.[Name]                     AssignmentCreatedByName,
+      cbui.[Key]                      AssignmentCreatedByKey,
+      ----- from PackageItem -----
+      pki.Id                          PackageId,
+      pki.PackageFormat               PackageFormat,
+      pki.Location                    PackageLocation,
+      pki.Manifest                    PackageManifest
+      -----
+      FROM InstructorAssignmentItem iai
+      INNER JOIN AssignmentItem asi ON iai.AssignmentId = asi.Id
+      INNER JOIN UserItem iui ON iui.Id = iai.InstructorId
+      INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+      LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+      LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
+      WHERE EXISTS
+      (
+      SELECT *
+      FROM InstructorAssignmentItem iai2
+      INNER JOIN UserItem ui2
+      ON iai2.InstructorId = ui2.Id
+      WHERE iai2.AssignmentId = asi.Id
+      AND ui2.[Key] = @UserKey
+      )
+    </Implementation>
 		<GrantQueryRight>
 			<Expression>1</Expression>
 		</GrantQueryRight>
@@ -2246,74 +2294,87 @@
 					</Summary>
 				</Documentation>
 			</Column>
+      <Column Name="FileSubmissionState" Type="String">
+        <Documentation>
+          <Summary xmlns="">
+            <para>
+              FileSubmissionState is set to <b>NA</b> if the assignment is e-learning content. In case the assignment is non e-learning
+              content, FileSubmissionState has one of three values: <b>Submit File(s)</b> in case the assignment is active or not started, 
+              <b>Submitted LINK</b> in case the assignment is final, and <b>Submitted</b> otherwise (in case the assignment is completed).
+            </para>
+          </Summary>
+        </Documentation>
+      </Column>
 		</Columns>
 		<Implementation>
-			SELECT
-			----- from LearnerAssignmentItem -----
-			lai.Id                          LearnerAssignmentId,
-			lai.GuidId			LearnerAssignmentGuidId,
-			lai.LearnerId                   LearnerId,
-			lui.[Name]                      LearnerName,
-			lui.[Key]                       LearnerKey,
-			lai.IsFinal                     IsFinal,
-			lai.NonELearningStatus          NonELearningStatus,
-			CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END
-			FinalPoints,
-			lai.InstructorComments          InstructorComments,
-			----- from AssignmentItem -----
-			asi.Id                          AssignmentId,
-			asi.SPSiteGuid                  AssignmentSPSiteGuid,
-			asi.SPWebGuid                   AssignmentSPWebGuid,
-			asi.NonELearningLocation        AssignmentNonELearningLocation,
-			asi.Title                       AssignmentTitle,
-			asi.StartDate                   AssignmentStartDate,
-			asi.DueDate                     AssignmentDueDate,
-			asi.PointsPossible              AssignmentPointsPossible,
-			asi.Description                 AssignmentDescription,
-			asi.AutoReturn                  AssignmentAutoReturn,
-			asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
-			asi.CreatedBy                   AssignmentCreatedById,
-			cbui.[Name]                     AssignmentCreatedByName,
-			cbui.[Key]                      AssignmentCreatedByKey,
-			asi.DateCreated                 AssignmentDateCreated,
-			asi.RootActivityId              RootActivityId,
-			----- from PackageItem -----
-			pki.Id                          PackageId,
-			pki.PackageFormat               PackageFormat,
-			pki.Location                    PackageLocation,
-			----- from AttemptItem -----
-			ati.Id AttemptId,
-			ati.CurrentActivityId           AttemptCurrentActivityId,
-			ati.SuspendedActivityId         AttemptSuspendedActivityId,
-			ati.AttemptStatus               AttemptStatus,
-			ati.FinishedTimestamp           AttemptFinishedTimestamp,
-			ati.LogDetailSequencing         AttemptLogDetailSequencing,
-			ati.LogFinalSequencing          AttemptLogFinalSequencing,
-			ati.LogRollup                   AttemptLogRollup,
-			ati.StartedTimestamp            AttemptStartedTimestamp,
-			ati.CompletionStatus            AttemptCompletionStatus,
-			ati.SuccessStatus               AttemptSuccessStatus,
-			ati.TotalPoints                 AttemptGradedPoints,
-			----- computed LearnerAssignmentState -----
-			dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) LearnerAssignmentState,
-			----- computed HasInstructors -----
-			CASE WHEN EXISTS
-			(
-			SELECT *
-			FROM InstructorAssignmentItem iaiH
-			WHERE iaiH.AssignmentId = asi.Id
-			) THEN 1 ELSE 0 END             HasInstructors
-			-----
-			FROM LearnerAssignmentItem lai
-			INNER JOIN AssignmentItem asi ON lai.AssignmentId = asi.Id
-			INNER JOIN UserItem lui ON lui.Id = lai.LearnerId
-			INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
-			LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
-			LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
-			LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
-			WHERE lui.[Key] = @UserKey
-			AND GETUTCDATE() >= asi.StartDate
-		</Implementation>
+      SELECT
+      ----- from LearnerAssignmentItem -----
+      lai.Id                          LearnerAssignmentId,
+      lai.GuidId			LearnerAssignmentGuidId,
+      lai.LearnerId                   LearnerId,
+      lui.[Name]                      LearnerName,
+      lui.[Key]                       LearnerKey,
+      lai.IsFinal                     IsFinal,
+      lai.NonELearningStatus          NonELearningStatus,
+      CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END
+      FinalPoints,
+      lai.InstructorComments          InstructorComments,
+      ----- from AssignmentItem -----
+      asi.Id                          AssignmentId,
+      asi.SPSiteGuid                  AssignmentSPSiteGuid,
+      asi.SPWebGuid                   AssignmentSPWebGuid,
+      asi.NonELearningLocation        AssignmentNonELearningLocation,
+      asi.Title                       AssignmentTitle,
+      asi.StartDate                   AssignmentStartDate,
+      asi.DueDate                     AssignmentDueDate,
+      asi.PointsPossible              AssignmentPointsPossible,
+      asi.Description                 AssignmentDescription,
+      asi.AutoReturn                  AssignmentAutoReturn,
+      asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+      asi.CreatedBy                   AssignmentCreatedById,
+      cbui.[Name]                     AssignmentCreatedByName,
+      cbui.[Key]                      AssignmentCreatedByKey,
+      asi.DateCreated                 AssignmentDateCreated,
+      asi.RootActivityId              RootActivityId,
+      ----- from PackageItem -----
+      pki.Id                          PackageId,
+      pki.PackageFormat               PackageFormat,
+      pki.Location                    PackageLocation,
+      ----- from AttemptItem -----
+      ati.Id AttemptId,
+      ati.CurrentActivityId           AttemptCurrentActivityId,
+      ati.SuspendedActivityId         AttemptSuspendedActivityId,
+      ati.AttemptStatus               AttemptStatus,
+      ati.FinishedTimestamp           AttemptFinishedTimestamp,
+      ati.LogDetailSequencing         AttemptLogDetailSequencing,
+      ati.LogFinalSequencing          AttemptLogFinalSequencing,
+      ati.LogRollup                   AttemptLogRollup,
+      ati.StartedTimestamp            AttemptStartedTimestamp,
+      ati.CompletionStatus            AttemptCompletionStatus,
+      ati.SuccessStatus               AttemptSuccessStatus,
+      ati.TotalPoints                 AttemptGradedPoints,
+      ----- computed FileSubmissionState -----
+      dbo.GetLearnerFileSubmissionState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus) FileSubmissionState,
+      ----- computed LearnerAssignmentState -----
+      dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) LearnerAssignmentState,
+      ----- computed HasInstructors -----
+      CASE WHEN EXISTS
+      (
+      SELECT *
+      FROM InstructorAssignmentItem iaiH
+      WHERE iaiH.AssignmentId = asi.Id
+      ) THEN 1 ELSE 0 END             HasInstructors
+      -----
+      FROM LearnerAssignmentItem lai
+      INNER JOIN AssignmentItem asi ON lai.AssignmentId = asi.Id
+      INNER JOIN UserItem lui ON lui.Id = lai.LearnerId
+      INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+      LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+      LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
+      LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
+      WHERE lui.[Key] = @UserKey
+      AND GETUTCDATE() >= asi.StartDate
+    </Implementation>
 		<GrantQueryRight>
 			<Expression>1</Expression>
 		</GrantQueryRight>
@@ -2886,105 +2947,118 @@
 					</Summary>
 				</Documentation>
 			</Column>
+      <Column Name="FileSubmissionState" Type="String">
+        <Documentation>
+          <Summary xmlns="">
+            <para>
+              FileSubmissionState is set to <b>NA</b> if the assignment is e-learning content. In case the assignment is non e-learning
+              content, FileSubmissionState has one of three values: <b>Not Submitted</b> in case the assignment is active or not started,
+              <b>Submitted LINK</b> in case the assignment is final, and <b>Submitted</b> otherwise (in case the assignment is completed).
+            </para>
+          </Summary>
+        </Documentation>
+      </Column>
 		</Columns>
 		<Implementation>
-			SELECT
-			----- from LearnerAssignmentItem -----
+      SELECT
+      ----- from LearnerAssignmentItem -----
 
-			lai.Id                          LearnerAssignmentId,
-			lai.GuidId                      LearnerAssignmentGuidId,
-			lai.LearnerId                   LearnerId,
-			lui.[Name]                      LearnerName,
-			lui.[Key]                       LearnerKey,
-			lai.IsFinal                     IsFinal,
-			lai.NonELearningStatus          NonELearningStatus,
-			CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END
-			FinalPoints,
-			lai.InstructorComments          InstructorComments,
+      lai.Id                          LearnerAssignmentId,
+      lai.GuidId                      LearnerAssignmentGuidId,
+      lai.LearnerId                   LearnerId,
+      lui.[Name]                      LearnerName,
+      lui.[Key]                       LearnerKey,
+      lai.IsFinal                     IsFinal,
+      lai.NonELearningStatus          NonELearningStatus,
+      CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END
+      FinalPoints,
+      lai.InstructorComments          InstructorComments,
 
-			----- from AssignmentItem -----
-			asi.Id                          AssignmentId,
-			asi.SPSiteGuid                  AssignmentSPSiteGuid,
-			asi.SPWebGuid                   AssignmentSPWebGuid,
-			asi.NonELearningLocation        AssignmentNonELearningLocation,
-			asi.Title                       AssignmentTitle,
-			asi.StartDate                   AssignmentStartDate,
-			asi.DueDate                     AssignmentDueDate,
-			asi.PointsPossible              AssignmentPointsPossible,
-			asi.Description                 AssignmentDescription,
-			asi.AutoReturn                  AssignmentAutoReturn,
-			asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
-			asi.CreatedBy                   AssignmentCreatedById,
-			cbui.[Name]                     AssignmentCreatedByName,
-			cbui.[Key]                      AssignmentCreatedByKey,
-			asi.DateCreated                 AssignmentDateCreated,
-			asi.RootActivityId              RootActivityId,
-			----- from PackageItem -----
-			pki.Id                          PackageId,
-			pki.PackageFormat               PackageFormat,
-			pki.Location                    PackageLocation,
-			----- from learner assignment computed info -----
-			ISNULL(la.CountTotal,0)         CountTotal,
-			ISNULL(la.CountNotStarted,0)    CountNotStarted,
-			ISNULL(la.CountActive,0)        CountActive,
-			ISNULL(la.CountCompleted,0)     CountCompleted,
-			ISNULL(la.CountFinal,0)         CountFinal,
-			ISNULL(la.CountStarted,0)       CountStarted,
-			ISNULL(la.CountNotStartedOrActive,0) CountNotStartedOrActive,
-			ISNULL(la.CountCompletedOrFinal,0) CountCompletedOrFinal,
-			ISNULL(la.CountNotFinal,0)      CountNotFinal,
-			la.MinGradedPoints              MinGradedPoints,
-			la.MaxGradedPoints              MaxGradedPoints,
-			la.AvgGradedPoints              AvgGradedPoints,
-			la.MinFinalPoints               MinFinalPoints,
-			la.MaxFinalPoints               MaxFinalPoints,
-			la.AvgFinalPoints               AvgFinalPoints,
-			----- from AttemptItem -----
-			ati.Id AttemptId,
-			ati.CurrentActivityId           AttemptCurrentActivityId,
-			ati.SuspendedActivityId         AttemptSuspendedActivityId,
-			ati.AttemptStatus               AttemptStatus,
-			ati.FinishedTimestamp           AttemptFinishedTimestamp,
-			ati.LogDetailSequencing         AttemptLogDetailSequencing,
-			ati.LogFinalSequencing          AttemptLogFinalSequencing,
-			ati.LogRollup                   AttemptLogRollup,
-			ati.StartedTimestamp            AttemptStartedTimestamp,
-			ati.CompletionStatus            AttemptCompletionStatus,
-			ati.SuccessStatus               AttemptSuccessStatus,
-			ati.TotalPoints                 AttemptGradedPoints,
-			----- computed LearnerAssignmentState -----
-			dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) LearnerAssignmentState,
-			----- computed HasInstructors -----
-			CASE WHEN EXISTS
-			(
-			SELECT *
-			FROM InstructorAssignmentItem iaiH
-			WHERE iaiH.AssignmentId = asi.Id
-			) THEN 1 ELSE 0 END             HasInstructors
-			------------------------------------
-			FROM AssignmentItem asi
-			INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
-			INNER JOIN LearnerAssignmentItem lai ON asi.Id = lai.AssignmentId
-			INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
-			LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
-			LEFT OUTER JOIN PackageItem pki ON api.PackageId = pki.Id
-			LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
-			INNER JOIN (
-			SELECT
-			----- from Assignment -----
-			lai.AssignmentId,
-			----- computed CountTotal -----
-			COUNT(lai.Id) CountTotal,
-			----- computed CountNotStarted -----
-			COUNT(CASE WHEN dbo.IsLearnerAssignmentStarted(asi.RootActivityId, lai.NonELearningStatus, ati.AttemptStatus) = 0 THEN 1 ELSE NULL END) CountNotStarted,
-			----- computed CountActive -----
-			COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) = 1 THEN 1 ELSE NULL END) CountActive,
-			----- computed CountCompleted -----
-			COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) = 2 THEN 1 ELSE NULL END) CountCompleted,
-			----- computed CountFinal -----
-			COUNT(CASE WHEN lai.IsFinal = 1 THEN 1 ELSE NULL END) CountFinal,
-			----- computed CountStarted -----
-			COUNT(CASE WHEN dbo.IsLearnerAssignmentStarted(asi.RootActivityId, lai.NonELearningStatus, ati.AttemptStatus) &lt;&gt; 0 THEN 1 ELSE NULL END) CountStarted,
+      ----- from AssignmentItem -----
+      asi.Id                          AssignmentId,
+      asi.SPSiteGuid                  AssignmentSPSiteGuid,
+      asi.SPWebGuid                   AssignmentSPWebGuid,
+      asi.NonELearningLocation        AssignmentNonELearningLocation,
+      asi.Title                       AssignmentTitle,
+      asi.StartDate                   AssignmentStartDate,
+      asi.DueDate                     AssignmentDueDate,
+      asi.PointsPossible              AssignmentPointsPossible,
+      asi.Description                 AssignmentDescription,
+      asi.AutoReturn                  AssignmentAutoReturn,
+      asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+      asi.CreatedBy                   AssignmentCreatedById,
+      cbui.[Name]                     AssignmentCreatedByName,
+      cbui.[Key]                      AssignmentCreatedByKey,
+      asi.DateCreated                 AssignmentDateCreated,
+      asi.RootActivityId              RootActivityId,
+      ----- from PackageItem -----
+      pki.Id                          PackageId,
+      pki.PackageFormat               PackageFormat,
+      pki.Location                    PackageLocation,
+      ----- from learner assignment computed info -----
+      ISNULL(la.CountTotal,0)         CountTotal,
+      ISNULL(la.CountNotStarted,0)    CountNotStarted,
+      ISNULL(la.CountActive,0)        CountActive,
+      ISNULL(la.CountCompleted,0)     CountCompleted,
+      ISNULL(la.CountFinal,0)         CountFinal,
+      ISNULL(la.CountStarted,0)       CountStarted,
+      ISNULL(la.CountNotStartedOrActive,0) CountNotStartedOrActive,
+      ISNULL(la.CountCompletedOrFinal,0) CountCompletedOrFinal,
+      ISNULL(la.CountNotFinal,0)      CountNotFinal,
+      la.MinGradedPoints              MinGradedPoints,
+      la.MaxGradedPoints              MaxGradedPoints,
+      la.AvgGradedPoints              AvgGradedPoints,
+      la.MinFinalPoints               MinFinalPoints,
+      la.MaxFinalPoints               MaxFinalPoints,
+      la.AvgFinalPoints               AvgFinalPoints,
+      ----- from AttemptItem -----
+      ati.Id AttemptId,
+      ati.CurrentActivityId           AttemptCurrentActivityId,
+      ati.SuspendedActivityId         AttemptSuspendedActivityId,
+      ati.AttemptStatus               AttemptStatus,
+      ati.FinishedTimestamp           AttemptFinishedTimestamp,
+      ati.LogDetailSequencing         AttemptLogDetailSequencing,
+      ati.LogFinalSequencing          AttemptLogFinalSequencing,
+      ati.LogRollup                   AttemptLogRollup,
+      ati.StartedTimestamp            AttemptStartedTimestamp,
+      ati.CompletionStatus            AttemptCompletionStatus,
+      ati.SuccessStatus               AttemptSuccessStatus,
+      ati.TotalPoints                 AttemptGradedPoints,
+      ----- computed FileSubmissionState -----
+      dbo.GetObserverFileSubmissionState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus) FileSubmissionState,
+      ----- computed LearnerAssignmentState -----
+      dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) LearnerAssignmentState,
+      ----- computed HasInstructors -----
+      CASE WHEN EXISTS
+      (
+      SELECT *
+      FROM InstructorAssignmentItem iaiH
+      WHERE iaiH.AssignmentId = asi.Id
+      ) THEN 1 ELSE 0 END             HasInstructors
+      ------------------------------------
+      FROM AssignmentItem asi
+      INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+      INNER JOIN LearnerAssignmentItem lai ON asi.Id = lai.AssignmentId
+      INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
+      LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+      LEFT OUTER JOIN PackageItem pki ON api.PackageId = pki.Id
+      LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
+      INNER JOIN (
+      SELECT
+      ----- from Assignment -----
+      lai.AssignmentId,
+      ----- computed CountTotal -----
+      COUNT(lai.Id) CountTotal,
+      ----- computed CountNotStarted -----
+      COUNT(CASE WHEN dbo.IsLearnerAssignmentStarted(asi.RootActivityId, lai.NonELearningStatus, ati.AttemptStatus) = 0 THEN 1 ELSE NULL END) CountNotStarted,
+      ----- computed CountActive -----
+      COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) = 1 THEN 1 ELSE NULL END) CountActive,
+      ----- computed CountCompleted -----
+      COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) = 2 THEN 1 ELSE NULL END) CountCompleted,
+      ----- computed CountFinal -----
+      COUNT(CASE WHEN lai.IsFinal = 1 THEN 1 ELSE NULL END) CountFinal,
+      ----- computed CountStarted -----
+      COUNT(CASE WHEN dbo.IsLearnerAssignmentStarted(asi.RootActivityId, lai.NonELearningStatus, ati.AttemptStatus) &lt;&gt; 0 THEN 1 ELSE NULL END) CountStarted,
 	----- computed CountNotStartedOrActive -----
 	COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) IN (0,1) THEN 1 ELSE NULL END) CountNotStartedOrActive,
 	----- computed CountCompletedOrFinal -----

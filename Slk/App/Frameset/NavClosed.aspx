@@ -6,14 +6,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
-
 <head runat="server">
     <link rel="stylesheet" type="text/css" href="Theme/Styles.css" />
     <script src="./Include/FramesetMgr.js" type="text/javascript"></script>
     <script src="./Include/Nav.js" type="text/javascript"></script>
 </head>
 <BODY tabIndex=1 onload="OnLoad( NAVCLOSED_FRAME );">
-
 <DIV id=TOCFrameVisibleDiv>
 	<TABLE height=12 cellSpacing=0 cellPadding=0 width="100%" border=0>
 		<TBODY>

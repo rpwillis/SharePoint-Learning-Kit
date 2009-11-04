@@ -33,6 +33,8 @@ using Schema = Microsoft.SharePointLearningKit.Schema;
 using SPControls = Microsoft.SharePoint.WebControls;
 using System.Threading;
 using System.IO;
+using System.Configuration;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -41,69 +43,70 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     /// </summary>
     public class AssignmentPropertiesPage : SlkAppBasePage
     {
+        DropBoxManager dropBoxMgr = new DropBoxManager();
 
         #region Control Declarations
         //Button controls
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "btn")]
-		protected System.Web.UI.WebControls.Button btnTopOK;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "btn")]
-		protected System.Web.UI.WebControls.Button btnBottomOK;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "btn")]
+        protected System.Web.UI.WebControls.Button btnTopOK;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "btn")]
+        protected System.Web.UI.WebControls.Button btnBottomOK;
 
         //Label Controls
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblTitle;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblDescription;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblPoints;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblStart;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblDue;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblSharePointSite;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblInstructorsHeader;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblLearnersHeader;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblLearnersText;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblInstructorsText;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblDistributeAssignmentText;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblDistributeAssignmentHeader;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAssignmentPropText;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAssignmentPropHeader;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAssignmentTitle;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAssignmentDescription;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAssignmentPoints;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAssignmentPointsText;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAssignmentStart;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAssignmentStartText;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAssignmentDue;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAssignmentDueText;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAssignmentStatusText;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAPPConfirmWhatNext;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblPointsPossible;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblAutoReturnLearners;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected System.Web.UI.WebControls.Label lblShowAnswersToLearners;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblTitle;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblDescription;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblPoints;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblStart;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblDue;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblSharePointSite;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblInstructorsHeader;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblLearnersHeader;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblLearnersText;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblInstructorsText;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblDistributeAssignmentText;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblDistributeAssignmentHeader;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAssignmentPropText;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAssignmentPropHeader;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAssignmentTitle;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAssignmentDescription;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAssignmentPoints;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAssignmentPointsText;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAssignmentStart;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAssignmentStartText;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAssignmentDue;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAssignmentDueText;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAssignmentStatusText;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAPPConfirmWhatNext;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblPointsPossible;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblAutoReturnLearners;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected System.Web.UI.WebControls.Label lblShowAnswersToLearners;
 
         //TextBox Controls
         protected System.Web.UI.WebControls.TextBox txtTitle;
@@ -111,33 +114,33 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected System.Web.UI.WebControls.TextBox txtPoints;
 
         //Others		
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lnk")]
-		protected System.Web.UI.WebControls.HyperLink lnkSharePointSite;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lst")]
-		protected System.Web.UI.WebControls.BulletedList lstNavigateBulletedList;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lnk")]
+        protected System.Web.UI.WebControls.HyperLink lnkSharePointSite;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lst")]
+        protected System.Web.UI.WebControls.BulletedList lstNavigateBulletedList;
 
         //CheckBox and CheckBoxList
 
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
-		protected System.Web.UI.WebControls.CheckBox chkAutoReturnLearners;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
-		protected System.Web.UI.WebControls.CheckBox chkShowAnswersToLearners;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
-		protected CustomCheckBoxList chkListInstructors;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
-		protected CustomCheckBoxList chkListGroups;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
-		protected CustomCheckBoxList chkListLearners;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
+        protected System.Web.UI.WebControls.CheckBox chkAutoReturnLearners;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
+        protected System.Web.UI.WebControls.CheckBox chkShowAnswersToLearners;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
+        protected CustomCheckBoxList chkListInstructors;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
+        protected CustomCheckBoxList chkListGroups;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
+        protected CustomCheckBoxList chkListLearners;
 
         //Panels
         protected System.Web.UI.WebControls.Panel panelAssignmentProperties;
         protected System.Web.UI.WebControls.Panel panelConfirmation;
 
         //Validation Control
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "rfv")]
-		protected RequiredFieldValidator rfvAppTitle;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "ltrl")]
-		protected Literal ltrlAppTitleReportText;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "rfv")]
+        protected RequiredFieldValidator rfvAppTitle;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "ltrl")]
+        protected Literal ltrlAppTitleReportText;
         protected RangeValidator rvPointsPossible;
         protected RegularExpressionValidator regexAppTitle;
         protected ValidationSummary appValidationSummary;
@@ -215,7 +218,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// this list also contains all instructors and learners on the assignment, even if they no longer have the
         /// SLK Instructor/Learner permission on the SPWeb.
         /// </summary>
-        private SlkMemberships m_slkMembers;
+        public SlkMemberships m_slkMembers;
         /// <summary>
         /// Stores all Groups and associated Group Members for each group.
         /// </summary>
@@ -227,11 +230,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Holds the Logged in User has Instructor Persmisson in the Current SPWeb.
         /// </summary>
-        private bool? m_isInstructor ;
+        private bool? m_isInstructor;
         /// <summary>
         /// Holds Current SPWeb User's SlkUser Key 
         /// </summary>
         private string m_currentSlkUserKey;
+        /// <summary>
+        /// The name of the drop box document library 
+        /// </summary>
+        private string m_dropBoxDocLibName;
 
         #endregion
 
@@ -392,21 +399,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                     //but that instructor is still an instructor on an assignment on that SPWeb, 
                                     //then when the instructor navigates to APP (Edit Mode) 
                                     //for that assignment they  see a warning 
-                                    SlkError slkError 
-                                       = new SlkError(ErrorType.Warning ,AppResources.AppNotAnInstructorInCurrentSiteError);
+                                    SlkError slkError
+                                       = new SlkError(ErrorType.Warning, AppResources.AppNotAnInstructorInCurrentSiteError);
                                     errorBanner.AddError(slkError);
-                                    break;                                    
+                                    break;
                                 }
                             }
 
-                            
+
                             //if not an instructor in the current Assignment as well 
                             //throw the exception
-                            if(!isInstructorInCurrentAssignment)
+                            if (!isInstructorInCurrentAssignment)
                                 throw;
                         }
 
-                       
+
                     }
                     else
                         return m_slkMembers;
@@ -418,14 +425,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         StringBuilder enumerationWarning = new StringBuilder(1000);
                         enumerationWarning.AppendLine("<ul style=\"margin-top:0;margin-bottom:0;margin-left:24;\">");
                         foreach (string groupName in groupFailures)
-                        {                            
+                        {
                             enumerationWarning.Append("<li>");
                             enumerationWarning.Append(Server.HtmlEncode(groupName));
                             enumerationWarning.AppendLine("</li>");
                             enumerationWarning.Append("</ul>\n");
-                        }                        
+                        }
                         errorBanner.AddHtmlErrorText(ErrorType.Warning,
-                                             String.Format(CultureInfo.CurrentCulture, AppResources.AppEnumerationWarning, 
+                                             String.Format(CultureInfo.CurrentCulture, AppResources.AppEnumerationWarning,
                                                            enumerationWarning.ToString()));
                     }
 
@@ -435,15 +442,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 return m_slkMembers;
             }
         }
-      
+
         /// <summary>
         /// Gets the Assigned Learners for this Assignment.
         /// </summary>
         private List<long> AssignedLearnersCollection
-        {           
+        {
             get
             {
-                return m_assignedLearnersCollection;                
+                return m_assignedLearnersCollection;
             }
         }
 
@@ -486,6 +493,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                     = slkUser.UserId.GetKey().ToString(CultureInfo.InvariantCulture);
                                 return true;
                             }
+
                         }
                     }
                     //Check if Current User is there in list of instructors 
@@ -496,7 +504,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     //set the Current SlkUser Key 
 
                     UserItemIdentifier currentSlkUser = SlkStore.GetCurrentUserId();
-                    m_currentSlkUserKey  = currentSlkUser.GetKey().ToString(CultureInfo.InvariantCulture);
+                    m_currentSlkUserKey = currentSlkUser.GetKey().ToString(CultureInfo.InvariantCulture);
                     //return True if currentSlkUserKey mathces the slkUser key in Instructor List
                     foreach (SlkUser slkUser in SlkMembers.Instructors)
                     {
@@ -507,7 +515,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         }
                     }
                 }
-                
+
                 return m_isInstructor.Value;
             }
         }
@@ -532,6 +540,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
+        /// <summary>
+        /// Current SPWeb User's SlkUser Key 
+        /// </summary>
+        private String DropBoxDocLibName
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(m_dropBoxDocLibName))
+                {
+                    m_dropBoxDocLibName = AppResources.DropBoxDocLibName;
+                }
+                return m_dropBoxDocLibName;
+            }
+        }
+
         #endregion
 
         #region LoadViewState
@@ -545,7 +568,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 Pair p = (Pair)savedState;
                 base.LoadViewState(p.First);
-                Triplet appState =(Triplet)p.Second;
+                Triplet appState = (Triplet)p.Second;
                 m_assignedLearnersCollection = new List<long>();
                 //Restore the Group from ViewState
                 if (appState.First != null)
@@ -564,7 +587,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
             }
         }
-        #endregion        
+        #endregion
 
         ///<summary>See <see cref="Page.OnInit"/>.</summary>
         protected override void OnInit(EventArgs e)
@@ -596,7 +619,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         AppMode = PageMode.Edit;
                         //set master page control text before any exception may occur
                         SetMasterPageControlText();
-                                               
+
 
                         AssignmentProperties
                                        = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier,
@@ -629,14 +652,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             //if user does not have access to SPWeb. 
                             //Set the Sharepoint Site Title similar to Web Site not accessible.
                             lnkSharePointSite.Text = AppResources.APPInvalidSite;
-                           
+
                         }
                         catch (FileNotFoundException)
                         {
                             // Catch the exception to not to restrict the user to access the content if SPWeb does not exist.
                             //Set the Sharepoint Site Title similar to Web Site not accessible.
                             lnkSharePointSite.Text = AppResources.APPInvalidSite;
-                           
+
                         }
                         finally
                         {
@@ -683,7 +706,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     //Show Assignment Properties the Panel
                     panelAssignmentProperties.Visible = true;
                 }
-            }               
+            }
             catch (ThreadAbortException)
             {
                 // Calling Response.Redirect throws a ThreadAbortException which will
@@ -713,7 +736,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 SetResourceText();
 
                 //Render the Client Script Only when rendering APP in Create and Edit Mode 
-                if (!(AppMode == PageMode.Confirmation || 
+                if (!(AppMode == PageMode.Confirmation ||
                       AppMode == PageMode.Error))
                 {
                     //Register Client Script
@@ -815,7 +838,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                     //Check If Current User is Instructor
                     if (customChkBoxList.ID == chkListInstructors.ID)
-                    {                        
+                    {
                         if (CurrentSlkUserKey == userKey)
                         {
                             item.Selected = true;
@@ -946,6 +969,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void SetResourceText()
         {
             //Set the Display Text for all APP page controls from Resources
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
             btnBottomOK.Text = AppResources.CtrlOKButtonText;
             btnTopOK.Text = AppResources.CtrlOKButtonText;
@@ -976,7 +1000,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             lblAssignmentDue.Text = AppResources.CtrlLabelDueText;
             lblAPPConfirmWhatNext.Text = AppResources.CtrlLabelAPPWhatNextText;
 
-            chkListLearners.HeaderText = AppResources.CtrlLabelLearnersText ;
+            chkListLearners.HeaderText = AppResources.CtrlLabelLearnersText;
             chkListGroups.HeaderText = AppResources.CtrlLabelGroupsText;
 
             //Tool Tip for Calendar Controls
@@ -1002,7 +1026,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeDue.DatePickerJavaScriptUrl);
 
             spDateTimeDue.CalendarImageUrl
-               = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeDue.CalendarImageUrl);           
+               = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeDue.CalendarImageUrl);
 
         }
         #endregion
@@ -1027,7 +1051,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             //Set Default DateTime for Start Date
             spDateTimeStart.SelectedDate = DateTime.Now.Date;
-                      
+
             //Add OnClientClick Event for Learners and Learners Groups and instructor.
             chkListLearners.Attributes.Add("onclick", "Slk_UpdateLearnerGroups(this)");
             chkListGroups.Attributes.Add("onclick", "Slk_UpdateLearnerGroupsGroup(this)");
@@ -1184,8 +1208,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // copy information from <assignmentProperties> to the UI
             txtTitle.Text = AssignmentProperties.Title;
             txtDescription.Text = AssignmentProperties.Description;
-            txtPoints.Text = AssignmentProperties.PointsPossible == null 
-                             ? String.Empty 
+            txtPoints.Text = AssignmentProperties.PointsPossible == null
+                             ? String.Empty
                              : AssignmentProperties.PointsPossible.Value.
                                ToString(Constants.RoundTrip, NumberFormatInfo);
 
@@ -1233,7 +1257,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
 
             chkAutoReturnLearners.Checked = AssignmentProperties.AutoReturn;
-            chkShowAnswersToLearners.Checked = AssignmentProperties.ShowAnswersToLearners;                
+            chkShowAnswersToLearners.Checked = AssignmentProperties.ShowAnswersToLearners;
 
             //Add Instructor List
             BindCheckBoxItems(chkListInstructors, SlkMembers.Instructors);
@@ -1272,8 +1296,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 AssignmentProperties.PointsPossible
                                       = float.Parse(pointsPossible, NumberFormatInfo);
             }
-            
-           
+
+
             //Set the selected StartDate/Due Date Value
             AssignmentProperties.StartDate = spDateTimeStart.SelectedDate;
 
@@ -1301,7 +1325,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>  
         /// <param name="slkUserCollection">list to add the members to</param>
         /// <param name="customChkBoxList">control to retrive the item from</param>
-        private static void SetMembersList(SlkUserCollection slkUserCollection, 
+        private static void SetMembersList(SlkUserCollection slkUserCollection,
                                     CustomCheckBoxList customChkBoxList)
         {
 
@@ -1331,7 +1355,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void SetAssignedLearnersCollection()
         {
             if (AssignmentProperties != null)
-            {                
+            {
                 if (AssignmentProperties.Learners.Count > 0)
                 {
                     m_assignedLearnersCollection = new List<long>(AssignmentProperties.Learners.Count);
@@ -1342,7 +1366,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         if (!m_assignedLearnersCollection.Contains(userKey))
                         {
                             m_assignedLearnersCollection.Add(userKey);
-                        }  
+                        }
                     }
                 }
             }
@@ -1363,7 +1387,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 m_slkGroupMemberCollection = new long[slkGroupCollection.Count + 1][];
 
                 int grCount = 1;
-                                
+
                 foreach (SlkGroup slkGroup in slkGroupCollection)
                 {
                     if (slkGroup.Users.Count > 0)
@@ -1384,8 +1408,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                 }
             }
-            else if ((slkGroupCollection != null && slkGroupCollection.Count == 0) || 
-                     slkGroupCollection ==  null)
+            else if ((slkGroupCollection != null && slkGroupCollection.Count == 0) ||
+                     slkGroupCollection == null)
             {
                 //To Store only All Learners Members 
                 m_slkGroupMemberCollection = new long[1][];
@@ -1399,7 +1423,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (!slkGroupUserList.Contains(userKey))
                 {
                     slkGroupUserList.Add(userKey);
-                }               
+                }
             }
 
             if (slkGroupUserList.Count > 0)
@@ -1445,7 +1469,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //time value set to 12:00:00 midnight (00:00:00).
             if (spDateTimeStart.IsDateEmpty)
             {
-              spDateTimeStart.SelectedDate = DateTime.Today;
+                spDateTimeStart.SelectedDate = DateTime.Today;
             }
 
             //check for due date not empty
@@ -1468,7 +1492,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             return isDateValid;
         }
         #endregion
-        
+
         #region VerifyPageSubmit
         /// <summary>
         /// Confirms General initialization and Validation 
@@ -1516,9 +1540,17 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     //Get the Assignment Properties from the submitted form.
                     GetAssignmentProperties();
 
+                    UserItemIdentifier userID = SlkStore.GetCurrentUserId();
+                    bool removeCurrent = false;
+
+                    if (!AssignmentProperties.Instructors.Contains(userID))
+                    {
+                        AssignmentProperties.Instructors.Add(new SlkUser(userID));
+                        removeCurrent = true;
+                    }
+
                     if (AssignmentId == null)
                     {
-
                         // create the assignment -- this returns an AssignmentItemIdentifier
                         AssignmentItemIdentifier assignmentItemIdentifier = SlkStore.CreateAssignment(SPWeb,
                                                   Location,
@@ -1528,15 +1560,103 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                         //Update the MRU list
                         SlkStore.AddToUserWebList(SPWeb);
-                        //Render the Confirmation Page
-                        SetConfirmationPage(assignmentItemIdentifier.GetKey()); 
 
+                        if (OrgIndex == null)
+                        {
+                            AssignmentProperties currentAssProperties = null;
+
+                            if (SlkStore.IsInstructor(SPWeb))
+                            {
+                                currentAssProperties = SlkStore.GetAssignmentProperties(assignmentItemIdentifier, SlkRole.Instructor);
+                            }
+                            else if (SlkStore.IsLearner(SPWeb))
+                            {
+                                currentAssProperties = SlkStore.GetAssignmentProperties(assignmentItemIdentifier, SlkRole.Learner);
+                            }
+                            else if (SlkStore.IsObserver(SPWeb))
+                            {
+                                currentAssProperties = SlkStore.GetAssignmentProperties(assignmentItemIdentifier, SlkRole.Observer);
+                            }
+
+                            if (removeCurrent)
+                            {
+                                currentAssProperties.Instructors.Remove(userID);
+                                AssignmentProperties.Instructors.Remove(userID);
+
+                                SlkStore.SetAssignmentProperties(assignmentItemIdentifier, AssignmentProperties);
+
+                                removeCurrent = false;
+                            }
+
+                            try
+                            {
+                                string assignmentFolderName = (currentAssProperties.Title + " " + dropBoxMgr.GetDateOnly(currentAssProperties.DateCreated)).Trim();
+
+                                //Create a folder for each assignment
+                                SPListItem assignmentFolder = dropBoxMgr.CreateAssignmentFolder(DropBoxDocLibName, currentAssProperties, SlkMembers, assignmentFolderName);
+                                if (assignmentFolder != null)
+                                {
+                                    //Create a Subfolder for each learner
+                                    dropBoxMgr.CreateLearnersSubFolders(assignmentFolder, currentAssProperties, SlkMembers);
+
+                                    //Render the Confirmation Page
+                                    SetConfirmationPage(assignmentItemIdentifier.GetKey());
+                                }
+                                else
+                                {
+                                    // Deletes the assignment
+                                    SlkStore.DeleteAssignment(assignmentItemIdentifier);
+                                    //Log the Exception 
+                                    errorBanner.Clear();
+                                    errorBanner.AddError(ErrorType.Error, AppResources.AssFolderAlreadyExists);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex.Message == AppResources.SLKFeatureNotActivated)
+                                {
+                                    // Deletes the assignment
+                                    SlkStore.DeleteAssignment(assignmentItemIdentifier);
+                                    //Log the Exception 
+                                    WriteError(ex, true);
+                                }
+                                else if (ex.Message.Contains(AppResources.AssignmentTitleInvalid))
+                                {
+                                    //Deletes the assignment
+                                    SlkStore.DeleteAssignment(assignmentItemIdentifier);
+
+                                    errorBanner.Clear();
+                                    errorBanner.AddError(ErrorType.Error, AppResources.AssignmentTitleInvalidErrMsg);
+                                }
+                                else if (ex.Message.Contains(AppResources.AssignmentTitleTooLong))
+                                {
+                                    //Deletes the assignment
+                                    SlkStore.DeleteAssignment(assignmentItemIdentifier);
+
+                                    errorBanner.Clear();
+                                    errorBanner.AddError(ErrorType.Error, AppResources.AssignmentTitleTooLongErrMsg);
+                                }
+                                else
+                                {
+                                    //Log the Exception 
+                                    WriteError(ex, true);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Render the Confirmation Page
+                            SetConfirmationPage(assignmentItemIdentifier.GetKey());
+                        }
                     }
                     else
                     {
                         //Sets the Page Mode as Edit for rest of the page processing
                         //Needed this to process some Edit mode Operations
                         //AppMode = PageMode.Edit;
+
+                        //Get the old assignment properties
+                        AssignmentProperties oldAssignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
 
                         //Update the Assignment Properties.
                         SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, AssignmentProperties);
@@ -1549,10 +1669,43 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         urlString = String.Format(CultureInfo.InvariantCulture,
                                                   "{0}" + Constants.QuestionMark +
                                                   QueryStringKeys.AssignmentId + "={1}",
-                                                  urlString, 
+                                                  urlString,
                                                   AssignmentId);
-                        //Redirect to Grading Page                       
-                        Response.Redirect(urlString, false);
+
+                        try
+                        {
+                            if (oldAssignmentProperties.PackageFormat == null)
+                            {
+                                //Get the new assignment properties
+                                AssignmentProperties newAssignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+
+                                if (removeCurrent)
+                                {
+                                    newAssignmentProperties.Instructors.Remove(userID);
+                                    AssignmentProperties.Instructors.Remove(userID);
+
+                                    SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, AssignmentProperties);
+
+                                    removeCurrent = false;
+                                }
+
+                                // Update the assignment folder in the Drop Box
+                                dropBoxMgr.UpdateAssignment(oldAssignmentProperties, newAssignmentProperties, SlkMembers, DropBoxDocLibName);
+                            }
+
+                            // Redirect to Grading Page
+                            Response.Redirect(urlString, false);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            // Return the Assignment Properties back as Drop Box could not be updated successfully.
+                            SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, oldAssignmentProperties);
+                            //Log the Exception 
+                            WriteError(ex, true);
+                            errorBanner.Clear();
+                            errorBanner.AddError(ErrorType.Error, ex.Message);
+                        }
                     }
                 }
             }
@@ -1582,13 +1735,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             // say e.g.: {0:D}, {1:t} where {0} = date, {1} = time;
             lblAssignmentStartText.Text
-                            = string.Format(CultureInfo.CurrentCulture, 
+                            = string.Format(CultureInfo.CurrentCulture,
                                             AppResources.SlkDateFormatSpecifier,
                                             AssignmentProperties.StartDate);
             if (AssignmentProperties.DueDate != null)
             {
                 lblAssignmentDueText.Text
-                                = string.Format(CultureInfo.CurrentCulture, 
+                                = string.Format(CultureInfo.CurrentCulture,
                                                 AppResources.SlkDateFormatSpecifier,
                                                 AssignmentProperties.DueDate.Value);
             }
@@ -1597,7 +1750,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 lblAssignmentPointsText.Text
                                     = AssignmentProperties.PointsPossible.Value.
-                                      ToString(Constants.RoundTrip , NumberFormatInfo);
+                                      ToString(Constants.RoundTrip, NumberFormatInfo);
             }
 
             //Add items to the What Next list
@@ -1613,7 +1766,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                     Constants.SlkUrlPath,
                                     Constants.GradingPage);
             // Append the AssignmentId QueryString key for Grading Page
-            urlString = String.Format(CultureInfo.InvariantCulture ,
+            urlString = String.Format(CultureInfo.InvariantCulture,
                                       "{0}" + Constants.QuestionMark +
                                       QueryStringKeys.AssignmentId + "={1}",
                                       urlString,
@@ -1625,11 +1778,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             //Add Doclib Url
 
-            SPFile spFile = SlkUtilities.GetSPFileFromPackageLocation(Location);   
+            SPFile spFile = SlkUtilities.GetSPFileFromPackageLocation(Location);
 
             lstNavigateBulletedList.Items.Add(new ListItem(
                                                     String.Format(CultureInfo.CurrentCulture,
-                                                                  AppResources.AppNavigateToDocLib, 
+                                                                  AppResources.AppNavigateToDocLib,
                                                                   spFile.ParentFolder.Name),
                                                     spFile.ParentFolder.ServerRelativeUrl));
 
@@ -1648,7 +1801,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             errorBanner.Clear();
         }
         #endregion
-        
+
         #region RegisterGroupsClientScriptBlock
         /// <summary>
         ///  Defines the App Learners Grouping Client Script 
@@ -1677,12 +1830,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                               this.chkListGroups.ClientID,
                                               this.ClientIDSeparator));
                 csAppClientScript.AppendLine(
-                                String.Format(CultureInfo.InvariantCulture, 
+                                String.Format(CultureInfo.InvariantCulture,
                                               "slk_strLearnerPrefix = \"{0}{1}\";",
                                               this.chkListLearners.ClientID,
                                               this.ClientIDSeparator));
                 csAppClientScript.AppendLine(
-                                String.Format(CultureInfo.InvariantCulture, 
+                                String.Format(CultureInfo.InvariantCulture,
                                               "slk_strInstructorPrefix = \"{0}{1}\";",
                                               this.chkListInstructors.ClientID,
                                               this.ClientIDSeparator));
@@ -1698,7 +1851,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         string slkGroupMembers = String.Empty;
                         //Default the First Element to null
-                        slkGroupMembers = "null" ;
+                        slkGroupMembers = "null";
                         if (SlkGroupMemberCollection[i] != null)
                         {
                             slkGroupMembers += Constants.Comma;
@@ -1742,8 +1895,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //Register Assigned Learner Members Array Declartion               
                 //The block will executed if AppMode == PageMode.Edit and when
                 //postback occurs in Edit Mode                
-                if(AssignedLearnersCollection != null )
-                {                
+                if (AssignedLearnersCollection != null)
+                {
                     string assignedItems = "null";
                     //check if All the learners in the Group is selected 
                     //AllLearner Item index is zero always.
@@ -1781,13 +1934,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                     else
                     {
-                        if (SlkGroupMemberCollection != null && 
+                        if (SlkGroupMemberCollection != null &&
                             SlkGroupMemberCollection.LongLength > 1)
                         {
                             //Ignore the All Learners Group and process the rest of the Groups 
                             //for each Group in SlkGroupMemberCollection look for 
                             //selected groups to assigned list.
-                            for(int groupCount = 1; groupCount < SlkGroupMemberCollection.Length; groupCount++)
+                            for (int groupCount = 1; groupCount < SlkGroupMemberCollection.Length; groupCount++)
                             {
                                 if (SlkGroupMemberCollection[groupCount] != null)
                                 {
@@ -1823,7 +1976,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         }
 
                     }
-                    
+
                     //If any Learner Assigned add the All Learners Group. 
                     if (isLearnerAssigned)
                     {
@@ -1972,15 +2125,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 csAppClientScript.AppendLine("<!--  App Client Script Ends Here -->");
 
                 //Register Learner/Learner Group onclick events as ClientScriptBlock
-                cs.RegisterClientScriptBlock(cstype, csTitle, 
-                                             csAppClientScript.ToString(), 
+                cs.RegisterClientScriptBlock(cstype, csTitle,
+                                             csAppClientScript.ToString(),
                                              true);
 
             }
 
         }
         #endregion
-                
+
         #region WriteError
         /// <summary>
         ///  Log the Exception Write the Standard Error in 
@@ -2034,8 +2187,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //Store the base view State information
             object baseState = base.SaveViewState();
             long[] assignedLeaners = null;
-            long? currentSlkUserKey = null ;
-                        
+            long? currentSlkUserKey = null;
+
             //Store the Assigned Learners and Groups information
             if (AssignedLearnersCollection != null &&
                AssignedLearnersCollection.Count > 0)
@@ -2050,11 +2203,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 currentSlkUserKey = long.Parse(CurrentSlkUserKey, CultureInfo.InvariantCulture);
             }
             object itemState
-                = new Triplet(SlkGroupMemberCollection, assignedLeaners,currentSlkUserKey);
+                = new Triplet(SlkGroupMemberCollection, assignedLeaners, currentSlkUserKey);
             return new Pair(baseState, itemState);
         }
-        #endregion       
+        #endregion
     }
-
 }
 

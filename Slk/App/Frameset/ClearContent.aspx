@@ -6,7 +6,6 @@
 
 <html>
 <head>
-
 	<LINK rel="stylesheet" type="text/css" href="./Theme/Styles.css"/>
 	<script type="text/javascript" src="./Include/FramesetMgr.js"></script>
 	
@@ -16,8 +15,7 @@
 	{ 
 	    frameMgr = API_GetFramesetManager();
 	    frameMgr.SetPostFrame(HIDDEN_FRAME);
-	    
-        frameMgr.SetPostableForm(window.top.frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME).contentWindow.document.forms[0]);
+            frameMgr.SetPostableForm(window.top.frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME).contentWindow.document.forms[0]);
         
         contentIsCleared = frameMgr.ContentIsCleared();
 	    

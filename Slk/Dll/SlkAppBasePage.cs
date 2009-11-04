@@ -86,7 +86,7 @@ public class SlkAppBasePage : System.Web.UI.Page
     /// </summary>
     public virtual SlkStore SlkStore
     {
-        get { return LocalSlkStore ;}
+        get { return LocalSlkStore; }
     }
 
     /// <summary>
@@ -101,68 +101,68 @@ public class SlkAppBasePage : System.Web.UI.Page
         }
     }
 
-#region protected properties
-        /// <summary>
-        /// Gets the learnerKey session parameter which is used as the LearningStore user
-        /// if the user is an SlkObserver
-        /// </summary>
-        protected string ObserverRoleLearnerKey
+    #region protected properties
+    /// <summary>
+    /// Gets the learnerKey session parameter which is used as the LearningStore user
+    /// if the user is an SlkObserver
+    /// </summary>
+    protected string ObserverRoleLearnerKey
+    {
+        get
         {
-            get
+            if (m_observerRoleLearnerKey == null)
             {
-                if (m_observerRoleLearnerKey == null)
+                if (IsObserver)
                 {
-                    if (IsObserver)
+                    try
                     {
-                        try
+                        if (Session["LearnerKey"] != null)
                         {
-                            if(Session["LearnerKey"] != null)
-                            {
-                                m_observerRoleLearnerKey = Session["LearnerKey"].ToString();
-                            }
-                        }
-                        catch (HttpException)
-                        {
-                            throw new SafeToDisplayException(AppResources.SessionNotConfigured);
+                            m_observerRoleLearnerKey = Session["LearnerKey"].ToString();
                         }
                     }
+                    catch (HttpException)
+                    {
+                        throw new SafeToDisplayException(AppResources.SessionNotConfigured);
+                    }
                 }
-                return m_observerRoleLearnerKey;
             }
+            return m_observerRoleLearnerKey;
         }
+    }
 
-        /// <summary>
-        /// Returns true if the current user is an observer
-        /// and false otherwise
-        /// </summary>
-        protected bool IsObserver
+    /// <summary>
+    /// Returns true if the current user is an observer
+    /// and false otherwise
+    /// </summary>
+    protected bool IsObserver
+    {
+        get
         {
-            get
+            if (m_isObserver == null)
             {
-                if (m_isObserver == null)
+                if (this.LocalSlkStore.IsObserver(SPWeb) == true)
                 {
-                    if (this.LocalSlkStore.IsObserver(SPWeb) == true)
-                    {
-                        m_isObserver = true;
-                    }
-                    else
-                    {
-                        m_isObserver = false;
-                    }
+                    m_isObserver = true;
                 }
-                return (bool) m_isObserver;
+                else
+                {
+                    m_isObserver = false;
+                }
             }
+            return (bool)m_isObserver;
         }
+    }
 
-#endregion protected properties
+    #endregion protected properties
 
-#region private properties
+    #region private properties
     /// <summary>
     /// Gets the current <c>SlkStore</c>.
     /// </summary>
     public virtual SlkStore LocalSlkStore
     {
-        
+
         get
         {
             if (m_slkStore == null)
@@ -172,7 +172,7 @@ public class SlkAppBasePage : System.Web.UI.Page
             return m_slkStore;
         }
     }
-#endregion private properties
+    #endregion private properties
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////

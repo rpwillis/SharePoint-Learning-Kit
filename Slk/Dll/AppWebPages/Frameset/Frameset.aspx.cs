@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Web;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.Frameset
 {
@@ -43,6 +44,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             try
             {
+                SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
+
                 SlkUtilities.RetryOnDeadlock(delegate()
                 {
                     Response.Clear();
@@ -107,6 +110,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <returns></returns>
         public override bool TryGetAttemptId(bool showErrorPage, out AttemptItemIdentifier attemptId)
         {
+            SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
+
             // Initialize out parameter
             attemptId = null;
 
@@ -548,6 +553,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// </summary>
         private void SendNonElearningContent()
         {
+            SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
+
             // Get the cached learner assignment properties
             LearnerAssignmentProperties la = GetLearnerAssignment();
 
@@ -738,6 +745,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             get
             {
+                SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
+
                 PlainTextString text = new PlainTextString(ResHelper.GetMessage(SlkFrameset.FRM_Title));
                 HtmlString html = new HtmlString(text);
                 return html.ToString();
@@ -776,7 +785,11 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
         public static string CannotUpdateGradingHtml
         {
-            get { return SlkFrameset.FRM_GradingPageNotUpdated; }
+            get 
+            {
+                SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
+                return SlkFrameset.FRM_GradingPageNotUpdated;
+            }
         }
         #endregion  // called from aspx
     }

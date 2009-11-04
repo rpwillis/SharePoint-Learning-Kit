@@ -4725,5 +4725,185 @@ namespace Microsoft.SharePointLearningKit
                     // done
                     return ap;
             }
+
+    public AssignmentProperties GetAssignmentPropertiesForCurrentLearner(
+        AssignmentItemIdentifier assignmentId)
+    {
+        if (assignmentId == null)
+            throw new ArgumentNullException("assignmentId");
+
+        // create a LearningStore job
+        LearningStoreJob job = LearningStore.CreateJob();
+
+        // add to <job> request(s) to get information about the assignment
+        BeginGetAssignmentPropertiesForCurrentLearner(job, assignmentId);
+
+        IEnumerator<object> resultEnumerator;
+        try
+        {
+            // execute the job; set <resultEnumerator> to enumerate the results
+            resultEnumerator = job.Execute().GetEnumerator();
+        }
+        catch (LearningStoreSecurityException)
+        {
+            // this error message includes the assignment ID, but that's okay since
+            // the information we provide does not allow the user to distinguish between the
+            // assignment not existing and the user not having access to it
+            throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+        }
+
+        // retrieve from <resultEnumerator> information requested by BeginGetAssignmentProperties()
+        return EndGetAssignmentPropertiesForCurrentLearner(resultEnumerator, assignmentId);
+    }
+
+    private void BeginGetAssignmentPropertiesForCurrentLearner(LearningStoreJob job,
+        AssignmentItemIdentifier assignmentId)
+    {
+        // request basic information about the specified assignment
+        LearningStoreQuery query = LearningStore.CreateQuery(
+            Schema.AssignmentPropertiesView.ViewName);
+        query.SetParameter(Schema.AssignmentPropertiesView.AssignmentId, assignmentId);
+        query.SetParameter(Schema.AssignmentPropertiesView.IsInstructor, false);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentSPSiteGuid);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentSPWebGuid);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentTitle);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentStartDate);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentDueDate);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentPointsPossible);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentDescription);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentAutoReturn);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentShowAnswersToLearners);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentCreatedById);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentDateCreated);
+        query.AddColumn(Schema.AssignmentPropertiesView.PackageFormat);
+        query.AddColumn(Schema.AssignmentPropertiesView.PackageLocation);
+        query.AddColumn(Schema.AssignmentPropertiesView.AssignmentNonELearningLocation);
+        job.PerformQuery(query);
+
+        // request the collection of learners of this assignment (this returns the current logged
+        //in learner only)
+        query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForLearners.ViewName);
+        query.AddColumn(Schema.LearnerAssignmentListForLearners.LearnerId);
+        query.AddColumn(Schema.LearnerAssignmentListForLearners.LearnerName);
+        query.AddCondition(Schema.LearnerAssignmentListForLearners.AssignmentId,
+            LearningStoreConditionOperator.Equal, assignmentId);
+        job.PerformQuery(query);
+    }
+
+    [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
+    private static AssignmentProperties EndGetAssignmentPropertiesForCurrentLearner(IEnumerator<object> resultEnumerator,
+        AssignmentItemIdentifier assignmentId)
+    {
+        // extract the basic assignment information from the job results
+        if (!resultEnumerator.MoveNext())
+            throw new InternalErrorException("SLK1008");
+        DataRowCollection dataRows = ((DataTable)resultEnumerator.Current).Rows;
+        if (dataRows.Count != 1)
+        {
+            // this error message includes the assignment ID, but that's okay since
+            // the information we provide does not allow the user to distinguish between the
+            // assignment not existing and the user not having access to it
+            throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+        }
+        DataRow dataRow = dataRows[0];
+        AssignmentProperties ap = new AssignmentProperties();
+
+        // copy information from <dataRow> into properties of <ap>...
+
+        Guid guid;
+        LearningStoreHelper.CastNonNull(
+            dataRow[Schema.AssignmentPropertiesView.AssignmentSPSiteGuid], out guid);
+        ap.SPSiteGuid = guid;
+
+        LearningStoreHelper.CastNonNull(
+            dataRow[Schema.AssignmentPropertiesView.AssignmentSPWebGuid], out guid);
+        ap.SPWebGuid = guid;
+
+        string stringValue;
+        LearningStoreHelper.CastNonNull(
+            dataRow[Schema.AssignmentPropertiesView.AssignmentTitle], out stringValue);
+        ap.Title = stringValue;
+
+        DateTime utc;
+        LearningStoreHelper.CastNonNull(
+            dataRow[Schema.AssignmentPropertiesView.AssignmentStartDate], out utc);
+        ap.StartDate = utc.ToLocalTime();
+
+        DateTime? utcOrNull;
+        LearningStoreHelper.Cast(
+            dataRow[Schema.AssignmentPropertiesView.AssignmentDueDate], out utcOrNull);
+        if (utcOrNull == null)
+            ap.DueDate = null;
+        else
+            ap.DueDate = utcOrNull.Value.ToLocalTime();
+
+        float? nullableFloat;
+        LearningStoreHelper.Cast(
+            dataRow[Schema.AssignmentPropertiesView.AssignmentPointsPossible], out nullableFloat);
+        ap.PointsPossible = nullableFloat;
+
+        LearningStoreHelper.CastNonNull(
+            dataRow[Schema.AssignmentPropertiesView.AssignmentDescription], out stringValue);
+        ap.Description = stringValue;
+
+        bool boolValue;
+        LearningStoreHelper.CastNonNull(
+            dataRow[Schema.AssignmentPropertiesView.AssignmentAutoReturn], out boolValue);
+        ap.AutoReturn = boolValue;
+
+        LearningStoreHelper.CastNonNull(
+            dataRow[Schema.AssignmentPropertiesView.AssignmentShowAnswersToLearners],
+            out boolValue);
+        ap.ShowAnswersToLearners = boolValue;
+
+        UserItemIdentifier userId;
+        LearningStoreHelper.CastNonNull(
+            dataRow[Schema.AssignmentPropertiesView.AssignmentCreatedById], out userId);
+        ap.CreatedById = userId;
+        LearningStoreHelper.CastNonNull(
+            dataRow[Schema.AssignmentPropertiesView.AssignmentDateCreated], out utc);
+        ap.DateCreated = utc.ToLocalTime();
+
+        PackageFormat? packageFormat;
+        LearningStoreHelper.Cast<PackageFormat>(
+            dataRow[Schema.AssignmentPropertiesView.PackageFormat], out packageFormat);
+        ap.PackageFormat = packageFormat;
+
+        if (packageFormat != null)
+        {
+            // e-learning package
+            LearningStoreHelper.CastNonNull(
+                dataRow[Schema.AssignmentPropertiesView.PackageLocation], out stringValue);
+            ap.Location = stringValue;
+        }
+        else
+        {
+            // non-e-learning document
+            LearningStoreHelper.CastNonNull(
+                dataRow[Schema.AssignmentPropertiesView.AssignmentNonELearningLocation],
+                out stringValue);
+            ap.Location = stringValue;
+        }
+
+        string userName;
+
+        // populate AssignmentProperties.Learners (this returns the current logged in learner only)
+        if (!resultEnumerator.MoveNext())
+            throw new InternalErrorException("SLK1011");
+        dataRows = ((DataTable)resultEnumerator.Current).Rows;
+        foreach (DataRow dataRow2 in dataRows)
+        {
+            LearningStoreHelper.CastNonNull(dataRow2[
+                Schema.LearnerAssignmentListForLearners.LearnerId], out userId);
+            LearningStoreHelper.CastNonNull(dataRow2[
+                Schema.LearnerAssignmentListForLearners.LearnerName], out userName);
+            ap.Learners.Add(new SlkUser(userId, null, userName));
+        }
+
+        // done
+        return ap;
+    }
     }
 }
