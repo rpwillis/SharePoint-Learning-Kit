@@ -383,6 +383,17 @@ function Rte2004Api(apiSite, parser, validator)
 		    value = value.toString().replace(value.toString().substring(0, value.toString().indexOf("-", 0)), new Date().getFullYear().toString());
 		}
 		
+		//SLK Release 1.4 – ITWorx
+        //Date: 3 March, 2009
+        //Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+        //For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+        //and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
+		else if(name.toString().indexOf(".timestamp") != -1)
+		{		    
+		    value = value.toString().replace(value.toString().substring(0, value.toString().indexOf("-", 0)), new Date().getFullYear().toString());
+		}
+		
 		
 		var handledByNavRequest = false;
 		// special treatment for adl data models.

@@ -831,7 +831,6 @@ namespace Microsoft.LearningComponents.Frameset
             if (Session != null)
             {
                 controls.Add(HiddenFieldNames.AttemptId, FramesetUtil.GetStringInvariant(Session.AttemptId.GetKey()));
-
                 onLoadScript.AppendFormat("frameMgr.SetAttemptId(document.getElementById({0}).value);\r\n", 
                     JScriptString.QuoteString(HiddenFieldNames.AttemptId, false));
             }
@@ -844,6 +843,13 @@ namespace Microsoft.LearningComponents.Frameset
             }
 
             // Write view to display. 
+
+            //SLK Release 1.4 – ITWorx
+            //Date 2 March, 2009
+            //Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+            //For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+            //and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
             controls.Add(HiddenFieldNames.View, FramesetUtil.GetString(Session.View));
             onLoadScript.AppendFormat("frameMgr.SetView(document.getElementById({0}).value);\r\n",
                     JScriptString.QuoteString(HiddenFieldNames.View, false));

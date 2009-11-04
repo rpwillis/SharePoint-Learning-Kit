@@ -8,6 +8,12 @@ NONINFRINGEMENT FOR THE SOURCE CODE. */
 
 // TOC.js
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 // Functions used in the table of contents of the frameset. This code is shared between SLK and BWP.
 function FindActivityId( element )
 { 
@@ -32,6 +38,12 @@ function FindActivityId( element )
   	    return null;
     }
 }
+
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
 
 // Find the <a> element that is visible. It's either the one with the activityId = strActivityId, or,
 // if that node is not visible, a parent of that node.
@@ -84,6 +96,12 @@ function FindVisibleActivity( strActivityId )
     return element;
 }
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 // Make the current activity node visible in the table of contents by expanding its 
 // cluster, and that of all parents.
 function ExpandActivity( strActivityId )
@@ -106,6 +124,12 @@ function ExpandActivity( strActivityId )
     
     ExpandActivity( parentActivityId );        
 }
+
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
 
 // Move the selection of the current element from previous one to new one.
 // strActivitIdNew is the activity id of the newly chose current element.
@@ -145,9 +169,6 @@ function ResetToPreviousSelection()
 {
     SetCurrentElement(g_previousActivityId);
 }
-
-//function body_onclick(e)
-//document.body.onclick = function(e)
 
 function body_onclick(e)
 {   
@@ -203,6 +224,12 @@ function body_onclick(e)
    e.returnValue = false;
 }
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 // Expands or collapses the group associated with strActivityId.
 // If bExpandOnly is true, the group is not collapsed.
 function ExpandCollapseGroup( strActivityId, elCluster, bExpandOnly )
@@ -233,6 +260,12 @@ function ExpandCollapseGroup( strActivityId, elCluster, bExpandOnly )
     }
 }
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 function MoveToActivity ( strActivityId )
 {
     if (SetCurrentElement( strActivityId ))
@@ -255,6 +288,12 @@ function IsParentElement( elCluster )
     var linkChildren = elCluster.getElementsByTagName("A");
     return (linkChildren.length != 0);
 }
+
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
 
 // Returns true if the activity has a resource
 function IsValidChoice( strActivityId )
