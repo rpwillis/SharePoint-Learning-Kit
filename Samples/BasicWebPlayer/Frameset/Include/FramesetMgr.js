@@ -228,6 +228,12 @@ function OnReadyStateChange_ContentFrame()
         g_frameMgr.ReadyStateReceived();
 }
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 // Register for the ready state change event on the window.
 function FM_RegisterReadyStateChange_ContentFrame()
 {
@@ -292,6 +298,12 @@ function FM_IsTrainingComplete()
     return this.m_isTrainingComplete;
 }
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 // Hides the UI controls frameset. 
 function HideUIControls()
 {
@@ -312,31 +324,66 @@ function AllFramesRegistered(framesRegistered)
         && framesRegistered[NAVCLOSED_FRAME]);
 }
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 // Return the document in the Title frame.
 function GetTitleDoc()
 {
     return document.getElementById(TITLE_FRAME).contentWindow.document;
 }
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 function GetTocDoc()
 {   
     return window.top.frames[MAIN_FRAME].document.getElementById(TOC_FRAME).contentWindow.document;
 }
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 function GetContentFrame()
 {
      return window.top.frames[MAIN_FRAME].document.getElementById(CONTENT_FRAME);
 }
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
 
 function GetNavFrame( navFrameName )
 {
     return window.top.frames[MAIN_FRAME].document.getElementById(navFrameName);    
 }
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 function GetHiddenFrame()
 {
     return window.top.frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME);    
 }
+
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
 
 // Set all values in the various frames and then make them visible.
 function FM_MakeFramesVisible()
@@ -351,6 +398,12 @@ function FM_SetTitle(title)
 {
     this.m_title = title;
 }
+
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
 
 // Update the title string in the Title Frame.
 function UpdateTitle(title)
@@ -597,6 +650,12 @@ function FM_SetNavVisibility ( showNext, showPrevious, showAbandon, showExit, sh
     this.m_showSave = showSave;
 }
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 // Update the frames that display the navigation UI. (Currently, abandon and exit are ignored.)
 function UpdateNavVisibility ( showNext, showPrevious, showAbandon, showExit, showSave )
 {
@@ -636,6 +695,12 @@ function FM_SetContentFrameUrl( url )
     this.DebugLog("SetContentFrameUrl: End");
 } 
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 // Do a GET request into the content frame.
 function LoadContentFrame ( url )
 {
@@ -663,6 +728,12 @@ function FM_SetPostableForm( formToPost )
 
 var g_retryCount = 0;
 var MAX_RETRY = 50;
+
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
 
 // Set the values in hidden fields in m_postableForm, then post that frame.
 // Returns true only if the form is submitted.
@@ -792,6 +863,12 @@ function FM_PostIsComplete()
     }
     this.DebugLog("PostIsComplete: End");
 }
+
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
 
 // Set the hidden control with the specified 'ctrlName' to have the 'ctrlValue'. 
 // If the control doesn't already exist in the form, create it.

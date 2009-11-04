@@ -226,11 +226,16 @@ function Site_IsChoiceRequestValid(strActivityId)
     return "unknown";
 }
 
+//SLK Release 1.4 – ITWorx
+//Date: 3 March, 2009
+//Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
+//For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
+//and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
+
 function Site_ClearError()
 {
     this.m_errorManager.SetError("0");
 }
-
 
 // Set an error condition in the api. This function takes optional additional parameters to substitute into
 // the error string. For instance, if errorID 25 corresponds to the string "The {0} parameter is not valid", then

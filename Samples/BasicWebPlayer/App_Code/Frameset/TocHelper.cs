@@ -76,7 +76,6 @@ namespace Microsoft.LearningComponents.Frameset
         /// Write TOC Html elements for the table of contents
         /// </summary>
         /// <returns></returns>
-        /// 
         public void TocElementsHtml(HttpRequest Request, string AssignmentGradingViewName)
         {
             // If there was an error on page load, do nothing here.
