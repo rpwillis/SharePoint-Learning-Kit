@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.Xml.XPath;
 using System.Globalization;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.LearningComponents
 {
@@ -62,6 +63,7 @@ namespace Microsoft.LearningComponents
             {
                 // the check for CurrentActivity != null was removed by request
                 // so this function should always succeed
+                Resources.Culture = LocalizationManager.GetCurrentCulture();
                 ExitActivity(m_navigator.CurrentActivity);
                 ExitActivity(m_navigator.SuspendedActivity);
                 m_navigator.CurrentActivity = null;
@@ -75,6 +77,7 @@ namespace Microsoft.LearningComponents
             /// <param name="destination">The destination activity requested.</param>
             private void Choose(Activity destination)
             {
+                Resources.Culture = LocalizationManager.GetCurrentCulture();
                 if(IsValidToNavigateTo(destination))
                 {
                     ExitActivity(m_navigator.CurrentActivity);
@@ -93,7 +96,7 @@ namespace Microsoft.LearningComponents
             private void Continue()
             {
                 Activity a;
-
+                Resources.Culture = LocalizationManager.GetCurrentCulture();
                 if(m_navigator.CurrentActivity == null)
                 {
                     throw new SequencingException(SequencingExceptionCode.NB_2_1__2);
@@ -116,6 +119,7 @@ namespace Microsoft.LearningComponents
             /// </summary>
             private void ExitAll()
             {
+                Resources.Culture = LocalizationManager.GetCurrentCulture();
                 if(m_navigator.CurrentActivity == null)
                 {
                     throw new SequencingException(SequencingExceptionCode.NB_2_1__2);
@@ -133,7 +137,7 @@ namespace Microsoft.LearningComponents
             private void Previous()
             {
                 Activity a;
-
+                Resources.Culture = LocalizationManager.GetCurrentCulture();
                 if(m_navigator.CurrentActivity == null)
                 {
                     throw new SequencingException(SequencingExceptionCode.NB_2_1__2);
@@ -178,6 +182,7 @@ namespace Microsoft.LearningComponents
             /// </summary>
             private void Start()
             {
+                Resources.Culture = LocalizationManager.GetCurrentCulture();
                 if(m_navigator.CurrentActivity != null)
                 {
                     throw new SequencingException(SequencingExceptionCode.NB_2_1__1);

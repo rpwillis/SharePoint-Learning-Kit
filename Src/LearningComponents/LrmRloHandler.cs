@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using Microsoft.LearningComponents.DataModel;
 using System.Web;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.LearningComponents
 {
@@ -23,6 +24,8 @@ namespace Microsoft.LearningComponents
 
         internal LrmRloHandler()
         {
+            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+
             m_assessmentItemMgr = new AssessmentItemManager();
             string numberDecimalSeparator = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
             // convert the number decimal separator into a hex number. Note if the number decimal separator
@@ -198,6 +201,8 @@ namespace Microsoft.LearningComponents
         /// <exception cref="FileNotFoundException">The requested file attachment can't be found.</exception>
         public override void Render(RloRenderContext context)
         {
+            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+
             // string is the key (which is AssessmentItem.Id_AssessmentItem.Type)
             // int is the ordinal (0 based) which is the number of times the key has been processed
             Dictionary<string, int> assessmentItems = new Dictionary<string, int>();
@@ -351,6 +356,8 @@ namespace Microsoft.LearningComponents
         /// <exception cref="FileNotFoundException">The requested file attachment can't be found.</exception>
         private static void RenderFileAttachment(RloRenderContext context, string attachmentInfo)
         {
+            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+
             // File attachments will have a relativePath of the form:
             //  .../~RLO/<interactionId>/<attachmentIndex>
             // 
@@ -411,6 +418,8 @@ namespace Microsoft.LearningComponents
         /// </summary>
         private void HandleNode(HtmlTextReader reader, StreamWriter writer)
         {
+            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+
             RloRenderContext context = AssessmentItemManager.RenderContext;
 
             if (reader.NodeType == HtmlNodeType.Element)

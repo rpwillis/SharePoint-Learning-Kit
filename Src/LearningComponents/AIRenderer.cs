@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Web;
 using System.Threading;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.LearningComponents
 {
@@ -171,7 +172,7 @@ namespace Microsoft.LearningComponents
         /// <param name="context"></param>
         internal AssessmentItemRenderer(RloDataModelContext context)
         {
-            AIResources.Culture = Thread.CurrentThread.CurrentCulture;
+            AIResources.Culture = LocalizationManager.GetCurrentCulture();
             m_context = context;
             m_renderContext = context as RloRenderContext;
         }
@@ -367,6 +368,8 @@ namespace Microsoft.LearningComponents
         /// </summary>
         protected void RenderInstructorComments(StringBuilder bld, int ordinal)
         {
+            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+
             // RandomAccess view is the same as Review view, except that there is an intructor comments field in
             // RandomAccess view.
             if (RenderContext.View == SessionView.RandomAccess)
@@ -606,6 +609,8 @@ namespace Microsoft.LearningComponents
         /// <exception cref="FormatException">Thrown if the <paramref name="assessmentItem"/> cannot be parsed.</exception>
         public static AssessmentItem Parse(string assessmentItem)
         {
+            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+
             // assessmentItem contains the value of the src attribute, which is of the form:
             // "http://localhost:3535/mslamrk,type=1,id=3,cols=10,akey=over,uak=0".
             // Split this string by the ',' character.
@@ -912,6 +917,8 @@ namespace Microsoft.LearningComponents
         /// <returns>HTML that should be inserted in place of a assessment item IMG tag.</returns>
         public override HtmlString Render(int ordinal)
         {
+            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+
             HtmlString html = new HtmlString(String.Empty);
             // If this assessment doesn't match the expected type, return an empty string.
             if (!IsSameAsInteractionType) return html;
@@ -1709,6 +1716,7 @@ namespace Microsoft.LearningComponents
                 }
                 else
                 {
+                    AIResources.Culture = LocalizationManager.GetCurrentCulture();
                     if (RenderContext.View == SessionView.RandomAccess) return String.Empty;
                     else return AIResources.NoScoreHtml;
                 }
@@ -1892,6 +1900,7 @@ namespace Microsoft.LearningComponents
         /// </summary>
         private string GetReviewHtml(int ordinal)
         {
+            AIResources.Culture = LocalizationManager.GetCurrentCulture();
             // RandomAccess view is identical to Review view.
             string ordinalString = ordinal.ToString(CultureInfo.InvariantCulture);
             StringBuilder bld = new StringBuilder(200);
@@ -2076,6 +2085,8 @@ namespace Microsoft.LearningComponents
         /// <returns>HTML that should be inserted in place of a assessment item IMG tag.</returns>
         public override HtmlString Render(int ordinal)
         {
+            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+
             HtmlString html = new HtmlString(String.Empty);
             string imgSrc;
             string altText;

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Threading;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.LearningComponents
 {
@@ -18,7 +19,7 @@ namespace Microsoft.LearningComponents
         /// </summary>
         internal TableOfContentsElement()
         {
-            Resources.Culture = Thread.CurrentThread.CurrentCulture;
+            Resources.Culture = LocalizationManager.GetCurrentCulture();
         }
 
         /// <summary>
