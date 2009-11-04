@@ -20,9 +20,6 @@ using Microsoft.LearningComponents.Frameset;
 using Resources.Properties;
 using System.Text;
 using System.Globalization;
-///SLK Release 1.4 – ITWorx
-///Created 04-2009
-///Drop Box feature
 using Microsoft.SharePointLearningKit.ApplicationPages;
 using Microsoft.SharePoint;
 using Microsoft.SharePointLearningKit.Localization;
@@ -239,9 +236,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
             item.SuccessStatus = gradingProperties.SuccessStatus;
             item.LearnerAssignmentGuidId = gradingProperties.LearnerAssignmentGuidId;
 
-            ///SLK Release 1.4 – ITWorx
-            ///Created 04-2009
-            ///Drop Box feature
             item.FileSubmissionState = GetFileSubmissionValue(gradingProperties);
 
             //adds the GradingItem to the GradingItemCollection
@@ -249,9 +243,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         }
         #endregion
 
-        ///SLK Release 1.4 – ITWorx
-        ///Created 04-2009
-        ///Drop Box feature
         #region GetFileSubmissionValue
         /// <summary>
         /// Gets the assignment's File Submission Column value.
@@ -334,9 +325,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                     // render the Status column headers
                                     RenderColumnHeader(AppResources.GradingStatusHeaderText, writer);
 
-                                    ///SLK Release 1.4 – ITWorx
-                                    ///Created 04-2009
-                                    ///Drop Box feature
                                     /// render the File Submission column headers
                                     RenderColumnHeader(AppResources.GradingFileSubmissionHeaderText, writer);
 
@@ -506,9 +494,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         }
         #endregion
 
-        ///SLK Release 1.4 – ITWorx
-        ///Created 04-2009
-        ///Drop Box feature
         #region RenderFileSubmissionState
         /// <summary>
         /// Render the file submission state 
@@ -837,9 +822,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 {
                     htmlTextWriter.Write(SlkUtilities.GetLearnerAssignmentState(item.Status));
                 }
-                ///SLK Release 1.4 – ITWorx
-                ///Created 04-2009
-                ///Drop Box feature
                 ///Render file submission state 
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "padding-left: 5px; padding-top:5pt");
@@ -1415,10 +1397,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         }
         #endregion
 
-        /// SLK Release 1.4 – ITWorx
-        /// Created 04-2009
-        /// Drop Box feature
-
         /// <summary>
         /// Checks the number of the assignment submitted files. 
         /// If one assignment submitted, returns its URL.
@@ -1549,10 +1527,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// Holds Action State
         /// </summary>
         private bool m_actionState;
-
-        ///SLK Release 1.4 – ITWorx
-        ///Created 04-2009
-        ///Drop Box feature
         /// <summary>
         /// Holds File Submission State
         /// </summary>
@@ -1658,9 +1632,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
             set { m_actionState = value; }
         }
 
-        //SLK Release 1.4 – ITWorx
-        //Created 04-2009
-        //Drop Box feature
         /// <summary>
         /// File Submission State
         /// </summary>

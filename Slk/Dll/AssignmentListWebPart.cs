@@ -732,15 +732,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Border, "0");
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-summarycustombody");
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style,
-                                                         "padding:3px 2px 4px 4px;");
-
-                //SLK Release 1.4 – ITWorx
-                //Date: 19 March, 2009
-                //Code changes to fix “Firefox rendering issue”, Work Items # 3121 & 15909 on SLK Issue Tracker at CodePlex
-                //For more details about the issue, check http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=3121 
-                //and http://www.codeplex.com/SLK/WorkItem/View.aspx?WorkItemId=15909
-
+                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "padding:3px 2px 4px 4px;");
                 htmlTextWriter.AddStyleAttribute(HtmlTextWriterStyle.Margin, "0px");
 
                 using (new HtmlBlock(HtmlTextWriterTag.Table, 1, htmlTextWriter))
