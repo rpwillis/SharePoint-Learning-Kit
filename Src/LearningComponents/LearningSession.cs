@@ -13,6 +13,7 @@ using System.Globalization;
 using System.Runtime.Serialization;
 using System.Web;
 using System.Threading;
+using Microsoft.SharePointLearningKit.Localization;
 
 
 namespace Microsoft.LearningComponents
@@ -77,7 +78,7 @@ namespace Microsoft.LearningComponents
         /// </remarks>
         internal LearningSession(SessionView view) 
         {
-            Resources.Culture = Thread.CurrentThread.CurrentCulture;
+            Resources.Culture = LocalizationManager.GetCurrentCulture();
             m_view = view;
         }
 
@@ -1232,6 +1233,7 @@ namespace Microsoft.LearningComponents
             get { return m_relativePath; }
             set
             {
+                Resources.Culture = LocalizationManager.GetCurrentCulture();
                 ValidatePropertyNotEmpty(value);
 
                 try
@@ -1428,6 +1430,7 @@ namespace Microsoft.LearningComponents
         /// </summary>
         private static void ValidatePropertyNotEmpty(string propertyValue)
         {
+            Resources.Culture = LocalizationManager.GetCurrentCulture();
             if (propertyValue == null)
                 throw new ArgumentNullException("value", Resources.LS_StringCannotBeEmpty);
             if (String.IsNullOrEmpty(propertyValue.Trim()))
@@ -1439,6 +1442,7 @@ namespace Microsoft.LearningComponents
         /// </summary>
         private static void ValidatePropertyNotNull(object propertyValue)
         {
+            Resources.Culture = LocalizationManager.GetCurrentCulture();
             if (propertyValue == null)
                 throw new ArgumentNullException("value", Resources.LS_PropertyCannotBeNull);
         }

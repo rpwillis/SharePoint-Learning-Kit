@@ -2,15 +2,24 @@
 
 # Microsoft.LearningComponents.Compression makefile
 
+
+# checking the target platform
+!IF "$(TARGET_ARCH)" == "x64"
+TARGET_BUILD=x64
+!ELSE
+TARGET_BUILD=Win32
+!ENDIF
+
+# all
 all: deb rel
 
 deb:
-	devenv Compression.sln /build Debug /Project Microsoft.LearningComponents.MRCI /ProjectConfig "Debug|Win32"
-	devenv Compression.sln /build Debug /Project Compression
+	devenv Compression.sln /rebuild Debug /Project Microsoft.LearningComponents.MRCI /ProjectConfig "Debug|$(TARGET_BUILD)"
+	devenv Compression.sln /rebuild Debug /Project Compression
 
 rel:
-	devenv Compression.sln /build Release /Project Microsoft.LearningComponents.MRCI /ProjectConfig "Release|Win32"
-	devenv Compression.sln /build Release /Project Compression
+	devenv Compression.sln /rebuild Release /Project Microsoft.LearningComponents.MRCI /ProjectConfig "Release|$(TARGET_BUILD)"
+	devenv Compression.sln /rebuild Release /Project Compression
 
 ide:
 	devenv Compression.sln

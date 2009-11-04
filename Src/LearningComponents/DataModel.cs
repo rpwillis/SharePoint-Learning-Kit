@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.LearningComponents.Manifest;
 using System.Globalization;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.LearningComponents.DataModel
 {
@@ -176,6 +177,7 @@ namespace Microsoft.LearningComponents.DataModel
         /// <param name="validationDelegate">Delegate to perform simple validation on the identifier.</param>
         internal static void SetIdentifier(XPathNavigator elementNav, string parentElementName, string elementName, string identifier, ValidateIdentifier validationDelegate)
         {
+            Resources.Culture = LocalizationManager.GetCurrentCulture();
             // unlike most properties, call validation first, mainly to catch assigning empty string or null which is never valid
             // even if the current identifier is null.
             if(validationDelegate != null)
@@ -440,6 +442,7 @@ namespace Microsoft.LearningComponents.DataModel
         /// data model of this list.</exception>
         private void Validate(T item)
         {
+            Resources.Culture = LocalizationManager.GetCurrentCulture();
             if(item.DataModel != m_dataModel)
             {
                 throw new ArgumentException(Resources.WrongDataModel);
@@ -856,6 +859,7 @@ namespace Microsoft.LearningComponents.DataModel
         /// data model of this list.</exception>
         private void Validate(T item)
         {
+            Resources.Culture = LocalizationManager.GetCurrentCulture();
             if(item.DataModel != m_dataModel)
             {
                 throw new ArgumentException(Resources.WrongDataModel);
@@ -1004,6 +1008,7 @@ namespace Microsoft.LearningComponents.DataModel
 
         protected override void RemoveItem(int index)
         {
+            Resources.Culture = LocalizationManager.GetCurrentCulture();
             if(m_isInDataModel)
             {
                 m_dataModel.CheckIfWriteIsAllowed();
@@ -1029,6 +1034,7 @@ namespace Microsoft.LearningComponents.DataModel
 
         protected override void SetItem(int index, T item)
         {
+            Resources.Culture = LocalizationManager.GetCurrentCulture();
             if(m_isInDataModel)
             {
                 m_dataModel.CheckIfWriteIsAllowed();
@@ -1260,6 +1266,7 @@ namespace Microsoft.LearningComponents.DataModel
         /// <returns>The same object, or a wrapper for that object if it is an attachment</returns>
         private object ConvertToDataModelExtensionValue(object value)
         {
+            Resources.Culture = LocalizationManager.GetCurrentCulture();
             if(value == null)
             {
                 throw new ArgumentNullException("value");
@@ -2036,6 +2043,7 @@ namespace Microsoft.LearningComponents.DataModel
         /// <exception cref="InvalidOperationException">Thrown if this LearningDataModel object cannot be written to.</exception>
         internal void CheckIfWriteIsAllowed()
         {
+            Resources.Culture = LocalizationManager.GetCurrentCulture();
             if(!m_advancedAccess)
             {
                 switch(m_writeValidationMode)
