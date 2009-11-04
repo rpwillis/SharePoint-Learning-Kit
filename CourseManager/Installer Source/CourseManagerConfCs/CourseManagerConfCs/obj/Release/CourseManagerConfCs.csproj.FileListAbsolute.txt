@@ -1,0 +1,7 @@
+C:\dev\SLK\CourseManager\Build\CourseManagerConfCs.dll
+C:\dev\SLK\CourseManager\Build\CourseManagerConfCs.pdb
+C:\dev\SLK\CourseManager\Installer Source\CourseManagerConfCs\CourseManagerConfCs\obj\Release\ResolveAssemblyReference.cache
+C:\dev\SLK\CourseManager\Installer Source\CourseManagerConfCs\CourseManagerConfCs\obj\Release\CourseManagerConfCs.Properties.AppResources.resources
+C:\dev\SLK\CourseManager\Installer Source\CourseManagerConfCs\CourseManagerConfCs\obj\Release\CourseManagerConfCs.csproj.GenerateResource.Cache
+C:\dev\SLK\CourseManager\Installer Source\CourseManagerConfCs\CourseManagerConfCs\obj\Release\CourseManagerConfCs.dll
+C:\dev\SLK\CourseManager\Installer Source\CourseManagerConfCs\CourseManagerConfCs\obj\Release\CourseManagerConfCs.pdb
