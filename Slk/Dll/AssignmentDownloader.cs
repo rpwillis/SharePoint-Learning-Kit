@@ -1,6 +1,3 @@
-﻿///SLK Release 1.4 – ITWorx
-///Created 04-2009
-///Drop Box feature
 using System;
 using System.Collections.Generic;
 using System.Text;

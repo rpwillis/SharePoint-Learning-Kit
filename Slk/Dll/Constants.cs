@@ -130,9 +130,6 @@ namespace Microsoft.SharePointLearningKit
         public const string GradingUnSatisfiedIcon = "GradingUnsatisfied.gif";
         public const string WaitIcon = "WaitIcon.gif";
 
-        ///SLK Release 1.4 – ITWorx
-        ///Created 04-2009
-        ///Drop Box feature
         public const string UploadIcon = "ARRUPA.GIF";
         public const string DownloadIcon = "ARRDOWNA.GIF";
 

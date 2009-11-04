@@ -26,9 +26,6 @@ using Resources.Properties;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using Schema = Microsoft.SharePointLearningKit.Schema;
-///SLK Release 1.4 – ITWorx
-///Created 04-2009
-///Drop Box feature
 using System.Configuration;
 
 namespace Microsoft.SharePointLearningKit
@@ -135,9 +132,6 @@ public static class SlkAdministration
             }
             observerPermission = mapping.ObserverPermission;
 
-            ///SLK Release 1.4 – ITWorx
-            ///Created 04-2009
-            ///Drop Box feature
             if (mapping.DropBoxFilesExtensions == null)
             {
                 mapping.DropBoxFilesExtensions = AppResources.DefaultDropBoxFilesExtensions;
@@ -158,9 +152,6 @@ public static class SlkAdministration
             observerPermission = AppResources.DefaultSlkObserverPermissionName;
             ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            ///SLK Release 1.4 – ITWorx
-            ///Created 04-2009
-            ///Drop Box feature
             dropBoxFilesExtensions = AppResources.DefaultDropBoxFilesExtensions;
             mapping.DropBoxFilesExtensions = dropBoxFilesExtensions;
         }
@@ -264,9 +255,6 @@ public static class SlkAdministration
             throw new ArgumentNullException("observerPermission");
 
 
-        ///SLK Release 1.4 – ITWorx
-        ///Created 04-2009
-        ///Drop Box feature
         if (dropBoxFilesExtensions == null)
             throw new ArgumentNullException("dropBoxFilesExtensions");
 
@@ -316,9 +304,6 @@ public static class SlkAdministration
             mappingChanged = true;
         }
 
-        ///SLK Release 1.4 – ITWorx
-        ///Created 04-2009
-        ///Drop Box feature
         if (mapping.DropBoxFilesExtensions != dropBoxFilesExtensions)
         {
             mapping.DropBoxFilesExtensions = dropBoxFilesExtensions;
@@ -1225,9 +1210,6 @@ public class SlkSPSiteMapping : SPPersistedObject
     string m_observerPermission;
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    ///SLK Release 1.4 – ITWorx
-    ///Created 04-2009
-    ///Drop Box feature
     /// <summary>
     /// Holds the value of the <c>DropBoxFilesExtensions</c> property.
     /// </summary>
@@ -1397,9 +1379,6 @@ public class SlkSPSiteMapping : SPPersistedObject
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////            
 
-    ///SLK Release 1.4 – ITWorx
-    ///Created 04-2009
-    ///Drop Box feature
     /// <summary>
     /// Sets or gets the allowed extensions for DropBox uploaded files.
     /// </summary>
