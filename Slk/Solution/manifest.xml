@@ -15,6 +15,7 @@
 					Safe="True" />
 			</SafeControls>
 		</Assembly>
+                <!--
     <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.BusinessLayerUITools.dll">
       <SafeControls>
         <SafeControl
@@ -71,6 +72,7 @@
           Namespace="AjaxControlToolkit.WebParts" TypeName="*" Safe="True" />
       </SafeControls>
     </Assembly>
+    -->
 	</Assemblies>
 	<TemplateFiles>
 	  <TemplateFile Location="Admin\admin.sitemap.SharePointLearningKit.xml" />
@@ -187,6 +189,7 @@
 	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\Upload.aspx" />
 	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\WebFldr.aspx" />
 	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\Instance.xml" />
+          <!--
     <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerConfigure.aspx" />
     <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerDBSchema.sql" />
     <TemplateFile Location="Admin\Course_Manager_Configure\Info.gif" />
@@ -198,24 +201,31 @@
     <TemplateFile Location="Features\Course_Manager_Configure\Plan_and_Assign.aspx" />
     <TemplateFile Location="Features\Course_Manager_Configure\Placeholder.txt" />
     <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerConfCs.dll" />
+    -->
     <!--<TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.dll" />
     <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.SharePoint.dll" />
     <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.Storage.dll" />
     <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.SharePointLearningKit.dll" />-->
+    <!--
     <TemplateFile Location="Layouts\1033\SPDocumentSelectorIFrame.js" />
+    -->
 	</TemplateFiles>
   <FeatureManifests>
 		<FeatureManifest Location="SharePointLearningKit\feature.xml"/>
 		<FeatureManifest Location="SharePointLearningKitAdmin\feature.xml"/>
     <FeatureManifest Location="DropBoxDocLib\feature.xml"/>
+    <!--
     <FeatureManifest Location="Course_Manager_Configure\feature.xml"/>
+    -->
 	</FeatureManifests>
 	<RootFiles>
 	  <RootFile Location="Resources\SLK.resx"/>
   </RootFiles>
+      <!--
   <DwpFiles>
     <DwpFile Location="CourseManagerPages.dwp"/>
     <DwpFile Location="PlanAndAssign.dwp"/>
     <DwpFile Location="MonitorAndAssess.dwp"/>
   </DwpFiles>
+  -->
 </Solution>
