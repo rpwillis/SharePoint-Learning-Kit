@@ -119,9 +119,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// The name of the drop box document library 
         /// </summary>
         private string m_dropBoxDocLibName;
-        private SPList m_dropBoxDocLib = null;
-        private string m_assignmentFolderName = null;
-        private SPListItem m_assignmentFolder = null;
+        private SPList m_dropBoxDocLib;
+        private string m_assignmentFolderName;
+        private SPListItem m_assignmentFolder;
         #endregion
 
         #region Private Properties
@@ -563,50 +563,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        /// <summary>
-        /// Event handler for the Upload button click event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void slkButtonUpload_Click(object sender, EventArgs e)
-        {
-            SPWeb currentWeb = SPContext.Current.Web;
-            string strURL = currentWeb.Url + "/_layouts/SharePointLearningKit/CommentedFiles.aspx?" + QueryStringKeys.AssignmentId + "=" + AssignmentId.ToString();
-            currentWeb.Dispose();
-
-            Response.Write("<SCRIPT>");
-            Response.Write("window.open('" + strURL + "','File','toolbar=0,location=0,directories=0,status=1,menubar=no,scrollbars=yes,resizable=yes,width=750,height=350');");
-            Response.Write("</SCRIPT>");
-        }
-
-        /// <summary>
-        /// Event handler for the Download button click event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void slkButtonDownload_Click(object sender, EventArgs e)
-        {
-            try
-            {
-
-                ///Getting the zipped file saving location from the user
-                ///
-                SPWeb currentWeb = SPContext.Current.Web;
-                string strURL = currentWeb.Url + "/_layouts/SharePointLearningKit/DownloadDialog.aspx?" + QueryStringKeys.AssignmentId + "=" + AssignmentId.ToString(); ;
-                currentWeb.Dispose();
-                
-                Response.Write("<SCRIPT>");
-                Response.Write("window.open('" + strURL + "','File','toolbar=0,location=0,directories=0,status=1,menubar=no,scrollbars=yes,resizable=yes,width=50,height=50');");
-                Response.Write("</SCRIPT>"); 
-            }
-            catch (Exception ex)
-            {
-                pageHasErrors = true;
-                contentPanel.Visible = false;
-                errorBanner.AddException(ex);
-            }
-        }
-
         #region DisplayUploadAndDownloadButtons
 
         /// <summary>
@@ -617,22 +573,26 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             bool isAssignmentsCompleted = true;
 
-            ReadOnlyCollection<GradingProperties> learnersGradingCollection = SlkStore.GetGradingProperties(
-                                                                                    AssignmentItemIdentifier,
-                                                                                    out m_assignmentProperties);
+            ReadOnlyCollection<GradingProperties> learnersGradingCollection = SlkStore.GetGradingProperties( AssignmentItemIdentifier, out m_assignmentProperties);
 
             foreach (GradingProperties learnerGrading in learnersGradingCollection)
             {
                 if (learnerGrading.Status != LearnerAssignmentState.Completed)
                 {
                     isAssignmentsCompleted = false;
+                    break;
                 }
             }
 
             if (isAssignmentsCompleted)
             {
                 slkButtonUpload.Enabled = true;
+                string uploadUrl = LayoutUrlForAssignmentId("CommentedFiles");
+                string uploadClick = "window.open('" + uploadUrl + "','File','toolbar=0,location=0,directories=0,status=1,menubar=no,scrollbars=yes,resizable=yes,width=750,height=350');";
+                slkButtonUpload.OnClientClick = uploadClick;
+
                 slkButtonDownload.Enabled = true;
+                slkButtonDownload.NavigateUrl = LayoutUrlForAssignmentId("DownloadDialog");
             }
             else
             {
@@ -646,7 +606,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        #endregion
+        /// <summary>Builds a url in the layouts directory which the Assignment ID as a query string paramenter.</summary>
+        string LayoutUrlForAssignmentId(string page)
+        {
+            string baseUrl = "{0}/_layouts/SharePointLearningKit/{1}.aspx?{2}={3}";
+            return string.Format(CultureInfo.InvariantCulture, baseUrl, SPWeb.Url, page, QueryStringKeys.AssignmentId, AssignmentId);
+        }
+
+        #endregion DisplayUploadAndDownloadButtons
 
         #region SetResourceText
         /// <summary>
