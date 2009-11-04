@@ -95,6 +95,8 @@ function SlkOpenFramesetWindow(navigateUrl)
 <asp:Panel ID="contentPanel" Visible="false" runat="server">
 <slk:ButtonToolbar runat="server" ID="buttonToolbarTop" EnableViewState="false">
 	<slk:SlkButton ID="slkButtonBegin" runat="server" />
+	<slk:SlkButton ID="slkButtonSubmitFiles" runat="server" />
+	<slk:SlkButton ID="slkButtonReviewSubmitted" Visible="false" runat="server" />
 	<slk:SlkButton ID="slkButtonSubmit" OnClick="slkButtonSubmit_Click" runat="server" />
 	<slk:SlkButton ID="slkButtonDelete" OnClick="slkButtonDelete_Click" runat="server" />
 </slk:ButtonToolbar>

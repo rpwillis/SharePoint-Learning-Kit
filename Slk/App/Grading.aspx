@@ -20,6 +20,11 @@
     overflow: auto !important;
     }
     
+    .ms-propertysheet a[disabled='disabled']{
+    color:#999999;
+    text-decoration:none;
+    }
+    
     .ms-areaseparatorright img{
 	visibility:hidden;
 	}
@@ -36,6 +41,7 @@
 <tr>
 <td Width="715">
 <slk:ErrorBanner ID="errorBanner" Visible="false" EnableViewState="false" runat="server" />
+<asp:Label ID = "lblError" Visible ="false" runat ="server" ForeColor="Red"></asp:Label>
 <asp:Panel ID="contentPanel" runat="server">
 <slk:TableGrid ID="TableGrid1" runat="server" Width="100%" CellPadding="0" CellSpacing="0">
 	<slk:TableGridRow><slk:TableGridColumn ColumnType="FormBreak" /></slk:TableGridRow>
@@ -48,6 +54,8 @@
 <slk:ButtonToolbar runat="server" ID="buttonToolbarTop">
 	<slk:SlkButton ID="slkButtonEdit" OnClick="slkButtonEdit_Click" EnableViewState="false" runat="server" />
 	<slk:SlkButton ID="slkButtonCollect" OnClick="slkButtonCollect_Click" EnableViewState="false" runat="server" />
+	<slk:SlkButton ID="slkButtonUpload" OnClick="slkButtonUpload_Click" EnableViewState="false" runat="server" Visible="false" />
+	<slk:SlkButton ID="slkButtonDownload" OnClick="slkButtonDownload_Click" EnableViewState="false" runat="server" Visible="false" />
 	<slk:SlkButton ID="slkButtonReturn" OnClick="slkButtonReturn_Click" EnableViewState="false" runat="server" />
 	<slk:SlkButton ID="slkButtonDelete" OnClick="slkButtonDelete_Click" EnableViewState="false" runat="server" />
 </slk:ButtonToolbar>

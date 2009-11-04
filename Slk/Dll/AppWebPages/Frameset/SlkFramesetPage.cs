@@ -19,6 +19,7 @@ using System.Text;
 using Resources.Properties;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
+using Microsoft.SharePointLearningKit.Localization;
 
 
 namespace Microsoft.SharePointLearningKit.Frameset
@@ -95,6 +96,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
         protected bool ProcessViewRequest(LearnerAssignmentProperties la, SessionView sessionView)
         {
+            SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
             switch (AssignmentView)
             {
                 case AssignmentView.Execute:
@@ -118,7 +120,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 case AssignmentView.Grading:
                     {
                         // Verify that session view matches what you expect
-
                         if (sessionView != SessionView.Review)
                         {
                             throw new InvalidOperationException(SlkFrameset.FRM_UnexpectedViewRequestHtml);
@@ -311,6 +312,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <returns></returns>
         protected bool TryProcessLearnerAssignmentIdParameter(bool showErrorPage, out Guid learnerAssignmentGuidId)
         {
+            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
+
             // Initialize out parameter
             learnerAssignmentGuidId = Guid.Empty;
 
@@ -370,6 +373,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <returns></returns>
         public bool TryProcessAssignmentViewParameter(bool showErrorPage, out AssignmentView view)
         {
+            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
+
             string viewParam;
 
             // Default value to make compiler happy
@@ -572,6 +577,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
         public string GetMessage(FramesetStringId stringId)
         {
+            SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
+            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
             switch (stringId)
             {
                 case FramesetStringId.MoveToNextFailedHtml:

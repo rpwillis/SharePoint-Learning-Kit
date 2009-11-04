@@ -1,0 +1,139 @@
+﻿<Html dir="$Resources:core,PageDirection;">
+<HEAD>
+    <META Name="GENERATOR" Content="Microsoft SharePoint">
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Expires" content="0">
+    <!-- _locID="id_PageTitle" _locComment="{StringCategory=TTL}" -->
+    <Title ID=onetidTitle>File Properties</Title>
+<Link REL="stylesheet" Type="text/css" HREF="/_layouts/<%=System.Threading.Thread.CurrentThread.CurrentUICulture.LCID%>/styles/core.css">
+    <META Name="Microsoft Theme" Content="default">
+    <META Name="Microsoft Border" Content="none">
+<script src="/_layouts/<%=System.Threading.Thread.CurrentThread.CurrentUICulture.LCID%>/init.js"></script>
+<script src="/_layouts/<%=System.Threading.Thread.CurrentThread.CurrentUICulture.LCID%>/core.js"></script>
+<ows:Switch> 
+    <Expr><ProjectProperty Select="CustomJSUrl"/></Expr>
+    <Case Value=""></Case>
+    <Default>
+        <HTML><![CDATA[<script language='javascript' src="]]></HTML>
+        <ProjectProperty Select="CustomJSUrl" URLEncodeAsURL="TRUE"/>
+        <HTML><![CDATA["></script>]]></HTML>
+    </Default>
+</ows:Switch>
+<script src="/_layouts/<%=System.Threading.Thread.CurrentThread.CurrentUICulture.LCID%>/bform.js"></script>
+<ows:Switch><Expr><ProjectProperty Select="ThemeCSSURL"/></Expr>
+<Case Value=""/>
+<Default><HTML><![CDATA[<Link REL="stylesheet" Type="text/css" HREF="]]></HTML><ProjectProperty Select="ThemeCSSURL"/><HTML><![CDATA[">]]></HTML></Default>
+</ows:Switch>
+</HEAD>
+<Script ID="Form_Validate">
+function Form_Validate(fVisible)
+{
+    if (frm.FValidate(fVisible))
+        document.OWSForm.IsFormValid.value="true";
+    else
+        document.OWSForm.IsFormValid.value="false";
+}
+</Script>
+<Script ID="Update_UI_From_Values">
+var bFormFieldsInited = false;
+function Update_UI_From_Values()
+{
+    frm.SetFirstFocus(bFormFieldsInited);
+    bFormFieldsInited = true;
+    frm.DataBind();
+    DefaultControls();
+}
+</Script>
+<Script ID="Update_Values_From_UI">
+function Update_Values_From_UI()
+{
+    frm.SetFirstFocus(bFormFieldsInited);
+    bFormFieldsInited = true;
+    frm.FValidate(false);
+}
+</Script>
+<script language="JavaScript">
+L_tooltipfile_Text = "";
+L_tooltipfolder_Text = "";
+selectedElement = null
+inChangeSelection = false
+slElem = null;
+oldSelection = "";
+bIsFileDialogView = true;
+function selectrow()
+{
+    if (slElem) {
+	    slElem.className=oldSelection;
+	    slElem.title="";
+	    }
+    selectedElement = window.event.srcElement;
+    while (selectedElement.tagName!="TR") {
+    	   selectedElement=selectedElement.parentElement;
+           }
+    slElem = selectedElement;
+    oldSelection=slElem.className;		
+    slElem.className="ms-selected";
+    if (slElem.getAttribute("fileattribute") == "file")
+        slElem.title=L_tooltipfile_Text;
+    else
+        slElem.title=L_tooltipfolder_Text;
+    document.selection.empty();
+}
+function checkScroll()
+{
+    if (document.body.scrollHeight > document.body.offsetHeight ||
+		document.body.scrollWidth > document.body.offsetWidth)
+       document.body.scroll="yes";
+}
+</script>
+<BODY marginwidth=0 marginheight=0 onload="checkScroll()" onresize="checkScroll()" scroll=no>
+<!-- Banner -->
+<TABLE  CELLPADDING=0 CELLSPACING=0 BORDER=0 WIDTH="100%" >
+  <TR>
+   <TD COLSPAN=3 STYLE="width:100%">
+    <TABLE class=ms-bannerframe CELLPADDING=0 CELLSPACING=0 BORDER=0 STYLE="width:100%">
+     <TR>
+      <TD VALIGN=BOTTOM WITDH=25>
+      <font size=1>&nbsp;</font>
+      </TD>
+     </TR>
+    </TABLE>
+   </TD>
+  </TR>
+</table>
+<table width=100% cellpadding=4 cellspacing=0>
+ <tr>
+  <td>
+   <TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0 WIDTH="100%" >
+    <tr>
+     <td>
+      <table cellpadding=0 cellspacing=0 style="margin-left: 3px;margin-bottom:2px">
+       <tr>
+        <td nowrap class="ms-titlearea"><ows:ProjectProperty Select="Title" HTMLEncode="TRUE"/></td>
+       </tr>
+       <tr>
+        <td ID=onetidPageTitle nowrap class="ms-pagetitle"><ows:ListProperty Select="Title" HTMLEncode="TRUE"/></td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+    <tr>
+     <td>
+      <table border=0 width=100% cellpadding=0 cellspacing=0 style="margin-left: 3px;margin-bottom: 3px">
+       <tr>
+        <td class="ms-sectionline" height=1><img src="/_layouts/images/blank.gif"></td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+        <!-- Item Form -->
+        <ows:XML>
+            <SetVar Name="DisplayMode">NEW</SetVar>
+            <ListForm Type="NewFormDialog"/>
+        </ows:XML>
+        <!-- FooterBanner closes the TD, TR, TABLE, BODY, And HTML regions opened above -->
+&nbsp;
+</td></tr></table></PlaceHolder></TD></TR>
+</TABLE>
+</BODY>
+</HTML>

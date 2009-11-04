@@ -13,6 +13,7 @@ using System.Web.UI.HtmlControls;
 using Microsoft.LearningComponents.Frameset;
 using Resources;
 using Resources.Properties;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.Frameset
 {
@@ -25,17 +26,29 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
         public static string PleaseWaitHtml
         {
-            get  {  return ResHelper.GetMessage(FramesetResources.CON_PleaseWait);   }
+            get  
+            {
+                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
+                return ResHelper.GetMessage(FramesetResources.CON_PleaseWait);   
+            }
         }
 
         public static  string UnexpectedErrorTitleHtml
         {
-            get { return HttpUtility.HtmlEncode(FramesetResources.FRM_UnknownExceptionTitle); }
+            get 
+            {
+                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
+                return HttpUtility.HtmlEncode(FramesetResources.FRM_UnknownExceptionTitle); 
+            }
         }
 
         public static string UnexpectedErrorMsgHtml
         {
-            get { return HttpUtility.HtmlEncode(ResHelper.GetMessage(SlkFrameset.FRM_UnexpectedErrorNoException));  }
+            get 
+            {
+                SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
+                return HttpUtility.HtmlEncode(ResHelper.GetMessage(SlkFrameset.FRM_UnexpectedErrorNoException));  
+            }
         }
     }
 }

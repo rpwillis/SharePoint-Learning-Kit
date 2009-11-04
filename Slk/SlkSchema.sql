@@ -20,6 +20,54 @@ SET QUOTED_IDENTIFIER ON
 
 GO
 
+CREATE FUNCTION GetLearnerFileSubmissionState(
+@RootActivityId bigint,
+@IsFinal bit,
+@NonELearningStatus int)
+RETURNS varchar(20)
+AS
+BEGIN
+RETURN CASE WHEN @RootActivityId IS NOT NULL -- e-learning content
+THEN 'Not Available'
+ELSE -- non-e-learning content
+CASE WHEN @NonELearningStatus IS NULL OR @NonELearningStatus = 0 OR @NonELearningStatus = 3
+-- LearnerAssignmentState.NotStarted or LearnerAssignmentState.Active
+THEN 'Submit File(s)'
+ELSE
+CASE WHEN @IsFinal = 1 -- LearnerAssignmentState.Final
+THEN 'Submitted LINK'
+ELSE 'Submitted' -- LearnerAssignmentState.Completed
+END
+END
+END
+END
+
+GO
+
+CREATE FUNCTION GetObserverFileSubmissionState(
+@RootActivityId bigint,
+@IsFinal bit,
+@NonELearningStatus int)
+RETURNS varchar(20)
+AS
+BEGIN
+RETURN CASE WHEN @RootActivityId IS NOT NULL -- e-learning content
+THEN 'Not Available'
+ELSE -- non-e-learning content
+CASE WHEN @NonELearningStatus IS NULL OR @NonELearningStatus = 0 OR @NonELearningStatus = 3
+-- LearnerAssignmentState.NotStarted or LearnerAssignmentState.Active
+THEN 'Not Submitted'
+ELSE
+CASE WHEN @IsFinal = 1 -- LearnerAssignmentState.Final
+THEN 'Submitted LINK'
+ELSE 'Submitted' -- LearnerAssignmentState.Completed
+END
+END
+END
+END
+
+GO
+
 CREATE FUNCTION GetLearnerAssignmentState(
 @RootActivityId bigint,
 @IsFinal bit,
@@ -843,6 +891,7 @@ SET @schema = @schema +
         '<Column Name="AttemptGradedPoints" TypeCode="5" Nullable="true"/>' +
         '<Column Name="LearnerAssignmentState" TypeCode="8" Nullable="true" EnumName="LearnerAssignmentState"/>' +
         '<Column Name="HasInstructors" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="FileSubmissionState" TypeCode="2" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
     '<View Name="LearnerAssignmentListForObservers" Function="LearnerAssignmentListForObservers" SecurityFunction="LearnerAssignmentListForObservers$Security">' + 
@@ -903,6 +952,7 @@ SET @schema = @schema +
         '<Column Name="AttemptGradedPoints" TypeCode="5" Nullable="true"/>' +
         '<Column Name="LearnerAssignmentState" TypeCode="8" Nullable="true" EnumName="LearnerAssignmentState"/>' +
         '<Column Name="HasInstructors" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="FileSubmissionState" TypeCode="2" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
     '<View Name="LearnerAssignmentListForInstructors" Function="LearnerAssignmentListForInstructors" SecurityFunction="LearnerAssignmentListForInstructors$Security">' + 
@@ -2969,6 +3019,8 @@ RETURN (
     ati.CompletionStatus            AttemptCompletionStatus,
     ati.SuccessStatus               AttemptSuccessStatus,
     ati.TotalPoints                 AttemptGradedPoints,
+    ----- computed FileSubmissionState -----
+    dbo.GetLearnerFileSubmissionState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus) FileSubmissionState,
     ----- computed LearnerAssignmentState -----
     dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) LearnerAssignmentState,
     ----- computed HasInstructors -----
@@ -3073,6 +3125,8 @@ RETURN (
     ati.CompletionStatus            AttemptCompletionStatus,
     ati.SuccessStatus               AttemptSuccessStatus,
     ati.TotalPoints                 AttemptGradedPoints,
+    ----- computed FileSubmissionState -----
+    dbo.GetObserverFileSubmissionState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus) FileSubmissionState,
     ----- computed LearnerAssignmentState -----
     dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) LearnerAssignmentState,
     ----- computed HasInstructors -----

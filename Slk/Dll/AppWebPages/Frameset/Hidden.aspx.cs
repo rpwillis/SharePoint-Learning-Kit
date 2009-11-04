@@ -15,6 +15,7 @@ using Microsoft.SharePointLearningKit.ApplicationPages;
 using Resources.Properties;
 using Resources;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.SharePointLearningKit.Localization;
 
 
 // This file contains the BWP-specific hidden frame rendering code. Most of the actual work is done in the code shared
@@ -38,6 +39,9 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
            try
            {
+               FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
+               SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
+
                SlkUtilities.RetryOnDeadlock(delegate()
                {
                    //Initialize data that may need to be reset on retry
@@ -59,7 +63,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
                    HiddenControlInfo hiddenCtrlInfo = new HiddenControlInfo();
                    hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.LearnerAssignmentId);
                    hiddenCtrlInfo.Value = new PlainTextString(FramesetUtil.GetStringInvariant(la.LearnerAssignmentId.GetKey()));
-
                    hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.LearnerAssignmentId = document.getElementById({0}).value;",
                       JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentId, false)));
 
@@ -69,7 +72,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
                    hiddenCtrlInfo = new HiddenControlInfo();
                    hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.LearnerAssignmentStatus);
                    hiddenCtrlInfo.Value = new PlainTextString(SlkUtilities.GetLearnerAssignmentState(la.Status));
-
                    hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.Format("slkMgr.Status = document.getElementById({0}).value;",
                       JScriptString.QuoteString(HiddenFieldNames.LearnerAssignmentStatus, false)));
 

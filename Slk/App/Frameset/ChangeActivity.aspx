@@ -7,7 +7,6 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
-
 <LINK rel="stylesheet" type="text/css" href="<%=SlkEmbeddedUIPath.OriginalString %>/Theme/Styles.css"/>
 <script type="text/javascript" src="<%=SlkEmbeddedUIPath.OriginalString %>/Include/FramesetMgr.js"></script>
 	
@@ -20,9 +19,8 @@
 	    <% if (HasError) { %>
 	    
             frameMgr.SetPostFrame(HIDDEN_FRAME);
-            
             frameMgr.SetPostableForm(window.top.frames[MAIN_FRAME].document.getElementById(HIDDEN_FRAME).contentWindow.document.forms[0]);
-	        frameMgr.ShowErrorMessage("<%=ErrorTitleHtml %>", "<%=ErrorMsgHtml %>");
+            frameMgr.ShowErrorMessage("<%=ErrorTitleHtml %>", "<%=ErrorMsgHtml %>");
 	        
 	    <% }
 	    else

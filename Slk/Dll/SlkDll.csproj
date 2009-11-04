@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D4ECA47D-2E5D-4ACF-B713-37BC4BB585B7}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -45,11 +45,16 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Microsoft.SharePoint.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.DirectoryServices" />
@@ -73,10 +78,25 @@
     <Compile Include="AppWebControls\SimpleButtonToolbar.cs" />
     <Compile Include="AppWebControls\SlkButton.cs">
     </Compile>
+    <Compile Include="AppWebPages\CommentedFiles.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\DownloadDialog.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\FilesUploadPage.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="AppWebPages\Frameset\ChangeActivity.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="AppWebPages\SubmittedFiles.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssignmentDownloader.cs" />
     <Compile Include="ChangeActivityHelper.cs" />
+    <Compile Include="ConfigureDropBox.cs" />
+    <Compile Include="DropBox.cs" />
     <Compile Include="EnumerateDomainGroups.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LearningStoreHelper.cs" />
@@ -176,7 +196,8 @@
     <Compile Include="SlkSettings.cs" />
     <Compile Include="SlkUtilities.cs">
     </Compile>
-    <Compile Include="TocHelper.cs" />
+    <Compile Include="TocHelper.cs">
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Src\LearningComponents\LearningComponents.csproj">
@@ -208,10 +229,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SlkFrameset.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Resources\AppResources.resx">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\SlkSettings.xsd">
-      <SubType>Designer</SubType>
+      <SubType>
+      </SubType>
     </None>
     <None Include="..\SlkSettings.xsx">
       <DependentUpon>SlkSettings.xsd</DependentUpon>
@@ -221,6 +246,12 @@
     <None Include="..\SlkSchema.xml">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RteApiSite.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rte2004Api.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

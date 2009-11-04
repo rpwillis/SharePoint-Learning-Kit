@@ -51,6 +51,7 @@
     <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
     <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
     <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
@@ -67,6 +68,7 @@
     <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
     <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
     <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
@@ -82,6 +84,7 @@
     <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
     <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
     <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
@@ -97,6 +100,7 @@
     <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
     <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
     <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
@@ -112,6 +116,7 @@
     <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
     <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
     <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
@@ -126,6 +131,7 @@
     <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
     <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
     <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
@@ -139,6 +145,7 @@
     <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
     <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
     <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
     <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
@@ -247,6 +254,7 @@
 		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
 		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
 		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
 		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
 		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
 		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
@@ -266,6 +274,7 @@
 		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
 		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
 		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
 		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
 		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
 		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
@@ -282,6 +291,7 @@
 		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
 		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
 		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
 		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
 		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
 		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
@@ -298,6 +308,7 @@
 		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
 		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
 		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
 		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
 		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
 		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
@@ -314,6 +325,7 @@
 		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
 		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
 		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
 		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
 		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
 		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
@@ -331,6 +343,7 @@
 		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
 		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
 		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
 		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
 		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
 		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
@@ -345,6 +358,7 @@
 		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
 		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
 		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
+    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
 		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
 		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
 		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />

@@ -122,7 +122,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         }
 
                         // render the "<body>" element and its contents
-
                         //hw.AddAttribute(HtmlTextWriterAttribute.Style, "overflow: hidden;");
                         hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%; overflow-y: auto;");
                         hw.AddAttribute(HtmlTextWriterAttribute.Id, "SlkAlwpQuerySet");

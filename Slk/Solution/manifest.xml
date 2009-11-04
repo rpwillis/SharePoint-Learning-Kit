@@ -1,5 +1,6 @@
 <Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="00057001-c978-11da-ba52-00042350e42e">
 	<Assemblies>
+		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="ICSharpCode.SharpZipLib.dll" />
 		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.LearningComponents.MRCI.dll" />
 		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.LearningComponents.dll" />
 		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.LearningComponents.Compression.dll" />
@@ -14,106 +15,207 @@
 					Safe="True" />
 			</SafeControls>
 		</Assembly>
+    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.BusinessLayerUITools.dll">
+      <SafeControls>
+        <SafeControl
+          Assembly="Axelerate.BusinessLayerUITools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4f9a37917b02d1a2"
+          Namespace="Axelerate.BusinessLayerUITools.WebParts" TypeName="*" Safe="True" />
+      </SafeControls>
+    </Assembly>
+    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.BusinessLayerFrameWork.dll">
+      <SafeControls>
+        <SafeControl
+          Assembly="Axelerate.BusinessLayerFrameWork, Version=1.3.0.1, Culture=neutral, PublicKeyToken=783dbd9b30afb604"
+          Namespace="Axelerate.BusinessLayerFrameWork.WebParts" TypeName="*" Safe="True" />
+      </SafeControls>
+    </Assembly>
+    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.SlkCourseManagerLogicalLayer.dll">
+      <SafeControls>
+        <SafeControl
+          Assembly="Axelerate.SlkCourseManagerLogicalLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5bbd900fcde291a4"
+          Namespace="Axelerate.SlkCourseManagerLogicalLayer.WebParts" TypeName="*" Safe="True" />
+      </SafeControls>
+    </Assembly>
+    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.DataAccessApplicationBlock.dll">
+      <SafeControls>
+        <SafeControl
+          Assembly="Axelerate.DataAccessApplicationBlock, Version=1.0.0.2, Culture=neutral, PublicKeyToken=8aeca469e4966909"
+          Namespace="Axelerate.DataAccessApplicationBlock.WebParts" TypeName="*" Safe="True" />
+      </SafeControls>
+    </Assembly>
+    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.SharedBusinessLogic.dll">
+      <SafeControls>
+        <SafeControl
+          Assembly="Axelerate.SharedBusinessLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=68060410e0087d0c"
+          Namespace="Axelerate.SharedBusinessLogic.WebParts" TypeName="*" Safe="True" />
+      </SafeControls>
+    </Assembly>
+    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="InstallerHelper.dll">
+      <SafeControls>
+        <SafeControl
+          Assembly="InstallerHelper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=af5ed81c0ef88811"
+          Namespace="InstallerHelper" TypeName="*" Safe="True" />
+      </SafeControls>
+    </Assembly>
+    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Admin\Course_Manager_Configure\CourseManagerConfCs.dll">
+      <SafeControls>
+        <SafeControl
+          Assembly="CourseManagerConfCs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f1391ddb6ea1ca6b"
+          Namespace="CourseManagerConfCs" TypeName="*" Safe="True" />
+      </SafeControls>
+    </Assembly>
+    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="AjaxControlToolkit.dll">
+      <SafeControls>
+        <SafeControl
+          Assembly="AjaxControlToolkit, Version=3.0.20229.20843, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e"
+          Namespace="AjaxControlToolkit.WebParts" TypeName="*" Safe="True" />
+      </SafeControls>
+    </Assembly>
 	</Assemblies>
 	<TemplateFiles>
-	<TemplateFile Location="Admin\admin.sitemap.SharePointLearningKit.xml" />
-	<TemplateFile Location="Admin\SharePointLearningKit\Configure.aspx" />
-	<TemplateFile Location="Admin\SharePointLearningKit\DownloadSettings.aspx" />
-	<TemplateFile Location="Admin\SharePointLearningKit\Info.gif" />
-	<TemplateFile Location="Admin\SharePointLearningKit\SlkSchema.sql" />
-	<TemplateFile Location="Admin\SharePointLearningKit\SlkSettings.xml.dat" />
-	<TemplateFile Location="Admin\SharePointLearningKit\Wait.gif" />
-	<TemplateFile Location="Layouts\layouts.sitemap.SharePointLearningKit.xml" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Actions.aspx" />	
-	<TemplateFile Location="Layouts\SharePointLearningKit\AssignmentProperties.aspx" />	
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Bottom.htm" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\ChangeActivity.aspx" />
+	  <TemplateFile Location="Admin\admin.sitemap.SharePointLearningKit.xml" />
+	  <TemplateFile Location="Admin\SharePointLearningKit\Configure.aspx" />
+	  <TemplateFile Location="Admin\SharePointLearningKit\DownloadSettings.aspx" />
+	  <TemplateFile Location="Admin\SharePointLearningKit\Info.gif" />
+	  <TemplateFile Location="Admin\SharePointLearningKit\SlkSchema.sql" />
+	  <TemplateFile Location="Admin\SharePointLearningKit\SlkSettings.xml.dat" />
+	  <TemplateFile Location="Admin\SharePointLearningKit\Wait.gif" />
+	  <TemplateFile Location="Layouts\layouts.sitemap.SharePointLearningKit.xml" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Actions.aspx" />	
+	  <TemplateFile Location="Layouts\SharePointLearningKit\AssignmentProperties.aspx" />	
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Bottom.htm" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\ChangeActivity.aspx" />
     <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\ClearContent.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Content.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Frameset.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Hidden.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\FramesetMgr.js" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\Nav.js" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Content.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Frameset.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Hidden.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\FramesetMgr.js" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\Nav.js" />
     <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\Toc.js" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\parser.js" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\Parser1p2.js" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\Rte1p2Api.js" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\Rte2004Api.js" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\RteApiSite.js" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\typevalidators.js" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\typevalidators1p2.js" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\BoxOff.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\BoxOffCorrect.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\BoxOn.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\BoxOnCorrect.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\BoxOnWrong.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\ButtonOff.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\ButtonOffCorrect.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\ButtonOnCorrect.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\ButtonOnWrong.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\Correct.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\Incorrect.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\parser.js" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\Parser1p2.js" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\Rte1p2Api.js" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\Rte2004Api.js" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\RteApiSite.js" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\typevalidators.js" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\typevalidators1p2.js" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\BoxOff.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\BoxOffCorrect.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\BoxOn.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\BoxOnCorrect.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\BoxOnWrong.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\ButtonOff.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\ButtonOffCorrect.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\ButtonOnCorrect.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\ButtonOnWrong.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\Correct.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\Incorrect.gif" />
     <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Images\SaveAndClose.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\vernum.js" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\MainFrames.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\NavClosed.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\NavOpen.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\NoScroll.htm" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\1px.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Error.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\HeadCornerRt.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\HeadShadow.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Info.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Leaf.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\MinusBtn.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\nav_bg.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Next.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\NextHover.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\PlusBtn.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Prev.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\PrevHover.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Save.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\SaveHover.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Styles.css" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TocClose.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TocClosedTab.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TocCloseHover.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TocOpen.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TocOpenHover.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TopShadow.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Title.htm" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Frameset\TOC.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Grading.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Lobby.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\QueryResults.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\QuerySet.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Include\QuerySet.js" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\QuerySummary.aspx" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Include\Styles.css" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\ActionsIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\Blank.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\WaitIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\WarningIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\ErrorIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\InfoIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\DeleteIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\MarkCompleteIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\NewDocumentIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\NewIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\SubmitIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\CollectAllIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\EditIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\ReturnAllIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\SaveIcon.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\GradingSatisfied.gif" />
-	<TemplateFile Location="Layouts\SharePointLearningKit\Images\GradingUnsatisfied.gif" />
-	<TemplateFile Location="SharePointLearningKit\elements.xml" />
-	<TemplateFile Location="SharePointLearningKit\feature.xml" />
-	<TemplateFile Location="SharePointLearningKitAdmin\elements.xml" />
-	<TemplateFile Location="SharePointLearningKitAdmin\feature.xml" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Include\vernum.js" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\MainFrames.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\NavClosed.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\NavOpen.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\NoScroll.htm" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\1px.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Error.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\HeadCornerRt.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\HeadShadow.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Info.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Leaf.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\MinusBtn.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\nav_bg.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Next.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\NextHover.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\PlusBtn.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Prev.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\PrevHover.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Save.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\SaveHover.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\Styles.css" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TocClose.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TocClosedTab.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TocCloseHover.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TocOpen.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TocOpenHover.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Theme\TopShadow.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\Title.htm" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Frameset\TOC.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Grading.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Lobby.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\SubmittedFiles.aspx" />
+    <TemplateFile Location="Layouts\SharePointLearningKit\DownloadDialog.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\CommentedFiles.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\FilesUploadPage.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\QueryResults.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\QuerySet.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Include\QuerySet.js" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\QuerySummary.aspx" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Include\Styles.css" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\ActionsIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\Blank.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\WaitIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\WarningIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\ErrorIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\InfoIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\DeleteIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\MarkCompleteIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\NewDocumentIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\NewIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\SubmitIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\CollectAllIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\EditIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\ReturnAllIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\SaveIcon.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\GradingSatisfied.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\GradingUnsatisfied.gif" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\ARRDOWNA.GIF" />
+	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\ARRUPA.GIF" />
+	  <TemplateFile Location="SharePointLearningKit\elements.xml" />
+	  <TemplateFile Location="SharePointLearningKit\feature.xml" />
+	  <TemplateFile Location="SharePointLearningKitAdmin\elements.xml" />
+	  <TemplateFile Location="SharePointLearningKitAdmin\feature.xml" />
+	  <TemplateFile Location="DropBoxDocLib\feature.xml" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\AllItems.aspx" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\Combine.aspx" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\DispForm.aspx" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\DropBox.xml" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\EditDlg.htm" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\EditForm.aspx" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\FileDlg.htm" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\Repair.aspx" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\schema.xml" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\Upload.aspx" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\WebFldr.aspx" />
+	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\Instance.xml" />
+    <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerConfigure.aspx" />
+    <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerDBSchema.sql" />
+    <TemplateFile Location="Admin\Course_Manager_Configure\Info.gif" />
+    <TemplateFile Location="Admin\Course_Manager_Configure\Wait.gif" />
+    <TemplateFile Location="Features\Course_Manager_Configure\SPDocumentSelectorIFrame.js" />
+    <TemplateFile Location="Features\Course_Manager_Configure\CourseManager.master" />
+    <TemplateFile Location="Features\Course_Manager_Configure\DocumentViewer.aspx" />
+    <TemplateFile Location="Features\Course_Manager_Configure\Monitor_and_Assess.aspx" />
+    <TemplateFile Location="Features\Course_Manager_Configure\Plan_and_Assign.aspx" />
+    <TemplateFile Location="Features\Course_Manager_Configure\Placeholder.txt" />
+    <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerConfCs.dll" />
+    <!--<TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.dll" />
+    <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.SharePoint.dll" />
+    <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.Storage.dll" />
+    <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.SharePointLearningKit.dll" />-->
+    <TemplateFile Location="Layouts\1033\SPDocumentSelectorIFrame.js" />
 	</TemplateFiles>
-	<FeatureManifests>
+  <FeatureManifests>
 		<FeatureManifest Location="SharePointLearningKit\feature.xml"/>
 		<FeatureManifest Location="SharePointLearningKitAdmin\feature.xml"/>
+    <FeatureManifest Location="DropBoxDocLib\feature.xml"/>
+    <FeatureManifest Location="Course_Manager_Configure\feature.xml"/>
 	</FeatureManifests>
+	<RootFiles>
+	  <RootFile Location="Resources\SLK.resx"/>
+  </RootFiles>
+  <DwpFiles>
+    <DwpFile Location="CourseManagerPages.dwp"/>
+    <DwpFile Location="PlanAndAssign.dwp"/>
+    <DwpFile Location="MonitorAndAssess.dwp"/>
+  </DwpFiles>
 </Solution>

@@ -2,6 +2,7 @@
 <configuration>
 	<appSettings>
 		<add key="debugSlkSPWebUrl" value="http://localhost/districts/bellevue/elm/math1b"/>
+        <add key="DropBoxDocLibName" value="DropBox Document"/>
 	</appSettings>
 	<connectionStrings/>
 	<system.web>

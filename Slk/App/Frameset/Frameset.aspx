@@ -20,7 +20,6 @@
     <script type="text/javascript" src="./Include/typevalidators.js"> </script>
     <script type="text/javascript" src="./Include/typevalidators1p2.js"> </script>
     <script type="text/javascript" src="./Include/RteApiSite.js"> </script>
-    
     <script type="text/javascript" src="./Include/FramesetMgr.js"> </script>
     
     <script type="text/javascript">

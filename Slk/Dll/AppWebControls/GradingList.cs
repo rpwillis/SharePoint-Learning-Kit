@@ -20,7 +20,12 @@ using Microsoft.LearningComponents.Frameset;
 using Resources.Properties;
 using System.Text;
 using System.Globalization;
-
+///SLK Release 1.4 – ITWorx
+///Created 04-2009
+///Drop Box feature
+using Microsoft.SharePointLearningKit.ApplicationPages;
+using Microsoft.SharePoint;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.WebControls
 {
@@ -234,10 +239,48 @@ namespace Microsoft.SharePointLearningKit.WebControls
             item.SuccessStatus = gradingProperties.SuccessStatus;
             item.LearnerAssignmentGuidId = gradingProperties.LearnerAssignmentGuidId;
 
+            ///SLK Release 1.4 – ITWorx
+            ///Created 04-2009
+            ///Drop Box feature
+            item.FileSubmissionState = GetFileSubmissionValue(gradingProperties);
 
             //adds the GradingItem to the GradingItemCollection
             Add(item);
         }
+        #endregion
+
+        ///SLK Release 1.4 – ITWorx
+        ///Created 04-2009
+        ///Drop Box feature
+        #region GetFileSubmissionValue
+        /// <summary>
+        /// Gets the assignment's File Submission Column value.
+        /// </summary>
+        /// <param name="gradingProperties">Grading Properties</param>
+        /// <returns>File Submission State to be displayed in the File Submission Column</returns>
+        public string GetFileSubmissionValue(GradingProperties gradingProperties)
+        {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
+
+            SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
+
+            //The package is e-learning content
+            if (slkAppBasePage.SlkStore.GetLearnerAssignmentProperties(
+                gradingProperties.LearnerAssignmentGuidId, SlkRole.Instructor).RootActivityId != null)
+            {
+                return AppResources.GradingFileSubmissionNA;
+            }
+            else if (gradingProperties.Status.ToString().Equals(LearnerAssignmentState.Completed.ToString()) ||
+               gradingProperties.Status.ToString().Equals(LearnerAssignmentState.Final.ToString()))
+            {
+                return AppResources.GradingFileSubmissionSubmitted;
+            }
+            else
+            {
+                return AppResources.GradingFileSubmissionNotSubmitted;
+            }
+        }
+
         #endregion
 
         #region OnPreRender
@@ -251,7 +294,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
             //Register Client Script
             RegisterGradingClientScriptBlock();
-
         }
         #endregion+
 
@@ -264,6 +306,8 @@ namespace Microsoft.SharePointLearningKit.WebControls
         {
             if (Items != null && Items.Count > 0)
             {
+                AppResources.Culture = LocalizationManager.GetCurrentCulture();
+
                 writer.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
                 writer.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
                 writer.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
@@ -289,6 +333,13 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                     RenderColumnHeader(AppResources.GradingLearnerHeaderText, writer);
                                     // render the Status column headers
                                     RenderColumnHeader(AppResources.GradingStatusHeaderText, writer);
+
+                                    ///SLK Release 1.4 – ITWorx
+                                    ///Created 04-2009
+                                    ///Drop Box feature
+                                    /// render the File Submission column headers
+                                    RenderColumnHeader(AppResources.GradingFileSubmissionHeaderText, writer);
+
                                     // render the Graded Score column headers
                                     RenderColumnHeader(AppResources.GradingGradedScoreHeaderText, writer);
                                     // render the Final Score column headers
@@ -368,6 +419,8 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="htmlTextWriter">Text Writer to write to.</param>
         private void RenderGradedLearner(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
+
             //If LearnerAssignmentState is NotStarted , No Link
             //ToolTip Similar to: The learner has not started the assignment
             if (item.Status == LearnerAssignmentState.NotStarted)
@@ -453,6 +506,68 @@ namespace Microsoft.SharePointLearningKit.WebControls
         }
         #endregion
 
+        ///SLK Release 1.4 – ITWorx
+        ///Created 04-2009
+        ///Drop Box feature
+        #region RenderFileSubmissionState
+        /// <summary>
+        /// Render the file submission state 
+        /// </summary>
+        /// <param name="item">Item to be rendered</param>
+        /// <param name="htmlTextWriter">Text Writer to write to.</param>
+        private void RenderFileSubmissionState(GradingItem item, HtmlTextWriter htmlTextWriter)
+        {
+            SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
+            //If the state is "NA" or "Not Submitted", display it as label text
+            if (item.FileSubmissionState.Equals(AppResources.GradingFileSubmissionNA) ||
+                item.FileSubmissionState.Equals(AppResources.GradingFileSubmissionNotSubmitted))
+            {
+                Label lblFileSubmissionState = new Label();
+                lblFileSubmissionState.ID = "lblFileSubmissionState";
+                lblFileSubmissionState.Text = item.FileSubmissionState;
+                lblFileSubmissionState.RenderControl(htmlTextWriter);
+            }
+            else
+            {
+                try
+                {
+                    HyperLink lnkFileSubmissionState = new HyperLink();
+                    lnkFileSubmissionState.ID = "lnkFileSubmissionState";
+                    lnkFileSubmissionState.Text = item.FileSubmissionState;
+
+                    string url = CheckSubmittedFilesNumber(item.LearnerAssignmentGuidId);
+
+                    if (url.Equals(string.Empty))
+                    {
+                        StringBuilder pageURL = new StringBuilder();
+                        pageURL.AppendFormat(
+                                        "{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}",
+                                         slkAppBasePage.SPWeb.Url,
+                                         item.LearnerAssignmentGuidId.ToString());
+
+                        url = pageURL.ToString();
+                    }
+
+                    StringBuilder script = new StringBuilder();
+                    script.AppendFormat("{0}{1}{2}", "window.open('",
+                                        url, "','popupwindow','width=400,height=300,scrollbars,resizable'); ");
+
+                    lnkFileSubmissionState.Attributes.Add("onclick", script.ToString());
+                    lnkFileSubmissionState.NavigateUrl = "#";
+                    lnkFileSubmissionState.RenderControl(htmlTextWriter);
+                }
+                catch
+                {
+                    Label lblFileSubmissionState = new Label();
+                    lblFileSubmissionState.ID = "lblFileSubmissionState";
+                    lblFileSubmissionState.Text = item.FileSubmissionState;
+                    lblFileSubmissionState.RenderControl(htmlTextWriter);
+                }
+            }
+        }
+        #endregion
+
         #region RenderGradedScore
         /// <summary>
         /// Render the Graded Score which Shows the computed points, 
@@ -463,6 +578,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="htmlTextWriter">Text Writer to write to.</param>
         private void RenderGradedScore(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
@@ -553,6 +669,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         private void RenderFinalScore(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
             //Renders  the computed points value, and always shows full precision.
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
             string uniqueId = FinalScoreId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
 
@@ -624,7 +741,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             string uniqueId
                 = ActionId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
             string actionToolTip = String.Empty;
-
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             switch (item.Status)
             {
                 //If LearnerAssignmentState is NotStarted or Active, checkbox label is "Collect", 
@@ -719,6 +836,16 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
                 {
                     htmlTextWriter.Write(SlkUtilities.GetLearnerAssignmentState(item.Status));
+                }
+                ///SLK Release 1.4 – ITWorx
+                ///Created 04-2009
+                ///Drop Box feature
+                ///Render file submission state 
+                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
+                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "padding-left: 5px; padding-top:5pt");
+                using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
+                {
+                    RenderFileSubmissionState(item, htmlTextWriter);
                 }
                 //Render the Graded Score 
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
@@ -967,7 +1094,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         private void RegisterGradingClientScriptBlock()
         {
             // Define the name and type of the client scripts on the page.
-
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             String csTitle = "GradingClientScript";
 
             Type cstype = this.GetType();
@@ -1288,6 +1415,87 @@ namespace Microsoft.SharePointLearningKit.WebControls
         }
         #endregion
 
+        /// SLK Release 1.4 – ITWorx
+        /// Created 04-2009
+        /// Drop Box feature
+
+        /// <summary>
+        /// Checks the number of the assignment submitted files. 
+        /// If one assignment submitted, returns its URL.
+        /// If more than one, returns an empty string.
+        /// </summary>
+        private string CheckSubmittedFilesNumber(Guid LearnerAssignmentGuidId)
+        {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
+            SlkStore store = SlkStore.GetStore(SPContext.Current.Web);
+            LearnerAssignmentProperties learnerAssignmentProperties = store.GetLearnerAssignmentProperties(
+                                                                            LearnerAssignmentGuidId,
+						                                                    SlkRole.Instructor);
+            AssignmentProperties assignmentProperties = store.GetAssignmentProperties(
+                                                            learnerAssignmentProperties.AssignmentId,
+                                                            SlkRole.Instructor);
+
+            using (SPSite site = new SPSite(assignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
+            {
+                using (SPWeb web = site.OpenWeb(assignmentProperties.SPWebGuid))
+                {
+                    SPList list = web.Lists[AppResources.DropBoxDocLibName];
+
+                    StringBuilder assignmentCreationDate = new StringBuilder();
+                    assignmentCreationDate.AppendFormat(
+                                            "{0}{1}{2}",
+                                            assignmentProperties.DateCreated.Month.ToString(),
+                                            assignmentProperties.DateCreated.Day.ToString(),
+                                            assignmentProperties.DateCreated.Year.ToString());
+
+                    /* Searching for the assignment folder using the naming format: "AssignmentTitle AssignmentCreationDate" 
+                         * (This is the naming format defined in AssignmentProperties.aspx.cs page) */
+                    SPQuery query = new SPQuery();
+                    query.Folder = list.RootFolder;
+                    query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + learnerAssignmentProperties.Title + " " + assignmentCreationDate.ToString() + "</Value></Eq></Where>";
+                    SPListItemCollection assignmentFolders = list.GetItems(query);
+
+                    if (assignmentFolders.Count == 0)
+                    {
+                        throw new Exception(AppResources.SubmittedFilesNoAssignmentFolderException);
+                    }
+
+                    SPFolder assignmentFolder = assignmentFolders[0].Folder;
+
+                    query = new SPQuery();
+                    query.Folder = assignmentFolder;
+                    query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + learnerAssignmentProperties.LearnerName + "</Value></Eq></Where>";
+                    SPListItemCollection assignmentSubFolders = list.GetItems(query);
+
+                    if (assignmentSubFolders.Count == 0)
+                    {
+                        throw new Exception(AppResources.SubmittedFilesNoAssignmentSubFolderException);
+                    }
+
+                    SPFolder assignmentSubFolder = assignmentSubFolders[0].Folder;
+
+                    ////Getting the latest assignment files (files included in the latest assignment submission)
+                    query = new SPQuery();
+                    query.Folder = assignmentSubFolder;
+                    query.Query = "<Where><Eq><FieldRef Name='IsLatest'/><Value Type='Text'>True</Value></Eq></Where>";
+                    SPListItemCollection assignmentFiles = list.GetItems(query);
+
+                    if (assignmentFiles.Count != 1)
+                    {
+                        return string.Empty;
+                    }
+
+                    SPFile assignmentFile = assignmentFiles[0].File;
+
+                    StringBuilder fileURL = new StringBuilder();
+                    fileURL.AppendFormat("{0}{1}{2}", web.Url, "/", assignmentFile.Url);
+
+                    return fileURL.ToString();
+
+                }
+            }
+        }
+
         #endregion
     }
 
@@ -1341,6 +1549,14 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// Holds Action State
         /// </summary>
         private bool m_actionState;
+
+        ///SLK Release 1.4 – ITWorx
+        ///Created 04-2009
+        ///Drop Box feature
+        /// <summary>
+        /// Holds File Submission State
+        /// </summary>
+        private string m_fileSubmissionState;
         
 
 
@@ -1441,7 +1657,19 @@ namespace Microsoft.SharePointLearningKit.WebControls
             get { return m_actionState; }
             set { m_actionState = value; }
         }
-        
+
+        //SLK Release 1.4 – ITWorx
+        //Created 04-2009
+        //Drop Box feature
+        /// <summary>
+        /// File Submission State
+        /// </summary>
+        internal string FileSubmissionState
+        {
+            get { return m_fileSubmissionState; }
+            set { m_fileSubmissionState = value; }
+        }
+
 
 
         #endregion

@@ -31,7 +31,6 @@
     }
 </script>
 </head>
-
 <body class=NavBody onclick="body_onclick(event);" onload="body_onload();">
 <div id="divMain" style="visibility:hidden;MARGIN: 5px">
 	<div  noWrap>

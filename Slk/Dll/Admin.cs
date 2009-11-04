@@ -26,6 +26,10 @@ using Resources.Properties;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using Schema = Microsoft.SharePointLearningKit.Schema;
+///SLK Release 1.4 – ITWorx
+///Created 04-2009
+///Drop Box feature
+using System.Configuration;
 
 namespace Microsoft.SharePointLearningKit
 {
@@ -82,6 +86,10 @@ public static class SlkAdministration
 	/// 	specified SPSite, <c>true</c> otherwise.  This can be used as the default value
 	/// 	for the "Create permissions" checkbox in Configure.aspx.</param>
     /// 
+    /// <param name="dropBoxFilesExtensions">The allowed Drop Box files extensions semicolon 
+    ///      separated. If no extensions are currently associated with the specified SPSite, 
+    ///      this is set to a default value (for example: doc;docx;xls;xslx;pdf) </param>
+    /// 
     /// <returns>
     /// <c>true</c> if a mapping between <paramref name="spSiteGuid"/> and a SharePoint Learning
 	/// Kit database was found in the SharePoint configuration database, <c>false</c> if not.
@@ -100,7 +108,7 @@ public static class SlkAdministration
     [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
     public static bool LoadConfiguration(Guid spSiteGuid, out string databaseServer,
 		out string databaseName, out bool createDatabase, out string instructorPermission,
-		out string learnerPermission, out string observerPermission, out bool createPermissions)
+        out string learnerPermission, out string observerPermission, out bool createPermissions, out string dropBoxFilesExtensions)
 	{
 		// only SharePoint administrators can perform this action
         EnsureFarmAdmin();
@@ -126,6 +134,15 @@ public static class SlkAdministration
                 mapping.ObserverPermission = AppResources.DefaultSlkObserverPermissionName;                
             }
             observerPermission = mapping.ObserverPermission;
+
+            ///SLK Release 1.4 – ITWorx
+            ///Created 04-2009
+            ///Drop Box feature
+            if (mapping.DropBoxFilesExtensions == null)
+            {
+                mapping.DropBoxFilesExtensions = AppResources.DefaultDropBoxFilesExtensions;
+            }
+            dropBoxFilesExtensions = mapping.DropBoxFilesExtensions;
         }
 		else
 		{
@@ -140,6 +157,12 @@ public static class SlkAdministration
             ////////////////////////////////////////////////////////////////////////////////////////////////////
             observerPermission = AppResources.DefaultSlkObserverPermissionName;
             ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            ///SLK Release 1.4 – ITWorx
+            ///Created 04-2009
+            ///Drop Box feature
+            dropBoxFilesExtensions = AppResources.DefaultDropBoxFilesExtensions;
+            mapping.DropBoxFilesExtensions = dropBoxFilesExtensions;
         }
 
         // set "out" parameters that need to be computed
@@ -208,6 +231,9 @@ public static class SlkAdministration
     /// <param name="createDatabaseImpersonationBehavior">Identifies which <c>WindowsIdentity</c>
     ///     is used to create the database.</param>
     ///
+    /// <param name="dropBoxFilesExtensions">The allowed Drop Box files extensions semicolon 
+    ///      separated.. (for example: doc;docx;pdf;xslt)</param>
+    ///         
     /// <remarks>
 	/// This method is static so it can used outside the context of IIS.  Only SharePoint
 	/// administrators can perform this function.
@@ -222,7 +248,7 @@ public static class SlkAdministration
 		string databaseName, string schemaToCreateDatabase, string instructorPermission,
 		string learnerPermission,string observerPermission, bool createPermissions, string settingsFileContents,
         string defaultSettingsFileContents, string appPoolAccountName,
-        ImpersonationBehavior createDatabaseImpersonationBehavior)
+        ImpersonationBehavior createDatabaseImpersonationBehavior, string dropBoxFilesExtensions)
 	{
         // Check parameters
         if (databaseServer == null)
@@ -236,9 +262,18 @@ public static class SlkAdministration
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         if (observerPermission == null)
             throw new ArgumentNullException("observerPermission");
+
+
+        ///SLK Release 1.4 – ITWorx
+        ///Created 04-2009
+        ///Drop Box feature
+        if (dropBoxFilesExtensions == null)
+            throw new ArgumentNullException("dropBoxFilesExtensions");
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         if (defaultSettingsFileContents == null)
             throw new ArgumentNullException("defaultSettingsFileContents");
+
             
         // only SharePoint administrators can perform this action
         EnsureFarmAdmin();
@@ -280,6 +315,16 @@ public static class SlkAdministration
             mapping.ObserverPermission = observerPermission;
             mappingChanged = true;
         }
+
+        ///SLK Release 1.4 – ITWorx
+        ///Created 04-2009
+        ///Drop Box feature
+        if (mapping.DropBoxFilesExtensions != dropBoxFilesExtensions)
+        {
+            mapping.DropBoxFilesExtensions = dropBoxFilesExtensions;
+            mappingChanged = true;
+        }
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         if (mappingChanged || !mappingExists)
 			mapping.Update();
@@ -383,6 +428,396 @@ public static class SlkAdministration
 		// upload the SLK Settings file if needed
 		if (settingsFileContents != null)
 		{
+            // load "SlkSettings.xsd" from a resource into <xmlSchema>
+            XmlSchema xmlSchema;
+            using (StringReader schemaStringReader = new StringReader(
+                AppResources.SlkSettingsSchema))
+            {
+                xmlSchema = XmlSchema.Read(schemaStringReader,
+                    delegate(object sender2, ValidationEventArgs e2)
+                    {
+                        // ignore warnings (already displayed when SLK Settings file was uploaded)
+                    });
+            }
+
+            // validate <settingsFileContents>
+            using (StringReader stringReader = new StringReader(settingsFileContents))
+            {
+                XmlReaderSettings xmlSettings = new XmlReaderSettings();
+                xmlSettings.Schemas.Add(xmlSchema);
+                xmlSettings.ValidationType = ValidationType.Schema;
+                using (XmlReader xmlReader = XmlReader.Create(stringReader, xmlSettings))
+                {
+                    try
+                    {
+                        SlkSettings.ParseSettingsFile(xmlReader,
+                            DateTime.MinValue);
+                    }
+                    catch (SlkSettingsException ex)
+                    {
+                        throw new SafeToDisplayException(AppResources.SlkSettingsFileError,
+                            ex.Message);
+                    }
+                }
+            }
+
+            // store <settingsFileContents> in the database
+            job = learningStore.CreateJob();
+            Dictionary<string, object> uniqueProperties = new Dictionary<string, object>();
+            uniqueProperties.Add(Schema.SiteSettingsItem.SiteGuid, spSiteGuid);
+            Dictionary<string, object> updateProperties = new Dictionary<string, object>();
+            updateProperties.Add(Schema.SiteSettingsItem.SettingsXml, settingsFileContents);
+            updateProperties.Add(Schema.SiteSettingsItem.SettingsXmlLastModified,
+                DateTime.Now.ToUniversalTime());
+            job.AddOrUpdateItem(Schema.SiteSettingsItem.ItemTypeName, uniqueProperties,
+                updateProperties);
+            job.Execute();
+        }
+    }
+
+    /// <summary>
+    /// Loads SLK configuration information from WSS and LearningStore, in a form that's
+    /// suitable for copying to Configure.aspx form fields.
+    /// </summary>
+    ///
+    /// <param name="spSiteGuid">The GUID of the SPSite to retrieve configuration information
+    /// 	from.</param>
+    ///
+    /// <param name="databaseServer">Set to the name of the database server associated with
+    /// 	the specified SPSite.  If no database is currently associated with
+    /// 	<paramref name="spSiteGuid"/>, this parameter is set to the name of the database
+    ///     server containing the SharePoint configuration database.
+    /// 	</param>
+    ///
+    /// <param name="databaseName">Set to the name of the database associated with the
+    /// 	specified SPSite.  If no database is currently associated with
+    /// 	<paramref name="spSiteGuid"/>, this parameter is set to a default database name.
+    /// 	</param>
+    ///
+    /// <param name="createDatabase">Set to <c>true</c> if the database specified by the values
+    /// 	returned in <paramref name="databaseServer"/> and <paramref name="databaseName"/>
+    /// 	currently exists, <c>false</c> if not.  This can be used as the default value for the
+    /// 	"Create a new database" checkbox in Configure.aspx.</param>
+    ///
+    /// <param name="instructorPermission">Set to the name of the SharePoint permission that
+    /// 	identifies instructors.  If no database is currently associated with the specified
+    /// 	SPSite, this is set to a default value such as "SLK Instructor".</param>
+    ///
+    /// <param name="learnerPermission">Set to the name of the SharePoint permission that
+    /// 	identifies learners.  If no database is currently associated with the specified
+    /// 	SPSite, this is set to a default value such as "SLK Learner".</param>
+    ///
+    /// <param name="observerPermission">Set to the name of the SharePoint permission that
+    /// 	identifies observers.  If no database is currently associated with the specified
+    /// 	SPSite, this is set to a default value such as "SLK Observer".</param>
+    ///
+    /// <param name="createPermissions">Set to <c>false</c> if both the permission values returned
+    /// 	in parameters <paramref name="instructorPermission"/> and
+    /// 	<paramref name="learnerPermission"/> already exist in the root SPWeb of the
+    /// 	specified SPSite, <c>true</c> otherwise.  This can be used as the default value
+    /// 	for the "Create permissions" checkbox in Configure.aspx.</param>
+    /// 
+    /// <returns>
+    /// <c>true</c> if a mapping between <paramref name="spSiteGuid"/> and a SharePoint Learning
+    /// Kit database was found in the SharePoint configuration database, <c>false</c> if not.
+    /// In the latter case, the <c>out</c> parameters are set to default values.
+    /// </returns>
+    ///
+    /// <remarks>
+    /// This method is static so it can used outside the context of IIS.  Only SharePoint
+    /// administrators can perform this function.
+    /// </remarks>
+    ///
+    /// <exception cref="SafeToDisplayException">
+    /// An error occurred that can be displayed to a browser user.
+    /// </exception>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static bool LoadConfiguration(Guid spSiteGuid, out string databaseServer,
+        out string databaseName, out bool createDatabase, out string instructorPermission,
+        out string learnerPermission, out string observerPermission, out bool createPermissions)
+    {
+        // only SharePoint administrators can perform this action
+        EnsureFarmAdmin();
+
+        // set <mapping> to the mapping between <spSiteGuid> and the LearningStore connection
+        // information for that SPSite
+        SlkSPSiteMapping mapping;
+        bool mappingExists = SlkSPSiteMapping.GetMapping(spSiteGuid, out mapping);
+
+        // set "out" parameters based on <mappingExists> and <mapping>
+        if (mappingExists)
+        {
+            // the mapping exists -- set "out" parameters based on <mapping>
+            databaseServer = mapping.DatabaseServer;
+            databaseName = mapping.DatabaseName;
+            instructorPermission = mapping.InstructorPermission;
+            learnerPermission = mapping.LearnerPermission;
+
+            // The below given condition will be true only during the migration of SLK from 
+            // 'SLK without Observer role' to 'SLK with Observer role' implementation
+            if (mapping.ObserverPermission == null)
+            {
+                mapping.ObserverPermission = AppResources.DefaultSlkObserverPermissionName;
+            }
+            observerPermission = mapping.ObserverPermission;
+        }
+        else
+        {
+            // the mapping doesn't exist -- set "out" parameters to default values
+            SPWebService adminWebService = SlkAdministration.GetAdminWebService();
+            databaseServer = adminWebService.DefaultDatabaseInstance.Server.Address;
+            databaseName = AppResources.DefaultSlkDatabaseName;
+            mapping.DatabaseServer = databaseServer;
+            mapping.DatabaseName = databaseName;
+            instructorPermission = AppResources.DefaultSlkInstructorPermissionName;
+            learnerPermission = AppResources.DefaultSlkLearnerPermissionName;
+            ////////////////////////////////////////////////////////////////////////////////////////////////////
+            observerPermission = AppResources.DefaultSlkObserverPermissionName;
+            ////////////////////////////////////////////////////////////////////////////////////////////////////
+        }
+
+        // set "out" parameters that need to be computed
+        bool createDatabaseResult = false;
+        SlkUtilities.ImpersonateAppPool(delegate()
+        {
+            createDatabaseResult = !DatabaseExists(mapping.DatabaseServerConnectionString, mapping.DatabaseName);
+        });
+        createDatabase = createDatabaseResult;
+        createPermissions = !PermissionsExist(spSiteGuid, instructorPermission, learnerPermission, observerPermission);
+
+        return mappingExists;
+    }
+
+    /// <summary>
+    /// Saves SLK configuration information.  This method accepts information in a form that's
+    /// compatible with Configure.aspx form fields.
+    /// </summary>
+    ///
+    /// <param name="spSiteGuid">The GUID of the SPSite being configured.</param>
+    ///
+    /// <param name="databaseServer">The name of the database server to associate with the
+    /// 	specified SPSite.  By default, integrated authentication is used to connect to the
+    /// 	database; to use a SQL Server user ID and password instead, append the appropriate
+    /// 	connection string information to the database server name -- for example, instead of
+    /// 	"MyServer", use "MyServer;user id=myacct;password=mypassword".  For security reasons,
+    /// 	integrated authentication is strongly recommended.</param>
+    ///
+    /// <param name="databaseName">The name of the database to associate with the specified
+    /// 	SPSite.  This database must exist if <paramref name="schemaToCreateDatabase"/> is
+    /// 	<c>null</c>, and must not exist if paramref name="schemaToCreateDatabase"/> is
+    /// 	non-<c>null</c>, otherwise an error message is returned.</param>
+    ///
+    /// <param name="schemaToCreateDatabase">If non-<c>null</c>, this is the SlkSchema.sql file
+    /// 	containing the schema of the database, and an SLK database named
+    /// 	<paramref name="databaseName"/> is created using this schema.  If <c>null</c>,
+    /// 	<paramref name="databaseName"/> specifies an existing database.</param>
+    ///
+    /// <param name="instructorPermission">The name of the SharePoint permission that
+    /// 	identifies instructors.</param>
+    ///
+    /// <param name="learnerPermission">The name of the SharePoint permission that
+    /// 	identifies learners.</param>
+    ///
+    /// <param name="observerPermission">The name of the SharePoint permission that
+    /// 	identifies observers.</param>
+    ///
+    /// <param name="createPermissions">If <c>true</c>, the permissions specified by
+    /// 	<paramref name="instructorPermission"/> and <paramref name="learnerPermission"/>
+    /// 	are added to the root SPWeb of the specified SPSite (if they don't already
+    /// 	exist).</param>
+    ///
+    /// <param name="settingsFileContents">If not <c>null</c>, this is the contents of a SLK
+    /// 	Settings file to associate with this SPSite.  If <c>null</c>, the previous SLK
+    /// 	Settings file is used if one exists, or the default SLK settings file is used if a
+    /// 	database is being created.</param>
+    /// 
+    /// <param name="defaultSettingsFileContents">The contents of the default SLK Settings file.
+    ///     Must not be <n>null</n>.</param>
+    /// 
+    /// <param name="appPoolAccountName">The name of the application pool account; for example,
+    /// 	"NT AUTHORITY\NETWORK SERVICE".  If <n>null</n>, then the current Windows identity is
+    /// 	used, or, if the current identity is impersonated, the original Windows identity is
+    /// 	used.</param>
+    ///
+    /// <param name="createDatabaseImpersonationBehavior">Identifies which <c>WindowsIdentity</c>
+    ///     is used to create the database.</param>
+    ///
+    /// <remarks>
+    /// This method is static so it can used outside the context of IIS.  Only SharePoint
+    /// administrators can perform this function.
+    /// </remarks>
+    ///
+    /// <exception cref="SafeToDisplayException">
+    /// An error occurred that can be displayed to a browser user.
+    /// </exception>
+    ///
+    [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
+    public static void SaveConfiguration(Guid spSiteGuid, string databaseServer,
+        string databaseName, string schemaToCreateDatabase, string instructorPermission,
+        string learnerPermission, string observerPermission, bool createPermissions, string settingsFileContents,
+        string defaultSettingsFileContents, string appPoolAccountName,
+        ImpersonationBehavior createDatabaseImpersonationBehavior)
+    {
+        // Check parameters
+        if (databaseServer == null)
+            throw new ArgumentNullException("databaseServer");
+        if (databaseName == null)
+            throw new ArgumentNullException("databaseName");
+        if (instructorPermission == null)
+            throw new ArgumentNullException("instructorPermission");
+        if (learnerPermission == null)
+            throw new ArgumentNullException("learnerPermission");
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (observerPermission == null)
+            throw new ArgumentNullException("observerPermission");
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (defaultSettingsFileContents == null)
+            throw new ArgumentNullException("defaultSettingsFileContents");
+
+        // only SharePoint administrators can perform this action
+        EnsureFarmAdmin();
+
+        // check arguments
+        if (defaultSettingsFileContents == null)
+            throw new ArgumentNullException("defaultSettingsFileContents");
+
+        // set <mapping> to the mapping between <spSiteGuid> and the LearningStore connection
+        // information for that SPSite
+        SlkSPSiteMapping mapping;
+        bool mappingExists = SlkSPSiteMapping.GetMapping(spSiteGuid, out mapping);
+
+        // update <mapping>
+        bool mappingChanged = false;
+        if (mapping.DatabaseServer != databaseServer)
+        {
+            mapping.DatabaseServer = databaseServer;
+            mappingChanged = true;
+        }
+        if (mapping.DatabaseName != databaseName)
+        {
+            mapping.DatabaseName = databaseName;
+            mappingChanged = true;
+        }
+        if (mapping.InstructorPermission != instructorPermission)
+        {
+            mapping.InstructorPermission = instructorPermission;
+            mappingChanged = true;
+        }
+        if (mapping.LearnerPermission != learnerPermission)
+        {
+            mapping.LearnerPermission = learnerPermission;
+            mappingChanged = true;
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (mapping.ObserverPermission != observerPermission)
+        {
+            mapping.ObserverPermission = observerPermission;
+            mappingChanged = true;
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (mappingChanged || !mappingExists)
+            mapping.Update();
+
+        // create the database if specified
+        if (schemaToCreateDatabase != null)
+        {
+            // restrict the characters in <databaseName>
+            if (!Regex.Match(databaseName, @"^\w+$").Success)
+                throw new SafeToDisplayException(AppResources.InvalidDatabaseName, databaseName);
+
+            // if <appPoolAccountName> is null, set it to the name of the application pool account
+            // (e.g. "NT AUTHORITY\NETWORK SERVICE"); set <appPoolSid> to its SID
+            byte[] appPoolSid = null;
+            if (appPoolAccountName == null)
+            {
+                SlkUtilities.ImpersonateAppPool(delegate()
+                {
+                    WindowsIdentity appPool = WindowsIdentity.GetCurrent();
+                    appPoolAccountName = appPool.Name;
+                    appPoolSid = new byte[appPool.User.BinaryLength];
+                    appPool.User.GetBinaryForm(appPoolSid, 0);
+                });
+            }
+            else
+            {
+                NTAccount appPoolAccount = new NTAccount(appPoolAccountName);
+                SecurityIdentifier securityId =
+                    (SecurityIdentifier)appPoolAccount.Translate(typeof(SecurityIdentifier));
+                appPoolSid = new byte[securityId.BinaryLength];
+                securityId.GetBinaryForm(appPoolSid, 0);
+            }
+
+            switch (createDatabaseImpersonationBehavior)
+            {
+                case ImpersonationBehavior.UseImpersonatedIdentity:
+                    CreateDatabase(mapping.DatabaseServerConnectionString, databaseName,
+                        mapping.DatabaseConnectionString, appPoolAccountName,
+                        appPoolSid, schemaToCreateDatabase);
+                    break;
+
+                case ImpersonationBehavior.UseOriginalIdentity:
+                    SlkUtilities.ImpersonateAppPool(delegate()
+                    {
+                        CreateDatabase(mapping.DatabaseServerConnectionString, databaseName,
+                            mapping.DatabaseConnectionString, appPoolAccountName,
+                            appPoolSid, schemaToCreateDatabase);
+                    });
+                    break;
+
+                default:
+                    throw new InternalErrorException("SLK1100");
+            }
+        }
+
+        // create permissions if specified
+        if (createPermissions)
+        {
+            // create the permissions if they don't exist yet
+            CreatePermission(spSiteGuid, instructorPermission,
+                AppResources.SlkInstructorPermissionDescription, 0);
+            CreatePermission(spSiteGuid, learnerPermission,
+                AppResources.SlkLearnerPermissionDescription, 0);
+            ////////////////////////////////////////////////////////////////////////////////////////////////////
+            CreatePermission(spSiteGuid, observerPermission,
+                AppResources.SlkObserverPermissionDescription, 0);
+            ////////////////////////////////////////////////////////////////////////////////////////////////////        
+        }
+
+        // make sure we can access LearningStore; while we're at it, find out if there's a row
+        // corresponding to this SPSite in the SiteSettingsItem table
+        LearningStore learningStore = new LearningStore(mapping.DatabaseConnectionString, "", true);
+        LearningStoreJob job = learningStore.CreateJob();
+        LearningStoreQuery query = learningStore.CreateQuery(
+            Schema.SiteSettingsItem.ItemTypeName);
+        query.AddColumn(Schema.SiteSettingsItem.SettingsXml);
+        query.AddCondition(Schema.SiteSettingsItem.SiteGuid,
+            LearningStoreConditionOperator.Equal, spSiteGuid);
+        job.PerformQuery(query);
+        DataRowCollection results = job.Execute<DataTable>().Rows;
+        if (results.Count == 0)
+        {
+            // this SPSite isn't listed in the SiteSettingsItem table, so we need to add a row
+            if (settingsFileContents == null)
+                settingsFileContents = defaultSettingsFileContents;
+        }
+        else
+        {
+            object currentSettingsFileContents =
+                results[0][Schema.SiteSettingsItem.SettingsXml];
+            if ((currentSettingsFileContents == null) ||
+                (currentSettingsFileContents is DBNull) ||
+                (((string)currentSettingsFileContents).Length == 0))
+            {
+                // the SLK Settings for this SPSite are missing, so we need to add them
+                if (settingsFileContents == null)
+                    settingsFileContents = defaultSettingsFileContents;
+            }
+        }
+
+        // upload the SLK Settings file if needed
+        if (settingsFileContents != null)
+        {
             // load "SlkSettings.xsd" from a resource into <xmlSchema>
             XmlSchema xmlSchema;
             using (StringReader schemaStringReader = new StringReader(
@@ -789,6 +1224,17 @@ public class SlkSPSiteMapping : SPPersistedObject
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     string m_observerPermission;
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///SLK Release 1.4 – ITWorx
+    ///Created 04-2009
+    ///Drop Box feature
+    /// <summary>
+    /// Holds the value of the <c>DropBoxFilesExtensions</c> property.
+    /// </summary>
+    [Persisted]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    string m_dropBoxFilesExtensions;
+
             
     ///////////////////////////////////////////////////////////////////////////////////////////////
 	// Public Properties
@@ -950,6 +1396,27 @@ public class SlkSPSiteMapping : SPPersistedObject
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////            
+
+    ///SLK Release 1.4 – ITWorx
+    ///Created 04-2009
+    ///Drop Box feature
+    /// <summary>
+    /// Sets or gets the allowed extensions for DropBox uploaded files.
+    /// </summary>
+    public string DropBoxFilesExtensions
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_dropBoxFilesExtensions;
+        }
+        [DebuggerStepThrough]
+        set
+        {
+            m_dropBoxFilesExtensions = value;
+        }
+    }
+
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Public Methods

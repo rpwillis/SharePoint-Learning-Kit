@@ -28,6 +28,8 @@ using Schema = Microsoft.SharePointLearningKit.Schema;
 using Microsoft.LearningComponents.Frameset;
 using Microsoft.SharePointLearningKit.Frameset;
 using System.Threading;
+using System.Configuration;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -77,6 +79,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 		protected SlkButton slkButtonBegin;
 		protected SlkButton slkButtonSubmit;
 		protected SlkButton slkButtonDelete;
+        protected SlkButton slkButtonReviewSubmitted;
+        protected SlkButton slkButtonSubmitFiles;
+
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lnk")]
 		protected HyperLink lnkSite;
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
@@ -94,6 +99,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
 		private LearnerAssignmentProperties m_learnerAssignmentProperties;
 		private bool setStatusToActive;
+
+        /// <summary>
+        /// Holds AssignmentProperties value.
+        /// </summary>
+        private AssignmentProperties m_assignmentProperties;
+        /// <summary>
+        /// The name of the drop box document library 
+        /// </summary>
+        private string m_dropBoxDocLibName;
+
 		#endregion
 
 		#region Private Properties
@@ -115,8 +130,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 return m_learnerAssignmentGuidId;
             }
         }
-
-
+        
 		/// <summary>
 		/// Gets the properties of the learner assignment being displayed by this page.
 		/// </summary>
@@ -136,7 +150,45 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 				m_learnerAssignmentProperties = value;
 			}
 		}
-		#endregion
+
+        /// <summary>
+        /// Gets or sets the general properties of the learner assignment being displayed by this page.
+        /// </summary>
+        private AssignmentProperties AssignmentProperties
+        {
+            get
+            {
+                if (this.m_assignmentProperties == null)
+                {
+                    this.m_assignmentProperties = SlkStore.GetAssignmentProperties(
+                                                           LearnerAssignmentProperties.AssignmentId,
+                                                           SlkRole.Learner);
+                }
+
+                return this.m_assignmentProperties;
+            }
+
+            set
+            {
+                this.m_assignmentProperties = value;
+            }
+        }
+        /// <summary>
+        /// Gets the Drop Box document library name 
+        /// </summary>
+        private String DropBoxDocLibName
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(m_dropBoxDocLibName))
+                {
+                    m_dropBoxDocLibName = AppResources.DropBoxDocLibName;
+                }
+                return m_dropBoxDocLibName;
+            }
+        }
+
+        #endregion
 
 		#region OnPreRender
 		/// <summary>
@@ -148,6 +200,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 		{
 			try
 			{
+                AppResources.Culture = LocalizationManager.GetCurrentCulture();
+
 				// setting default title
 				pageTitle.Text = AppResources.LobbyBeginAssignmentText;
 				pageTitleInTitlePage.Text = AppResources.LobbyBeginAssignmentText;
@@ -259,16 +313,54 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 				switch (learnerAssignmentStatus)
 				{
 					case LearnerAssignmentState.NotStarted:
-						slkButtonBegin.Text = AppResources.LobbyBeginAssignmentText;
-						slkButtonBegin.ToolTip = AppResources.LobbyBeginAssignmentToolTip;
+                        slkButtonBegin.Text = AppResources.LobbyBeginAssignmentText;
+                        slkButtonBegin.ToolTip = AppResources.LobbyBeginAssignmentToolTip;
+
+                        ///Check if non e-learning and enable the appropriate button accordingly
+                        if (LearnerAssignmentProperties.RootActivityId == null)
+                        {
+                            slkButtonSubmitFiles.Visible = true;
+                            slkButtonSubmitFiles.Text = AppResources.LobbySubmitFilesText;
+                            slkButtonSubmitFiles.ToolTip = AppResources.LobbySubmitFilesToolTip;
+                            slkButtonSubmitFiles.Enabled = true;
+
+                            slkButtonSubmit.Visible = false;
+                        }
+                        else
+                        {
+                            slkButtonSubmitFiles.Visible = false;
+                        }
+
 						pageTitle.Text = AppResources.LobbyBeginAssignmentText;
 						pageTitleInTitlePage.Text = AppResources.LobbyBeginAssignmentText;
+                        
+                        slkButtonReviewSubmitted.Visible = false;
+
 						break;
 					case LearnerAssignmentState.Active:
-						slkButtonBegin.Text = AppResources.LobbyResumeAssignmentText;
-						slkButtonBegin.ToolTip = AppResources.LobbyResumeAssignmentToolTip;
+                        slkButtonBegin.Text = AppResources.LobbyResumeAssignmentText;
+                        slkButtonBegin.ToolTip = AppResources.LobbyResumeAssignmentToolTip;
+
+                        //Check if non e-learning and enable the appropriate button accordingly
+                        if (LearnerAssignmentProperties.RootActivityId == null)
+                        {
+                            slkButtonSubmitFiles.Visible = true;
+                            slkButtonSubmitFiles.Text = AppResources.LobbySubmitFilesText;
+                            slkButtonSubmitFiles.ToolTip = AppResources.LobbySubmitFilesToolTip;
+                            slkButtonSubmitFiles.Enabled = true;
+
+                            slkButtonSubmit.Visible = false;
+                        }
+                        else
+                        {
+                            slkButtonSubmitFiles.Visible = false;
+                        }
+
 						pageTitle.Text = AppResources.LobbyResumeAssignmentText;
 						pageTitleInTitlePage.Text = AppResources.LobbyResumeAssignmentText;
+
+                        slkButtonReviewSubmitted.Visible = false;
+
 						break;
 					case LearnerAssignmentState.Completed:
 						slkButtonBegin.Text = AppResources.LobbyReviewAssignmentText;
@@ -277,14 +369,70 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 						pageTitle.Text = AppResources.LobbyReviewAssignmentText;
 						pageTitleInTitlePage.Text = AppResources.LobbyReviewAssignmentText;
 						slkButtonSubmit.Visible = false;
+
+                        //Check if non e-learning and enable the appropriate button accordingly
+                        if (LearnerAssignmentProperties.RootActivityId == null)
+                        {
+                            slkButtonSubmitFiles.Visible = true;
+                            slkButtonSubmitFiles.Text = AppResources.LobbySubmitFilesText;
+                            slkButtonSubmitFiles.ToolTip = AppResources.LobbySubmitFilesToolTip;
+                            slkButtonSubmitFiles.Enabled = false;
+                        }
+                        else
+                        {
+                            slkButtonSubmitFiles.Visible = false;
+                        }
+
+                        slkButtonReviewSubmitted.Visible = false;
+
 						break;
 					case LearnerAssignmentState.Final:
 						slkButtonBegin.Text = AppResources.LobbyReviewAssignmentText;
 						slkButtonBegin.ToolTip = AppResources.LobbyReviewAssignmentToolTip;
+
 						pageTitle.Text = AppResources.LobbyReviewAssignmentText;
 						pageTitleInTitlePage.Text = AppResources.LobbyReviewAssignmentText;
 						slkButtonSubmit.Visible = false;
 						view = AssignmentView.StudentReview;
+    
+                        ///Check if non-elearning content
+                        if (LearnerAssignmentProperties.RootActivityId == null)
+                        {
+                            slkButtonSubmitFiles.Visible = true;
+                            slkButtonSubmitFiles.Text = AppResources.LobbySubmitFilesText;
+                            slkButtonSubmitFiles.ToolTip = AppResources.LobbySubmitFilesToolTip;
+                            slkButtonSubmitFiles.Enabled = false;
+
+                            slkButtonReviewSubmitted.Text = AppResources.LobbyReviewSubmittedText;
+
+                            string url = CheckSubmittedFilesNumber();
+
+                            if (url.Equals(string.Empty))
+                            {
+                                StringBuilder pageURL = new StringBuilder();
+                                pageURL.AppendFormat(
+                                    "{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}",
+                                     SPWeb.Url,
+                                     LearnerAssignmentGuidId.ToString());
+
+                                url = pageURL.ToString();
+                            }
+
+                            slkButtonReviewSubmitted.OnClientClick = String.Format(
+                                CultureInfo.CurrentCulture,
+                                "window.open('" + 
+                                url + 
+                                "','popupwindow','width=400,height=300,scrollbars,resizable'); ");
+
+                            slkButtonReviewSubmitted.ToolTip = AppResources.LobbyReviewSubmittedToolTip;
+                            slkButtonReviewSubmitted.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
+                            slkButtonReviewSubmitted.Visible = true;
+                        }
+                        else
+                        {
+                            slkButtonSubmitFiles.Visible = false;
+                        }
+                        
 						break;
 					default:
 						break;
@@ -338,6 +486,25 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 				tgrAutoReturn.Visible = LearnerAssignmentProperties.AutoReturn;
 
 				contentPanel.Visible = true;
+
+                if (slkButtonSubmitFiles.Visible)
+                {
+                    slkButtonSubmitFiles.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
+                    slkButtonSubmitFiles.AccessKey = AppResources.LobbySubmitFilesAccessKey;
+
+                    if (slkButtonSubmitFiles.Enabled)
+                    {
+                        StringBuilder url = new StringBuilder();
+                        url.AppendFormat(
+                             "{0}/_layouts/SharePointLearningKit/FilesUploadPage.aspx?LearnerAssignmentId={1}",
+                             SPWeb.Url,
+                             LearnerAssignmentGuidId.ToString());
+
+                        slkButtonSubmitFiles.NavigateUrl = url.ToString();
+
+                        slkButtonSubmitFiles.Target = "_self";
+                    }
+                }
 			}
 			catch (InvalidOperationException)
 			{
@@ -402,12 +569,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 		{
 			try
 			{
+                AppResources.Culture = LocalizationManager.GetCurrentCulture();
                 try
                 {
                     SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
                 }
                 catch (InvalidOperationException)
 				{
+                    AppResources.Culture = LocalizationManager.GetCurrentCulture();
                     // state transition isn't supported
 					errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyCannotChangeState));
 				}
@@ -428,25 +597,53 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Member"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
 		protected void slkButtonDelete_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				SlkStore.DeleteAssignment(LearnerAssignmentProperties.AssignmentId);
-				Response.Redirect(SPWeb.ServerRelativeUrl, true);
-			}
-			catch (ThreadAbortException)
-			{
-				// Calling Response.Redirect throws a ThreadAbortException which will
-				// flag an error in the next step if we don't do this.
-				throw;
-			}
-			catch (Exception)
-			{
-				// any exceptions here will be handled in PreRender
-			}
+            try
+            {
+                // Delete corresponding assignment folder from the drop box if exists
+                if (AssignmentProperties.PackageFormat == null)
+                {
+                    DropBoxManager m_dropBoxMgr = new DropBoxManager();
+                    SPSecurity.RunWithElevatedPrivileges(delegate
+                    {
+                        using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid))
+                        {
+                            using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
+                            {
+                                SPList dropBoxDocLib = spWeb.Lists[DropBoxDocLibName];
+                                string assignmentFolderName = (AssignmentProperties.Title + " " + m_dropBoxMgr.GetDateOnly(AssignmentProperties.DateCreated)).Trim();
+                                SPListItem assignmentFolder = m_dropBoxMgr.GetAssignmentFolder(dropBoxDocLib, assignmentFolderName);
+
+                                if (assignmentFolder != null)
+                                {
+                                    spWeb.AllowUnsafeUpdates = true;
+                                    dropBoxDocLib.Folders[assignmentFolder.UniqueId].Delete();
+                                    dropBoxDocLib.Update();
+                                    spWeb.AllowUnsafeUpdates = false;
+                                }
+                            }
+                        }
+                    });
+                }
+
+                SlkStore.DeleteAssignment(LearnerAssignmentProperties.AssignmentId);
+                Response.Redirect(SPWeb.ServerRelativeUrl, true);
+            }
+            catch (ThreadAbortException)
+            {
+                // Calling Response.Redirect throws a ThreadAbortException which will
+                // flag an error in the next step if we don't do this.
+                throw;
+            }
+            catch (Exception)
+            {
+                // any exceptions here will be handled in PreRender
+            }
 		}
 
 		private void SetResourceText()
-		{
+        {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
+
 			pageDescription.Text = AppResources.LobbyPageDescription;
 
 			lblSite.Text = AppResources.LobbylblSite;
@@ -460,5 +657,76 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 			ClientScript.RegisterClientScriptBlock(this.GetType(), "SlkWindowAlreadyOpen",
 				string.Format(CultureInfo.CurrentCulture, "var SlkWindowAlreadyOpen = \"{0}\";", AppResources.LobbyWindowAlreadyOpen), true);
 		}
+
+        /// <summary>
+        /// Checks the number of the assignment submitted files. 
+        /// If one assignment submitted, returns its URL.
+        /// If more than one, returns an empty string.
+        /// </summary>
+        private string CheckSubmittedFilesNumber()
+        {
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
+            using (SPSite site = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
+            {
+                using (SPWeb web = site.OpenWeb(AssignmentProperties.SPWebGuid))
+                {
+                    
+
+                    SPList list = web.Lists[DropBoxDocLibName];
+
+                    StringBuilder assignmentCreationDate = new StringBuilder();
+                    assignmentCreationDate.AppendFormat(
+                                            "{0}{1}{2}",
+                                            AssignmentProperties.DateCreated.Month.ToString(),
+                                            AssignmentProperties.DateCreated.Day.ToString(),
+                                            AssignmentProperties.DateCreated.Year.ToString());
+
+                    /* Searching for the assignment folder using the naming format: "AssignmentTitle AssignmentCreationDate" 
+                         * (This is the naming format defined in AssignmentProperties.aspx.cs page) */
+                    SPQuery query = new SPQuery();
+                    query.Folder = list.RootFolder;
+                    query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + LearnerAssignmentProperties.Title + " " + assignmentCreationDate.ToString() + "</Value></Eq></Where>";
+                    SPListItemCollection assignmentFolders = list.GetItems(query);
+
+                    if (assignmentFolders.Count == 0)
+                    {
+                        throw new Exception(AppResources.SubmittedFilesNoAssignmentFolderException);
+                    }
+
+                    SPFolder assignmentFolder = assignmentFolders[0].Folder;
+
+                    query = new SPQuery();
+                    query.Folder = assignmentFolder;
+                    query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + LearnerAssignmentProperties.LearnerName + "</Value></Eq></Where>";
+                    SPListItemCollection assignmentSubFolders = list.GetItems(query);
+
+                    if (assignmentSubFolders.Count == 0)
+                    {
+                        throw new Exception(AppResources.SubmittedFilesNoAssignmentSubFolderException);
+                    }
+
+                    SPFolder assignmentSubFolder = assignmentSubFolders[0].Folder;
+
+                    ////Getting the latest assignment files (files included in the latest assignment submission)
+                    query = new SPQuery();
+                    query.Folder = assignmentSubFolder;
+                    query.Query = "<Where><Eq><FieldRef Name='IsLatest'/><Value Type='Text'>True</Value></Eq></Where>";
+                    SPListItemCollection assignmentFiles = list.GetItems(query);
+
+                    if (assignmentFiles.Count != 1)
+                    {
+                        return string.Empty;
+                    }
+
+                    SPFile assignmentFile = assignmentFiles[0].File;
+
+                    StringBuilder fileURL = new StringBuilder();
+                    fileURL.AppendFormat("{0}{1}{2}", web.Url, "/", assignmentFile.Url);
+
+                    return fileURL.ToString();
+
+                }
+            }
+        }
 	}
 }

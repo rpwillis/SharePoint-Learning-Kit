@@ -25,6 +25,8 @@ using Microsoft.LearningComponents.Storage;
 using Microsoft.SharePoint;
 using Microsoft.SharePointLearningKit.WebControls;
 using Resources.Properties;
+using System.Configuration;
+using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -89,7 +91,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 		private SPList m_spList;
 		private string m_location;
 		private int? m_versionId;
-		private bool? m_nonELearning;
+        private bool? m_nonELearning;
+        private string m_dropBoxDocLibName;
+        public SlkMemberships m_slkMembers;
 		#endregion
 
 		#region Private Properties
@@ -288,7 +292,37 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 			{
 				ViewState["showAllSites"] = value;
 			}
-		}
+        }
+
+        /// <summary>
+        /// Current SPWeb User's SlkUser Key 
+        /// </summary>
+        private String DropBoxDocLibName
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(m_dropBoxDocLibName))
+                {
+                    m_dropBoxDocLibName = AppResources.DropBoxDocLibName;
+                }
+                return m_dropBoxDocLibName;
+            }
+        }
+
+        /// <summary>
+        /// Get All Slk Members on the current web 
+        /// </summary>
+        private SlkMemberships SlkMembers
+        {
+            get
+            {
+                if (m_slkMembers == null)
+                {
+                    m_slkMembers = SlkStore.GetMemberships(SPContext.Current.Web, null, null);
+                }
+                return m_slkMembers;
+            }
+        }
 		#endregion
 
 		protected override void OnInit(EventArgs e)
@@ -629,10 +663,39 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 				AssignmentItemIdentifier assignmentId = SlkStore.CreateAssignment(SPWeb, Location, OrganizationIndex, SlkRole.Learner, properties);
 				Guid learnerAssignmentGuidId = SlkStore.GetCurrentUserLearnerAssignment(assignmentId);
 
-				string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
+
+                string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
                 url = String.Format(CultureInfo.InvariantCulture, "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
 
-				Response.Redirect(url, true);
+                AssignmentProperties currentAssProperties = SlkStore.GetAssignmentProperties(assignmentId, SlkRole.Learner);
+
+                if (currentAssProperties.PackageFormat == null)
+                {
+                    DropBoxManager dropBoxMgr = new DropBoxManager();
+                    string assignmentFolderName = (currentAssProperties.Title + " " + dropBoxMgr.GetDateOnly(currentAssProperties.DateCreated)).Trim();
+
+                    //Create a folder for the assignment
+                    SPListItem assignmentFolder = dropBoxMgr.CreateSelfAssignmentFolder(DropBoxDocLibName, currentAssProperties, assignmentFolderName);
+                    if (assignmentFolder != null)
+                    {
+                        //Create a Subfolder for each learner
+                        dropBoxMgr.CreateSelfAssignmentSubFolder(assignmentFolder, currentAssProperties);
+
+                        Response.Redirect(url, true);
+                    }
+                    else
+                    {
+                        // Deletes the assignment
+                        SlkStore.DeleteAssignment(assignmentId);
+                        //Log the Exception 
+                        errorBanner.Clear();
+                        errorBanner.AddError(ErrorType.Error, AppResources.AssFolderAlreadyExists);
+                    }
+                }
+                else
+                {
+                    Response.Redirect(url, true);
+                }
 			}
 			catch (ThreadAbortException)
 			{
@@ -808,6 +871,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 		/// </summary>
 		private void SetResourceText()
 		{
+            AppResources.Culture = LocalizationManager.GetCurrentCulture();
+            
 			pageTitle.Text = AppResources.ActionsPageTitle;
 			pageDescription.Text = AppResources.ActionsPageDescription;
 			lblOrganization.Text = AppResources.ActionslblOrganization;

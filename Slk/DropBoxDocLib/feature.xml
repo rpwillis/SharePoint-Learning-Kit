@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Feature Id="5bf217da-245c-40c0-a65b-0a6482f73c84" Hidden ="TRUE"  Title="$Resources:SLK,DropBoxDocLibFeature;" Scope="Web" Version="1.0.0.0"  DefaultResourceFile="core" xmlns="http://schemas.microsoft.com/sharepoint/" 
+ReceiverAssembly = "Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e"
+ReceiverClass = "Microsoft.SharePointLearningKit.ConfigureDropBox">
+  <ElementManifests>
+    <ElementManifest Location="DropBoxDocLib\DropBox.xml" />
+    <ElementManifest Location="DropBoxDocLib\Instance.xml" />
+    <ElementFile Location="DropBoxDocLib\schema.xml" />
+    <ElementFile Location="DropBoxDocLib\AllItems.aspx" />
+    <ElementFile Location="DropBoxDocLib\Combine.aspx" />
+    <ElementFile Location="DropBoxDocLib\DispForm.aspx" />
+    <ElementFile Location="DropBoxDocLib\EditDlg.htm" />
+    <ElementFile Location="DropBoxDocLib\EditForm.aspx" />
+    <ElementFile Location="DropBoxDocLib\FileDlg.htm" />
+    <ElementFile Location="DropBoxDocLib\Repair.aspx" />
+    <ElementFile Location="DropBoxDocLib\Upload.aspx" />
+    <ElementFile Location="DropBoxDocLib\WebFldr.aspx" />
+  </ElementManifests>
+</Feature>
