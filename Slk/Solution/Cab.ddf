@@ -128,29 +128,29 @@
 ..\..\DropBoxDocLib\DropBoxDocLib\WebFldr.aspx          DropBoxDocLib\DropBoxDocLib\WebFldr.aspx
 ..\..\DropBoxDocLib\DropBoxDocLib\Instance.xml			DropBoxDocLib\DropBoxDocLib\Instance.xml
 ..\..\SLK.resx                                          Resources\SLK.resx
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\CourseManagerConfigure.aspx				Admin\Course_Manager_Configure\CourseManagerConfigure.aspx
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\Info.gif								Admin\Course_Manager_Configure\Info.gif
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\Wait.gif                            			Admin\Course_Manager_Configure\Wait.gif
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\CourseManagerDBSchema.sql     		       	Admin\Course_Manager_Configure\CourseManagerDBSchema.sql
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\elements.xml							Course_Manager_Configure\elements.xml
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\feature.xml							Course_Manager_Configure\feature.xml
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\SPDocumentSelectorIFrame.js					Features\Course_Manager_Configure\SPDocumentSelectorIFrame.js
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\SPDocumentSelectorIFrame.js					Layouts\1033\SPDocumentSelectorIFrame.js
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\CourseManager.master						Features\Course_Manager_Configure\CourseManager.master
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\DocumentViewer.aspx						Features\Course_Manager_Configure\DocumentViewer.aspx
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\Monitor_and_Assess.aspx					Features\Course_Manager_Configure\Monitor_and_Assess.aspx
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\Plan_and_Assign.aspx						Features\Course_Manager_Configure\Plan_and_Assign.aspx
-..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\Placeholder.txt					Features\Course_Manager_Configure\Placeholder.txt
-..\..\..\CourseManager\InstallerHelper\Installer\WebPart\CourseManagerPages.dwp							CourseManagerPages.dwp
-..\..\..\CourseManager\InstallerHelper\Installer\WebPart\MonitorAndAssess.dwp							MonitorAndAssess.dwp
-..\..\..\CourseManager\InstallerHelper\Installer\WebPart\PlanAndAssign.dwp								PlanAndAssign.dwp
-..\..\..\CourseManager\Build\CourseManagerConfCs.dll							Admin\Course_Manager_Configure\CourseManagerConfCs.dll
-..\..\..\CourseManager\Build\InstallerHelper.dll										InstallerHelper.dll
-..\..\..\CourseManager\Build\Axelerate.BusinessLayerFrameWork.dll				Axelerate.BusinessLayerFrameWork.dll
-..\..\..\CourseManager\Build\Axelerate.BusinessLayerUITools.dll													Axelerate.BusinessLayerUITools.dll
-..\..\..\CourseManager\Build\Axelerate.DataAccessApplicationBlock.dll	Axelerate.DataAccessApplicationBlock.dll
-..\..\..\CourseManager\Build\Axelerate.SharedBusinessLogic.dll					Axelerate.SharedBusinessLogic.dll
-..\..\..\CourseManager\Build\Axelerate.SlkCourseManagerLogicalLayer.dll		Axelerate.SlkCourseManagerLogicalLayer.dll
-..\..\..\CourseManager\Build\AjaxControlToolkit.dll									AjaxControlToolkit.dll
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\CourseManagerConfigure.aspx				Admin\Course_Manager_Configure\CourseManagerConfigure.aspx
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\Info.gif								Admin\Course_Manager_Configure\Info.gif
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\Wait.gif                            			Admin\Course_Manager_Configure\Wait.gif
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\CourseManagerDBSchema.sql     		       	Admin\Course_Manager_Configure\CourseManagerDBSchema.sql
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\elements.xml							Course_Manager_Configure\elements.xml
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\feature.xml							Course_Manager_Configure\feature.xml
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\SPDocumentSelectorIFrame.js					Features\Course_Manager_Configure\SPDocumentSelectorIFrame.js
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\SPDocumentSelectorIFrame.js					Layouts\1033\SPDocumentSelectorIFrame.js
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\CourseManager.master						Features\Course_Manager_Configure\CourseManager.master
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\DocumentViewer.aspx						Features\Course_Manager_Configure\DocumentViewer.aspx
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\Monitor_and_Assess.aspx					Features\Course_Manager_Configure\Monitor_and_Assess.aspx
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\Plan_and_Assign.aspx						Features\Course_Manager_Configure\Plan_and_Assign.aspx
+; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\Placeholder.txt					Features\Course_Manager_Configure\Placeholder.txt
+; ..\..\..\CourseManager\InstallerHelper\Installer\WebPart\CourseManagerPages.dwp							CourseManagerPages.dwp
+; ..\..\..\CourseManager\InstallerHelper\Installer\WebPart\MonitorAndAssess.dwp							MonitorAndAssess.dwp
+; ..\..\..\CourseManager\InstallerHelper\Installer\WebPart\PlanAndAssign.dwp								PlanAndAssign.dwp
+; ..\..\..\CourseManager\Build\CourseManagerConfCs.dll							Admin\Course_Manager_Configure\CourseManagerConfCs.dll
+; ..\..\..\CourseManager\Build\InstallerHelper.dll										InstallerHelper.dll
+; ..\..\..\CourseManager\Build\Axelerate.BusinessLayerFrameWork.dll				Axelerate.BusinessLayerFrameWork.dll
+; ..\..\..\CourseManager\Build\Axelerate.BusinessLayerUITools.dll													Axelerate.BusinessLayerUITools.dll
+; ..\..\..\CourseManager\Build\Axelerate.DataAccessApplicationBlock.dll	Axelerate.DataAccessApplicationBlock.dll
+; ..\..\..\CourseManager\Build\Axelerate.SharedBusinessLogic.dll					Axelerate.SharedBusinessLogic.dll
+; ..\..\..\CourseManager\Build\Axelerate.SlkCourseManagerLogicalLayer.dll		Axelerate.SlkCourseManagerLogicalLayer.dll
+; ..\..\..\CourseManager\Build\AjaxControlToolkit.dll									AjaxControlToolkit.dll
 ..\manifest.xml                                         manifest.xml
 ;*** <the end>
