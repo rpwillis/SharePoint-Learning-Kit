@@ -382,7 +382,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 contentPanel.Visible = false;
                 errorBanner.Clear();
-                errorBanner.AddError(ErrorType.Error, AppResources.FilesUploadInvalidExtensions + ValidFileExtensions.Replace(';', ','));
+                errorBanner.AddError(ErrorType.Error, string.Format(, AppResources.FilesUploadInvalidExtensions, ValidFileExtensions.Replace(';', ',')));
                 errorBanner.Visible = true;
             }
         }
