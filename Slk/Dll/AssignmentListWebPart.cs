@@ -497,31 +497,31 @@ namespace Microsoft.SharePointLearningKit.WebParts
                         htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
                         htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
                         htmlTextWriter.AddAttribute("frameborder", "0");
-						if (!DisplaySummary)
-						{
-							//Append the QuerySet to QueryString
-							url.AppendFormat("&" + QueryStringKeys.Query + "={0}", m_defaultQueryName);
+                        if (!DisplaySummary)
+                        {
+                            //Append the QuerySet to QueryString
+                            url.AppendFormat("&" + QueryStringKeys.Query + "={0}", m_defaultQueryName);
 
-							string urlQueryString = url.ToString();
+                            string urlQueryString = url.ToString();
 
                             if (urlQueryString.StartsWith("&", StringComparison.Ordinal))
-								urlQueryString = Constants.QuestionMark + urlQueryString.Substring(1);
+                                urlQueryString = Constants.QuestionMark + urlQueryString.Substring(1);
 
-							// Get the ServerRelativeUrl for QueryResultPage 
-							string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl,
-													Constants.SlkUrlPath,
-													Constants.QueryResultPage);
+                            // Get the ServerRelativeUrl for QueryResultPage 
+                            string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl,
+                                                    Constants.SlkUrlPath,
+                                                    Constants.QueryResultPage);
 
-							//Append the QueryString Values
-							urlString += urlQueryString;
+                            //Append the QueryString Values
+                            urlString += urlQueryString;
 
-							htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Src, urlString);
-						}
-						else
-						{
-							string urlString = SlkUtilities.UrlCombine(SPWeb.Url, Constants.BlankGifUrl);
-							htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Src, urlString);
-						}
+                            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Src, urlString);
+                        }
+                        else
+                        {
+                            string urlString = SlkUtilities.UrlCombine(SPWeb.Url, Constants.BlankGifUrl);
+                            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Src, urlString);
+                        }
                         htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Name, FrameId);
                         HtmlBlock.WriteFullTag(HtmlTextWriterTag.Iframe, 1, htmlTextWriter);
                     }

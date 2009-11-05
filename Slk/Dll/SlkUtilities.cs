@@ -75,7 +75,7 @@ namespace Microsoft.SharePointLearningKit
             //     <configuration>
             //       <appSettings>
             //         <add key="debugSlkSPWebUrl" value="http://localhost/myweb"/>
-            //     	 </appSettings>
+            //       </appSettings>
             //       ...
             //     <configuration>
             //
@@ -87,10 +87,10 @@ namespace Microsoft.SharePointLearningKit
                 System.Web.Configuration.WebConfigurationManager.AppSettings["debugSlkSPWebUrl"];
             if (url != null)
             {
-				using (SPSite spSite = new SPSite(url))
-				{
-					return spSite.OpenWeb();
-				}
+                using (SPSite spSite = new SPSite(url))
+                {
+                    return spSite.OpenWeb();
+                }
             }
 #endif
 
@@ -147,27 +147,27 @@ namespace Microsoft.SharePointLearningKit
                 // use an SLK event log source -- but this requires the administrator to
                 // create a registry entry, since the application pool account typically
                 // won't have the ability to do so
-				eventLog.Source = AppResources.SlkEventLogSource;
-				try
-				{
+                eventLog.Source = AppResources.SlkEventLogSource;
+                try
+                {
                     eventLog.WriteEntry(String.Format(format, args).Replace(@"\n", "\r\n"), type);
                 }
-				catch (System.Security.SecurityException)
-				{
+                catch (System.Security.SecurityException)
+                {
                     throw new SafeToDisplayException(AppResources.EventLogNotConfigured);
-					// AppResources.EventLogNotConfigured can contain this text:
-					//
-					// A serious error occurred.  Please contact your system administrator.
-					//
-					// Information about this error cannot be written to the system event log
-					// because the event log is not configured correctly.  To correct this problem,
-					// the system adminstrator must create a registry key named
-					// "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Eventlog\Application\
-					// SharePoint Learning Kit" and create a REG_EXPAND_SZ (Expandable String)
-					// value named "EventMessageFile" with value "C:\WINNT\Microsoft.NET\Framework\
-					// %FrameworkVersion%\EventLogMessages.dll" (without the quotes), on the web
-					// server(s).
-				}
+                    // AppResources.EventLogNotConfigured can contain this text:
+                    //
+                    // A serious error occurred.  Please contact your system administrator.
+                    //
+                    // Information about this error cannot be written to the system event log
+                    // because the event log is not configured correctly.  To correct this problem,
+                    // the system adminstrator must create a registry key named
+                    // "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Eventlog\Application\
+                    // SharePoint Learning Kit" and create a REG_EXPAND_SZ (Expandable String)
+                    // value named "EventMessageFile" with value "C:\WINNT\Microsoft.NET\Framework\
+                    // %FrameworkVersion%\EventLogMessages.dll" (without the quotes), on the web
+                    // server(s).
+                }
 #endif
                 }
             });
@@ -190,7 +190,7 @@ namespace Microsoft.SharePointLearningKit
                 try
                 {
 #if false
-				m_context = AppPoolIdentity.Impersonate();
+                m_context = AppPoolIdentity.Impersonate();
 #else
                     m_context = WindowsIdentity.Impersonate(IntPtr.Zero);
 #endif
@@ -323,44 +323,44 @@ namespace Microsoft.SharePointLearningKit
                 "packageLocation");
         }
 
-		/// <summary>
-		/// Combines url paths in a similar way to Path.Combine for file paths.
-		/// Beginning and trailing slashes are not needed but will be accounted for
-		/// if they are present.
-		/// </summary>
-		/// <param name="basePath">The start of the url. Beginning slashes will not be removed.</param>
-		/// <param name="args">All other url segments to be added. Beginning and ending slashes will be
-		/// removed and ending slashes will be added.</param>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1055:UriReturnValuesShouldNotBeStrings")]
-		internal static string UrlCombine(string basePath, params string[] args)
-		{
-			if (basePath == null)
-		        throw new ArgumentNullException("basePath");
-			if (args == null)
-				throw new ArgumentNullException("args");
+        /// <summary>
+        /// Combines url paths in a similar way to Path.Combine for file paths.
+        /// Beginning and trailing slashes are not needed but will be accounted for
+        /// if they are present.
+        /// </summary>
+        /// <param name="basePath">The start of the url. Beginning slashes will not be removed.</param>
+        /// <param name="args">All other url segments to be added. Beginning and ending slashes will be
+        /// removed and ending slashes will be added.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1055:UriReturnValuesShouldNotBeStrings")]
+        internal static string UrlCombine(string basePath, params string[] args)
+        {
+            if (basePath == null)
+                throw new ArgumentNullException("basePath");
+            if (args == null)
+                throw new ArgumentNullException("args");
 
-			if (basePath.EndsWith("/", StringComparison.Ordinal))
-				basePath = basePath.Remove(basePath.Length - 1);
+            if (basePath.EndsWith("/", StringComparison.Ordinal))
+                basePath = basePath.Remove(basePath.Length - 1);
 
-			StringBuilder sb = new StringBuilder(basePath);
-			foreach (string path in args)
-			{
-				string tempPath = path;
-				if (tempPath.EndsWith("/", StringComparison.Ordinal))
-				{
-					tempPath = tempPath.Remove(tempPath.Length - 1);
-				}
-				if (tempPath.StartsWith("/", StringComparison.Ordinal))
-				{
-					sb.AppendFormat("{0}", tempPath);
-				}
-				else
-				{
-					sb.AppendFormat("/{0}", tempPath);
-				}
-			}
-			return sb.ToString();
-		}
+            StringBuilder sb = new StringBuilder(basePath);
+            foreach (string path in args)
+            {
+                string tempPath = path;
+                if (tempPath.EndsWith("/", StringComparison.Ordinal))
+                {
+                    tempPath = tempPath.Remove(tempPath.Length - 1);
+                }
+                if (tempPath.StartsWith("/", StringComparison.Ordinal))
+                {
+                    sb.AppendFormat("{0}", tempPath);
+                }
+                else
+                {
+                    sb.AppendFormat("/{0}", tempPath);
+                }
+            }
+            return sb.ToString();
+        }
 
         /// <summary>
         /// Executes a delegate.  If a SQL Server deadlock occurs while executing the delegate,
@@ -380,7 +380,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 try
                 {
-					del();
+                    del();
 
                     // if it was successful, return 
                     break;
@@ -477,10 +477,10 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         ///
         /// <param name="width">The value for the "width" attribute of the "&lt;img&gt;" element.
-        /// 	</param>
+        ///     </param>
         ///
         /// <param name="height">The value for the "height" attribute of the "&lt;img&gt;" element.
-        /// 	</param>
+        ///     </param>
         ///
         /// <param name="htmlTextWriter">The <c>HtmlTextWriter</c> to write to.</param>
         public static void WriteBlankGif(string width, string height, HtmlTextWriter htmlTextWriter)

@@ -19,7 +19,7 @@ skipverification:
 clean: 
 	rem -- devenv SlkDll.sln /clean Debug
 	rem -- devenv SlkDll.sln /clean Release
- 	-rmdir /s /q bin 2> nul
+	-rmdir /s /q bin 2> nul
 	-rmdir /s /q obj 2> nul
 
 cleanall: clean 
