@@ -74,7 +74,7 @@ static class DomainGroupUtilities
     ///
     /// <param name="lgmi3">The <c>LOCALGROUP_MEMBERS_INFO_3</c> to retrieve from.</param>
     /// <param name="timeoutTime">If this method runs past this time (approximately), a
-    /// 	<c>DomainGroupEnumerationException</c> will be thrown.</param>
+    ///     <c>DomainGroupEnumerationException</c> will be thrown.</param>
     /// <param name="users">Collection of <c>spUserInfo</c></param>
     /// <param name="configRoot">Last successful AD Configuration root searched.</param>
     /// <param name="configResult">Last successful AD Configuration search result.</param>
@@ -137,7 +137,7 @@ static class DomainGroupUtilities
     /// <param name="domainName">Domain name where the local group is stored (e.g. MYMACHINE).</param>
     /// <param name="groupName">Name of the group to check (e.g. Administrators).</param>
     /// <param name="timeoutTime">If this method runs past this time (approximately), a
-    /// 	<c>DomainGroupEnumerationException</c> will be thrown.</param>
+    ///     <c>DomainGroupEnumerationException</c> will be thrown.</param>
     /// <param name="users">If the domainName and groupName indeed refer to a viable local group, 
     ///     this collection will contain the resulting members of that group.</param>
     /// <param name="configRoot">Last successful AD Configuration root searched.</param>
@@ -183,19 +183,19 @@ static class DomainGroupUtilities
     /// Processes a <c>DirectoryEntry</c>, enumerating members if a group.
     /// </summary>
     /// 
-	/// <param name="entry">The <c>DirectoryEntry</c> to process.</param>
-	/// <param name="timeoutTime">If this method runs past this time (approximately), a
-	/// 	<c>DomainGroupEnumerationException</c> will be thrown.</param>
-	/// <param name="users">Information about each enumerated user is added to this list.</param>
+    /// <param name="entry">The <c>DirectoryEntry</c> to process.</param>
+    /// <param name="timeoutTime">If this method runs past this time (approximately), a
+    ///     <c>DomainGroupEnumerationException</c> will be thrown.</param>
+    /// <param name="users">Information about each enumerated user is added to this list.</param>
     /// <param name="configRoot">Last successful AD Configuration root searched.</param>
     /// <param name="configResult">Last successful AD Configuration search result.</param>
     /// <param name="configPath">DN Path from last successfully processed directory entry.</param>
     /// <param name="hideDisabledUsers">Whether to hide disabled users or not.</param>
     /// 
     /// <exception cref="DomainGroupEnumerationException">
-	/// Enumeration of the domain group failed.
-	/// </exception>
-	///
+    /// Enumeration of the domain group failed.
+    /// </exception>
+    ///
     private static void ProcessDirectoryEntry(DirectoryEntry entry, DateTime timeoutTime,
         Dictionary<string, SPUserInfo> users, ref DirectoryEntry configRoot, 
         ref SearchResult configResult, ref String configPath, bool hideDisabledUsers)
@@ -230,25 +230,25 @@ static class DomainGroupUtilities
 
     /// <summary>
     /// Enumerates the members of a domain group, given a <c>DirectoryEntry</c> representing that
-	/// group.
+    /// group.
     /// </summary>
-	///
+    ///
     /// <param name="entry">The <c>DirectoryEntry</c> to enumerate users of.</param>
     /// <param name="timeoutTime">If this method runs past this time (approximately), a
-	/// 	<c>DomainGroupEnumerationException</c> will be thrown.</param>
+    ///     <c>DomainGroupEnumerationException</c> will be thrown.</param>
     /// <param name="users">Information about each enumerated user is added to this list.</param>
     /// <param name="configRoot">Last successful AD Configuration root searched.</param>
     /// <param name="configResult">Last successful AD Configuration search result.</param>
     /// <param name="configPath">DN Path from last successfully processed directory entry.</param>
     ///
-	/// <exception cref="DomainGroupEnumerationException">
-	/// Enumeration of the domain group failed.
-	/// </exception>
-	///
-	private static void AddGroupChildren(DirectoryEntry entry, DateTime timeoutTime,
+    /// <exception cref="DomainGroupEnumerationException">
+    /// Enumeration of the domain group failed.
+    /// </exception>
+    ///
+    private static void AddGroupChildren(DirectoryEntry entry, DateTime timeoutTime,
         Dictionary<string, SPUserInfo> users, ref DirectoryEntry configRoot, 
         ref SearchResult configResult, ref String configPath, bool hideDisabledUsers)
-	{
+    {
             try
             {
             // enumerate the domain group using a DirectorySearcher
@@ -285,29 +285,29 @@ static class DomainGroupUtilities
                             {
                                 throw new DomainGroupEnumerationException( AppResources.DomainGroupEnumTimeout);
                             }
-							try
-							{
-								using(DirectoryEntry de = new DirectoryEntry("LDAP://" + (string)member))
-								{
+                            try
+                            {
+                                using(DirectoryEntry de = new DirectoryEntry("LDAP://" + (string)member))
+                                {
                                     ProcessDirectoryEntry(de, timeoutTime, users, ref configRoot, ref configResult, ref configPath, hideDisabledUsers);
-								}
-							}
-							catch(COMException)
-							{
-								// just ignore this exception - for some reason sometimes an AD group has some members that aren't valid AD entries
-							}
-						}
-					}
-				}
-			}
-		}
-		catch(COMException ex)
-		{
+                                }
+                            }
+                            catch(COMException)
+                            {
+                                // just ignore this exception - for some reason sometimes an AD group has some members that aren't valid AD entries
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch(COMException ex)
+        {
             // convert COM exceptions into DomainGroupEnumerationException exceptions
             throw new DomainGroupEnumerationException(String.Format(CultureInfo.CurrentCulture,
                 AppResources.DomainGroupEnumFailed, entry.Path), ex);
-		}
-	}
+        }
+    }
 
     /// <summary>
     /// Retrieves AD domain NETBios name for specified <c>DirectoryEntry</c>.
@@ -461,19 +461,19 @@ static class DomainGroupUtilities
     ///
     static private SPUserInfo GetSPUserInfoFromDirectoryEntry(DirectoryEntry de,
         ref DirectoryEntry configRoot, ref SearchResult configResult, ref String configPath)
-	{
+    {
 #if false
-		// for debugging purposes, the following code can display all property values
+        // for debugging purposes, the following code can display all property values
         #warning slow debugging code enabled
-		foreach (string str in de.Properties.PropertyNames)
-			System.Diagnostics.Debug.WriteLine(str + "=" + de.Properties[str].Value);
+        foreach (string str in de.Properties.PropertyNames)
+            System.Diagnostics.Debug.WriteLine(str + "=" + de.Properties[str].Value);
 #endif
 
         // construct an <spUserInfo> to contain information about this user
         SPUserInfo spUserInfo = new SPUserInfo();
 
-		// set <spUserInfo.LoginName> to the user's domain name, of the form "domain\username"
-		StringBuilder sb = new StringBuilder();
+        // set <spUserInfo.LoginName> to the user's domain name, of the form "domain\username"
+        StringBuilder sb = new StringBuilder();
 
         // try getting NETBios domain name from AD Configuration
         if (GetDomainNetBIOSName(de, ref configRoot, ref configResult, ref configPath) &&
@@ -510,21 +510,21 @@ static class DomainGroupUtilities
         }
 
         sb.Append('\\');
-		sb.Append((string)de.Properties["sAMAccountName"][0]);
+        sb.Append((string)de.Properties["sAMAccountName"][0]);
         spUserInfo.LoginName = sb.ToString();
 
-		// set <spUserInfo.Name> to the user's display name, if available -- otherwise use their
-		// domain name
-		object value;
+        // set <spUserInfo.Name> to the user's display name, if available -- otherwise use their
+        // domain name
+        object value;
         if ((value = de.Properties["displayName"].Value) != null)
-			spUserInfo.Name = value.ToString();
-		else
+            spUserInfo.Name = value.ToString();
+        else
         if ((value = de.Properties["name"].Value) != null)
-			spUserInfo.Name = value.ToString();
-		else
-			spUserInfo.Name = spUserInfo.LoginName;
+            spUserInfo.Name = value.ToString();
+        else
+            spUserInfo.Name = spUserInfo.LoginName;
 
-		// set <spUserInfo.Email> to the user's email address, if available
+        // set <spUserInfo.Email> to the user's email address, if available
         if ((value = de.Properties["mail"].Value) != null)
             spUserInfo.Email = value.ToString();
         else
@@ -545,8 +545,8 @@ static class DomainGroupUtilities
     /// A collection of <c>SPUserInfo</c> objects referring to the members of the group.  Note that
     /// these users are not necessarily members of any SharePoint site collection --
     /// <c>SpUserInfo</c> is used simply as a convenient class to contain information about users.</returns>
-	static public ICollection<SPUserInfo> EnumerateDomainGroup(string groupName, TimeSpan timeout, bool hideDisabledUsers)
-	{
+    static public ICollection<SPUserInfo> EnumerateDomainGroup(string groupName, TimeSpan timeout, bool hideDisabledUsers)
+    {
         /* Placeholders for cached last AD Configuration processed
          * to speed up NETBIOS domain name retrieval - most group entries 
          * will be from same domain and this therefore allows us to minimise 
@@ -627,7 +627,7 @@ static class DomainGroupUtilities
         }
 
         return users.Values;
-	}
+    }
 }
 
 /// <summary>
@@ -637,42 +637,42 @@ static class DomainGroupUtilities
 [Serializable]
 public class DomainGroupEnumerationException : Exception
 {
-	/// <summary>
-	/// Initializes a new instance of the <Typ>DomainGroupEnumerationException</Typ> class.
-	/// </summary>
-	public DomainGroupEnumerationException()
-		: base()
-	{
-	}
+    /// <summary>
+    /// Initializes a new instance of the <Typ>DomainGroupEnumerationException</Typ> class.
+    /// </summary>
+    public DomainGroupEnumerationException()
+        : base()
+    {
+    }
 
-	/// <summary>
-	/// Initializes a new instance of the <Typ>DomainGroupEnumerationException</Typ> class.
-	/// </summary>
-	/// <param name="message">The message that describes the error.</param>
-	public DomainGroupEnumerationException(string message)
-		: base(message)
-	{
-	}
+    /// <summary>
+    /// Initializes a new instance of the <Typ>DomainGroupEnumerationException</Typ> class.
+    /// </summary>
+    /// <param name="message">The message that describes the error.</param>
+    public DomainGroupEnumerationException(string message)
+        : base(message)
+    {
+    }
 
-	/// <summary>
-	/// Initializes a new instance of the <Typ>DomainGroupEnumerationException</Typ> class.
-	/// </summary>
-	/// <param name="message">The message that describes the error.</param>
-	/// <param name="innerException">The exception that is the cause of the current exception.</param>
-	public DomainGroupEnumerationException(string message, Exception innerException)
-		: base(message, innerException)
-	{
-	}
+    /// <summary>
+    /// Initializes a new instance of the <Typ>DomainGroupEnumerationException</Typ> class.
+    /// </summary>
+    /// <param name="message">The message that describes the error.</param>
+    /// <param name="innerException">The exception that is the cause of the current exception.</param>
+    public DomainGroupEnumerationException(string message, Exception innerException)
+        : base(message, innerException)
+    {
+    }
 
-	/// <summary>
-	/// Initializes a new instance of the <Typ>DomainGroupEnumerationException</Typ> class.
-	/// </summary>
-	/// <param name="info"></param>
-	/// <param name="context"></param>
-	protected DomainGroupEnumerationException(SerializationInfo info, StreamingContext context)
-		: base(info, context)
-	{
-	}
+    /// <summary>
+    /// Initializes a new instance of the <Typ>DomainGroupEnumerationException</Typ> class.
+    /// </summary>
+    /// <param name="info"></param>
+    /// <param name="context"></param>
+    protected DomainGroupEnumerationException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
+    {
+    }
 }
 
 }

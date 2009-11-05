@@ -44,93 +44,93 @@ namespace Microsoft.SharePointLearningKit
 ///
 internal class AnonymousSlkStore
 {
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// Private Fields
-	//
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Private Fields
+    //
 
-	/// <summary>
-	/// Holds the value of the <c>SPSiteGuid</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	Guid m_spSiteGuid;
+    /// <summary>
+    /// Holds the value of the <c>SPSiteGuid</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    Guid m_spSiteGuid;
 
-	/// <summary>
-	/// Holds the value of the <c>Mapping</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	SlkSPSiteMapping m_mapping;
+    /// <summary>
+    /// Holds the value of the <c>Mapping</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    SlkSPSiteMapping m_mapping;
 
-	/// <summary>
-	/// Holds the value of the <c>Settings</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	SlkSettings m_settings;
+    /// <summary>
+    /// Holds the value of the <c>Settings</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    SlkSettings m_settings;
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// Public Properties
-	//
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    //
 
-	/// <summary>
-	/// Gets the <c>Guid</c> of the <c>SPSite</c> associated with this <c>AnonymousSlkStore</c>.
-	/// </summary>
-	public Guid SPSiteGuid
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_spSiteGuid;
-		}
-	}
+    /// <summary>
+    /// Gets the <c>Guid</c> of the <c>SPSite</c> associated with this <c>AnonymousSlkStore</c>.
+    /// </summary>
+    public Guid SPSiteGuid
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_spSiteGuid;
+        }
+    }
 
-	/// <summary>
-	/// Gets the <c>SlkSPSiteMapping</c> of the <c>SPSite</c> associated with this
-	/// <c>AnonymousSlkStore</c>.
-	/// </summary>
-	public SlkSPSiteMapping Mapping
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_mapping;
-		}
-	}
+    /// <summary>
+    /// Gets the <c>SlkSPSiteMapping</c> of the <c>SPSite</c> associated with this
+    /// <c>AnonymousSlkStore</c>.
+    /// </summary>
+    public SlkSPSiteMapping Mapping
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_mapping;
+        }
+    }
 
-	/// <summary>
-	/// Gets the <c>SlkSettings</c> of the <c>SPSite</c> associated with this
-	/// <c>AnonymousSlkStore</c>.
-	/// </summary>
-	public SlkSettings Settings
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_settings;
-		}
-	}
+    /// <summary>
+    /// Gets the <c>SlkSettings</c> of the <c>SPSite</c> associated with this
+    /// <c>AnonymousSlkStore</c>.
+    /// </summary>
+    public SlkSettings Settings
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_settings;
+        }
+    }
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// Public Methods
-	//
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    //
 
-	/// <summary>
-	/// Initializes an instance of this class.
-	/// </summary>
-	///
-	/// <param name="spSiteGuid">The value to use to initialize the <c>SPSiteGuid</c> property.
-	/// 	</param>
-	///
-	/// <param name="mapping">The value to use to initialize the <c>Mapping</c> property.
-	/// 	</param>
-	///
-	/// <param name="settings">The value to use to initialize the <c>Settings</c> property.
-	/// 	</param>
-	///
-	public AnonymousSlkStore(Guid spSiteGuid, SlkSPSiteMapping mapping, SlkSettings settings)
-	{
-		m_spSiteGuid = spSiteGuid;
-		m_mapping = mapping;
-		m_settings = settings;
-	}
+    /// <summary>
+    /// Initializes an instance of this class.
+    /// </summary>
+    ///
+    /// <param name="spSiteGuid">The value to use to initialize the <c>SPSiteGuid</c> property.
+    ///     </param>
+    ///
+    /// <param name="mapping">The value to use to initialize the <c>Mapping</c> property.
+    ///     </param>
+    ///
+    /// <param name="settings">The value to use to initialize the <c>Settings</c> property.
+    ///     </param>
+    ///
+    public AnonymousSlkStore(Guid spSiteGuid, SlkSPSiteMapping mapping, SlkSettings settings)
+    {
+        m_spSiteGuid = spSiteGuid;
+        m_mapping = mapping;
+        m_settings = settings;
+    }
 }
 
 
@@ -145,68 +145,68 @@ internal class AnonymousSlkStore
 public class SlkUserWebListItem
 {
     ///////////////////////////////////////////////////////////////////////////////////////////////
-	// Private Fields
-	//
+    // Private Fields
+    //
 
-	/// <summary>
-	/// Holds the value of the <c>SPSiteGuid</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	Guid m_spSiteGuid;
+    /// <summary>
+    /// Holds the value of the <c>SPSiteGuid</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    Guid m_spSiteGuid;
 
-	/// <summary>
-	/// Holds the value of the <c>SPWebGuid</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	Guid m_spWebGuid;
+    /// <summary>
+    /// Holds the value of the <c>SPWebGuid</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    Guid m_spWebGuid;
 
-	/// <summary>
-	/// Holds the value of the <c>LastAccessTime</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	DateTime m_lastAccessTime;
+    /// <summary>
+    /// Holds the value of the <c>LastAccessTime</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    DateTime m_lastAccessTime;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-	// Public Properties
-	//
+    // Public Properties
+    //
 
-	/// <summary>
-	/// Gets the <c>Guid</c> of the <c>SPSite</c> associated with this user web list item.
-	/// </summary>
-	public Guid SPSiteGuid
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_spSiteGuid;
-		}
-	}
+    /// <summary>
+    /// Gets the <c>Guid</c> of the <c>SPSite</c> associated with this user web list item.
+    /// </summary>
+    public Guid SPSiteGuid
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_spSiteGuid;
+        }
+    }
 
-	/// <summary>
-	/// Gets the <c>Guid</c> of the <c>SPWeb</c> associated with this user web list item.
-	/// </summary>
-	public Guid SPWebGuid
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_spWebGuid;
-		}
-	}
+    /// <summary>
+    /// Gets the <c>Guid</c> of the <c>SPWeb</c> associated with this user web list item.
+    /// </summary>
+    public Guid SPWebGuid
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_spWebGuid;
+        }
+    }
 
-	/// <summary>
-	/// Gets the <c>DateTime</c> that the Web site specified by this user web list item was
-	/// accessed using SharePoint Learning Kit.  Unlike the related value stored in the SharePoint
-	/// Learning Kit database, this value is a local date/time, not a UTC value.
-	/// </summary>
-	public DateTime LastAccessTime
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_lastAccessTime;
-		}
-	}
+    /// <summary>
+    /// Gets the <c>DateTime</c> that the Web site specified by this user web list item was
+    /// accessed using SharePoint Learning Kit.  Unlike the related value stored in the SharePoint
+    /// Learning Kit database, this value is a local date/time, not a UTC value.
+    /// </summary>
+    public DateTime LastAccessTime
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_lastAccessTime;
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Internal Methods
@@ -215,22 +215,22 @@ public class SlkUserWebListItem
     /// <summary>
     /// Initializes an instance of this class.
     /// </summary>
-	///
+    ///
     /// <param name="spSiteGuid">The value to use to initialize the <c>SPSiteGuid</c> property.
-	/// 	</param>
-	///
+    ///     </param>
+    ///
     /// <param name="spWebGuid">The value to use to initialize the <c>SPWebGuid</c> property.
-	/// 	</param>
-	///
+    ///     </param>
+    ///
     /// <param name="lastAccessTime">The value to use to initialize the <c>LastAccessTime</c>
-	/// 	property.</param>
-	///
+    ///     property.</param>
+    ///
     internal SlkUserWebListItem(Guid spSiteGuid, Guid spWebGuid, DateTime lastAccessTime)
-	{
-		m_spSiteGuid = spSiteGuid;
-		m_spWebGuid = spWebGuid;
-		m_lastAccessTime = lastAccessTime;
-	}
+    {
+        m_spSiteGuid = spSiteGuid;
+        m_spWebGuid = spWebGuid;
+        m_lastAccessTime = lastAccessTime;
+    }
 }
 
 /// <summary>
@@ -240,71 +240,71 @@ public class SlkUserWebListItem
 public class SlkUser : IComparable<SlkUser>
 {
     ///////////////////////////////////////////////////////////////////////////////////////////////
-	// Private Fields
-	//
+    // Private Fields
+    //
 
-	/// <summary>
-	/// Holds the value of the <c>UserId</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	UserItemIdentifier m_userId;
+    /// <summary>
+    /// Holds the value of the <c>UserId</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    UserItemIdentifier m_userId;
 
-	/// <summary>
-	/// Holds the value of the <c>SPUser</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	SPUser m_spUser;
+    /// <summary>
+    /// Holds the value of the <c>SPUser</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    SPUser m_spUser;
 
-	/// <summary>
-	/// Holds the value of the <c>Name</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	string m_name;
+    /// <summary>
+    /// Holds the value of the <c>Name</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    string m_name;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-	// Public Properties
-	//
+    // Public Properties
+    //
 
-	/// <summary>
-	/// Gets the SharePoint Learning Kit <c>UserItemIdentifier</c> of the user.
-	/// </summary>
-	public UserItemIdentifier UserId
-	{
+    /// <summary>
+    /// Gets the SharePoint Learning Kit <c>UserItemIdentifier</c> of the user.
+    /// </summary>
+    public UserItemIdentifier UserId
+    {
         [DebuggerStepThrough]
         get
         {
             return m_userId;
         }
-   		[DebuggerStepThrough]
-		internal set
-		{
+        [DebuggerStepThrough]
+        internal set
+        {
             m_userId = value;
-		}
-	}
+        }
+    }
 
-	/// <summary>
-	/// Gets the SharePoint <c>SPUser</c> object that represents this user.
-	/// </summary>
-	public SPUser SPUser
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_spUser;
-		}
-	}
+    /// <summary>
+    /// Gets the SharePoint <c>SPUser</c> object that represents this user.
+    /// </summary>
+    public SPUser SPUser
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_spUser;
+        }
+    }
 
-	/// <summary>
-	/// Gets the name of the user.
-	/// </summary>
-	public string Name
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_name;
-		}
-	}
+    /// <summary>
+    /// Gets the name of the user.
+    /// </summary>
+    public string Name
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_name;
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Public Methods
@@ -313,21 +313,21 @@ public class SlkUser : IComparable<SlkUser>
     /// <summary>
     /// Initializes an instance of this class, given a <c>UserItemIdentifier</c>.
     /// </summary>
-	///
-	/// <param name="userId">The SharePoint Learning Kit <c>UserItemIdentifier</c> of the user.
-	/// 	</param>
-	///
-	/// <remarks>
-	/// When this constructor is used, the <c>SPUser</c> and <c>Name</c> properties are
-	/// <c>null</c>.
-	/// </remarks>
+    ///
+    /// <param name="userId">The SharePoint Learning Kit <c>UserItemIdentifier</c> of the user.
+    ///     </param>
+    ///
+    /// <remarks>
+    /// When this constructor is used, the <c>SPUser</c> and <c>Name</c> properties are
+    /// <c>null</c>.
+    /// </remarks>
     ///
     public SlkUser(UserItemIdentifier userId)
     {
         if(userId == null)
             throw new ArgumentNullException("userId");
             
-		m_userId = userId;
+        m_userId = userId;
     }
 
    
@@ -338,24 +338,24 @@ public class SlkUser : IComparable<SlkUser>
     /// <summary>
     /// Initializes an instance of this class.
     /// </summary>
-	///
-	/// <param name="userId">The SharePoint Learning Kit <c>UserItemIdentifier</c> of the user.
-	/// 	</param>
-	///
-	/// <param name="spUser">The SharePoint <c>SPUser</c> object that represents this user.</param>
-	///
-	/// <param name="name">The name of the user.</param>
+    ///
+    /// <param name="userId">The SharePoint Learning Kit <c>UserItemIdentifier</c> of the user.
+    ///     </param>
+    ///
+    /// <param name="spUser">The SharePoint <c>SPUser</c> object that represents this user.</param>
+    ///
+    /// <param name="name">The name of the user.</param>
     ///
     internal SlkUser(UserItemIdentifier userId, SPUser spUser, string name)
     {
-		m_userId = userId;
-		m_spUser = spUser;
-		m_name = name;
+        m_userId = userId;
+        m_spUser = spUser;
+        m_name = name;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-	// IComparable<SlkUser> Implementation
-	//
+    // IComparable<SlkUser> Implementation
+    //
 
     int IComparable<SlkUser>.CompareTo(SlkUser other)
     {
@@ -371,14 +371,14 @@ public class SlkUser : IComparable<SlkUser>
 public class SlkGroup : IComparable<SlkGroup>
 {
     ///////////////////////////////////////////////////////////////////////////////////////////////
-	// Private Fields
-	//
+    // Private Fields
+    //
 
-	/// <summary>
-	/// Holds the value of the <c>SPGroup</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	SPGroup m_spGroup;
+    /// <summary>
+    /// Holds the value of the <c>SPGroup</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    SPGroup m_spGroup;
 
     /// <summary>
     /// Holds the value of the <c>DomainGroup</c> property.
@@ -386,34 +386,34 @@ public class SlkGroup : IComparable<SlkGroup>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     SPUser m_domainGroup;
 
-	/// <summary>
-	/// Holds the value of the <c>Users</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	List<SlkUser> m_users;
+    /// <summary>
+    /// Holds the value of the <c>Users</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    List<SlkUser> m_users;
 
-	/// <summary>
-	/// Holds the value of the <c>UserKeys</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	List<string> m_userKeys;
+    /// <summary>
+    /// Holds the value of the <c>UserKeys</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    List<string> m_userKeys;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-	// Public Properties
-	//
+    // Public Properties
+    //
 
-	/// <summary>
-	/// Gets the SharePoint <c>SPGroup</c> that is represented by this <c>SlkGroup</c>, or
+    /// <summary>
+    /// Gets the SharePoint <c>SPGroup</c> that is represented by this <c>SlkGroup</c>, or
     /// <c>null</c> if this <c>SlkGroup</c> represents a domain group.
-	/// </summary>
-	public SPGroup SPGroup
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_spGroup;
-		}
-	}
+    /// </summary>
+    public SPGroup SPGroup
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_spGroup;
+        }
+    }
 
     /// <summary>
     /// Gets the SharePoint <c>SPUser</c> of the domain group that is represented by this
@@ -429,85 +429,85 @@ public class SlkGroup : IComparable<SlkGroup>
         }
     }
 
-	/// <summary>
-	/// Gets the members of this group, represented as a collection of <c>SlkUser</c> objects.
-	/// </summary>
-	public ReadOnlyCollection<SlkUser> Users
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return new ReadOnlyCollection<SlkUser>(m_users);
-		}
-	}
+    /// <summary>
+    /// Gets the members of this group, represented as a collection of <c>SlkUser</c> objects.
+    /// </summary>
+    public ReadOnlyCollection<SlkUser> Users
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return new ReadOnlyCollection<SlkUser>(m_users);
+        }
+    }
 
-	/// <summary>
-	/// Gets or sets the members of this group, represented as a collection of SID strings.
-	/// </summary>
-	internal List<string> UserKeys
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_userKeys;
-		}
-		[DebuggerStepThrough]
-		set
-		{
-			m_userKeys = value;
-		}
-	}
+    /// <summary>
+    /// Gets or sets the members of this group, represented as a collection of SID strings.
+    /// </summary>
+    internal List<string> UserKeys
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_userKeys;
+        }
+        [DebuggerStepThrough]
+        set
+        {
+            m_userKeys = value;
+        }
+    }
 
-	/// <summary>
-	/// Gets the name of the group.
-	/// </summary>
-	public string Name
-	{
-		[DebuggerStepThrough]
-		get
-		{
+    /// <summary>
+    /// Gets the name of the group.
+    /// </summary>
+    public string Name
+    {
+        [DebuggerStepThrough]
+        get
+        {
             if (m_spGroup != null)
                 return m_spGroup.Name;
             else
                 return m_domainGroup.Name;
-		}
-	}
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-	// Internal Methods
-	//
+    // Internal Methods
+    //
 
-	/// <summary>
-	/// Initializes an instance of this class.
-	/// </summary>
-	///
-	/// <param name="spGroup">The SharePoint <c>SPGroup</c> represented by this <c>SlkGroup</c>,
+    /// <summary>
+    /// Initializes an instance of this class.
+    /// </summary>
+    ///
+    /// <param name="spGroup">The SharePoint <c>SPGroup</c> represented by this <c>SlkGroup</c>,
     ///     if this <c>SlkGroup</c> represents a SharePoint group; <c>null</c> otherwise.</param>
     /// 
     /// <param name="domainGroup">The SharePoint <c>SPUser</c> represented by this <c>SlkGroup</c>
     ///     if this <c>SlkGroup</c> represents a domain group; <c>null</c> otherwise.</param>
-	///
-	internal SlkGroup(SPGroup spGroup, SPUser domainGroup)
-	{
-		m_spGroup = spGroup;
+    ///
+    internal SlkGroup(SPGroup spGroup, SPUser domainGroup)
+    {
+        m_spGroup = spGroup;
         m_domainGroup = domainGroup;
-		m_users = new List<SlkUser>();
-	}
+        m_users = new List<SlkUser>();
+    }
 
-	/// <summary>
-	/// Adds a user to <c>Users</c>.
-	/// </summary>
-	///
-	/// <param name="slkUser">The user to add.</param>
-	///
-	internal void AddUser(SlkUser slkUser)
-	{
-		m_users.Add(slkUser);
-	}
+    /// <summary>
+    /// Adds a user to <c>Users</c>.
+    /// </summary>
+    ///
+    /// <param name="slkUser">The user to add.</param>
+    ///
+    internal void AddUser(SlkUser slkUser)
+    {
+        m_users.Add(slkUser);
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-	// IComparable<SlkGroup> Implementation
-	//
+    // IComparable<SlkGroup> Implementation
+    //
 
     /// <summary>
     /// Compares this <r>SlkGroup</r> to another.
@@ -533,14 +533,14 @@ public class SlkGroup : IComparable<SlkGroup>
 ///
 public class SlkUserCollection : KeyedCollection<UserItemIdentifier, SlkUser>
 {
-	// <summary> /*internal*/
-	// Identifies <c>SlkUser.UserId</c> as the key for items in this collection.
-	// </summary>
-	//
-	protected override UserItemIdentifier GetKeyForItem(SlkUser item)
-	{
+    // <summary> /*internal*/
+    // Identifies <c>SlkUser.UserId</c> as the key for items in this collection.
+    // </summary>
+    //
+    protected override UserItemIdentifier GetKeyForItem(SlkUser item)
+    {
         return item.UserId;
-	}
+    }
 }
 
 /// <summary>
@@ -557,75 +557,75 @@ public class SlkUserCollection : KeyedCollection<UserItemIdentifier, SlkUser>
 public class SlkMemberships
 {
     ///////////////////////////////////////////////////////////////////////////////////////////////
-	// Private Fields
-	//
+    // Private Fields
+    //
 
-	/// <summary>
-	/// Holds the value of the <c>Instructors</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	SlkUser[] m_instructors;
+    /// <summary>
+    /// Holds the value of the <c>Instructors</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    SlkUser[] m_instructors;
 
-	/// <summary>
-	/// Holds the value of the <c>Learners</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	SlkUser[] m_learners;
+    /// <summary>
+    /// Holds the value of the <c>Learners</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    SlkUser[] m_learners;
 
-	/// <summary>
-	/// Holds the value of the <c>LearnerGroups</c> property.
-	/// </summary>
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	SlkGroup[] m_learnerGroups;
+    /// <summary>
+    /// Holds the value of the <c>LearnerGroups</c> property.
+    /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    SlkGroup[] m_learnerGroups;
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// Public Properties
-	//
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    //
 
-	/// <summary>
-	/// Gets the collection of instructors on the SharePoint <c>SPWeb</c> associated with this
-	/// object.  A user is considered an instructor on a given <c>SPWeb</c> if they have the
-	/// instructor permission on that <c>SPWeb</c>, i.e. the permission defined by
-	/// <c>SlkSPSiteMapping.InstructorPermission</c>.
-	/// </summary>
-	public ReadOnlyCollection<SlkUser> Instructors
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return new ReadOnlyCollection<SlkUser>(m_instructors);
-		}
-	}
+    /// <summary>
+    /// Gets the collection of instructors on the SharePoint <c>SPWeb</c> associated with this
+    /// object.  A user is considered an instructor on a given <c>SPWeb</c> if they have the
+    /// instructor permission on that <c>SPWeb</c>, i.e. the permission defined by
+    /// <c>SlkSPSiteMapping.InstructorPermission</c>.
+    /// </summary>
+    public ReadOnlyCollection<SlkUser> Instructors
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return new ReadOnlyCollection<SlkUser>(m_instructors);
+        }
+    }
 
-	/// <summary>
-	/// Gets the collection of learners on the SharePoint <c>SPWeb</c> associated with this object.
-	/// A user is considered a learner on a given <c>SPWeb</c> if they have the learner permission
-	/// on that <c>SPWeb</c>, i.e. the permission defined by
-	/// <c>SlkSPSiteMapping.LearnerPermission</c>.
-	/// </summary>
-	public ReadOnlyCollection<SlkUser> Learners
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return new ReadOnlyCollection<SlkUser>(m_learners);
-		}
-	}
+    /// <summary>
+    /// Gets the collection of learners on the SharePoint <c>SPWeb</c> associated with this object.
+    /// A user is considered a learner on a given <c>SPWeb</c> if they have the learner permission
+    /// on that <c>SPWeb</c>, i.e. the permission defined by
+    /// <c>SlkSPSiteMapping.LearnerPermission</c>.
+    /// </summary>
+    public ReadOnlyCollection<SlkUser> Learners
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return new ReadOnlyCollection<SlkUser>(m_learners);
+        }
+    }
 
-	/// <summary>
-	/// Gets the collection of learner groups on the SharePoint <c>SPWeb</c> associated with this
-	/// object.  A SharePoint <c>SPGroup</c> or domain group is considered a learner group on a
+    /// <summary>
+    /// Gets the collection of learner groups on the SharePoint <c>SPWeb</c> associated with this
+    /// object.  A SharePoint <c>SPGroup</c> or domain group is considered a learner group on a
     /// given <c>SPWeb</c> if it has the learner permission on that <c>SPWeb</c>, i.e. the
     /// permission defined by <c>SlkSPSiteMapping.LearnerPermission</c>.
-	/// </summary>
-	public ReadOnlyCollection<SlkGroup> LearnerGroups
-	{
-		[DebuggerStepThrough]
-		get
-		{           
-			return new ReadOnlyCollection<SlkGroup>(m_learnerGroups);
-		}
-	}
+    /// </summary>
+    public ReadOnlyCollection<SlkGroup> LearnerGroups
+    {
+        [DebuggerStepThrough]
+        get
+        {           
+            return new ReadOnlyCollection<SlkGroup>(m_learnerGroups);
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Public Constructor
@@ -634,18 +634,18 @@ public class SlkMemberships
     /// <summary>
     /// Initializes an instance of this class.
     /// </summary>
-	///
-	/// <param name="instructors">The collection of instructors/>.
-	/// 	(See the <c>Instructors</c> property.)</param>
-	///
-	/// <param name="learners">The collection of learners />.
-	/// 	(See the <c>Learners</c> property.)</param>
-	///
-	/// <param name="learnerGroups">The collection of learner groups />.
-	/// 	(See the <c>LearnerGroups</c> property.)</param>
+    ///
+    /// <param name="instructors">The collection of instructors/>.
+    ///     (See the <c>Instructors</c> property.)</param>
+    ///
+    /// <param name="learners">The collection of learners />.
+    ///     (See the <c>Learners</c> property.)</param>
+    ///
+    /// <param name="learnerGroups">The collection of learner groups />.
+    ///     (See the <c>LearnerGroups</c> property.)</param>
     ///
     public SlkMemberships(SlkUser[] instructors, SlkUser[] learners,
-		SlkGroup[] learnerGroups)
+        SlkGroup[] learnerGroups)
     {
         //Copies the passed arrays to the respective members.
         //Creates an empty array when the passed array is null.
@@ -914,10 +914,10 @@ public class AssignmentProperties
             return m_spSiteGuid;
         }
         [DebuggerStepThrough]
-		internal set
-		{
+        internal set
+        {
             m_spSiteGuid = value;
-		}
+        }
     }
 
     /// <summary>
@@ -1094,10 +1094,10 @@ public class AssignmentProperties
             return m_dateCreated;
         }
         [DebuggerStepThrough]
-		internal set
-		{
+        internal set
+        {
             m_dateCreated = value;
-		}
+        }
     }
 
     /// <summary>
@@ -1126,38 +1126,38 @@ public class AssignmentProperties
 
     /// <summary>
     /// Returns the general file format of the e-learning package associated with this assignment,
-	/// or <c>null</c> if a non-e-learning document is associated with this assignment.
+    /// or <c>null</c> if a non-e-learning document is associated with this assignment.
     /// </summary>
-	public Nullable<PackageFormat> PackageFormat
-	{
+    public Nullable<PackageFormat> PackageFormat
+    {
         [DebuggerStepThrough]
         get
         {
             return m_packageFormat;
-		}
+        }
         [DebuggerStepThrough]
         internal set
         {
             m_packageFormat = value;
         }
-	}
+    }
 
     /// <summary>
-	/// Gets the MLC SharePoint location string of the e-learning package or non-e-learning
-	/// document associated with the assignment.
+    /// Gets the MLC SharePoint location string of the e-learning package or non-e-learning
+    /// document associated with the assignment.
     /// </summary>
     public string Location
     {
         [DebuggerStepThrough]
         get
         {
-			return m_location;
+            return m_location;
         }
         [DebuggerStepThrough]
         internal set
         {
-			m_location = value;
-		}
+            m_location = value;
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -1264,17 +1264,17 @@ public class LearnerAssignmentProperties
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     bool m_autoReturn;
 
-	/// <summary>
-	/// Holds the value of the <c>HasInstructors</c> property.
-	/// </summary>
+    /// <summary>
+    /// Holds the value of the <c>HasInstructors</c> property.
+    /// </summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	bool m_hasInstructors;
+    bool m_hasInstructors;
 
-	/// <summary>
-	/// Holds the value of the <c>ShowAnswersToLearners</c> property.
-	/// </summary>
+    /// <summary>
+    /// Holds the value of the <c>ShowAnswersToLearners</c> property.
+    /// </summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	bool m_showAnswersToLearners;
+    bool m_showAnswersToLearners;
 
     /// <summary>
     /// Holds the value of the <c>CreatedById</c> property.
@@ -1446,21 +1446,21 @@ public class LearnerAssignmentProperties
     }
 
     /// <summary>
-	/// Gets the MLC SharePoint location string of the e-learning package or non-e-learning
-	/// document associated with the assignment.
+    /// Gets the MLC SharePoint location string of the e-learning package or non-e-learning
+    /// document associated with the assignment.
     /// </summary>
     public string Location
     {
         [DebuggerStepThrough]
         get
         {
-			return m_location;
+            return m_location;
         }
         [DebuggerStepThrough]
         internal set
         {
-			m_location = value;
-		}
+            m_location = value;
+        }
     }
 
     /// <summary>
@@ -1572,42 +1572,42 @@ public class LearnerAssignmentProperties
         }
     }
 
-	/// <summary>
-	/// Gets a value that indicates whether the assignment associated with this learner assignment
-	/// has instructors.  This value is <c>false</c> in the case of a self-assigned assignment.
-	/// </summary>
-	public bool HasInstructors
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_hasInstructors;
-		}
-		[DebuggerStepThrough]
-		internal set
-		{
-			m_hasInstructors = value;
-		}
-	}
+    /// <summary>
+    /// Gets a value that indicates whether the assignment associated with this learner assignment
+    /// has instructors.  This value is <c>false</c> in the case of a self-assigned assignment.
+    /// </summary>
+    public bool HasInstructors
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_hasInstructors;
+        }
+        [DebuggerStepThrough]
+        internal set
+        {
+            m_hasInstructors = value;
+        }
+    }
 
-	/// <summary>
-	/// Gets a value that indicates whether answers will be shown to the learner when a learner
-	/// assignment associated with the assignment is returned to the learner.  This only applies to
-	/// certain types of e-learning content.
-	/// </summary>
-	public bool ShowAnswersToLearners
-	{
-		[DebuggerStepThrough]
-		get
-		{
-			return m_showAnswersToLearners;
-		}
-		[DebuggerStepThrough]
-		internal set
-		{
-			m_showAnswersToLearners = value;
-		}
-	}
+    /// <summary>
+    /// Gets a value that indicates whether answers will be shown to the learner when a learner
+    /// assignment associated with the assignment is returned to the learner.  This only applies to
+    /// certain types of e-learning content.
+    /// </summary>
+    public bool ShowAnswersToLearners
+    {
+        [DebuggerStepThrough]
+        get
+        {
+            return m_showAnswersToLearners;
+        }
+        [DebuggerStepThrough]
+        internal set
+        {
+            m_showAnswersToLearners = value;
+        }
+    }
 
     /// <summary>
     /// Gets the <c>UserItemIdentifier</c> of the user who created the assignment.
@@ -1696,8 +1696,8 @@ public class LearnerAssignmentProperties
 
     /// <summary>
     /// Gets the <c>AttemptId</c> of this learner assignment.  <c>null</c> if the assignment is a
-	/// non-e-learning assignment, or if it's an e-learning assignment which the learner hasn't
-	/// yet launched for the first time.
+    /// non-e-learning assignment, or if it's an e-learning assignment which the learner hasn't
+    /// yet launched for the first time.
     /// </summary>
     public AttemptItemIdentifier AttemptId
     {
@@ -1715,9 +1715,9 @@ public class LearnerAssignmentProperties
 
     /// <summary>
     /// Gets a <c>CompletionStatus</c> value indicating whether the SCORM 2005 package associated
-	/// with this content considers the content to be completed by the learner.  This property is
-	/// only used for assignments of SCORM 2004 packages; <c>CompletionStatus.Unknown</c> is
-	/// returned for SCORM 1.2 and Class Server LRM assignments.
+    /// with this content considers the content to be completed by the learner.  This property is
+    /// only used for assignments of SCORM 2004 packages; <c>CompletionStatus.Unknown</c> is
+    /// returned for SCORM 1.2 and Class Server LRM assignments.
     /// </summary>
     public CompletionStatus CompletionStatus
     {
@@ -1735,9 +1735,9 @@ public class LearnerAssignmentProperties
 
     /// <summary>
     /// Gets a <c>SuccessStatus</c> value indicating whether the SCORM package associated with
-	/// this content considers the learner to have succeeded (as defined by the content).  This
-	/// property is only used for assignments of SCORM 2004 packages; <c>SuccessStatus.Unknown</c>
-	/// is returned for SCORM 1.2 and Class Server LRM assignments.
+    /// this content considers the learner to have succeeded (as defined by the content).  This
+    /// property is only used for assignments of SCORM 2004 packages; <c>SuccessStatus.Unknown</c>
+    /// is returned for SCORM 1.2 and Class Server LRM assignments.
     /// </summary>
     public SuccessStatus SuccessStatus
     {
@@ -1755,8 +1755,8 @@ public class LearnerAssignmentProperties
 
     /// <summary>
     /// Gets the number of points the learner received from automatic and manual grading of the
-	/// learner assignment.  If the content type does not support grading, or if the grade is
-	/// "blank", <c>GradedPoints</c> will be <c>null</c>.
+    /// learner assignment.  If the content type does not support grading, or if the grade is
+    /// "blank", <c>GradedPoints</c> will be <c>null</c>.
     /// </summary>
     public Nullable<Single> GradedPoints
     {
@@ -1774,9 +1774,9 @@ public class LearnerAssignmentProperties
 
     /// <summary>
     /// Gets the number of points the learner received on this learner assignment.  When the
-	/// learner submits the assignment, <c>FinalPoints</c> is initially the same as
-	/// <c>GradedPoints</c>, but the instructor may manually change the value of <c>FinalPoint</c>.
-	/// For example, the instructor may award bonus points to the learner.
+    /// learner submits the assignment, <c>FinalPoints</c> is initially the same as
+    /// <c>GradedPoints</c>, but the instructor may manually change the value of <c>FinalPoint</c>.
+    /// For example, the instructor may award bonus points to the learner.
     /// </summary>
     public Nullable<Single> FinalPoints
     {
@@ -1794,7 +1794,7 @@ public class LearnerAssignmentProperties
 
     /// <summary>
     /// Gets comments from the instructor (if any) on this learner assignment; <c>String.Empty</c>
-	/// if none. 
+    /// if none. 
     /// </summary>
     public string InstructorComments
     {
@@ -1817,14 +1817,14 @@ public class LearnerAssignmentProperties
     /// <summary>
     /// Initializes an instance of this class.
     /// </summary>
-	///
+    ///
     /// <param name="learnerAssignmentId">The identifier of the learner assignment represented by
-	/// 	this object.</param>
-	///
-	internal LearnerAssignmentProperties(LearnerAssignmentItemIdentifier learnerAssignmentId)
-	{
-		m_learnerAssignmentId = learnerAssignmentId;
-	}
+    ///     this object.</param>
+    ///
+    internal LearnerAssignmentProperties(LearnerAssignmentItemIdentifier learnerAssignmentId)
+    {
+        m_learnerAssignmentId = learnerAssignmentId;
+    }
     internal LearnerAssignmentProperties(Guid learnerAssignmentGuidId)
     {
         m_learnerAssignmentGuidId = learnerAssignmentGuidId;
@@ -1985,36 +1985,36 @@ public class GradingProperties
     /// <summary>
     /// Gets or sets the <c>LearnerAssignmentState</c> of this learner assignment.
     /// </summary>
-	///
-	/// <remarks>
-	/// <para>
-	/// Changing the value of <c>Status</c>, and then calling
-	/// <c>SlkStore.SetGradingProperties</c>, will transition this learner assignment to another
-	/// <c>LearnerAssignmentState</c> value.  Only the following state transitions are supported
-	/// by <c>SlkStore.SetGradingProperties</c>:
-	/// </para>
-	/// <list type="bullet">
-	/// 	<item><description><c>NotStarted</c> to <c>Completed</c>.
-	/// 		</description>
-	/// 	</item>
-	/// 	<item><description><c>Active</c> to <c>Completed</c>.
-	/// 		</description>
-	/// 	</item>
-	/// 	<item><description><c>Completed</c> to <c>Final</c>.
-	/// 		</description>
-	/// 	</item>
-	/// 	<item><description><c>Final</c> to <c>Active</c>.
-	/// 		</description>
-	/// 	</item>
-	/// </list>
-	/// <para>
-	/// When setting <c>Status</c>, use the value <c>null</c> to indicate that you don't want to
-	/// change the status of the assignment.  If you use the current value, the status also won't
-	/// be changed, but you run the risk of another user changing the status between your calls
-	/// to <c>SlkStore.GetGradingProperties</c> and <c>SlkStore.SetGradingProperties</c>.
-	/// </para>
-	/// </remarks>
-	///
+    ///
+    /// <remarks>
+    /// <para>
+    /// Changing the value of <c>Status</c>, and then calling
+    /// <c>SlkStore.SetGradingProperties</c>, will transition this learner assignment to another
+    /// <c>LearnerAssignmentState</c> value.  Only the following state transitions are supported
+    /// by <c>SlkStore.SetGradingProperties</c>:
+    /// </para>
+    /// <list type="bullet">
+    ///     <item><description><c>NotStarted</c> to <c>Completed</c>.
+    ///         </description>
+    ///     </item>
+    ///     <item><description><c>Active</c> to <c>Completed</c>.
+    ///         </description>
+    ///     </item>
+    ///     <item><description><c>Completed</c> to <c>Final</c>.
+    ///         </description>
+    ///     </item>
+    ///     <item><description><c>Final</c> to <c>Active</c>.
+    ///         </description>
+    ///     </item>
+    /// </list>
+    /// <para>
+    /// When setting <c>Status</c>, use the value <c>null</c> to indicate that you don't want to
+    /// change the status of the assignment.  If you use the current value, the status also won't
+    /// be changed, but you run the risk of another user changing the status between your calls
+    /// to <c>SlkStore.GetGradingProperties</c> and <c>SlkStore.SetGradingProperties</c>.
+    /// </para>
+    /// </remarks>
+    ///
     public Nullable<LearnerAssignmentState> Status
     {
         [DebuggerStepThrough]
@@ -2031,9 +2031,9 @@ public class GradingProperties
 
     /// <summary>
     /// Gets a <c>CompletionStatus</c> value indicating whether the SCORM 2005 package associated
-	/// with this content considers the content to be completed by the learner.  This property is
-	/// only used for assignments of SCORM 2004 packages; <c>CompletionStatus.Unknown</c> is
-	/// returned for SCORM 1.2 and Class Server LRM assignments.
+    /// with this content considers the content to be completed by the learner.  This property is
+    /// only used for assignments of SCORM 2004 packages; <c>CompletionStatus.Unknown</c> is
+    /// returned for SCORM 1.2 and Class Server LRM assignments.
     /// </summary>
     public CompletionStatus CompletionStatus
     {
@@ -2051,9 +2051,9 @@ public class GradingProperties
 
     /// <summary>
     /// Gets a <c>SuccessStatus</c> value indicating whether the SCORM package associated with
-	/// this content considers the learner to have succeeded (as defined by the content).  This
-	/// property is only used for assignments of SCORM 2004 packages; <c>SuccessStatus.Unknown</c>
-	/// is returned for SCORM 1.2 and Class Server LRM assignments.
+    /// this content considers the learner to have succeeded (as defined by the content).  This
+    /// property is only used for assignments of SCORM 2004 packages; <c>SuccessStatus.Unknown</c>
+    /// is returned for SCORM 1.2 and Class Server LRM assignments.
     /// </summary>
     public SuccessStatus SuccessStatus
     {
@@ -2071,8 +2071,8 @@ public class GradingProperties
 
     /// <summary>
     /// Gets the number of points the learner received from automatic and manual grading of the
-	/// learner assignment.  If the content type does not support grading, or if the grade is
-	/// "blank", <c>GradedPoints</c> will be <c>null</c>.
+    /// learner assignment.  If the content type does not support grading, or if the grade is
+    /// "blank", <c>GradedPoints</c> will be <c>null</c>.
     /// </summary>
     public Nullable<Single> GradedPoints
     {
@@ -2108,8 +2108,8 @@ public class GradingProperties
     /// <summary>
     /// Gets or sets a value indicating whether <c>FinalPoints</c> will be ignore in subsequent
     /// calls to <c>SlkStore.SetGradingProperties</c>.  In that case, the current value of
-	/// <c>FinalPoints</c> in the database is not changed to the value of
-	/// <c>GradingProperties.FinalPoints</c>.
+    /// <c>FinalPoints</c> in the database is not changed to the value of
+    /// <c>GradingProperties.FinalPoints</c>.
     /// </summary>
     public bool IgnoreFinalPoints
     {
@@ -2127,7 +2127,7 @@ public class GradingProperties
 
     /// <summary>
     /// Gets or sets comments from the instructor (if any) on this learner assignment;
-	/// <c>String.Empty</c> if none. 
+    /// <c>String.Empty</c> if none. 
     /// </summary>
     public string InstructorComments
     {
@@ -2145,11 +2145,11 @@ public class GradingProperties
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Internal Properties
-	//
+    //
 
     /// <summary>
     /// Gets or sets the <c>AttemptItemIdentifier</c> of the attempt associated with this learner
-	/// assignment, or <c>null</c> if none.
+    /// assignment, or <c>null</c> if none.
     /// </summary>
     internal AttemptItemIdentifier AttemptId
     {
@@ -2172,17 +2172,17 @@ public class GradingProperties
     /// <summary>
     /// Initializes an instance of this class.
     /// </summary>
-	///
+    ///
     /// <param name="learnerAssignmentId">The identifier of the learner assignment represented by
-	/// 	this object.</param>
-	///
-	public GradingProperties(LearnerAssignmentItemIdentifier learnerAssignmentId)
-	{
-	    if(learnerAssignmentId == null)
-	        throw new ArgumentNullException("learnerAssignmentId");
-	        
-		m_learnerAssignmentId = learnerAssignmentId;
-	}
+    ///     this object.</param>
+    ///
+    public GradingProperties(LearnerAssignmentItemIdentifier learnerAssignmentId)
+    {
+        if(learnerAssignmentId == null)
+            throw new ArgumentNullException("learnerAssignmentId");
+            
+        m_learnerAssignmentId = learnerAssignmentId;
+    }
 }
 
 /// <summary>

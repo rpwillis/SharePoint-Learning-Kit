@@ -113,27 +113,27 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
                     // use an SLK event log source -- but this requires the administrator to
                     // create a registry entry, since the application pool account typically
                     // won't have the ability to do so
-				    eventLog.Source = AppResources.SlkEventLogSource;
-				    try
-				    {
+                    eventLog.Source = AppResources.SlkEventLogSource;
+                    try
+                    {
                         eventLog.WriteEntry(String.Format(format, args).Replace(@"\n", "\r\n"), type);
                     }
-				    catch (System.Security.SecurityException)
-				    {
+                    catch (System.Security.SecurityException)
+                    {
                         throw new SafeToDisplayException(AppResources.EventLogNotConfigured);
-					    // AppResources.EventLogNotConfigured can contain this text:
-					    //
-					    // A serious error occurred.  Please contact your system administrator.
-					    //
-					    // Information about this error cannot be written to the system event log
-					    // because the event log is not configured correctly.  To correct this problem,
-					    // the system adminstrator must create a registry key named
-					    // "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Eventlog\Application\
-					    // SharePoint Learning Kit" and create a REG_EXPAND_SZ (Expandable String)
-					    // value named "EventMessageFile" with value "C:\WINNT\Microsoft.NET\Framework\
-					    // %FrameworkVersion%\EventLogMessages.dll" (without the quotes), on the web
-					    // server(s).
-				    }
+                        // AppResources.EventLogNotConfigured can contain this text:
+                        //
+                        // A serious error occurred.  Please contact your system administrator.
+                        //
+                        // Information about this error cannot be written to the system event log
+                        // because the event log is not configured correctly.  To correct this problem,
+                        // the system adminstrator must create a registry key named
+                        // "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Eventlog\Application\
+                        // SharePoint Learning Kit" and create a REG_EXPAND_SZ (Expandable String)
+                        // value named "EventMessageFile" with value "C:\WINNT\Microsoft.NET\Framework\
+                        // %FrameworkVersion%\EventLogMessages.dll" (without the quotes), on the web
+                        // server(s).
+                    }
 #endif
                 }
             });
@@ -157,14 +157,14 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
                 ex is SlkNotConfiguredException ||
                 ex is NotAnInstructorException)
             {
-				slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(ex.Message));
+                slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(ex.Message));
             }
-			else
-			if (ex is UnauthorizedAccessException || 
+            else
+            if (ex is UnauthorizedAccessException || 
                 ex is LearningStoreSecurityException)
-			{
-				slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(AppResources.AccessDenied));
-			}
+            {
+                slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(AppResources.AccessDenied));
+            }
             else
             {
                 //Set the Standard Error text 
@@ -212,10 +212,10 @@ namespace Microsoft.SharePointLearningKit
     [Serializable]
     public class SafeToDisplayException : Exception
     {
-		/// <summary>
-		/// Holds the value of the <c>ValidationResults</c> property.
-		/// </summary>
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        /// <summary>
+        /// Holds the value of the <c>ValidationResults</c> property.
+        /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ValidationResults m_validationResults;
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         public ValidationResults ValidationResults
         {
-			[DebuggerStepThrough]
+            [DebuggerStepThrough]
             get
             {
                 return m_validationResults;
@@ -243,8 +243,8 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         ///
         /// <param name="format">A <c>String.Format</c>-style format string.  If
-		/// 	<paramref name="args"/> is zero-length, <paramref name="format"/> is
-		/// 	returned without formatting.</param>
+        ///     <paramref name="args"/> is zero-length, <paramref name="format"/> is
+        ///     returned without formatting.</param>
         ///
         /// <param name="args">Formatting arguments.</param>
         ///
@@ -281,7 +281,7 @@ namespace Microsoft.SharePointLearningKit
         /// including further information in a <r>ValidationResults</r> object.
         /// </summary>
         /// <param name="validationResults">Validation results associated with this exception,
-		/// 	or <n>null</n> if none.</param>
+        ///     or <n>null</n> if none.</param>
         /// <param name="message">The message that describes the error.</param>
         public SafeToDisplayException(ValidationResults validationResults, string message)
             : base(message)
