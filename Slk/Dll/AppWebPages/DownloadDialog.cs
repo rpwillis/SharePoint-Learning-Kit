@@ -24,20 +24,24 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
     public class DownloadDialog : SlkAppBasePage
     {
-        private AssignmentItemIdentifier AssignmentItemIdentifier
+        long? m_assignmentId;
+
+        AssignmentItemIdentifier AssignmentItemIdentifier
         {
             get
             {
-                AssignmentItemIdentifier assignmentItemId = null;
-                if (AssignmentId != null)
+                if (AssignmentId == null)
                 {
-                    assignmentItemId = new AssignmentItemIdentifier(AssignmentId.Value);
+                     return null;
                 }
-                return assignmentItemId;
+                else
+                {
+                    return new AssignmentItemIdentifier(AssignmentId.Value);
+                }
             }
         }
-         private long? m_assignmentId;
-        private long? AssignmentId
+
+        long? AssignmentId
         {
             get
             {
@@ -51,95 +55,51 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
+        // TODO: Needs error handling. Remove catch all exceptions and ignore as that is worse than none.
         protected override void OnLoad(EventArgs e)
         {
-            AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(
-                                                                 AssignmentItemIdentifier,
-                                                                 SlkRole.Instructor);
-            string finalTempFolderPath;
-            string tempZippedFilePath;
-            string zippedFileName;
-
-            AssignmentDownloader assignmentDownloader = new AssignmentDownloader();
-            assignmentDownloader.DownloadAssignment(assignmentProperties, out finalTempFolderPath,
-                                                    out zippedFileName, out tempZippedFilePath);
-            System.IO.Stream iStream = null;
-
-            // Buffer to read 10K bytes in chunk:
-            byte[] buffer = new Byte[10000];
-
-            // Length of the file:
-            int length;
-
-            // Total bytes to read:
-            long dataToRead;
-
-            try
+            AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+            using (AssignmentDownloader downloader = new AssignmentDownloader(assignmentProperties))
             {
-                // Open the file.
-                iStream = new System.IO.FileStream(tempZippedFilePath, System.IO.FileMode.Open,
-                            System.IO.FileAccess.Read, System.IO.FileShare.Read);
-
-
-                // Total bytes to read:
-                dataToRead = iStream.Length;
-
+                string zippedFileName = downloader.ZippedFileName;
                 String userAgent = Request.Headers["User-Agent"];
                 if (userAgent.Contains("MSIE 7.0"))
                 {
                     zippedFileName = zippedFileName.Replace(" ", "%20");
                 }   
 
-                Response.ContentType = "application/octet-stream";
-                Response.AddHeader("Content-Disposition", "attachment; filename=\"" + zippedFileName + ".zip\"");
-
-                // Read the bytes.
-                while (dataToRead > 0)
+                using (Stream iStream = new FileStream(downloader.ZippedFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    // Verify that the client is connected.
-                    if (Response.IsClientConnected)
+                    // Buffer to read 10K bytes in chunk:
+                    byte[] buffer = new Byte[10000];
+
+                    // Total bytes to read:
+                    long dataToRead = iStream.Length;
+
+                    Response.ContentType = "application/octet-stream";
+                    Response.AddHeader("Content-Disposition", "attachment; filename=\"" + zippedFileName + ".zip\"");
+
+                    // Read the bytes.
+                    while (dataToRead > 0)
                     {
-                        // Read the data in buffer.
-                        length = iStream.Read(buffer, 0, 10000);
+                        // Verify that the client is connected.
+                        if (Response.IsClientConnected)
+                        {
+                            int length = iStream.Read(buffer, 0, 10000);
+                            Response.OutputStream.Write(buffer, 0, length);
+                            Response.Flush();
 
-                        // Write the data to the current output stream.
-                        Response.OutputStream.Write(buffer, 0, length);
-
-                        // Flush the data to the HTML output.
-                        Response.Flush();
-
-                        buffer = new Byte[10000];
-                        dataToRead = dataToRead - length;
+                            dataToRead = dataToRead - length;
+                        }
+                        else
+                        {
+                            //prevent infinite loop if user disconnects
+                            dataToRead = -1;
+                        }
                     }
-                    else
-                    {
-                        //prevent infinite loop if user disconnects
-                        dataToRead = -1;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-               
-            }
-            finally
-            {
-                if (iStream != null)
-                {
-                    //Close the file.
-                    iStream.Close();
                 }
                 Response.Close();
             }
-            //Response.Clear();
-            //Response.AppendHeader(
-            //   "content-disposition",
-            //   "attachment; filename=" + zippedFileName + ".zip");
-            //Response.WriteFile(tempZippedFilePath);
-            //Response.Flush();
-            //Response.Close();
-
-            assignmentDownloader.DeleteTemp(finalTempFolderPath, tempZippedFilePath);
         }
     }
 }

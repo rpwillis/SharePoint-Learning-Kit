@@ -13,6 +13,7 @@
     <AssemblyOriginatorKeyFile>..\..\Src\Shared\SlkKey.snk</AssemblyOriginatorKeyFile>
     <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
     <DelaySign>false</DelaySign>
+    <GenerateFullPaths>true</GenerateFullPaths>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
