@@ -33,6 +33,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
     /// Allows instructors and learners to view a list of their  
     /// SharePoint Learning Kit (SLK) assignments.
     /// </summary>
+#pragma warning disable 618
     public class AssignmentListWebPart : Microsoft.SharePoint.WebPartPages.WebPart, ICellConsumer
     {
         #region WebPartCommunication
@@ -40,6 +41,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         private int _cellConnectedCount=0;
         public event CellConsumerInitEventHandler CellConsumerInit;
 
+        [Obsolete]
         public override void EnsureInterfaces()
         {
             //Registers an interface for the Web Part.
@@ -52,12 +54,15 @@ namespace Microsoft.SharePointLearningKit.WebParts
                AppResources.ObserverRoleCommunicationInterfaceTitle,                       //MenuLabel
                "Learner Information Receiving Interface");               //Description
         }
+
+        [Obsolete]
         public override ConnectionRunAt CanRunAt()
         {
             //This Web Part can run only on the server
             return ConnectionRunAt.Server;
         }
     
+        [Obsolete]
         public override void PartCommunicationConnect(string interfaceName,
          Microsoft.SharePoint.WebPartPages.WebPart connectedPart,
          string connectedInterfaceName,
@@ -71,6 +76,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
           }
 
       }
+        [Obsolete]
         public override void PartCommunicationInit()
         {
             //Initialize the learner id

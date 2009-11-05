@@ -96,7 +96,7 @@
     <Compile Include="AssignmentDownloader.cs" />
     <Compile Include="ChangeActivityHelper.cs" />
     <Compile Include="ConfigureDropBox.cs" />
-    <Compile Include="DropBox.cs" />
+    <Compile Include="DropBoxManager.cs" />
     <Compile Include="EnumerateDomainGroups.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LearningStoreHelper.cs" />

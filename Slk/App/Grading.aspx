@@ -54,7 +54,7 @@
 <slk:ButtonToolbar runat="server" ID="buttonToolbarTop">
 	<slk:SlkButton ID="slkButtonEdit" OnClick="slkButtonEdit_Click" EnableViewState="false" runat="server" />
 	<slk:SlkButton ID="slkButtonCollect" OnClick="slkButtonCollect_Click" EnableViewState="false" runat="server" />
-	<slk:SlkButton ID="slkButtonUpload" OnClick="slkButtonUpload_Click" EnableViewState="false" runat="server" Visible="false" />
+	<slk:SlkButton ID="slkButtonUpload" EnableViewState="false" runat="server" Visible="false" />
 	<slk:SlkButton ID="slkButtonDownload" EnableViewState="false" runat="server" Visible="false" />
 	<slk:SlkButton ID="slkButtonReturn" EnableViewState="false" runat="server" />
 	<slk:SlkButton ID="slkButtonDelete" OnClick="slkButtonDelete_Click" EnableViewState="false" runat="server" />

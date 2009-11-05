@@ -62,7 +62,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Keeps track if there was an error during one of the click events.
         /// </summary>
-        private bool pageHasErrors;
 
         #endregion
 
