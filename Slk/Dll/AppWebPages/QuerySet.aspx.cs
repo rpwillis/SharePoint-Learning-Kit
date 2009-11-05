@@ -38,8 +38,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     /// <summary>
     /// Code Behind Class For QuerySet.aspx.
     /// </summary>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
-	public partial class AlwpQuerySet : SlkAppBasePage
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
+    public partial class AlwpQuerySet : SlkAppBasePage
     {
         #region Page_Init
         /// <summary>
@@ -511,12 +511,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 function SelectQuery(iQuery)
                 {
                    if (g_iSelectedQuery != null)
-		                UnhighlightQuery(g_iSelectedQuery);
-	               g_iSelectedQuery = iQuery;
-	               if (g_iSelectedQuery != null)
-		                HighlightQuery(g_iSelectedQuery);
+                        UnhighlightQuery(g_iSelectedQuery);
+                   g_iSelectedQuery = iQuery;
+                   if (g_iSelectedQuery != null)
+                        HighlightQuery(g_iSelectedQuery);
 
-	            //Update the query results frame; 
+                //Update the query results frame; 
                 //Get the QueryResults Page Url
                 window.open(""" + String.Format(CultureInfo.InvariantCulture, 
                                                 "{0}\",\"{1}", 

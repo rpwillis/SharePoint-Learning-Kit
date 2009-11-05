@@ -39,8 +39,8 @@ using Microsoft.SharePointLearningKit.Localization;
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
 
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
-	public partial class AlwpQuerySummary : SlkAppBasePage
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
+    public partial class AlwpQuerySummary : SlkAppBasePage
     {
         #region Private Variable
         /// <summary>
@@ -88,7 +88,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         ///  Page Load for AlwpQuerySummary Hidden frame. 
         /// </summary> 
         /// <param name="sender">an object referencing the source of the event</param>
-        /// <param name="e">An EventArgs that contains the event data.</param>	
+        /// <param name="e">An EventArgs that contains the event data.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected void Page_Load(object sender, EventArgs e)
         {

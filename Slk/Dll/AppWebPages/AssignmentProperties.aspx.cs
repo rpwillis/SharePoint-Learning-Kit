@@ -113,7 +113,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected System.Web.UI.WebControls.TextBox txtDescription;
         protected System.Web.UI.WebControls.TextBox txtPoints;
 
-        //Others		
+        //Others
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lnk")]
         protected System.Web.UI.WebControls.HyperLink lnkSharePointSite;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lst")]
@@ -2114,14 +2114,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             for (var iMember = 1; iMember < aMembers.length; iMember++)
                             {
                                 if (!document.getElementById(slk_strLearnerPrefix + aMembers[iMember]).checked)
-	                                anyUnchecked = true;
+                                {
+                                    anyUnchecked = true;
+                                }
                             }
                             document.getElementById(slk_strLearnerGroupPrefix + idGroup).checked = !anyUnchecked;
                         }
                         
                     }
                 }                         
-		        ");
+                    ");
                 csAppClientScript.AppendLine("<!--  App Client Script Ends Here -->");
 
                 //Register Learner/Learner Group onclick events as ClientScriptBlock

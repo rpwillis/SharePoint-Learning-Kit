@@ -39,65 +39,65 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     /// </summary>
     public class LobbyPage : SlkAppBasePage
     {
-		#region Control Declarations
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblScoreValue;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblStatusValue;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblStartValue;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblDueValue;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblCommentsValue;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblTitle;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblDescription;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblSite;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblScore;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblStatus;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblStart;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblDue;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblComments;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblAutoReturn;
-		protected ErrorBanner errorBanner;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "tgr")]
-		protected TableGridRow tgrComments;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "tgr")]
-		protected TableGridRow tgrAutoReturn;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "tgr")]
-		protected TableGridRow tgrSite;
+        #region Control Declarations
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblScoreValue;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblStatusValue;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblStartValue;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblDueValue;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblCommentsValue;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblTitle;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblDescription;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblSite;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblScore;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblStatus;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblStart;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblDue;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblComments;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblAutoReturn;
+        protected ErrorBanner errorBanner;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "tgr")]
+        protected TableGridRow tgrComments;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "tgr")]
+        protected TableGridRow tgrAutoReturn;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "tgr")]
+        protected TableGridRow tgrSite;
 
-		protected SlkButton slkButtonBegin;
-		protected SlkButton slkButtonSubmit;
-		protected SlkButton slkButtonDelete;
+        protected SlkButton slkButtonBegin;
+        protected SlkButton slkButtonSubmit;
+        protected SlkButton slkButtonDelete;
         protected SlkButton slkButtonReviewSubmitted;
         protected SlkButton slkButtonSubmitFiles;
 
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lnk")]
-		protected HyperLink lnkSite;
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
-		protected Label lblSiteValue;
-		protected Image infoImage;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lnk")]
+        protected HyperLink lnkSite;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
+        protected Label lblSiteValue;
+        protected Image infoImage;
 
-		protected Literal pageTitle;
-		protected Literal pageTitleInTitlePage;
-		protected Literal pageDescription;
+        protected Literal pageTitle;
+        protected Literal pageTitleInTitlePage;
+        protected Literal pageDescription;
 
-		protected Panel contentPanel;
-		#endregion
+        protected Panel contentPanel;
+        #endregion
 
-		#region Private Variables
+        #region Private Variables
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
-		private LearnerAssignmentProperties m_learnerAssignmentProperties;
+        private LearnerAssignmentProperties m_learnerAssignmentProperties;
                 const string startQueryStringName = "start";
 
         /// <summary>
@@ -109,9 +109,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private string m_dropBoxDocLibName;
 
-		#endregion
+        #endregion
 
-		#region Private Properties
+        #region Private Properties
 
         /// <summary>
         /// Gets the value of the "LearnerAssignmentId" query parameter.
@@ -140,25 +140,25 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
 
         
-		/// <summary>
-		/// Gets the properties of the learner assignment being displayed by this page.
-		/// </summary>
-		private LearnerAssignmentProperties LearnerAssignmentProperties
-		{
-			get
-			{
-				if (m_learnerAssignmentProperties == null)
-				{
-					m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentGuidId,
-						SlkRole.Learner);
-				}
-				return m_learnerAssignmentProperties;
-			}
-			set
-			{
-				m_learnerAssignmentProperties = value;
-			}
-		}
+        /// <summary>
+        /// Gets the properties of the learner assignment being displayed by this page.
+        /// </summary>
+        private LearnerAssignmentProperties LearnerAssignmentProperties
+        {
+            get
+            {
+                if (m_learnerAssignmentProperties == null)
+                {
+                    m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentGuidId,
+                        SlkRole.Learner);
+                }
+                return m_learnerAssignmentProperties;
+            }
+            set
+            {
+                m_learnerAssignmentProperties = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the general properties of the learner assignment being displayed by this page.
@@ -199,208 +199,208 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #endregion
 
-		#region OnPreRender
-		/// <summary>
-		///  Overrides OnPreRender.
-		/// </summary>
-		/// <param name="e">An EventArgs that contains the event data.</param>
+        #region OnPreRender
+        /// <summary>
+        ///  Overrides OnPreRender.
+        /// </summary>
+        /// <param name="e">An EventArgs that contains the event data.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-		protected override void OnPreRender(EventArgs e)
-		{
-			try
-			{
+        protected override void OnPreRender(EventArgs e)
+        {
+            try
+            {
                 AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
-				// setting default title
-				pageTitle.Text = AppResources.LobbyBeginAssignmentText;
-				pageTitleInTitlePage.Text = AppResources.LobbyBeginAssignmentText;
+                // setting default title
+                pageTitle.Text = AppResources.LobbyBeginAssignmentText;
+                pageTitleInTitlePage.Text = AppResources.LobbyBeginAssignmentText;
 
-				SetResourceText();
+                SetResourceText();
 
-				//// Set the status to active since this page will load before the Frameset can set the real status
-				LearnerAssignmentState learnerAssignmentStatus = LearnerAssignmentProperties.Status;
+                //// Set the status to active since this page will load before the Frameset can set the real status
+                LearnerAssignmentState learnerAssignmentStatus = LearnerAssignmentProperties.Status;
                                 bool setStatusToActive = (Request.QueryString[startQueryStringName] == "true");
-				if (setStatusToActive && learnerAssignmentStatus == LearnerAssignmentState.NotStarted)
-				{
-					learnerAssignmentStatus = LearnerAssignmentState.Active;
-				}
+                if (setStatusToActive && learnerAssignmentStatus == LearnerAssignmentState.NotStarted)
+                {
+                    learnerAssignmentStatus = LearnerAssignmentState.Active;
+                }
 
-				ClientScript.RegisterClientScriptBlock(this.GetType(), "lblStatusValue", "var lblStatusValue = \"" + lblStatusValue.ClientID + "\";", true);
-				if (learnerAssignmentStatus == LearnerAssignmentState.Completed
-					&& LearnerAssignmentProperties.AutoReturn == true)
-				{
-					// assignment was probably changed to be "auto-return" after this learner submitted it; we'll
-					// re-submit now to invoke the auto-return mechanism; note that we use
-					// LearnerAssignmentState.Completed instead of LearnerAssignmentState.Final because
-					// the latter would throw a security-related exception (learner's aren't allowed to move their
-					// learner assignments into Final state) -- using Completed works because
-					// SlkStore.ChangeLearnerAssignmentState performs auto-return even if the current state is
-					// LearnerAssignmentState.Completed
-					SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
-					// Set the property to null so that it will refresh the next time it is referenced
-					LearnerAssignmentProperties = null;
-				}
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "lblStatusValue", "var lblStatusValue = \"" + lblStatusValue.ClientID + "\";", true);
+                if (learnerAssignmentStatus == LearnerAssignmentState.Completed
+                    && LearnerAssignmentProperties.AutoReturn == true)
+                {
+                    // assignment was probably changed to be "auto-return" after this learner submitted it; we'll
+                    // re-submit now to invoke the auto-return mechanism; note that we use
+                    // LearnerAssignmentState.Completed instead of LearnerAssignmentState.Final because
+                    // the latter would throw a security-related exception (learner's aren't allowed to move their
+                    // learner assignments into Final state) -- using Completed works because
+                    // SlkStore.ChangeLearnerAssignmentState performs auto-return even if the current state is
+                    // LearnerAssignmentState.Completed
+                    SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
+                    // Set the property to null so that it will refresh the next time it is referenced
+                    LearnerAssignmentProperties = null;
+                }
 
-				lblTitle.Text = Server.HtmlEncode(LearnerAssignmentProperties.Title);
-				lblDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(LearnerAssignmentProperties.Description);
+                lblTitle.Text = Server.HtmlEncode(LearnerAssignmentProperties.Title);
+                lblDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(LearnerAssignmentProperties.Description);
 
-				// for the assignment site, if the user doesn't have permission to view it
-				// we'll catch the exception and hide the row
-				bool previousValue = SPSecurity.CatchAccessDeniedException;
-				SPSecurity.CatchAccessDeniedException = false;
-				try
-				{
-					using(SPSite assignmentSite = new SPSite(LearnerAssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
-					{
-					    using(SPWeb assignmentWeb = assignmentSite.OpenWeb(LearnerAssignmentProperties.SPWebGuid))
-					    {
+                // for the assignment site, if the user doesn't have permission to view it
+                // we'll catch the exception and hide the row
+                bool previousValue = SPSecurity.CatchAccessDeniedException;
+                SPSecurity.CatchAccessDeniedException = false;
+                try
+                {
+                    using(SPSite assignmentSite = new SPSite(LearnerAssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
+                    {
+                        using(SPWeb assignmentWeb = assignmentSite.OpenWeb(LearnerAssignmentProperties.SPWebGuid))
+                        {
 
-					        // If the assignment is in a different SPWeb redirect to it.
-					        if (SPWeb.ID != assignmentWeb.ID)
-						        Response.Redirect(SlkUtilities.UrlCombine(assignmentWeb.Url, Request.Path + "?" + Request.QueryString.ToString()));
+                            // If the assignment is in a different SPWeb redirect to it.
+                            if (SPWeb.ID != assignmentWeb.ID)
+                                Response.Redirect(SlkUtilities.UrlCombine(assignmentWeb.Url, Request.Path + "?" + Request.QueryString.ToString()));
 
-					        lnkSite.Text = Server.HtmlEncode(assignmentWeb.Title);
-					        lnkSite.NavigateUrl = assignmentWeb.ServerRelativeUrl;
+                            lnkSite.Text = Server.HtmlEncode(assignmentWeb.Title);
+                            lnkSite.NavigateUrl = assignmentWeb.ServerRelativeUrl;
                         }
                     }
-				}
-				catch (UnauthorizedAccessException)
-				{
-					lblSiteValue.Text = AppResources.LobbyInvalidSite;
-					lblSiteValue.Visible = true;
-				}
-				catch (FileNotFoundException)
-				{
-					lblSiteValue.Text = AppResources.LobbyInvalidSite;
-					lblSiteValue.Visible = true;
-				}
-				finally
-				{
-					SPSecurity.CatchAccessDeniedException = previousValue;
-				}
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    lblSiteValue.Text = AppResources.LobbyInvalidSite;
+                    lblSiteValue.Visible = true;
+                }
+                catch (FileNotFoundException)
+                {
+                    lblSiteValue.Text = AppResources.LobbyInvalidSite;
+                    lblSiteValue.Visible = true;
+                }
+                finally
+                {
+                    SPSecurity.CatchAccessDeniedException = previousValue;
+                }
 
-				if (LearnerAssignmentProperties.SuccessStatus == SuccessStatus.Passed
-					&& LearnerAssignmentProperties.FinalPoints.HasValue
-					&& LearnerAssignmentProperties.FinalPoints.Value == 0.0
-					)
-				{
-					lblScoreValue.Text = string.Empty;
-				}
-				else
-				{
+                if (LearnerAssignmentProperties.SuccessStatus == SuccessStatus.Passed
+                    && LearnerAssignmentProperties.FinalPoints.HasValue
+                    && LearnerAssignmentProperties.FinalPoints.Value == 0.0
+                    )
+                {
+                    lblScoreValue.Text = string.Empty;
+                }
+                else
+                {
 
-					if (learnerAssignmentStatus != LearnerAssignmentState.Final)
-					{
-						if (LearnerAssignmentProperties.PointsPossible.HasValue)
-							lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsNoValuePointsPossible, LearnerAssignmentProperties.PointsPossible);
-						else
-							lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsNoValue, LearnerAssignmentProperties.FinalPoints);
-					}
-					else
-					{
-						string finalPoints = AppResources.LobbyPointsNoValue;
-						if (LearnerAssignmentProperties.FinalPoints.HasValue)
-							finalPoints = LearnerAssignmentProperties.FinalPoints.Value.ToString(CultureInfo.CurrentCulture);
+                    if (learnerAssignmentStatus != LearnerAssignmentState.Final)
+                    {
+                        if (LearnerAssignmentProperties.PointsPossible.HasValue)
+                            lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsNoValuePointsPossible, LearnerAssignmentProperties.PointsPossible);
+                        else
+                            lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsNoValue, LearnerAssignmentProperties.FinalPoints);
+                    }
+                    else
+                    {
+                        string finalPoints = AppResources.LobbyPointsNoValue;
+                        if (LearnerAssignmentProperties.FinalPoints.HasValue)
+                            finalPoints = LearnerAssignmentProperties.FinalPoints.Value.ToString(CultureInfo.CurrentCulture);
 
-						if (LearnerAssignmentProperties.PointsPossible.HasValue)
-							lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsValuePointsPossible, finalPoints, LearnerAssignmentProperties.PointsPossible);
-						else
-							lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsValue, finalPoints);
-					}
-				}
+                        if (LearnerAssignmentProperties.PointsPossible.HasValue)
+                            lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsValuePointsPossible, finalPoints, LearnerAssignmentProperties.PointsPossible);
+                        else
+                            lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsValue, finalPoints);
+                    }
+                }
 
-				lblStartValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LongDateShortTime, LearnerAssignmentProperties.StartDate);
-				if (LearnerAssignmentProperties.DueDate.HasValue)
-					lblDueValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LongDateShortTime, LearnerAssignmentProperties.DueDate.Value);
+                lblStartValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LongDateShortTime, LearnerAssignmentProperties.StartDate);
+                if (LearnerAssignmentProperties.DueDate.HasValue)
+                    lblDueValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LongDateShortTime, LearnerAssignmentProperties.DueDate.Value);
 
-				if (LearnerAssignmentProperties.InstructorComments.Length != 0)
-					lblCommentsValue.Text = SlkUtilities.GetCrlfHtmlEncodedText(LearnerAssignmentProperties.InstructorComments);
-				else
-					tgrComments.Visible = false;
+                if (LearnerAssignmentProperties.InstructorComments.Length != 0)
+                    lblCommentsValue.Text = SlkUtilities.GetCrlfHtmlEncodedText(LearnerAssignmentProperties.InstructorComments);
+                else
+                    tgrComments.Visible = false;
 
-				lblStatusValue.Text = Server.HtmlEncode(SlkUtilities.GetLearnerAssignmentState(learnerAssignmentStatus));
-				AssignmentView view = AssignmentView.Execute;
-				switch (learnerAssignmentStatus)
-				{
-					case LearnerAssignmentState.NotStarted:
+                lblStatusValue.Text = Server.HtmlEncode(SlkUtilities.GetLearnerAssignmentState(learnerAssignmentStatus));
+                AssignmentView view = AssignmentView.Execute;
+                switch (learnerAssignmentStatus)
+                {
+                    case LearnerAssignmentState.NotStarted:
                                             SetUpForNotStarted();
                                             break;
 
-					case LearnerAssignmentState.Active:
+                    case LearnerAssignmentState.Active:
                                             SetUpForActive();
                                             break;
 
-					case LearnerAssignmentState.Completed:
+                    case LearnerAssignmentState.Completed:
                                             SetUpForCompleted();
                                             break;
 
-					case LearnerAssignmentState.Final:
+                    case LearnerAssignmentState.Final:
                                             SetUpForFinal();
                                             view = AssignmentView.StudentReview;
                                             break;
 
-					default:
-						break;
-				}
+                    default:
+                        break;
+                }
 
                                 SetUpSlkBeginButtonAction(view);
 
-				if (LearnerAssignmentProperties.CreatedById.Equals(LearnerAssignmentProperties.LearnerId)
-					&& !LearnerAssignmentProperties.HasInstructors)
-				{
-					slkButtonDelete.Text = AppResources.LobbyDeleteAssignmentText;
-					slkButtonDelete.ToolTip = AppResources.LobbyDeleteToolTip;
-					slkButtonDelete.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');",
-						AppResources.LobbyDeleteMessage);
-					slkButtonDelete.ImageUrl = Constants.ImagePath + Constants.DeleteIcon;
-				}
-				else
-				{
-					slkButtonDelete.Visible = false;
-				}
+                if (LearnerAssignmentProperties.CreatedById.Equals(LearnerAssignmentProperties.LearnerId)
+                    && !LearnerAssignmentProperties.HasInstructors)
+                {
+                    slkButtonDelete.Text = AppResources.LobbyDeleteAssignmentText;
+                    slkButtonDelete.ToolTip = AppResources.LobbyDeleteToolTip;
+                    slkButtonDelete.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');",
+                        AppResources.LobbyDeleteMessage);
+                    slkButtonDelete.ImageUrl = Constants.ImagePath + Constants.DeleteIcon;
+                }
+                else
+                {
+                    slkButtonDelete.Visible = false;
+                }
 
-				if (LearnerAssignmentProperties.HasInstructors)
-				{
-					slkButtonSubmit.Text = AppResources.LobbySubmitText;
-					slkButtonSubmit.ToolTip = AppResources.LobbySubmitToolTip;
-					slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');",
-						AppResources.LobbySubmitMessage);
-					slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.SubmitIcon;
-				}
-				else
-				{
-					slkButtonSubmit.Text = AppResources.LobbyMarkasCompleteText;
-					slkButtonSubmit.ToolTip = AppResources.LobbyMarkasCompleteToolTip;
-					slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');",
-						 AppResources.LobbyMarkasCompleteMessage);
-					slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.MarkCompleteIcon;
-				}
+                if (LearnerAssignmentProperties.HasInstructors)
+                {
+                    slkButtonSubmit.Text = AppResources.LobbySubmitText;
+                    slkButtonSubmit.ToolTip = AppResources.LobbySubmitToolTip;
+                    slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');",
+                        AppResources.LobbySubmitMessage);
+                    slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.SubmitIcon;
+                }
+                else
+                {
+                    slkButtonSubmit.Text = AppResources.LobbyMarkasCompleteText;
+                    slkButtonSubmit.ToolTip = AppResources.LobbyMarkasCompleteToolTip;
+                    slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');",
+                         AppResources.LobbyMarkasCompleteMessage);
+                    slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.MarkCompleteIcon;
+                }
 
-				slkButtonBegin.AccessKey = AppResources.LobbyBeginAccessKey;
-				slkButtonDelete.AccessKey = AppResources.LobbyDeleteAccessKey;
-				slkButtonSubmit.AccessKey = AppResources.LobbySubmitAccessKey;
+                slkButtonBegin.AccessKey = AppResources.LobbyBeginAccessKey;
+                slkButtonDelete.AccessKey = AppResources.LobbyDeleteAccessKey;
+                slkButtonSubmit.AccessKey = AppResources.LobbySubmitAccessKey;
 
-				tgrAutoReturn.Visible = LearnerAssignmentProperties.AutoReturn;
+                tgrAutoReturn.Visible = LearnerAssignmentProperties.AutoReturn;
 
-				contentPanel.Visible = true;
+                contentPanel.Visible = true;
 
-			}
-			catch (InvalidOperationException)
-			{
-				errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyInvalidLearnerAssignmentId, LearnerAssignmentGuidId.ToString()));
-				contentPanel.Visible = false;
-			}
-			catch (ThreadAbortException)
-			{
-				// Calling Response.Redirect throws a ThreadAbortException which needs to be rethrown
-				throw;
-			}
-			catch (Exception ex)
-			{
-				errorBanner.AddException(ex);
-				contentPanel.Visible = false;
-			}
-		}
+            }
+            catch (InvalidOperationException)
+            {
+                errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyInvalidLearnerAssignmentId, LearnerAssignmentGuidId.ToString()));
+                contentPanel.Visible = false;
+            }
+            catch (ThreadAbortException)
+            {
+                // Calling Response.Redirect throws a ThreadAbortException which needs to be rethrown
+                throw;
+            }
+            catch (Exception ex)
+            {
+                errorBanner.AddException(ex);
+                contentPanel.Visible = false;
+            }
+        }
 
         void SetUpSlkBeginButtonAction(AssignmentView view)
         {
@@ -513,46 +513,46 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
 
 
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// slkButtonSubmit Click event handler
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Member"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-		protected void slkButtonSubmit_Click(object sender, EventArgs e)
-		{
-			try
-			{
+        /// <summary>
+        /// slkButtonSubmit Click event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Member"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        protected void slkButtonSubmit_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 AppResources.Culture = LocalizationManager.GetCurrentCulture();
                 try
                 {
                     SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
                 }
                 catch (InvalidOperationException)
-				{
+                {
                     AppResources.Culture = LocalizationManager.GetCurrentCulture();
                     // state transition isn't supported
-					errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyCannotChangeState));
-				}
-				// Clear the object so it will refresh from the database
-				LearnerAssignmentProperties = null;
-			}
-			catch (Exception)
-			{
-				// any exceptions here will be handled in PreRender
-			}
-		}
+                    errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyCannotChangeState));
+                }
+                // Clear the object so it will refresh from the database
+                LearnerAssignmentProperties = null;
+            }
+            catch (Exception)
+            {
+                // any exceptions here will be handled in PreRender
+            }
+        }
 
-		/// <summary>
-		/// slkButtonDelete Click event handler
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Member"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-		protected void slkButtonDelete_Click(object sender, EventArgs e)
-		{
+        /// <summary>
+        /// slkButtonDelete Click event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Member"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        protected void slkButtonDelete_Click(object sender, EventArgs e)
+        {
             try
             {
                 // Delete corresponding assignment folder from the drop box if exists
@@ -594,25 +594,25 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 // any exceptions here will be handled in PreRender
             }
-		}
+        }
 
-		private void SetResourceText()
+        private void SetResourceText()
         {
             AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
-			pageDescription.Text = AppResources.LobbyPageDescription;
+            pageDescription.Text = AppResources.LobbyPageDescription;
 
-			lblSite.Text = AppResources.LobbylblSite;
-			lblScore.Text = AppResources.LobbylblScore;
-			lblStatus.Text = AppResources.LobbylblStatus;
-			lblStart.Text = AppResources.LobbylblStart;
-			lblDue.Text = AppResources.LobbylblDue;
-			lblComments.Text = AppResources.LobbylblComments;
-			lblAutoReturn.Text = AppResources.LobbylblAutoReturn;
-			infoImage.AlternateText = AppResources.SlkErrorTypeInfoToolTip;
-			ClientScript.RegisterClientScriptBlock(this.GetType(), "SlkWindowAlreadyOpen",
-				string.Format(CultureInfo.CurrentCulture, "var SlkWindowAlreadyOpen = \"{0}\";", AppResources.LobbyWindowAlreadyOpen), true);
-		}
+            lblSite.Text = AppResources.LobbylblSite;
+            lblScore.Text = AppResources.LobbylblScore;
+            lblStatus.Text = AppResources.LobbylblStatus;
+            lblStart.Text = AppResources.LobbylblStart;
+            lblDue.Text = AppResources.LobbylblDue;
+            lblComments.Text = AppResources.LobbylblComments;
+            lblAutoReturn.Text = AppResources.LobbylblAutoReturn;
+            infoImage.AlternateText = AppResources.SlkErrorTypeInfoToolTip;
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "SlkWindowAlreadyOpen",
+            string.Format(CultureInfo.CurrentCulture, "var SlkWindowAlreadyOpen = \"{0}\";", AppResources.LobbyWindowAlreadyOpen), true);
+        }
 
         /// <summary> Generates the url to view the submitted files. </summary>
         private string GenerateUrlForAssignmentReview()
