@@ -118,7 +118,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                
             }

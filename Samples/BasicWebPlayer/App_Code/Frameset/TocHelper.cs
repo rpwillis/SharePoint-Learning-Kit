@@ -27,9 +27,6 @@ namespace Microsoft.LearningComponents.Frameset
         
         private HttpResponse m_response;
         private HttpResponse Response { get { return m_response; } }
-
-        private HttpRequest m_Request;
-        private HttpRequest Request { get { return m_Request; } }
         
         // The text for the submit page link. This is only used in Execute & RandomAccess (SLK only) views.
         private string m_submitPageLinkText;
