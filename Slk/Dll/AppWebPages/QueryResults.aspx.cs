@@ -25,8 +25,8 @@ using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
-	public partial class AlwpQueryResults : SlkAppBasePage
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
+    public partial class AlwpQueryResults : SlkAppBasePage
     {
         #region Private Variables
         /// <summary>
@@ -303,10 +303,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// a descending sort; otherwise, set <c>sortColumnIndex</c> to -1.
         /// </summary>
         /// <param name="sortColumnIndex">The zero-based column index that the query results are
-        /// 	currently sorted on, or -1 if the results are not sorted.</param>
+        ///     currently sorted on, or -1 if the results are not sorted.</param>
         /// <returns><c>true</c> if the query results are currently sorted in an
-        /// 	     an ascending order, false for an descending-order sort.  
-        ///          Irrelevant if	<paramref name="sortColumnIndex"/> is -1.</returns>
+        ///          an ascending order, false for an descending-order sort.  
+        ///          Irrelevant if    <paramref name="sortColumnIndex"/> is -1.</returns>
         private bool GetSortIndex(out int sortColumnIndex)
         {
 
@@ -343,16 +343,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="spWebGuid">The GUID of the SPWeb.</param>
         ///
         /// <param name="spSiteGuid">The GUID of the SPSite containing the SPWeb.</param>
-		///
-		/// <param name="spWebName">Where to store the name of the SPWeb, or <c>null</c> if the
-		/// 	SPWeb cannot be found.</param>
-		///
-		/// <param name="spWebUrl">Where to store the URL of the SPWeb, or <c>null</c> if the SPWeb
-		///     cannot be found.</param>
+        ///
+        /// <param name="spWebName">Where to store the name of the SPWeb, or <c>null</c> if the
+        ///     SPWeb cannot be found.</param>
+        ///
+        /// <param name="spWebUrl">Where to store the URL of the SPWeb, or <c>null</c> if the SPWeb
+        ///     cannot be found.</param>
         ///
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "2#")]
         protected void ResolveSPWebName(Guid spWebGuid, Guid spSiteGuid, out string spWebName,
-			out string spWebUrl)
+            out string spWebUrl)
         {
             AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
@@ -506,9 +506,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             (((rowIndex & 1) == 0) ? "ms-alternating" : ""));
                         using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, hw))
                         {
-							// set <webNameRenderedCell> to any cell in the row which is of type
-							// WebNameRenderedCell, i.e. which refers to a SharePoint Web site,
-							// or null if none
+                            // set <webNameRenderedCell> to any cell in the row which is of type
+                            // WebNameRenderedCell, i.e. which refers to a SharePoint Web site,
+                            // or null if none
                             WebNameRenderedCell webNameRenderedCell = null;
                             foreach (RenderedCell renderedCell in renderedRow)
                             {
