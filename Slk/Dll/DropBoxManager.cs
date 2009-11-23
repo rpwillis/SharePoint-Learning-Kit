@@ -63,10 +63,7 @@ namespace Microsoft.SharePointLearningKit
                             //give instructor permission over the assignmnet folder
                             spWeb.AllowUnsafeUpdates = true;
 
-                            foreach (SlkUser instructor in assignmentProperties.Instructors)
-                            {
-                                ApplyInstructorReadAccessPermission(newFolder, GetSPInstructor(slkMembers, instructor));
-                            }
+                            ApplyInstructorsReadAccessPermissions(newFolder, slkMembers, assignmentProperties);
 
                             foreach (SPFolder subFolder in newFolder.Folder.SubFolders)
                             {
@@ -75,17 +72,15 @@ namespace Microsoft.SharePointLearningKit
                                {
                                     if (subFolder.Files.Count == 0)
                                     {
-                                        foreach (SlkUser instructor in assignmentProperties.Instructors)
-                                        {
-                                            ApplyInstructorReadAccessPermission(subFolder.Item, GetSPInstructor(slkMembers, instructor));
-                                        }
+                                        ApplyInstructorsReadAccessPermissions(subFolder.Item, slkMembers, assignmentProperties);
                                     }
                                     else
                                     {
                                         foreach (SlkUser instructor in assignmentProperties.Instructors)
                                         {
-                                            ApplyInstructorReadAccessPermission(subFolder.Item, GetSPInstructor(slkMembers, instructor));
-                                            ApplyInstructorContributeAccessPermission(subFolder.Item, GetSPInstructor(slkMembers, instructor));
+                                            SPUser user = GetSPInstructor(slkMembers, instructor);
+                                            ApplyPermissionToFolder(subFolder.Item, user, SPRoleType.Reader);
+                                            ApplyPermissionToFolder(subFolder.Item, user, SPRoleType.Contributor);
                                         }
                                     }
                                }
@@ -124,8 +119,8 @@ namespace Microsoft.SharePointLearningKit
                         assSubFolder.Update();
                         assSubFolder.Web.AllowUnsafeUpdates = false;
 
-                        ApplyLearnerReadAccessPermission(newFolder, SPContext.Current.Web.CurrentUser);
-                        ApplyLearnerReadAccessPermission(assSubFolder, SPContext.Current.Web.CurrentUser);
+                        ApplyPermissionToFolder(newFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
+                        ApplyPermissionToFolder(assSubFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
 
                         spWeb.AllowUnsafeUpdates = false;
                     }
@@ -169,8 +164,8 @@ namespace Microsoft.SharePointLearningKit
                         assSubFolder.Update();
                         assSubFolder.Web.AllowUnsafeUpdates = false;
 
-                        ApplyLearnerReadAccessPermission(newFolder, SPContext.Current.Web.CurrentUser);
-                        ApplyLearnerReadAccessPermission(assSubFolder, SPContext.Current.Web.CurrentUser);
+                        ApplyPermissionToFolder(newFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
+                        ApplyPermissionToFolder(assSubFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
 
                         spWeb.AllowUnsafeUpdates = false;
                     }
@@ -250,8 +245,8 @@ namespace Microsoft.SharePointLearningKit
                         }
                         assSubFolder.Update();
 
-                        ApplyLearnerReadAccessPermission(newFolder, SPContext.Current.Web.CurrentUser);
-                        ApplyLearnerReadAccessPermission(assSubFolder, SPContext.Current.Web.CurrentUser);
+                        ApplyPermissionToFolder(newFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
+                        ApplyPermissionToFolder(assSubFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
 
                         spWeb.AllowUnsafeUpdates = false;
                     }
@@ -312,10 +307,7 @@ namespace Microsoft.SharePointLearningKit
                             }
                             newFolder.Update();
 
-                            foreach (SlkUser instructor in assignmentProperties.Instructors)
-                            {
-                                ApplyInstructorReadAccessPermission(newFolder, GetSPInstructor(slkMembers, instructor));
-                            }
+                            ApplyInstructorsReadAccessPermissions(newFolder, slkMembers, assignmentProperties);
                             spWeb.AllowUnsafeUpdates = false;
                         }
                         else
@@ -371,7 +363,7 @@ namespace Microsoft.SharePointLearningKit
                             }
                             newFolder.Update();
 
-                            ApplyInstructorReadAccessPermission(newFolder, SPContext.Current.Web.CurrentUser);
+                            ApplyPermissionToFolder(newFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
                             spWeb.AllowUnsafeUpdates = false;
                         }
                         else
@@ -428,8 +420,8 @@ namespace Microsoft.SharePointLearningKit
                                 }
                                 assSubFolder.Update();
 
-                                ApplyLearnerReadAccessPermission(tempAssignmentFolder, spLearner);
-                                ApplyLearnerReadAccessPermission(assSubFolder, spLearner);
+                                ApplyPermissionToFolder(tempAssignmentFolder, spLearner, SPRoleType.Reader);
+                                ApplyPermissionToFolder(assSubFolder, spLearner, SPRoleType.Reader);
 
 
                                 spWeb.AllowUnsafeUpdates = true;
@@ -503,8 +495,8 @@ namespace Microsoft.SharePointLearningKit
                             }
                             assSubFolder.Update();
 
-                            ApplyLearnerReadAccessPermission(tempAssignmentFolder, spLearner);
-                            ApplyLearnerReadAccessPermission(assSubFolder, spLearner);
+                            ApplyPermissionToFolder(tempAssignmentFolder, spLearner, SPRoleType.Reader);
+                            ApplyPermissionToFolder(assSubFolder, spLearner, SPRoleType.Reader);
                             spWeb.AllowUnsafeUpdates = false;
                         }
                     }
@@ -552,8 +544,8 @@ namespace Microsoft.SharePointLearningKit
                             }
                             assSubFolder.Update();
 
-                            ApplyLearnerReadAccessPermission(tempAssignmentFolder, spInstructor);
-                            ApplyLearnerReadAccessPermission(assSubFolder, spInstructor);
+                            ApplyPermissionToFolder(tempAssignmentFolder, spInstructor, SPRoleType.Reader);
+                            ApplyPermissionToFolder(assSubFolder, spInstructor, SPRoleType.Reader);
 
                             spWeb.AllowUnsafeUpdates = false;
                         }
@@ -641,10 +633,7 @@ namespace Microsoft.SharePointLearningKit
                             tempAssignmentFolder.Update();
 
                             // Grant assignment instructors Read permission on the assignment folder
-                            foreach (SlkUser instructor in newAssignmentProperties.Instructors)
-                            {
-                                ApplyInstructorReadAccessPermission(tempAssignmentFolder, GetSPInstructor(slkMembers, instructor));
-                            }
+                            ApplyInstructorsReadAccessPermissions(tempAssignmentFolder, slkMembers, newAssignmentProperties);
 
                             // Delete subfolders of the learners who have been removed from the assignment
                             foreach (SlkUser oldLearner in oldAssignmentProperties.Learners)
@@ -672,7 +661,7 @@ namespace Microsoft.SharePointLearningKit
                                 spLearner = GetSPLearner(slkMembers, learner);
 
                                 // Grant assignment learners Read permission on the assignment folder
-                                ApplyLearnerReadAccessPermission(tempAssignmentFolder, spLearner);
+                                ApplyPermissionToFolder(tempAssignmentFolder, spLearner, SPRoleType.Reader);
 
                                 // Get learner subfolder
                                 learnerSubFolder = GetSubFolder(tempAssignmentFolder, spLearner.Name);
@@ -694,13 +683,10 @@ namespace Microsoft.SharePointLearningKit
                                     // TODO:Update instructors and learners permissions based on the learner assignment status
                                     
                                     // Grant assignment instructors permission on the learner subfolder based on the learner assignment status
-                                    foreach (SlkUser instructor in newAssignmentProperties.Instructors)
-                                    {
-                                        ApplyInstructorReadAccessPermission(templearnerSubfolder, GetSPInstructor(slkMembers, instructor));
-                                    }
+                                    ApplyInstructorsReadAccessPermissions(templearnerSubfolder, slkMembers, newAssignmentProperties);
 
                                     // Grant learner permission on his/her learner subfolder based on the learner assignment status
-                                    ApplyLearnerReadAccessPermission(templearnerSubfolder, spLearner);
+                                    ApplyPermissionToFolder(templearnerSubfolder, spLearner, SPRoleType.Reader);
                                 }
                                 else
                                 // In case the assignment is assigned to new learner
@@ -880,49 +866,43 @@ namespace Microsoft.SharePointLearningKit
 
         private void ApplyInstructorReadAccessOnDocLib(SPList assDropBox, SPWeb spWeb)
         {
-            if (!assDropBox.DoesUserHavePermissions(SPContext.Current.Web.CurrentUser, SPBasePermissions.ViewListItems))
+            SPUser user = SPContext.Current.Web.CurrentUser;
+            if (!assDropBox.DoesUserHavePermissions(user, SPBasePermissions.ViewListItems))
             {
-                SPRoleDefinition def = spWeb.RoleDefinitions["Read"];
-                SPRoleAssignment roleAssignment = new SPRoleAssignment(SPContext.Current.Web.CurrentUser);
-                spWeb.AllowUnsafeUpdates = true;
-                roleAssignment.RoleDefinitionBindings.Add(def);
-                assDropBox.RoleAssignments.Add(roleAssignment);
-                assDropBox.Update();
-                spWeb.AllowUnsafeUpdates = false;
+                ApplyPermission(spWeb, assDropBox, user, SPRoleType.Reader, new UpdateList(assDropBox));
             }
         }
 
-        private void ApplyLearnerReadAccessPermission(SPListItem folder, SPUser learner)
+        void ApplyInstructorsReadAccessPermissions(SPListItem folder, SlkMemberships slkMembers, AssignmentProperties assignmentProperties)
         {
-            SPRoleDefinition def = folder.Web.RoleDefinitions["Read"];
-            SPRoleAssignment roleAssignment = new SPRoleAssignment(learner);
-            folder.Web.AllowUnsafeUpdates = true;
-            roleAssignment.RoleDefinitionBindings.Add(def);
-            folder.RoleAssignments.Add(roleAssignment);
-            folder.Update();
-            folder.Web.AllowUnsafeUpdates = false;
+            foreach (SlkUser instructor in assignmentProperties.Instructors)
+            {
+                ApplyPermissionToFolder(folder, GetSPInstructor(slkMembers, instructor), SPRoleType.Reader);
+            }
         }
 
-        private void ApplyInstructorReadAccessPermission(SPListItem folder, SPUser instructor)
+        void ApplyPermissionToFolder(SPListItem folder, SPUser user, SPRoleType roleType)
         {
-            SPRoleDefinition def = folder.Web.RoleDefinitions["Read"];
-            SPRoleAssignment roleAssignment = new SPRoleAssignment(instructor);
-            folder.Web.AllowUnsafeUpdates = true;
-            roleAssignment.RoleDefinitionBindings.Add(def);
-            folder.RoleAssignments.Add(roleAssignment);
-            folder.Update();
-            folder.Web.AllowUnsafeUpdates = false;
+            ApplyPermission(folder.Web, folder, user, roleType, new UpdateListItem(folder));
         }
 
-        private void ApplyInstructorContributeAccessPermission(SPListItem folder, SPUser instructor)
+        void ApplyPermission(SPWeb web, ISecurableObject securable, SPUser user, SPRoleType roleType, UpdateItem updateItem)
         {
-            SPRoleDefinition def = folder.Web.RoleDefinitions["Contribute"];
-            SPRoleAssignment roleAssignment = new SPRoleAssignment(instructor);
-            folder.Web.AllowUnsafeUpdates = true;
-            roleAssignment.RoleDefinitionBindings.Add(def);
-            folder.RoleAssignments.Add(roleAssignment);
-            folder.Update();
-            folder.Web.AllowUnsafeUpdates = false;
+            SPRoleDefinition roleDefinition = web.RoleDefinitions.GetByType(roleType);
+            SPRoleAssignment roleAssignment = new SPRoleAssignment(user);
+
+            bool currentUnsafeUpdates = web.AllowUnsafeUpdates;
+            web.AllowUnsafeUpdates = true;
+            try
+            {
+                roleAssignment.RoleDefinitionBindings.Add(roleDefinition);
+                securable.RoleAssignments.Add(roleAssignment);
+                updateItem.Update();
+            }
+            finally
+            {
+                web.AllowUnsafeUpdates = currentUnsafeUpdates;
+            }
         }
 
         public string GetSPUserName(string fullName)
@@ -1028,7 +1008,7 @@ namespace Microsoft.SharePointLearningKit
                     }
                     if (isReader && isInstructor)
                     {
-                        ApplyInstructorContributeAccessPermission(subFolderItem, (SPUser)assignmentFolderRoleAssignment.Member);
+                        ApplyPermissionToFolder(subFolderItem, (SPUser)assignmentFolderRoleAssignment.Member, SPRoleType.Contributor);
                         isReader = false;
                         isInstructor = false;
                         break;
@@ -1205,7 +1185,7 @@ namespace Microsoft.SharePointLearningKit
                                     // Grant instructor contribute permission to be able to edit learner files
                                     foreach (SlkUser instructor in currentAssignmentProperties.Instructors)
                                     {
-                                        ApplyInstructorContributeAccessPermission(learnerSubFolder, GetSPInstructor(slkMembers, instructor));
+                                        ApplyPermissionToFolder(learnerSubFolder, GetSPInstructor(slkMembers, instructor), SPRoleType.Contributor);
                                     }
                                     RemoveObserverPermission(learnerSubFolder);
                                 }
@@ -1250,7 +1230,7 @@ namespace Microsoft.SharePointLearningKit
                                     // first, remove any permissions previously granted to the learner on the assignment folder
                                     RemoveLearnerPermission(assignmentFolder.Folder, currentLearner);
                                     // then, grant learner Read permission on the assignment folder 
-                                    ApplyLearnerReadAccessPermission(assignmentFolder, currentLearner);
+                                    ApplyPermissionToFolder(assignmentFolder, currentLearner, SPRoleType.Reader);
 
                                     // Get the learner sub folder
                                     learnerSubFolder = GetSubFolder(assignmentFolder, currentLearner.Name);
@@ -1261,12 +1241,13 @@ namespace Microsoft.SharePointLearningKit
                                     {
                                         RemoveLearnerPermission(learnerSubFolder.Folder, currentLearner);
                                         // Grant learner Read permission on the learner subfolder 
-                                        ApplyLearnerReadAccessPermission(learnerSubFolder, currentLearner);
+                                        ApplyPermissionToFolder(learnerSubFolder, currentLearner, SPRoleType.Reader);
                                         // Remove instructors permission from the learner subfolder
                                         foreach (SlkUser instructor in currentAssignmentProperties.Instructors)
                                         {
-                                            RemoveInstructorPermission(learnerSubFolder.Folder, GetSPInstructor(slkMembers, instructor));
-                                            ApplyInstructorReadAccessPermission(learnerSubFolder, GetSPInstructor(slkMembers, instructor));
+                                            SPUser user = GetSPInstructor(slkMembers, instructor);
+                                            ApplyPermissionToFolder(learnerSubFolder, user, SPRoleType.Reader);
+                                            RemoveInstructorPermission(learnerSubFolder.Folder, user);
                                         }
                                     }
                                 }
@@ -1309,7 +1290,7 @@ namespace Microsoft.SharePointLearningKit
                                     currentLearner = GetSPLearner(slkMembers, learner);
 
                                     // Grant learner Read permission on the assignment folder 
-                                    ApplyLearnerReadAccessPermission(assignmentFolder, currentLearner);
+                                    ApplyPermissionToFolder(assignmentFolder, currentLearner, SPRoleType.Reader);
 
                                     // Get the learner sub folder
                                     learnerSubFolder = GetSubFolder(assignmentFolder, currentLearner.Name);
@@ -1319,12 +1300,9 @@ namespace Microsoft.SharePointLearningKit
                                     if (learnerSubFolder != null)
                                     {
                                         // Grant learner Read permission on the learner subfolder 
-                                        ApplyLearnerReadAccessPermission(learnerSubFolder, currentLearner);
+                                        ApplyPermissionToFolder(learnerSubFolder, currentLearner, SPRoleType.Reader);
                                         // Give Instructors Read Access Permission on the learner subfolder
-                                        foreach (SlkUser instructor in currentAssignmentProperties.Instructors)
-                                        {
-                                            ApplyInstructorReadAccessPermission(learnerSubFolder, GetSPInstructor(slkMembers, instructor));
-                                        }
+                                        ApplyInstructorsGradingPermission(learnerSubFolder);
 
                                         RemoveObserverPermission(learnerSubFolder);
                                     }
@@ -1334,6 +1312,41 @@ namespace Microsoft.SharePointLearningKit
                     }
                 }
             });
+        }
+
+        abstract class UpdateItem
+        {
+            public abstract void Update();
+        }
+
+        class UpdateList : UpdateItem
+        {
+            SPList list;
+
+            public UpdateList(SPList list)
+            {
+                this.list = list;
+            }
+
+            public override void Update()
+            {
+                list.Update();
+            }
+        }
+
+        class UpdateListItem : UpdateItem
+        {
+            SPListItem listItem;
+
+            public UpdateListItem(SPListItem listItem)
+            {
+                this.listItem = listItem;
+            }
+
+            public override void Update()
+            {
+                listItem.Update();
+            }
         }
     }
 }
