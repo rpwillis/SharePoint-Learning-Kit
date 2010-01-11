@@ -116,55 +116,79 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <returns>a boolean indicating the check result</returns>
         bool IsFileZipped(string fileName)
         {
-                     
             return fileName.ToLower().EndsWith(".zip");
-                        
+        }
+
+        bool isStudent(ZipEntry entry, Dictionary<string, List<SPFile>> originalFiles)
+        {
+            return originalFiles.ContainsKey(entry.Name);
         }
 
         protected void UploadButton_Click(object sender, EventArgs e)
         {
-            //Saves the uploaded file to the windows temp directory
-
-            string tempFolderPath = Environment.GetEnvironmentVariable("TEMP");
-            string uploadedFilePath = string.Empty;
-            string uploadedFileName = string.Empty;
+            string tempFolderPath = Path.GetTempPath();
 
 
             if (commentedFileUpload.HasFile)
             {
                 if (IsFileZipped(commentedFileUpload.FileName))
                 {
-                    uploadedFilePath = tempFolderPath + "\\" + commentedFileUpload.FileName;
-                    uploadedFileName = commentedFileUpload.FileName;
+                    /*
+                    AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+                    DropBoxManager dropBox = new DropBoxManager(assignmentProperties);
+                    public Dictionary<string, List<SPFile>> originalFiles = dropBox.AllFiles()
 
-                    commentedFileUpload.SaveAs(uploadedFilePath);
-
-
-                    //Extract the uploaded file in the windows temp directory
-                    ExtractUploadedFile(uploadedFilePath, tempFolderPath);
-
-                    //Upload the extracted student assignment files to the corresponding folders
-                    //on the dropbox document list.
-                    List<AssignmentUploadTracker> assignmentUploadTrackers =
-                        UploadCommentedFiles(uploadedFileName, tempFolderPath);
-
-                    if (assignmentUploadTrackers !=null && assignmentUploadTrackers.Count != 0)
+                    // Ensure that the temporary folder is unique
+                    string temporaryFolder = Path.Combine(tempFolderPath, Guid.NewGuid().ToString());
+                    string temporaryPath = Path.Combine(temporaryFolder, commentedFileUpload.FileName);
+                    try
                     {
-                        //Displays the upload commented files status
-                        DisplayUploadStatus(assignmentUploadTrackers);
+                        using (ZipFile zip = new ZipFile(commentedFileUpload.FileContent))
+                        {
+                            bool atStudentFolders = (zip.Entries.Count > 1);
+                            foreach (ZipEntry entry in zip)
+                            {
+                                if (entry.IsDirectory)
+                                {
+                                    if (IsStudent(entry, originalFiles))
+                                }
+                            }
+                        }
+                        commentedFileUpload.SaveAs(temporaryFolder);
+
+                        //Extract the uploaded file in the windows temp directory
+                        ExtractUploadedFile(temporaryPath);
+
+                        //Upload the extracted student assignment files to the corresponding folders
+                        //on the dropbox document list.
+                        List<AssignmentUploadTracker> assignmentUploadTrackers = UploadCommentedFiles(temporaryPath);
+
+                        if (assignmentUploadTrackers !=null && assignmentUploadTrackers.Count != 0)
+                        {
+                            //Displays the upload commented files status
+                            DisplayUploadStatus(assignmentUploadTrackers);
+                        }
+                        else
+                        {
+                            //The zip file does not contain any commented files
+                            UploadErrorStatusLabel.Text = string.Empty;
+                            UploadStatusLabel.Text = string.Empty;
+                            UploadErrorStatusLabel.Text = AppResources.CommentedFilesExtractionFailed;
+                        }
                     }
-                    else
+                    finally
                     {
-                        //The zip file does not contain any commented files
-                        UploadErrorStatusLabel.Text = string.Empty;
-                        UploadStatusLabel.Text = string.Empty;
-                        UploadErrorStatusLabel.Text = AppResources.CommentedFilesExtractionFailed;
+                        if (Directory.Exists(temporaryFolder))
+                        {
+                            Directory.Delete(temporaryFolder, true);
+                        }
                     }
+                    */
                 }
                 else
                 {
                     //Invaild file extention
-                    UploadErrorStatusLabel.Text = "";
+                    UploadErrorStatusLabel.Text = string.Empty;
                     UploadStatusLabel.Text = string.Empty;
                     UploadErrorStatusLabel.Text = AppResources.CommentedFilesInvalidExtenstion;
                 }
@@ -172,7 +196,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             else
             {
                 //No file was uploaded
-                UploadErrorStatusLabel.Text = "";
+                UploadErrorStatusLabel.Text = string.Empty;
                 UploadStatusLabel.Text = string.Empty;
                 UploadErrorStatusLabel.Text = AppResources.CommentedFilesNoFileAttached;
             }

@@ -215,6 +215,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                 }
 
+                m_assignmentProperties.PopulateSPUsers(SlkStore.GetMemberships(SPWeb, null, null));
+
                 return this.m_assignmentProperties;
             }
 
@@ -291,83 +293,37 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="web">The SPWeb of the assignment</param>
         protected void BuildPageContent(SPWeb web)
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
-            SPList list = web.Lists[AppResources.DropBoxDocLibName];
-
-            StringBuilder assignmentCreationDate = new StringBuilder();
-            assignmentCreationDate.AppendFormat(
-                                    "{0}{1}{2}",
-                                    AssignmentProperties.DateCreated.Month.ToString(),
-                                    AssignmentProperties.DateCreated.Day.ToString(),
-                                    AssignmentProperties.DateCreated.Year.ToString());
-
-            /* Searching for the assignment folder using the naming format: "AssignmentTitle AssignmentCreationDate" 
-                 * (This is the naming format defined in AssignmentProperties.aspx.cs page) */
-            SPQuery query = new SPQuery();
-            query.Folder = list.RootFolder;
-            query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + LearnerAssignmentProperties.Title + " " + assignmentCreationDate.ToString() + "</Value></Eq></Where>";
-            SPListItemCollection assignmentFolders = list.GetItems(query);
-
-            if (assignmentFolders.Count == 0)
-            {
-                throw new Exception(AppResources.SubmittedFilesNoAssignmentFolderException);
-            }
-
-            SPFolder assignmentFolder = assignmentFolders[0].Folder;
-
-            query = new SPQuery();
-            query.Folder = assignmentFolder;
-            query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + LearnerAssignmentProperties.LearnerName + "</Value></Eq></Where>";
-            SPListItemCollection assignmentSubFolders = list.GetItems(query);
-
-            if (assignmentSubFolders.Count == 0)
-            {
-                throw new Exception(AppResources.SubmittedFilesNoAssignmentSubFolderException);
-            }
-
-            SPFolder assignmentSubFolder = assignmentSubFolders[0].Folder;
-
-            ////Getting the latest assignment files (files included in the latest assignment submission)
-            query = new SPQuery();
-            query.Folder = assignmentSubFolder;
-            query.Query = "<Where><Eq><FieldRef Name='IsLatest'/><Value Type='Text'>True</Value></Eq></Where>";
-            SPListItemCollection assignmentFiles = list.GetItems(query);
-
-            if (assignmentFiles.Count == 0)
-            {
-                throw new SafeToDisplayException(AppResources.SubmittedFilesNoAssignmentFilesException);
-            }
+            DropBoxManager dropBox = new DropBoxManager(AssignmentProperties);
+            AssignmentFile[] files = dropBox.LastSubmittedFiles(LearnerAssignmentProperties.LearnerId.GetKey());
 
             int fileIndex = 0;
-
-            foreach (SPListItem assignmentFileItem in assignmentFiles)
+            foreach (AssignmentFile file in files)
             {
-                SPFile assignmentFile = assignmentFileItem.File;
-
                 if (fileIndex == 0)
                 {
-                    this.DisplayFileLink(this.file1, assignmentFile, web);
+                    this.DisplayFileLink(this.file1, file);
                 }
                 else if (fileIndex == 1)
                 {
-                    this.DisplayFileLink(this.file2, assignmentFile, web);
+                    this.DisplayFileLink(this.file2, file);
                 }
                 else if (fileIndex == 2)
                 {
-                    this.DisplayFileLink(this.file3, assignmentFile, web);
+                    this.DisplayFileLink(this.file3, file);
                 }
                 else if (fileIndex == 3)
                 {
-                    this.DisplayFileLink(this.file4, assignmentFile, web);
+                    this.DisplayFileLink(this.file4, file);
                 }
                 else
                 {
-                    this.DisplayFileLink(this.file5, assignmentFile, web);
+                    this.DisplayFileLink(this.file5, file);
                 }
 
                 fileIndex++;
             }
 
+            /*
             if (SlkStore.IsInstructor(SPWeb))
             {
                 this.instructorMessage.Style.Add("display", string.Empty);
@@ -378,6 +334,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 this.instructorLink.Target = "_blank";
                 this.instructorLink.Style.Add("display", string.Empty);
             }
+            */
         }
 
         #endregion
@@ -423,17 +380,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         /// <param name="linkName">The name of the file's hyperlink control</param>
         /// <param name="assignmentFile">The assignment file</param>
-        /// <param name="web">The SPWeb where the assignment exists</param>
-        private void DisplayFileLink(HyperLink linkName, SPFile assignmentFile, SPWeb web)
+        private void DisplayFileLink(HyperLink linkName, AssignmentFile file)
         {
-            string assignmentFileName = assignmentFile.Item["Name"].ToString();
-            linkName.Text = assignmentFileName.Remove(assignmentFileName.IndexOf("."));
-
-            StringBuilder fileURL = new StringBuilder();
-            fileURL.AppendFormat("{0}{1}{2}", web.Url, "/", assignmentFile.Url);
-            linkName.NavigateUrl = fileURL.ToString();
+            string assignmentFileName = file.Name;
+            linkName.Text = file.Name;
             linkName.Target = "_blank";
             linkName.Style.Add("display", string.Empty);
+
+            string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff')";
+            linkName.Attributes.Add("onclick", script);
+            linkName.NavigateUrl = file.Url;
         }
 
        #endregion

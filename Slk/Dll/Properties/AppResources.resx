@@ -1485,6 +1485,15 @@ More information may be available in the server event log.</value>
   <data name="FilesUploadPageSuccessMsg" xml:space="preserve">
     <value>The Assignment file(s) submission was completed successfully.</value>
   </data>
+  <data name="FilesUploadPageFailureMessage" xml:space="preserve">
+      <value>Failed to upload files [{0}]. Invalid extensions.</value>
+  </data>
+  <data name="DropBoxManagerUploadFilesNoInstructor" xml:space="preserve">
+      <value>Instructor user {0} not found.</value>
+  </data>
+  <data name="DropBoxDefaultViewTitle" xml:space="preserve">
+      <value>My Assignments</value>
+  </data>
   <data name="AssignmentTitleInvalid" xml:space="preserve">
     <value>The file or folder name contains characters that are not permitted.  Please use a different name.</value>
   </data>
@@ -1496,5 +1505,29 @@ More information may be available in the server event log.</value>
   </data>
   <data name="AssignmentTitleTooLongErrMsg" xml:space="preserve">
     <value>The specified file or folder name is too long. The URL path for all files and folders must be 260 characters or less (and no more than 128 characters for any single file or folder name in the URL). Please type a shorter file or folder name.</value>
+  </data>
+  <data name="DropBoxTitle" xml:space="preserve">
+    <value>Drop Box</value>
+  </data>
+  <data name="DropBoxColumnAssignmentKey" xml:space="preserve">
+    <value>Assignment</value>
+  </data>
+  <data name="DropBoxColumnAssignmentName" xml:space="preserve">
+    <value>Assignment Name</value>
+  </data>
+  <data name="DropBoxColumnAssignmentDate" xml:space="preserve">
+    <value>Assignment Date</value>
+  </data>
+  <data name="DropBoxColumnAssignmentId" xml:space="preserve">
+    <value>Assignment Id</value>
+  </data>
+  <data name="DropBoxColumnIsLatest" xml:space="preserve">
+    <value>Is Latest</value>
+  </data>
+  <data name="DropBoxColumnLearner" xml:space="preserve">
+    <value>Learner</value>
+  </data>
+  <data name="DropBoxColumnLearnerId" xml:space="preserve">
+    <value>Learner Id</value>
   </data>
 </root>

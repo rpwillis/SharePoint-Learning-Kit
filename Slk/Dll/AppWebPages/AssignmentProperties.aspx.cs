@@ -43,8 +43,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     /// </summary>
     public class AssignmentPropertiesPage : SlkAppBasePage
     {
-        DropBoxManager dropBoxMgr = new DropBoxManager();
-
         #region Control Declarations
         //Button controls
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "btn")]
@@ -1535,7 +1533,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //Check for Page Validation before perform any transaction.
                 if (VerifyPageSubmit())
                 {
-                    AssignmentProperties = new AssignmentProperties();
+                    AssignmentProperties = new AssignmentProperties(AssignmentId == null ? 0 : AssignmentId.Value);
 
                     //Get the Assignment Properties from the submitted form.
                     GetAssignmentProperties();
@@ -1590,25 +1588,23 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                             try
                             {
-                                string assignmentFolderName = (currentAssProperties.Title + " " + dropBoxMgr.GetDateOnly(currentAssProperties.DateCreated)).Trim();
-
-                                //Create a folder for each assignment
-                                SPListItem assignmentFolder = dropBoxMgr.CreateAssignmentFolder(DropBoxDocLibName, currentAssProperties, SlkMembers, assignmentFolderName);
-                                if (assignmentFolder != null)
+                                if (currentAssProperties.IsELearning == false)
                                 {
-                                    //Create a Subfolder for each learner
-                                    dropBoxMgr.CreateLearnersSubFolders(assignmentFolder, currentAssProperties, SlkMembers);
+                                    currentAssProperties.PopulateSPUsers(SlkMembers);
+                                    DropBoxManager dropBoxMgr = new DropBoxManager(currentAssProperties);
 
-                                    //Render the Confirmation Page
-                                    SetConfirmationPage(assignmentItemIdentifier.GetKey());
-                                }
-                                else
-                                {
-                                    // Deletes the assignment
-                                    SlkStore.DeleteAssignment(assignmentItemIdentifier);
-                                    //Log the Exception 
-                                    errorBanner.Clear();
-                                    errorBanner.AddError(ErrorType.Error, AppResources.AssFolderAlreadyExists);
+                                    try
+                                    {
+                                        dropBoxMgr.CreateAssignmentFolder();
+                                        SetConfirmationPage(assignmentItemIdentifier.GetKey());
+                                    }
+                                    catch (SafeToDisplayException ex)
+                                    {
+                                        SlkStore.DeleteAssignment(assignmentItemIdentifier);
+                                        //Log the Exception 
+                                        errorBanner.Clear();
+                                        errorBanner.AddError(ErrorType.Error, ex.Message);
+                                    }
                                 }
                             }
                             catch (Exception ex)
@@ -1640,6 +1636,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 {
                                     //Log the Exception 
                                     WriteError(ex, true);
+                                    DropBoxManager.Debug(ex.ToString());
                                 }
                             }
                         }
@@ -1662,19 +1659,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, AssignmentProperties);
 
                         // Get the ServerRelativeUrl for Grading Page
-                        string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl,
-                                                Constants.SlkUrlPath,
-                                                Constants.GradingPage);
+                        string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, Constants.GradingPage);
+
                         // Append the AssignmentId QueryString key for Grading Page
-                        urlString = String.Format(CultureInfo.InvariantCulture,
-                                                  "{0}" + Constants.QuestionMark +
-                                                  QueryStringKeys.AssignmentId + "={1}",
-                                                  urlString,
-                                                  AssignmentId);
+                        urlString = String.Format(CultureInfo.InvariantCulture, "{0}{1}{2}={3}", urlString, Constants.QuestionMark, QueryStringKeys.AssignmentId, AssignmentId);
 
                         try
                         {
-                            if (oldAssignmentProperties.PackageFormat == null)
+                            if (oldAssignmentProperties.IsELearning == false)
                             {
                                 //Get the new assignment properties
                                 AssignmentProperties newAssignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
@@ -1690,7 +1682,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 }
 
                                 // Update the assignment folder in the Drop Box
-                                dropBoxMgr.UpdateAssignment(oldAssignmentProperties, newAssignmentProperties, SlkMembers, DropBoxDocLibName);
+                                oldAssignmentProperties.PopulateSPUsers(SlkMembers);
+                                newAssignmentProperties.PopulateSPUsers(SlkMembers);
+                                DropBoxManager dropBoxMgr = new DropBoxManager(oldAssignmentProperties);
+                                dropBoxMgr.UpdateAssignment(newAssignmentProperties);
                             }
 
                             // Redirect to Grading Page
@@ -1699,6 +1694,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         }
                         catch (Exception ex)
                         {
+                                    DropBoxManager.Debug(ex.ToString());
                             // Return the Assignment Properties back as Drop Box could not be updated successfully.
                             SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, oldAssignmentProperties);
                             //Log the Exception 
@@ -1713,6 +1709,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 //AppMode is not set to PageMode.Error as Page will be re rendered as Post Back Mode;
                 //Log the Exception 
+                                    DropBoxManager.Debug(ex.ToString());
                 WriteError(ex, true);
             }
 

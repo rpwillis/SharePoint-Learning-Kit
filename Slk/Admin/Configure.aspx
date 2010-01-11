@@ -30,24 +30,19 @@
   <script language="javascript" type="text/javascript">
     function BtnOK_OnClientClick(strBtnId)
     {
-        if (Page_IsValid != null && Page_IsValid == true) 
+        if (window.g_OKClicked == undefined)
         {
-            if (window.g_OKClicked == undefined)
-            {
-                TBodyError.style.display = 'none';
-                TBodyWait.style.display = 'block';
-                TBodyDone.style.display = 'none';
-                TBodyMain.style.display = 'none';
-                TBodyButtons.style.display = 'none';
-                window.g_OKClicked = true;
-                setTimeout('aspnetForm.' + strBtnId + '.click()', 1);
-                return false;
-            }
-            else
-                return true;
+            TBodyError.style.display = 'none';
+            TBodyWait.style.display = 'block';
+            TBodyDone.style.display = 'none';
+            TBodyMain.style.display = 'none';
+            TBodyButtons.style.display = 'none';
+            window.g_OKClicked = true;
+            setTimeout('aspnetForm.' + strBtnId + '.click()', 1);
+            return false;
         }
         else
-            return false;
+            return true;
     }
     function OperationCompleted()
     {
@@ -203,23 +198,6 @@
     </wssuc:InputFormControl>
   </Template_InputFormControls>
 </wssuc:InputFormSection>
-
-<wssuc:InputFormSection id="inputDropBoxFilesExtensionsSection" runat="server">
-  <Template_Description>
-	<asp:Label ID="labelDropBoxFilesExtensionsDescription" runat="server" />
-  </Template_Description>
-  <Template_InputFormControls>
-    <wssuc:InputFormControl runat="server" id="inputDropBoxFilesExtensions">
-      <Template_control>
-        <wssawc:InputFormTextBox CssClass="ms-input" ID="TxtDropBoxFilesExtensions" Columns="35" Runat="server" MaxLength=128 />
-        <br />
-        <asp:RegularExpressionValidator runat="server" id="REVDropBoxFilesExtensions" Display="Dynamic" controltovalidate="TxtDropBoxFilesExtensions" validationexpression="(\s*)([a-zA-Z]{3,5}(\s*);(\s*))*([a-zA-Z]{3,5})(\s*)" errormessage="Enter valid extensions separated by semicolons (e.g. doc;docx;xslx)" />
-        <asp:RequiredFieldValidator ID="RFVDropBoxFilesExtensions" runat="server" Display="Dynamic" controltovalidate="TxtDropBoxFilesExtensions" errormessage="Enter Drop Box files extensions"></asp:RequiredFieldValidator>
-      </Template_control>
-    </wssuc:InputFormControl>
-  </Template_InputFormControls>
-</wssuc:InputFormSection>
-
 <wssuc:InputFormSection id="inputSlkSettings" runat="server">
   <Template_Description>
 	<asp:Label ID="labelSlkSettingDescription" runat="server" />

@@ -671,16 +671,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 if (currentAssProperties.PackageFormat == null)
                 {
-                    DropBoxManager dropBoxMgr = new DropBoxManager();
-                    string assignmentFolderName = (currentAssProperties.Title + " " + dropBoxMgr.GetDateOnly(currentAssProperties.DateCreated)).Trim();
+                    DropBoxManager dropBoxMgr = new DropBoxManager(currentAssProperties);
+                    SPListItem assignmentFolder = dropBoxMgr.CreateSelfAssignmentFolder();
 
-                    //Create a folder for the assignment
-                    SPListItem assignmentFolder = dropBoxMgr.CreateSelfAssignmentFolder(DropBoxDocLibName, currentAssProperties, assignmentFolderName);
                     if (assignmentFolder != null)
                     {
-                        //Create a Subfolder for each learner
-                        dropBoxMgr.CreateSelfAssignmentSubFolder(assignmentFolder, currentAssProperties);
-
                         Response.Redirect(url, true);
                     }
                     else

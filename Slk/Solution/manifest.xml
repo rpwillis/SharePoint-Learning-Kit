@@ -176,19 +176,6 @@
 	  <TemplateFile Location="SharePointLearningKit\feature.xml" />
 	  <TemplateFile Location="SharePointLearningKitAdmin\elements.xml" />
 	  <TemplateFile Location="SharePointLearningKitAdmin\feature.xml" />
-	  <TemplateFile Location="DropBoxDocLib\feature.xml" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\AllItems.aspx" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\Combine.aspx" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\DispForm.aspx" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\DropBox.xml" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\EditDlg.htm" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\EditForm.aspx" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\FileDlg.htm" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\Repair.aspx" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\schema.xml" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\Upload.aspx" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\WebFldr.aspx" />
-	  <TemplateFile Location="DropBoxDocLib\DropBoxDocLib\Instance.xml" />
           <!--
     <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerConfigure.aspx" />
     <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerDBSchema.sql" />
@@ -213,7 +200,6 @@
   <FeatureManifests>
 		<FeatureManifest Location="SharePointLearningKit\feature.xml"/>
 		<FeatureManifest Location="SharePointLearningKitAdmin\feature.xml"/>
-    <FeatureManifest Location="DropBoxDocLib\feature.xml"/>
     <!--
     <FeatureManifest Location="Course_Manager_Configure\feature.xml"/>
     -->

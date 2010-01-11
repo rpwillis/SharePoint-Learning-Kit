@@ -79,10 +79,12 @@ public class ConfigurePage : System.Web.UI.Page
 	protected Label labelSlkSettingDescription;
 	protected InputFormSection inputSlkSettings;
     
+        /*
     protected InputFormTextBox TxtDropBoxFilesExtensions;
     protected InputFormSection inputDropBoxFilesExtensionsSection;
     protected Label labelDropBoxFilesExtensionsDescription;
     protected InputFormControl inputDropBoxFilesExtensions;
+    */
 
     protected override void OnInit(EventArgs e)
     {
@@ -137,7 +139,7 @@ public class ConfigurePage : System.Web.UI.Page
             TxtObserverPermission.Text = observerPermission;
             ChkCreatePermissions.Checked = createPermissions;
 
-            TxtDropBoxFilesExtensions.Text = dropBoxFilesExtensions;
+            //TxtDropBoxFilesExtensions.Text = dropBoxFilesExtensions;
         }
         catch (SafeToDisplayException ex)
         {
@@ -207,7 +209,8 @@ public class ConfigurePage : System.Web.UI.Page
 			string defaultSettingsFileContents =
 				File.ReadAllText(Server.MapPath("SlkSettings.xml.dat"));
 
-            string txtDropBoxFilesExtensionsText = TxtDropBoxFilesExtensions.Text.Trim().Replace(" ", string.Empty);
+            //string txtDropBoxFilesExtensionsText = TxtDropBoxFilesExtensions.Text.Trim().Replace(" ", string.Empty);
+            string txtDropBoxFilesExtensionsText = String.Empty;
 
             // save the SLK configuration for this SPSite
             SlkAdministration.SaveConfiguration(new Guid(SPSiteSelector.CurrentId),
@@ -259,7 +262,7 @@ public class ConfigurePage : System.Web.UI.Page
         TxtLearnerPermission.Enabled = enable;
         TxtObserverPermission.Enabled = enable;
         ChkCreatePermissions.Enabled = enable;
-        TxtDropBoxFilesExtensions.Enabled = enable;
+        //TxtDropBoxFilesExtensions.Enabled = enable;
         LinkCurrentSettingsFile.Enabled = enable;
         if (linkDefaultSettingsFileToo)
             LinkDefaultSettingsFile.Enabled = enable;
@@ -315,10 +318,12 @@ public class ConfigurePage : System.Web.UI.Page
 		inputSlkSettingsFile.LabelText = AppResources.ConfigureInputSlkSettingsFileLabelText;
 		BtnOK.Text = AppResources.ConfigureBtnOKText;
 
+                /*
         inputDropBoxFilesExtensionsSection.Title = AppResources.ConfigureInputDropBoxFilesExtensionsSectionTitle;
         labelDropBoxFilesExtensionsDescription.Text = AppResources.ConfigurelabelDropBoxFilesExtensionsDescriptionText;
         TxtDropBoxFilesExtensions.ToolTip = AppResources.ConfigureTxtDropBoxFilesExtensionsToolTip;
         inputDropBoxFilesExtensions.LabelText = AppResources.ConfigureInputDropBoxFilesExtensionsLabelText;
+        */
 	}
 }
 

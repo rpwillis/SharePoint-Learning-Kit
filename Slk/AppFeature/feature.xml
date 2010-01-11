@@ -8,8 +8,4 @@
 	<ElementManifests>
 		<ElementManifest Location="elements.xml"/>
 	</ElementManifests>
-
-  <ActivationDependencies>
-    <ActivationDependency FeatureId="5bf217da-245c-40c0-a65b-0a6482f73c84"/>
-  </ActivationDependencies>
 </Feature>

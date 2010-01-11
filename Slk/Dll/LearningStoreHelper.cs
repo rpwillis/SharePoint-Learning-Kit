@@ -122,6 +122,18 @@ public static class LearningStoreHelper
             result = (T) value;
     }
 
+    public static T CastNonNull<T>(object value, T type) where T : class
+    {
+        if (value is DBNull)
+        {
+            throw new ArgumentException(AppResources.UnexpectedDBNull);
+        }
+        else
+        {
+            return (T) value;
+        }
+    }
+
     /// <summary>
     /// Converts a value returned from a LearningStore query to a string.  Throws an
     /// exception if the value is <c>DBNull</c>.
@@ -133,7 +145,7 @@ public static class LearningStoreHelper
     /// <param name="result">Where to store the result.</param>
     ///
     [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void CastNonNull(object value, out string result)
+    public static void xCastNonNull(object value, out string result)
     {
         if (value is DBNull)
             throw new ArgumentException(AppResources.UnexpectedDBNull);

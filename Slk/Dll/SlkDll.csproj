@@ -77,8 +77,8 @@
     <Compile Include="AppWebControls\ErrorBanner.cs" />
     <Compile Include="AppWebControls\GradingList.cs" />
     <Compile Include="AppWebControls\SimpleButtonToolbar.cs" />
-    <Compile Include="AppWebControls\SlkButton.cs">
-    </Compile>
+    <Compile Include="AppWebControls\SlkButton.cs"/>
+    <Compile Include="AppWebControls\GradingItem.cs"/>
     <Compile Include="AppWebPages\CommentedFiles.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -103,11 +103,13 @@
     <Compile Include="LearningStoreHelper.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="PostableFrameHelper.cs" />
+    <!--
     <Compile Include="Properties\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    -->
     <Compile Include="Properties\SlkFrameset.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -117,6 +119,9 @@
     <Compile Include="Rte2004DataModelConverter.cs" />
     <Compile Include="SlkApi.cs" />
     <Compile Include="api\SlkStore.cs" />
+    <Compile Include="api\LearnerAssignmentProperties.cs" />
+    <Compile Include="api\assignmentProperties.cs" />
+    <Compile Include="api\slkUser.cs" />
     <Compile Include="FramesetQueryParam.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -224,6 +229,10 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      <StronglyTypedClassName>AppResources</StronglyTypedClassName>
+      <StronglyTypedFilename>properties\AppResources.Designer.cs</StronglyTypedFilename>
+      <StronglyTypedLanguage>C#</StronglyTypedLanguage>
+      <StronglyTypedNamespace>Resources.Properties</StronglyTypedNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\SlkFrameset.resx">
       <SubType>Designer</SubType>
@@ -259,7 +268,10 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
+  -->
+  <!--
   <Target Name="AfterBuild">
+        <Copy SourceFiles="\working\slk\slk\dll\bin\debug\Microsoft.SharePointLearningKit.dll" DestinationFolder="\\laptop01\transfer\slk14" SkipUnchangedFiles="true"/>
   </Target>
   -->
   <PropertyGroup>

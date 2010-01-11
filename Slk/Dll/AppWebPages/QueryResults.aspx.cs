@@ -538,10 +538,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 {
                                     if (columnDef.Title.Equals(AppResources.AlwpFileSubmissionColumnTitle))
                                     {
-                                        RenderFileSubmissionCell(renderedCell, assignmentGUID, hw);
+                                        RenderFileSubmissionCell(renderedCell, webNameRenderedCell, assignmentGUID, hw);
                                     }
                                     else    
+                                    {
                                         RenderColumnCell(renderedCell, webNameRenderedCell, hw, SlkStore);
+                                    }
                                 }
 
                                 columnIndex++;
@@ -655,13 +657,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="renderedCell">The value to render, from the query results.</param>
         /// <param name="assignmentGUID">The GUID of the current assignment</param>
         /// <param name="hw">The HtmlTextWriter to write to.</param>
-        void RenderFileSubmissionCell(RenderedCell renderedCell, Guid assignmentGUID, HtmlTextWriter hw)
+        void RenderFileSubmissionCell(RenderedCell renderedCell, WebNameRenderedCell webNameRenderedCell, Guid assignmentGUID, HtmlTextWriter hw)
         {
             AppResources.Culture = LocalizationManager.GetCurrentCulture();
             if (renderedCell.ToString().Equals(AppResources.AlwpFileSubmissionSubmitText))
             {
                 RenderFileSubmissionCellAsSubmitLink(
                     "{0}/_layouts/SharePointLearningKit/FilesUploadPage.aspx?LearnerAssignmentId={1}",
+                    webNameRenderedCell,
                     assignmentGUID,
                     renderedCell.ToString(),
                     hw);
@@ -670,6 +673,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 RenderFileSubmissionCellAsSubmittedLink(
                     "{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}",
+                    webNameRenderedCell,
                     assignmentGUID,
                     renderedCell.ToString().Replace(" LINK",string.Empty),
                     hw);
@@ -691,7 +695,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="assignmentGUID">The GUID of the current assignment</param>
         /// <param name="renderedCellValue">The text to be displayed in the cell</param>
         /// <param name="hw">The HtmlTextWriter to write to.</param>
-        void RenderFileSubmissionCellAsSubmittedLink(string fileURL, Guid assignmentGUID, 
+        void RenderFileSubmissionCellAsSubmittedLink(string fileURL, WebNameRenderedCell webNameRenderedCell, Guid assignmentGUID, 
             string renderedCellValue, HtmlTextWriter hw)
         {
             string url = CheckSubmittedFilesNumber(assignmentGUID);
@@ -699,7 +703,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             if (url.Equals(string.Empty))
             {
                 StringBuilder pageURL = new StringBuilder();
-                pageURL.AppendFormat(fileURL, SPWeb.Url, assignmentGUID.ToString());
+                pageURL.AppendFormat(fileURL, webNameRenderedCell.SPWebUrl, assignmentGUID.ToString());
 
                 url = pageURL.ToString();
             }
@@ -728,12 +732,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="assignmentGUID">The GUID of the current assignment</param>
         /// <param name="renderedCellValue">The text to be displayed in the cell</param>
         /// <param name="hw">The HtmlTextWriter to write to.</param>
-        void RenderFileSubmissionCellAsSubmitLink(string fileURL, Guid assignmentGUID,
+        void RenderFileSubmissionCellAsSubmitLink(string fileURL, WebNameRenderedCell webNameRenderedCell, Guid assignmentGUID,
             string renderedCellValue, HtmlTextWriter hw)
         {
 
             StringBuilder url = new StringBuilder();
-            url.AppendFormat(fileURL, SPWeb.Url, assignmentGUID.ToString());
+            url.AppendFormat(fileURL, webNameRenderedCell.SPWebUrl, assignmentGUID.ToString());
 
             hw.AddAttribute(HtmlTextWriterAttribute.Target, "_top");
             hw.AddAttribute(HtmlTextWriterAttribute.Href, url.ToString());
