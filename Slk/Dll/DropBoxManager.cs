@@ -1,10 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Globalization;
 using System.Text;
 using System.IO;
 using System.Web;
 using Microsoft.SharePoint;
+using Microsoft.SharePoint.WebControls;
 using Microsoft.SharePointLearningKit;
+using Microsoft.LearningComponents.SharePoint;
 using Microsoft.LearningComponents.Storage;
 using Resources.Properties;
 
@@ -15,684 +20,365 @@ namespace Microsoft.SharePointLearningKit
     /// </summary>
     public class DropBoxManager
     {
-        public DropBoxManager()
+        const string dropBoxName = "DropBox";
+        const string columnAssignmentKey = "Assignment";
+        const string columnAssignmentDate = "AssignmentDate";
+        const string columnAssignmentName = "AssignmentName";
+        const string columnAssignmentId = "AssignmentId";
+        const string columnIsLatest = "IsLatest";
+        const string columnLearnerId = "LearnerId";
+        const string columnLearner = "Learner";
+        const string propertyKey = "SLKDropBox";
+        AssignmentProperties assignmentProperties;
+
+#region constructors
+        public DropBoxManager(AssignmentProperties assignmentProperties)
         {
+            this.assignmentProperties = assignmentProperties;
+        }
+#endregion constructors
+
+#region properties
+        /// <summary>The name of the Drop Box library.</summary>
+        static string LibraryName
+        {
+            get { return dropBoxName  ;}
         }
 
-        public void CreateAssignmentFolderForCourseManagerInstructor(string docLibTitle, AssignmentProperties assignmentProperties, SlkMemberships slkMembers, string assignmentFolderName)
+        /// <summary>The name of the assignment folder in the drop box library.</summary>
+        public string FolderName
         {
-            SPListItem newFolder = null;
-
-            SPSecurity.RunWithElevatedPrivileges(delegate
+            get
             {
-                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        SPList assDropBox = null;
-
-                        try
-                        {
-                            assDropBox = spWeb.Lists[docLibTitle];
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception(AppResources.SLKFeatureNotActivated, ex.InnerException);
-                        }
-
-                        //Get the folder if it exists 
-                        newFolder = GetAssignmentFolder(assDropBox, assignmentFolderName);
-
-                        //Create the assignment folder if it does not exist
-                        if (newFolder == null)
-                        {
-                            newFolder = CreateAssignmentFolder(docLibTitle, assignmentProperties,
-                                                    slkMembers, assignmentFolderName);
-
-                            if (newFolder != null)
-                            {
-                                //Create a Subfolder for each learner
-                                CreateLearnersSubFolders(newFolder, assignmentProperties, slkMembers);
-                            }
-                        }
-                        else
-                        {
-                            //Give Instructor read access permission over the Document Library
-                            ApplyInstructorReadAccessOnDocLib(assDropBox, spWeb);
-
-                            //give instructor permission over the assignmnet folder
-                            spWeb.AllowUnsafeUpdates = true;
-
-                            ApplyInstructorsReadAccessPermissions(newFolder, slkMembers, assignmentProperties);
-
-                            foreach (SPFolder subFolder in newFolder.Folder.SubFolders)
-                            {
-                               if ((!subFolder.Item.DoesUserHavePermissions(SPContext.Current.Web.CurrentUser, SPBasePermissions.EditListItems)) &&
-                                   (!subFolder.Item.DoesUserHavePermissions(SPContext.Current.Web.CurrentUser, SPBasePermissions.ViewListItems)))
-                               {
-                                    if (subFolder.Files.Count == 0)
-                                    {
-                                        ApplyInstructorsReadAccessPermissions(subFolder.Item, slkMembers, assignmentProperties);
-                                    }
-                                    else
-                                    {
-                                        foreach (SlkUser instructor in assignmentProperties.Instructors)
-                                        {
-                                            SPUser user = GetSPInstructor(slkMembers, instructor);
-                                            ApplyPermissionToFolder(subFolder.Item, user, SPRoleType.Reader);
-                                            ApplyPermissionToFolder(subFolder.Item, user, SPRoleType.Contributor);
-                                        }
-                                    }
-                               }
-                            }
-
-                            spWeb.AllowUnsafeUpdates = false;
-                        }
-                    }
-                }
-            });
+                return GenerateFolderName(assignmentProperties);
+            }
         }
 
-        public SPListItem CreateAssignmentSubFolderForCourseManagerLearnerAssCollect(AssignmentProperties assignmentProperties, SPListItem newFolder, string subFolderName)
+        SPUser CurrentUser
         {
-            SPListItem assSubFolder = null;
-
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        spWeb.AllowUnsafeUpdates = true;
-
-                        assSubFolder = CreateSubFolder(newFolder.Folder, subFolderName);
-
-                        assSubFolder.BreakRoleInheritance(true);
-                        spWeb.AllowUnsafeUpdates = true;
-
-                        foreach (SPRoleAssignment role in assSubFolder.RoleAssignments)
-                        {
-                            role.RoleDefinitionBindings.RemoveAll();
-                        }
-
-                        assSubFolder.Web.AllowUnsafeUpdates = true;
-                        assSubFolder.Update();
-                        assSubFolder.Web.AllowUnsafeUpdates = false;
-
-                        ApplyPermissionToFolder(newFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
-                        ApplyPermissionToFolder(assSubFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
-
-                        spWeb.AllowUnsafeUpdates = false;
-                    }
-                }
-            });
-
-            return assSubFolder;
+            get { return SPContext.Current.Web.CurrentUser ;}
         }
+#endregion properties
 
-        public SPListItem CreateAssignmentSubFolderForCourseManagerLearner(AssignmentProperties assignmentProperties, SPListItem newFolder)
+#region public methods
+        /// <summary>
+        /// Updates permissions of Drop Box assignment folder corresponding to item
+        /// </summary>
+        public void ApplyCollectAssignmentPermissions(long learnerId)
         {
-            SPListItem assSubFolder = null;
-
-            SPSecurity.RunWithElevatedPrivileges(delegate
+            // If the assignment is auto return, the learner will still be able to view the drop box assignment files
+            // otherwise, learner permissions will be removed from the drop box library & learner's subfolder in the Drop Box document library
+            SPRoleType learnerPermissions = SPRoleType.Reader;
+            if (assignmentProperties.AutoReturn == false)
             {
-                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        // Check whether a folder with the same name exists or not
-                        string subFolderName = SPContext.Current.Web.CurrentUser.Name;
+                learnerPermissions = SPRoleType.None;
+            }
 
-                        if (string.IsNullOrEmpty(subFolderName))
-                        {
-                            subFolderName = SPContext.Current.Web.CurrentUser.LoginName;
-                        }
-
-                        spWeb.AllowUnsafeUpdates = true;
-
-                        assSubFolder = CreateSubFolder(newFolder.Folder, subFolderName);
-
-                        assSubFolder.BreakRoleInheritance(true);
-                        spWeb.AllowUnsafeUpdates = true;
-
-                        foreach (SPRoleAssignment role in assSubFolder.RoleAssignments)
-                        {
-                            role.RoleDefinitionBindings.RemoveAll();
-                        }
-
-                        assSubFolder.Web.AllowUnsafeUpdates = true;
-                        assSubFolder.Update();
-                        assSubFolder.Web.AllowUnsafeUpdates = false;
-
-                        ApplyPermissionToFolder(newFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
-                        ApplyPermissionToFolder(assSubFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
-
-                        spWeb.AllowUnsafeUpdates = false;
-                    }
-                }
-            });
-
-            return assSubFolder;
-        }
-
-        public SPListItem CreateAssignmentFolderForCourseManagerLearner(string docLibTitle, AssignmentProperties assignmentProperties, string assignmentFolderName)
-        {
-            string url;
-            SPListItem newFolder = null;
-
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        SPList assDropBox = null;
-
-                        try
-                        {
-                            assDropBox = spWeb.Lists[docLibTitle];
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception(AppResources.SLKFeatureNotActivated, ex.InnerException);
-                        }
-
-                        //Get the folder if it exists 
-                        newFolder = GetAssignmentFolder(assDropBox, assignmentFolderName);
-
-                        //Create the assignment folder if it does not exist
-                        if (newFolder == null)
-                        {
-                            url = assDropBox.RootFolder.ServerRelativeUrl;
-                            spWeb.AllowUnsafeUpdates = true;
-                            newFolder = assDropBox.Items.Add(url, SPFileSystemObjectType.Folder, assignmentFolderName);
-                            newFolder.Update();
-                            assDropBox.Update();
-                            newFolder.BreakRoleInheritance(true);
-                            spWeb.AllowUnsafeUpdates = true;
-
-                            foreach (SPRoleAssignment role in newFolder.RoleAssignments)
-                            {
-                                role.RoleDefinitionBindings.RemoveAll();
-                            }
-                            newFolder.Update();
-
-                            spWeb.AllowUnsafeUpdates = false;
-                        }
-                       
-                        // Check whether a folder with the same name exists or not
-                        string subFolderName = SPContext.Current.Web.CurrentUser.Name;
-
-                        if(string.IsNullOrEmpty(subFolderName))
-                        {
-                            subFolderName = SPContext.Current.Web.CurrentUser.LoginName;
-                        }
-
-                        SPListItem assSubFolder = GetSubFolder(newFolder, subFolderName);
-
-                        spWeb.AllowUnsafeUpdates = true;
-                        if (assSubFolder == null)
-                        {
-                            assSubFolder = CreateSubFolder(newFolder.Folder, subFolderName);
-                        }
-
-                        assSubFolder.BreakRoleInheritance(true);
-                        spWeb.AllowUnsafeUpdates = true;
-
-                        foreach (SPRoleAssignment role in assSubFolder.RoleAssignments)
-                        {
-                            role.RoleDefinitionBindings.RemoveAll();
-                        }
-                        assSubFolder.Update();
-
-                        ApplyPermissionToFolder(newFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
-                        ApplyPermissionToFolder(assSubFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
-
-                        spWeb.AllowUnsafeUpdates = false;
-                    }
-                }
-            });
-
-            return newFolder;
+            ApplyAssignmentPermission(learnerId, learnerPermissions, SPRoleType.Contributor, true);
         }
 
         /// <summary>
-        /// Creates an assignment folder.
+        /// Updates permissions of Drop Box assignment folder corresponding to item
         /// </summary>
-        /// <param name="docLibName">The drop box document library title</param>
-        /// <param name="assignmentProperties">The current assignment properties</param>
-        /// <param name="slkMembers">All members on the site Instructors, Learners and LearnerGroups</param>
-        /// <returns>The name of the created folder</returns>
-        public SPListItem CreateAssignmentFolder(string docLibTitle, AssignmentProperties assignmentProperties, SlkMemberships slkMembers, string assignmentFolderName)
+        /// <param name="item">The current learning item</param>
+        public void ApplyReturnAssignmentPermission(long learnerId)
         {
-            string url;
-            SPListItem newFolder = null;
+            ApplyAssignmentPermission(learnerId, SPRoleType.Reader, SPRoleType.Reader, false);
+        }
+
+        /// <summary>
+        /// Updates permissions of Drop Box assignment folder corresponding to item
+        /// </summary>
+        /// <param name="item">The current learning item</param>
+        public void ApplyReactivateAssignmentPermission(long learnerId)
+        {
+            ApplyAssignmentPermission(learnerId, SPRoleType.Reader, SPRoleType.Contributor, true);
+        }
+
+        public string CopyFileToDropBox()
+        {
+            Debug("CopyFileToDropBox");
+            string url = null;
+            SPSecurity.RunWithElevatedPrivileges(delegate()
+            {
+                SharePointFileLocation fileLocation;
+                if (!SharePointFileLocation.TryParse(assignmentProperties.Location, out fileLocation))
+                {
+                    throw new SafeToDisplayException(SlkFrameset.FRM_DocumentNotFound);
+                }
+
+                using (SPSite sourceSite = new SPSite(fileLocation.SiteId,SPContext.Current.Site.Zone))
+                {
+                    using (SPWeb sourceWeb = sourceSite.OpenWeb(fileLocation.WebId))
+                    {
+                        SPFile file = sourceWeb.GetFile(fileLocation.FileId);
+
+                        if (MustCopyFileToDropBox(file.Name))
+                        {
+                            Debug("MustCopyFileToDropBox {0}", file.Name);
+                            using (SPSite destinationSite = new SPSite(assignmentProperties.SPSiteGuid))
+                            {
+                                destinationSite.CatchAccessDeniedException = false;
+                                using (SPWeb destinationWeb = destinationSite.OpenWeb(assignmentProperties.SPWebGuid))
+                                {
+                                    bool originalAllow = destinationWeb.AllowUnsafeUpdates;
+                                    destinationWeb.AllowUnsafeUpdates = true;
+                                    try
+                                    {
+                                        SPUser learner = CurrentUser;
+                                        SPList dropBox = DropBoxLibrary(destinationWeb);
+                                        SPListItem assignmentFolder = GetAssignmentFolder(dropBox);
+                                        SPListItem learnerSubFolder = null;
+
+                                        if (assignmentFolder == null)
+                                        {
+                                            assignmentFolder = CreateAssignmentFolder(dropBox);
+                                        }
+                                        else
+                                        {
+                                            learnerSubFolder = FindLearnerFolder(assignmentFolder, learner);
+                                        }
+
+                                        if (learnerSubFolder == null)
+                                        {
+                                            learnerSubFolder = CreateLearnerAssignmentFolder(assignmentFolder, CurrentUser);
+                                        }
+
+                                        ApplyPermissionToFolder(assignmentFolder, learner, SPRoleType.Reader);
+                                        ApplyPermissionToFolder(learnerSubFolder, learner, SPRoleType.Contributor);
+
+                                        using (Stream stream = file.OpenBinaryStream())
+                                        {
+                                            url = SaveFile(file.Name, stream, learnerSubFolder.Folder, learner);
+                                        }
+                                    }
+                                    finally
+                                    {
+                                        destinationWeb.AllowUnsafeUpdates = originalAllow;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            return url;
+        }
+
+        public void UploadFiles(LearnerAssignmentProperties learnerAssignmentProperties, AssignmentUpload[] files)
+        {
+            SPSecurity.RunWithElevatedPrivileges(delegate
+            {
+                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
+                {
+                    spSite.CatchAccessDeniedException = false;
+                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
+                    {
+                        SPUser learner = CurrentUser;
+                        SPList dropBox = DropBoxLibrary(spWeb);
+                        SPListItem assignmentFolder = GetAssignmentFolder(dropBox);
+                        SPListItem learnerSubFolder = null;
+
+                        if (assignmentFolder == null)
+                        {
+                            assignmentFolder = CreateAssignmentFolder(dropBox);
+                        }
+                        else
+                        {
+                            learnerSubFolder = FindLearnerFolder(assignmentFolder, learner);
+
+                            if (learnerSubFolder != null)
+                            {
+                                ResetIsLatestFiles(learnerSubFolder);
+                            }
+                        }
+
+                        ApplyPermissionToFolder(assignmentFolder, CurrentUser, SPRoleType.Reader);
+
+                        if (learnerSubFolder == null)
+                        {
+                            learnerSubFolder = CreateLearnerAssignmentFolder(assignmentFolder, CurrentUser);
+                        }
+
+                        CheckExtensions(spSite, files);
+
+                        bool currentAllowUnsafeUpdates = spWeb.AllowUnsafeUpdates;
+                        spWeb.AllowUnsafeUpdates = true;
+                        try
+                        {
+
+                            foreach (AssignmentUpload upload in files)
+                            {
+                                SaveFile(upload.Name, upload.Stream, learnerSubFolder.Folder, learner);
+                            }
+                        }
+                        finally
+                        {
+                            spWeb.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
+                        }
+                        Debug("Completed upload of files. Now permissions.");
+
+                        // IF the assignment is auto return, the learner will still be able to view the drop box assignment files
+                        // otherwise, learner permissions will be removed from the learner's subfolder in the Drop Box document library
+                        if (learnerAssignmentProperties.AutoReturn == false)
+                        {
+                            Debug("Remove CurrentUser from assignmentFolder.");
+                            RemovePermissions(assignmentFolder, CurrentUser);
+                            Debug("Remove CurrentUser from learnerSubFolder.");
+                            RemovePermissions(learnerSubFolder, CurrentUser);
+                        }
+
+                        // Grant instructors contribute permission on learner subfolder
+                        Debug("Set instructor properties {0}", assignmentProperties.Instructors.Count);
+                        foreach (SlkUser instructor in assignmentProperties.Instructors)
+                        {
+                            if (instructor.SPUser == null)
+                            {
+                                throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DropBoxManagerUploadFilesNoInstructor, instructor.Name));
+                            }
+                            Debug("Remove instructor from learnerSubFolder.");
+                            RemovePermissions(learnerSubFolder, instructor.SPUser);
+                            ApplyPermissionToFolder(learnerSubFolder, instructor.SPUser, SPRoleType.Contributor);
+                        }
+
+                    }
+                }
+            });
+
+            try
+            {
+                using (SPSite contextSite = new SPSite(assignmentProperties.SPSiteGuid))
+                {
+                    contextSite.CatchAccessDeniedException = false;
+                    using (SPWeb contextWeb = contextSite.OpenWeb(assignmentProperties.SPWebGuid))
+                    {
+                        SlkStore.GetStore(contextWeb).ChangeLearnerAssignmentState(learnerAssignmentProperties.LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
+                    }
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                // state transition isn't supported
+            }
+        }
+
+        /// <summary>Returns all files for an assignment grouped by learner.</summary>
+        public Dictionary<string, List<SPFile>> AllFiles()
+        {
+            Dictionary<string, List<SPFile>> files = new Dictionary<string, List<SPFile>>();
+            using (SPSite site = new SPSite(assignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
+            {
+                using (SPWeb web = site.OpenWeb(assignmentProperties.SPWebGuid))
+                {
+                    SPList dropBox = DropBoxLibrary(web);
+
+                    string queryXml = @"<Where>
+                                        <And>
+                                            <Eq><FieldRef Name='{0}'/><Value Type='Text'>{1}</Value></Eq>
+                                            <Eq><FieldRef Name='{2}'/><Value Type='Boolean'>1</Value></Eq>
+                                        </And>
+                                     </Where>";
+                    queryXml = string.Format(CultureInfo.InvariantCulture, queryXml, columnAssignmentId, assignmentProperties.Id.GetKey(), columnIsLatest);
+                    SPQuery query = new SPQuery();
+                    query.ViewAttributes = "Scope=\"Recursive\"";
+                    query.Query = queryXml;
+                    SPListItemCollection items = dropBox.GetItems(query);
+
+                    SPFieldUser learnerField = (SPFieldUser)dropBox.Fields[columnLearner];
+
+                    foreach (SPListItem item in items)
+                    {
+                        SPFile file = item.File;
+                        SPFieldUserValue learnerValue = (SPFieldUserValue) learnerField.GetFieldValue(item[columnLearner].ToString());
+                        SPUser learner = learnerValue.User;
+
+                        List<SPFile> learnerFiles;
+                        string learnerAccount = learner.LoginName.Replace("\\", "-");
+                        if (files.TryGetValue(learnerAccount, out learnerFiles) == false)
+                        {
+                            learnerFiles = new List<SPFile>();
+                            files.Add(learnerAccount, learnerFiles);
+                        }
+
+                        learnerFiles.Add(item.File);
+                    }
+
+                    return files;
+                }
+            }
             
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        SPList assDropBox = null;
-                        try
-                        {
-                            assDropBox = spWeb.Lists[docLibTitle];
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception(AppResources.SLKFeatureNotActivated, ex.InnerException);
-                        }
-
-                        //Give Instructor read access permission over the Document Library
-                        ApplyInstructorReadAccessOnDocLib(assDropBox, spWeb);
-
-                        //Get the folder if it exists 
-                        newFolder = GetAssignmentFolder(assDropBox, assignmentFolderName);
-
-                        //Create the assignment folder if it does not exist
-                        if (newFolder == null)
-                        {
-                            url = assDropBox.RootFolder.ServerRelativeUrl;
-                            spWeb.AllowUnsafeUpdates = true;
-                            newFolder = assDropBox.Items.Add(url, SPFileSystemObjectType.Folder, assignmentFolderName);
-                            newFolder.Update();
-                            assDropBox.Update();
-                            newFolder.BreakRoleInheritance(true);
-                            spWeb.AllowUnsafeUpdates = true;
-
-                            foreach (SPRoleAssignment role in newFolder.RoleAssignments)
-                            {
-                                role.RoleDefinitionBindings.RemoveAll();
-                            }
-                            newFolder.Update();
-
-                            ApplyInstructorsReadAccessPermissions(newFolder, slkMembers, assignmentProperties);
-                            spWeb.AllowUnsafeUpdates = false;
-                        }
-                        else
-                        {
-                            newFolder = null;
-                        }                       
-                    }
-                }
-            });
-            return newFolder;
-        }
-
-        /// <summary>
-        /// Creates an assignment folder.
-        /// </summary>
-        /// <param name="docLibName">The drop box document library title</param>
-        /// <param name="assignmentProperties">The current assignment properties</param>
-        /// <param name="slkMembers">All members on the site Instructors, Learners and LearnerGroups</param>
-        /// <returns>The name of the created folder</returns>
-        public SPListItem CreateSelfAssignmentFolder(string docLibTitle, AssignmentProperties assignmentProperties, string assignmentFolderName)
-        {
-            string url;
-            SPListItem newFolder = null;
-
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        SPList assDropBox = spWeb.Lists[docLibTitle];
-
-                        //Give Instructor read access permission over the Document Library
-                        ApplyInstructorReadAccessOnDocLib(assDropBox, spWeb);
-                        
-                        //Get the folder if it exists 
-                        newFolder = GetAssignmentFolder(assDropBox, assignmentFolderName);
-
-                        //Create the assignment folder if it does not exist
-                        if (newFolder == null)
-                        {
-                            url = assDropBox.RootFolder.ServerRelativeUrl;
-                            spWeb.AllowUnsafeUpdates = true;
-                            newFolder = assDropBox.Items.Add(url, SPFileSystemObjectType.Folder, assignmentFolderName);
-                            newFolder.Update();
-                            assDropBox.Update();
-                            newFolder.BreakRoleInheritance(true);
-                            spWeb.AllowUnsafeUpdates = true;
-
-                            foreach (SPRoleAssignment role in newFolder.RoleAssignments)
-                            {
-                                role.RoleDefinitionBindings.RemoveAll();
-                            }
-                            newFolder.Update();
-
-                            ApplyPermissionToFolder(newFolder, SPContext.Current.Web.CurrentUser, SPRoleType.Reader);
-                            spWeb.AllowUnsafeUpdates = false;
-                        }
-                        else
-                        {
-                            newFolder = null;
-                        }
-                    }
-                }
-            });
-            return newFolder;
-        }
-
-        /// <summary>
-        /// Create a subfolder for each learner in this assignment, the subfolder will be named after the learner name.
-        /// </summary>
-        /// <param name="docLibName">The dropbox document library instance title which exists in the Instance.xml file</param>
-        /// <param name="rootFolderName">The name of the folder to create the learners sub folders under</param>
-        /// <param name="assignmentProperties">The properties of the current assignment</param>
-        /// <param name="slkMembers">All SlkMembers in the site, including Learners, instructors and LearnerGroups</param>
-        public void CreateLearnersSubFolders(SPListItem assignmentFolder, AssignmentProperties assignmentProperties, SlkMemberships slkMembers)
-        {
-            // create a subfolder for each assignment learner
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        SPList assDropBox = spWeb.Lists[assignmentFolder.ParentList.ID];
-                        SPListItem tempAssignmentFolder = assDropBox.Folders[assignmentFolder.UniqueId];
-                        SPListItem assSubFolder = null;
-                        SPUser spLearner = null;
-
-                        // Get the assignment Folder
-                        if (assDropBox.GetItemById(tempAssignmentFolder.ID) != null)
-                        {
-                            foreach (SlkUser learner in assignmentProperties.Learners)
-                            {
-                                spLearner = GetSPLearner(slkMembers, learner);
-                                // Check whether a folder with the same name exists or not
-                                assSubFolder = GetSubFolder(tempAssignmentFolder, spLearner.Name);
-                                spWeb.AllowUnsafeUpdates = true;
-                                if (assSubFolder == null)
-                                    assSubFolder = CreateSubFolder(tempAssignmentFolder.Folder, spLearner.Name);
-                                else
-                                    assSubFolder = CreateSubFolder(tempAssignmentFolder.Folder, spLearner.LoginName);
-
-                                //assSubFolder.BreakRoleInheritance(true);
-                                spWeb.AllowUnsafeUpdates = true;
-
-                                foreach (SPRoleAssignment role in assSubFolder.RoleAssignments)
-                                {
-                                    role.RoleDefinitionBindings.RemoveAll();
-                                }
-                                assSubFolder.Update();
-
-                                ApplyPermissionToFolder(tempAssignmentFolder, spLearner, SPRoleType.Reader);
-                                ApplyPermissionToFolder(assSubFolder, spLearner, SPRoleType.Reader);
-
-
-                                spWeb.AllowUnsafeUpdates = true;
-                                foreach (SPRoleAssignment role in assSubFolder.RoleAssignments)
-                                {
-                                    if (role.Member.Name != spLearner.Name)
-                                    {
-                                        bool isInstructor = false;
-                                        foreach (SlkUser slkInstructor in assignmentProperties.Instructors)
-                                        {
-                                            if (role.Member.Name == GetSPInstructor(slkMembers, slkInstructor).Name)
-                                            {
-                                                isInstructor = true;
-                                            }
-                                        }
-                                        if (!isInstructor)
-                                        {
-                                            role.RoleDefinitionBindings.RemoveAll();
-                                            role.Update();
-                                        }
-                                    }
-                                }
-                                assSubFolder.Update();
-
-                                spWeb.AllowUnsafeUpdates = false;
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        /// <summary>
-        /// Function to create a learner subfolder, the subfolder will be named after the learner name.
-        /// </summary>
-        /// <param name="docLibName">The dropbox document library instance title which exists in the Instance.xml file</param>
-        /// <param name="rootFolderName">The name of the folder to create the learners sub folders under</param>
-        /// <param name="assignmentProperties">The properties of the current assignment</param>
-        /// <param name="slkMembers">All SlkMembers in the site, including Learners, instructors and LearnerGroups</param>
-        public void CreateLearnersSubFolders(SPListItem assignmentFolder, SlkUser learner, SlkMemberships slkMembers)
-        {
-            // create a subfolder for each assignment learner
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite spSite = new SPSite(assignmentFolder.Web.Site.ID))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(assignmentFolder.Web.ID))
-                    {
-                        SPList assDropBox = spWeb.Lists[assignmentFolder.ParentList.ID];
-                        SPListItem tempAssignmentFolder = assDropBox.Folders[assignmentFolder.UniqueId];
-                        SPUser spLearner = null;
-
-                        // Get the assignment Folder
-                        if (assDropBox.GetItemById(tempAssignmentFolder.ID) != null)
-                        {
-                            spLearner = GetSPLearner(slkMembers, learner);
-                            // Check whether a folder with the same name exists or not
-                            SPListItem assSubFolder = GetSubFolder(tempAssignmentFolder, learner.Name);
-                            spWeb.AllowUnsafeUpdates = true;
-                            if (assSubFolder == null)
-                                assSubFolder = CreateSubFolder(tempAssignmentFolder.Folder, spLearner.Name);
-                            else
-                                assSubFolder = CreateSubFolder(tempAssignmentFolder.Folder, spLearner.LoginName);
-
-                            assSubFolder.BreakRoleInheritance(true);
-                            spWeb.AllowUnsafeUpdates = true;
-
-                            foreach (SPRoleAssignment role in assSubFolder.RoleAssignments)
-                            {
-                                role.RoleDefinitionBindings.RemoveAll();
-                            }
-                            assSubFolder.Update();
-
-                            ApplyPermissionToFolder(tempAssignmentFolder, spLearner, SPRoleType.Reader);
-                            ApplyPermissionToFolder(assSubFolder, spLearner, SPRoleType.Reader);
-                            spWeb.AllowUnsafeUpdates = false;
-                        }
-                    }
-                }
-            });
-        } 
-
-        /// <summary>
-        /// Create a subfolder for each learner in this assignment, the subfolder will be named after the learner name.
-        /// </summary>
-        /// <param name="docLibName">The dropbox document library instance title which exists in the Instance.xml file</param>
-        /// <param name="rootFolderName">The name of the folder to create the learners sub folders under</param>
-        /// <param name="assignmentProperties">The properties of the current assignment</param>
-        /// <param name="slkMembers">All SlkMembers in the site, including Learners, instructors and LearnerGroups</param>
-        public void CreateSelfAssignmentSubFolder(SPListItem assignmentFolder, AssignmentProperties assignmentProperties)
-        {
-            // create a subfolder for each assignment learner
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        SPList assDropBox = spWeb.Lists[assignmentFolder.ParentList.ID];
-                        SPListItem tempAssignmentFolder = assDropBox.Folders[assignmentFolder.UniqueId];
-
-                        // Get the assignment Folder
-                        if (assDropBox.GetItemById(tempAssignmentFolder.ID) != null)
-                        {
-                            SPUser spInstructor = SPContext.Current.Web.CurrentUser;
-                            // Check whether a folder with the same name exists or not
-                            SPListItem assSubFolder = GetSubFolder(tempAssignmentFolder, spInstructor.Name);
-                            spWeb.AllowUnsafeUpdates = true;
-                            if (assSubFolder == null)
-                                assSubFolder = CreateSubFolder(tempAssignmentFolder.Folder, spInstructor.Name);
-                            else
-                                assSubFolder = CreateSubFolder(tempAssignmentFolder.Folder, spInstructor.LoginName);
-
-                            assSubFolder.BreakRoleInheritance(true);
-                            spWeb.AllowUnsafeUpdates = true;
-
-                            foreach (SPRoleAssignment role in assSubFolder.RoleAssignments)
-                            {
-                                role.RoleDefinitionBindings.RemoveAll();
-                            }
-                            assSubFolder.Update();
-
-                            ApplyPermissionToFolder(tempAssignmentFolder, spInstructor, SPRoleType.Reader);
-                            ApplyPermissionToFolder(assSubFolder, spInstructor, SPRoleType.Reader);
-
-                            spWeb.AllowUnsafeUpdates = false;
-                        }
-                    }
-                }
-            });
-        }
-
-        /// <summary>
-        /// Trancate the time part and the '/' from the Created Date and convert it to string to be a valid folder name.
-        /// </summary>
-        /// <param name="fullDate">The date as it is returned from the CreatedDate property of the assignment</param>
-        /// <returns> The date converted to string and without the time and the '/' character </returns>
-        public string GetDateOnly(DateTime fullDate)
-        {
-            return fullDate.ToShortDateString().Replace("/","");
         }
 
         /// <summary>
         /// Function to update the DropBox document library after the current assignment being edited
         /// </summary>
-        /// <param name="newAssProb">The new assignment properties</param>
-        /// <param name="SlkMembers">All SlkMembers in the site, including Learners, instructors and LearnerGroups</param>
-        /// <param name="docLibName">The document library name</param>
-        public void UpdateAssignment(AssignmentProperties oldAssignmentProperties, AssignmentProperties newAssignmentProperties,
-            SlkMemberships slkMembers, string dropBoxDocLibName)
+        /// <param name="newAssignmentProperties">The new assignment properties</param>
+        public void UpdateAssignment(AssignmentProperties newAssignmentProperties)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
-                using (SPSite spSite = new SPSite(oldAssignmentProperties.SPSiteGuid))
+                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
                 {
-                    using (SPWeb spWeb = spSite.OpenWeb(oldAssignmentProperties.SPWebGuid))
+                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        SPListItem oldAssignmentFolder = null, newAssignmentFolder = null, learnerSubFolder = null;
-                        SPListItem tempAssignmentFolder = null, templearnerSubfolder = null;
-                        SPList dropBoxDocLib = spWeb.Lists[dropBoxDocLibName];
-                        SPUser spLearner = null;
-                        string oldAssignmentTitle = oldAssignmentProperties.Title.Trim();
-                        string newAssignmentTitle = newAssignmentProperties.Title.Trim();
-                        string oldAssignmentFolderName = (oldAssignmentTitle + " " + GetDateOnly(newAssignmentProperties.DateCreated)).Trim();
-                        string newAssignmentFolderName = (newAssignmentTitle + " " + GetDateOnly(oldAssignmentProperties.DateCreated)).Trim();
+                        SPList dropBox = DropBoxLibrary(spWeb);
+                        string newAssignmentFolderName = GenerateFolderName(newAssignmentProperties);
 
                         // If assignment title has been changed, create a new assignment folder and move old assignment folder contents to it
-                        if (oldAssignmentFolderName.ToLower() != newAssignmentFolderName.ToLower())
+                        if (string.Compare(FolderName,  newAssignmentFolderName, true, CultureInfo.CurrentUICulture) != 0)
                         {
-                            //Get old assignment folder
-                            oldAssignmentFolder = GetAssignmentFolder(dropBoxDocLib, oldAssignmentFolderName);
-                            if (oldAssignmentFolder != null)
-                            {
-                                if (!spWeb.GetFolder(oldAssignmentFolder.Url.Replace(oldAssignmentFolderName, newAssignmentFolderName)).Exists)
-                                {
-                                    spWeb.AllowUnsafeUpdates = true;
-
-                                    SPFolder folderSrc = spWeb.GetFolder(oldAssignmentFolder.Url);
-                                    folderSrc.MoveTo(oldAssignmentFolder.Url.Replace(oldAssignmentFolderName, newAssignmentFolderName));
-
-                                    spWeb.AllowUnsafeUpdates = false;
-                                }
-                                else
-                                {
-                                    throw new Exception(AppResources.AssignmentNameAlreadyUsed);
-                                }
-                            }
-                            else
-                            {
-                                throw new Exception(AppResources.AssFolderNotFound);
-                            }
+                            ChangeFolderName(dropBox, newAssignmentFolderName);
                         }
 
                         // Get new assignment folder, or the old one if the title has not been changed
                         // in both cases, the value of the current assignment folder name will be stored in newAssignmentFolderName
-                        newAssignmentFolder = GetAssignmentFolder(dropBoxDocLib, newAssignmentFolderName);
+                        SPListItem assignmentFolder = GetFolder(dropBox, newAssignmentFolderName);
 
-                        if (newAssignmentFolder != null)
+                        if (assignmentFolder != null)
                         {
-                            tempAssignmentFolder = spWeb.GetFolder(newAssignmentFolder.Folder.Url).Item;
-
                             spWeb.AllowUnsafeUpdates = true;
 
                             //remove all permissions that has been granted before on the assignment folder
-                            foreach (SPRoleAssignment role in tempAssignmentFolder.RoleAssignments)
+                            foreach (SPRoleAssignment role in assignmentFolder.RoleAssignments)
                             {
                                 role.RoleDefinitionBindings.RemoveAll();
                             }
-                            tempAssignmentFolder.Update();
+                            assignmentFolder.Update();
 
                             // Grant assignment instructors Read permission on the assignment folder
-                            ApplyInstructorsReadAccessPermissions(tempAssignmentFolder, slkMembers, newAssignmentProperties);
+                            ApplyInstructorsReadAccessPermissions(assignmentFolder);
 
                             // Delete subfolders of the learners who have been removed from the assignment
-                            foreach (SlkUser oldLearner in oldAssignmentProperties.Learners)
-                            {
-                                if (!newAssignmentProperties.Learners.Contains(oldLearner.UserId))
-                                {
-                                    spLearner = GetSPLearner(slkMembers, oldLearner);
-                                    spWeb.AllowUnsafeUpdates = true;
-
-                                    // Get learner subfolder, and delete it if exists
-                                    learnerSubFolder = GetSubFolder(newAssignmentFolder, spLearner.Name);
-                                    if (learnerSubFolder == null)
-                                        learnerSubFolder = GetSubFolder(newAssignmentFolder, spLearner.LoginName);
-                                    if (learnerSubFolder != null)
-                                    {
-                                        templearnerSubfolder = spWeb.GetFolder(learnerSubFolder.Folder.Url).Item;
-                                        templearnerSubfolder.Delete();
-                                    }
-                                    tempAssignmentFolder.Update();
-                                }
-                            }
+                            DeleteRemovedLearnerFolders(assignmentFolder, newAssignmentProperties);
 
                             foreach (SlkUser learner in newAssignmentProperties.Learners)
                             {
-                                spLearner = GetSPLearner(slkMembers, learner);
-
                                 // Grant assignment learners Read permission on the assignment folder
-                                ApplyPermissionToFolder(tempAssignmentFolder, spLearner, SPRoleType.Reader);
+                                ApplyPermissionToFolder(assignmentFolder, learner.SPUser, SPRoleType.Reader);
 
-                                // Get learner subfolder
-                                learnerSubFolder = GetSubFolder(tempAssignmentFolder, spLearner.Name);
-                                if (learnerSubFolder == null)
-                                    learnerSubFolder = GetSubFolder(tempAssignmentFolder, spLearner.LoginName);
+                                SPListItem learnerSubFolder = FindLearnerFolder(assignmentFolder, learner.SPUser);
+
                                 if (learnerSubFolder != null)
                                 {
-                                    templearnerSubfolder = spWeb.GetFolder(learnerSubFolder.Folder.Url).Item;
-
-                                    spWeb.AllowUnsafeUpdates = true;
-
                                     //remove all permissions that has been granted before on the learner subfolder
-                                    foreach (SPRoleAssignment role in templearnerSubfolder.RoleAssignments)
+                                    foreach (SPRoleAssignment role in learnerSubFolder.RoleAssignments)
                                     {
                                         role.RoleDefinitionBindings.RemoveAll();
                                     }
-                                    templearnerSubfolder.Update();
+                                    learnerSubFolder.Update();
 
-                                    // TODO:Update instructors and learners permissions based on the learner assignment status
-                                    
                                     // Grant assignment instructors permission on the learner subfolder based on the learner assignment status
-                                    ApplyInstructorsReadAccessPermissions(templearnerSubfolder, slkMembers, newAssignmentProperties);
+                                    ApplyInstructorsReadAccessPermissions(learnerSubFolder);
 
                                     // Grant learner permission on his/her learner subfolder based on the learner assignment status
-                                    ApplyPermissionToFolder(templearnerSubfolder, spLearner, SPRoleType.Reader);
+                                    ApplyPermissionToFolder(learnerSubFolder, learner.SPUser, SPRoleType.Reader);
                                 }
                                 else
                                 // In case the assignment is assigned to new learner
                                 {
                                     // Create a new subfolder for this learner
-                                    CreateLearnersSubFolders(tempAssignmentFolder, learner, slkMembers);
+                                    CreateLearnerAssignmentFolder(assignmentFolder, learner.SPUser);
                                 }
                             }
                             spWeb.AllowUnsafeUpdates = false;
@@ -709,185 +395,318 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="subFolderName">The name of the subfolder</param>
         /// <param name="assWeb">The current assignment SPWeb</param>
         /// <param name="docLibName">The document library name</param>
-        public SPListItem CreateSubFolder(SPFolder assFolder, string learnerName)
+        public SPListItem CreateSubFolder(SPFolder folder, string newFolderName)
         {
-            assFolder.Item.Web.AllowUnsafeUpdates = true;
-            SPFolder learnerSubFolder = assFolder.SubFolders.Add(learnerName);
-            learnerSubFolder.Item.BreakRoleInheritance(true);
-            assFolder.Item.Web.AllowUnsafeUpdates = true;
-            assFolder.Update();
-            assFolder.Item.Web.AllowUnsafeUpdates = false;
-            return learnerSubFolder.Item;
+            SPWeb web = folder.Item.Web;
+            bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
+            try
+            {
+                web.AllowUnsafeUpdates = true;
+                SPFolder learnerSubFolder = folder.SubFolders.Add(newFolderName);
+                learnerSubFolder.Update();
+                BreakRoleInheritance(learnerSubFolder.Item);
+                return learnerSubFolder.Item;
+            }
+            finally
+            {
+                web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
+            }
         }
 
-        /// <summary>
-        /// Function to get the SPUser of the SLKUser
-        /// </summary>
-        /// <param name="slkMembers">All SlkMembers in the site, including Learners, instructors and LearnerGroups</param>
-        /// <param name="slkUser">The SLKUser object of the instructor</param>
-        /// <returns>The SPUser object of the specified </returns>
-        public SPUser GetSPInstructor(SlkMemberships slkMembers, SlkUser slkUser)
+        /// <summary>Returns the last submitted files for the given learner.</summary>
+        public AssignmentFile[] LastSubmittedFiles(long learnerId)
         {
-            for (int i = 0; i < slkMembers.Instructors.Count; i++)
+            foreach (SlkUser learner in assignmentProperties.Learners)
             {
-                if (slkMembers.Instructors[i].UserId.GetKey() == slkUser.UserId.GetKey())
+                if (learner.UserId.GetKey() == learnerId)
                 {
-                    return slkMembers.Instructors[i].SPUser;
+                    return LastSubmittedFiles(learner.SPUser);
                 }
             }
-            return null;
-        }
-        
-        /// <summary>
-        /// Get the SP object of the specified SLK learner object
-        /// </summary>
-        /// <param name="slkMembers">All SlkMembers in the site, including Learners, instructors and LearnerGroups</param>
-        /// <param name="slkUser">The SLKUser  of the specified learner object</param>
-        /// <returns>The SP object of the specified SLKUser learner</returns>
-        public SPUser GetSPLearner(SlkMemberships slkMembers, SlkUser slkUser)
-        {
-            for (int i = 0; i < slkMembers.Learners.Count; i++)
-            {
-                if (slkMembers.Learners[i].UserId.GetKey() == slkUser.UserId.GetKey())
-                {
-                    return slkMembers.Learners[i].SPUser;
-                }
-            }
-            return null;
+            return new AssignmentFile[0];
         }
 
-        /// <summary>
-        /// Gets the SPUser object of the specified SlkUser object
-        /// </summary>
-        /// <param name="slkMembers">All SlkMembers in the site, including Learners, instructors and LearnerGroups</param>
-        /// <param name="slkUser">The SlkUser object</param>
-        /// <returns>The SPUser object of the specified SlkUser</returns>
-        public SPUser GetSPUser(SlkMemberships slkMembers, SlkUser slkUser)
+        /// <summary>Returns the last submitted files for the current user.</summary>
+        public AssignmentFile[] LastSubmittedFiles()
         {
-            for (int i = 0; i < slkMembers.Instructors.Count; i++)
-            {
-                if (slkMembers.Instructors[i].UserId.GetKey() == slkUser.UserId.GetKey())
-                {
-                    return slkMembers.Instructors[i].SPUser;
-                }
-            }
-            for (int i = 0; i < slkMembers.Learners.Count; i++)
-            {
-                if (slkMembers.Learners[i].UserId.GetKey() == slkUser.UserId.GetKey())
-                {
-                    return slkMembers.Learners[i].SPUser;
-                }
-            }
-            return null;
+            return LastSubmittedFiles(CurrentUser);
         }
 
-        /// <summary>
-        /// Gets SlkUser from SlkMemberships by UserItemIdentifier
-        /// </summary>
-        /// <param name="slkMembers">All SlkMembers in the web, including Learners, instructors and LearnerGroups</param>
-        /// <param name="slkUserId">The UserId of the SlkUser object of the instructor</param>
-        /// <returns>SlkUser</returns>
-        public SlkUser GetSlkUserById(SlkMemberships slkMembers, UserItemIdentifier slkUserId)
+        /// <summary>Deletes the assignment folder.</summary>
+        public void DeleteAssignmentFolder()
         {
-            for (int i = 0; i < slkMembers.Instructors.Count; i++)
-            {
-                if (slkMembers.Instructors[i].UserId.GetKey() == slkUserId.GetKey())
-                {
-                    return slkMembers.Instructors[i];
-                }
-            }
-
-            for (int i = 0; i < slkMembers.Learners.Count; i++)
-            {
-                if (slkMembers.Learners[i].UserId.GetKey() == slkUserId.GetKey())
-                {
-                    return slkMembers.Learners[i];
-                }
-            }
-            return null;
-        }
-        
-        /// <summary>
-        /// Function searches for the assignment folder
-        /// </summary>
-        /// <param name="assDropBox">The current document library which contains the specified folder</param>
-        /// <param name="folderName">The specified foler name</param>
-        /// <returns>The folder object</returns>
-        public SPListItem GetAssignmentFolder(SPList assDropBox, string folderName)
-        {
-            SPListItem assFolder = null;
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
-                using (SPSite site = new SPSite(assDropBox.ParentWeb.Site.ID))
+                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
                 {
-                    using (SPWeb web = site.OpenWeb(assDropBox.ParentWeb.ID))
+                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        SPList dropBoxList = web.Lists[assDropBox.ID];
-                        SPQuery query = new SPQuery();
-                        query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + folderName + "</Value></Eq></Where>";
-                        if (dropBoxList.GetItems(query).Count != 0)
-                            assFolder = dropBoxList.GetItems(query)[0];
+                        SPList assDropBox = DropBoxLibrary(spWeb);
+
+                        //Get the folder if it exists 
+                        SPListItem assignmentFolder = GetAssignmentFolder(assDropBox);
+
+                        if (assignmentFolder != null)
+                        {
+                            bool currentAllowUnsafeUpdates = spWeb.AllowUnsafeUpdates;
+                            spWeb.AllowUnsafeUpdates = true;
+                            try
+                            {
+                                assignmentFolder.Delete();
+                            }
+                            catch
+                            {
+                                spWeb.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
+                            }
+                        }
                     }
                 }
             });
-            return assFolder;
         }
-        
+
+        SPListItem CreateLearnerAssignmentFolder(SPListItem assignmentFolder, SPUser user)
+        {
+            SPWeb web = assignmentFolder.ParentList.ParentWeb;
+            bool originalAllow = web.AllowUnsafeUpdates;
+            web.AllowUnsafeUpdates = true;
+
+            try
+            {
+                SPListItem assSubFolder = CreateSubFolder(assignmentFolder.Folder, LearnerFolderName(user));
+                ApplyPermissionToFolder(assSubFolder, user, SPRoleType.Reader);
+                return assSubFolder;
+            }
+            finally
+            {
+                web.AllowUnsafeUpdates = originalAllow;
+            }
+
+        }
+
+        /// <summary>Creates an assignment folder.</summary>
+        public void CreateAssignmentFolder()
+        {
+            SPSecurity.RunWithElevatedPrivileges(delegate
+            {
+                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
+                {
+                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
+                    {
+                        SPList assDropBox = DropBoxLibrary(spWeb);
+
+                        //Give Instructor read access permission over the Document Library
+                        ApplyInstructorReadAccessOnDocLib(assDropBox, spWeb);
+
+                        //Get the folder if it exists 
+                        if (GetAssignmentFolder(assDropBox) != null)
+                        {
+                            throw new SafeToDisplayException(AppResources.AssFolderAlreadyExists);
+                        }
+
+                        SPListItem assignmentFolder = CreateAssignmentFolder(assDropBox);
+                        ApplyInstructorsReadAccessPermissions(assignmentFolder);
+
+                        //Create a Subfolder for each learner
+                        foreach (SlkUser learner in assignmentProperties.Learners)
+                        {
+                            SPUser spLearner = learner.SPUser;
+                            ApplyPermissionToFolder(assignmentFolder, spLearner, SPRoleType.Reader);
+                            CreateLearnerAssignmentFolder(assignmentFolder, spLearner);
+                        }
+                    }
+                }
+            });
+        }
+
+        /// <summary>Creates an assignment folder.</summary>
+        /// <returns>The created folder</returns>
+        public SPListItem CreateSelfAssignmentFolder()
+        {
+            SPListItem assignmentFolder = null;
+
+            SPSecurity.RunWithElevatedPrivileges(delegate
+            {
+                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
+                {
+                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
+                    {
+                        SPList assDropBox = DropBoxLibrary(spWeb);
+
+                        //Give Instructor read access permission over the Document Library
+                        ApplyInstructorReadAccessOnDocLib(assDropBox, spWeb);
+                        
+                        //Get the folder if it exists 
+                        assignmentFolder = GetAssignmentFolder(assDropBox);
+
+                        //Create the assignment folder if it does not exist
+                        if (assignmentFolder == null)
+                        {
+                            assignmentFolder = CreateAssignmentFolder(assDropBox);
+                            ApplyPermissionToFolder(assignmentFolder, CurrentUser, SPRoleType.Reader);
+                            CreateLearnerAssignmentFolder(assignmentFolder, CurrentUser);
+                        }
+                        else
+                        {
+                            assignmentFolder = null;
+                        }
+                    }
+                }
+            });
+            return assignmentFolder;
+        }
+
+#endregion public methods
+
+#region private methods
+        void CheckExtensions(SPSite site, AssignmentUpload[] files)
+        {
+            Collection<string> blockedExtensions = site.WebApplication.BlockedFileExtensions;
+            List<string> failures = new List<string>();
+
+            foreach (AssignmentUpload upload in files)
+            {
+                if (CheckExtension(blockedExtensions, upload.Name) == false)
+                {
+                    failures.Add(upload.Name);
+                }
+            }
+
+            if (failures.Count > 0)
+            {
+                string message = string.Format(CultureInfo.CurrentUICulture, AppResources.FilesUploadPageFailureMessage, string.Join(", ", failures.ToArray()));
+                throw new SafeToDisplayException(message);
+            }
+        }
+
+        bool CheckExtension(Collection<string> blockedExtensions, string fileName)
+        {
+            string extension = Path.GetExtension(fileName);
+            if (string.IsNullOrEmpty(extension))
+            {
+                return true;
+            }
+            else
+            {
+                extension = extension.ToLower(CultureInfo.InvariantCulture);
+                if (extension[0] == '.')
+                {
+                    extension = extension.Substring(1);
+                }
+
+                if (blockedExtensions != null && blockedExtensions.Contains(extension))
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        void ChangeFolderName(SPList dropBox, string newAssignmentFolderName)
+        {
+            SPWeb web = dropBox.ParentWeb;
+            //Get old assignment folder
+            SPListItem oldAssignmentFolder = GetAssignmentFolder(dropBox);
+            if (oldAssignmentFolder != null)
+            {
+                if (!web.GetFolder(oldAssignmentFolder.Url.Replace(FolderName, newAssignmentFolderName)).Exists)
+                {
+                    oldAssignmentFolder.Folder.MoveTo(oldAssignmentFolder.Url.Replace(FolderName, newAssignmentFolderName));
+                }
+                else
+                {
+                    throw new SafeToDisplayException(AppResources.AssignmentNameAlreadyUsed);
+                }
+            }
+            else
+            {
+                throw new SafeToDisplayException(AppResources.AssFolderNotFound);
+            }
+        }
+
+        void DeleteRemovedLearnerFolders(SPListItem assignmentFolder, AssignmentProperties newAssignmentProperties)
+        {
+            foreach (SlkUser oldLearner in assignmentProperties.Learners)
+            {
+                if (!newAssignmentProperties.Learners.Contains(oldLearner.UserId))
+                {
+                    // Get learner subfolder, and delete it if exists
+                    SPListItem learnerSubFolder = FindLearnerFolder(assignmentFolder, oldLearner.SPUser);
+                    if (learnerSubFolder != null)
+                    {
+                        learnerSubFolder.Delete();
+                    }
+                    assignmentFolder.Update();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Function searches for the assignment folder
+        /// </summary>
+        /// <param name="dropBoxList">The current document library which contains the specified folder</param>
+        /// <returns>The folder object</returns>
+        SPListItem GetAssignmentFolder(SPList dropBoxList)
+        {
+            return GetFolder(dropBoxList, FolderName);
+        }
+
         /// <summary>
         /// Function searches for the specified subfolder
         /// </summary>
         /// <param name="assDropBox">The document library which contains the assignment folder</param>
-        /// <param name="assFolder">The assignment folder object which contains the subfolders</param>
+        /// <param name="assignmentFolder">The assignment folder object which contains the subfolders</param>
         /// <param name="subFolderName"></param>
         /// <returns></returns>
-        public SPListItem GetSubFolder(SPListItem assFolder, string subFolderName)
+        SPListItem GetSubFolder(SPListItem assignmentFolder, string subFolderName)
         {
-            SPFolder tempFolder = null;
-            SPListItem assSubFolder = null;
-
-            SPSecurity.RunWithElevatedPrivileges(delegate
+            SPQuery subFolderQuery = new SPQuery();
+            subFolderQuery.Folder = assignmentFolder.Folder;
+            subFolderQuery.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + subFolderName + "</Value></Eq></Where>";
+            SPListItemCollection allSubFolders = assignmentFolder.ParentList.GetItems(subFolderQuery);
+            if (allSubFolders.Count != 0)
             {
-                using (SPSite site = new SPSite(assFolder.ParentList.ParentWeb.Site.ID))
-                {
-                    using (SPWeb web = site.OpenWeb(assFolder.ParentList.ParentWeb.ID))
-                    {
-                        tempFolder = web.Lists[assFolder.ParentList.ID].Folders[assFolder.UniqueId].Folder;
-                        SPQuery subFolderQuery = new SPQuery();
-                        subFolderQuery.Folder = tempFolder;
-                        subFolderQuery.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + subFolderName + "</Value></Eq></Where>";
-                        SPListItemCollection allSubFolders = tempFolder.Item.ParentList.GetItems(subFolderQuery);
-                        if (allSubFolders.Count != 0)
-                            assSubFolder = allSubFolders[0];
-                    }
-                }
-            });
-            return assSubFolder;
+                return allSubFolders[0];
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        private void ApplyInstructorReadAccessOnDocLib(SPList assDropBox, SPWeb spWeb)
+        void ApplyInstructorReadAccessOnDocLib(SPList assDropBox, SPWeb spWeb)
         {
-            SPUser user = SPContext.Current.Web.CurrentUser;
+            SPUser user = CurrentUser;
             if (!assDropBox.DoesUserHavePermissions(user, SPBasePermissions.ViewListItems))
             {
                 ApplyPermission(spWeb, assDropBox, user, SPRoleType.Reader, new UpdateList(assDropBox));
             }
         }
 
-        void ApplyInstructorsReadAccessPermissions(SPListItem folder, SlkMemberships slkMembers, AssignmentProperties assignmentProperties)
+        void ApplyInstructorsReadAccessPermissions(SPListItem folder)
         {
             foreach (SlkUser instructor in assignmentProperties.Instructors)
             {
-                ApplyPermissionToFolder(folder, GetSPInstructor(slkMembers, instructor), SPRoleType.Reader);
+                ApplyPermissionToFolder(folder, instructor.SPUser, SPRoleType.Reader);
             }
         }
 
         void ApplyPermissionToFolder(SPListItem folder, SPUser user, SPRoleType roleType)
         {
-            ApplyPermission(folder.Web, folder, user, roleType, new UpdateListItem(folder));
+            if (folder != null)
+            {
+                ApplyPermission(folder.Web, folder, user, roleType, new UpdateListItem(folder));
+            }
         }
 
         void ApplyPermission(SPWeb web, ISecurableObject securable, SPUser user, SPRoleType roleType, UpdateItem updateItem)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
             SPRoleDefinition roleDefinition = web.RoleDefinitions.GetByType(roleType);
             SPRoleAssignment roleAssignment = new SPRoleAssignment(user);
 
@@ -905,180 +724,44 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        public string GetSPUserName(string fullName)
+        string SaveFile(string fileName, Stream fileStream, SPFolder learnerSubFolder, SPUser learner)
         {
-           return fullName.Remove(0, fullName.IndexOf("\\") + 1);
+            Debug("uploaded file {0}", fileName);
+            string fileUrl = learnerSubFolder.Url + '/' + fileName;
+
+            SPFile file = learnerSubFolder.Files.Add(fileUrl, fileStream, true);
+            file = learnerSubFolder.Files[fileUrl];
+            file.Item[columnAssignmentDate] = assignmentProperties.StartDate;
+            file.Item[columnAssignmentName] = assignmentProperties.Title.Trim();
+            file.Item[columnAssignmentId] = assignmentProperties.Id.GetKey();
+            file.Item[columnLearnerId] = learner.Sid;
+            file.Item[columnLearner] = learner;
+            file.Item[columnIsLatest] = true; 
+            file.Item.Update();
+            return file.ServerRelativeUrl;
         }
 
-        public void ResestIsLatestFiles(SPListItem learnerSubFolder)
+        void RemovePermissions(SPListItem folder, SPUser user)
         {
-            SPSecurity.RunWithElevatedPrivileges(delegate
+            Debug("RemovePermissions: user is null {0}", user == null);
+            if (folder != null && user != null)
             {
-                using (SPSite site = new SPSite(learnerSubFolder.ParentList.ParentWeb.Site.ID))
+                SPWeb web = folder.Web;
+                bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
+                try
                 {
-                    using (SPWeb web = site.OpenWeb(learnerSubFolder.ParentList.ParentWeb.ID))
-                    {
-                        SPList list = web.Lists[learnerSubFolder.ParentList.ID];
-                        SPFolder subFolder = list.Folders[learnerSubFolder.Folder.ParentFolder.UniqueId].Folder.SubFolders[learnerSubFolder.Url];
-
-                        web.AllowUnsafeUpdates = true;
-
-                        foreach (SPFile file in subFolder.Files)
-                        {
-                            file.Item["IsLatest"] = false;
-                            file.Item.Update();
-                        }
-                    }
+                    web.AllowUnsafeUpdates = true;
+                    folder.RoleAssignments.Remove(user);
+                    folder.Update();
                 }
-            });
-        }
-
-        public SPFile UploadFile(string fileName, Stream fileStream, SPFolder learnerSubFolder,
-            Guid learnerAssignmentGuid, LearnerAssignmentProperties learnerAssignmentProperties)
-        {
-            SPFile file = null;
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite site = new SPSite(learnerSubFolder.ParentWeb.Site.ID))
+                finally
                 {
-                    using (SPWeb web = site.OpenWeb(learnerSubFolder.ParentWeb.ID))
-                    {
-                        SPFolder assignmentFolder = web.Lists[learnerSubFolder.ParentListId].Folders[learnerSubFolder.ParentFolder.UniqueId].Folder;
-                        SPFolder subFolder = assignmentFolder.SubFolders[learnerSubFolder.Url];
-
-                        string fileUrl = subFolder.Url + '/' + fileName;
-                        web.AllowUnsafeUpdates = true;
-
-                        subFolder.Files.Add(fileUrl, fileStream, true);
-                        file = subFolder.Files[fileUrl];
-                        file.Item.Update();
-                        //Set the properties of the list item
-                        SetFileProperties(file, learnerAssignmentGuid, learnerAssignmentProperties);
-
-                        // IF the assignment is auto return, the learner will still be able to view the drop box assignment files
-                        // otherwise, learner permissions will be removed from the learner's subfolder in the Drop Box document library
-                        if (!learnerAssignmentProperties.AutoReturn)
-                        {
-                            RemoveLearnerPermission(assignmentFolder, SPContext.Current.Web.CurrentUser);
-                            RemoveLearnerPermission(subFolder, SPContext.Current.Web.CurrentUser);
-                        }
-
-                        // Grant instructors contribute permission on learner subfolder
-                        ApplyInstructorsGradingPermission(subFolder.Item);
-
-                        web.AllowUnsafeUpdates = false;
-                    }
-                }
-            });
-            return file;
-        }
-
-        /// <summary>
-        /// Returns true if roleAssignment member is granted "Read" and "SLK Instructor" permissions on roleAssignment parent
-        /// </summary>
-        /// <param name="subFolderItem">learner subfolder item</param>
-        private void ApplyInstructorsGradingPermission(SPListItem subFolderItem)
-        {
-            bool isReader = false, isInstructor = false;
-            SPFolder assignmentFolder = subFolderItem.Folder.ParentFolder;
-            SPWeb web = assignmentFolder.ParentWeb;
-
-            foreach (SPRoleAssignment assignmentFolderRoleAssignment in assignmentFolder.Item.RoleAssignments)
-            {
-                for (int i = 0; i < assignmentFolderRoleAssignment.RoleDefinitionBindings.Count; i++)
-                {
-                    if (assignmentFolderRoleAssignment.RoleDefinitionBindings[i].Type == SPRoleType.Reader)
-                    {
-                        isReader = true;
-
-                        foreach (SPRoleAssignment webRoleAssignment in web.RoleAssignments)
-                        {
-                            for (int j = 0; j < webRoleAssignment.RoleDefinitionBindings.Count; j++)
-                            {
-                                if (webRoleAssignment.Member.Name == assignmentFolderRoleAssignment.Member.Name &&
-                                    webRoleAssignment.RoleDefinitionBindings[j].Name == SlkStore.GetStore(web).Mapping.InstructorPermission)
-                                {
-                                    isInstructor = true;
-                                    break;
-                                }
-                            }
-                            if (isInstructor)
-                                break;
-                        }
-                    }
-                    if (isReader && isInstructor)
-                    {
-                        ApplyPermissionToFolder(subFolderItem, (SPUser)assignmentFolderRoleAssignment.Member, SPRoleType.Contributor);
-                        isReader = false;
-                        isInstructor = false;
-                        break;
-                    }
+                    web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
                 }
             }
         }
 
-        private void SetFileProperties(SPFile file, Guid learnerAssignmentGuid, LearnerAssignmentProperties currentLearnerAssignmentProperties)
-        {
-            file.Item["AssignmentGUID"] = learnerAssignmentGuid.ToString();
-            file.Item["LearnerID"] = currentLearnerAssignmentProperties.LearnerName;
-            //Set IsLatest property to true for new submitted files
-            //this is used to keep track of files submitted at the learner last assignment attempt
-            file.Item["IsLatest"] = true; 
-            file.Item.Update();
-        }
-
-        private void RemoveLearnerPermission(SPFolder folder, SPUser learner)
-        {
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite site = new SPSite(folder.ParentWeb.Site.ID))
-                {
-                    using (SPWeb web = site.OpenWeb(folder.ParentWeb.ID))
-                    {
-                        SPList dropBoxLib = web.Lists[folder.ParentListId];
-
-                        // If the folder parent is the root, then this is an assignment folder
-                        if (folder.ParentFolder == folder.Item.ParentList.RootFolder)
-                        {
-                            SPListItem assignmentFolder = dropBoxLib.Folders[folder.ParentFolder.UniqueId];
-                            SPListItem subFolder = dropBoxLib.Folders[assignmentFolder.UniqueId].Folder.SubFolders[folder.Url].Item;
-                            web.AllowUnsafeUpdates = true;
-                            subFolder.RoleAssignments.Remove(learner);
-                            assignmentFolder.RoleAssignments.Remove(learner);
-                            web.AllowUnsafeUpdates = false;
-                        }
-                        // else, then this is a learner subfolder
-                        else
-                        {
-                            folder.Item.Web.AllowUnsafeUpdates = true;
-                            folder.Item.RoleAssignments.Remove(learner);
-                            folder.Update();
-                            folder.Item.Web.AllowUnsafeUpdates = false;
-                        }
-                    }
-                }
-            });
-        }
-
-        private void RemoveInstructorPermission(SPFolder learnerSubFolder, SPUser instructor)
-        {
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite site = new SPSite(learnerSubFolder.ParentWeb.Site.ID))
-                {
-                    using (SPWeb web = site.OpenWeb(learnerSubFolder.ParentWeb.ID))
-                    {
-                        SPList dropBoxLib = web.Lists[learnerSubFolder.ParentListId];
-                        learnerSubFolder.Item.Web.AllowUnsafeUpdates = true;
-                        learnerSubFolder.Item.RoleAssignments.Remove(instructor);
-                        learnerSubFolder.Update();
-                        learnerSubFolder.Item.Web.AllowUnsafeUpdates = false;
-                    }
-                }
-            });
-        }
-
-        private void RemoveObserverPermission(SPListItem learnerSubFolderItem)
+        void RemoveObserverPermission(SPListItem learnerSubFolderItem)
         {
             bool isReader = false, isObserver = false;
             SPWeb web = learnerSubFolderItem.Web;
@@ -1120,192 +803,59 @@ namespace Microsoft.SharePointLearningKit
             }
         }
         
-        /// <summary>
-        /// Updates permissions of Drop Box assignment folder corresponding to item
-        /// </summary>
-        /// <param name="item">The current learning item</param>
-        public void ApplyCollectAssignmentPermissions(SPList dropBoxDocLib, AssignmentProperties currentAssignmentProperties, string learnerName, SlkMemberships slkMembers)
+        void ApplyAssignmentPermission(long learnerId, SPRoleType learnerPermissions, SPRoleType instructorPermissions, bool removeObserverPermissions)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
-                using (SPSite spSite = new SPSite(currentAssignmentProperties.SPSiteGuid))
+                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
                 {
-                    using (SPWeb spWeb = spSite.OpenWeb(currentAssignmentProperties.SPWebGuid))
+                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        SPUser currentLearner = null;
-                        SPListItem assignmentFolder = null, learnerSubFolder = null;
-
-                        // Get the Drop Box
-                        SPList dropBox = spWeb.Lists[dropBoxDocLib.ID];
-
-                        // Get the assignment folder
-                        string assignmentFolderName = (currentAssignmentProperties.Title + " " + GetDateOnly(currentAssignmentProperties.DateCreated)).Trim();
-                        assignmentFolder = GetAssignmentFolder(dropBox, assignmentFolderName);
+                        SPList dropBox = DropBoxLibrary(spWeb);
+                        SPListItem assignmentFolder = GetAssignmentFolder(dropBox);
 
                         if (assignmentFolder != null)
                         {
-                            foreach (SlkUser learner in currentAssignmentProperties.Learners)
+                            foreach (SlkUser learner in assignmentProperties.Learners)
                             {
-                                if (learner.Name == learnerName)
+                                if (learner.UserId.GetKey() == learnerId)
                                 {
-                                    currentLearner = GetSPLearner(slkMembers, learner);
-
-                                    // IF the assignment is auto return, the learner will still be able to view the drop box assignment files
-                                    // otherwise, learner permissions will be removed from the assignment folder in the Drop Box document library
-                                    if (!currentAssignmentProperties.AutoReturn)
-                                    {
-                                        // Remove any permissions previously granted to the learner on the assignment folder
-                                        RemoveLearnerPermission(assignmentFolder.Folder, currentLearner);
-                                    }
+                                    SPUser currentLearner = learner.SPUser;
 
                                     // Get the learner sub folder
-                                    learnerSubFolder = GetSubFolder(assignmentFolder, currentLearner.Name);
-                                    if (learnerSubFolder == null)
-                                    {
-                                        learnerSubFolder = GetSubFolder(assignmentFolder, currentLearner.LoginName);
-                                    }
+                                    SPListItem learnerSubFolder = FindLearnerFolder(assignmentFolder, currentLearner);
 
                                     //For Course Manager assignments, if the folder is not created yet
                                     if (learnerSubFolder == null)
                                     {
-                                        learnerSubFolder = CreateAssignmentSubFolderForCourseManagerLearnerAssCollect(
-                                            currentAssignmentProperties, 
-                                            assignmentFolder,
-                                            currentLearner.Name);
+                                        learnerSubFolder = CreateSubFolder(assignmentFolder.Folder, currentLearner.Name);
                                     }
                                     
-                                    // IF the assignment is auto return, the learner will still be able to view the drop box assignment files
-                                    // otherwise, learner permissions will be removed from the learner's subfolder in the Drop Box document library
-                                    if (!currentAssignmentProperties.AutoReturn)
+                                    // Apply learner permissions
+                                    RemovePermissions(assignmentFolder, currentLearner);
+                                    if (learnerPermissions == SPRoleType.None)
                                     {
-                                        if (learnerSubFolder != null)
-                                            RemoveLearnerPermission(learnerSubFolder.Folder, currentLearner);
+                                        RemovePermissions(learnerSubFolder, currentLearner);
+                                    }
+                                    else
+                                    {
+                                        ApplyPermissionToFolder(assignmentFolder, currentLearner, SPRoleType.Reader);
+                                        ApplyPermissionToFolder(learnerSubFolder, currentLearner, learnerPermissions);
                                     }
 
-                                    // Grant instructor contribute permission to be able to edit learner files
-                                    foreach (SlkUser instructor in currentAssignmentProperties.Instructors)
+                                    // Apply instructor permissions
+                                    foreach (SlkUser instructor in assignmentProperties.Instructors)
                                     {
-                                        ApplyPermissionToFolder(learnerSubFolder, GetSPInstructor(slkMembers, instructor), SPRoleType.Contributor);
+                                        RemovePermissions(learnerSubFolder, instructor.SPUser);
+                                        ApplyPermissionToFolder(learnerSubFolder, instructor.SPUser, instructorPermissions);
                                     }
-                                    RemoveObserverPermission(learnerSubFolder);
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
 
-        /// <summary>
-        /// Updates permissions of Drop Box assignment folder corresponding to item
-        /// </summary>
-        /// <param name="item">The current learning item</param>
-        public void ApplyReturnAssignmentPermission(SPList dropBoxDocLib, AssignmentProperties currentAssignmentProperties, string learnerName, SlkMemberships slkMembers)
-        {
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite spSite = new SPSite(currentAssignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(currentAssignmentProperties.SPWebGuid))
-                    {
-                        SPUser currentLearner = null;
-                        SPListItem assignmentFolder = null, learnerSubFolder = null;
-
-                        // Get the Drop Box
-                        SPList dropBox = spWeb.Lists[dropBoxDocLib.ID];
-
-                        // Get the assignment folder
-                        string assignmentFolderName = (currentAssignmentProperties.Title + " " + GetDateOnly(currentAssignmentProperties.DateCreated)).Trim();
-                        assignmentFolder = GetAssignmentFolder(dropBox, assignmentFolderName);
-
-                        if (assignmentFolder != null)
-                        {
-                            foreach (SlkUser learner in currentAssignmentProperties.Learners)
-                            {
-                                if (learner.Name == learnerName)
-                                {
-                                    // Get the learner SPUser 
-                                    currentLearner = GetSPLearner(slkMembers, learner);
-
-                                    // first, remove any permissions previously granted to the learner on the assignment folder
-                                    RemoveLearnerPermission(assignmentFolder.Folder, currentLearner);
-                                    // then, grant learner Read permission on the assignment folder 
-                                    ApplyPermissionToFolder(assignmentFolder, currentLearner, SPRoleType.Reader);
-
-                                    // Get the learner sub folder
-                                    learnerSubFolder = GetSubFolder(assignmentFolder, currentLearner.Name);
-                                    if (learnerSubFolder == null)
-                                        learnerSubFolder = GetSubFolder(assignmentFolder, currentLearner.LoginName);
-
-                                    if (learnerSubFolder != null)
+                                    if (removeObserverPermissions)
                                     {
-                                        RemoveLearnerPermission(learnerSubFolder.Folder, currentLearner);
-                                        // Grant learner Read permission on the learner subfolder 
-                                        ApplyPermissionToFolder(learnerSubFolder, currentLearner, SPRoleType.Reader);
-                                        // Remove instructors permission from the learner subfolder
-                                        foreach (SlkUser instructor in currentAssignmentProperties.Instructors)
-                                        {
-                                            SPUser user = GetSPInstructor(slkMembers, instructor);
-                                            ApplyPermissionToFolder(learnerSubFolder, user, SPRoleType.Reader);
-                                            RemoveInstructorPermission(learnerSubFolder.Folder, user);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        /// <summary>
-        /// Updates permissions of Drop Box assignment folder corresponding to item
-        /// </summary>
-        /// <param name="item">The current learning item</param>
-        public void ApplyReactivateAssignmentPermission(SPList dropBoxDocLib, AssignmentProperties currentAssignmentProperties, string learnerName, SlkMemberships slkMembers)
-        {
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite spSite = new SPSite(currentAssignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(currentAssignmentProperties.SPWebGuid))
-                    {
-                        SPUser currentLearner = null;
-                        SPListItem assignmentFolder = null, learnerSubFolder = null;
-
-                        // Get the Drop Box
-                        SPList dropBox = spWeb.Lists[dropBoxDocLib.ID];
-
-                        // Get the assignment folder
-                        string assignmentFolderName = (currentAssignmentProperties.Title + " " + GetDateOnly(currentAssignmentProperties.DateCreated)).Trim();
-                        assignmentFolder = GetAssignmentFolder(dropBox, assignmentFolderName);
-
-                        if (assignmentFolder != null)
-                        {
-                            foreach (SlkUser learner in currentAssignmentProperties.Learners)
-                            {
-                                if (learner.Name == learnerName)
-                                {
-                                    // Get the learner SPUser 
-                                    currentLearner = GetSPLearner(slkMembers, learner);
-
-                                    // Grant learner Read permission on the assignment folder 
-                                    ApplyPermissionToFolder(assignmentFolder, currentLearner, SPRoleType.Reader);
-
-                                    // Get the learner sub folder
-                                    learnerSubFolder = GetSubFolder(assignmentFolder, currentLearner.Name);
-                                    if (learnerSubFolder == null)
-                                        learnerSubFolder = GetSubFolder(assignmentFolder, currentLearner.LoginName);
-
-                                    if (learnerSubFolder != null)
-                                    {
-                                        // Grant learner Read permission on the learner subfolder 
-                                        ApplyPermissionToFolder(learnerSubFolder, currentLearner, SPRoleType.Reader);
-                                        // Give Instructors Read Access Permission on the learner subfolder
-                                        ApplyInstructorsGradingPermission(learnerSubFolder);
-
                                         RemoveObserverPermission(learnerSubFolder);
                                     }
+
+                                    break;
                                 }
                             }
                         }
@@ -1314,6 +864,337 @@ namespace Microsoft.SharePointLearningKit
             });
         }
 
+        SPList DropBoxLibrary(SPWeb web)
+        {
+            object property = web.AllProperties[propertyKey];
+            if (property != null)
+            {
+                try
+                {
+                    Guid id = new Guid(property.ToString());
+                    return web.Lists.GetList(id, true);
+                }
+                catch (FormatException) {}
+                catch (OverflowException) {}
+                catch (SPException) {}
+            }
+
+            return CreateDropBoxLibrary(web);
+        }
+
+        SPListItem CreateAssignmentFolder(SPList dropBox)
+        {
+            SPWeb web = dropBox.ParentWeb;
+            string url = dropBox.RootFolder.ServerRelativeUrl;
+            bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
+
+            try
+            {
+                web.AllowUnsafeUpdates = true;
+                SPListItem assignmentFolder = dropBox.Items.Add(url, SPFileSystemObjectType.Folder, FolderName);
+                assignmentFolder.Update();
+                BreakRoleInheritance(assignmentFolder);
+                dropBox.Update();
+                CreateAssignmentView(dropBox);
+                return assignmentFolder;
+            }
+            finally
+            {
+                web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
+            }
+        }
+
+        void CreateAssignmentView(SPList dropBox)
+        {
+            StringCollection fields = new StringCollection();
+            fields.Add(dropBox.Fields[SPBuiltInFieldId.DocIcon].InternalName);
+            fields.Add(dropBox.Fields[SPBuiltInFieldId.LinkFilename].InternalName);
+            fields.Add(columnLearner);
+            fields.Add(dropBox.Fields[SPBuiltInFieldId.Modified].InternalName);
+            fields.Add(columnIsLatest);
+
+            string query = "<GroupBy Collapse=\"TRUE\" GroupLimit=\"100\"><FieldRef Name=\"{0}\" /></GroupBy><Where><Eq><FieldRef Name=\"{1}\" /><Value Type=\"Text\">{2}</Value></Eq></Where>";
+            query = string.Format(CultureInfo.InvariantCulture, query, columnLearner, columnAssignmentId, assignmentProperties.Id.GetKey());
+            SPView view = dropBox.Views.Add(AssignmentViewName(), fields, query, 100, true, false, SPViewCollection.SPViewType.Html, false);
+            view.Update();
+            dropBox.Update();
+
+            // Seem to need to re-get the view to set scope and group header.
+            SPView view2 = dropBox.Views[view.ID];
+            view2.Scope = SPViewScope.Recursive;
+            RemoveFieldNameFromGroupHeader(view2);
+            view2.Update();
+            dropBox.Update();
+        }
+
+        SPListItem FindLearnerFolder(SPListItem assignmentFolder, SPUser learner)
+        {
+            return GetSubFolder(assignmentFolder, LearnerFolderName(learner));
+        }
+
+        void ResetIsLatestFiles(SPListItem learnerSubFolder)
+        {
+            SPWeb web = learnerSubFolder.ParentList.ParentWeb;
+            bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
+            try
+            {
+                web.AllowUnsafeUpdates = true;
+                foreach (SPFile file in learnerSubFolder.Folder.Files)
+                {
+                    file.Item[columnIsLatest] = false;
+                    file.Item.Update();
+                }
+            }
+            finally
+            {
+                web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
+            }
+        }
+
+        AssignmentFile[] LastSubmittedFiles(SPUser user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            AssignmentFile[] toReturn = null;
+            SPSecurity.RunWithElevatedPrivileges(delegate
+            {
+                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
+                {
+                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
+                    {
+                        SPList dropBox = DropBoxLibrary(spWeb);
+
+                        string queryXml = @"<Where>
+                                            <And>
+                                                <Eq><FieldRef Name='{0}'/><Value Type='Text'>{1}</Value></Eq>
+                                                <Eq><FieldRef Name='{2}'/><Value Type='Text'>{3}</Value></Eq>
+                                            </And>
+                                         </Where>";
+                        queryXml = string.Format(CultureInfo.InvariantCulture, queryXml, columnAssignmentId, assignmentProperties.Id.GetKey(), columnLearnerId, user.Sid);
+                        SPQuery query = new SPQuery();
+                        query.ViewAttributes = "Scope=\"Recursive\"";
+                        query.Query = queryXml;
+                        SPListItemCollection items = dropBox.GetItems(query);
+
+                        List<AssignmentFile> files = new List<AssignmentFile>();
+
+                        foreach (SPListItem item in items)
+                        {
+                            if (item[columnIsLatest] != null)
+                            {
+                                if ((bool)item[columnIsLatest])
+                                {
+                                    SPFile file = item.File;
+                                    files.Add(new AssignmentFile(file.Name, file.ServerRelativeUrl));
+                                }
+                            }
+                        }
+                        toReturn = files.ToArray();
+                    }
+                }
+            });
+            return toReturn;
+        }
+
+        string AssignmentViewName()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0} {1}", GetDateOnly(assignmentProperties.StartDate), assignmentProperties.Title.Trim());
+        }
+
+#endregion private methods
+
+#region static methods
+        static string LearnerFolderName(SPUser learner)
+        {
+            string folderName = learner.LoginName;
+
+            return folderName.Replace("\\", "-");
+        }
+
+        static string GenerateFolderName(AssignmentProperties properties)
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", GetDateOnly(properties.StartDate), properties.Title.Trim(), properties.Id.GetKey());
+        }
+
+        static SPListItem GetFolder(SPList dropBoxList, string folderName)
+        {
+            SPQuery query = new SPQuery();
+            query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + folderName + "</Value></Eq></Where>";
+            if (dropBoxList.GetItems(query).Count != 0)
+            {
+                return dropBoxList.GetItems(query)[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+        
+        static SPField AddField(SPList list, string name, SPFieldType type, bool addToDefaultView)
+        {
+            return AddField(list, name, type, addToDefaultView, true);
+        }
+
+        static SPField AddField(SPList list, string name, SPFieldType type, bool addToDefaultView, bool required)
+        {
+            list.Fields.Add(name, type, required);
+            SPField field = list.Fields[name];
+            if (addToDefaultView)
+            {
+                list.DefaultView.ViewFields.Add(field);
+            }
+            return field;
+        }
+
+        static SPList CreateDropBoxLibrary(SPWeb web)
+        {
+            bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
+            try
+            {
+                web.AllowUnsafeUpdates = true;
+                Guid id = web.Lists.Add(LibraryName, LibraryName, SPListTemplateType.DocumentLibrary);
+                SPList list = web.Lists[id];
+
+                SPView defaultView = list.DefaultView;
+
+                SPField assignmentId = AddField(list, columnAssignmentId, SPFieldType.Text, false);
+                assignmentId.Indexed = true;
+                assignmentId.Update();
+                AddField(list, columnAssignmentDate, SPFieldType.DateTime, true);
+                AddField(list, columnAssignmentName, SPFieldType.Text, true);
+                SPFieldCalculated assignmentKey = (SPFieldCalculated)AddField(list, columnAssignmentKey, SPFieldType.Calculated, true, false);
+                string formula = "=TEXT([{0}], \"yyyy-mm-dd\")&\" \"&[{1}]";
+                assignmentKey.Formula = string.Format(formula, columnAssignmentDate, columnAssignmentName);
+                assignmentKey.Update();
+                AddField(list, columnIsLatest, SPFieldType.Boolean, true);
+                AddField(list, columnLearner, SPFieldType.User, true);
+                AddField(list, columnLearnerId, SPFieldType.Text, false);
+
+                // Set up versioning
+                list.EnableVersioning = true;
+
+                defaultView.Title = AppResources.DropBoxDefaultViewTitle;
+                string query = "<GroupBy Collapse=\"TRUE\" GroupLimit=\"100\"><FieldRef Name=\"{0}\" /><FieldRef Name=\"{1}\" /></GroupBy>";
+                defaultView.Query = string.Format(CultureInfo.InvariantCulture, query, columnAssignmentKey, columnLearner);
+
+                defaultView.Update();
+                list.Update();
+
+                SPView view = list.Views[defaultView.ID];
+                view.Scope = SPViewScope.Recursive;
+                RemoveFieldNameFromGroupHeader(view);
+                view.Update();
+                list.Update();
+
+                web.AllProperties[propertyKey] = list.ID.ToString("D", CultureInfo.InvariantCulture);
+                web.Update();
+
+                // Change name to internationalized name
+                list.Title = AppResources.DropBoxTitle;
+                ChangeColumnTitle(columnAssignmentKey, AppResources.DropBoxColumnAssignmentKey, list);
+                ChangeColumnTitle(columnAssignmentName, AppResources.DropBoxColumnAssignmentName, list);
+                ChangeColumnTitle(columnAssignmentDate, AppResources.DropBoxColumnAssignmentDate, list);
+                ChangeColumnTitle(columnAssignmentId, AppResources.DropBoxColumnAssignmentId, list);
+                ChangeColumnTitle(columnIsLatest, AppResources.DropBoxColumnIsLatest, list);
+                ChangeColumnTitle(columnLearner, AppResources.DropBoxColumnLearner, list);
+                ChangeColumnTitle(columnLearnerId, AppResources.DropBoxColumnLearnerId, list);
+                list.Update();
+
+                return list;
+            }
+            finally
+            {
+                web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
+            }
+        }
+
+        static void RemoveFieldNameFromGroupHeader(SPView view)
+        {
+            string fieldNameHtml = "<GetVar Name=\"GroupByField\" HTMLEncode=\"TRUE\" /><HTML><![CDATA[</a> :&nbsp;]]></HTML>";
+            if (view.GroupByHeader != null)
+            {
+                view.GroupByHeader = view.GroupByHeader.Replace(fieldNameHtml, string.Empty);
+            }
+        }
+
+        static void ChangeColumnTitle(string columnKey, string newName, SPList list)
+        {
+            SPField field = list.Fields[columnKey];
+            field.Title = newName;
+            field.Update();
+        }
+
+        static void BreakRoleInheritance(SPListItem folder)
+        {
+            // There's a bug with BreakRoleInheritance which means that passing true reset AllowUnsafeUpdates to
+            // false so the call fails. http://www.ofonesandzeros.com/2008/11/18/the-security-validation-for-this-page-is-invalid/
+            folder.BreakRoleInheritance(true);
+
+            folder.ParentList.ParentWeb.AllowUnsafeUpdates = true;
+
+            SPRoleAssignmentCollection roleAssigns = folder.RoleAssignments;
+
+            for (int i = roleAssigns.Count-1; i >= 0; i--)
+            {
+                roleAssigns.Remove(i);
+            }
+            folder.Update();
+        }
+
+        internal static void Debug(string message, params object[] arguments)
+        {
+            /*
+            try
+            {
+                using (StreamWriter writer = new StreamWriter("c:\\temp\\dropbox.txt", true))
+                {
+                    writer.WriteLine(message, arguments);
+                }
+            }
+            catch (Exception)
+            {
+            }
+            */
+        }
+
+        /// <summary>
+        /// Truncate the time part and the '/' from the Created Date and convert it to string to be a valid folder name.
+        /// </summary>
+        /// <param name="fullDate">The date as it is returned from the CreatedDate property of the assignment</param>
+        /// <returns> The date converted to string and without the time and the '/' character </returns>
+        static string GetDateOnly(DateTime fullDate)
+        {
+            return fullDate.ToString("yyyy-MM-dd");
+        }
+
+        static bool MustCopyFileToDropBox(string fileName)
+        {
+            string extension = Path.GetExtension(fileName);
+
+            switch (extension)
+            {
+                case ".doc":
+                    return true;
+                case ".docx":
+                    return true;
+                case ".xls":
+                    return true;
+                case ".xlsx":
+                    return true;
+                case ".ppt":
+                    return true;
+                case ".pptx":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+#endregion static methods
+
+#region UpdateItem classes
         abstract class UpdateItem
         {
             public abstract void Update();
@@ -1349,4 +1230,47 @@ namespace Microsoft.SharePointLearningKit
             }
         }
     }
+#endregion UpdateItem classes
+
+#region AssignmentFile
+    public struct AssignmentFile
+    {
+        string name;
+        string url;
+        public string Url
+        {
+            get { return url ;}
+        }
+        public string Name
+        {
+            get { return name ;}
+        }
+        public AssignmentFile(string name, string url)
+        {
+            this.name = name;
+            this.url = url;
+        }
+    }
+#endregion AssignmentFile
+
+#region AssignmentFile
+    public struct AssignmentUpload
+    {
+        string name;
+        Stream stream;
+        public Stream Stream
+        {
+            get { return stream ;}
+        }
+        public string Name
+        {
+            get { return name ;}
+        }
+        public AssignmentUpload(string name, Stream inputStream)
+        {
+            this.name = name;
+            this.stream = inputStream;
+        }
+    }
+#endregion AssignmentFile
 }

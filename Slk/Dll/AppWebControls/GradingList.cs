@@ -39,6 +39,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
     {
 
         #region Private Fields
+        AssignmentProperties assignmentProperties;
         /// <summary>
         ///  Collection of Grading Items.
         /// </summary>
@@ -76,38 +77,36 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 return base.UniqueID;
             }
         }
+
+        /// <summary>The AssignmentProperties to use.</summary>
+        public AssignmentProperties AssignmentProperties
+        {
+            get { return assignmentProperties ;}
+            set { assignmentProperties = value ;}
+        }
+
         /// <summary>
         /// FinalPoints Field TextBox Control ID
         /// </summary>
         private string FinalScoreId
         {
-            get
-            {
-                return this.ClientID + ClientIDSeparator
-                       + "txtFinalScore" + ClientIDSeparator;
-            }
+            get { return this.ClientID + ClientIDSeparator + "txtFinalScore" + ClientIDSeparator; }
         }
+
         /// <summary>
         /// Comments Field TextBox Control ID
         /// </summary>
         private string CommentsId
         {
-            get
-            {
-                return this.ClientID + ClientIDSeparator
-                       + "txtComments" + ClientIDSeparator;
-            }
+            get { return this.ClientID + ClientIDSeparator + "txtComments" + ClientIDSeparator; }
         }
+
         /// <summary>
         /// Action Field CheckBox Control ID
         /// </summary>
         private string ActionId
         {
-            get
-            {
-                return this.ClientID + ClientIDSeparator
-                       + "chkAction" + ClientIDSeparator;
-            }
+            get { return this.ClientID + ClientIDSeparator + "chkAction" + ClientIDSeparator; }
         }
 
         /// <summary>
@@ -115,11 +114,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// </summary>
         private string GradingScoreId
         {
-            get
-            {
-                return this.ClientID + ClientIDSeparator
-                       + "lblGradedScore" + ClientIDSeparator;
-            }
+            get { return this.ClientID + ClientIDSeparator + "lblGradedScore" + ClientIDSeparator; }
         }
 
         /// <summary>
@@ -127,11 +122,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// </summary>
         private string GradingImageId
         {
-            get
-            {
-                return this.ClientID + ClientIDSeparator
-                       + "imgGraded" + ClientIDSeparator;
-            }
+            get { return this.ClientID + ClientIDSeparator + "imgGraded" + ClientIDSeparator; }
         }
 
         /// <summary>
@@ -139,11 +130,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// </summary>
         private string GradingRowId
         {
-            get
-            {
-                return this.ClientID + ClientIDSeparator
-                       + "gradingRow" + ClientIDSeparator;
-            }
+            get { return this.ClientID + ClientIDSeparator + "gradingRow" + ClientIDSeparator; }
         }
 
         /// <summary>
@@ -152,10 +139,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         [PersistenceMode(PersistenceMode.InnerProperty)]
         internal GradingItemCollection Items
         {
-            get
-            {
-                return m_items;
-            }
+            get { return m_items; }
         }
         /// <summary>
         /// Holds whether the Assignment is from Class Server Content or not.
@@ -225,17 +209,15 @@ namespace Microsoft.SharePointLearningKit.WebControls
         {
             GradingItem item = new GradingItem();
 
-            item.LearnerAssignmentId
-                        = gradingProperties.LearnerAssignmentId.GetKey();
-            item.GradedScore
-                        = gradingProperties.GradedPoints;
+            item.LearnerAssignmentId = gradingProperties.LearnerAssignmentId.GetKey();
+            item.GradedScore = gradingProperties.GradedPoints;
             item.FinalScore = gradingProperties.FinalPoints;
             item.InstructorComments = gradingProperties.InstructorComments;
             item.LearnerName = gradingProperties.LearnerName;
             item.Status = gradingProperties.Status.GetValueOrDefault();
             item.SuccessStatus = gradingProperties.SuccessStatus;
             item.LearnerAssignmentGuidId = gradingProperties.LearnerAssignmentGuidId;
-
+            item.LearnerId = gradingProperties.LearnerId.GetKey();
             item.FileSubmissionState = GetFileSubmissionValue(gradingProperties);
 
             //adds the GradingItem to the GradingItemCollection
@@ -256,13 +238,12 @@ namespace Microsoft.SharePointLearningKit.WebControls
             SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
 
             //The package is e-learning content
-            if (slkAppBasePage.SlkStore.GetLearnerAssignmentProperties(
-                gradingProperties.LearnerAssignmentGuidId, SlkRole.Instructor).RootActivityId != null)
+            if (assignmentProperties.IsELearning)
             {
                 return AppResources.GradingFileSubmissionNA;
             }
-            else if (gradingProperties.Status.ToString().Equals(LearnerAssignmentState.Completed.ToString()) ||
-               gradingProperties.Status.ToString().Equals(LearnerAssignmentState.Final.ToString()))
+            else if ((gradingProperties.Status.ToString() == LearnerAssignmentState.Completed.ToString()) ||
+               (gradingProperties.Status.ToString() == LearnerAssignmentState.Final.ToString()))
             {
                 return AppResources.GradingFileSubmissionSubmitted;
             }
@@ -409,10 +390,9 @@ namespace Microsoft.SharePointLearningKit.WebControls
         {
             AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
-            //If LearnerAssignmentState is NotStarted , No Link
-            //ToolTip Similar to: The learner has not started the assignment
             if (item.Status == LearnerAssignmentState.NotStarted)
             {
+                // Just label no link
                 Label lblLearnerItem = new Label();
                 lblLearnerItem.ID = "lblLearner" + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                 lblLearnerItem.Text = item.LearnerName;
@@ -427,68 +407,41 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 HyperLink lnkLearnerItem = new HyperLink();
                 lnkLearnerItem.ID = "lnkLearner" + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                 lnkLearnerItem.Text = item.LearnerName;
+                string extraQueryString = null;
+                Frameset.AssignmentView view = Frameset.AssignmentView.InstructorReview;
 
                 //Final Score is disabled for Class Server content when the frameset 
                 //is open to the grading view of the associated learner assignment.
                 switch (item.Status)
                 {
-                    //If LearnerAssignmentState is  Active, Opens frameset in a new non-named window 
-                    //in Instructor Review View.
-                    //ToolTip Similar to: View learner work in progress  
                     case LearnerAssignmentState.Active:
-                        lnkLearnerItem.ToolTip = AppResources.GradingStatusInProgressToolTip;
-                        lnkLearnerItem.NavigateUrl
-                            = String.Format(
-                                       CultureInfo.InvariantCulture,
-                                       "javascript:Slk_DisableGradingFinalScore(\"{0}?{1}={2}&{3}={4}\",{5},{6});",
-                                       Constants.FrameSetPage,
-                                       FramesetQueryParameter.SlkView,
-                                       Frameset.AssignmentView.InstructorReview,
-                                       FramesetQueryParameter.LearnerAssignmentId,
-                                       item.LearnerAssignmentGuidId,
-                                       item.LearnerAssignmentId,
-                                       IsClassServerContent ? "true" : "false");
-                        break;
-                    //If LearnerAssignmentState is Completed, Opens frameset in a new non-named window 
-                    //in Grading View.
-                    //ToolTip Similar to: Grade learner work 
+                       lnkLearnerItem.ToolTip = AppResources.GradingStatusInProgressToolTip;
+                       view = Frameset.AssignmentView.InstructorReview;
+                       break;
+
                     case LearnerAssignmentState.Completed:
                         lnkLearnerItem.ToolTip = AppResources.GradingStatusSubmittedToolTip;
-                        lnkLearnerItem.NavigateUrl
-                            = String.Format(
-                                       CultureInfo.InvariantCulture,
-                                       "javascript:Slk_DisableGradingFinalScore(\"{0}?{1}={2}&{3}={4}&{6}={7}\",{8},{5});",
-                                       Constants.FrameSetPage,
-                                       FramesetQueryParameter.SlkView,
-                                       Frameset.AssignmentView.Grading,
-                                       FramesetQueryParameter.LearnerAssignmentId,
-                                       item.LearnerAssignmentGuidId,
-                                       IsClassServerContent ? "true" : "false",
-                                       FramesetQueryParameter.Src,
-                                       "Grading",
-                                       item.LearnerAssignmentId);
+                        view = Frameset.AssignmentView.Grading;
+                        extraQueryString = string.Format(CultureInfo.InvariantCulture, "&{0}={1}", FramesetQueryParameter.Src, "Grading");
                         break;
-                    //If LearnerAssignmentState is Final, Opens frameset in a new non-named window 
-                    //in Grading View.
-                    //ToolTip Similar to: View and Grade returned work
+
                     case LearnerAssignmentState.Final:
                         lnkLearnerItem.ToolTip = AppResources.GradingStatusFinalToolTip;
-                        lnkLearnerItem.NavigateUrl
-                            = String.Format(
-                                    CultureInfo.InvariantCulture,
-                                    "javascript:Slk_DisableGradingFinalScore(\"{0}?{1}={2}&{3}={4}&{6}={7}\",{8},{5});",
-                                    Constants.FrameSetPage,
-                                    FramesetQueryParameter.SlkView,
-                                    Frameset.AssignmentView.Grading,
-                                    FramesetQueryParameter.LearnerAssignmentId,
-                                    item.LearnerAssignmentGuidId,
-                                    IsClassServerContent ? "true" : "false",
-                                    FramesetQueryParameter.Src,
-                                    "Grading",
-                                    item.LearnerAssignmentId);
-
+                        view = Frameset.AssignmentView.Grading;
+                        extraQueryString = string.Format(CultureInfo.InvariantCulture, "&{0}={1}", FramesetQueryParameter.Src, "Grading");
                         break;
                 }
+
+                lnkLearnerItem.NavigateUrl = String.Format(CultureInfo.InvariantCulture,
+                            "javascript:Slk_OpenLearnerAssignment(\"{0}?{1}={2}&{3}={4}{5}\",{6},{7});",
+                            Constants.FrameSetPage,
+                            FramesetQueryParameter.SlkView,
+                            view,
+                            FramesetQueryParameter.LearnerAssignmentId,
+                            item.LearnerAssignmentGuidId,
+                            extraQueryString,
+                            item.LearnerAssignmentId,
+                            IsClassServerContent ? "true" : "false");
                 lnkLearnerItem.RenderControl(htmlTextWriter);
             }
         }
@@ -502,6 +455,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="htmlTextWriter">Text Writer to write to.</param>
         private void RenderFileSubmissionState(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
+            DropBoxManager.Debug("FileSubmission {0}", item.FileSubmissionState);
             SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
             AppResources.Culture = LocalizationManager.GetCurrentCulture();
             //If the state is "NA" or "Not Submitted", display it as label text
@@ -515,39 +469,39 @@ namespace Microsoft.SharePointLearningKit.WebControls
             }
             else
             {
-                try
+                DropBoxManager dropBox = new DropBoxManager(assignmentProperties);
+                AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
+                DropBoxManager.Debug("File count {0}", files.Length);
+
+                if (files.Length == 0)
+                {
+                    // Really an error condition as shouldn't be in submitted state
+                    Label lblFileSubmissionState = new Label();
+                    lblFileSubmissionState.ID = "lblFileSubmissionState";
+                    lblFileSubmissionState.Text = item.FileSubmissionState;
+                    lblFileSubmissionState.RenderControl(htmlTextWriter);
+                }
+                else
                 {
                     HyperLink lnkFileSubmissionState = new HyperLink();
                     lnkFileSubmissionState.ID = "lnkFileSubmissionState";
                     lnkFileSubmissionState.Text = item.FileSubmissionState;
 
-                    string url = CheckSubmittedFilesNumber(item.LearnerAssignmentGuidId);
-
-                    if (url.Equals(string.Empty))
+                    if (files.Length > 1)
                     {
-                        StringBuilder pageURL = new StringBuilder();
-                        pageURL.AppendFormat(
-                                        "{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}",
-                                         slkAppBasePage.SPWeb.Url,
-                                         item.LearnerAssignmentGuidId.ToString());
-
-                        url = pageURL.ToString();
+                        string url = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", slkAppBasePage.SPWeb.Url, item.LearnerAssignmentGuidId);
+                        string script = string.Format("window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable');", url);
+                        lnkFileSubmissionState.Attributes.Add("onclick", script);
+                        lnkFileSubmissionState.NavigateUrl = "#";
                     }
-
-                    StringBuilder script = new StringBuilder();
-                    script.AppendFormat("{0}{1}{2}", "window.open('",
-                                        url, "','popupwindow','width=400,height=300,scrollbars,resizable'); ");
-
-                    lnkFileSubmissionState.Attributes.Add("onclick", script.ToString());
-                    lnkFileSubmissionState.NavigateUrl = "#";
+                    else
+                    {
+                        string url = files[0].Url;
+                        string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff')";
+                        lnkFileSubmissionState.Attributes.Add("onclick", script);
+                        lnkFileSubmissionState.NavigateUrl = url;
+                    }
                     lnkFileSubmissionState.RenderControl(htmlTextWriter);
-                }
-                catch
-                {
-                    Label lblFileSubmissionState = new Label();
-                    lblFileSubmissionState.ID = "lblFileSubmissionState";
-                    lblFileSubmissionState.Text = item.FileSubmissionState;
-                    lblFileSubmissionState.RenderControl(htmlTextWriter);
                 }
             }
         }
@@ -796,15 +750,11 @@ namespace Microsoft.SharePointLearningKit.WebControls
         private void RenderGradingItem(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
 
-            string onClickHandler
-                = String.Format(CultureInfo.InvariantCulture,
-                                "Slk_GradingHighlightGradingRow({0});",
-                                item.LearnerAssignmentId);
-
+            string onClickHandler = String.Format(CultureInfo.InvariantCulture, "Slk_GradingHighlightGradingRow({0});", item.LearnerAssignmentId);
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Onclick, onClickHandler);
-            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Id,
-                                        String.Format(CultureInfo.InvariantCulture,
-                                                      "{0}{1}", GradingRowId, item.LearnerAssignmentId));
+
+            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Id, GradingRowId + item.LearnerAssignmentId);
+
             using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, htmlTextWriter))
             {
                 //Render Graded Learner 
@@ -1305,7 +1255,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
                       if (slk_selectedGradingRowId != null)
                       {
-	                    obj.className = ""ms-highlight"";
+	                    obj.className = ""ms-alternating"";
                       }
                     }
                 }
@@ -1323,7 +1273,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                    return (m == null) ? """" : m[1];
                 }
 
-                function Slk_DisableGradingFinalScore(navigateUrl, 
+                function Slk_OpenLearnerAssignment(navigateUrl, 
                                                       learnerAssignmentId, 
                                                       isClassServerContent)
                 {                   
@@ -1396,253 +1346,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
         }
         #endregion
-
-        /// <summary>
-        /// Checks the number of the assignment submitted files. 
-        /// If one assignment submitted, returns its URL.
-        /// If more than one, returns an empty string.
-        /// </summary>
-        private string CheckSubmittedFilesNumber(Guid LearnerAssignmentGuidId)
-        {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
-            SlkStore store = SlkStore.GetStore(SPContext.Current.Web);
-            LearnerAssignmentProperties learnerAssignmentProperties = store.GetLearnerAssignmentProperties(
-                                                                            LearnerAssignmentGuidId,
-						                                                    SlkRole.Instructor);
-            AssignmentProperties assignmentProperties = store.GetAssignmentProperties(
-                                                            learnerAssignmentProperties.AssignmentId,
-                                                            SlkRole.Instructor);
-
-            using (SPSite site = new SPSite(assignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
-            {
-                using (SPWeb web = site.OpenWeb(assignmentProperties.SPWebGuid))
-                {
-                    SPList list = web.Lists[AppResources.DropBoxDocLibName];
-
-                    StringBuilder assignmentCreationDate = new StringBuilder();
-                    assignmentCreationDate.AppendFormat(
-                                            "{0}{1}{2}",
-                                            assignmentProperties.DateCreated.Month.ToString(),
-                                            assignmentProperties.DateCreated.Day.ToString(),
-                                            assignmentProperties.DateCreated.Year.ToString());
-
-                    /* Searching for the assignment folder using the naming format: "AssignmentTitle AssignmentCreationDate" 
-                         * (This is the naming format defined in AssignmentProperties.aspx.cs page) */
-                    SPQuery query = new SPQuery();
-                    query.Folder = list.RootFolder;
-                    query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + learnerAssignmentProperties.Title + " " + assignmentCreationDate.ToString() + "</Value></Eq></Where>";
-                    SPListItemCollection assignmentFolders = list.GetItems(query);
-
-                    if (assignmentFolders.Count == 0)
-                    {
-                        throw new Exception(AppResources.SubmittedFilesNoAssignmentFolderException);
-                    }
-
-                    SPFolder assignmentFolder = assignmentFolders[0].Folder;
-
-                    query = new SPQuery();
-                    query.Folder = assignmentFolder;
-                    query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + learnerAssignmentProperties.LearnerName + "</Value></Eq></Where>";
-                    SPListItemCollection assignmentSubFolders = list.GetItems(query);
-
-                    if (assignmentSubFolders.Count == 0)
-                    {
-                        throw new Exception(AppResources.SubmittedFilesNoAssignmentSubFolderException);
-                    }
-
-                    SPFolder assignmentSubFolder = assignmentSubFolders[0].Folder;
-
-                    ////Getting the latest assignment files (files included in the latest assignment submission)
-                    query = new SPQuery();
-                    query.Folder = assignmentSubFolder;
-                    query.Query = "<Where><Eq><FieldRef Name='IsLatest'/><Value Type='Text'>True</Value></Eq></Where>";
-                    SPListItemCollection assignmentFiles = list.GetItems(query);
-
-                    if (assignmentFiles.Count != 1)
-                    {
-                        return string.Empty;
-                    }
-
-                    SPFile assignmentFile = assignmentFiles[0].File;
-
-                    StringBuilder fileURL = new StringBuilder();
-                    fileURL.AppendFormat("{0}{1}{2}", web.Url, "/", assignmentFile.Url);
-
-                    return fileURL.ToString();
-
-                }
-            }
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// Represents a data item in a Grading list control. 
-    /// captures grades and comments  and other related information 
-    /// for each learner assignment.
-    /// This class cannot be inherited.  
-    /// </summary>
-    internal sealed class GradingItem
-    {
-
-        #region Private Variables
-        /// <summary>
-        /// Holds Assignment ID
-        /// </summary> 
-        private long m_learnerAssignmentId;
-        /// <summary>
-        /// Holds the Learner Assignment Guid ID
-        /// </summary> 
-        private Guid m_learnerAssignmentGuidId;
-        /// <summary>
-        /// Holds Learner’s name
-        /// </summary> 
-        private string m_learnerName;
-        /// <summary>
-        /// Holds the status field
-        /// </summary>
-        private LearnerAssignmentState m_status;
-        /// <summary>
-        /// Holds the results
-        /// </summary>
-        private SuccessStatus m_successStatus;
-        /// <summary>
-        /// Holds the computed points.
-        /// </summary>    
-        private float? m_gradedScore;
-        /// <summary>
-        /// Holds computed points value
-        /// </summary>
-        private float? m_finalScore;
-        /// <summary>
-        /// Holds InstructorComments Value
-        /// </summary>
-        private string m_instructorComments;
-        /// <summary>
-        /// Holds Action Text
-        /// </summary>
-        private string m_actionText;
-        /// <summary>
-        /// Holds Action State
-        /// </summary>
-        private bool m_actionState;
-        /// <summary>
-        /// Holds File Submission State
-        /// </summary>
-        private string m_fileSubmissionState;
-        
-
-
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Constructor
-        /// </summary>
-
-        public GradingItem()
-        {
-
-        }
-
-        #endregion
-
-        #region Public Properties
-        /// <summary>
-        /// Learner assignment ID
-        /// </summary> 
-        internal long LearnerAssignmentId
-        {
-            get { return m_learnerAssignmentId; }
-            set { m_learnerAssignmentId = value; }
-        }
-        /// <summary>
-        /// Learner assignment Guid ID
-        /// </summary> 
-        internal Guid LearnerAssignmentGuidId
-        {
-            get { return m_learnerAssignmentGuidId; }
-            set { m_learnerAssignmentGuidId = value; }
-        }
-        /// <summary>
-        /// Learner’s name
-        /// </summary> 
-        internal string LearnerName
-        {
-            get { return m_learnerName; }
-            set { m_learnerName = value; }
-        }
-        /// <summary>
-        /// Displays the status of the learner assignment
-        /// </summary>
-        internal LearnerAssignmentState Status
-        {
-            get { return m_status; }
-            set { m_status = value; }
-        }
-        /// <summary>
-        /// Displays the SuccessStatus of the learner assignment
-        /// </summary>
-        internal SuccessStatus SuccessStatus
-        {
-            get { return m_successStatus; }
-            set { m_successStatus = value; }
-        }
-        /// <summary>
-        /// Shows the computed points rouded to the nearest integer.
-        /// </summary>
-        internal float? GradedScore
-        {
-            get { return m_gradedScore; }
-            set { m_gradedScore = value; }
-        }
-
-        /// <summary>
-        /// computed points value with full precision
-        /// </summary>
-        internal float? FinalScore
-        {
-            get { return m_finalScore; }
-            set { m_finalScore = value; }
-        }
-        /// <summary>
-        /// InstructorComments
-        /// </summary>
-        internal string InstructorComments
-        {
-            get { return m_instructorComments; }
-            set { m_instructorComments = value; }
-        }
-        /// <summary>
-        /// Action State
-        /// </summary>
-        internal string ActionText
-        {
-            get { return m_actionText; }
-            set { m_actionText = value; }
-        }
-
-        /// <summary>
-        /// Action Checked
-        /// </summary>
-        internal bool ActionState
-        {
-            get { return m_actionState; }
-            set { m_actionState = value; }
-        }
-
-        /// <summary>
-        /// File Submission State
-        /// </summary>
-        internal string FileSubmissionState
-        {
-            get { return m_fileSubmissionState; }
-            set { m_fileSubmissionState = value; }
-        }
-
-
-
         #endregion
     }
 
@@ -1713,23 +1416,26 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 Triplet objState1 = (Triplet)obj.First;
                 Triplet objState2 = (Triplet)obj.Second;
                 Triplet objState3 = (Triplet)obj.Third;
+                Triplet objState4 = (Triplet)objState3.First;
 
                 long[] assignmentId = (long[])objState1.First;
                 string[] learnerName = (string[])objState1.Second;
+                long[] learnerId = (long[])objState3.Second;
                 m_learnerItemsChanged.AddRange((long[])objState1.Third);
 
                 LearnerAssignmentState[] status = (LearnerAssignmentState[])objState2.First;
                 SuccessStatus[] successStatus = (SuccessStatus[])objState2.Second;
                 string[] gradedScore = (string[])objState2.Third;
-                string[] finalScore = (string[])objState3.First;
-                string[] instructorComments = (string[])objState3.Second;
-                bool[] actionState = (bool[])objState3.Third;
+                string[] finalScore = (string[])objState4.First;
+                string[] instructorComments = (string[])objState4.Second;
+                bool[] actionState = (bool[])objState4.Third;
 
                 for (int i = 0; i < assignmentId.Length; i++)
                 {
                     GradingItem item = new GradingItem();
                     item.LearnerAssignmentId = assignmentId[i];
                     item.LearnerName = learnerName[i];
+                    item.LearnerId = learnerId[i];
                     item.Status = status[i];
                     item.SuccessStatus = successStatus[i];
                     if (!String.IsNullOrEmpty(gradedScore[i]))
@@ -1743,7 +1449,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     Add(item);
                 }
             }
-
         }
         #endregion
 
@@ -1759,6 +1464,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 int numOfItems = Count;
 
                 long[] assignmentId = new long[numOfItems];
+                long[] learnerId = new long[numOfItems];
                 string[] learnerName = new string[numOfItems];
                 LearnerAssignmentState[] learnerStatus = new LearnerAssignmentState[numOfItems];
                 SuccessStatus[] successStatus = new SuccessStatus[numOfItems];
@@ -1771,6 +1477,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 {
                     assignmentId[i] = this[i].LearnerAssignmentId;
                     learnerName[i] = this[i].LearnerName;
+                    learnerId[i] = this[i].LearnerId;
                     learnerStatus[i] = this[i].Status;
                     successStatus[i] = this[i].SuccessStatus;
                     gradedScore[i]
@@ -1785,9 +1492,10 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     actionState[i] = this[i].ActionState;
                 }
 
+                Triplet objState4 = new Triplet(finalScore, instructorComments, actionState);
                 Triplet objState1 = new Triplet(assignmentId, learnerName, LearnerItemsChanged.ToArray());
                 Triplet objState2 = new Triplet(learnerStatus, successStatus, gradedScore);
-                Triplet objState3 = new Triplet(finalScore, instructorComments, actionState);
+                Triplet objState3 = new Triplet(objState4, learnerId, null);
 
                 return new Triplet(objState1, objState2, objState3);
 

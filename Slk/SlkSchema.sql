@@ -848,6 +848,31 @@ SET @schema = @schema +
         '<Column Name="PackageManifest" TypeCode="7" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
+    '<View Name="InstructorAssignmentList" Function="InstructorAssignmentList" SecurityFunction="InstructorAssignmentList$Security">' + 
+        '<Column Name="InstructorAssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="InstructorAssignmentItem"/>' +
+        '<Column Name="InstructorId" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
+        '<Column Name="InstructorName" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="InstructorKey" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AssignmentItem"/>' +
+        '<Column Name="AssignmentSPSiteGuid" TypeCode="11" Nullable="true"/>' +
+        '<Column Name="AssignmentSPWebGuid" TypeCode="11" Nullable="true"/>' +
+        '<Column Name="AssignmentNonELearningLocation" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AssignmentTitle" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AssignmentStartDate" TypeCode="4" Nullable="true"/>' +
+        '<Column Name="AssignmentDueDate" TypeCode="4" Nullable="true"/>' +
+        '<Column Name="AssignmentPointsPossible" TypeCode="5" Nullable="true"/>' +
+        '<Column Name="AssignmentDescription" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AssignmentAutoReturn" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentShowAnswersToLearners" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentCreatedById" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
+        '<Column Name="AssignmentCreatedByName" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AssignmentCreatedByKey" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="PackageId" TypeCode="1" Nullable="true" ReferencedItemTypeName="PackageItem"/>' +
+        '<Column Name="PackageFormat" TypeCode="8" Nullable="true" EnumName="PackageFormat"/>' +
+        '<Column Name="PackageLocation" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="PackageManifest" TypeCode="7" Nullable="true"/>' +
+    '</View>'
+SET @schema = @schema +
     '<View Name="LearnerAssignmentListForLearners" Function="LearnerAssignmentListForLearners" SecurityFunction="LearnerAssignmentListForLearners$Security">' + 
         '<Column Name="LearnerAssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="LearnerAssignmentItem"/>' +
         '<Column Name="LearnerAssignmentGuidId" TypeCode="11" Nullable="true"/>' +
@@ -2956,7 +2981,6 @@ RETURN (
 GO
 GRANT SELECT ON [InstructorAssignmentListForInstructors] TO LearningStore
 GO
-
 -- Create function for the security on the InstructorAssignmentListForInstructors view
 CREATE FUNCTION [InstructorAssignmentListForInstructors$Security](@UserKey nvarchar(250))
 RETURNS bit
@@ -2966,6 +2990,61 @@ BEGIN
 END
 GO
 GRANT EXECUTE ON [InstructorAssignmentListForInstructors$Security] TO LearningStore
+GO
+
+
+-- Create a function that implements the InstructorAssignmentListview
+CREATE FUNCTION [InstructorAssignmentList](@UserKey nvarchar(250))
+RETURNS TABLE
+AS
+RETURN (
+    SELECT
+    ----- from InstructorAssignmentItem -----
+    iai.Id                          InstructorAssignmentId,
+    iai.InstructorId                InstructorId,
+    iui.[Name]                      InstructorName,
+    iui.[Key]                       InstructorKey,
+    ----- from AssignmentItem -----
+    asi.Id                          AssignmentId,
+    asi.SPSiteGuid                  AssignmentSPSiteGuid,
+    asi.SPWebGuid                   AssignmentSPWebGuid,
+    asi.NonELearningLocation        AssignmentNonELearningLocation,
+    asi.Title                       AssignmentTitle,
+    asi.StartDate                   AssignmentStartDate,
+    asi.DueDate                     AssignmentDueDate,
+    asi.PointsPossible              AssignmentPointsPossible,
+    asi.Description                 AssignmentDescription,
+    asi.AutoReturn                  AssignmentAutoReturn,
+    asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+    asi.CreatedBy                   AssignmentCreatedById,
+    cbui.[Name]                     AssignmentCreatedByName,
+    cbui.[Key]                      AssignmentCreatedByKey,
+    ----- from PackageItem -----
+    pki.Id                          PackageId,
+    pki.PackageFormat               PackageFormat,
+    pki.Location                    PackageLocation,
+    pki.Manifest                    PackageManifest
+    -----
+    FROM InstructorAssignmentItem iai
+    INNER JOIN AssignmentItem asi ON iai.AssignmentId = asi.Id
+    INNER JOIN UserItem iui ON iui.Id = iai.InstructorId
+    INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+    LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+    LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
+)
+GO
+GRANT SELECT ON [InstructorAssignmentList] TO LearningStore
+GO
+
+-- Create function for the security on the InstructorAssignmentListview
+CREATE FUNCTION [InstructorAssignmentList$Security](@UserKey nvarchar(250))
+RETURNS bit
+AS
+BEGIN
+    RETURN (1)
+END
+GO
+GRANT EXECUTE ON [InstructorAssignmentList$Security] TO LearningStore
 GO
 
 -- Create a function that implements the LearnerAssignmentListForLearners view

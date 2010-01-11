@@ -12,6 +12,7 @@ namespace Microsoft.SharePointLearningKit
     /// <summary>Encapsulates the creation of the download zip file.</summary>
     public class AssignmentDownloader : IDisposable
     {
+        DropBoxManager manager;
         string tempFolder;
         string zippedFileName;
         string zippedFilePath;
@@ -21,27 +22,21 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="assignmentProperties">The assignment properties</param>
         public AssignmentDownloader(AssignmentProperties assignmentProperties)
         {
-            /* Building the assignment name with the following format : "AssignmentTitle 
-               AssignmentCreationDate" (This is the naming format defined in 
-               AssignmentProperties.aspx.cs page) */
-
-            string assignmentFolderName = string.Format("{0} {1}{2}{3}", assignmentProperties.Title,
-                                    assignmentProperties.DateCreated.Month.ToString(),
-                                    assignmentProperties.DateCreated.Day.ToString(),
-                                    assignmentProperties.DateCreated.Year.ToString());
+            manager = new DropBoxManager(assignmentProperties);
 
             // Create temporary folder
-            tempFolder = Path.Combine(Path.GetTempPath(), "SLK_Temp" + Guid.NewGuid().ToString());
+            tempFolder = Path.Combine(Path.Combine(Path.GetTempPath(), "SLK_Temp"), Guid.NewGuid().ToString());
             Directory.CreateDirectory(tempFolder);
 
             // Create assignment folder
+            string assignmentFolderName = manager.FolderName;
             string assignmentFolderPath = Path.Combine(tempFolder, assignmentFolderName);
             Directory.CreateDirectory(assignmentFolderPath);
 
             // TODO: Potential clash here if 2 people download at same time
-            zippedFilePath = Path.Combine(Path.GetTempPath(), assignmentFolderName + ".zip");
+            zippedFilePath = Path.Combine(tempFolder, assignmentFolderName + ".zip");
 
-            ExtractAssignmentsFromSharePoint(assignmentProperties, assignmentFolderName, assignmentFolderPath);
+            ExtractAssignmentsFromSharePoint(assignmentFolderPath);
 
             FastZip zipper = new FastZip();
             zipper.CreateZip(zippedFilePath, assignmentFolderPath, true, null);
@@ -81,73 +76,35 @@ namespace Microsoft.SharePointLearningKit
 #endregion public methods
 
 #region private methods
-        /// <summary>
-        /// Creates the assignment sub folders (students' folders)
-        /// </summary>
-        /// <param name="assignmentFolder">Assignment folder located in the document library</param>
-        /// <param name="finalAssignmentFolderPath">Path of the assignment folder to 
-        /// create the subfolders in</param>
-        void CreateSubFolders(SPFolder assignmentFolder, string assignmentFolderPath)
+        void ExtractAssignmentsFromSharePoint(string assignmentFolderPath)
         {
-            foreach (SPFolder subFolder in assignmentFolder.SubFolders)
+            Dictionary<string, List<SPFile>> files = manager.AllFiles();
+
+            foreach (string learner in files.Keys)
             {
-                string subFolderPath = Path.Combine(assignmentFolderPath, subFolder.Name);
+                string subFolderPath = Path.Combine(assignmentFolderPath, learner);
                 Directory.CreateDirectory(subFolderPath);
 
-                foreach (SPFile file in subFolder.Files)
+                foreach (SPFile file in files[learner])
                 {
-                    if ((bool)file.Item["IsLatest"])
+                    object nameValue = file.Item[SPBuiltInFieldId.FileLeafRef];
+                    if (nameValue != null)
                     {
-                        object nameValue = file.Item["Name"];
-                        if (nameValue != null)
+                        string name = nameValue.ToString();
+                        if (name.Length != 0)
                         {
-                            string name = nameValue.ToString();
-                            if (name.Length != 0)
-                            {
-                                byte[] data = file.OpenBinary();
+                            byte[] data = file.OpenBinary();
 
-                                using (FileStream fileStream = new FileStream(Path.Combine(subFolderPath, name), FileMode.CreateNew))
+                            using (FileStream fileStream = new FileStream(Path.Combine(subFolderPath, name), FileMode.CreateNew))
+                            {
+                                using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
                                 {
-                                    using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
-                                    {
-                                        binaryWriter.Write(data, 0, (int)file.Length);
-                                    }
+                                    binaryWriter.Write(data, 0, (int)file.Length);
                                 }
                             }
                         }
                     }
                 }
-            }
-        }
-
-        void ExtractAssignmentsFromSharePoint(AssignmentProperties assignmentProperties, string assignmentFolderName, string assignmentFolderPath)
-        {
-            using (SPSite site = new SPSite(assignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
-            {
-                using (SPWeb web = site.OpenWeb(assignmentProperties.SPWebGuid))
-                {
-                    SPList list = web.Lists[AppResources.DropBoxDocLibName];
-                    CreateSubFolders(FindAssignmentFolder(list, assignmentFolderName), assignmentFolderPath);
-                }
-            }
-
-        }
-
-        SPFolder FindAssignmentFolder(SPList list, string assignmentFolderName)
-        {
-            ///Searching for the assignment folder by name                         
-            SPQuery query = new SPQuery();
-            query.Folder = list.RootFolder;
-            query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + assignmentFolderName + "</Value></Eq></Where>";
-            SPListItemCollection assignmentFolders = list.GetItems(query);
-
-            if (assignmentFolders.Count == 0)
-            {
-                throw new Exception(AppResources.SubmittedFilesNoAssignmentFolderException);
-            }
-            else
-            {
-                 return assignmentFolders[0].Folder;
             }
         }
 

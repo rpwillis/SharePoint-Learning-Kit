@@ -106,22 +106,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Holds Assignment Properties.
         /// </summary>
         private AssignmentProperties m_assignmentProperties;
+        ReadOnlyCollection<GradingProperties> learnersGradingCollection;
         /// <summary>
         /// Keeps track if there was an error during one of the click events.
         /// </summary>
         private bool pageHasErrors;
-        /// <summary>
-        /// SLK members of the current Web
-        /// </summary>
-        private SlkMemberships m_slkMembers;
-        private DropBoxManager m_dropBoxMgr = new DropBoxManager();
-        /// <summary>
-        /// The name of the drop box document library 
-        /// </summary>
-        private string m_dropBoxDocLibName;
-        private SPList m_dropBoxDocLib;
-        private string m_assignmentFolderName;
-        private SPListItem m_assignmentFolder;
         #endregion
 
         #region Private Properties
@@ -169,91 +158,40 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (m_assignmentProperties == null)
                 {
-                    SlkStore.GetGradingProperties(AssignmentItemIdentifier, out m_assignmentProperties);
+                    LoadAssignmentProperties();
                 }
                 return m_assignmentProperties;
             }
         }
-        /// <summary>
-        /// Gets SLK members of the current Web 
-        /// </summary>
-        private SlkMemberships SlkMembers
+
+        ReadOnlyCollection<GradingProperties> LearnersGradingCollection
         {
             get
             {
-                if (m_slkMembers == null)
+                if (learnersGradingCollection == null)
                 {
-                    m_slkMembers = SlkStore.GetMemberships(SPWeb, null, null);
+                    LoadAssignmentProperties();
                 }
-                return m_slkMembers;
+                return learnersGradingCollection;
             }
         }
-        /// <summary>
-        /// Gets the Drop Box document library name 
-        /// </summary>
-        private String DropBoxDocLibName
+
+        bool IsCompleted
         {
             get
             {
-                if (String.IsNullOrEmpty(m_dropBoxDocLibName))
+                foreach (GradingProperties learnerGrading in LearnersGradingCollection)
                 {
-                    AppResources.Culture = LocalizationManager.GetCurrentCulture();
-                    m_dropBoxDocLibName = AppResources.DropBoxDocLibName;
-                }
-                return m_dropBoxDocLibName;
-            }
-        }
-        // <summary>
-        // Gets current Assignment Drop Box list
-        // </summary>
-        private SPList DropBoxDocLib
-        {
-            get
-            {
-                if (m_dropBoxDocLib == null)
-                {
-                    SPSecurity.RunWithElevatedPrivileges(delegate
+                    if (learnerGrading.Status != LearnerAssignmentState.Completed)
                     {
-                        using (SPSite site = new SPSite(AssignmentProperties.SPSiteGuid))
-                        {
-                            using (SPWeb web = site.OpenWeb(AssignmentProperties.SPWebGuid))
-                            {
-                                m_dropBoxDocLib = web.Lists[DropBoxDocLibName];
-                            }
-                        }
-                    });
+                        return false;
+                    }
                 }
-                return m_dropBoxDocLib;
+
+                return true;
             }
         }
-        // <summary>
-        // Gets current Assignment folder name
-        // </summary>
-        private string AssignmentFolderName
-        {
-            get
-            {
-                if (m_assignmentFolderName == null)
-                {
-                    m_assignmentFolderName = AssignmentProperties.Title + " " + m_dropBoxMgr.GetDateOnly(AssignmentProperties.DateCreated);
-                }
-                return m_assignmentFolderName;
-            }
-        }
-        // <summary>
-        // Gets current Assignment folder
-        // </summary>
-        private SPListItem AssignmentFolder
-        {
-            get
-            {
-                if (m_assignmentFolder == null)
-                {
-                    m_assignmentFolder = m_dropBoxMgr.GetAssignmentFolder(DropBoxDocLib, AssignmentFolderName);
-                }
-                return m_assignmentFolder;
-            }
-        }
+
         #endregion
 
         #region OnPreRender
@@ -274,50 +212,20 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                     DisplayUploadAndDownloadButtons();
 
-                    // for the assignment site, if the user doesn't have permission to view it
-                    // we'll catch the exception 
-                    bool previousValue = SPSecurity.CatchAccessDeniedException;
-                    SPSecurity.CatchAccessDeniedException = false;
-                    try
+                    if (SPWeb.ID != AssignmentProperties.SPWebGuid)
                     {
-                        if (AssignmentProperties.PackageFormat == null)
-                        {
-                            slkButtonDownload.Visible = true;
-                            slkButtonUpload.Visible = true;
-                        }
-
-                        using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
-                        {
-                            using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
-                            {
-                                //if non e-learning assignmenet
-                                if (AssignmentProperties.PackageFormat == null)
-                                {
-                                    DropBoxManager dropBoxMgr = new DropBoxManager();
-
-                                    string assignmentFolderName = (AssignmentProperties.Title + " " + dropBoxMgr.GetDateOnly(AssignmentProperties.DateCreated)).Trim();
-
-                                    dropBoxMgr.CreateAssignmentFolderForCourseManagerInstructor(DropBoxDocLibName, AssignmentProperties, SlkMembers, assignmentFolderName);
-
-                                }
-                                
-                                // If the assignment is in a different redirect to it.
-                                if (SPWeb.ID != spWeb.ID)
-                                    Response.Redirect(SlkUtilities.UrlCombine(spWeb.Url, Request.Path + "?" + Request.QueryString.ToString()));
-                            }
-                        }
+                        Response.Redirect(SlkUtilities.UrlCombine(SPWeb.Url, Request.Path + "?" + Request.QueryString.ToString()));
                     }
-                    catch (UnauthorizedAccessException)
+
+                    if (AssignmentProperties.IsNonELearning)
                     {
-                        //do nothing. Catch the exception to not to restrict the user to access the content if user does not have access to SPWeb.
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        // do nothing . Catch the exception to not to restrict the user to access the content if SPWeb does not exist.
-                    }
-                    finally
-                    {
-                        SPSecurity.CatchAccessDeniedException = previousValue;
+                        slkButtonDownload.Visible = false;
+                        slkButtonUpload.Visible = false;
+
+                        /*
+                        slkButtonDownload.Visible = true;
+                        slkButtonUpload.Visible = true;
+                        */
                     }
 
                     AddReactivationCheck();
@@ -515,31 +423,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             try
             {
                 //Delete corresponding assignment folder from the drop box if exists
-                if (AssignmentProperties.PackageFormat == null)
+                if (AssignmentProperties.IsNonELearning)
                 {
-                    SPSecurity.RunWithElevatedPrivileges(delegate
-                    {
-                        using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid))
-                        {
-                            using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
-                            {
-                                SPList dropBoxDocLib = spWeb.Lists[DropBoxDocLibName];
-                                string assignmentFolderName = (AssignmentProperties.Title + " " + m_dropBoxMgr.GetDateOnly(AssignmentProperties.DateCreated)).Trim();
-                                SPListItem assignmentFolder = m_dropBoxMgr.GetAssignmentFolder(dropBoxDocLib, assignmentFolderName);
-
-                                if (assignmentFolder != null)
-                                {
-                                    spWeb.AllowUnsafeUpdates = true;
-                                    dropBoxDocLib.Folders[assignmentFolder.UniqueId].Delete();
-                                    dropBoxDocLib.Update();
-                                    spWeb.AllowUnsafeUpdates = false;
-                                }
-                            }
-                        }
-                    });
+                    DropBoxManager dropBoxManager = new DropBoxManager(AssignmentProperties);
+                    dropBoxManager.DeleteAssignmentFolder();
                 }
 
-                SlkStore.GetGradingProperties(AssignmentItemIdentifier, out m_assignmentProperties);
                 using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
                 {
                     using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
@@ -565,26 +454,24 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #region DisplayUploadAndDownloadButtons
 
+        void LoadAssignmentProperties()
+        {
+            learnersGradingCollection = SlkStore.GetGradingProperties(AssignmentItemIdentifier, out m_assignmentProperties);
+            if (m_assignmentProperties.IsELearning == false)
+            {
+                m_assignmentProperties.PopulateSPUsers(SlkStore.GetMemberships(SPWeb, null, null));
+            }
+            gradingList.AssignmentProperties = m_assignmentProperties;
+        }
+
+
         /// <summary>
         /// This function checks if all learners have completed their assignment in order
         /// to display the "upload commented files" and "Download All Files" buttons for the instructor
         /// </summary>
         private void DisplayUploadAndDownloadButtons()
         {
-            bool isAssignmentsCompleted = true;
-
-            ReadOnlyCollection<GradingProperties> learnersGradingCollection = SlkStore.GetGradingProperties( AssignmentItemIdentifier, out m_assignmentProperties);
-
-            foreach (GradingProperties learnerGrading in learnersGradingCollection)
-            {
-                if (learnerGrading.Status != LearnerAssignmentState.Completed)
-                {
-                    isAssignmentsCompleted = false;
-                    break;
-                }
-            }
-
-            if (isAssignmentsCompleted)
+            if (IsCompleted)
             {
                 slkButtonUpload.Enabled = true;
                 string uploadUrl = LayoutUrlForAssignmentId("CommentedFiles");
@@ -710,6 +597,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
             }
 
+            DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
+
             foreach (GradingItem item in gradingListItems.Values)
             {
                 GradingProperties gradingProperties = new GradingProperties(new LearnerAssignmentItemIdentifier(item.LearnerAssignmentId));
@@ -717,8 +606,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 gradingProperties.InstructorComments = item.InstructorComments;
 
                 // Ignore the FinalScore Update if the Status is NotStarted or Active
-                if (item.Status == LearnerAssignmentState.NotStarted ||
-                    item.Status == LearnerAssignmentState.Active)
+                if (item.Status == LearnerAssignmentState.NotStarted || item.Status == LearnerAssignmentState.Active)
                 {
                     gradingProperties.IgnoreFinalPoints = true;
                 }
@@ -735,8 +623,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 case LearnerAssignmentState.NotStarted:
 
                                     // Update corresponding drop box permissions
-                                    if(AssignmentProperties.PackageFormat == null)
-                                        m_dropBoxMgr.ApplyCollectAssignmentPermissions(DropBoxDocLib, AssignmentProperties, item.LearnerName, SlkMembers);
+                                    if(AssignmentProperties.IsNonELearning)
+                                    {
+                                        dropBoxMgr.ApplyCollectAssignmentPermissions(item.LearnerId);
+                                    }
 
                                     gradingProperties.Status = LearnerAssignmentState.Completed;
                                     break;
@@ -744,23 +634,29 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 case LearnerAssignmentState.Active:
 
                                     // Update corresponding drop box permissions
-                                    if (AssignmentProperties.PackageFormat == null)
-                                        m_dropBoxMgr.ApplyCollectAssignmentPermissions(DropBoxDocLib, AssignmentProperties, item.LearnerName, SlkMembers);
+                                    if (AssignmentProperties.IsNonELearning)
+                                    {
+                                        dropBoxMgr.ApplyCollectAssignmentPermissions(item.LearnerId);
+                                    }
                                     
                                         gradingProperties.Status = LearnerAssignmentState.Completed;
                                     break;
                                 case LearnerAssignmentState.Completed:
                                     // Update corresponding drop box permissions
-                                    if (AssignmentProperties.PackageFormat == null)
-                                        m_dropBoxMgr.ApplyReturnAssignmentPermission(DropBoxDocLib, AssignmentProperties, item.LearnerName, SlkMembers);
+                                    if (AssignmentProperties.IsNonELearning)
+                                    {
+                                        dropBoxMgr.ApplyReturnAssignmentPermission(item.LearnerId);
+                                    }
                                     
                                         gradingProperties.Status = LearnerAssignmentState.Final;
                                     break;
                                 case LearnerAssignmentState.Final:
 
                                     // Update corresponding drop box permissions
-                                    if (AssignmentProperties.PackageFormat == null)
-                                        m_dropBoxMgr.ApplyReactivateAssignmentPermission(DropBoxDocLib, AssignmentProperties, item.LearnerName, SlkMembers);
+                                    if (AssignmentProperties.IsNonELearning)
+                                    {
+                                        dropBoxMgr.ApplyReactivateAssignmentPermission(item.LearnerId);
+                                    }
 
                                     gradingProperties.Status = LearnerAssignmentState.Active;
                                     break;
@@ -772,8 +668,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         if (item.Status == LearnerAssignmentState.NotStarted || item.Status == LearnerAssignmentState.Active)
                         {
                             // Update corresponding drop box permissions
-                            if (AssignmentProperties.PackageFormat == null)
-                                m_dropBoxMgr.ApplyCollectAssignmentPermissions(DropBoxDocLib, AssignmentProperties, item.LearnerName, SlkMembers);
+                            if (AssignmentProperties.IsNonELearning)
+                            {
+                                dropBoxMgr.ApplyCollectAssignmentPermissions(item.LearnerId);
+                            }
 
                             gradingProperties.Status = LearnerAssignmentState.Completed;
                         }
@@ -784,8 +682,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     case SaveAction.ReturnAll:
                         // The Return All button was clicked
                         // Update corresponding drop box permissions
-                        if (AssignmentProperties.PackageFormat == null)
-                            m_dropBoxMgr.ApplyReturnAssignmentPermission(DropBoxDocLib, AssignmentProperties, item.LearnerName, SlkMembers);
+                        if (AssignmentProperties.IsNonELearning)
+                        {
+                            dropBoxMgr.ApplyReturnAssignmentPermission(item.LearnerId);
+                        }
 
                         gradingProperties.Status = LearnerAssignmentState.Final;
                         break;
@@ -794,7 +694,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             string warning = SlkStore.SetGradingProperties(AssignmentItemIdentifier, gradingPropertiesList);
             if (!string.IsNullOrEmpty(warning))
+            {
                 errorBanner.AddError(ErrorType.Warning, warning);
+            }
         }
         #endregion
 
@@ -806,11 +708,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
-                ReadOnlyCollection<GradingProperties> itemCollection = SlkStore.GetGradingProperties(AssignmentItemIdentifier, out m_assignmentProperties);
-
-                gradingList.IsClassServerContent = AssignmentProperties.PackageFormat.HasValue && AssignmentProperties.PackageFormat.Value == PackageFormat.Lrm;
+                gradingList.IsClassServerContent = AssignmentProperties.IsClassServerContent;
                 gradingList.Clear();
-                foreach (GradingProperties item in itemCollection)
+                foreach (GradingProperties item in LearnersGradingCollection)
                 {
                     gradingList.Add(item);
                 }

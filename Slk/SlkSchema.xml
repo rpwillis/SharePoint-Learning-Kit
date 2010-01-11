@@ -1886,6 +1886,274 @@
 			<Expression>1</Expression>
 		</GrantQueryRight>
 	</View>
+	<View Name="InstructorAssignmentList">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each row of this <a href="SlkSchema.htm">LearningStore view</a> contains
+					information about one <a href="SlkConcepts.htm#Assignments">
+						instructor
+						assignment
+					</a>, as well as information about the e-learning package (if any)
+					associated with the assignment.  This view returns one row for each instructor on
+					each assignment for which the current user is an instructor.
+				</para>
+				<para>
+					This view is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to all users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Columns>
+			<!-- from InstructorAssignmentItem: -->
+			<Column Name="InstructorAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="InstructorAssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorAssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.Id.Field.htm">InstructorAssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.InstructorId.Field.htm">InstructorAssignmentItem.InstructorId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the instructor.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the instructor.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from AssignmentItem: -->
+			<Column Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Id.Field.htm">AssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPSiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPSiteGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPSiteGuid.Field.htm">AssignmentItem.SPSiteGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPWebGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPWebGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPWebGuid.Field.htm">AssignmentItem.SPWebGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentNonELearningLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentNonELearningLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">AssignmentItem.NonELearningLocation</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentTitle" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentTitle holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Title.Field.htm">AssignmentItem.Title</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentStartDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentStartDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.StartDate.Field.htm">AssignmentItem.StartDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDueDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDueDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DueDate.Field.htm">AssignmentItem.DueDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentPointsPossible" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentPointsPossible holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.PointsPossible.Field.htm">AssignmentItem.PointsPossible</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDescription" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDescription holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Description.Field.htm">AssignmentItem.Description</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentAutoReturn" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentAutoReturn holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentShowAnswersToLearners" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedById" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedById holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.CreatedBy.Field.htm">AssignmentItem.CreatedBy</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from PackageItem: -->
+			<Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageFormat" Type="Enum" EnumName="PackageFormat">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageManifest" Type="Xml">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageManifest holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Manifest.Field.htm">PackageItem.Manifest</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+		</Columns>
+		<Implementation>
+      SELECT
+      ----- from InstructorAssignmentItem -----
+      iai.Id                          InstructorAssignmentId,
+      iai.InstructorId                InstructorId,
+      iui.[Name]                      InstructorName,
+      iui.[Key]                       InstructorKey,
+      ----- from AssignmentItem -----
+      asi.Id                          AssignmentId,
+      asi.SPSiteGuid                  AssignmentSPSiteGuid,
+      asi.SPWebGuid                   AssignmentSPWebGuid,
+      asi.NonELearningLocation        AssignmentNonELearningLocation,
+      asi.Title                       AssignmentTitle,
+      asi.StartDate                   AssignmentStartDate,
+      asi.DueDate                     AssignmentDueDate,
+      asi.PointsPossible              AssignmentPointsPossible,
+      asi.Description                 AssignmentDescription,
+      asi.AutoReturn                  AssignmentAutoReturn,
+      asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+      asi.CreatedBy                   AssignmentCreatedById,
+      cbui.[Name]                     AssignmentCreatedByName,
+      cbui.[Key]                      AssignmentCreatedByKey,
+      ----- from PackageItem -----
+      pki.Id                          PackageId,
+      pki.PackageFormat               PackageFormat,
+      pki.Location                    PackageLocation,
+      pki.Manifest                    PackageManifest
+      -----
+      FROM InstructorAssignmentItem iai
+      INNER JOIN AssignmentItem asi ON iai.AssignmentId = asi.Id
+      INNER JOIN UserItem iui ON iui.Id = iai.InstructorId
+      INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+      LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+      LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
+    </Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
 	<View Name="LearnerAssignmentListForLearners">
 		<Documentation>
 			<Summary xmlns="">
