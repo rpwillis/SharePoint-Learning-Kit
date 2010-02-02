@@ -99,21 +99,6 @@ namespace CourseManagerConfCs
             if (!enable)
                 return;
 
-            // initialize form fields
-            try
-            {
-                string databaseServer;
-                string databaseName;
-                bool createDatabase;
-                string instructorPermission;
-                string learnerPermission;
-                string observerPermission;
-                bool createPermissions;
-            }
-            catch (Exception ex)
-            {
-            }
-
             // let the base class do its thing
             base.OnPreRender(e);
         }
@@ -148,7 +133,9 @@ namespace CourseManagerConfCs
             {
                 string schemaFileContents;
                 schemaFileContents = File.ReadAllText(Server.MapPath("CourseManagerDBSchema.sql"));
-                string connectionString = "Server=" + TxtDatabaseServer.Text + ";Database=master;Trusted_Connection=True;";
+                string connectionFormat = "Server={0};Database={1};Trusted_Connection=True;";
+                string server = TxtDatabaseServer.Text;
+                string connectionString = string.Format(CultureInfo.InvariantCulture, connectionFormat, server, "master");
 
                 // if <appPoolAccountName> is null, set it to the name of the application pool account
                 // (e.g. "NT AUTHORITY\NETWORK SERVICE"); set <appPoolSid> to its SID
@@ -200,6 +187,7 @@ namespace CourseManagerConfCs
 
                         // perform operations that require a database connection string that specifies the SLK
                         // database
+                        connectionString = string.Format(CultureInfo.InvariantCulture, connectionFormat, server, databaseName);
                         using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                         {
                             // open the connection
@@ -651,9 +639,11 @@ namespace CourseManagerConfCs
                     // The following code parses <guid> into <siteGuid> (for case 1), or sets
                     // <siteGuid> to null (for case 2).
                     Uri uri = Request.Url;
+                    /*
                     if ((uri.Segments.Length < 3) ||
                         !String.Equals(uri.Segments[uri.Segments.Length - 1], "SlkSettings.xml",
                             StringComparison.OrdinalIgnoreCase)) ;
+                            */
                     string siteGuidOrDefault = uri.Segments[uri.Segments.Length - 2];
                     siteGuidOrDefault = siteGuidOrDefault.Substring(0, siteGuidOrDefault.Length - 1);
                     Guid? spSiteGuid;
@@ -693,7 +683,7 @@ namespace CourseManagerConfCs
                     Response.Cache.SetCacheability(HttpCacheability.NoCache);
                     Response.Write(settingsXml);
                 }
-                catch (SafeToDisplayException ex)
+                catch (SafeToDisplayException)
                 {
                     // an expected exception occurred
                     Response.Clear();
@@ -707,7 +697,7 @@ namespace CourseManagerConfCs
                 // thrown by Response.End above
                 throw;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // an unexpected exception occurred
                 Response.Clear();

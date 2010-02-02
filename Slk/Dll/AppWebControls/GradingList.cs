@@ -401,47 +401,60 @@ namespace Microsoft.SharePointLearningKit.WebControls
             }
             else
             {
-                // If the assignment has an e-learning payload, 
                 // the learner’s name is hyperlinked to open the learner assignment in the frameset. 
 
                 HyperLink lnkLearnerItem = new HyperLink();
                 lnkLearnerItem.ID = "lnkLearner" + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                 lnkLearnerItem.Text = item.LearnerName;
-                string extraQueryString = null;
-                Frameset.AssignmentView view = Frameset.AssignmentView.InstructorReview;
 
-                //Final Score is disabled for Class Server content when the frameset 
-                //is open to the grading view of the associated learner assignment.
-                switch (item.Status)
+                if (assignmentProperties.IsELearning)
                 {
-                    case LearnerAssignmentState.Active:
-                       lnkLearnerItem.ToolTip = AppResources.GradingStatusInProgressToolTip;
-                       view = Frameset.AssignmentView.InstructorReview;
-                       break;
+                    string extraQueryString = null;
+                    Frameset.AssignmentView view = Frameset.AssignmentView.InstructorReview;
 
-                    case LearnerAssignmentState.Completed:
-                        lnkLearnerItem.ToolTip = AppResources.GradingStatusSubmittedToolTip;
-                        view = Frameset.AssignmentView.Grading;
-                        extraQueryString = string.Format(CultureInfo.InvariantCulture, "&{0}={1}", FramesetQueryParameter.Src, "Grading");
-                        break;
+                    //Final Score is disabled for Class Server content when the frameset 
+                    //is open to the grading view of the associated learner assignment.
+                    switch (item.Status)
+                    {
+                        case LearnerAssignmentState.Active:
+                           lnkLearnerItem.ToolTip = AppResources.GradingStatusInProgressToolTip;
+                           view = Frameset.AssignmentView.InstructorReview;
+                           break;
 
-                    case LearnerAssignmentState.Final:
-                        lnkLearnerItem.ToolTip = AppResources.GradingStatusFinalToolTip;
-                        view = Frameset.AssignmentView.Grading;
-                        extraQueryString = string.Format(CultureInfo.InvariantCulture, "&{0}={1}", FramesetQueryParameter.Src, "Grading");
-                        break;
+                        case LearnerAssignmentState.Completed:
+                            lnkLearnerItem.ToolTip = AppResources.GradingStatusSubmittedToolTip;
+                            view = Frameset.AssignmentView.Grading;
+                            extraQueryString = string.Format(CultureInfo.InvariantCulture, "&{0}={1}", FramesetQueryParameter.Src, "Grading");
+                            break;
+
+                        case LearnerAssignmentState.Final:
+                            lnkLearnerItem.ToolTip = AppResources.GradingStatusFinalToolTip;
+                            view = Frameset.AssignmentView.Grading;
+                            extraQueryString = string.Format(CultureInfo.InvariantCulture, "&{0}={1}", FramesetQueryParameter.Src, "Grading");
+                            break;
+                    }
+
+                    lnkLearnerItem.NavigateUrl = String.Format(CultureInfo.InvariantCulture,
+                                "javascript:Slk_OpenLearnerAssignment(\"{0}?{1}={2}&{3}={4}{5}\",{6},{7});",
+                                Constants.FrameSetPage,
+                                FramesetQueryParameter.SlkView,
+                                view,
+                                FramesetQueryParameter.LearnerAssignmentId,
+                                item.LearnerAssignmentGuidId,
+                                extraQueryString,
+                                item.LearnerAssignmentId,
+                                IsClassServerContent ? "true" : "false");
+                }
+                else
+                {
+                    DropBoxManager dropBox = new DropBoxManager(assignmentProperties);
+                    AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
+                    if (files.Length > 0)
+                    {
+                        SetUpSubmittedFileHyperLink(lnkLearnerItem, files, item);
+                    }
                 }
 
-                lnkLearnerItem.NavigateUrl = String.Format(CultureInfo.InvariantCulture,
-                            "javascript:Slk_OpenLearnerAssignment(\"{0}?{1}={2}&{3}={4}{5}\",{6},{7});",
-                            Constants.FrameSetPage,
-                            FramesetQueryParameter.SlkView,
-                            view,
-                            FramesetQueryParameter.LearnerAssignmentId,
-                            item.LearnerAssignmentGuidId,
-                            extraQueryString,
-                            item.LearnerAssignmentId,
-                            IsClassServerContent ? "true" : "false");
                 lnkLearnerItem.RenderControl(htmlTextWriter);
             }
         }
@@ -456,7 +469,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         private void RenderFileSubmissionState(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
             DropBoxManager.Debug("FileSubmission {0}", item.FileSubmissionState);
-            SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
             AppResources.Culture = LocalizationManager.GetCurrentCulture();
             //If the state is "NA" or "Not Submitted", display it as label text
             if (item.FileSubmissionState.Equals(AppResources.GradingFileSubmissionNA) ||
@@ -483,26 +495,31 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 }
                 else
                 {
-                    HyperLink lnkFileSubmissionState = new HyperLink();
-                    lnkFileSubmissionState.ID = "lnkFileSubmissionState";
-                    lnkFileSubmissionState.Text = item.FileSubmissionState;
-
-                    if (files.Length > 1)
-                    {
-                        string url = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", slkAppBasePage.SPWeb.Url, item.LearnerAssignmentGuidId);
-                        string script = string.Format("window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable');", url);
-                        lnkFileSubmissionState.Attributes.Add("onclick", script);
-                        lnkFileSubmissionState.NavigateUrl = "#";
-                    }
-                    else
-                    {
-                        string url = files[0].Url;
-                        string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff')";
-                        lnkFileSubmissionState.Attributes.Add("onclick", script);
-                        lnkFileSubmissionState.NavigateUrl = url;
-                    }
-                    lnkFileSubmissionState.RenderControl(htmlTextWriter);
+                    HyperLink link = new HyperLink();
+                    link.ID = "lnkFileSubmissionState" + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
+                    link.Text = item.FileSubmissionState;
+                    SetUpSubmittedFileHyperLink(link, files, item);
+                    link.RenderControl(htmlTextWriter);
                 }
+            }
+        }
+
+        void SetUpSubmittedFileHyperLink(HyperLink link, AssignmentFile[] files, GradingItem item)
+        {
+            if (files.Length > 1)
+            {
+                SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
+                string url = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", slkAppBasePage.SPWeb.Url, item.LearnerAssignmentGuidId);
+                string script = string.Format("window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable');return false;", url);
+                link.Attributes.Add("onclick", script);
+                link.NavigateUrl = "#";
+            }
+            else
+            {
+                string url = files[0].Url;
+                string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff');return false;";
+                link.Attributes.Add("onclick", script);
+                link.NavigateUrl = url;
             }
         }
         #endregion
