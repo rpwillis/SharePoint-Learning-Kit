@@ -43,31 +43,31 @@
   <ItemGroup>
     <Reference Include="InstallerHelper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=af5ed81c0ef88811, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\InstallerHelper\InstallerHelper\bin\Debug\InstallerHelper.dll</HintPath>
+      <HintPath>..\..\..\InstallerHelper\Installer Solution\InstallerHelper\bin\RElease\InstallerHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.LearningComponents, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.LearningComponents, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\MIP-1.2-English\Solutions\SLK Course Manager Solution\CourseManagerConfCs\CourseManagerConfCs\bin\Debug\Microsoft.LearningComponents.dll</HintPath>
+      <HintPath>..\..\..\..\Debug\Microsoft.LearningComponents.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.LearningComponents.SharePoint, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.LearningComponents.SharePoint, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\MIP-1.2-English\Solutions\SLK Course Manager Solution\CourseManagerConfCs\CourseManagerConfCs\bin\Debug\Microsoft.LearningComponents.SharePoint.dll</HintPath>
+      <HintPath>..\..\..\..\Debug\Microsoft.LearningComponents.SharePoint.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.LearningComponents.Storage, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.LearningComponents.Storage, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\MIP-1.2-English\Solutions\SLK Course Manager Solution\CourseManagerConfCs\CourseManagerConfCs\bin\Debug\Microsoft.LearningComponents.Storage.dll</HintPath>
+      <HintPath>..\..\..\..\Debug\Microsoft.LearningComponents.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Documents and Settings\adrianr\My Documents\Visual Studio 2008\Projects\SolutionsAndFeaturesTest (Automatic Version)\SolutionsAndFeaturesTest\bin\Debug\Microsoft.SharePoint.dll</HintPath>
+      <HintPath>..\..\..\..\Debug\Microsoft.SharePoint.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.SharePointLearningKit, Version=1.3.0.2, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\MIP-1.2-English\Solutions\SLK Course Manager Solution\CourseManagerConfCs\CourseManagerConfCs\bin\Debug\Microsoft.SharePointLearningKit.dll</HintPath>
+      <HintPath>..\..\..\..\Debug\Microsoft.SharePointLearningKit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

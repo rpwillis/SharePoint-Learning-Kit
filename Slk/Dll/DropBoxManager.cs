@@ -1051,11 +1051,38 @@ namespace Microsoft.SharePointLearningKit
 
         static SPList CreateDropBoxLibrary(SPWeb web)
         {
+            return CreateDropBoxLibrary(web, 0);
+        }
+
+        static SPList CreateDropBoxLibrary(SPWeb web, int recursiveNumber)
+        {
             bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
             try
             {
                 web.AllowUnsafeUpdates = true;
-                Guid id = web.Lists.Add(LibraryName, LibraryName, SPListTemplateType.DocumentLibrary);
+                Guid id;
+                try
+                {
+                    string name = LibraryName;
+                    if (recursiveNumber > 0)
+                    {
+                        name = name + recursiveNumber.ToString(CultureInfo.InvariantCulture);
+                    }
+                    id = web.Lists.Add(name, LibraryName, SPListTemplateType.DocumentLibrary);
+                }
+                catch (SPException)
+                {
+                    // Library already exists, add a number to make it unique
+                    if (recursiveNumber < 10)
+                    {
+                        return CreateDropBoxLibrary(web, recursiveNumber++);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
                 SPList list = web.Lists[id];
 
                 SPView defaultView = list.DefaultView;
@@ -1146,7 +1173,6 @@ namespace Microsoft.SharePointLearningKit
 
         internal static void Debug(string message, params object[] arguments)
         {
-            /*
             try
             {
                 using (StreamWriter writer = new StreamWriter("c:\\temp\\dropbox.txt", true))
@@ -1157,7 +1183,6 @@ namespace Microsoft.SharePointLearningKit
             catch (Exception)
             {
             }
-            */
         }
 
         /// <summary>
@@ -1173,6 +1198,7 @@ namespace Microsoft.SharePointLearningKit
         static bool MustCopyFileToDropBox(string fileName)
         {
             string extension = Path.GetExtension(fileName);
+            Debug("Extension:{0}", extension);
 
             switch (extension)
             {

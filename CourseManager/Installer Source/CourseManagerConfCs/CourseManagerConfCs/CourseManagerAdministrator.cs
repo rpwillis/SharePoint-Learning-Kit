@@ -14,10 +14,7 @@ using System.Xml;
 using System.Xml.Schema;
 using Microsoft.SharePoint;
 using Microsoft.SharePoint.Administration;
-using Microsoft.SharePointLearningKit;
 using Resources.Properties;
-using Microsoft.LearningComponents;
-using Microsoft.LearningComponents.Storage;
 
 namespace CourseManagerConfCs
 {

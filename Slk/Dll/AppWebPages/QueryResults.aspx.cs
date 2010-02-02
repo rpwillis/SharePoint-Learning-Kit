@@ -924,70 +924,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 LearnerAssignmentProperties learnerAssignmentProperties, 
                                 AssignmentProperties assignmentProperties)
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
-            using (SPSite site = new SPSite(assignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
+            DropBoxManager dropBox = new DropBoxManager(assignmentProperties);
+            AssignmentFile[] assignmentFiles = dropBox.LastSubmittedFiles(learnerAssignmentProperties.LearnerId.GetKey());
+
+            if (assignmentFiles.Length != 1)
             {
-                using (SPWeb web = site.OpenWeb(assignmentProperties.SPWebGuid))
-                {
-                    SPList list = web.Lists[AppResources.DropBoxDocLibName];
-
-                    StringBuilder assignmentCreationDate = new StringBuilder();
-                    assignmentCreationDate.AppendFormat(
-                                            "{0}{1}{2}",
-                                            assignmentProperties.DateCreated.Month.ToString(),
-                                            assignmentProperties.DateCreated.Day.ToString(),
-                                            assignmentProperties.DateCreated.Year.ToString());
-
-                    /* Searching for the assignment folder using the naming format: "AssignmentTitle AssignmentCreationDate" 
-                         * (This is the naming format defined in AssignmentProperties.aspx.cs page) */
-                    SPQuery query = new SPQuery();
-                    query.Folder = list.RootFolder;
-                    query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + learnerAssignmentProperties.Title + " " + assignmentCreationDate.ToString() + "</Value></Eq></Where>";
-                    SPListItemCollection assignmentFolders = list.GetItems(query);
-
-                    if (assignmentFolders.Count == 0)
-                    {
-                        throw new Exception(AppResources.SubmittedFilesNoAssignmentFolderException);
-                    }
-
-                    SPFolder assignmentFolder = assignmentFolders[0].Folder;
-
-                    query = new SPQuery();
-                    query.Folder = assignmentFolder;
-                    query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + learnerAssignmentProperties.LearnerName + "</Value></Eq></Where>";
-                    SPListItemCollection assignmentSubFolders = list.GetItems(query);
-
-                    if (assignmentSubFolders.Count == 0)
-                    {
-                        throw new Exception(AppResources.SubmittedFilesNoAssignmentSubFolderException);
-                    }
-
-                    SPFolder assignmentSubFolder = assignmentSubFolders[0].Folder;
-
-                    if (SlkStore.IsObserver(SPWeb))
-                    {
-                        ApplyObserverReadAccessPermissions(assignmentSubFolders[0]);
-                    }
-
-                    ////Getting the latest assignment files (files included in the latest assignment submission)
-                    query = new SPQuery();
-                    query.Folder = assignmentSubFolder;
-                    query.Query = "<Where><Eq><FieldRef Name='IsLatest'/><Value Type='Text'>True</Value></Eq></Where>";
-                    SPListItemCollection assignmentFiles = list.GetItems(query);
-
-                    if (assignmentFiles.Count != 1)
-                    {
-                        return string.Empty;
-                    }
-
-                    SPFile assignmentFile = assignmentFiles[0].File;
-
-                    StringBuilder fileURL = new StringBuilder();
-                    fileURL.AppendFormat("{0}{1}{2}", web.Url, "/", assignmentFile.Url);
-
-                    return fileURL.ToString();
-
-                }
+                return string.Empty;
+            }
+            else
+            {
+                return assignmentFiles[0].Url;
             }
         }
         #endregion

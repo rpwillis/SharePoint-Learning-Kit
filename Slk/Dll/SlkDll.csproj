@@ -268,8 +268,6 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  -->
-  <!--
   <Target Name="AfterBuild">
         <Copy SourceFiles="\working\slk\slk\dll\bin\debug\Microsoft.SharePointLearningKit.dll" DestinationFolder="\\laptop01\transfer\slk14" SkipUnchangedFiles="true"/>
   </Target>
