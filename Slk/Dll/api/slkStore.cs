@@ -1779,7 +1779,7 @@ namespace Microsoft.SharePointLearningKit
             if (!SharePointFileLocation.TryParse(location, out spFileLocation))
                 throw new ArgumentException(AppResources.IncorrectLocationStringSyntax, "location");
 
-            using (SPSite spSite = new SPSite(spFileLocation.SiteId, SPContext.Current.Site.Zone))
+            using (SPSite spSite = new SPSite(spFileLocation.SiteId))
             {
                             // get <spWeb>, <spFile>, and <versionId> from the parsed information above
                 using(SPWeb spWeb = spSite.OpenWeb(spFileLocation.WebId))

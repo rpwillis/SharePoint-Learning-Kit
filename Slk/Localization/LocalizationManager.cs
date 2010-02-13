@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Microsoft.LearningComponents.Localization
 {
-    internal static class LocalizationManager
+    internal static class xLocalizationManager
     {
         private const int defaultLcid = 1033;
         private static object sync = new object();

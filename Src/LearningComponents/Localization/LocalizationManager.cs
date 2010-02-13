@@ -80,6 +80,8 @@ namespace Microsoft.SharePointLearningKit.Localization
         /// <returns>Current culture if a localization provider is configured or the english default culture</returns>
         public static CultureInfo GetCurrentCulture()
         {
+            return Thread.CurrentThread.CurrentCulture;
+            /*
             CultureInfo currentCulture;
             if (CurrentProvider == null)
             {
@@ -92,6 +94,7 @@ namespace Microsoft.SharePointLearningKit.Localization
             //Thread.CurrentThread.CurrentCulture = currentCulture;
             //Thread.CurrentThread.CurrentUICulture = currentCulture;
             return currentCulture;
+            */
         }
 
         /// <summary>

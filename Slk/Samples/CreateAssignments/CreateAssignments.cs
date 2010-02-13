@@ -30,41 +30,46 @@ class Program
 {
     static void Main(string[] args)
     {
-        AssignmentItemIdentifier assignmentId;
+        try
+        {
+            AssignmentItemIdentifier assignmentId;
 
-        assignmentId = CreateAssignment(
-            "http://localhost/districts/bellevue/elm/library/Shared%20Documents/Solitaire.zip", 0,
-            "http://localhost/districts/bellevue/elm/math1a",
-            "Assignment for five 'A' students in Math 1A",
-            @".\EllenAdams", // instructor
-            @".\AdinaHagege",
-            @".\AldisVilums",
-            @".\AndreasHauser",
-            @".\AndrewRHill",
-            @".\AnneHellungLarsen");
-        Console.WriteLine("Created assignment: ID={0}", assignmentId.GetKey());
+            assignmentId = CreateAssignment(
+                "http://laptop01/sites/slk/staff/Learning%20Objects/Solitaire.zip", 0,
+                "http://laptop01/sites/slk/classes/englisha",
+                "Assignment for one 'A' students in Math 1A",
+                @"demo\teacherone", // instructor
+                @"demo\pupilone");
+            Console.WriteLine("Created assignment: ID={0}", assignmentId.GetKey());
 
-        assignmentId = CreateAssignment(
-            "http://localhost/districts/bellevue/elm/library/Shared%20Documents/Solitaire.zip", 0,
-            "http://localhost/districts/bellevue/elm/math1a",
-            "Assignment for two 'A' students in Math 1A",
-            @".\EllenAdams", // instructor
-            @".\BengtHasselgren",
-            @".\BrianValentine");
-        Console.WriteLine("Created assignment: ID={0}", assignmentId.GetKey());
+            /*
+            assignmentId = CreateAssignment(
+                "http://localhost/districts/bellevue/elm/library/Shared%20Documents/Solitaire.zip", 0,
+                "http://localhost/districts/bellevue/elm/math1a",
+                "Assignment for two 'A' students in Math 1A",
+                @".\EllenAdams", // instructor
+                @".\BengtHasselgren",
+                @".\BrianValentine");
+            Console.WriteLine("Created assignment: ID={0}", assignmentId.GetKey());
 
-        assignmentId = CreateAssignment(
-            "http://localhost/districts/bellevue/elm/library/Shared%20Documents/Solitaire.zip", 0,
-            "http://localhost/districts/bellevue/elm/math1b",
-            "Assignment for six 'J' students in Math 1B",
-            @".\EllenAdams", // instructor
-            @".\JamesRHamilton",
-            @".\JayHenningsen",
-            @".\JeffHay",
-            @".\JesperHerp",
-            @".\JoeHealy",
-            @".\JonathanHaas");
-        Console.WriteLine("Created assignment: ID={0}", assignmentId.GetKey());
+            assignmentId = CreateAssignment(
+                "http://localhost/districts/bellevue/elm/library/Shared%20Documents/Solitaire.zip", 0,
+                "http://localhost/districts/bellevue/elm/math1b",
+                "Assignment for six 'J' students in Math 1B",
+                @".\EllenAdams", // instructor
+                @".\JamesRHamilton",
+                @".\JayHenningsen",
+                @".\JeffHay",
+                @".\JesperHerp",
+                @".\JoeHealy",
+                @".\JonathanHaas");
+            Console.WriteLine("Created assignment: ID={0}", assignmentId.GetKey());
+            */
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
 
     /// <summary>
