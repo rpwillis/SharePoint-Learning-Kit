@@ -160,7 +160,7 @@ namespace Microsoft.LearningComponents.SharePoint
                     // These methods will throw FileNotFoundException if the package does not exist.
 
                     // If the site does not exist, this throws FileNotFound
-                    SPSite siteElevatedPermissions = new SPSite(packageLocation.SiteId,SPContext.Current.Site.Zone);
+                    SPSite siteElevatedPermissions = new SPSite(packageLocation.SiteId);
                     disposer.Push(siteElevatedPermissions);
 
                     // If the web does not exist, this throws FileNotFound
