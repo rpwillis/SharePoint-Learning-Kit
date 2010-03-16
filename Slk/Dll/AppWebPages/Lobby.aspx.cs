@@ -227,7 +227,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 LearnerAssignmentState learnerAssignmentStatus = LearnerAssignmentProperties.Status;
                 bool setStatusToActive = (Request.QueryString[startQueryStringName] == "true");
-                DropBoxManager.Debug("setStatusToActive {0}", setStatusToActive);
                 if (setStatusToActive && learnerAssignmentStatus == LearnerAssignmentState.NotStarted)
                 {
                     learnerAssignmentStatus = LearnerAssignmentState.Active;
@@ -244,7 +243,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
                 else
                 {
-                    DropBoxManager.Debug("not IsNonElearningNotStarted");
                 }
 
                 ClientScript.RegisterClientScriptBlock(this.GetType(), "lblStatusValue", "var lblStatusValue = \"" + lblStatusValue.ClientID + "\";", true);
@@ -407,10 +405,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 contentPanel.Visible = true;
 
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
                 errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyInvalidLearnerAssignmentId, LearnerAssignmentGuidId.ToString()));
-                DropBoxManager.Debug(ex.ToString());
                 contentPanel.Visible = false;
             }
             catch (ThreadAbortException)
@@ -431,27 +428,22 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                                 FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId);
             if (IsNonElearning)
             {
-                DropBoxManager.Debug("IsNonElearning");
                 string thisUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
                 thisUrl = String.Format(CultureInfo.InvariantCulture, "{0}?{1}", thisUrl, Request.QueryString);
 
                 if (string.IsNullOrEmpty(initialFileUrl))
                 {
-                    DropBoxManager.Debug("initialFileUrl is null");
                     slkButtonBegin.NavigateUrl = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';", openFrameset, thisUrl, startQueryStringName);
                 }
                 else
                 {
-                    DropBoxManager.Debug("initialFileUrl is not null");
                     string script = "DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff')";
                     if (LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted)
                     {
-                        DropBoxManager.Debug("not started");
                         script = string.Format(CultureInfo.InvariantCulture, "{0};window.location='{1}&{2}=true';return false;", script, thisUrl, startQueryStringName);
                     }
                     else
                     {
-                        DropBoxManager.Debug("started");
                         script = script + ";return false;";
                     }
                     slkButtonBegin.OnClientClick = script;
@@ -576,6 +568,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 try
                 {
                     SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
+                    if (AssignmentProperties.PackageFormat == null)
+                    {
+                        DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
+                        AssignmentProperties.PopulateSPUsers(SlkStore.GetInstructorMemberships(SPWeb));
+                        dropBoxMgr.ApplySubmittedPermissions();
+                    }
                 }
                 catch (InvalidOperationException)
                 {
@@ -662,21 +660,17 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         void CopyDocumentToDropBox()
         {
            DropBoxManager manager = new DropBoxManager(AssignmentProperties);
-           DropBoxManager.Debug("Lobby CopyDocumentToDropBox");
            initialFileUrl = manager.CopyFileToDropBox(); 
-           DropBoxManager.Debug("End Lobby CopyDocumentToDropBox {0}", initialFileUrl);
         }
 
         void FindDocumentUrl()
         {
            DropBoxManager manager = new DropBoxManager(AssignmentProperties);
-           DropBoxManager.Debug("Lobby FindDocumentUrl");
            AssignmentFile[] files = manager.LastSubmittedFiles();
            if (files.Length > 0)
            {
                initialFileUrl = files[0].Url;
            }
-           DropBoxManager.Debug("End Lobby FindDocumentUrl {0}", initialFileUrl);
         }
 #endregion private methods
     }

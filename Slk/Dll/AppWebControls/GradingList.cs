@@ -468,7 +468,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="htmlTextWriter">Text Writer to write to.</param>
         private void RenderFileSubmissionState(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
-            DropBoxManager.Debug("FileSubmission {0}", item.FileSubmissionState);
             AppResources.Culture = LocalizationManager.GetCurrentCulture();
             //If the state is "NA" or "Not Submitted", display it as label text
             if (item.FileSubmissionState.Equals(AppResources.GradingFileSubmissionNA) ||
@@ -483,7 +482,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
             {
                 DropBoxManager dropBox = new DropBoxManager(assignmentProperties);
                 AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
-                DropBoxManager.Debug("File count {0}", files.Length);
 
                 if (files.Length == 0)
                 {
