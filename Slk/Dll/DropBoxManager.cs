@@ -97,7 +97,6 @@ namespace Microsoft.SharePointLearningKit
 
         public string CopyFileToDropBox()
         {
-            Debug("CopyFileToDropBox");
             string url = null;
             SPSecurity.RunWithElevatedPrivileges(delegate()
             {
@@ -115,7 +114,6 @@ namespace Microsoft.SharePointLearningKit
 
                         if (MustCopyFileToDropBox(file.Name))
                         {
-                            Debug("MustCopyFileToDropBox {0}", file.Name);
                             using (SPSite destinationSite = new SPSite(assignmentProperties.SPSiteGuid))
                             {
                                 destinationSite.CatchAccessDeniedException = false;
@@ -217,31 +215,7 @@ namespace Microsoft.SharePointLearningKit
                         {
                             spWeb.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
                         }
-                        Debug("Completed upload of files. Now permissions.");
-
-                        // IF the assignment is auto return, the learner will still be able to view the drop box assignment files
-                        // otherwise, learner permissions will be removed from the learner's subfolder in the Drop Box document library
-                        if (learnerAssignmentProperties.AutoReturn == false)
-                        {
-                            Debug("Remove CurrentUser from assignmentFolder.");
-                            RemovePermissions(assignmentFolder, CurrentUser);
-                            Debug("Remove CurrentUser from learnerSubFolder.");
-                            RemovePermissions(learnerSubFolder, CurrentUser);
-                        }
-
-                        // Grant instructors contribute permission on learner subfolder
-                        Debug("Set instructor properties {0}", assignmentProperties.Instructors.Count);
-                        foreach (SlkUser instructor in assignmentProperties.Instructors)
-                        {
-                            if (instructor.SPUser == null)
-                            {
-                                throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DropBoxManagerUploadFilesNoInstructor, instructor.Name));
-                            }
-                            Debug("Remove instructor from learnerSubFolder.");
-                            RemovePermissions(learnerSubFolder, instructor.SPUser);
-                            ApplyPermissionToFolder(learnerSubFolder, instructor.SPUser, SPRoleType.Contributor);
-                        }
-
+                        ApplySubmittedPermissions(spWeb);
                     }
                 }
             });
@@ -261,6 +235,20 @@ namespace Microsoft.SharePointLearningKit
             {
                 // state transition isn't supported
             }
+        }
+
+        /// <summary>Applys permissions when the document is submitted.</summary>
+        public void ApplySubmittedPermissions()
+        {
+            SPSecurity.RunWithElevatedPrivileges(delegate{
+                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
+                {
+                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
+                    {
+                        ApplySubmittedPermissions(spWeb);
+                    }
+                }
+                    });
         }
 
         /// <summary>Returns all files for an assignment grouped by learner.</summary>
@@ -726,7 +714,6 @@ namespace Microsoft.SharePointLearningKit
 
         string SaveFile(string fileName, Stream fileStream, SPFolder learnerSubFolder, SPUser learner)
         {
-            Debug("uploaded file {0}", fileName);
             string fileUrl = learnerSubFolder.Url + '/' + fileName;
 
             SPFile file = learnerSubFolder.Files.Add(fileUrl, fileStream, true);
@@ -743,7 +730,6 @@ namespace Microsoft.SharePointLearningKit
 
         void RemovePermissions(SPListItem folder, SPUser user)
         {
-            Debug("RemovePermissions: user is null {0}", user == null);
             if (folder != null && user != null)
             {
                 SPWeb web = folder.Web;
@@ -1004,6 +990,45 @@ namespace Microsoft.SharePointLearningKit
             return string.Format(CultureInfo.InvariantCulture, "{0} {1}", GetDateOnly(assignmentProperties.StartDate), assignmentProperties.Title.Trim());
         }
 
+        void ApplySubmittedPermissions(SPListItem assignmentFolder, SPListItem learnerSubFolder)
+        {
+            // IF the assignment is auto return, the learner will still be able to view the drop box assignment files
+            // otherwise, learner permissions will be removed from the learner's subfolder in the Drop Box document library
+            if (assignmentProperties.AutoReturn == false)
+            {
+                RemovePermissions(assignmentFolder, CurrentUser);
+                RemovePermissions(learnerSubFolder, CurrentUser);
+            }
+
+            // Grant instructors contribute permission on learner subfolder
+            foreach (SlkUser instructor in assignmentProperties.Instructors)
+            {
+                if (instructor.SPUser == null)
+                {
+                    throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DropBoxManagerUploadFilesNoInstructor, instructor.Name));
+                }
+                RemovePermissions(learnerSubFolder, instructor.SPUser);
+                ApplyPermissionToFolder(learnerSubFolder, instructor.SPUser, SPRoleType.Contributor);
+            }
+
+        }
+
+        public void ApplySubmittedPermissions(SPWeb web)
+        {
+            SPList dropBox = DropBoxLibrary(web);
+            SPListItem assignmentFolder = GetAssignmentFolder(dropBox);
+            SPListItem learnerSubFolder = null;
+
+            if (assignmentFolder == null)
+            {
+                assignmentFolder = CreateAssignmentFolder(dropBox);
+            }
+            else
+            {
+                learnerSubFolder = FindLearnerFolder(assignmentFolder, CurrentUser);
+                ApplySubmittedPermissions(assignmentFolder, learnerSubFolder);
+            }
+        }
 #endregion private methods
 
 #region static methods
@@ -1171,20 +1196,6 @@ namespace Microsoft.SharePointLearningKit
             folder.Update();
         }
 
-        internal static void Debug(string message, params object[] arguments)
-        {
-            try
-            {
-                using (StreamWriter writer = new StreamWriter("c:\\temp\\dropbox.txt", true))
-                {
-                    writer.WriteLine(message, arguments);
-                }
-            }
-            catch (Exception)
-            {
-            }
-        }
-
         /// <summary>
         /// Truncate the time part and the '/' from the Created Date and convert it to string to be a valid folder name.
         /// </summary>
@@ -1198,7 +1209,6 @@ namespace Microsoft.SharePointLearningKit
         static bool MustCopyFileToDropBox(string fileName)
         {
             string extension = Path.GetExtension(fileName);
-            Debug("Extension:{0}", extension);
 
             switch (extension)
             {

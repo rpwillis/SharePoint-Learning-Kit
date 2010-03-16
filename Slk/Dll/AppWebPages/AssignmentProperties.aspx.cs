@@ -1636,7 +1636,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 {
                                     //Log the Exception 
                                     WriteError(ex, true);
-                                    DropBoxManager.Debug(ex.ToString());
                                 }
                             }
                         }
@@ -1694,7 +1693,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         }
                         catch (Exception ex)
                         {
-                                    DropBoxManager.Debug(ex.ToString());
                             // Return the Assignment Properties back as Drop Box could not be updated successfully.
                             SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, oldAssignmentProperties);
                             //Log the Exception 
@@ -1709,7 +1707,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 //AppMode is not set to PageMode.Error as Page will be re rendered as Post Back Mode;
                 //Log the Exception 
-                                    DropBoxManager.Debug(ex.ToString());
                 WriteError(ex, true);
             }
 
