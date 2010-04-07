@@ -92,7 +92,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="item">The current learning item</param>
         public void ApplyReactivateAssignmentPermission(long learnerId)
         {
-            ApplyAssignmentPermission(learnerId, SPRoleType.Reader, SPRoleType.Contributor, true);
+            ApplyAssignmentPermission(learnerId, SPRoleType.Contributor, SPRoleType.Reader, true);
         }
 
         public string CopyFileToDropBox()
