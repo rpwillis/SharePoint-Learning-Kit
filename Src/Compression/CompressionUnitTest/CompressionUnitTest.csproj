@@ -45,13 +45,12 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="../../../tools/xunit/xunit.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompressionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VSCodeGenAccessors.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Compression\Compression.csproj">
@@ -60,4 +59,9 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+
+  <Target Name="AfterBuild">
+       <Exec Command="..\..\..\tools\xunit\xunit.console.exe @(MainAssembly)" />
+  </Target>
+
 </Project>
