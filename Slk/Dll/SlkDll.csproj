@@ -95,14 +95,14 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="AssignmentDownloader.cs" />
-    <Compile Include="ChangeActivityHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\ChangeActivityHelper.cs" />
     <Compile Include="ConfigureDropBox.cs" />
     <Compile Include="DropBoxManager.cs" />
     <Compile Include="EnumerateDomainGroups.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LearningStoreHelper.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="PostableFrameHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\Log.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\PostableFrameHelper.cs" />
     <!--
     <Compile Include="Properties\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -115,14 +115,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SlkFrameset.resx</DependentUpon>
     </Compile>
-    <Compile Include="Rte1p2DataModelConverter.cs" />
-    <Compile Include="Rte2004DataModelConverter.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\Rte1p2DataModelConverter.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\Rte2004DataModelConverter.cs" />
     <Compile Include="SlkApi.cs" />
     <Compile Include="api\SlkStore.cs" />
     <Compile Include="api\LearnerAssignmentProperties.cs" />
     <Compile Include="api\assignmentProperties.cs" />
     <Compile Include="api\slkUser.cs" />
-    <Compile Include="FramesetQueryParam.cs">
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\FramesetQueryParam.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FramesetResources.Designer.cs">
@@ -185,14 +185,14 @@
     <Compile Include="AppWebPages\Frameset\SlkFramesetPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ContentHelper.cs" />
-    <Compile Include="Encoding.cs" />
-    <Compile Include="FramesetHelper.cs" />
-    <Compile Include="FrmPageHelper.cs" />
-    <Compile Include="HiddenHelper.cs" />
-    <Compile Include="HttpModule.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\ContentHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\Encoding.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\FramesetHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\FrmPageHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\HiddenHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\HttpModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RteDataModelConverter.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\RteDataModelConverter.cs" />
     <Compile Include="SlkAppBasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -202,7 +202,7 @@
     <Compile Include="SlkSettings.cs" />
     <Compile Include="SlkUtilities.cs">
     </Compile>
-    <Compile Include="TocHelper.cs">
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\TocHelper.cs">
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -220,7 +220,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FramesetResources.resx">
+    <EmbeddedResource Include="..\..\samples\basicwebplayer\app_globalresources\FramesetResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FramesetResources.Designer.cs</LastGenOutput>
