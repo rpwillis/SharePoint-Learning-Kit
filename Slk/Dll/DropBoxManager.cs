@@ -1032,6 +1032,13 @@ namespace Microsoft.SharePointLearningKit
 #endregion private methods
 
 #region static methods
+        public static string EditJavascript(string fileUrl, SPWeb web)
+        {
+            //string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff');return false;";
+            string script = "editDocumentWithProgID2('{0}', '', 'SharePoint.OpenDocuments','0','{1}','0')";
+            return string.Format(CultureInfo.InvariantCulture, script, fileUrl, web.Url);
+        }
+
         static string LearnerFolderName(SPUser learner)
         {
             string folderName = learner.LoginName;
