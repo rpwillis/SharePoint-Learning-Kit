@@ -387,8 +387,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             linkName.Target = "_blank";
             linkName.Style.Add("display", string.Empty);
 
-            string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff');return false;";
-            linkName.Attributes.Add("onclick", script);
+            linkName.Attributes.Add("onclick", DropBoxManager.EditJavascript(file.Url, SPWeb));
             linkName.NavigateUrl = file.Url;
         }
 

@@ -504,9 +504,9 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
         void SetUpSubmittedFileHyperLink(HyperLink link, AssignmentFile[] files, GradingItem item)
         {
+            SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
             if (files.Length > 1)
             {
-                SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
                 string url = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", slkAppBasePage.SPWeb.Url, item.LearnerAssignmentGuidId);
                 string script = string.Format("window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable');return false;", url);
                 link.Attributes.Add("onclick", script);
@@ -515,8 +515,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             else
             {
                 string url = files[0].Url;
-                string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff');return false;";
-                link.Attributes.Add("onclick", script);
+                link.Attributes.Add("onclick", DropBoxManager.EditJavascript(url, slkAppBasePage.SPWeb));
                 link.NavigateUrl = url;
             }
         }

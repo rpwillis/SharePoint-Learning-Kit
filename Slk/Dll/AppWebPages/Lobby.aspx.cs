@@ -437,7 +437,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
                 else
                 {
-                    string script = "DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff')";
+                    string script = DropBoxManager.EditJavascript(initialFileUrl, SPWeb);
                     if (LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted)
                     {
                         script = string.Format(CultureInfo.InvariantCulture, "{0};window.location='{1}&{2}=true';return false;", script, thisUrl, startQueryStringName);
