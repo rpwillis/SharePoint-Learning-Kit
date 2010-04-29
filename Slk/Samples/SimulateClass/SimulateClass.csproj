@@ -28,25 +28,25 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.LearningComponents, Version=1.0.546.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.LearningComponents.Storage">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Debug\Microsoft.LearningComponents.dll</HintPath>
+      <HintPath>..\..\..\src\storage\bin\debug\Microsoft.LearningComponents.Storage.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.LearningComponents.SharePoint, Version=1.0.546.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.LearningComponents.SharePoint">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Debug\Microsoft.LearningComponents.SharePoint.dll</HintPath>
+      <HintPath>..\..\..\src\sharepoint\bin\debug\Microsoft.LearningComponents.SharePoint.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.LearningComponents.Storage, Version=1.0.546.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.LearningComponents">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Debug\Microsoft.LearningComponents.Storage.dll</HintPath>
+      <HintPath>..\..\..\src\learningcomponents\bin\debug\Microsoft.LearningComponents.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.SharePoint">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\References\Microsoft.SharePoint.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SharePointLearningKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.SharePointLearningKit">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Debug\Microsoft.SharePointLearningKit.dll</HintPath>
+      <HintPath>..\..\dll\bin\debug\Microsoft.SharePointLearningKit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

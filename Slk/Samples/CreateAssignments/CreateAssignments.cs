@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.SharePoint;
 using Microsoft.LearningComponents;
-using Microsoft.LearningComponents.Manifest;
 using Microsoft.LearningComponents.Storage;
 using Microsoft.LearningComponents.SharePoint;
 using Microsoft.SharePointLearningKit;

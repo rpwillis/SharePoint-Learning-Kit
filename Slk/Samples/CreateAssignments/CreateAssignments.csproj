@@ -30,15 +30,15 @@
   <ItemGroup>
     <Reference Include="Microsoft.LearningComponents">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Debug\Microsoft.LearningComponents.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.LearningComponents.SharePoint">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Debug\Microsoft.LearningComponents.SharePoint.dll</HintPath>
+      <HintPath>..\..\..\src\learningcomponents\bin\debug\Microsoft.LearningComponents.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.LearningComponents.Storage">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Debug\Microsoft.LearningComponents.Storage.dll</HintPath>
+      <HintPath>..\..\..\src\storage\bin\debug\Microsoft.LearningComponents.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents.SharePoint">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\src\sharepoint\bin\debug\Microsoft.LearningComponents.SharePoint.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint">
       <SpecificVersion>False</SpecificVersion>
@@ -46,7 +46,7 @@
     </Reference>
     <Reference Include="Microsoft.SharePointLearningKit">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Debug\Microsoft.SharePointLearningKit.dll</HintPath>
+      <HintPath>..\..\dll\bin\debug\Microsoft.SharePointLearningKit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

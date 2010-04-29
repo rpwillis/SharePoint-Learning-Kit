@@ -6,7 +6,7 @@ all: deb rel
 
 # "nmake deb" just does a test build to make sure the .aspx files compile
 deb:
-	for %f in (*.aspx) do cscript /nologo ..\..\..\Tools\CopyAndSetVersion.js %f TestBuild\%f
+	xcopy /Y *.aspx TestBuild\
 	cd TestBuild
 !IF "$(TARGET_ARCH)" == "x64"
 	@echo "Skipping build on 64-bit architectures"
