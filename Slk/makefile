@@ -11,7 +11,6 @@ SAMPLES=AddInstructors.CMD AddToUserWebLists.CMD CreateAssignments.CMD Provision
 all: deb rel sdk samples
 
 deb:
-	call LinkFrameset Clone
 	cd Dll
 	$(MAKE) /nologo deb
 	cd $(MAKEDIR)
@@ -26,7 +25,6 @@ deb:
 	cd $(MAKEDIR)
 
 rel:
-	call LinkFrameset Clone
 	cd Dll
 	$(MAKE) /nologo rel
 	cd $(MAKEDIR)
@@ -96,7 +94,6 @@ prop:
 	iisreset
 
 clean cleanall: cleansamples
-	call LinkFrameset Clean
 	-del App\localtestrun.testrunconfig
 	-del SlkUnitTests\SlkUnitTests.csproj.user 2> nul
  	-rd /s /q SlkSdk 2> nul
