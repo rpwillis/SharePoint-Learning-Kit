@@ -515,7 +515,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             else
             {
                 string url = files[0].Url;
-                link.Attributes.Add("onclick", DropBoxManager.EditJavascript(url, slkAppBasePage.SPWeb));
+                link.Attributes.Add("onclick", DropBoxManager.EditJavascript(url, slkAppBasePage.SPWeb) + "return false;");
                 link.NavigateUrl = url;
             }
         }

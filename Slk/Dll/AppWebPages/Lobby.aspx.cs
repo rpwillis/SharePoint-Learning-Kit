@@ -440,11 +440,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     string script = DropBoxManager.EditJavascript(initialFileUrl, SPWeb);
                     if (LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted)
                     {
-                        script = string.Format(CultureInfo.InvariantCulture, "{0};window.location='{1}&{2}=true';return false;", script, thisUrl, startQueryStringName);
+                        script = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';return false;", script, thisUrl, startQueryStringName);
                     }
                     else
                     {
-                        script = script + ";return false;";
+                        script = script + "return false;";
                     }
                     slkButtonBegin.OnClientClick = script;
                     slkButtonBegin.NavigateUrl = initialFileUrl;
