@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/"
+		 Id="00057005-c978-11da-ba52-00042350e42e"
+		 Scope="Farm"
+		 Title="SharePoint Learning Kit Administration"
+		 AutoActivateInCentralAdmin="TRUE">
+	<ElementManifests>
+		<ElementManifest Location="elements.xml"/>
+	</ElementManifests>
+</Feature>

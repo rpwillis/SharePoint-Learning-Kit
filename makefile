@@ -215,17 +215,21 @@ drop: nul
 	mkdir $(SDK_DIR)\Samples\SLK\ReportPages
 	copy Slk\Samples\ReportPages\ReadMe.txt $(SDK_DIR)\Samples\SLK\ReportPages
 	cd Slk\Samples\ReportPages
-	for %f in (*.aspx) do cscript /nologo ..\..\..\Tools\CopyAndSetVersion.js %f ..\..\..\$(SDK_DIR)\Samples\SLK\ReportPages\%f
+	xcopy /Y *.aspx ..\..\..\$(SDK_DIR)\Samples\SLK\ReportPages\
 	cd $(MAKEDIR)
 	mkdir $(SDK_DIR)\Samples\SLK\WebService
 	copy Slk\Samples\WebService\HelloWorld.zip $(SDK_DIR)\Samples\SLK\WebService
 	copy Slk\Samples\WebService\ReadMe.txt $(SDK_DIR)\Samples\SLK\WebService
 	cd Slk\Samples\WebService
-	for %f in (*.asmx) do cscript /nologo ..\..\..\Tools\CopyAndSetVersion.js %f ..\..\..\$(SDK_DIR)\Samples\SLK\WebService\%f
+	xcopy /Y *.asmx ..\..\..\$(SDK_DIR)\Samples\SLK\WebService\
 	cd $(MAKEDIR)
 
 	mkdir $(SDK_DIR)\SLK
-	copy Slk\SlkSdk\* $(SDK_DIR)\SLK
+	copy slk\SlkSchema.xml  $(SDK_DIR)\SLK
+	copy slk\Dll\SlkSchema.cs  $(SDK_DIR)\SLK
+	copy slk\SlkSchema.sql  $(SDK_DIR)\SLK
+	copy slk\SlkSettings.xsd  $(SDK_DIR)\SLK
+	copy slk\SlkSettings.xsx  $(SDK_DIR)\SLK
 	copy Slk\SlkSettings.xml $(SDK_DIR)\SLK
 
 	rem -- Create the LanguagePacks directory...

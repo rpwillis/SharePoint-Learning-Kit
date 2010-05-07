@@ -15,64 +15,6 @@
 					Safe="True" />
 			</SafeControls>
 		</Assembly>
-                <!--
-    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.BusinessLayerUITools.dll">
-      <SafeControls>
-        <SafeControl
-          Assembly="Axelerate.BusinessLayerUITools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4f9a37917b02d1a2"
-          Namespace="Axelerate.BusinessLayerUITools.WebParts" TypeName="*" Safe="True" />
-      </SafeControls>
-    </Assembly>
-    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.BusinessLayerFrameWork.dll">
-      <SafeControls>
-        <SafeControl
-          Assembly="Axelerate.BusinessLayerFrameWork, Version=1.3.0.1, Culture=neutral, PublicKeyToken=783dbd9b30afb604"
-          Namespace="Axelerate.BusinessLayerFrameWork.WebParts" TypeName="*" Safe="True" />
-      </SafeControls>
-    </Assembly>
-    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.SlkCourseManagerLogicalLayer.dll">
-      <SafeControls>
-        <SafeControl
-          Assembly="Axelerate.SlkCourseManagerLogicalLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5bbd900fcde291a4"
-          Namespace="Axelerate.SlkCourseManagerLogicalLayer.WebParts" TypeName="*" Safe="True" />
-      </SafeControls>
-    </Assembly>
-    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.DataAccessApplicationBlock.dll">
-      <SafeControls>
-        <SafeControl
-          Assembly="Axelerate.DataAccessApplicationBlock, Version=1.0.0.2, Culture=neutral, PublicKeyToken=8aeca469e4966909"
-          Namespace="Axelerate.DataAccessApplicationBlock.WebParts" TypeName="*" Safe="True" />
-      </SafeControls>
-    </Assembly>
-    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Axelerate.SharedBusinessLogic.dll">
-      <SafeControls>
-        <SafeControl
-          Assembly="Axelerate.SharedBusinessLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=68060410e0087d0c"
-          Namespace="Axelerate.SharedBusinessLogic.WebParts" TypeName="*" Safe="True" />
-      </SafeControls>
-    </Assembly>
-    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="InstallerHelper.dll">
-      <SafeControls>
-        <SafeControl
-          Assembly="InstallerHelper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=af5ed81c0ef88811"
-          Namespace="InstallerHelper" TypeName="*" Safe="True" />
-      </SafeControls>
-    </Assembly>
-    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="Admin\Course_Manager_Configure\CourseManagerConfCs.dll">
-      <SafeControls>
-        <SafeControl
-          Assembly="CourseManagerConfCs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f1391ddb6ea1ca6b"
-          Namespace="CourseManagerConfCs" TypeName="*" Safe="True" />
-      </SafeControls>
-    </Assembly>
-    <Assembly DeploymentTarget="GlobalAssemblyCache" Location="AjaxControlToolkit.dll">
-      <SafeControls>
-        <SafeControl
-          Assembly="AjaxControlToolkit, Version=3.0.20229.20843, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e"
-          Namespace="AjaxControlToolkit.WebParts" TypeName="*" Safe="True" />
-      </SafeControls>
-    </Assembly>
-    -->
 	</Assemblies>
 	<TemplateFiles>
 	  <TemplateFile Location="Admin\admin.sitemap.SharePointLearningKit.xml" />
@@ -176,42 +118,12 @@
 	  <TemplateFile Location="SharePointLearningKit\feature.xml" />
 	  <TemplateFile Location="SharePointLearningKitAdmin\elements.xml" />
 	  <TemplateFile Location="SharePointLearningKitAdmin\feature.xml" />
-          <!--
-    <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerConfigure.aspx" />
-    <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerDBSchema.sql" />
-    <TemplateFile Location="Admin\Course_Manager_Configure\Info.gif" />
-    <TemplateFile Location="Admin\Course_Manager_Configure\Wait.gif" />
-    <TemplateFile Location="Features\Course_Manager_Configure\SPDocumentSelectorIFrame.js" />
-    <TemplateFile Location="Features\Course_Manager_Configure\CourseManager.master" />
-    <TemplateFile Location="Features\Course_Manager_Configure\DocumentViewer.aspx" />
-    <TemplateFile Location="Features\Course_Manager_Configure\Monitor_and_Assess.aspx" />
-    <TemplateFile Location="Features\Course_Manager_Configure\Plan_and_Assign.aspx" />
-    <TemplateFile Location="Features\Course_Manager_Configure\Placeholder.txt" />
-    <TemplateFile Location="Admin\Course_Manager_Configure\CourseManagerConfCs.dll" />
-    -->
-    <!--<TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.dll" />
-    <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.SharePoint.dll" />
-    <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.LearningComponents.Storage.dll" />
-    <TemplateFile Location="Admin\Course_Manager_Configure\Microsoft.SharePointLearningKit.dll" />-->
-    <!--
-    <TemplateFile Location="Layouts\1033\SPDocumentSelectorIFrame.js" />
-    -->
 	</TemplateFiles>
   <FeatureManifests>
 		<FeatureManifest Location="SharePointLearningKit\feature.xml"/>
 		<FeatureManifest Location="SharePointLearningKitAdmin\feature.xml"/>
-    <!--
-    <FeatureManifest Location="Course_Manager_Configure\feature.xml"/>
-    -->
 	</FeatureManifests>
 	<RootFiles>
 	  <RootFile Location="Resources\SLK.resx"/>
   </RootFiles>
-      <!--
-  <DwpFiles>
-    <DwpFile Location="CourseManagerPages.dwp"/>
-    <DwpFile Location="PlanAndAssign.dwp"/>
-    <DwpFile Location="MonitorAndAssess.dwp"/>
-  </DwpFiles>
-  -->
 </Solution>

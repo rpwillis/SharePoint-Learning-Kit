@@ -17,13 +17,6 @@ call AddSolution
 ECHO Deploying the solution
 call DeploySolution
 
-:BEGINDEPLOY
-choice /c:delay /t 5 /d d > NUL
-call EnumSolutions | findstr /c:"<State>"
-if %ERRORLEVEL% EQU 0 GOTO BEGINDEPLOY
-call EnumSolutions | findstr /c:"<Deployed>TRUE</Deployed>"
-if %ERRORLEVEL% NEQ 0 GOTO ERROR
-
 ECHO Resetting IIS
 iisreset
 ECHO Fixing the breadcrumbs

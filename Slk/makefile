@@ -8,9 +8,10 @@ APPDIR=$(SPDIR)\Template\Layouts\SharePointLearningKit
 
 SAMPLES=AddInstructors.CMD AddToUserWebLists.CMD CreateAssignments.CMD ProvisionFromExcel.CMD ReportPages.CMD SimulateClass.CMD SimulateJobTraining.CMD WebService.CMD
 
-all: deb rel sdk samples
+all: deb rel samples
 
 deb:
+	linkframeset clone
 	cd Dll
 	$(MAKE) /nologo deb
 	cd $(MAKEDIR)
@@ -25,6 +26,7 @@ deb:
 	cd $(MAKEDIR)
 
 rel:
+	linkframeset clone
 	cd Dll
 	$(MAKE) /nologo rel
 	cd $(MAKEDIR)
@@ -34,18 +36,8 @@ rel:
 	cd slkadm
 	$(MAKE) /nologo rel
 	cd $(MAKEDIR)
-	$(MAKE) sdk
 
-sdk:
- 	-rmdir /s /q SlkSdk 2> nul
-	mkdir SlkSdk
-	copy SlkSchema.xml SlkSdk
-	copy Dll\SlkSchema.cs SlkSdk
-	copy SlkSchema.sql SlkSdk
-	copy SlkSettings.xsd SlkSdk
-	copy SlkSettings.xsx SlkSdk
-
-samples: nul initsamples $(SAMPLES:CMD=deb)
+samples: nul 
 $(SAMPLES:CMD=deb):
 	@echo --
 	@echo -- Building Sample: $*
@@ -54,13 +46,7 @@ $(SAMPLES:CMD=deb):
 	$(MAKE) /nologo deb TARGET_ARCH=$(TARGET_ARCH)
 	cd $(MAKEDIR)
 
-initsamples:
- 	-rmdir /s /q Debug 2> nul
-	mkdir Debug
-	copy Solution\DebugFiles\* Debug
-
 cleansamples: $(SAMPLES:CMD=clean)
- 	-rmdir /s /q Debug 2> nul
 $(SAMPLES:CMD=clean):
 	@echo --
 	@echo -- Cleaning Sample: $*
@@ -94,9 +80,9 @@ prop:
 	iisreset
 
 clean cleanall: cleansamples
+	linkframeset clean
 	-del App\localtestrun.testrunconfig
 	-del SlkUnitTests\SlkUnitTests.csproj.user 2> nul
- 	-rd /s /q SlkSdk 2> nul
 	-rd /s /q App\TestResults
 	-rd /s /q SlkUnitTests\bin 2> nul
 	-rd /s /q SlkUnitTests\obj 2> nul

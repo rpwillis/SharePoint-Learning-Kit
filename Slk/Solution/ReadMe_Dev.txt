@@ -4,11 +4,11 @@ This file contains developer information.  See ReadMe.txt for regular user infor
 
 To compile this solution, i.e. create SharePointLearningKit.wsp:
 
-    nmake rel
+    msbuild
 
-(Use "nmake deb" for a version of SharePointLearningKit.wsp containing debug DLLs.
-Use "nmake deb rel", or just "nmake", for both debug and release versions.)
+(Use "msbuild /t:Debug" for a version of SharePointLearningKit.wsp containing debug DLLs.
+Use "msbuild /t:Clean", to delete any file created or copied in the process.)
 
-To edit the .xml files in the directory, use Visual Studio and attach the following .xsd:
+To edit the .xml files in the sub-directories, use Visual Studio and attach the following .xsd:
 C:\Program Files\Common Files\Microsoft Shared\web server extensions\12\Template\XML\wss12.xsd
 

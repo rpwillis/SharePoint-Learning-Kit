@@ -1,156 +1,119 @@
 ;
 .OPTION EXPLICIT     ; Generate errors 
-.Set CabinetNameTemplate=SharePointLearningKit.wsp
+.Set CabinetNameTemplate=Output\SharePointLearningKit.wsp
 .set DiskDirectoryTemplate=CDROM ; All cabinets go in a single directory
 .Set CompressionType=MSZIP;** All files are compressed in cabinet files
 .Set UniqueFiles="ON"
 .Set Cabinet=on
 .Set DiskDirectory1=.
-..\..\Admin\Configure.aspx                              Admin\SharePointLearningKit\Configure.aspx
-..\..\Admin\DownloadSettings.aspx                       Admin\SharePointLearningKit\DownloadSettings.aspx
-..\..\Admin\Info.gif                                    Admin\SharePointLearningKit\Info.gif
-..\..\Admin\Wait.gif                                    Admin\SharePointLearningKit\Wait.gif
-..\..\AdminFeature\elements.xml                         SharePointLearningKitAdmin\elements.xml
-..\..\AdminFeature\feature.xml                          SharePointLearningKitAdmin\feature.xml
-..\..\App\Actions.aspx                                  Layouts\SharePointLearningKit\Actions.aspx
-..\..\App\AssignmentProperties.aspx                     Layouts\SharePointLearningKit\AssignmentProperties.aspx
-..\..\App\Frameset\Bottom.htm                           Layouts\SharePointLearningKit\Frameset\Bottom.htm
-..\..\App\Frameset\ChangeActivity.aspx                  Layouts\SharePointLearningKit\Frameset\ChangeActivity.aspx
-..\..\App\Frameset\ClearContent.aspx                    Layouts\SharePointLearningKit\Frameset\ClearContent.aspx
-..\..\App\Frameset\Content.aspx                         Layouts\SharePointLearningKit\Frameset\Content.aspx
-..\..\App\Frameset\Frameset.aspx                        Layouts\SharePointLearningKit\Frameset\Frameset.aspx
-..\..\App\Frameset\Hidden.aspx                          Layouts\SharePointLearningKit\Frameset\Hidden.aspx
-..\..\App\Frameset\Include\FramesetMgr.js               Layouts\SharePointLearningKit\Frameset\Include\FramesetMgr.js
-..\..\App\Frameset\Include\Nav.js                       Layouts\SharePointLearningKit\Frameset\Include\Nav.js
-..\..\App\Frameset\Include\Toc.js                       Layouts\SharePointLearningKit\Frameset\Include\Toc.js
-..\..\App\Frameset\Include\parser.js                    Layouts\SharePointLearningKit\Frameset\Include\parser.js
-..\..\App\Frameset\Include\Parser1p2.js                 Layouts\SharePointLearningKit\Frameset\Include\Parser1p2.js
-..\..\App\Frameset\Include\Rte1p2Api.js                 Layouts\SharePointLearningKit\Frameset\Include\Rte1p2Api.js
-..\..\App\Frameset\Include\Rte2004Api.js                Layouts\SharePointLearningKit\Frameset\Include\Rte2004Api.js
-..\..\App\Frameset\Include\RteApiSite.js                Layouts\SharePointLearningKit\Frameset\Include\RteApiSite.js
-..\..\App\Frameset\Include\typevalidators.js            Layouts\SharePointLearningKit\Frameset\Include\typevalidators.js
-..\..\App\Frameset\Include\typevalidators1p2.js         Layouts\SharePointLearningKit\Frameset\Include\typevalidators1p2.js
-..\..\App\Frameset\Include\vernum.js                    Layouts\SharePointLearningKit\Frameset\Include\vernum.js
-..\..\App\Frameset\Images\BoxOff.gif                    Layouts\SharePointLearningKit\Frameset\Images\BoxOff.gif
-..\..\App\Frameset\Images\BoxOffCorrect.gif             Layouts\SharePointLearningKit\Frameset\Images\BoxOffCorrect.gif
-..\..\App\Frameset\Images\BoxOn.gif                     Layouts\SharePointLearningKit\Frameset\Images\BoxOn.gif
-..\..\App\Frameset\Images\BoxOnCorrect.gif              Layouts\SharePointLearningKit\Frameset\Images\BoxOnCorrect.gif
-..\..\App\Frameset\Images\BoxOnWrong.gif                Layouts\SharePointLearningKit\Frameset\Images\BoxOnWrong.gif
-..\..\App\Frameset\Images\ButtonOff.gif                 Layouts\SharePointLearningKit\Frameset\Images\ButtonOff.gif
-..\..\App\Frameset\Images\ButtonOffCorrect.gif          Layouts\SharePointLearningKit\Frameset\Images\ButtonOffCorrect.gif
-..\..\App\Frameset\Images\ButtonOnCorrect.gif           Layouts\SharePointLearningKit\Frameset\Images\ButtonOnCorrect.gif
-..\..\App\Frameset\Images\ButtonOnWrong.gif             Layouts\SharePointLearningKit\Frameset\Images\ButtonOnWrong.gif
-..\..\App\Frameset\Images\Correct.gif                   Layouts\SharePointLearningKit\Frameset\Images\Correct.gif
-..\..\App\Frameset\Images\Incorrect.gif                 Layouts\SharePointLearningKit\Frameset\Images\Incorrect.gif
-..\..\App\Frameset\Images\SaveAndClose.gif              Layouts\SharePointLearningKit\Frameset\Images\SaveAndClose.gif
-..\..\App\Frameset\MainFrames.aspx                      Layouts\SharePointLearningKit\Frameset\MainFrames.aspx
-..\..\App\Frameset\NavClosed.aspx                       Layouts\SharePointLearningKit\Frameset\NavClosed.aspx
-..\..\App\Frameset\NavOpen.aspx                         Layouts\SharePointLearningKit\Frameset\NavOpen.aspx
-..\..\App\Frameset\NoScroll.htm                         Layouts\SharePointLearningKit\Frameset\NoScroll.htm
-..\..\App\Frameset\Theme\1px.gif                        Layouts\SharePointLearningKit\Frameset\Theme\1px.gif
-..\..\App\Frameset\Theme\Error.gif                      Layouts\SharePointLearningKit\Frameset\Theme\Error.gif
-..\..\App\Frameset\Theme\HeadCornerRt.gif               Layouts\SharePointLearningKit\Frameset\Theme\HeadCornerRt.gif
-..\..\App\Frameset\Theme\HeadShadow.gif                 Layouts\SharePointLearningKit\Frameset\Theme\HeadShadow.gif
-..\..\App\Frameset\Theme\Info.gif                       Layouts\SharePointLearningKit\Frameset\Theme\Info.gif
-..\..\App\Frameset\Theme\Leaf.gif                       Layouts\SharePointLearningKit\Frameset\Theme\Leaf.gif
-..\..\App\Frameset\Theme\MinusBtn.gif                   Layouts\SharePointLearningKit\Frameset\Theme\MinusBtn.gif
-..\..\App\Frameset\Theme\nav_bg.gif                     Layouts\SharePointLearningKit\Frameset\Theme\nav_bg.gif
-..\..\App\Frameset\Theme\Next.gif                       Layouts\SharePointLearningKit\Frameset\Theme\Next.gif
-..\..\App\Frameset\Theme\NextHover.gif                  Layouts\SharePointLearningKit\Frameset\Theme\NextHover.gif
-..\..\App\Frameset\Theme\PlusBtn.gif                    Layouts\SharePointLearningKit\Frameset\Theme\PlusBtn.gif
-..\..\App\Frameset\Theme\Prev.gif                       Layouts\SharePointLearningKit\Frameset\Theme\Prev.gif
-..\..\App\Frameset\Theme\PrevHover.gif                  Layouts\SharePointLearningKit\Frameset\Theme\PrevHover.gif
-..\..\App\Frameset\Theme\Save.gif                       Layouts\SharePointLearningKit\Frameset\Theme\Save.gif
-..\..\App\Frameset\Theme\SaveHover.gif                  Layouts\SharePointLearningKit\Frameset\Theme\SaveHover.gif
-..\..\App\Frameset\Theme\Styles.css                     Layouts\SharePointLearningKit\Frameset\Theme\Styles.css
-..\..\App\Frameset\Theme\TocClose.gif                   Layouts\SharePointLearningKit\Frameset\Theme\TocClose.gif
-..\..\App\Frameset\Theme\TocClosedTab.gif               Layouts\SharePointLearningKit\Frameset\Theme\TocClosedTab.gif
-..\..\App\Frameset\Theme\TocCloseHover.gif              Layouts\SharePointLearningKit\Frameset\Theme\TocCloseHover.gif
-..\..\App\Frameset\Theme\TocOpen.gif                    Layouts\SharePointLearningKit\Frameset\Theme\TocOpen.gif
-..\..\App\Frameset\Theme\TocOpenHover.gif               Layouts\SharePointLearningKit\Frameset\Theme\TocOpenHover.gif
-..\..\App\Frameset\Theme\TopShadow.gif                  Layouts\SharePointLearningKit\Frameset\Theme\TopShadow.gif
-..\..\App\Frameset\Title.htm                            Layouts\SharePointLearningKit\Frameset\Title.htm
-..\..\App\Frameset\TOC.aspx                             Layouts\SharePointLearningKit\Frameset\TOC.aspx
-..\..\App\Grading.aspx                                  Layouts\SharePointLearningKit\Grading.aspx
-..\..\App\Images\ActionsIcon.gif                        Layouts\SharePointLearningKit\Images\ActionsIcon.gif
-..\..\App\Images\Blank.gif                              Layouts\SharePointLearningKit\Images\Blank.gif
-..\..\App\Images\WaitIcon.gif                           Layouts\SharePointLearningKit\Images\WaitIcon.gif
-..\..\App\Images\ErrorIcon.gif                          Layouts\SharePointLearningKit\Images\ErrorIcon.gif
-..\..\App\Images\InfoIcon.gif                           Layouts\SharePointLearningKit\Images\InfoIcon.gif
-..\..\App\Images\WarningIcon.gif                        Layouts\SharePointLearningKit\Images\WarningIcon.gif
-..\..\App\Images\DeleteIcon.gif                         Layouts\SharePointLearningKit\Images\DeleteIcon.gif
-..\..\App\Images\MarkCompleteIcon.gif                   Layouts\SharePointLearningKit\Images\MarkCompleteIcon.gif
-..\..\App\Images\NewDocumentIcon.gif                    Layouts\SharePointLearningKit\Images\NewDocumentIcon.gif
-..\..\App\Images\NewIcon.gif                            Layouts\SharePointLearningKit\Images\NewIcon.gif
-..\..\App\Images\SubmitIcon.gif                         Layouts\SharePointLearningKit\Images\SubmitIcon.gif
-..\..\App\Images\CollectAllIcon.gif                     Layouts\SharePointLearningKit\Images\CollectAllIcon.gif
-..\..\App\Images\EditIcon.gif                           Layouts\SharePointLearningKit\Images\EditIcon.gif
-..\..\App\Images\ReturnAllIcon.gif                      Layouts\SharePointLearningKit\Images\ReturnAllIcon.gif
-..\..\App\Images\SaveIcon.gif                           Layouts\SharePointLearningKit\Images\SaveIcon.gif
-..\..\App\Images\GradingSatisfied.gif                   Layouts\SharePointLearningKit\Images\GradingSatisfied.gif
-..\..\App\Images\GradingUnsatisfied.gif                 Layouts\SharePointLearningKit\Images\GradingUnsatisfied.gif
-..\..\App\Images\ARRDOWNA.GIF                           Layouts\SharePointLearningKit\Images\ARRDOWNA.GIF
-..\..\App\Images\ARRUPA.GIF                             Layouts\SharePointLearningKit\Images\ARRUPA.GIF
-..\..\App\Lobby.aspx                                    Layouts\SharePointLearningKit\Lobby.aspx
-..\..\App\SubmittedFiles.aspx                           Layouts\SharePointLearningKit\SubmittedFiles.aspx
-..\..\App\DownloadDialog.aspx                           Layouts\SharePointLearningKit\DownloadDialog.aspx
-..\..\App\CommentedFiles.aspx                           Layouts\SharePointLearningKit\CommentedFiles.aspx
-..\..\App\FilesUploadPage.aspx                          Layouts\SharePointLearningKit\FilesUploadPage.aspx
-..\..\App\QueryResults.aspx                             Layouts\SharePointLearningKit\QueryResults.aspx
-..\..\App\QuerySet.aspx                                 Layouts\SharePointLearningKit\QuerySet.aspx
-..\..\App\Include\QuerySet.js                           Layouts\SharePointLearningKit\Include\QuerySet.js
-..\..\App\QuerySummary.aspx                             Layouts\SharePointLearningKit\QuerySummary.aspx
-..\..\App\Include\Styles.css                            Layouts\SharePointLearningKit\Include\Styles.css
-..\..\AppFeature\elements.xml                           SharePointLearningKit\elements.xml
-..\..\AppFeature\feature.xml                            SharePointLearningKit\feature.xml
-..\..\SlkSchema.sql                                     Admin\SharePointLearningKit\SlkSchema.sql
-..\..\SlkSettings.xml                                   Admin\SharePointLearningKit\SlkSettings.xml.dat
-..\admin.sitemap.SharePointLearningKit.xml              Admin\admin.sitemap.SharePointLearningKit.xml
-..\Build\Microsoft.LearningComponents.MRCI.dll			Microsoft.LearningComponents.MRCI.dll
-..\Build\Microsoft.LearningComponents.Compression.dll   Microsoft.LearningComponents.Compression.dll
-..\Build\Microsoft.LearningComponents.dll               Microsoft.LearningComponents.dll
-..\Build\Microsoft.LearningComponents.SharePoint.dll    Microsoft.LearningComponents.SharePoint.dll
-..\Build\Microsoft.LearningComponents.Storage.dll       Microsoft.LearningComponents.Storage.dll
-..\Build\Microsoft.SharePointLearningKit.dll            Microsoft.SharePointLearningKit.dll
-..\..\..\References\ICSharpCode.SharpZipLib.dll         ICSharpCode.SharpZipLib.dll
-..\layouts.sitemap.SharePointLearningKit.xml            Layouts\layouts.sitemap.SharePointLearningKit.xml
-..\..\DropBoxDocLib\feature.xml                         DropBoxDocLib\feature.xml
-..\..\DropBoxDocLib\DropBoxDocLib\AllItems.aspx         DropBoxDocLib\DropBoxDocLib\AllItems.aspx
-..\..\DropBoxDocLib\DropBoxDocLib\Combine.aspx          DropBoxDocLib\DropBoxDocLib\Combine.aspx
-..\..\DropBoxDocLib\DropBoxDocLib\DispForm.aspx         DropBoxDocLib\DropBoxDocLib\DispForm.aspx
-..\..\DropBoxDocLib\DropBoxDocLib\DropBox.xml           DropBoxDocLib\DropBoxDocLib\DropBox.xml
-..\..\DropBoxDocLib\DropBoxDocLib\EditDlg.htm           DropBoxDocLib\DropBoxDocLib\EditDlg.htm
-..\..\DropBoxDocLib\DropBoxDocLib\EditForm.aspx         DropBoxDocLib\DropBoxDocLib\EditForm.aspx
-..\..\DropBoxDocLib\DropBoxDocLib\FileDlg.htm           DropBoxDocLib\DropBoxDocLib\FileDlg.htm
-..\..\DropBoxDocLib\DropBoxDocLib\Repair.aspx           DropBoxDocLib\DropBoxDocLib\Repair.aspx
-..\..\DropBoxDocLib\DropBoxDocLib\schema.xml            DropBoxDocLib\DropBoxDocLib\schema.xml
-..\..\DropBoxDocLib\DropBoxDocLib\Upload.aspx           DropBoxDocLib\DropBoxDocLib\Upload.aspx
-..\..\DropBoxDocLib\DropBoxDocLib\WebFldr.aspx          DropBoxDocLib\DropBoxDocLib\WebFldr.aspx
-..\..\DropBoxDocLib\DropBoxDocLib\Instance.xml			DropBoxDocLib\DropBoxDocLib\Instance.xml
-..\..\SLK.resx                                          Resources\SLK.resx
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\CourseManagerConfigure.aspx				Admin\Course_Manager_Configure\CourseManagerConfigure.aspx
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\Info.gif								Admin\Course_Manager_Configure\Info.gif
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\Wait.gif                            			Admin\Course_Manager_Configure\Wait.gif
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Solution\CourseManagerDBSchema.sql     		       	Admin\Course_Manager_Configure\CourseManagerDBSchema.sql
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\elements.xml							Course_Manager_Configure\elements.xml
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\feature.xml							Course_Manager_Configure\feature.xml
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\SPDocumentSelectorIFrame.js					Features\Course_Manager_Configure\SPDocumentSelectorIFrame.js
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\SPDocumentSelectorIFrame.js					Layouts\1033\SPDocumentSelectorIFrame.js
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\CourseManager.master						Features\Course_Manager_Configure\CourseManager.master
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\DocumentViewer.aspx						Features\Course_Manager_Configure\DocumentViewer.aspx
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\Monitor_and_Assess.aspx					Features\Course_Manager_Configure\Monitor_and_Assess.aspx
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\Plan_and_Assign.aspx						Features\Course_Manager_Configure\Plan_and_Assign.aspx
-; ..\..\..\CourseManager\InstallerHelper\Installer\Solution\Files\Feature\Placeholder.txt					Features\Course_Manager_Configure\Placeholder.txt
-; ..\..\..\CourseManager\InstallerHelper\Installer\WebPart\CourseManagerPages.dwp							CourseManagerPages.dwp
-; ..\..\..\CourseManager\InstallerHelper\Installer\WebPart\MonitorAndAssess.dwp							MonitorAndAssess.dwp
-; ..\..\..\CourseManager\InstallerHelper\Installer\WebPart\PlanAndAssign.dwp								PlanAndAssign.dwp
-; ..\..\..\CourseManager\Build\CourseManagerConfCs.dll							Admin\Course_Manager_Configure\CourseManagerConfCs.dll
-; ..\..\..\CourseManager\Build\InstallerHelper.dll										InstallerHelper.dll
-; ..\..\..\CourseManager\Build\Axelerate.BusinessLayerFrameWork.dll				Axelerate.BusinessLayerFrameWork.dll
-; ..\..\..\CourseManager\Build\Axelerate.BusinessLayerUITools.dll													Axelerate.BusinessLayerUITools.dll
-; ..\..\..\CourseManager\Build\Axelerate.DataAccessApplicationBlock.dll	Axelerate.DataAccessApplicationBlock.dll
-; ..\..\..\CourseManager\Build\Axelerate.SharedBusinessLogic.dll					Axelerate.SharedBusinessLogic.dll
-; ..\..\..\CourseManager\Build\Axelerate.SlkCourseManagerLogicalLayer.dll		Axelerate.SlkCourseManagerLogicalLayer.dll
-; ..\..\..\CourseManager\Build\AjaxControlToolkit.dll									AjaxControlToolkit.dll
-..\manifest.xml                                         manifest.xml
+..\Admin\Configure.aspx                              Admin\SharePointLearningKit\Configure.aspx
+..\Admin\DownloadSettings.aspx                       Admin\SharePointLearningKit\DownloadSettings.aspx
+..\Admin\Info.gif                                    Admin\SharePointLearningKit\Info.gif
+..\Admin\Wait.gif                                    Admin\SharePointLearningKit\Wait.gif
+Features\AdminFeature\elements.xml                   SharePointLearningKitAdmin\elements.xml
+Features\AdminFeature\feature.xml                    SharePointLearningKitAdmin\feature.xml
+..\App\Actions.aspx                                  Layouts\SharePointLearningKit\Actions.aspx
+..\App\AssignmentProperties.aspx                     Layouts\SharePointLearningKit\AssignmentProperties.aspx
+..\..\Samples\BasicWebPlayer\Frameset\Bottom.htm                           Layouts\SharePointLearningKit\Frameset\Bottom.htm
+..\..\Samples\BasicWebPlayer\Frameset\ChangeActivity.aspx                  Layouts\SharePointLearningKit\Frameset\ChangeActivity.aspx
+..\..\Samples\BasicWebPlayer\Frameset\ClearContent.aspx                    Layouts\SharePointLearningKit\Frameset\ClearContent.aspx
+..\..\Samples\BasicWebPlayer\Frameset\Content.aspx                         Layouts\SharePointLearningKit\Frameset\Content.aspx
+..\..\Samples\BasicWebPlayer\Frameset\Frameset.aspx                        Layouts\SharePointLearningKit\Frameset\Frameset.aspx
+..\..\Samples\BasicWebPlayer\Frameset\Hidden.aspx                          Layouts\SharePointLearningKit\Frameset\Hidden.aspx
+..\..\Samples\BasicWebPlayer\Frameset\Include\FramesetMgr.js               Layouts\SharePointLearningKit\Frameset\Include\FramesetMgr.js
+..\..\Samples\BasicWebPlayer\Frameset\Include\Nav.js                       Layouts\SharePointLearningKit\Frameset\Include\Nav.js
+..\..\Samples\BasicWebPlayer\Frameset\Include\Toc.js                       Layouts\SharePointLearningKit\Frameset\Include\Toc.js
+..\..\Samples\BasicWebPlayer\Frameset\Include\parser.js                    Layouts\SharePointLearningKit\Frameset\Include\parser.js
+..\..\Samples\BasicWebPlayer\Frameset\Include\Parser1p2.js                 Layouts\SharePointLearningKit\Frameset\Include\Parser1p2.js
+..\..\Samples\BasicWebPlayer\Frameset\Include\Rte1p2Api.js                 Layouts\SharePointLearningKit\Frameset\Include\Rte1p2Api.js
+..\..\Samples\BasicWebPlayer\Frameset\Include\Rte2004Api.js                Layouts\SharePointLearningKit\Frameset\Include\Rte2004Api.js
+..\..\Samples\BasicWebPlayer\Frameset\Include\RteApiSite.js                Layouts\SharePointLearningKit\Frameset\Include\RteApiSite.js
+..\..\Samples\BasicWebPlayer\Frameset\Include\typevalidators.js            Layouts\SharePointLearningKit\Frameset\Include\typevalidators.js
+..\..\Samples\BasicWebPlayer\Frameset\Include\typevalidators1p2.js         Layouts\SharePointLearningKit\Frameset\Include\typevalidators1p2.js
+..\..\Samples\BasicWebPlayer\Frameset\Include\vernum.js                    Layouts\SharePointLearningKit\Frameset\Include\vernum.js
+..\..\Samples\BasicWebPlayer\Frameset\Images\BoxOff.gif                    Layouts\SharePointLearningKit\Frameset\Images\BoxOff.gif
+..\..\Samples\BasicWebPlayer\Frameset\Images\BoxOffCorrect.gif             Layouts\SharePointLearningKit\Frameset\Images\BoxOffCorrect.gif
+..\..\Samples\BasicWebPlayer\Frameset\Images\BoxOn.gif                     Layouts\SharePointLearningKit\Frameset\Images\BoxOn.gif
+..\..\Samples\BasicWebPlayer\Frameset\Images\BoxOnCorrect.gif              Layouts\SharePointLearningKit\Frameset\Images\BoxOnCorrect.gif
+..\..\Samples\BasicWebPlayer\Frameset\Images\BoxOnWrong.gif                Layouts\SharePointLearningKit\Frameset\Images\BoxOnWrong.gif
+..\..\Samples\BasicWebPlayer\Frameset\Images\ButtonOff.gif                 Layouts\SharePointLearningKit\Frameset\Images\ButtonOff.gif
+..\..\Samples\BasicWebPlayer\Frameset\Images\ButtonOffCorrect.gif          Layouts\SharePointLearningKit\Frameset\Images\ButtonOffCorrect.gif
+..\..\Samples\BasicWebPlayer\Frameset\Images\ButtonOnCorrect.gif           Layouts\SharePointLearningKit\Frameset\Images\ButtonOnCorrect.gif
+..\..\Samples\BasicWebPlayer\Frameset\Images\ButtonOnWrong.gif             Layouts\SharePointLearningKit\Frameset\Images\ButtonOnWrong.gif
+..\..\Samples\BasicWebPlayer\Frameset\Images\Correct.gif                   Layouts\SharePointLearningKit\Frameset\Images\Correct.gif
+..\..\Samples\BasicWebPlayer\Frameset\Images\Incorrect.gif                 Layouts\SharePointLearningKit\Frameset\Images\Incorrect.gif
+..\..\Samples\BasicWebPlayer\Frameset\Images\SaveAndClose.gif              Layouts\SharePointLearningKit\Frameset\Images\SaveAndClose.gif
+..\..\Samples\BasicWebPlayer\Frameset\MainFrames.aspx                      Layouts\SharePointLearningKit\Frameset\MainFrames.aspx
+..\..\Samples\BasicWebPlayer\Frameset\NavClosed.aspx                       Layouts\SharePointLearningKit\Frameset\NavClosed.aspx
+..\..\Samples\BasicWebPlayer\Frameset\NavOpen.aspx                         Layouts\SharePointLearningKit\Frameset\NavOpen.aspx
+..\..\Samples\BasicWebPlayer\Frameset\NoScroll.htm                         Layouts\SharePointLearningKit\Frameset\NoScroll.htm
+..\..\Samples\BasicWebPlayer\Frameset\Theme\1px.gif                        Layouts\SharePointLearningKit\Frameset\Theme\1px.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\Error.gif                      Layouts\SharePointLearningKit\Frameset\Theme\Error.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\HeadCornerRt.gif               Layouts\SharePointLearningKit\Frameset\Theme\HeadCornerRt.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\HeadShadow.gif                 Layouts\SharePointLearningKit\Frameset\Theme\HeadShadow.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\Info.gif                       Layouts\SharePointLearningKit\Frameset\Theme\Info.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\Leaf.gif                       Layouts\SharePointLearningKit\Frameset\Theme\Leaf.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\MinusBtn.gif                   Layouts\SharePointLearningKit\Frameset\Theme\MinusBtn.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\nav_bg.gif                     Layouts\SharePointLearningKit\Frameset\Theme\nav_bg.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\Next.gif                       Layouts\SharePointLearningKit\Frameset\Theme\Next.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\NextHover.gif                  Layouts\SharePointLearningKit\Frameset\Theme\NextHover.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\PlusBtn.gif                    Layouts\SharePointLearningKit\Frameset\Theme\PlusBtn.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\Prev.gif                       Layouts\SharePointLearningKit\Frameset\Theme\Prev.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\PrevHover.gif                  Layouts\SharePointLearningKit\Frameset\Theme\PrevHover.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\Save.gif                       Layouts\SharePointLearningKit\Frameset\Theme\Save.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\SaveHover.gif                  Layouts\SharePointLearningKit\Frameset\Theme\SaveHover.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\Styles.css                     Layouts\SharePointLearningKit\Frameset\Theme\Styles.css
+..\..\Samples\BasicWebPlayer\Frameset\Theme\TocClose.gif                   Layouts\SharePointLearningKit\Frameset\Theme\TocClose.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\TocClosedTab.gif               Layouts\SharePointLearningKit\Frameset\Theme\TocClosedTab.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\TocCloseHover.gif              Layouts\SharePointLearningKit\Frameset\Theme\TocCloseHover.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\TocOpen.gif                    Layouts\SharePointLearningKit\Frameset\Theme\TocOpen.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\TocOpenHover.gif               Layouts\SharePointLearningKit\Frameset\Theme\TocOpenHover.gif
+..\..\Samples\BasicWebPlayer\Frameset\Theme\TopShadow.gif                  Layouts\SharePointLearningKit\Frameset\Theme\TopShadow.gif
+..\..\Samples\BasicWebPlayer\Frameset\Title.htm                            Layouts\SharePointLearningKit\Frameset\Title.htm
+..\..\Samples\BasicWebPlayer\Frameset\TOC.aspx                             Layouts\SharePointLearningKit\Frameset\TOC.aspx
+..\App\Grading.aspx                                  Layouts\SharePointLearningKit\Grading.aspx
+..\App\Images\ActionsIcon.gif                        Layouts\SharePointLearningKit\Images\ActionsIcon.gif
+..\App\Images\Blank.gif                              Layouts\SharePointLearningKit\Images\Blank.gif
+..\App\Images\WaitIcon.gif                           Layouts\SharePointLearningKit\Images\WaitIcon.gif
+..\App\Images\ErrorIcon.gif                          Layouts\SharePointLearningKit\Images\ErrorIcon.gif
+..\App\Images\InfoIcon.gif                           Layouts\SharePointLearningKit\Images\InfoIcon.gif
+..\App\Images\WarningIcon.gif                        Layouts\SharePointLearningKit\Images\WarningIcon.gif
+..\App\Images\DeleteIcon.gif                         Layouts\SharePointLearningKit\Images\DeleteIcon.gif
+..\App\Images\MarkCompleteIcon.gif                   Layouts\SharePointLearningKit\Images\MarkCompleteIcon.gif
+..\App\Images\NewDocumentIcon.gif                    Layouts\SharePointLearningKit\Images\NewDocumentIcon.gif
+..\App\Images\NewIcon.gif                            Layouts\SharePointLearningKit\Images\NewIcon.gif
+..\App\Images\SubmitIcon.gif                         Layouts\SharePointLearningKit\Images\SubmitIcon.gif
+..\App\Images\CollectAllIcon.gif                     Layouts\SharePointLearningKit\Images\CollectAllIcon.gif
+..\App\Images\EditIcon.gif                           Layouts\SharePointLearningKit\Images\EditIcon.gif
+..\App\Images\ReturnAllIcon.gif                      Layouts\SharePointLearningKit\Images\ReturnAllIcon.gif
+..\App\Images\SaveIcon.gif                           Layouts\SharePointLearningKit\Images\SaveIcon.gif
+..\App\Images\GradingSatisfied.gif                   Layouts\SharePointLearningKit\Images\GradingSatisfied.gif
+..\App\Images\GradingUnsatisfied.gif                 Layouts\SharePointLearningKit\Images\GradingUnsatisfied.gif
+..\App\Images\ARRDOWNA.GIF                           Layouts\SharePointLearningKit\Images\ARRDOWNA.GIF
+..\App\Images\ARRUPA.GIF                             Layouts\SharePointLearningKit\Images\ARRUPA.GIF
+..\App\Lobby.aspx                                    Layouts\SharePointLearningKit\Lobby.aspx
+..\App\SubmittedFiles.aspx                           Layouts\SharePointLearningKit\SubmittedFiles.aspx
+..\App\DownloadDialog.aspx                           Layouts\SharePointLearningKit\DownloadDialog.aspx
+..\App\CommentedFiles.aspx                           Layouts\SharePointLearningKit\CommentedFiles.aspx
+..\App\FilesUploadPage.aspx                          Layouts\SharePointLearningKit\FilesUploadPage.aspx
+..\App\QueryResults.aspx                             Layouts\SharePointLearningKit\QueryResults.aspx
+..\App\QuerySet.aspx                                 Layouts\SharePointLearningKit\QuerySet.aspx
+..\App\Include\QuerySet.js                           Layouts\SharePointLearningKit\Include\QuerySet.js
+..\App\QuerySummary.aspx                             Layouts\SharePointLearningKit\QuerySummary.aspx
+..\App\Include\Styles.css                            Layouts\SharePointLearningKit\Include\Styles.css
+Features\AppFeature\elements.xml                           SharePointLearningKit\elements.xml
+Features\AppFeature\feature.xml                            SharePointLearningKit\feature.xml
+..\SlkSchema.sql                                     Admin\SharePointLearningKit\SlkSchema.sql
+..\SlkSettings.xml                                   Admin\SharePointLearningKit\SlkSettings.xml.dat
+SiteMaps\admin.sitemap.SharePointLearningKit.xml              Admin\admin.sitemap.SharePointLearningKit.xml
+Build\Microsoft.LearningComponents.MRCI.dll			Microsoft.LearningComponents.MRCI.dll
+Build\Microsoft.LearningComponents.Compression.dll   Microsoft.LearningComponents.Compression.dll
+Build\Microsoft.LearningComponents.dll               Microsoft.LearningComponents.dll
+Build\Microsoft.LearningComponents.SharePoint.dll    Microsoft.LearningComponents.SharePoint.dll
+Build\Microsoft.LearningComponents.Storage.dll       Microsoft.LearningComponents.Storage.dll
+Build\Microsoft.SharePointLearningKit.dll            Microsoft.SharePointLearningKit.dll
+..\..\References\ICSharpCode.SharpZipLib.dll         ICSharpCode.SharpZipLib.dll
+SiteMaps\layouts.sitemap.SharePointLearningKit.xml            Layouts\layouts.sitemap.SharePointLearningKit.xml
+..\SLK.resx                                          Resources\SLK.resx
+manifest.xml                                         manifest.xml
 ;*** <the end>
