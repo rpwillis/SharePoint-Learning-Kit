@@ -9,22 +9,16 @@ deb:
 	mkdir Build
 	copy ..\..\Src\Compression\MRCI\bin\Debug\Microsoft.LearningComponents.MRCI.dll Build
 	copy ..\..\Src\Compression\MRCI\bin\Debug\Microsoft.LearningComponents.MRCI.pdb Build
-	SignCode.bat Build\Microsoft.LearningComponents.MRCI.dll
 	copy ..\..\Src\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll Build
 	copy ..\..\Src\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.pdb Build
-	SignCode.bat Build\Microsoft.LearningComponents.Compression.dll
 	copy ..\..\Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.dll Build
 	copy ..\..\Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.pdb Build
-	SignCode.bat Build\Microsoft.LearningComponents.dll
 	copy ..\..\Src\SharePoint\bin\Debug\Microsoft.LearningComponents.SharePoint.dll Build
 	copy ..\..\Src\SharePoint\bin\Debug\Microsoft.LearningComponents.SharePoint.pdb Build
-	SignCode.bat Build\Microsoft.LearningComponents.SharePoint.dll
 	copy ..\..\Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.dll Build
 	copy ..\..\Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.pdb Build
-	SignCode.bat Build\Microsoft.LearningComponents.Storage.dll
 	copy ..\Dll\bin\Debug\Microsoft.SharePointLearningKit.dll Build
 	copy ..\Dll\bin\Debug\Microsoft.SharePointLearningKit.pdb Build
-	SignCode.bat Build\Microsoft.SharePointLearningKit.dll
 	-rmdir /s /q Debug 2> nul
 	mkdir Debug
 	copy Cab.ddf Debug
@@ -39,17 +33,11 @@ rel:
 	-rmdir /s /q Build 2> nul
 	mkdir Build
 	copy ..\..\Src\Compression\MRCI\bin\Release\Microsoft.LearningComponents.MRCI.dll Build
-	SignCode.bat Build\Microsoft.LearningComponents.MRCI.dll
 	copy ..\..\Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.dll Build
-	SignCode.bat Build\Microsoft.LearningComponents.Compression.dll
 	copy ..\..\Src\LearningComponents\bin\Release\Microsoft.LearningComponents.dll Build
-	SignCode.bat Build\Microsoft.LearningComponents.dll
 	copy ..\..\Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.dll Build
-	SignCode.bat Build\Microsoft.LearningComponents.SharePoint.dll
 	copy ..\..\Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.dll Build
-	SignCode.bat Build\Microsoft.LearningComponents.Storage.dll
 	copy ..\Dll\bin\Release\Microsoft.SharePointLearningKit.dll Build
-	SignCode.bat Build\Microsoft.SharePointLearningKit.dll
 	-rmdir /s /q Release 2> nul
 	mkdir Release
 	copy Cab.ddf Release

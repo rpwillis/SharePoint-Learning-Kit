@@ -1,0 +1,169 @@
+<Project DefaultTargets="" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup>
+        <DropDirectory>Drop</DropDirectory>
+        <InstallDirectory>$(DropDirectory)\Install</InstallDirectory>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Projects Include="slk\slk.proj"/>
+        <Projects Include="src\compression\compression\compression.csproj"/>
+        <Projects Include="src\learningcomponents\learningcomponents.csproj"/>
+        <Projects Include="src\storage\storage.csproj"/>
+        <Projects Include="src\sharepoint\sharepoint.csproj"/>
+        <InstallFiles Include="slk\solution\BatchFiles\*.cmd"/>
+        <InstallFiles Include="slk\solution\output\SharePointLearningKit.wsp"/>
+        <InstallFiles Include="slk\slkadm\bin\release\slkadm.exe"/>
+        <InstallFiles Include="slk\slkschema.xml"/>
+        <InstallFiles Include="slk\slkschema.sql"/>
+        <InstallFiles Include="slk\SlkSettings.xml"/>
+        <InstallFiles Include="doc\root\*"/>
+        <InstallFiles Include="doc\install\*"/>
+    </ItemGroup>
+
+    <Target Name="All" DependsOnTargets="BuildDebug;BuildRelease;BuildSamplesDebug;BuildSamplesRelease;Localization">
+    </Target>
+
+    <Target Name="BuildDebug" >
+        <MSBuild Projects="@(Projects)" Targets="Build" StopOnFirstFailure="true" Properties="Configuration=Debug;Platform=AnyCPU">
+            <Output TaskParameter="TargetOutputs" ItemName="AssembliesBuiltByChildProjects" />
+        </MSBuild>
+    </Target>
+
+    <Target Name="BuildRelease" >
+        <MSBuild Projects="@(Projects)" Targets="Build" StopOnFirstFailure="true" Properties="Configuration=Release;Platform=AnyCPU">
+            <Output TaskParameter="TargetOutputs" ItemName="AssembliesBuiltByChildProjects" />
+        </MSBuild>
+    </Target>
+
+    <Target Name="BuildSamplesDebug" >
+        <MSBuild Projects="samples\validatepackage\validatepackage.csproj" Targets="Build" StopOnFirstFailure="true" Properties="Configuration=Debug">
+            <Output TaskParameter="TargetOutputs" ItemName="AssembliesBuiltByChildProjects" />
+        </MSBuild>
+    </Target>
+
+    <Target Name="BuildSamplesRelease" >
+        <MSBuild Projects="samples\validatepackage\validatepackage.csproj" Targets="Build" StopOnFirstFailure="true" Properties="Configuration=Release">
+            <Output TaskParameter="TargetOutputs" ItemName="AssembliesBuiltByChildProjects" />
+        </MSBuild>
+    </Target>
+
+    <Target Name="Localization" >
+        <Error Text="Localization target not written."/>
+        <!--
+	cd Slk\Tools\LocalizationGuide
+	$(MAKE)
+        -->
+    </Target>
+
+    <Target Name="Drop" >
+        <MakeDir Directories="$(DropDirectory)"/>
+        <MakeDir Directories="$(InstallDirectory)"/>
+        <Copy SourceFiles="@(InstallFiles)" DestinationFolder="$(InstallDirectory)"/>
+        <!--
+        Create the drop directory
+
+        if not exist Drop mkdir Drop 2> nul
+	if not exist Drop\Drop mkdir Drop\Drop 2> nul
+
+
+
+	rem  Create the SDK directory...
+	-rmdir /s /q $(SDK_DIR) 2> nul
+	mkdir $(SDK_DIR)
+	xcopy /I Slk\Solution\DebugFiles $(SDK_DIR)\Debug
+	xcopy /I Slk\Solution\ReleaseFiles $(SDK_DIR)\Release
+	mkdir $(SDK_DIR)\Samples
+	xcopy /I Samples\BasicWebPlayer $(SDK_DIR)\Samples\BasicWebPlayer
+	xcopy /I Samples\BasicWebPlayer\App_Code $(SDK_DIR)\Samples\BasicWebPlayer\App_Code
+	xcopy /I Samples\BasicWebPlayer\App_Code\Frameset $(SDK_DIR)\Samples\BasicWebPlayer\App_Code\Frameset
+	xcopy /I Samples\BasicWebPlayer\App_Data $(SDK_DIR)\Samples\BasicWebPlayer\App_Data
+	xcopy /I Samples\BasicWebPlayer\App_GlobalResources $(SDK_DIR)\Samples\BasicWebPlayer\App_GlobalResources
+	xcopy /I Samples\BasicWebPlayer\Frameset $(SDK_DIR)\Samples\BasicWebPlayer\Frameset
+	xcopy /I Samples\BasicWebPlayer\Frameset\Include $(SDK_DIR)\Samples\BasicWebPlayer\Frameset\Include
+	xcopy /I Samples\BasicWebPlayer\Frameset\Images $(SDK_DIR)\Samples\BasicWebPlayer\Frameset\Images
+	rem  xcopy /I Samples\BasicWebPlayer\Frameset\Include\UnitTest $(SDK_DIR)\Samples\BasicWebPlayer\Frameset\Include\UnitTest
+	xcopy /I Samples\BasicWebPlayer\Frameset\Theme $(SDK_DIR)\Samples\BasicWebPlayer\Frameset\Theme
+	rem  xcopy /I Samples\BasicWebPlayer\Frameset\UnitTest $(SDK_DIR)\Samples\BasicWebPlayer\Frameset\UnitTest
+	xcopy /I Samples\ValidatePackage $(SDK_DIR)\Samples\ValidatePackage
+	xcopy /I Samples\ValidatePackage\Properties $(SDK_DIR)\Samples\ValidatePackage\Properties
+	mkdir $(SDK_DIR)\Samples\SLK
+	xcopy /I Slk\Samples\AddInstructors $(SDK_DIR)\Samples\SLK\AddInstructors
+	xcopy /I Slk\Samples\AddToUserWebLists $(SDK_DIR)\Samples\SLK\AddToUserWebLists
+	xcopy /I Slk\Samples\CreateAssignments $(SDK_DIR)\Samples\SLK\CreateAssignments
+	xcopy /I Slk\Samples\ProvisionFromExcel $(SDK_DIR)\Samples\SLK\ProvisionFromExcel
+	xcopy /I Slk\Samples\SimulateClass $(SDK_DIR)\Samples\SLK\SimulateClass
+	xcopy /I Slk\Samples\SimulateJobTraining $(SDK_DIR)\Samples\SLK\SimulateJobTraining
+	mkdir $(SDK_DIR)\Samples\SLK\ReportPages
+	copy Slk\Samples\ReportPages\ReadMe.txt $(SDK_DIR)\Samples\SLK\ReportPages
+	cd Slk\Samples\ReportPages
+	xcopy /Y *.aspx ..\..\..\$(SDK_DIR)\Samples\SLK\ReportPages\
+	cd $(MAKEDIR)
+	mkdir $(SDK_DIR)\Samples\SLK\WebService
+	copy Slk\Samples\WebService\HelloWorld.zip $(SDK_DIR)\Samples\SLK\WebService
+	copy Slk\Samples\WebService\ReadMe.txt $(SDK_DIR)\Samples\SLK\WebService
+	cd Slk\Samples\WebService
+	xcopy /Y *.asmx ..\..\..\$(SDK_DIR)\Samples\SLK\WebService\
+	cd $(MAKEDIR)
+
+	mkdir $(SDK_DIR)\SLK
+	copy slk\SlkSchema.xml  $(SDK_DIR)\SLK
+	copy slk\Dll\SlkSchema.cs  $(SDK_DIR)\SLK
+	copy slk\SlkSchema.sql  $(SDK_DIR)\SLK
+	copy slk\SlkSettings.xsd  $(SDK_DIR)\SLK
+	copy slk\SlkSettings.xsx  $(SDK_DIR)\SLK
+	copy Slk\SlkSettings.xml $(SDK_DIR)\SLK
+
+	rem  Create the LanguagePacks directory...
+	-rmdir /s /q Drop\Drop\LanguagePacks 2> nul
+	mkdir Drop\Drop\LanguagePacks
+	xcopy Slk\Tools\LocalizationGuide\Solution\LanguagePacks\* Drop\Drop\LanguagePacks\ /E
+
+	rem  Copy files from Doc directory...
+	xcopy /I /Y Doc\Root Drop\Drop
+	xcopy /I /S /Y Doc\Root $(SDK_DIR)
+	xcopy /I /S /Y Doc\Root Drop\Drop\ValidatePackage
+	xcopy /I /S /Y Doc\Root Drop\Drop\LanguagePacks
+	xcopy /I /S /Y Doc\LanguagePacks Drop\Drop\LanguagePacks
+
+	rem  Create Solitaire.zip files...
+	-if exist ..\SLK.Internal mkdir $(INSTALL_DIR)\Samples
+	if exist ..\SLK.Internal ..\SLK.Internal\Tools\DZip.exe Samples\Solitaire $(INSTALL_DIR)\Samples\Solitaire.zip
+	-if exist ..\SLK.Internal mkdir $(SDK_DIR)\Samples
+	if exist ..\SLK.Internal ..\SLK.Internal\Tools\DZip.exe Samples\Solitaire $(SDK_DIR)\Samples\Solitaire.zip
+
+	rem  Copy other root-level files...
+	copy Src\Schema\InitSchema.sql Drop
+
+	rem  Copy release PDBs...
+	mkdir $(RELEASEPDB)
+	copy Src\Compression\MRCI\bin\Release\Microsoft.LearningComponents.MRCI.pdb $(RELEASEPDB)
+	copy Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.pdb $(RELEASEPDB)
+	copy Src\LearningComponents\bin\Release\Microsoft.LearningComponents.pdb $(RELEASEPDB)
+	copy Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.pdb $(RELEASEPDB)
+	copy Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.pdb $(RELEASEPDB)
+	copy Slk\Dll\bin\Release\Microsoft.SharePointLearningKit.pdb $(RELEASEPDB)
+
+	rem  Create drop .zip files  MUST BE DONE AFTER DROP\DROP IS COMPLETE...
+	if exist ..\SLK.Internal cscript /nologo ..\SLK.Internal\Tools\MakeDropZipsBatchFile.js > MakeDropZips.bat
+	if exist ..\SLK.Internal MakeDropZips.bat
+	rem  NO MORE DROP-RELATED COMMANDS AFTER THIS POINT
+        -->
+    </Target>
+
+    <Target Name="Clean" >
+        <MSBuild Projects="@(Projects)" Targets="Clean" StopOnFirstFailure="true" Properties="Configuration=Release">
+        </MSBuild>
+        <MSBuild Projects="@(Projects)" Targets="Clean" StopOnFirstFailure="true" Properties="Configuration=Debug">
+        </MSBuild>
+        <RemoveDir Directories="@(CleanDirectories)"/>
+        <RemoveDir Directories="$(DropDirectory)"/>
+    </Target>
+
+    <Target Name="CleanAll" >
+        <!--
+$(SRCDIRS:CMD=cleanall): cleancommon
+-->
+    </Target>
+
+</Project>

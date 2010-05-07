@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Elements Id="099f106f-93e4-4cf2-8174-b6ea6afdf00a" xmlns="http://schemas.microsoft.com/sharepoint/">
-  <!--
-  The following Guid for FeatureId is used as a reference to the list definition, 
-  and it will be automatically replaced with actual feature id at deployment time.
-  -->
-  <ListInstance FeatureId="5bf217da-245c-40c0-a65b-0a6482f73c84" Title="$Resources:SLK,DropBoxInsTitle;" Url="Lists/DropBoxDocLib" OnQuickLaunch="False" TemplateType="50000">
-  </ListInstance>
-</Elements>
