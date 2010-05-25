@@ -1491,6 +1491,9 @@ More information may be available in the server event log.</value>
   <data name="DropBoxManagerUploadFilesNoInstructor" xml:space="preserve">
       <value>Instructor user {0} not found.</value>
   </data>
+  <data name="DropBoxManagerNoRole" xml:space="preserve">
+      <value>Cannot find role {0}. This is required to set Drop Box permissions.</value>
+  </data>
   <data name="DropBoxDefaultViewTitle" xml:space="preserve">
       <value>My Assignments</value>
   </data>

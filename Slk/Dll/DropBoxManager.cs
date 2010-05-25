@@ -695,7 +695,16 @@ namespace Microsoft.SharePointLearningKit
             {
                 throw new ArgumentNullException();
             }
-            SPRoleDefinition roleDefinition = web.RoleDefinitions.GetByType(roleType);
+            SPRoleDefinition roleDefinition;
+            try
+            {
+                roleDefinition = web.RoleDefinitions.GetByType(roleType);
+            }
+            catch (ArgumentException)
+            {
+                throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DropBoxManagerNoRole, roleType));
+            }
+
             SPRoleAssignment roleAssignment = new SPRoleAssignment(user);
 
             bool currentUnsafeUpdates = web.AllowUnsafeUpdates;

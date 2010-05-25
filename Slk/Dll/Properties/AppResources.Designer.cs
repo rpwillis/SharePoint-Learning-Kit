@@ -1801,6 +1801,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find role {0}. This is required to set Drop Box permissions..
+        /// </summary>
+        internal static string DropBoxManagerNoRole {
+            get {
+                return ResourceManager.GetString("DropBoxManagerNoRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Instructor user {0} not found..
         /// </summary>
         internal static string DropBoxManagerUploadFilesNoInstructor {
