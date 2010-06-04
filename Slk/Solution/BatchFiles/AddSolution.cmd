@@ -1,5 +1,5 @@
 rem -- adds the SharePointLearningKit solution to WSS; use DeploySolution.cmd to deploy it
-@SET SPDIR="%commonprogramfiles%\common files\microsoft shared\web server extensions\12"
+@SET SPDIR="%commonprogramfiles%\microsoft shared\web server extensions\12"
 %SPDIR%\bin\stsadm -o addsolution -filename SharePointLearningKit.wsp
 @ECHO OFF
 ECHO:
