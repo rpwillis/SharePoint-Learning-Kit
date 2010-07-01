@@ -95,8 +95,9 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="AssignmentDownloader.cs" />
-    <Compile Include="ConfigureDropBox.cs" />
     <Compile Include="DropBoxManager.cs" />
+    <Compile Include="DropBox.cs" />
+    <Compile Include="AssignmentFolder.cs" />
     <Compile Include="EnumerateDomainGroups.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LearningStoreHelper.cs" />
