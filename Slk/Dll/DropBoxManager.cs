@@ -704,7 +704,7 @@ namespace Microsoft.SharePointLearningKit
         {
             //string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff');return false;";
             string script = "editDocumentWithProgID2('{0}', '', 'SharePoint.OpenDocuments','0','{1}','0');";
-            return string.Format(CultureInfo.InvariantCulture, script, fileUrl, web.Url);
+            return string.Format(CultureInfo.InvariantCulture, script, Microsoft.SharePoint.Utilities.SPHttpUtility.UrlPathEncode(fileUrl, false), web.Url);
         }
 
         static string GenerateFolderName(AssignmentProperties properties)

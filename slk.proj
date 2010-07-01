@@ -21,7 +21,7 @@
         <InstallFiles Include="doc\install\*"/>
     </ItemGroup>
 
-    <Target Name="All" DependsOnTargets="BuildDebug;BuildRelease;BuildSamplesDebug;BuildSamplesRelease;Localization">
+    <Target Name="All" DependsOnTargets="BuildDebug;BuildRelease;BuildSamplesDebug;BuildSamplesRelease;Localization;Drop">
     </Target>
 
     <Target Name="BuildDebug" >
@@ -62,11 +62,6 @@
         <Copy SourceFiles="@(InstallFiles)" DestinationFolder="$(InstallDirectory)"/>
         <!--
         Create the drop directory
-
-        if not exist Drop mkdir Drop 2> nul
-	if not exist Drop\Drop mkdir Drop\Drop 2> nul
-
-
 
 	rem  Create the SDK directory...
 	-rmdir /s /q $(SDK_DIR) 2> nul
