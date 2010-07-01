@@ -672,7 +672,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (currentAssProperties.PackageFormat == null)
                 {
                     DropBoxManager dropBoxMgr = new DropBoxManager(currentAssProperties);
-                    SPListItem assignmentFolder = dropBoxMgr.CreateSelfAssignmentFolder();
+                    AssignmentFolder assignmentFolder = dropBoxMgr.CreateSelfAssignmentFolder();
 
                     if (assignmentFolder != null)
                     {
