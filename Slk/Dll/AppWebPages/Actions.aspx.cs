@@ -299,6 +299,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             this.Controls.Add(showWarnings);
 
             base.OnInit(e);
+
+            string action = QueryString.ParseStringOptional(QueryStringKeys.Action);
+
+            if (string.IsNullOrEmpty(action) == false)
+            {
+                switch (action.ToLower(CultureInfo.InvariantCulture))
+                {
+                    case "selfassign":
+                        AssignToSelf();
+                        break;
+                    default:
+                        //Ignore
+                        break;
+                }
+            }
         }
 
         protected override void Render(HtmlTextWriter writer)
