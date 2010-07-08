@@ -108,9 +108,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (!m_listId.HasValue)
                 {
-                    Guid id;
-                    QueryString.Parse(QueryStringKeys.ListId, out id);
-                    m_listId = id;
+                    m_listId = QueryString.ParseGuid(QueryStringKeys.ListId);
                 }
                 return m_listId.Value;
             }
@@ -126,9 +124,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (!m_itemId.HasValue)
                 {
-                    int id;
-                    QueryString.Parse(QueryStringKeys.ItemId, out id);
-                    m_itemId = id;
+                    m_itemId = QueryString.Parse(QueryStringKeys.ItemId);
                 }
                 return m_itemId.Value;
             }
