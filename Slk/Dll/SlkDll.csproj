@@ -170,7 +170,7 @@
     <Compile Include="AppWebPages\QuerySummary.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AssignmentListWebPart.cs" />
+    <Compile Include="WebParts\AssignmentListWebPart.cs" />
     <Compile Include="AdminWebPages\Configure.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
