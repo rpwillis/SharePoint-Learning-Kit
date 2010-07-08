@@ -80,7 +80,7 @@ namespace Microsoft.SharePointLearningKit
         ///   query string is empty and <paramref name="isOptional"/> is true.</param>  
         /// <param name="isOptional">If false, SafeToDisplayException is thrown if
         ///   the query string is absent.</param>
-        public static bool Parse(string queryStringName, out int queryStringValue, bool isOptional)
+        static bool Parse(string queryStringName, out int queryStringValue, bool isOptional)
         {
             string queryStringText;
             queryStringValue = 0;
@@ -116,9 +116,11 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         /// <param name="queryStringName">Name of the QueryString.</param>   
         /// <param name="queryStringValue">The retrieved value.</param>  
-        public static bool Parse(string queryStringName, out int queryStringValue)
+        public static int Parse(string queryStringName)
         {
-            return Parse(queryStringName, out queryStringValue, false);
+            int value;
+            Parse(queryStringName, out value, false);
+            return value;
         }
 
         #endregion
@@ -239,8 +241,7 @@ namespace Microsoft.SharePointLearningKit
         ///  but its format is incorrect, a SafeToDisplayException is thrown.
         /// </summary>
         /// <param name="queryStringName">Name of the QueryString.</param>   
-        /// <param name="queryStringValue">The retrieved value.</param>  
-        public static void Parse(string queryStringName, out Guid queryStringValue)
+        public static Guid ParseGuid(string queryStringName)
         {
             string queryStringText;
 
@@ -248,7 +249,7 @@ namespace Microsoft.SharePointLearningKit
             //check if the value is  valid for the given parameter.
             try
             {
-                queryStringValue = new Guid(queryStringText);
+                return new Guid(queryStringText);
             }
             catch
             {

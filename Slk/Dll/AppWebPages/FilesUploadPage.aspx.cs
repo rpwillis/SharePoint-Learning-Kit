@@ -74,10 +74,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (m_learnerAssignmentGuidId.Equals(Guid.Empty) == true)
                 {
-                    Guid id;
-                    QueryString.Parse(QueryStringKeys.LearnerAssignmentId, out id);
-
-                    m_learnerAssignmentGuidId = id;
+                    m_learnerAssignmentGuidId = QueryString.ParseGuid(QueryStringKeys.LearnerAssignmentId);
                 }
 
                 return m_learnerAssignmentGuidId;

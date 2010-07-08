@@ -123,30 +123,27 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (m_learnerAssignmentGuidId.Equals(Guid.Empty) == true)
                 {
-                    Guid id;
-                    QueryString.Parse(QueryStringKeys.LearnerAssignmentId, out id);
-
-                    m_learnerAssignmentGuidId = id;
+                    m_learnerAssignmentGuidId = QueryString.ParseGuid(QueryStringKeys.LearnerAssignmentId);
                 }
                 return m_learnerAssignmentGuidId;
-                }
             }
+        }
 
-            bool IsNonElearning
+        bool IsNonElearning
+        {
+            get
             {
-                get
-                {
-                    return LearnerAssignmentProperties.RootActivityId == null;
-                }
+                return LearnerAssignmentProperties.RootActivityId == null;
             }
-        
-            bool IsNonElearningNotStarted
+        }
+    
+        bool IsNonElearningNotStarted
+        {
+            get
             {
-                get
-                {
-                    return LearnerAssignmentProperties.RootActivityId == null && LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted;
-                }
+                return LearnerAssignmentProperties.RootActivityId == null && LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted;
             }
+        }
         
         /// <summary>
         /// Gets the properties of the learner assignment being displayed by this page.
