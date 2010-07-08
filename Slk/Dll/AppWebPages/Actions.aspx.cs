@@ -36,7 +36,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     /// </summary>
     public class ActionsPage : SlkAppBasePage
     {
-        #region Control Declarations
+#region Control Declarations
         // page controls
         protected Label ResourceFileName;
         protected HyperLink DocLibLink;
@@ -79,7 +79,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected TableGridRow organizationRow;
         protected TableGridRow organizationRowBottomLine;
         protected RequiredFieldValidator newSiteRequired;
-        #endregion
+#endregion
 
         #region Private Variables
         // property values
@@ -325,6 +325,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
         #endregion
 
+#region protected members
         protected override void OnInit(EventArgs e)
         {
             // Adding in a fake control to handle our "(show details...)" link
@@ -336,11 +337,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             this.Controls.Add(showWarnings);
 
             base.OnInit(e);
-        }
-
-        void showWarnings_Click(object sender, EventArgs e)
-        {
-            ShowWarnings = !ShowWarnings;
         }
 
         protected override void Render(HtmlTextWriter writer)
@@ -515,194 +511,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        private List<WebListItem> GetSiteList()
-        {
-            // code to iterate through user's list of SPWebs
-            bool addCurrentToList = true;
-            int mruItems = SlkStore.Settings.UserWebListMruSize;
-            int itemMax;
-            int listCount;
-            ReadOnlyCollection<SlkUserWebListItem> userWebList = SlkStore.GetUserWebList();
-
-            foreach (SlkUserWebListItem webListItem in userWebList)
-            {
-                if (SPWeb.ID.Equals(webListItem.SPWebGuid))
-                {
-                    addCurrentToList = false;
-                    break;
-                }
-            }
-
-            if (addCurrentToList)
-                listCount = userWebList.Count + 1;
-            else
-                listCount = userWebList.Count;
-
-            if (!ShowAllSites && listCount > mruItems)
-            {
-                itemMax = mruItems;
-                lnkMRUShowAll.Visible = true;
-                lnkMRUShowAll.Text = AppResources.ActionslnkMRUShowAll;
-            }
-            else
-            {
-                itemMax = listCount;
-                lnkMRUShowAll.Visible = false;
-            }
-
-            List<WebListItem> webList = new List<WebListItem>(itemMax);
-
-            if (addCurrentToList)
-                itemMax--;
-
-            for (int i = 0; i < itemMax && i < userWebList.Count; i++)
-            {
-                SPSite site = null;
-                SPWeb web = null;
-                bool previousValue = SPSecurity.CatchAccessDeniedException;
-                SPSecurity.CatchAccessDeniedException = false;
-                try
-                {
-                    SlkUserWebListItem item = userWebList[i];
-                    site = new SPSite(item.SPSiteGuid, SPContext.Current.Site.Zone);
-                    web = site.OpenWeb(item.SPWebGuid);
-                    if (SPWeb.ID.Equals(item.SPWebGuid))
-                        webList.Add(new WebListItem(item, web.Url, string.Format(CultureInfo.CurrentCulture, "{0} {1}", web.Title, AppResources.ActionslblMRUCurrentSite)));
-                    else
-                        webList.Add(new WebListItem(item, web.Url, web.Title));
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    // the user doesn't have permission to access this site, so ignore it
-                    continue;
-                }
-                catch (FileNotFoundException)
-                {
-                    // the site doesn't exist
-                    continue;
-                }
-                finally
-                {
-                    SPSecurity.CatchAccessDeniedException = previousValue;
-                    if(web != null)
-                        web.Dispose();
-                    if(site != null)
-                        site.Dispose();
-                }
-            }
-            if (addCurrentToList)
-            {
-                webList.Add(new WebListItem(SPWeb.Site.ID, SPWeb.ID, DateTime.Now, SPWeb.Url,
-                    string.Format(CultureInfo.CurrentCulture, "{0} {1}", SPWeb.Title, AppResources.ActionslblMRUCurrentSite)));
-            }
-            webList.Sort();
-
-            return webList;
-        }
-
-        private void PopulateSiteListControl(List<WebListItem> webList)
-        {
-            HyperLink hl = null;
-            HtmlGenericControl li = null;
-            HtmlGenericControl ul = new HtmlGenericControl("ul");
-            try
-            {
-                foreach (WebListItem webListItem in webList)
-                {
-                    li = new HtmlGenericControl("li");
-                    li.Attributes.Add("title", string.Format(CultureInfo.CurrentCulture, AppResources.ActionsMRUToolTip, Server.HtmlEncode(webListItem.Title)));
-                    hl = new HyperLink();
-                    string url = SlkUtilities.UrlCombine(webListItem.Url, "_layouts/SharePointLearningKit/AssignmentProperties.aspx");
-                    url = String.Format(CultureInfo.InvariantCulture, "{0}?Location={1}", url, Location);
-
-                    if (!NonELearning)
-                        url = String.Format(CultureInfo.InvariantCulture, "{0}&OrgIndex={1}", url, OrganizationIndex);
-                    hl.NavigateUrl = url;
-
-                    hl.Text = Server.HtmlEncode(webListItem.Title);
-                    li.Controls.Add(hl);
-                    hl = null;
-                    if (newSite.HasValue && newSite.Value.Equals(webListItem.SPWebGuid))
-                    {
-                        HtmlImage img = new HtmlImage();
-                        img.Src = "Images/NewIcon.gif";
-                        li.Controls.Add(img);
-                    }
-                    ul.Controls.Add(li);
-                    li = null;
-                }
-                siteList.Controls.Add(ul);
-                ul = null;
-            }
-            catch
-            {
-                if(hl != null)
-                    hl.Dispose();
-                if(li != null)
-                    li.Dispose();
-                if(ul != null)
-                    ul.Dispose();
-                throw;
-            }
-        }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1705:LongAcronymsShouldBePascalCased", MessageId = "Member"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lnk"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Member")]
         protected void lnkMRUShowAll_Click(object sender, EventArgs e)
         {
             // user clicked on link to show or hide complete web site list
             ShowAllSites = !ShowAllSites;
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lnk"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Member"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-        protected void lnkAssignSelf_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                LearningStoreXml packageWarnings;
-                AssignmentProperties properties = SlkStore.GetNewAssignmentDefaultProperties(SPWeb, Location, OrganizationIndex, SlkRole.Learner, out packageWarnings);
-                AssignmentItemIdentifier assignmentId = SlkStore.CreateAssignment(SPWeb, Location, OrganizationIndex, SlkRole.Learner, properties);
-                Guid learnerAssignmentGuidId = SlkStore.GetCurrentUserLearnerAssignment(assignmentId);
-
-
-                string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
-                url = String.Format(CultureInfo.InvariantCulture, "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
-
-                AssignmentProperties currentAssProperties = SlkStore.GetAssignmentProperties(assignmentId, SlkRole.Learner);
-
-                if (currentAssProperties.PackageFormat == null)
-                {
-                    DropBoxManager dropBoxMgr = new DropBoxManager(currentAssProperties);
-                    AssignmentFolder assignmentFolder = dropBoxMgr.CreateSelfAssignmentFolder();
-
-                    if (assignmentFolder != null)
-                    {
-                        Response.Redirect(url, true);
-                    }
-                    else
-                    {
-                        // Deletes the assignment
-                        SlkStore.DeleteAssignment(assignmentId);
-                        //Log the Exception 
-                        errorBanner.Clear();
-                        errorBanner.AddError(ErrorType.Error, AppResources.AssFolderAlreadyExists);
-                    }
-                }
-                else
-                {
-                    Response.Redirect(url, true);
-                }
-            }
-            catch (ThreadAbortException)
-            {
-                // Calling Response.Redirect throws a ThreadAbortException which will
-                // flag an error in the next step if we don't do this.
-                throw;
-            }
-            catch (Exception ex)
-            {
-                contentPanel.Visible = false;
-                errorBanner.AddException(ex);
-            }
         }
 
         /// <summary>
@@ -788,6 +601,90 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             if (showAddSite)
                 DisplayAddSite();
+        }
+#endregion protected members
+
+#region event handlers
+        protected void lnkAssignSelf_Click(object sender, EventArgs arguments)
+        {
+            AssignToSelf();
+        }
+#endregion event handlers
+
+
+#region private methods
+        void AssignToSelf()
+        {
+            try
+            {
+                Guid learnerAssignmentGuidId = CreateSelfAssignment();
+                string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
+                url = String.Format(CultureInfo.InvariantCulture, 
+                        "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
+
+                Response.Redirect(url, true);
+            }
+            catch (ThreadAbortException)
+            {
+                // Calling Response.Redirect throws a ThreadAbortException which will
+                // flag an error in the next step if we don't do this.
+                throw;
+            }
+            catch (SafeToDisplayException exception)
+            {
+                errorBanner.Clear();
+                errorBanner.AddError(ErrorType.Error, exception.Message);
+            }
+            catch (Exception ex)
+            {
+                contentPanel.Visible = false;
+                errorBanner.AddException(ex);
+            }
+        }
+        private void PopulateSiteListControl(List<WebListItem> webList)
+        {
+            HyperLink hl = null;
+            HtmlGenericControl li = null;
+            HtmlGenericControl ul = new HtmlGenericControl("ul");
+            try
+            {
+                foreach (WebListItem webListItem in webList)
+                {
+                    li = new HtmlGenericControl("li");
+                    li.Attributes.Add("title", string.Format(CultureInfo.CurrentCulture, AppResources.ActionsMRUToolTip, Server.HtmlEncode(webListItem.Title)));
+                    hl = new HyperLink();
+                    string url = SlkUtilities.UrlCombine(webListItem.Url, "_layouts/SharePointLearningKit/AssignmentProperties.aspx");
+                    url = String.Format(CultureInfo.InvariantCulture, "{0}?Location={1}", url, Location);
+
+                    if (!NonELearning)
+                        url = String.Format(CultureInfo.InvariantCulture, "{0}&OrgIndex={1}", url, OrganizationIndex);
+                    hl.NavigateUrl = url;
+
+                    hl.Text = Server.HtmlEncode(webListItem.Title);
+                    li.Controls.Add(hl);
+                    hl = null;
+                    if (newSite.HasValue && newSite.Value.Equals(webListItem.SPWebGuid))
+                    {
+                        HtmlImage img = new HtmlImage();
+                        img.Src = "Images/NewIcon.gif";
+                        li.Controls.Add(img);
+                    }
+                    ul.Controls.Add(li);
+                    li = null;
+                }
+                siteList.Controls.Add(ul);
+                ul = null;
+            }
+            catch
+            {
+                if(hl != null)
+                    hl.Dispose();
+                if(li != null)
+                    li.Dispose();
+                if(ul != null)
+                    ul.Dispose();
+                throw;
+            }
         }
 
         private static string GetDefaultTitle(string title, string id)
@@ -884,7 +781,124 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             newSiteRequired.ErrorMessage = AppResources.ActionsSiteRequired;
         }
 
+        void showWarnings_Click(object sender, EventArgs e)
+        {
+            ShowWarnings = !ShowWarnings;
+        }
 
+        private List<WebListItem> GetSiteList()
+        {
+            // code to iterate through user's list of SPWebs
+            bool addCurrentToList = true;
+            int mruItems = SlkStore.Settings.UserWebListMruSize;
+            int itemMax;
+            int listCount;
+            ReadOnlyCollection<SlkUserWebListItem> userWebList = SlkStore.GetUserWebList();
+
+            foreach (SlkUserWebListItem webListItem in userWebList)
+            {
+                if (SPWeb.ID.Equals(webListItem.SPWebGuid))
+                {
+                    addCurrentToList = false;
+                    break;
+                }
+            }
+
+            if (addCurrentToList)
+                listCount = userWebList.Count + 1;
+            else
+                listCount = userWebList.Count;
+
+            if (!ShowAllSites && listCount > mruItems)
+            {
+                itemMax = mruItems;
+                lnkMRUShowAll.Visible = true;
+                lnkMRUShowAll.Text = AppResources.ActionslnkMRUShowAll;
+            }
+            else
+            {
+                itemMax = listCount;
+                lnkMRUShowAll.Visible = false;
+            }
+
+            List<WebListItem> webList = new List<WebListItem>(itemMax);
+
+            if (addCurrentToList)
+                itemMax--;
+
+            for (int i = 0; i < itemMax && i < userWebList.Count; i++)
+            {
+                SPSite site = null;
+                SPWeb web = null;
+                bool previousValue = SPSecurity.CatchAccessDeniedException;
+                SPSecurity.CatchAccessDeniedException = false;
+                try
+                {
+                    SlkUserWebListItem item = userWebList[i];
+                    site = new SPSite(item.SPSiteGuid, SPContext.Current.Site.Zone);
+                    web = site.OpenWeb(item.SPWebGuid);
+                    if (SPWeb.ID.Equals(item.SPWebGuid))
+                        webList.Add(new WebListItem(item, web.Url, string.Format(CultureInfo.CurrentCulture, "{0} {1}", web.Title, AppResources.ActionslblMRUCurrentSite)));
+                    else
+                        webList.Add(new WebListItem(item, web.Url, web.Title));
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // the user doesn't have permission to access this site, so ignore it
+                    continue;
+                }
+                catch (FileNotFoundException)
+                {
+                    // the site doesn't exist
+                    continue;
+                }
+                finally
+                {
+                    SPSecurity.CatchAccessDeniedException = previousValue;
+                    if(web != null)
+                        web.Dispose();
+                    if(site != null)
+                        site.Dispose();
+                }
+            }
+            if (addCurrentToList)
+            {
+                webList.Add(new WebListItem(SPWeb.Site.ID, SPWeb.ID, DateTime.Now, SPWeb.Url,
+                    string.Format(CultureInfo.CurrentCulture, "{0} {1}", SPWeb.Title, AppResources.ActionslblMRUCurrentSite)));
+            }
+            webList.Sort();
+
+            return webList;
+        }
+
+        Guid CreateSelfAssignment()
+        {
+            LearningStoreXml packageWarnings;
+            AssignmentProperties properties = SlkStore.GetNewAssignmentDefaultProperties(SPWeb, Location, OrganizationIndex, SlkRole.Learner, out packageWarnings);
+            AssignmentItemIdentifier assignmentId = SlkStore.CreateAssignment(SPWeb, Location, OrganizationIndex, SlkRole.Learner, properties);
+            Guid learnerAssignmentGuidId = SlkStore.GetCurrentUserLearnerAssignment(assignmentId);
+
+            AssignmentProperties currentAssProperties = SlkStore.GetAssignmentProperties(assignmentId, SlkRole.Learner);
+
+            if (currentAssProperties.PackageFormat == null)
+            {
+                DropBoxManager dropBoxMgr = new DropBoxManager(currentAssProperties);
+                AssignmentFolder assignmentFolder = dropBoxMgr.CreateSelfAssignmentFolder();
+
+                if (assignmentFolder == null)
+                {
+                    // Deletes the assignment
+                    SlkStore.DeleteAssignment(assignmentId);
+                    //Log the Exception 
+                    throw new SafeToDisplayException(AppResources.AssFolderAlreadyExists);
+                }
+            }
+
+            return learnerAssignmentGuidId;
+        }
+#endregion private methods
+
+#region class WebListItem
         private class WebListItem : SlkUserWebListItem, IComparable
         {
             private string m_url;
@@ -934,6 +948,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             #endregion
         }
+#endregion class WebListItem
+
     }
 }
 
