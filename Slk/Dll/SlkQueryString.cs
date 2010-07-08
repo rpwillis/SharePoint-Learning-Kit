@@ -312,6 +312,9 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         public const string AssignmentId = "AssignmentId";
 
+        /// <summary>The Action query string key.</summary>
+        public const string Action = "Action";
+
         #endregion
     }
 }
