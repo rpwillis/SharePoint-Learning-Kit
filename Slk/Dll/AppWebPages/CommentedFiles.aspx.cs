@@ -75,9 +75,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (m_assignmentId == null)
                 {
-                    long id;
-                    QueryString.Parse(QueryStringKeys.AssignmentId, out id, false);
-                    m_assignmentId = id;
+                    m_assignmentId = QueryString.ParseLong(QueryStringKeys.AssignmentId, null);
                 }
                 return m_assignmentId;
             }

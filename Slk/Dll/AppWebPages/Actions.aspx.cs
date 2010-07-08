@@ -84,8 +84,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #region Private Variables
         // property values
         private Guid? newSite;
-        private Guid? m_listId;
-        private int? m_itemId;
         private SPFile m_spFile;
         private SPListItem m_spListItem;
         private SPList m_spList;
@@ -97,38 +95,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region Private Properties
-
-        /// <summary>
-        /// Retrieves from the query string the GUID of the document library containing the
-        /// e-learning package or non-e-learning document on which an action will be performed.
-        /// </summary>
-        private Guid ListId
-        {
-            get
-            {
-                if (!m_listId.HasValue)
-                {
-                    m_listId = QueryString.ParseGuid(QueryStringKeys.ListId);
-                }
-                return m_listId.Value;
-            }
-        }
-
-        /// <summary>
-        /// Retrieves from the query string the SharePoint integer identifier of the file
-        /// on which an action will be performed.
-        /// </summary>
-        private int ItemId
-        {
-            get
-            {
-                if (!m_itemId.HasValue)
-                {
-                    m_itemId = QueryString.Parse(QueryStringKeys.ItemId);
-                }
-                return m_itemId.Value;
-            }
-        }
 
         /// <summary>
         /// Retrieves the location string of the file that the Actions page is acting upon.
@@ -708,8 +674,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
-                m_spList = SPWeb.Lists[ListId];
-                m_spListItem = m_spList.GetItemById(ItemId);
+                Guid listId = QueryString.ParseGuid(QueryStringKeys.ListId);
+                m_spList = SPWeb.Lists[listId];
+                int itemId = QueryString.Parse(QueryStringKeys.ItemId);
+                m_spListItem = m_spList.GetItemById(itemId);
                 // reject folders
                 if (m_spListItem.FileSystemObjectType.Equals(SPFileSystemObjectType.Folder))
                 {

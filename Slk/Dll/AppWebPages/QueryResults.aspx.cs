@@ -68,7 +68,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             get
             {
                 if (m_queryName == null)
-                    QueryString.Get(QueryStringKeys.Query, out m_queryName, false);
+                {
+                    m_queryName = QueryString.ParseString(QueryStringKeys.Query);
+                }
                 return m_queryName;
             }
         }
@@ -80,7 +82,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             get
             {
                 if (m_spWebScope == null)
-                    QueryString.Get(QueryStringKeys.SPWebScope, out m_spWebScope, true);
+                {
+                    m_spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
+                }
                 return m_spWebScope;
             }
         }
@@ -92,7 +96,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             get
             {
                 if (m_sort == null)
-                    QueryString.Get(QueryStringKeys.Sort, out m_sort, true);
+                {
+                    m_sort = QueryString.ParseStringOptional(QueryStringKeys.Sort);
+                }
                 return m_sort;
             }
         }

@@ -95,14 +95,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             try
             {
                 AppResources.Culture = LocalizationManager.GetCurrentCulture();
-                //Get the QuerySet Name 
-                string querySetName;
-
-                QueryString.Get(QueryStringKeys.QuerySet, out querySetName, false);
+                string querySetName = QueryString.ParseString(QueryStringKeys.QuerySet);
 
                 //Get the Visibility 
-                string spWebScope;
-                QueryString.Get(QueryStringKeys.SPWebScope, out spWebScope, true);
+                string spWebScope = QueryString.ParseString(QueryStringKeys.SPWebScope);
                 m_spWebScopeMacro = (spWebScope == null) ? (Guid?)null : (new Guid(spWebScope));
 
                 // create a job for executing the queries specified by <querySetDef>

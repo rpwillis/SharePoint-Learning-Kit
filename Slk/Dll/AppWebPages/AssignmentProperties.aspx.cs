@@ -251,7 +251,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (m_orgIndex == null)
                 {
-                    QueryString.Parse(QueryStringKeys.OrgIndex, out m_orgIndex, true);
+                    m_orgIndex = QueryString.ParseIntOptional(QueryStringKeys.OrgIndex);
                 }
                 return m_orgIndex;
             }
@@ -266,7 +266,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             get
             {
                 if (m_locationString == null)
-                    QueryString.Get(QueryStringKeys.Location, out m_locationString, false);
+                {
+                    m_locationString = QueryString.ParseString(QueryStringKeys.Location);
+                }
                 return m_locationString;
             }
         }
@@ -281,11 +283,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (m_assignmentId == null)
                 {
-                    //check if value is in Right Format.
-                    if (!QueryString.Parse(QueryStringKeys.AssignmentId, out m_assignmentId, true))
-                    {
-                        m_assignmentId = -1;
-                    }
+                    m_assignmentId = QueryString.ParseLong(QueryStringKeys.AssignmentId, -1);
                 }
                 return m_assignmentId == -1 ? null : m_assignmentId;
             }
