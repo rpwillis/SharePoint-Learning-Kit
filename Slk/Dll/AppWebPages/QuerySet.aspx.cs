@@ -107,10 +107,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                     try
                     {
-                        //Get the QuerySet Name 
-                        string querySetName;
-
-                        QueryString.Get(QueryStringKeys.QuerySet, out querySetName, false);
+                        string querySetName = QueryString.ParseString(QueryStringKeys.QuerySet);
 
                         // set <querySetDef> to the QuerySetDefinition named <querySetName>
                         QuerySetDefinition querySetDef
@@ -475,12 +472,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private static void RegisterQuerySetClientScriptBlock(HtmlTextWriter htmlTextWriter)
         {            
             //Get the Visibility 
-            string spWebScope;
-            bool isSPWebScope = QueryString.Get(QueryStringKeys.SPWebScope, out spWebScope, true);
+            string spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
 
             //Get the FrameId 
-            string frameId;
-            QueryString.Get(QueryStringKeys.FrameId, out frameId, false);
+            string frameId = QueryString.ParseString(QueryStringKeys.FrameId);
 
             // Construct the Url for QueryResultPage 
 
@@ -491,7 +486,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                    QueryStringKeys.Query
                                    );
             //Append the SPWebScope in the QueryString
-            if (isSPWebScope)
+            if (string.IsNullOrEmpty(spWebScope) == false)
             {
                 urlString = String.Format(CultureInfo.InvariantCulture,
                                           "{0}&{1}={2}",

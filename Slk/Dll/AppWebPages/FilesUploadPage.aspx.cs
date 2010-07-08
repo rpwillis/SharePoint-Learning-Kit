@@ -58,7 +58,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (string.IsNullOrEmpty(m_sourceUrl))
                 {
-                    QueryString.Get("Source", out m_sourceUrl, false);
+                    m_sourceUrl = QueryString.ParseString("Source");
                 }
 
                 return m_sourceUrl;

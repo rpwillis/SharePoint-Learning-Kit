@@ -20,24 +20,6 @@ namespace Microsoft.SharePointLearningKit
         #region Get
         /// <summary>
         ///  If a specified query string is present in the current HttpContext,
-        ///  its value is retrieved and true is returned.  If the query string is
-        ///  absent, null is retrieved and false is returned.
-        /// </summary>
-        /// <param name="queryStringName">Name of the QueryString.</param>   
-        /// <param name="queryStringValue">The retrieved value. Set to null if the
-        ///   query string is empty.</param>  
-        private static bool Get(string queryStringName, out string queryStringValue)
-        {
-            queryStringValue
-                 = HttpContext.Current.Request.QueryString[queryStringName];
-
-            return (!String.IsNullOrEmpty(SlkUtilities.Trim(queryStringValue)));
-        }
-        #endregion
-
-        #region Get
-        /// <summary>
-        ///  If a specified query string is present in the current HttpContext,
         ///  its value is retrieved as a string and true is returned.  If the query string is
         ///  absent, then (a) if the caller specifies that the value is required, a 
         ///  SafeToDisplayException is thrown, or (b) if the caller specifies that
@@ -48,24 +30,47 @@ namespace Microsoft.SharePointLearningKit
         ///   query string is empty and <paramref name="isOptional"/> is true.</param>  
         /// <param name="isOptional">If false, SafeToDisplayException is thrown if
         ///   the query string is absent.</param>
-        public static bool Get(string queryStringName, out string queryStringValue, bool isOptional)
+        static string Get(string queryStringName, bool isOptional)
         {
 
-            bool isValidQueryString = false;
+            string queryStringValue = HttpContext.Current.Request.QueryString[queryStringName];
+            queryStringValue = SlkUtilities.Trim(queryStringValue);
 
-            isValidQueryString = Get(queryStringName, out queryStringValue);
+            if (queryStringValue == string.Empty)
+            {
+                queryStringValue = null;
+            }
+
+            bool isValidQueryString = (String.IsNullOrEmpty(queryStringValue) == false);
 
             if (!isValidQueryString && !isOptional)
             {
-                throw new SafeToDisplayException(AppResources.SlkExQueryStringNotFound,
-                                                 queryStringName);
+                throw new SafeToDisplayException(AppResources.SlkExQueryStringNotFound, queryStringName);
             }
 
-            return isValidQueryString;
+            return queryStringValue;
         }
         #endregion
 
-        #region Parse
+#region Parse String
+        /// <summary>Finds the string value from the query string.</summary>
+        /// <param name="queryStringName">The name of the item.</param>
+        /// <returns>The string value.</returns>
+        public static string ParseString(string queryStringName)
+        {
+            return Get(queryStringName, false);
+        }
+
+        /// <summary>Finds the string value from the query string. If not present returns null.</summary>
+        /// <param name="queryStringName">The name of the item.</param>
+        /// <returns>The string value or null if not present.</returns>
+        public static string ParseStringOptional(string queryStringName)
+        {
+            return Get(queryStringName, true);
+        }
+#endregion Parse String
+
+        #region Parse int
         /// <summary>
         ///  If a specified query string is present in the current HttpContext,
         ///  its value is retrieved as an int and true is returned.  If the query string is
@@ -75,39 +80,34 @@ namespace Microsoft.SharePointLearningKit
         ///  If the query string is present but its format is incorrect, a SafeToDisplayException
         ///  is thrown.
         /// </summary>
-        /// <param name="queryStringName">Name of the QueryString.</param>   
-        /// <param name="queryStringValue">The retrieved value. Set to null if the
-        ///   query string is empty and <paramref name="isOptional"/> is true.</param>  
-        /// <param name="isOptional">If false, SafeToDisplayException is thrown if
-        ///   the query string is absent.</param>
-        static bool Parse(string queryStringName, out int queryStringValue, bool isOptional)
+        /// <param name="queryStringName">Name of the QueryString.</param>
+        /// <param name="defaultValue">The default value if not present.</param>
+        /// <returns></returns>
+        static int ParseIntOptional(string queryStringName, int defaultValue)
         {
-            string queryStringText;
-            queryStringValue = 0;
+            string queryStringText = Get(queryStringName, true);
 
-            bool isValidQueryString = false;
-
-            isValidQueryString = Get(queryStringName, out queryStringText, isOptional);
-
-            if (isValidQueryString)
+            if (string.IsNullOrEmpty(queryStringText))
             {
-                isValidQueryString = Int32.TryParse(queryStringText, out queryStringValue);
+                return defaultValue;
             }
-
-            if (!isValidQueryString && !isOptional)
+            else
             {
-                //The value is not valid for the given parameter.
+                int value;
+                if (Int32.TryParse(queryStringText, out value))
+                {
+                    return value;
+                }
+                else
+                {
+                    //The value is not valid for the given parameter.
 
-                throw new SafeToDisplayException(AppResources.SlkExQueryStringFormatError,
-                                                 queryStringText, queryStringName);
+                    throw new SafeToDisplayException(AppResources.SlkExQueryStringFormatError,
+                                                     queryStringText, queryStringName);
+                }
             }
-
-            return isValidQueryString;
-
         }
-        #endregion
 
-        #region Parse
         /// <summary>
         ///  If a specified query string is present in the current HttpContext,
         ///  its value is retrieved as an int and true is returned.  If the query string is
@@ -118,14 +118,22 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="queryStringValue">The retrieved value.</param>  
         public static int Parse(string queryStringName)
         {
+            string queryStringText = Get(queryStringName, true);
+
             int value;
-            Parse(queryStringName, out value, false);
-            return value;
+            if (Int32.TryParse(queryStringText, out value))
+            {
+                return value;
+            }
+            else
+            {
+                //The value is not valid for the given parameter.
+
+                throw new SafeToDisplayException(AppResources.SlkExQueryStringFormatError,
+                                                 queryStringText, queryStringName);
+            }
         }
 
-        #endregion
-
-        #region Parse
         /// <summary>
         ///  If a specified query string is present in the current HttpContext,
         ///  its value is retrieved as an int and true is returned.  If the query string is
@@ -140,25 +148,33 @@ namespace Microsoft.SharePointLearningKit
         ///   query string is empty and <paramref name="isOptional"/> is true.</param>  
         /// <param name="isOptional">If false, SafeToDisplayException is thrown if
         ///   the query string is absent.</param>
-        public static bool Parse(string queryStringName, out int? queryStringValue, bool isOptional)
+        public static int? ParseIntOptional(string queryStringName)
         {
-            //check if value is in Right Format by Parsing the Value Return the Result.
-            
-            int value;
-            queryStringValue = null;
-            bool result = Parse(queryStringName, out value, isOptional);
+            string queryStringText = Get(queryStringName, true);
 
-            if (result)
+            if (string.IsNullOrEmpty(queryStringText))
             {
-                queryStringValue = value;
+                return null;
             }
+            else
+            {
+                int value;
+                if (Int32.TryParse(queryStringText, out value))
+                {
+                    return value;
+                }
+                else
+                {
+                    //The value is not valid for the given parameter.
 
-            return result;
-
+                    throw new SafeToDisplayException(AppResources.SlkExQueryStringFormatError,
+                                                     queryStringText, queryStringName);
+                }
+            }
         }
         #endregion
 
-        #region Parse
+        #region Parse long
         /// <summary>
         ///  If a specified query string is present in the current HttpContext,
         ///  its value is retrieved as a long and true is returned.  If the query string is
@@ -168,72 +184,34 @@ namespace Microsoft.SharePointLearningKit
         ///  If the query string is present but its format is incorrect, a SafeToDisplayException
         ///  is thrown.
         /// </summary>
-        /// <param name="queryStringName">Name of the QueryString.</param>   
-        /// <param name="queryStringValue">The retrieved value. Set to null if the
-        ///   query string is empty and <paramref name="isOptional"/> is true.</param>  
-        /// <param name="isOptional">If false, SafeToDisplayException is thrown if
-        ///   the query string is absent.</param>
-        public static bool Parse(string queryStringName, out long queryStringValue, bool isOptional)
+        /// <param name="queryStringName">Name of the QueryString.</param>
+        /// <param name="defaultValue">The default value to use if not present.</param>
+        public static long? ParseLong(string queryStringName, long? defaultValue)
         {
-            string queryStringText;
-            queryStringValue = 0;
+            string queryStringText = Get(queryStringName, true);
 
-            bool isValidQueryString = false;
-
-            isValidQueryString = Get(queryStringName, out queryStringText, isOptional);
-
-            if (isValidQueryString)
+            if (string.IsNullOrEmpty(queryStringText))
             {
-                isValidQueryString = Int64.TryParse(queryStringText, out queryStringValue);
+                return defaultValue;
             }
-
-            if (!isValidQueryString && !isOptional)
+            else
             {
-                //The value is not valid for the given parameter.
-                throw new SafeToDisplayException(AppResources.SlkExQueryStringFormatError,
-                                                 queryStringText, queryStringName);
+                long value;
+                if (long.TryParse(queryStringText, out value))
+                {
+                    return value;
+                }
+                else
+                {
+                    throw new SafeToDisplayException(AppResources.SlkExQueryStringFormatError,
+                                                     queryStringText, queryStringName);
+                }
             }
-
-            return isValidQueryString;
-
         }
         #endregion
 
 
-        #region Parse
-        /// <summary>
-        ///  If a specified query string is present in the current HttpContext,
-        ///  its value is retrieved as a long and true is returned.  If the query string is
-        ///  absent, then (a) if the caller specifies that the value is required, a 
-        ///  SafeToDisplayException is thrown, or (b) if the caller specifies that
-        ///  the value is optional, null is retrieved and false is returned.
-        ///  If the query string is present but its format is incorrect, a SafeToDisplayException
-        ///  is thrown.
-        /// </summary>
-        /// <param name="queryStringName">Name of the QueryString.</param>   
-        /// <param name="queryStringValue">The retrieved value. Set to null if the
-        ///   query string is empty and <paramref name="isOptional"/> is true.</param>  
-        /// <param name="isOptional">If false, SafeToDisplayException is thrown if
-        ///   the query string is absent.</param>
-        public static bool Parse(string queryStringName, out long? queryStringValue, bool isOptional)
-        {
-            //check if value is in Right Format by Parsing the Value Return the Result.
-            long value;
-            queryStringValue = null;
-            bool result = Parse(queryStringName, out value, isOptional);
-
-            if (result)
-            {
-                queryStringValue = value;
-            }
-
-            return result;
-
-        }
-        #endregion
-
-
-        #region Parse
+        #region Parse Guid
         /// <summary>
         ///  If a specified query string is present in the current HttpContext,
         ///  its value is retrieved as a Guid .  If the query string is
@@ -243,9 +221,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="queryStringName">Name of the QueryString.</param>   
         public static Guid ParseGuid(string queryStringName)
         {
-            string queryStringText;
-
-            Get(queryStringName, out queryStringText, false);
+            string queryStringText = Get(queryStringName, false);
             //check if the value is  valid for the given parameter.
             try
             {
