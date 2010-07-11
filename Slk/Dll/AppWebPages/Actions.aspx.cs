@@ -306,8 +306,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 switch (action.ToLower(CultureInfo.InvariantCulture))
                 {
-                    case "selfassign":
+                    case "assignself":
                         AssignToSelf();
+                        break;
+                    case "assignsite":
+                        AssignToSite();
                         break;
                     default:
                         //Ignore
@@ -590,15 +593,26 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
 
 #region private methods
+        void AssignToSite()
+        {
+            string url = AssignmentSiteUrl(SPWeb.Url);
+            Redirect(url);
+        }
+
         void AssignToSelf()
+        {
+            Guid learnerAssignmentGuidId = CreateSelfAssignment();
+            string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
+            url = String.Format(CultureInfo.InvariantCulture, 
+                    "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
+
+            Redirect(url);
+        }
+
+        void Redirect (string url)
         {
             try
             {
-                Guid learnerAssignmentGuidId = CreateSelfAssignment();
-                string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
-                url = String.Format(CultureInfo.InvariantCulture, 
-                        "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
-
                 Response.Redirect(url, true);
             }
             catch (ThreadAbortException)
@@ -618,6 +632,20 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 errorBanner.AddException(ex);
             }
         }
+
+        string AssignmentSiteUrl(string webUrl)
+        {
+            string url = SlkUtilities.UrlCombine(webUrl, "_layouts/SharePointLearningKit/AssignmentProperties.aspx");
+            url = String.Format(CultureInfo.InvariantCulture, "{0}?Location={1}", url, Location);
+
+            if (!NonELearning)
+            {
+                url = String.Format(CultureInfo.InvariantCulture, "{0}&OrgIndex={1}", url, OrganizationIndex);
+            }
+
+            return url;
+        }
+
         private void PopulateSiteListControl(List<WebListItem> webList)
         {
             HyperLink hl = null;
@@ -630,12 +658,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     li = new HtmlGenericControl("li");
                     li.Attributes.Add("title", string.Format(CultureInfo.CurrentCulture, AppResources.ActionsMRUToolTip, Server.HtmlEncode(webListItem.Title)));
                     hl = new HyperLink();
-                    string url = SlkUtilities.UrlCombine(webListItem.Url, "_layouts/SharePointLearningKit/AssignmentProperties.aspx");
-                    url = String.Format(CultureInfo.InvariantCulture, "{0}?Location={1}", url, Location);
-
-                    if (!NonELearning)
-                        url = String.Format(CultureInfo.InvariantCulture, "{0}&OrgIndex={1}", url, OrganizationIndex);
-                    hl.NavigateUrl = url;
+                    hl.NavigateUrl = AssignmentSiteUrl(webListItem.Url);
 
                     hl.Text = Server.HtmlEncode(webListItem.Title);
                     li.Controls.Add(hl);
@@ -807,19 +830,25 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             for (int i = 0; i < itemMax && i < userWebList.Count; i++)
             {
-                SPSite site = null;
-                SPWeb web = null;
                 bool previousValue = SPSecurity.CatchAccessDeniedException;
                 SPSecurity.CatchAccessDeniedException = false;
                 try
                 {
                     SlkUserWebListItem item = userWebList[i];
-                    site = new SPSite(item.SPSiteGuid, SPContext.Current.Site.Zone);
-                    web = site.OpenWeb(item.SPWebGuid);
-                    if (SPWeb.ID.Equals(item.SPWebGuid))
-                        webList.Add(new WebListItem(item, web.Url, string.Format(CultureInfo.CurrentCulture, "{0} {1}", web.Title, AppResources.ActionslblMRUCurrentSite)));
-                    else
-                        webList.Add(new WebListItem(item, web.Url, web.Title));
+                    using (SPSite site = new SPSite(item.SPSiteGuid, SPContext.Current.Site.Zone))
+                    {
+                        using (SPWeb web = site.OpenWeb(item.SPWebGuid))
+                        {
+                            if (SPWeb.ID.Equals(item.SPWebGuid))
+                            {
+                                webList.Add(new WebListItem(item, web.Url, string.Format(CultureInfo.CurrentCulture, "{0} {1}", web.Title, AppResources.ActionslblMRUCurrentSite)));
+                            }
+                            else
+                            {
+                                webList.Add(new WebListItem(item, web.Url, web.Title));
+                            }
+                        }
+                    }
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -834,12 +863,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 finally
                 {
                     SPSecurity.CatchAccessDeniedException = previousValue;
-                    if(web != null)
-                        web.Dispose();
-                    if(site != null)
-                        site.Dispose();
                 }
             }
+
             if (addCurrentToList)
             {
                 webList.Add(new WebListItem(SPWeb.Site.ID, SPWeb.ID, DateTime.Now, SPWeb.Url,

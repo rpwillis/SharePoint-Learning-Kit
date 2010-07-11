@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	
+        <CustomAction Id="{8cbcbbe4-0242-494d-8352-80c6dd55e46b}"
+			   Title="Assign To Self"
+			   Location="DisplayFormToolbar"
+			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+			   RegistrationType="List"
+			   RegistrationId="101">
+		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?Action=AssignSelf&amp;ListId={ListId}&amp;ItemId={ItemId}"/>
+	</CustomAction>
+        <CustomAction Id="{8cbcbbe4-0242-494d-8352-80c6dd55e46b}"
+			   Title="Assign To Self"
+			   Location="EditControlBlock"
+			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+			   RegistrationType="List"
+			   RegistrationId="101">
+		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?Action=AssignSelf&amp;ListId={ListId}&amp;ItemId={ItemId}"/>
+	</CustomAction>
+</Elements>

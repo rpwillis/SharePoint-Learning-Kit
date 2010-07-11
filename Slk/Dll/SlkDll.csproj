@@ -220,7 +220,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Src\Compression\Compression\Compression.csproj">
       <Project>{561657B4-176B-4112-A692-D18521C6BA11}</Project>
-      <Name>Storage</Name>
+      <Name>Compression</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
