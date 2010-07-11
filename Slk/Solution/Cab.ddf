@@ -103,6 +103,10 @@ Features\AdminFeature\feature.xml                    SharePointLearningKitAdmin\
 ..\App\Include\Styles.css                            Layouts\SharePointLearningKit\Include\Styles.css
 Features\AppFeature\elements.xml                           SharePointLearningKit\elements.xml
 Features\AppFeature\feature.xml                            SharePointLearningKit\feature.xml
+Features\AppFeature\AssignSelf\elements.xml                           SharePointLearningKitAssignSelf\elements.xml
+Features\AppFeature\AssignSelf\feature.xml                            SharePointLearningKitAssignSelf\feature.xml
+Features\AppFeature\AssignSite\elements.xml                           SharePointLearningKitAssignSite\elements.xml
+Features\AppFeature\AssignSite\feature.xml                            SharePointLearningKitAssignSite\feature.xml
 ..\SlkSchema.sql                                     Admin\SharePointLearningKit\SlkSchema.sql
 ..\SlkSettings.xml                                   Admin\SharePointLearningKit\SlkSettings.xml.dat
 SiteMaps\admin.sitemap.SharePointLearningKit.xml              Admin\admin.sitemap.SharePointLearningKit.xml

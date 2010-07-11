@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/"
+    Id="eba21329-10fb-411c-9a28-62ec10a95446"
+		 Scope="Web"
+		 Title="SharePoint Learning Kit - Assign to Site"
+		 Description="Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be assigned by instructors directly to this site." > 
+		 
+	<ElementManifests>
+		<ElementManifest Location="elements.xml"/>
+	</ElementManifests>
+</Feature>

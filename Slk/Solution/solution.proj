@@ -18,7 +18,10 @@
         <ReleaseFiles Include="..\Dll\bin\Release\Microsoft.SharePointLearningKit.dll"/>
     </ItemGroup>
 
-    <Target Name="Build" DependsOnTargets="Release"/>
+    <Target Name="Build">
+        <CallTarget Targets="Release" Condition="$(Configuration) == 'Release'"/>
+        <CallTarget Targets="Debug" Condition="$(Configuration) == 'Debug'"/>
+    </Target>
 
     <Target Name="Release">
         <MakeDir Directories="Build"/>
@@ -27,7 +30,8 @@
     </Target>
 
     <Target Name="Debug">
-        <Copy Files="@(DebugFiles)" DestinationFolder="Build" SkipUnchangedFiles="false"/>
+        <MakeDir Directories="Build"/>
+        <Copy SourceFiles="@(DebugFiles)" DestinationFolder="Build" SkipUnchangedFiles="false"/>
         <CallTarget Targets="MakeWsp"/>
     </Target>
 

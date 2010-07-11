@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	
+    <CustomAction Id="{cec4775d-58cf-4fe3-ab57-ce73799ea18c}"
+			   Title="Assign To Site"
+			   Location="DisplayFormToolbar"
+			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+			   RegistrationType="List"
+			   RegistrationId="101">
+		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?Action=AssignSite&amp;ListId={ListId}&amp;ItemId={ItemId}"/>
+	</CustomAction>
+    <CustomAction Id="{cec4775d-58cf-4fe3-ab57-ce73799ea18c}"
+			   Title="Assign To Site"
+			   Location="EditControlBlock"
+			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+			   RegistrationType="List"
+			   RegistrationId="101">
+		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?Action=AssignSite&amp;ListId={ListId}&amp;ItemId={ItemId}"/>
+	</CustomAction>
+</Elements>
