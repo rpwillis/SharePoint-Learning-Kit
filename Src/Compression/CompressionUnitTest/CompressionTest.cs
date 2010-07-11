@@ -19,7 +19,7 @@ namespace Microsoft.LearningComponents
         ///This is a test class for Microsoft.LearningComponents.Compression and is intended
         ///to contain all Microsoft.LearningComponents.Compression Unit Tests
         ///</summary>
-        public class CompressionTest
+        public class CompressionTest : IDisposable
         {
 
 
@@ -31,6 +31,14 @@ namespace Microsoft.LearningComponents
             {
                 unittestdir =  "..\\CompressionUnitTest\\UnitTestData";
                 destdir = unittestdir + "\\UnbundleFolder";
+            }
+
+            public void Dispose()
+            {
+                if (Directory.Exists(destdir))
+                {
+                    Directory.Delete(destdir, true);
+                }
             }
 #endregion intitialization
 

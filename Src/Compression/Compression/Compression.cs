@@ -19,8 +19,8 @@ namespace Microsoft.LearningComponents
         private Compression() { }
 
         /// <summary>
-        /// Unzips the .zip file <zipFile>; the result is stored
-        /// in a directory at location <destinationDirectory>.  The destination
+        /// Unzips the .zip file [zipFile]; the result is stored
+        /// in a directory at location [destinationDirectory].  The destination
         /// directory is created if it doesn't exist; files within that directory
         /// are overwriten if their names conflict with files in the .zip file.
         /// Throws IO exceptions for errors related to the input file; 
@@ -156,8 +156,8 @@ namespace Microsoft.LearningComponents
         }
          
         /// <summary>
-        /// Uncompresses the .lrm file <lrmFile>; the result is stored
-        /// in a directory at location <destinationDirectory>.  The destination
+        /// Uncompresses the .lrm file [lrmFile]; the result is stored
+        /// in a directory at location [destinationDirectory].  The destination
         /// directory is created if it doesn't exist; files within that directory
         /// are overwriten if their names conflict with files in the .lrm file.
         /// </summary>
@@ -168,235 +168,237 @@ namespace Microsoft.LearningComponents
         {
             // The LRM stream is read in as Strings assuming a UTF-8 encoding
             // (Is UTF-8 a reasonable assumption to make?)
-            StreamReader lrmFileCharReader = new StreamReader(lrmFile.FullName);
+            using (StreamReader lrmFileCharReader = new StreamReader(lrmFile.FullName))
+            {
+                // 'pos' keeps track of the current byte position in the file
+                // This is to keep track of the bytes read and seek to the start of the message parts
+                // The StreamReader uses buffering internally and hence the BaseStream's Position
+                // cannot be used for this information
+                long pos = 0;
+                    
+                #region ParseMimeHeaders            
 
-            // 'pos' keeps track of the current byte position in the file
-            // This is to keep track of the bytes read and seek to the start of the message parts
-            // The StreamReader uses buffering internally and hence the BaseStream's Position
-            // cannot be used for this information
-            long pos = 0;
+                // Parse MIME header
+                // Parse Content-Type, MIME-Version, X-LRM-Version, X-Multi-LR strings from 
+                // the header
                 
-            #region ParseMimeHeaders            
-
-            // Parse MIME header
-            // Parse Content-Type, MIME-Version, X-LRM-Version, X-Multi-LR strings from 
-            // the header
-            
-            LrmMimeHeader header = new LrmMimeHeader();
-            string line;
-            while ((line = lrmFileCharReader.ReadLine()) != null)
-            {
-                pos += line.ToCharArray().Length + 2; //+2 for the /r/n
-                //If the read line is a Boundary, the header parsing is done
-                if (!String.IsNullOrEmpty(header.BoundaryString) && line.Equals("--" + header.BoundaryString))
+                LrmMimeHeader header = new LrmMimeHeader();
+                string line;
+                while ((line = lrmFileCharReader.ReadLine()) != null)
                 {
-                    //Error if all required headers are not present
-
-                    if (String.IsNullOrEmpty(header.ContentType) || String.IsNullOrEmpty(header.MimeVersion)
-                        || String.IsNullOrEmpty(header.LrmVersion) || String.IsNullOrEmpty(header.BoundaryString))
-                        throw new CompressionException(Properties.CompressionResources.LRMRequiredHeadersMissing);
-
-                    break;
-                }
-                else // Parse the read-in line
-                    header.ParseMimeHeader(line);
-
-            } 
-
-            #endregion
-
-           
-            // Parsing of the message parts
-            bool prematureFileEnd = true;
-            while ((line = lrmFileCharReader.ReadLine()) != null && !String.IsNullOrEmpty(line))
-            {
-                //Parsing message part header
-                pos += line.ToCharArray().Length + 2;
-                line = line.Trim();
-                string relativeActivityPath = null;
-                bool isEncoded = false;
-                int messageLength = 0;
-                if (line.StartsWith("Content-Location"))
-                {
-                    relativeActivityPath = line.Substring(17).Trim();
-                    if ((line = lrmFileCharReader.ReadLine()) != null)
+                    pos += line.ToCharArray().Length + 2; //+2 for the /r/n
+                    //If the read line is a Boundary, the header parsing is done
+                    if (!String.IsNullOrEmpty(header.BoundaryString) && line.Equals("--" + header.BoundaryString))
                     {
-                        pos += line.ToCharArray().Length + 2;
-                        if (line.StartsWith("X-Enc"))
-                        {
-                            string encodingInfo = line.Substring(6).Trim();
-                            string[] encodingInfoParts = encodingInfo.Split('/');
-                            if (encodingInfoParts[0].Equals("1"))
-                                isEncoded = true;
-                            //Assumption: The unencoded length should not be empty. Code should change if this is a wrong assumption
-                            if (encodingInfoParts.Length < 2 || String.IsNullOrEmpty(encodingInfoParts[1]))
-                                throw new CompressionException(Properties.CompressionResources.LRMImproperXencValue);
-                            messageLength = Int32.Parse(encodingInfoParts[1], System.Globalization.NumberFormatInfo.CurrentInfo);
+                        //Error if all required headers are not present
 
-                            // Read the following empty line
-                            if ((line = lrmFileCharReader.ReadLine()) != null)
+                        if (String.IsNullOrEmpty(header.ContentType) || String.IsNullOrEmpty(header.MimeVersion)
+                            || String.IsNullOrEmpty(header.LrmVersion) || String.IsNullOrEmpty(header.BoundaryString))
+                            throw new CompressionException(Properties.CompressionResources.LRMRequiredHeadersMissing);
+
+                        break;
+                    }
+                    else // Parse the read-in line
+                        header.ParseMimeHeader(line);
+
+                } 
+
+                #endregion
+
+               
+                // Parsing of the message parts
+                bool prematureFileEnd = true;
+                while ((line = lrmFileCharReader.ReadLine()) != null && !String.IsNullOrEmpty(line))
+                {
+                    //Parsing message part header
+                    pos += line.ToCharArray().Length + 2;
+                    line = line.Trim();
+                    string relativeActivityPath = null;
+                    bool isEncoded = false;
+                    int messageLength = 0;
+                    if (line.StartsWith("Content-Location"))
+                    {
+                        relativeActivityPath = line.Substring(17).Trim();
+                        if ((line = lrmFileCharReader.ReadLine()) != null)
+                        {
+                            pos += line.ToCharArray().Length + 2;
+                            if (line.StartsWith("X-Enc"))
                             {
+                                string encodingInfo = line.Substring(6).Trim();
+                                string[] encodingInfoParts = encodingInfo.Split('/');
+                                if (encodingInfoParts[0].Equals("1"))
+                                    isEncoded = true;
+                                //Assumption: The unencoded length should not be empty. Code should change if this is a wrong assumption
+                                if (encodingInfoParts.Length < 2 || String.IsNullOrEmpty(encodingInfoParts[1]))
+                                    throw new CompressionException(Properties.CompressionResources.LRMImproperXencValue);
+                                messageLength = Int32.Parse(encodingInfoParts[1], System.Globalization.NumberFormatInfo.CurrentInfo);
+
+                                // Read the following empty line
+                                if ((line = lrmFileCharReader.ReadLine()) != null)
+                                {
+                                    pos += line.ToCharArray().Length + 2;
+                                    // If the line is non-empty error
+                                    if (line.Trim().Length > 0)
+                                        throw new CompressionException(Properties.CompressionResources.LRMCorruptFile);
+                                }
+                                else
+                                    break;
+                            }
+                            else if (line.Trim().Length > 0)
+                                throw new CompressionException(Properties.CompressionResources.LRMCorruptFile);
+                        }
+                        else
+                            break;
+                    }
+                    else if (line.StartsWith("X-Enc"))
+                    {
+                        string encodingInfo = line.Substring(6).Trim();
+                        string[] encodingInfoParts = encodingInfo.Split('/');
+                        if (encodingInfoParts[0].Equals("1"))
+                            isEncoded = true;
+                        else
+                            throw new CompressionException(Properties.CompressionResources.LRMUnrecognizedEncoding);
+                        //Assumption: The unencoded length should not be empty. Code should change if this is wrong
+                        if (encodingInfoParts.Length < 2 || String.IsNullOrEmpty(encodingInfoParts[1]) == true)
+                            throw new CompressionException(Properties.CompressionResources.LRMImproperXencValue);
+                        messageLength = Int32.Parse(encodingInfoParts[1], System.Globalization.NumberFormatInfo.CurrentInfo);
+
+                        if ((line = lrmFileCharReader.ReadLine()) != null)
+                        {
+                            pos += line.ToCharArray().Length + 2;
+                            if (line.StartsWith("Content-Location"))
+                            {
+                                relativeActivityPath = line.Substring(17).Trim();
+
+                                // Read the following empty line
+                                line = lrmFileCharReader.ReadLine();
                                 pos += line.ToCharArray().Length + 2;
                                 // If the line is non-empty error
                                 if (line.Trim().Length > 0)
                                     throw new CompressionException(Properties.CompressionResources.LRMCorruptFile);
+
                             }
                             else
-                                break;
-                        }
-                        else if (line.Trim().Length > 0)
-                            throw new CompressionException(Properties.CompressionResources.LRMCorruptFile);
-                    }
-                    else
-                        break;
-                }
-                else if (line.StartsWith("X-Enc"))
-                {
-                    string encodingInfo = line.Substring(6).Trim();
-                    string[] encodingInfoParts = encodingInfo.Split('/');
-                    if (encodingInfoParts[0].Equals("1"))
-                        isEncoded = true;
-                    else
-                        throw new CompressionException(Properties.CompressionResources.LRMUnrecognizedEncoding);
-                    //Assumption: The unencoded length should not be empty. Code should change if this is wrong
-                    if (encodingInfoParts.Length < 2 || String.IsNullOrEmpty(encodingInfoParts[1]) == true)
-                        throw new CompressionException(Properties.CompressionResources.LRMImproperXencValue);
-                    messageLength = Int32.Parse(encodingInfoParts[1], System.Globalization.NumberFormatInfo.CurrentInfo);
-
-                    if ((line = lrmFileCharReader.ReadLine()) != null)
-                    {
-                        pos += line.ToCharArray().Length + 2;
-                        if (line.StartsWith("Content-Location"))
-                        {
-                            relativeActivityPath = line.Substring(17).Trim();
-
-                            // Read the following empty line
-                            line = lrmFileCharReader.ReadLine();
-                            pos += line.ToCharArray().Length + 2;
-                            // If the line is non-empty error
-                            if (line.Trim().Length > 0)
                                 throw new CompressionException(Properties.CompressionResources.LRMCorruptFile);
-
                         }
                         else
-                            throw new CompressionException(Properties.CompressionResources.LRMCorruptFile);
+                            break;
                     }
                     else
-                        break;
-                }
-                else
-                    throw new CompressionException(Properties.CompressionResources.LRMCorruptFile);
+                        throw new CompressionException(Properties.CompressionResources.LRMCorruptFile);
 
-                //Message Part header parsing done
-      
-                //Create the filestream corresponding to the current Activity
-                String fullActivityPath = Path.Combine(destinationDirectory.FullName, relativeActivityPath);
-                Directory.CreateDirectory(Path.GetDirectoryName(fullActivityPath));
-                FileStream activityFile = new FileStream(fullActivityPath, FileMode.Create, FileAccess.Write);
-                
-
-                #region ParseMimeMessagePartBody
-                // Parsing Message Part Body
-                // Assumption: We can hold the whole message part in memory
-
-                //Read every 'CBytesPerRead' characters into buffer and search for the boundary string
-                int CBytesPerRead = 4000;
-                bool isBoundaryStringFound = false;
-
-                // The Message Part body is raw binary and hence we use the underlying BaseStream
-                lrmFileCharReader.DiscardBufferedData();
-                Stream lrmReader = lrmFileCharReader.BaseStream;
-
-                // Seek to the start of the message part body
-                lrmReader.Seek(pos, SeekOrigin.Begin);
-
-                long startpos = lrmReader.Position;
-                long endpos = 0;
-                while (isBoundaryStringFound == false)
-                {
-                    byte[] buffer = new byte[CBytesPerRead];
-                    int bytesread = lrmReader.Read(buffer, 0, buffer.Length);
-                    if (bytesread == header.BoundaryString.Length)
-                        throw new CompressionException(Properties.CompressionResources.LRMPrematureFileEnd);
-
-                    char[] cbuffer = new char[CBytesPerRead];
-                    buffer.CopyTo(cbuffer, 0);
-
-                    int curMesgBoundary = -1;
-                    string cbufferStr = new string(cbuffer);
-
-                    if ((curMesgBoundary = cbufferStr.IndexOf("--" + header.BoundaryString)) != -1)
+                    //Message Part header parsing done
+          
+                    //Create the filestream corresponding to the current Activity
+                    String fullActivityPath = Path.Combine(destinationDirectory.FullName, relativeActivityPath);
+                    Directory.CreateDirectory(Path.GetDirectoryName(fullActivityPath));
+                    using (FileStream activityFile = new FileStream(fullActivityPath, FileMode.Create, FileAccess.Write))
                     {
-                        isBoundaryStringFound = true;
-                        endpos = lrmReader.Position - (bytesread - curMesgBoundary) - 2;
-                    }
-                    else
-                    {
-                        // Seek behind boundaryString characters to make sure it is not missed due to fragmentation
-                        lrmReader.Seek(-header.BoundaryString.Length, SeekOrigin.Current);
-                    }
-                }
+                        #region ParseMimeMessagePartBody
+                        // Parsing Message Part Body
+                        // Assumption: We can hold the whole message part in memory
 
-                // bytes between 'startpos' and 'endpos' hold the message part body
-                lrmReader.Seek(startpos, SeekOrigin.Begin);
-                byte[] ActivityData = new byte[endpos - startpos];
-                lrmFileCharReader.BaseStream.Read(ActivityData, 0, ActivityData.Length);
+                        //Read every 'CBytesPerRead' characters into buffer and search for the boundary string
+                        int CBytesPerRead = 4000;
+                        bool isBoundaryStringFound = false;
 
-                //Read the following boundary string
-                lrmFileCharReader.BaseStream.Seek(header.BoundaryString.Length + 6, SeekOrigin.Current);
-                        // + 6 includes - 2 CRLFs and 2 '-'
-                pos = lrmFileCharReader.BaseStream.Position;
-                prematureFileEnd = false;
+                        // The Message Part body is raw binary and hence we use the underlying BaseStream
+                        lrmFileCharReader.DiscardBufferedData();
+                        Stream lrmReader = lrmFileCharReader.BaseStream;
 
+                        // Seek to the start of the message part body
+                        lrmReader.Seek(pos, SeekOrigin.Begin);
 
-                if (isEncoded) //the stream is encoded
-                {
-                    
-                    // Call the internal MRCI decompression module to decode the stream
-                    byte[] decodedOutput = new byte[messageLength];
-                    
-                    unsafe
-                    {
-                        fixed (byte* srcPtr = ActivityData) fixed (byte* desPtr = decodedOutput)
+                        long startpos = lrmReader.Position;
+                        long endpos = 0;
+                        while (isBoundaryStringFound == false)
                         {
-                            long retval = MRCI.MRCIDecompress((IntPtr)srcPtr, ActivityData.Length, (IntPtr)desPtr, messageLength); 
-                            if (retval != 0)
-                            {
-                                if (retval == 0x8007000E)
-                                    throw new CompressionException(Properties.CompressionResources.LRMExplodeOutOfMemory);
+                            byte[] buffer = new byte[CBytesPerRead];
+                            int bytesread = lrmReader.Read(buffer, 0, buffer.Length);
+                            if (bytesread == header.BoundaryString.Length)
+                                throw new CompressionException(Properties.CompressionResources.LRMPrematureFileEnd);
 
+                            char[] cbuffer = new char[CBytesPerRead];
+                            buffer.CopyTo(cbuffer, 0);
+
+                            int curMesgBoundary = -1;
+                            string cbufferStr = new string(cbuffer);
+
+                            if ((curMesgBoundary = cbufferStr.IndexOf("--" + header.BoundaryString)) != -1)
+                            {
+                                isBoundaryStringFound = true;
+                                endpos = lrmReader.Position - (bytesread - curMesgBoundary) - 2;
+                            }
+                            else
+                            {
+                                // Seek behind boundaryString characters to make sure it is not missed due to fragmentation
+                                lrmReader.Seek(-header.BoundaryString.Length, SeekOrigin.Current);
                             }
                         }
+
+                        // bytes between 'startpos' and 'endpos' hold the message part body
+                        lrmReader.Seek(startpos, SeekOrigin.Begin);
+                        byte[] ActivityData = new byte[endpos - startpos];
+                        lrmFileCharReader.BaseStream.Read(ActivityData, 0, ActivityData.Length);
+
+                        //Read the following boundary string
+                        lrmFileCharReader.BaseStream.Seek(header.BoundaryString.Length + 6, SeekOrigin.Current);
+                                // + 6 includes - 2 CRLFs and 2 '-'
+                        pos = lrmFileCharReader.BaseStream.Position;
+                        prematureFileEnd = false;
+
+
+                        if (isEncoded) //the stream is encoded
+                        {
+                            
+                            // Call the internal MRCI decompression module to decode the stream
+                            byte[] decodedOutput = new byte[messageLength];
+                            
+                            unsafe
+                            {
+                                fixed (byte* srcPtr = ActivityData) fixed (byte* desPtr = decodedOutput)
+                                {
+                                    long retval = MRCI.MRCIDecompress((IntPtr)srcPtr, ActivityData.Length, (IntPtr)desPtr, messageLength); 
+                                    if (retval != 0)
+                                    {
+                                        if (retval == 0x8007000E)
+                                            throw new CompressionException(Properties.CompressionResources.LRMExplodeOutOfMemory);
+
+                                    }
+                                }
+                            }
+                            try
+                            {
+                                activityFile.Write(decodedOutput, 0, messageLength);
+                                activityFile.Close();
+                            }
+                            catch (Exception e)
+                            {
+                                throw new CompressionException(Properties.CompressionResources.LRMExplodeCannotCreateOutput, e);
+                            }
+                        }
+                        else // the stream is not encoded
+                        {
+                            //Copy contents 
+                            try
+                            {
+                                activityFile.Write(ActivityData, 0, (int)(endpos - startpos));
+                                activityFile.Close();
+                            }
+                            catch (Exception e)
+                            {
+                                throw new CompressionException(Properties.CompressionResources.LRMExplodeCannotCreateOutput, e);
+                            }
+                        } 
+                        #endregion
                     }
-                    try
-                    {
-                        activityFile.Write(decodedOutput, 0, messageLength);
-                        activityFile.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        throw new CompressionException(Properties.CompressionResources.LRMExplodeCannotCreateOutput, e);
-                    }
+                   
                 }
-                else // the stream is not encoded
-                {
-                    //Copy contents 
-                    try
-                    {
-                        activityFile.Write(ActivityData, 0, (int)(endpos - startpos));
-                        activityFile.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        throw new CompressionException(Properties.CompressionResources.LRMExplodeCannotCreateOutput, e);
-                    }
-                } 
-                #endregion
-               
+
+                if (prematureFileEnd == true)
+                    throw new CompressionException(Properties.CompressionResources.LRMPrematureFileEnd);
+                lrmFileCharReader.Close();
             }
-            if (prematureFileEnd == true)
-                throw new CompressionException(Properties.CompressionResources.LRMPrematureFileEnd);
-            lrmFileCharReader.Close();
         }
 
     }
