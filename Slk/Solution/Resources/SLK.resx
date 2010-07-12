@@ -117,37 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DropBoxbreakinhereitanceFeature" xml:space="preserve">
-    <value>DropBox Break Inhereitance</value>
+
+  <!-- ELearning Actions Feature -->
+  <data name="ELearningFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit</value>
   </data>
-  <data name="DropBoxDocLibFeature" xml:space="preserve">
-    <value>DropBox Document Library</value>
+  <data name="ELearningFeatureDescription" xml:space="preserve">
+    <value>Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be launched directly by learners or assigned by instructors.</value>
   </data>
-  <data name="DropBoxDocLibInstanceFeature" xml:space="preserve">
-    <value>DropBox Document Library Instance</value>
+  <data name="ELearningCustomActionTitle" xml:space="preserve">
+    <value>E-Learning Actions</value>
   </data>
-  <data name="DropBoxDocLibDisplayName" xml:space="preserve">
-    <value>DropBox Document Library</value>
+
+  <!-- SelfAssign Feature -->
+  <data name="AssignSelfFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit - Assign Self</value>
   </data>
-  <data name="DropBoxInsTitle" xml:space="preserve">
-    <value>DropBox Document</value>
+  <data name="AssignSelfFeatureDescription" xml:space="preserve">
+    <value>Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be launched directly by learners.</value>
   </data>
-  <data name="DropBoxDocLibTitle" xml:space="preserve">
-    <value>DropBox Document</value>
+  <data name="AssignSelfCustomActionTitle" xml:space="preserve">
+    <value>Assign To Self</value>
   </data>
-  <data name="DropBoxDocLibAssignmentGUID" xml:space="preserve">
-    <value>Assignment GUID</value>
+
+  <!-- SiteAssign Feature -->
+  <data name="AssignSiteFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit - Assign to Site</value>
   </data>
-  <data name="DropBoxDocLibFileName" xml:space="preserve">
-    <value>File name</value>
+  <data name="AssignSiteFeatureDescription" xml:space="preserve">
+    <value>Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be assigned by instructors directly to this site.</value>
   </data>
-  <data name="DropBoxDocLibIsLatest" xml:space="preserve">
-    <value>Is Latest</value>
+  <data name="AssignSiteCustomActionTitle" xml:space="preserve">
+    <value></value>
   </data>
-  <data name="DropBoxDocLibLearnerID" xml:space="preserve">
-    <value>Learner ID</value>
+
+  <!-- Admin Feature -->
+  <data name="AdminFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit Administration</value>
   </data>
-  <data name="DropBoxListTitle" xml:space="preserve">
-    <value>SLK Drop Box</value>
+  <data name="AdminCustomActionGroupTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit Configuration</value>
   </data>
+  <data name="AdminCustomActionTitle" xml:space="preserve">
+    <value>Configure SharePoint Learning Kit</value>
+  </data>
+
 </root>

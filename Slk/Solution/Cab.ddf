@@ -101,8 +101,8 @@ Features\AdminFeature\feature.xml                    SharePointLearningKitAdmin\
 ..\App\Include\QuerySet.js                           Layouts\SharePointLearningKit\Include\QuerySet.js
 ..\App\QuerySummary.aspx                             Layouts\SharePointLearningKit\QuerySummary.aspx
 ..\App\Include\Styles.css                            Layouts\SharePointLearningKit\Include\Styles.css
-Features\AppFeature\elements.xml                           SharePointLearningKit\elements.xml
-Features\AppFeature\feature.xml                            SharePointLearningKit\feature.xml
+Features\AppFeature\ELearningActions\elements.xml                           SharePointLearningKit\elements.xml
+Features\AppFeature\ELearningActions\feature.xml                            SharePointLearningKit\feature.xml
 Features\AppFeature\AssignSelf\elements.xml                           SharePointLearningKitAssignSelf\elements.xml
 Features\AppFeature\AssignSelf\feature.xml                            SharePointLearningKitAssignSelf\feature.xml
 Features\AppFeature\AssignSite\elements.xml                           SharePointLearningKitAssignSite\elements.xml
@@ -118,6 +118,6 @@ Build\Microsoft.LearningComponents.Storage.dll       Microsoft.LearningComponent
 Build\Microsoft.SharePointLearningKit.dll            Microsoft.SharePointLearningKit.dll
 ..\..\References\ICSharpCode.SharpZipLib.dll         ICSharpCode.SharpZipLib.dll
 SiteMaps\layouts.sitemap.SharePointLearningKit.xml            Layouts\layouts.sitemap.SharePointLearningKit.xml
-..\SLK.resx                                          Resources\SLK.resx
+Resources\SLK.resx                                          Resources\SLK.resx
 manifest.xml                                         manifest.xml
 ;*** <the end>
