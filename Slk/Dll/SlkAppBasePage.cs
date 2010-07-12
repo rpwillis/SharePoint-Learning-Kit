@@ -34,7 +34,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 /// based on this class.
 /// </summary>
 ///
-public class SlkAppBasePage : System.Web.UI.Page
+public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase 
 {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Private Fields
