@@ -14,8 +14,8 @@ using System;
 [assembly: Guid("3581f53e-1ec6-41e3-86bf-5c327e55cdaa")]
 
 // Version information
-// AssemblyVersion comes from ..\..\Src\Shared\Version.cs
-// AssemblyFileVersion comes from ..\..\Src\Shared\FileVersion.cs
+[assembly: System.Reflection.AssemblyVersion("1.3.1.0")]
+[assembly: System.Reflection.AssemblyFileVersion("1.5.0.0")]
 
 // Other general attributes
 [assembly: AssemblyTitle("Microsoft SharePoint Learning Kit Module")]
