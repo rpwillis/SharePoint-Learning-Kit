@@ -3188,6 +3188,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SharePoint Foundation.
+        /// </summary>
+        internal static string SharePoint2010LogSource {
+            get {
+                return ResourceManager.GetString("SharePoint2010LogSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SharePoint farm not found.
         /// </summary>
         internal static string SharePointFarmNotFound {

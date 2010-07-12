@@ -50,6 +50,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>   
         Guid? m_spWebScopeMacro;
 
+
         SlkStore m_observerRoleLearnerStore;
 
         #endregion
@@ -98,7 +99,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 string querySetName = QueryString.ParseString(QueryStringKeys.QuerySet);
 
                 //Get the Visibility 
-                string spWebScope = QueryString.ParseString(QueryStringKeys.SPWebScope);
+                string spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
                 m_spWebScopeMacro = (spWebScope == null) ? (Guid?)null : (new Guid(spWebScope));
 
                 // create a job for executing the queries specified by <querySetDef>
@@ -145,11 +146,18 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     RenderQueryCounts(querySetDef, numberOfQueries, results);
                 }
-
             }
             catch (Exception ex)
             {
-                SlkError.WriteToEventLog(ex);
+                Response.Write(ex.ToString());
+                try
+                {
+                    SlkError.WriteToEventLog(ex);
+                }
+                catch (Exception exe)
+                {
+                Response.Write(exe.ToString());
+                }
             }
 
         }
