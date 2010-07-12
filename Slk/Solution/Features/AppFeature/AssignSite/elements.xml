@@ -2,7 +2,8 @@
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
 	
     <CustomAction Id="{cec4775d-58cf-4fe3-ab57-ce73799ea18c}"
-			   Title="Assign To Site"
+			   Title="$Resources:AssignSiteCustomActionTitle"
+                           DefaultResourceFile="SLK"
 			   Location="DisplayFormToolbar"
 			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
 			   RegistrationType="List"
@@ -10,7 +11,8 @@
 		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?Action=AssignSite&amp;ListId={ListId}&amp;ItemId={ItemId}"/>
 	</CustomAction>
     <CustomAction Id="{cec4775d-58cf-4fe3-ab57-ce73799ea18c}"
-			   Title="Assign To Site"
+			   Title="$Resources:AssignSiteCustomActionTitle"
+                           DefaultResourceFile="SLK"
 			   Location="EditControlBlock"
 			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
 			   RegistrationType="List"

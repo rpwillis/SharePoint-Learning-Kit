@@ -2,8 +2,10 @@
 <Feature xmlns="http://schemas.microsoft.com/sharepoint/"
                 Id="fcef4757-bc3f-42c0-8a37-a09e010fcd57"
 		Scope="Web"
-		Title="SharePoint Learning Kit - Assign Self"
-		Description="Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be launched directly by learners." > 
+		Title="$Resources:AssignSelfFeatureTitle"
+		Description="$Resources:AssignSelfFeatureDescription"
+                DefaultResourceFile="SLK"
+                >
 		 
 	<ElementManifests>
 		<ElementManifest Location="elements.xml"/>
