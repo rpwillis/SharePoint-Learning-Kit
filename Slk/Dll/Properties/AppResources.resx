@@ -164,6 +164,10 @@
     <value>Windows SharePoint Services 3</value>
     <comment>must be what appears in the Source column of Event Viewer for SharePoint event log entries</comment>
   </data>
+  <data name="SharePoint2010LogSource" xml:space="preserve">
+    <value>SharePoint Foundation</value>
+    <comment>must be what appears in the Source column of Event Viewer for SharePoint event log entries</comment>
+  </data>
   <data name="SelectSiteCollectionHtml" xml:space="preserve">
     <value>Please select a Site Collection</value>
   </data>

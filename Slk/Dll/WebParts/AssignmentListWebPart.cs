@@ -80,7 +80,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         public override void PartCommunicationInit()
         {
             //Initialize the learner id
-            m_observerRoleLearnerLogin = "";
+            observerRoleLearnerLogin = "";
 
             InitializeLearnerKey();
             //If the connection wasn't actually formed then don't want to send Init event
@@ -101,58 +101,57 @@ namespace Microsoft.SharePointLearningKit.WebParts
         public void CellProviderInit(object sender, CellProviderInitEventArgs cellProviderInitArgs)
         {
             //Callback on the Cell Provider's initialization
-            m_observerRoleLearnerLogin = "";
+            observerRoleLearnerLogin = "";
 
             InitializeLearnerKey();
         }
         public void CellReady(object sender, CellReadyEventArgs cellReadyArgs)
         {
-            m_observerRoleLearnerLogin = "";
+            observerRoleLearnerLogin = "";
 
             InitializeLearnerKey();
             // On CellReady, validate and set the learner's login id
             if (cellReadyArgs.Cell != null)
             {
-                m_observerRoleLearnerLogin = cellReadyArgs.Cell.ToString();
+                observerRoleLearnerLogin = cellReadyArgs.Cell.ToString();
             }
         }
         #endregion
 
- 
-
         #region Private Variables
+        string frameId = "Frame" + Guid.NewGuid().ToString().Replace("-", "");
         /// <summary>
         /// Holds List Scope - "Only Show Assignments for this Site" web part property
         /// </summary>
-        private bool m_listScope;
+        private bool listScope;
         /// <summary>
         /// Holds Display Summary - "Show Summary" web part property
         /// </summary>
-        private bool m_displaySummary;
+        private bool displaySummary;
         /// <summary>
         /// Holds Summary Width
         /// </summary>
-        private Unit m_summaryWidth;
+        private Unit summaryWidth;
         /// <summary>
         /// Holds query Set Override
         /// </summary>
-        private string m_querySetOverride;
+        private string querySetOverride;
         /// <summary>
         /// Stores the default Query Name - comes from the SLK Settings file
         /// </summary>
-        private string m_defaultQueryName;
+        private string defaultQueryName;
         /// <summary>
         /// Stores Current SPWeb
         /// </summary>
-        private SPWeb m_spWeb;
+        private SPWeb spWeb;
         /// <summary>
         /// Stores the SlkStore
         /// </summary>
-        private SlkStore m_slkStore;
+        private SlkStore slkStore;
         ///<summary>
         /// Stores the input learner login in the case of the observer mode
         ///</summary>
-        private string m_observerRoleLearnerLogin;
+        private string observerRoleLearnerLogin;
 
         #endregion
 
@@ -167,8 +166,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             // Initialize private variables.
 
-            m_displaySummary = true;
-            m_listScope = true;
+            displaySummary = true;
+            listScope = true;
 
             //Sets the WepPart Properties.
             this.Title = AppResources.AlwpWepPartTitle;
@@ -192,8 +191,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
          AlwpWebDescription("AlwpListScopeDescription")]
         public bool ListScope
         {
-            get { return m_listScope; }
-            set { m_listScope = value; }
+            get { return listScope; }
+            set { listScope = value; }
         }
 
         /// <summary>
@@ -204,8 +203,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
          AlwpWebDescription("AlwpDisplaySummaryDescription")]
         public bool DisplaySummary
         {
-            get { return m_displaySummary; }
-            set { m_displaySummary = value; }
+            get { return displaySummary; }
+            set { displaySummary = value; }
         }
 
         /// <summary>
@@ -218,19 +217,17 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             get
             {
-                if (m_summaryWidth == null ||
-                    m_summaryWidth.IsEmpty)
+                if (summaryWidth == null || summaryWidth.IsEmpty)
                 {
-                    m_summaryWidth =
-                        new Unit(Constants.SummaryFrameWidth, UnitType.Pixel);
+                    summaryWidth = new Unit(Constants.SummaryFrameWidth, UnitType.Pixel);
                 }
-                return m_summaryWidth;
+                return summaryWidth;
             }
             set 
             {
                 if (value.IsEmpty || value.Value > 0)
                 {
-                    m_summaryWidth = value;
+                    summaryWidth = value;
                 }
                 else
                 {
@@ -248,8 +245,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
          AlwpWebDescription("AlwpQuerySetOverrideDescription")]
         public string QuerySetOverride
         {
-            get { return m_querySetOverride; }
-            set { m_querySetOverride = SlkUtilities.GetHtmlEncodedText(value); }
+            get { return querySetOverride; }
+            set { querySetOverride = SlkUtilities.GetHtmlEncodedText(value); }
         }
 
         /// <summary>
@@ -268,9 +265,9 @@ namespace Microsoft.SharePointLearningKit.WebParts
             get
             {
                 //Gets the Current SPWeb Object               
-                if (m_spWeb == null)
-                    m_spWeb = SlkUtilities.GetCurrentSPWeb();
-                return m_spWeb;
+                if (spWeb == null)
+                    spWeb = SlkUtilities.GetCurrentSPWeb();
+                return spWeb;
             }
         }
 
@@ -281,9 +278,9 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             get
             {
-                if (m_slkStore == null)
-                    m_slkStore = SlkStore.GetStore(SPWeb);
-                return m_slkStore;
+                if (slkStore == null)
+                    slkStore = SlkStore.GetStore(SPWeb);
+                return slkStore;
             }
         }
 
@@ -302,9 +299,11 @@ namespace Microsoft.SharePointLearningKit.WebParts
             //Check for Current User and QuerySet Values              
 
             if (SPWeb.CurrentUser == null)
+            {
                 throw new UserNotFoundException(AppResources.SlkExUserNotFound);
+            }
 
-            if (!String.IsNullOrEmpty(SlkUtilities.Trim(QuerySetOverride)))
+            if (String.IsNullOrEmpty(SlkUtilities.Trim(QuerySetOverride)) == false)
             {
                 // set <querySetDef> to the QuerySetDefinition named <querySetName>
 
@@ -317,7 +316,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 }
                 else
                 {
-                    m_defaultQueryName = querySetDef.DefaultQueryName;
+                    defaultQueryName = querySetDef.DefaultQueryName;
                 }
             }
 
@@ -392,17 +391,15 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// <param name="htmlTextWriter">HtmlTextWriter</param>                      
         private void RenderAssignmentList(HtmlTextWriter htmlTextWriter)
         {
-            // set <showSummary> and <showList> to indicate whether the summary and/or list cell should
-            // be made visible 
+            int cols = DisplaySummary ? 2 : 1;           
 
-            int cols; // number of columns of outer table
-       
-            SetAlwpProperties(out cols);
+            //Set the QuerySetOverride Property
+            DefaultQuerySetIfRequired();
 
             //Validates the Alwp Properties 
             ValidateAlwpProperties();
 
-            string observerRoleLearnerKey = GetLearnerKey(m_observerRoleLearnerLogin);
+            string observerRoleLearnerKey = GetLearnerKey(observerRoleLearnerLogin);
 
             //Adjust the Height to Fit width of zone
 
@@ -420,132 +417,46 @@ namespace Microsoft.SharePointLearningKit.WebParts
             // create a unique name for the query results iframe based on
             // the web part's GUID. test this by having two ALWP web parts on the same page 
             //and ensuring that selecting a query in one doesn't affect the other and vice versa
-            string FrameId = "Frame" + Guid.NewGuid().ToString().Replace("-", "");
 
             // write a comment to help locate this Web Part when viewing HTML source
             htmlTextWriter.Write("<!-- Begin ALWP -->");
-            htmlTextWriter.WriteLine();
+            htmlTextWriter.Write("<table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" border=\"0\" style=\"");
+            htmlTextWriter.Write(wpHeightStyle);
+            htmlTextWriter.Write("\">");
+					
+            htmlTextWriter.Write("<tr valign=\"top\">");
 
-            // render the "<table>" element and its contents
-            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
-            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
-            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
-            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Border, "0");
-            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, wpHeightStyle);
-            using (new HtmlBlock(HtmlTextWriterTag.Table, 1, htmlTextWriter))
+            StringBuilder queryString = BaseQueryString();
+
+            string queryResultsUrl;
+            if (DisplaySummary)
             {
-                // render the main row
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Valign, "top");
+                queryString.AppendFormat("&{0}={1}", QueryStringKeys.QuerySet, QuerySetOverride);
+                queryResultsUrl = SlkUtilities.UrlCombine(SPWeb.Url, Constants.BlankGifUrl);
 
-                using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, htmlTextWriter))
-                {
-                    StringBuilder url = new StringBuilder(1000);
-
-                    //Append the SPWebScope to QueryString
-
-                    if (ListScope)
-                    {
-                        url.AppendFormat("&" + QueryStringKeys.SPWebScope + "={0}", 
-                                         SPWeb.ID.ToString());
-                    }
-                    url.AppendFormat("&" + QueryStringKeys.FrameId + "={0}", FrameId);
-
-                    // begin the summary views outer cell
-                    if (DisplaySummary)
-                    {
-                        htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "width :" + 
-                                                    SummaryWidth.ToString(CultureInfo.InvariantCulture));
-                        htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
-                        using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
-                        {
-                            //Append the QuerySet to QueryString
-                            url.AppendFormat("&" + QueryStringKeys.QuerySet + "={0}", QuerySetOverride);
-
-                            string urlQueryString = url.ToString();
-
-                            if (urlQueryString.StartsWith("&", StringComparison.Ordinal))
-                                urlQueryString = Constants.QuestionMark + urlQueryString.Substring(1);
-
-                            // Get the ServerRelativeUrl for QueryResultPage 
-                            string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl,
-                                                    Constants.SlkUrlPath,
-                                                    Constants.QuerySetPage);
-
-                            //Append the QueryString Values
-                            urlString += urlQueryString;
-
-
-                            // write the summary cell 
-                            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "width :" +
-                                                        SummaryWidth.ToString(CultureInfo.InvariantCulture));
-                            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
-                            htmlTextWriter.AddAttribute("frameborder", "0");
-                            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Src, urlString);
-                            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Name,
-                                                        FrameId 
-                                                        + "_AlwpQuerySummary");
-                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Iframe, 1, htmlTextWriter);
-                        }
-                    }
-
-                    // write the query results list cell 
-
-                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
-                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
-                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
-                    {
-                        htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
-                        htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
-                        htmlTextWriter.AddAttribute("frameborder", "0");
-                        if (!DisplaySummary)
-                        {
-                            //Append the QuerySet to QueryString
-                            url.AppendFormat("&" + QueryStringKeys.Query + "={0}", m_defaultQueryName);
-
-                            string urlQueryString = url.ToString();
-
-                            if (urlQueryString.StartsWith("&", StringComparison.Ordinal))
-                                urlQueryString = Constants.QuestionMark + urlQueryString.Substring(1);
-
-                            // Get the ServerRelativeUrl for QueryResultPage 
-                            string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl,
-                                                    Constants.SlkUrlPath,
-                                                    Constants.QueryResultPage);
-
-                            //Append the QueryString Values
-                            urlString += urlQueryString;
-
-                            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Src, urlString);
-                        }
-                        else
-                        {
-                            string urlString = SlkUtilities.UrlCombine(SPWeb.Url, Constants.BlankGifUrl);
-                            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Src, urlString);
-                        }
-                        htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Name, FrameId);
-                        HtmlBlock.WriteFullTag(HtmlTextWriterTag.Iframe, 1, htmlTextWriter);
-                    }
-                }
-
-                // write a row containing a separator line
-                using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, htmlTextWriter))
-                {
-                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-partline");
-                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Colspan, 
-                                                cols.ToString(CultureInfo.InvariantCulture));
-                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
-                        HtmlBlock.WriteBlankGif("1", "1", htmlTextWriter);
-                }
-
-                // write a row that adds extra vertical space
-                using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, htmlTextWriter))
-                {
-                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Colspan, 
-                                                cols.ToString(CultureInfo.InvariantCulture));
-                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
-                        HtmlBlock.WriteBlankGif("1", "5", htmlTextWriter);
-                }
+                WriteSummary(htmlTextWriter, queryString.ToString());
             }
+            else
+            {
+                queryString.AppendFormat("&{0}={1}", QueryStringKeys.Query, defaultQueryName);
+                queryResultsUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, Constants.QueryResultPage);
+                queryResultsUrl += queryString.ToString();
+            }
+
+            WriteQueryResults(htmlTextWriter, queryResultsUrl);
+
+            htmlTextWriter.Write("</tr>");
+
+            // write a row containing a separator line
+            htmlTextWriter.Write("<tr><td class=\"ms-partline\" colspan=\"2\"><img src=\"");
+            htmlTextWriter.Write(Constants.BlankGifUrl);
+            htmlTextWriter.Write("\" width=\"1\" height=\"1\" alt=\"\" /></td></tr>");
+            // write a row that adds extra vertical space
+            htmlTextWriter.Write("<tr><td class=\"ms-partline\" colspan=\"2\"><img src=\"");
+            htmlTextWriter.Write(Constants.BlankGifUrl);
+            htmlTextWriter.Write("\" width=\"1\" height=\"1\" alt=\"\" /></td></tr>");
+
+            htmlTextWriter.Write("</table>");
 
             // write a comment to help locate this Web Part when viewing HTML source
             htmlTextWriter.Write("<!-- End ALWP -->");
@@ -554,30 +465,71 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
         #endregion
 
-        #region SetAlwpProperties
-        /// <summary>
-        ///  Setting AssignmentListWebPart Inputs
-        /// </summary>        
-        /// <param name="cols">No of Columns</param>
-        private void SetAlwpProperties(out int cols)
+        StringBuilder BaseQueryString()
         {
-            //Enable/disable Summary List depends on the WebPart Property
+            StringBuilder url = new StringBuilder(1000);
 
-            //isShowSummary = DisplaySummary;
-            //isShowList = true;
-            cols = DisplaySummary ? 2 : 1;           
+            url.AppendFormat("?{0}={1}", QueryStringKeys.FrameId, frameId);
 
-            //Set the QuerySetOverride Property
-            SetQuerySetOverride();
+            if (ListScope)
+            {
+                url.AppendFormat("&{0}={1}", QueryStringKeys.SPWebScope, SPWeb.ID.ToString());
+            }
+
+            return url;
         }
-        #endregion        
 
-        #region SetQuerySetOverride
+        void WriteQueryResults(HtmlTextWriter htmlTextWriter, string url)
+        {
+
+            htmlTextWriter.Write("<td width=\"100%\" height=\"100%\">");
+            WriteFrame(htmlTextWriter, url, String.Empty, true);
+            htmlTextWriter.Write("</td>");
+        }
+
+        void WriteSummary(HtmlTextWriter htmlTextWriter, string urlQueryString)
+        {
+
+            htmlTextWriter.Write("<td height=\"100%\" style=\"width :");
+            htmlTextWriter.Write(SummaryWidth.ToString(CultureInfo.InvariantCulture));
+            htmlTextWriter.Write("\">");
+
+            // Get the ServerRelativeUrl for QueryResultPage 
+            string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, Constants.QuerySetPage);
+
+            //Append the QueryString Values
+            urlString += urlQueryString;
+            WriteFrame(htmlTextWriter, urlString.ToString(), "_AlwpQuerySummary", false);
+        }
+
+        void WriteFrame(HtmlTextWriter htmlTextWriter, string url, string nameQualifier, bool fullWidth)
+        {
+            htmlTextWriter.Write("<iframe ");
+            if (fullWidth)
+            {
+                htmlTextWriter.Write("width=\"100%\" ");
+            }
+            else
+            {
+                htmlTextWriter.Write("\" style=\"width :");
+                htmlTextWriter.Write(SummaryWidth.ToString(CultureInfo.InvariantCulture));
+                htmlTextWriter.Write("\" ");
+            }
+            htmlTextWriter.Write(" height=\"100%\" frameborder=\"0\" src=\"");
+            htmlTextWriter.Write(url);
+            htmlTextWriter.Write("\" name=\"");
+            htmlTextWriter.Write(frameId);
+            htmlTextWriter.Write(nameQualifier);
+            htmlTextWriter.Write("\"></iframe>");
+            htmlTextWriter.Write("</td>");
+        }
+
+        #region DefaultQuerySetIfRequired
         /// <summary>
         /// Check the Current User Role and Set the
         /// Default QuerySet accrodingly    
         /// </summary>
-        private void SetQuerySetOverride()
+        private void DefaultQuerySetIfRequired()
         {
             //Override the QuerySet depends on the weppart property selection and role.
 
@@ -809,7 +761,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
     /// </summary>
     internal sealed class AlwpWebDescriptionAttribute : WebDescriptionAttribute
     {
-        private bool m_loadedResource;
+        private bool loadedResource;
 
         public AlwpWebDescriptionAttribute(string resourceId)
             : base(resourceId)
@@ -822,10 +774,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             get
             {
-                if (!m_loadedResource)
+                if (!loadedResource)
                 {
                     DescriptionValue = AppResources.ResourceManager.GetString(base.Description); 
-                    m_loadedResource = true;
+                    loadedResource = true;
                 }
                 return base.Description;
             }
@@ -837,7 +789,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
     /// </summary>
     internal sealed class AlwpWebDisplayNameAttribute : WebDisplayNameAttribute
     {
-        private bool m_loadedResource;
+        private bool loadedResource;
 
         public AlwpWebDisplayNameAttribute(string resourceId)
             : base(resourceId)
@@ -850,10 +802,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             get
             {
-                if (!m_loadedResource)
+                if (!loadedResource)
                 {
                     DisplayNameValue = AppResources.ResourceManager.GetString(base.DisplayName);
-                    m_loadedResource = true;
+                    loadedResource = true;
                 }
                 return base.DisplayName;
             }

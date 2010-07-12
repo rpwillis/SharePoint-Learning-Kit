@@ -98,45 +98,85 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
         {
             SlkUtilities.ImpersonateAppPool(delegate()
             {
-                using (EventLog eventLog = new EventLog())
-                {
-#if true
-                    // use SharePoint's event log source, since it already exists
-                    eventLog.Source = AppResources.WssEventLogSource;
-                    eventLog.WriteEntry(
-                                String.Format(CultureInfo.CurrentCulture, 
-                                              AppResources.AppError,
-                                              String.Format(CultureInfo.CurrentCulture, 
-                                              format, args)).Replace(@"\n", "\r\n"), 
-                                              EventLogEntryType.Error);
-#else
-                    // use an SLK event log source -- but this requires the administrator to
-                    // create a registry entry, since the application pool account typically
-                    // won't have the ability to do so
-                    eventLog.Source = AppResources.SlkEventLogSource;
-                    try
-                    {
-                        eventLog.WriteEntry(String.Format(format, args).Replace(@"\n", "\r\n"), type);
-                    }
-                    catch (System.Security.SecurityException)
-                    {
-                        throw new SafeToDisplayException(AppResources.EventLogNotConfigured);
-                        // AppResources.EventLogNotConfigured can contain this text:
-                        //
-                        // A serious error occurred.  Please contact your system administrator.
-                        //
-                        // Information about this error cannot be written to the system event log
-                        // because the event log is not configured correctly.  To correct this problem,
-                        // the system adminstrator must create a registry key named
-                        // "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Eventlog\Application\
-                        // SharePoint Learning Kit" and create a REG_EXPAND_SZ (Expandable String)
-                        // value named "EventMessageFile" with value "C:\WINNT\Microsoft.NET\Framework\
-                        // %FrameworkVersion%\EventLogMessages.dll" (without the quotes), on the web
-                        // server(s).
-                    }
-#endif
-                }
+                string message = String.Format(CultureInfo.CurrentCulture, AppResources.AppError, String.Format(CultureInfo.CurrentCulture, format, args));
+                message = message.Replace(@"\n", "\r\n");
+                WriteEvent(message, true);
             });
+        }
+
+        static string source;
+        static object lockObject = new object();
+
+        static void WriteEvent(string message, bool firstAttempt)
+        {
+            using (EventLog eventLog = new EventLog())
+            {
+#if true
+                // use SharePoint's event log source, since it already exists
+                if (string.IsNullOrEmpty(source))
+                {
+                    if (firstAttempt)
+                    {
+                        eventLog.Source = AppResources.WssEventLogSource;
+                    }
+                    else
+                    {
+                        eventLog.Source = AppResources.SharePoint2010LogSource;
+                    }
+                }
+                else
+                {
+                    eventLog.Source = source;
+                }
+
+                try
+                {
+                    eventLog.WriteEntry(message, EventLogEntryType.Error);
+
+                    if (string.IsNullOrEmpty(source))
+                    {
+                        lock (lockObject)
+                        {
+                            source = eventLog.Source;
+                        }
+                    }
+                }
+                catch (InvalidOperationException)
+                {
+                    if (firstAttempt && string.IsNullOrEmpty(source))
+                    {
+                        WriteEvent(message, false);
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    if (firstAttempt && string.IsNullOrEmpty(source))
+                    {
+                        WriteEvent(message, false);
+                    }
+                }
+                catch (System.Security.SecurityException)
+                {
+                    if (firstAttempt && string.IsNullOrEmpty(source))
+                    {
+                        WriteEvent(message, false);
+                    }
+                }
+#else
+                // use an SLK event log source -- but this requires the administrator to
+                // create a registry entry, since the application pool account typically
+                // won't have the ability to do so
+                eventLog.Source = AppResources.SlkEventLogSource;
+                try
+                {
+                    eventLog.WriteEntry(String.Format(format, args).Replace(@"\n", "\r\n"), type);
+                }
+                catch (System.Security.SecurityException)
+                {
+                    throw new SafeToDisplayException(AppResources.EventLogNotConfigured);
+                }
+#endif
+            }
         }
         #endregion
 

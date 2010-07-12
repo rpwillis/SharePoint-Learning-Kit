@@ -233,13 +233,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                                                 Constants.QuerySummaryPage);
 
                                         urlString
-                                            = String.Format(CultureInfo.InvariantCulture,
-                                                            "{0}" + Constants.QuestionMark + "{1}", 
-                                                            urlString,
+                                            = String.Format(CultureInfo.InvariantCulture, "{0}?{1}", urlString,
                                                             HttpContext.Current.Request.QueryString.ToString());
                                         
-                                        hw.AddAttribute(HtmlTextWriterAttribute.Src, urlString);
-                                        HtmlBlock.WriteFullTag(HtmlTextWriterTag.Iframe, 1, hw);
+                                        hw.Write("<iframe width=\"1\" height=\"1\" frameborder=\"0\" src=\"");
+                                        hw.Write(urlString);
+                                        hw.Write("\"></iframe>");
 
                                         // write script code that begins loading the query counts,
                                         // and provides other information to QuerySet.js
