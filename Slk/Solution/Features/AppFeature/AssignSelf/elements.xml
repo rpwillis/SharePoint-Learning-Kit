@@ -2,8 +2,7 @@
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
 	
         <CustomAction Id="{8cbcbbe4-0242-494d-8352-80c6dd55e46b}"
-			   Title="$Resources:AssignSelfCustomActionTitle"
-                           DefaultResourceFile="SLK"
+			   Title="$Resources:SLK,AssignSelfCustomActionTitle"
 			   Location="DisplayFormToolbar"
 			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
 			   RegistrationType="List"
@@ -11,8 +10,7 @@
 		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?Action=AssignSelf&amp;ListId={ListId}&amp;ItemId={ItemId}"/>
 	</CustomAction>
         <CustomAction Id="{8cbcbbe4-0242-494d-8352-80c6dd55e46b}"
-			   Title="$Resources:AssignSelfCustomActionTitle"
-                           DefaultResourceFile="SLK"
+			   Title="$Resources:SLK,AssignSelfCustomActionTitle"
 			   Location="EditControlBlock"
 			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
 			   RegistrationType="List"

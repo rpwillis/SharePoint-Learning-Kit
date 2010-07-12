@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<webParts>
+    <webPart xmlns="http://schemas.microsoft.com/WebPart/v3">
+        <metaData>
+         <type name="MisWebParts.WebParts.MyDetailsPart, MisWebParts.WebParts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5ac6b822f6f96e1d" />
+            <importErrorMessage>Cannot import this Web Part.</importErrorMessage>
+        </metaData>
+        <data>
+            <properties>
+                <property name="Title" type="string">$Resources:SLK,AssignmentListWebPartTitle</property>
+                <property name="Description" type="string">$Resources:SLK,AssignmentListWebPartDescription</property>
+                <property name="Group" type="string">$Resources:SLK,SharePointLearningKitWebPartsGroup</property>
+            </properties>
+        </data>
+    </webPart>
+</webParts>
