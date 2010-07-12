@@ -2,13 +2,14 @@
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
 	<CustomActionGroup Id="00057006-c978-11da-ba52-00042350e42e"
                Title="$Resources:SLK,AdminCustomActionGroupTitle"
-			   Location="Microsoft.SharePoint.Administration.ApplicationManagement"
+			   Location="Microsoft.SharePoint.Administration.Applications"
 			   Sequence="120" />
     <CustomAction Id="00057007-c978-11da-ba52-00042350e42e"
                Title="$Resources:SLK,AdminCustomActionTitle"
 			   Sequence="10"
+                           RequireSiteAdministrator="True"
 			   GroupId="00057006-c978-11da-ba52-00042350e42e"
-			   Location="Microsoft.SharePoint.Administration.ApplicationManagement">
+			   Location="Microsoft.SharePoint.Administration.Applications">
 		<UrlAction Url="/_admin/SharePointLearningKit/Configure.aspx" />
 	</CustomAction>
 </Elements>
