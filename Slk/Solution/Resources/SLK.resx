@@ -162,4 +162,22 @@
     <value>Configure SharePoint Learning Kit</value>
   </data>
 
+  <!-- AssignmentList web part -->
+  <data name="AssignmentListWebPartFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit - Assignment List Web Part</value>
+  </data>
+  <data name="AssignmentListWebPartFeatureDescription" xml:space="preserve">
+    <value>Display the assignments for an instructor or learner.</value>
+  </data>
+  <data name="AssignmentListWebPartTitle" xml:space="preserve">
+    <value>Assignment List Web Part</value>
+  </data>
+  <data name="AssignmentListWebPartDescription" xml:space="preserve">
+    <value>Display the assignments for an instructor or learner.</value>
+  </data>
+
+  <data name="SharePointLearningKitWebPartsGroup" xml:space="preserve">
+    <value>SharePoint Learning Kit</value>
+  </data>
+
 </root>

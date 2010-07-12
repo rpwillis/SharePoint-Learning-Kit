@@ -124,6 +124,7 @@
 	  <TemplateFile Location="SharePointLearningKitAdmin\feature.xml" />
 	</TemplateFiles>
       <FeatureManifests>
+		<FeatureManifest Location="SharePointLearningKitWebParts\feature.xml"/>
 		<FeatureManifest Location="SharePointLearningKit\feature.xml"/>
 		<FeatureManifest Location="SharePointLearningKitAssignSelf\feature.xml"/>
 		<FeatureManifest Location="SharePointLearningKitAssignSite\feature.xml"/>
