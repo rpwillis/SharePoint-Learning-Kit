@@ -748,7 +748,6 @@ namespace Microsoft.SharePointLearningKit
 
         public static void Debug(string message, params object[] arguments)
         {
-
             /*
             try
             {

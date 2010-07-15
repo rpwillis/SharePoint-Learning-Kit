@@ -148,7 +148,7 @@
     <value>Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be assigned by instructors directly to this site.</value>
   </data>
   <data name="AssignSiteCustomActionTitle" xml:space="preserve">
-    <value></value>
+    <value>Assign to Site</value>
   </data>
 
   <!-- Admin Feature -->
