@@ -128,7 +128,7 @@ namespace Microsoft.SharePointLearningKit
             string fileUrl = folder.Url + '/' + fileName;
 
             SPFile file = folder.Files.Add(fileUrl, fileStream, true);
-            file = folder.Files[fileUrl];
+
             file.Item[DropBox.ColumnAssignmentDate] = properties.StartDate;
             file.Item[DropBox.ColumnAssignmentName] = properties.Title.Trim();
             file.Item[DropBox.ColumnAssignmentId] = properties.Id.GetKey();
