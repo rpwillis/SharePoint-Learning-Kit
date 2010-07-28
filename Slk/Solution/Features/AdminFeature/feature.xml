@@ -2,7 +2,7 @@
 <Feature xmlns="http://schemas.microsoft.com/sharepoint/"
 		 Id="00057005-c978-11da-ba52-00042350e42e"
 		 Scope="WebApplication"
-                 Hidden="false"
+                 Hidden="true"
 		 Title="$Resources:SLK,AdminFeatureTitle"
 		 AutoActivateInCentralAdmin="TRUE">
 	<ElementManifests>

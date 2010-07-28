@@ -22,6 +22,8 @@ namespace Microsoft.SharePointLearningKit
         AssignmentProperties assignmentProperties;
 
 #region constructors
+        /// <summary>Initializes a new instance of <see cref="DropBoxManager"/>.</summary>
+        /// <param name="assignmentProperties">The assignment properties.</param>
         public DropBoxManager(AssignmentProperties assignmentProperties)
         {
             this.assignmentProperties = assignmentProperties;
@@ -45,9 +47,8 @@ namespace Microsoft.SharePointLearningKit
 #endregion properties
 
 #region public methods
-        /// <summary>
-        /// Updates permissions of Drop Box assignment folder corresponding to item
-        /// </summary>
+        /// <summary>Sets the correct permissions when the item is collected.</summary>
+        /// <param name="learnerId">The id of the learner.</param>
         public void ApplyCollectAssignmentPermissions(long learnerId)
         {
             // If the assignment is auto return, the learner will still be able to view the drop box assignment files
@@ -61,24 +62,22 @@ namespace Microsoft.SharePointLearningKit
             ApplyAssignmentPermission(learnerId, learnerPermissions, SPRoleType.Contributor, true);
         }
 
-        /// <summary>
-        /// Updates permissions of Drop Box assignment folder corresponding to item
-        /// </summary>
-        /// <param name="item">The current learning item</param>
+        /// <summary>Sets the correct permissions when the item is returned to the learner.</summary>
+        /// <param name="learnerId">The id of the learner.</param>
         public void ApplyReturnAssignmentPermission(long learnerId)
         {
             ApplyAssignmentPermission(learnerId, SPRoleType.Reader, SPRoleType.Reader, false);
         }
 
-        /// <summary>
-        /// Updates permissions of Drop Box assignment folder corresponding to item
-        /// </summary>
-        /// <param name="item">The current learning item</param>
+        /// <summary>Sets the correct permissions when the item is reactivated.</summary>
+        /// <param name="learnerId">The id of the learner.</param>
         public void ApplyReactivateAssignmentPermission(long learnerId)
         {
             ApplyAssignmentPermission(learnerId, SPRoleType.Contributor, SPRoleType.Reader, true);
         }
 
+        /// <summary>Copies the original file to the student's drop box.</summary>
+        /// <returns>The url of the file.</returns>
         public string CopyFileToDropBox()
         {
             string url = null;
@@ -148,6 +147,9 @@ namespace Microsoft.SharePointLearningKit
             return url;
         }
 
+        /// <summary>Uploads files to the learner's drop box.</summary>
+        /// <param name="learnerAssignmentProperties">The learner's assignment properties.</param>
+        /// <param name="files">The files to upload.</param>
         public void UploadFiles(LearnerAssignmentProperties learnerAssignmentProperties, AssignmentUpload[] files)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
@@ -227,45 +229,12 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Returns all files for an assignment grouped by learner.</summary>
         public Dictionary<string, List<SPFile>> AllFiles()
         {
-            Dictionary<string, List<SPFile>> files = new Dictionary<string, List<SPFile>>();
             using (SPSite site = new SPSite(assignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
             {
                 using (SPWeb web = site.OpenWeb(assignmentProperties.SPWebGuid))
                 {
-                    SPList dropBox = DropBoxLibrary(web);
-
-                    string queryXml = @"<Where>
-                                        <And>
-                                            <Eq><FieldRef Name='{0}'/><Value Type='Text'>{1}</Value></Eq>
-                                            <Eq><FieldRef Name='{2}'/><Value Type='Boolean'>1</Value></Eq>
-                                        </And>
-                                     </Where>";
-                    queryXml = string.Format(CultureInfo.InvariantCulture, queryXml, DropBox.ColumnAssignmentId, assignmentProperties.Id.GetKey(), DropBox.ColumnIsLatest);
-                    SPQuery query = new SPQuery();
-                    query.ViewAttributes = "Scope=\"Recursive\"";
-                    query.Query = queryXml;
-                    SPListItemCollection items = dropBox.GetItems(query);
-
-                    SPFieldUser learnerField = (SPFieldUser)dropBox.Fields[DropBox.ColumnLearner];
-
-                    foreach (SPListItem item in items)
-                    {
-                        SPFile file = item.File;
-                        SPFieldUserValue learnerValue = (SPFieldUserValue) learnerField.GetFieldValue(item[DropBox.ColumnLearner].ToString());
-                        SPUser learner = learnerValue.User;
-
-                        List<SPFile> learnerFiles;
-                        string learnerAccount = learner.LoginName.Replace("\\", "-");
-                        if (files.TryGetValue(learnerAccount, out learnerFiles) == false)
-                        {
-                            learnerFiles = new List<SPFile>();
-                            files.Add(learnerAccount, learnerFiles);
-                        }
-
-                        learnerFiles.Add(item.File);
-                    }
-
-                    return files;
+                    DropBox dropBox = new DropBox(web);
+                    return dropBox.AllFiles(assignmentProperties.Id.GetKey());
                 }
             }
             
@@ -467,6 +436,24 @@ namespace Microsoft.SharePointLearningKit
             return assignmentFolder;
         }
 
+        /// <summary>Sets the correct permissions when the item is submitted.</summary>
+        /// <param name="web">The web the assignment is for.</param>
+        public void ApplySubmittedPermissions(SPWeb web)
+        {
+            DropBox dropBox = new DropBox(web);
+            AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
+            AssignmentFolder learnerSubFolder = null;
+
+            if (assignmentFolder == null)
+            {
+                assignmentFolder = dropBox.CreateAssignmentFolder(assignmentProperties);
+            }
+            else
+            {
+                learnerSubFolder = assignmentFolder.FindLearnerFolder(CurrentUser);
+                ApplySubmittedPermissions(assignmentFolder, learnerSubFolder);
+            }
+        }
 #endregion public methods
 
 #region private methods
@@ -621,34 +608,8 @@ namespace Microsoft.SharePointLearningKit
                 {
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        SPList dropBox = DropBoxLibrary(spWeb);
-
-                        string queryXml = @"<Where>
-                                            <And>
-                                                <Eq><FieldRef Name='{0}'/><Value Type='Text'>{1}</Value></Eq>
-                                                <Eq><FieldRef Name='{2}'/><Value Type='Text'>{3}</Value></Eq>
-                                            </And>
-                                         </Where>";
-                        queryXml = string.Format(CultureInfo.InvariantCulture, queryXml, DropBox.ColumnAssignmentId, assignmentProperties.Id.GetKey(), DropBox.ColumnLearnerId, user.Sid);
-                        SPQuery query = new SPQuery();
-                        query.ViewAttributes = "Scope=\"Recursive\"";
-                        query.Query = queryXml;
-                        SPListItemCollection items = dropBox.GetItems(query);
-
-                        List<AssignmentFile> files = new List<AssignmentFile>();
-
-                        foreach (SPListItem item in items)
-                        {
-                            if (item[DropBox.ColumnIsLatest] != null)
-                            {
-                                if ((bool)item[DropBox.ColumnIsLatest])
-                                {
-                                    SPFile file = item.File;
-                                    files.Add(new AssignmentFile(file.Name, file.ServerRelativeUrl));
-                                }
-                            }
-                        }
-                        toReturn = files.ToArray();
+                        DropBox dropBox = new DropBox(spWeb);
+                        toReturn = dropBox.LastSubmittedFiles(user, assignmentProperties.Id.GetKey());
                     }
                 }
             });
@@ -678,28 +639,16 @@ namespace Microsoft.SharePointLearningKit
 
         }
 
-        public void ApplySubmittedPermissions(SPWeb web)
-        {
-            DropBox dropBox = new DropBox(web);
-            AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
-            AssignmentFolder learnerSubFolder = null;
-
-            if (assignmentFolder == null)
-            {
-                assignmentFolder = dropBox.CreateAssignmentFolder(assignmentProperties);
-            }
-            else
-            {
-                learnerSubFolder = assignmentFolder.FindLearnerFolder(CurrentUser);
-                ApplySubmittedPermissions(assignmentFolder, learnerSubFolder);
-            }
-        }
 #endregion private methods
 
 #region public static methods
 #endregion public static methods
 
 #region static methods
+        /// <summary>Generates the edit javascript script.</summary>
+        /// <param name="fileUrl">The url of the file.</param>
+        /// <param name="web">The web the file is in.</param>
+        /// <returns>The script.</returns>
         public static string EditJavascript(string fileUrl, SPWeb web)
         {
             //string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff');return false;";
@@ -746,6 +695,7 @@ namespace Microsoft.SharePointLearningKit
         }
 #endregion static methods
 
+        /// <summary>Dumps debug messages.</summary>
         public static void Debug(string message, params object[] arguments)
         {
             /*
@@ -770,18 +720,25 @@ namespace Microsoft.SharePointLearningKit
     }
 
 #region AssignmentFile
+    /// <summary>A file in an assignment.</summary>
     public struct AssignmentFile
     {
         string name;
         string url;
+
+        /// <summary>The file's Url.</summary>
         public string Url
         {
             get { return url ;}
         }
+        /// <summary>The file's Name.</summary>
         public string Name
         {
             get { return name ;}
         }
+        /// <summary>Initializes a new instance of <see cref="AssignmentFile"/>.</summary>
+        /// <param name="name">The name of the file.</param>
+        /// <param name="url">The file's url.</param>
         public AssignmentFile(string name, string url)
         {
             this.name = name;
@@ -791,18 +748,22 @@ namespace Microsoft.SharePointLearningKit
 #endregion AssignmentFile
 
 #region AssignmentUpload
+    /// <summary>An uploaded file for an assignment.</summary>
     public struct AssignmentUpload
     {
         string name;
         Stream stream;
+        /// <summary>The file's contents.</summary>
         public Stream Stream
         {
             get { return stream ;}
         }
+        /// <summary>The name of the file.</summary>
         public string Name
         {
             get { return name ;}
         }
+        /// <summary>Initializes a new instance of <see cref="AssignmentUpload"/>.</summary>
         public AssignmentUpload(string name, Stream inputStream)
         {
             this.name = name;

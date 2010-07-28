@@ -15,6 +15,10 @@ namespace Microsoft.SharePointLearningKit
         SPWeb web;
 
 #region constructors
+        /// <summary>Initializes a new instance of <see cref="AssignmentFolder"/>.</summary>
+        /// <param name="folder">The actual SharePoint foldder.</param>
+        /// <param name="isLearnerFolder">Indicates if it is a learner folder or the main assignment folder.</param>
+        /// <param name="properties">The assignment properties.</param>
         public AssignmentFolder(SPListItem folder, bool isLearnerFolder, AssignmentProperties properties)
         {
             this.assignmentFolder = folder;
@@ -28,6 +32,9 @@ namespace Microsoft.SharePointLearningKit
 #endregion properties
 
 #region public methods
+        /// <summary>Finds a learner's folder.</summary>
+        /// <param name="learner">The learner.</param>
+        /// <returns>The folder for the learner.</returns>
         public AssignmentFolder FindLearnerFolder(SPUser learner)
         {
             SPQuery subFolderQuery = new SPQuery();
@@ -44,6 +51,9 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Changes the folder's name.</summary>
+        /// <param name="oldAssignmentFolderName">The old folder name.</param>
+        /// <param name="newAssignmentFolderName">The new folder name.</param>
         public void ChangeName(string oldAssignmentFolderName, string newAssignmentFolderName)
         {
             string newUrl = assignmentFolder.Url.Replace(oldAssignmentFolderName, newAssignmentFolderName);
@@ -57,6 +67,9 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Creates a learner's folder.</summary>
+        /// <param name="user">The learner.</param>
+        /// <returns>The learner's folder.</returns>
         public AssignmentFolder CreateLearnerAssignmentFolder(SPUser user)
         {
             bool originalAllow = web.AllowUnsafeUpdates;
@@ -75,6 +88,9 @@ namespace Microsoft.SharePointLearningKit
 
         }
 
+        /// <summary>Applies the permission for a user.</summary>
+        /// <param name="user">The user to give the permission to.</param>
+        /// <param name="roleType">The type of permission.</param>
         public void ApplyPermission(SPUser user, SPRoleType roleType)
         {
             if (assignmentFolder != null)
@@ -83,6 +99,8 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Removes all permissions for a user.</summary>
+        /// <param name="user">The user.</param>
         public void RemovePermissions(SPUser user)
         {
             if (user != null)
@@ -122,6 +140,11 @@ namespace Microsoft.SharePointLearningKit
         }
 
 
+        /// <summary>Saves a file in the folder.</summary>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="fileStream">The contents of the file.</param>
+        /// <param name="learner">The learner the file is for.</param>
+        /// <returns>The url of the saved file.</returns>
         public string SaveFile(string fileName, Stream fileStream, SPUser learner)
         {
             SPFolder folder = assignmentFolder.Folder;
@@ -139,6 +162,7 @@ namespace Microsoft.SharePointLearningKit
             return file.ServerRelativeUrl;
         }
 
+        /// <summary>Removes all permissions on the folder.</summary>
         public void RemoveAllPermissions()
         {
             foreach (SPRoleAssignment role in assignmentFolder.RoleAssignments)
@@ -148,6 +172,7 @@ namespace Microsoft.SharePointLearningKit
             assignmentFolder.Update();
         }
 
+        /// <summary>Deletes the folder.</summary>
         public void Delete()
         {
             assignmentFolder.Delete();
@@ -157,6 +182,7 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Removes observer permissions.</summary>
         public void RemoveObserverPermission()
         {
             bool isReader = false, isObserver = false;
@@ -249,7 +275,6 @@ namespace Microsoft.SharePointLearningKit
             {
                 roleAssignment.RoleDefinitionBindings.Add(roleDefinition);
                 folder.RoleAssignments.Add(roleAssignment);
-                updateItem.Update();
             }
             finally
             {
