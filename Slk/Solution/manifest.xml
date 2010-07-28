@@ -114,14 +114,6 @@
 	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\GradingUnsatisfied.gif" />
 	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\ARRDOWNA.GIF" />
 	  <TemplateFile Location="Layouts\SharePointLearningKit\Images\ARRUPA.GIF" />
-	  <TemplateFile Location="SharePointLearningKitAssignSite\elements.xml" />
-	  <TemplateFile Location="SharePointLearningKitAssignSite\feature.xml" />
-	  <TemplateFile Location="SharePointLearningKitAssignSelf\elements.xml" />
-	  <TemplateFile Location="SharePointLearningKitAssignSelf\feature.xml" />
-	  <TemplateFile Location="SharePointLearningKit\elements.xml" />
-	  <TemplateFile Location="SharePointLearningKit\feature.xml" />
-	  <TemplateFile Location="SharePointLearningKitAdmin\elements.xml" />
-	  <TemplateFile Location="SharePointLearningKitAdmin\feature.xml" />
 	</TemplateFiles>
       <FeatureManifests>
 		<FeatureManifest Location="SharePointLearningKitWebParts\feature.xml"/>

@@ -585,7 +585,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
         #endregion
 
-        ///<summary>See <see cref="Page.OnInit"/>.</summary>
+        /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         protected override void OnInit(EventArgs e)
         {
             //Setting the 24 hour mode from regional settings for start and due dates

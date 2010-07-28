@@ -25,6 +25,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
     ToolboxData("<{0}:ButtonToolbar runat=\"server\"></{0}:ButtonToolbar>")]
     public class ButtonToolbar : PlaceHolder
     {
+        /// <summary>See <see cref="Page.Render"/>.</summary>
         protected override void Render(HtmlTextWriter writer)
         {
             string className = "ms-toolbar";

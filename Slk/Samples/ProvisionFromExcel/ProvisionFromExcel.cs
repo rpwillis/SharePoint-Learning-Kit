@@ -630,47 +630,28 @@ class Program
         Console.WriteLine("Adding \"{0}\" to the user web list of \"{1}\" in \"{2}\"", webSiteUrl,
             loginName, siteCollectionUrl);
 
-        Stack<IDisposable> disposer = new Stack<IDisposable>();
-        try
+        // "log in" to SharePoint as the user running this program
+        using (SPSite currentUserSite = new SPSite(siteCollectionUrl))
         {
-            // "log in" to SharePoint as the user running this program
-            SPSite currentUserSite = new SPSite(siteCollectionUrl);
-            disposer.Push(currentUserSite);
             if (loginName.StartsWith(@".\"))
             {
-                loginName = String.Format(@"{0}\{1}", currentUserSite.HostName,
-                    loginName.Substring(2));
+                loginName = String.Format(@"{0}\{1}", currentUserSite.HostName, loginName.Substring(2));
             }
 
-            using (SPWeb rootWeb = currentUserSite.RootWeb)
+            SPWeb rootWeb = currentUserSite.RootWeb;
+            // set <spUser> to the user corresponding to <loginName>
+            SPUser spUser = rootWeb.AllUsers[loginName];
+
+            // "log in" to SharePoint as the user <spUser>, and set <slkStore> to refer to that
+            // user and the site collection specified by <siteCollectionUrl>
+            using (SPSite destinationSite = new SPSite(webSiteUrl, spUser.UserToken))
             {
-                // set <spUser> to the user corresponding to <loginName>
-                SPUser spUser = rootWeb.AllUsers[loginName];
-
-                // "log in" to SharePoint as the user <spUser>, and set <slkStore> to refer to that
-                // user and the site collection specified by <siteCollectionUrl>
-                SPSite destinationSite = new SPSite(siteCollectionUrl, spUser.UserToken);
-                disposer.Push(destinationSite);
-                SPWeb destinationWeb = destinationSite.OpenWeb();
-                disposer.Push(destinationWeb);
-                SlkStore slkStore = SlkStore.GetStore(destinationWeb);
-
-                // set <sourceWeb> to the SPWeb of the Web site to add to the user web list
-                SPSite sourceSite = new SPSite(webSiteUrl, spUser.UserToken);
-                disposer.Push(sourceSite);
-                SPWeb sourceWeb = sourceSite.OpenWeb();
-                disposer.Push(sourceWeb);
-
-                // add <sourceWeb> to the user web list of the user <spUser> in site collection
-                // <destinationSite>
-                slkStore.AddToUserWebList(sourceWeb);
+                using (SPWeb destinationWeb = destinationSite.OpenWeb())
+                {
+                    SlkStore slkStore = SlkStore.GetStore(destinationWeb);
+                    slkStore.AddToUserWebList(destinationWeb);
+                }
             }
-        }
-        finally
-        {
-            // dispose of objects used by this method
-            while (disposer.Count > 0)
-                disposer.Pop().Dispose();
         }
     }
 }

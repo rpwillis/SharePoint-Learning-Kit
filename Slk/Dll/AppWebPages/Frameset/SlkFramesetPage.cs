@@ -59,10 +59,9 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /////////////////////////////////////////////////////////////////////////////////////
 
 
-        public FramesetPage()
-            : base()
+        /// <summary>Initializes a new instance of <see cref="FramesetPage"/>.</summary>
+        public FramesetPage() : base()
         {
-            
         }
 
         private FramesetPageHelper FramesetHelper
@@ -184,6 +183,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             return true;
         }
 
+        /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         protected override void OnInit(EventArgs e)
         {
             SlkFrameset.Culture = Thread.CurrentThread.CurrentCulture;
@@ -222,6 +222,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             return FramesetHelper.TryGetRequiredParameter(name, out value);
         }
 
+        /// <summary>The learner assignment id.</summary>
         protected Guid LearnerAssignmentGuidId
         {
             get 
@@ -307,8 +308,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// Gets the attempt id required to render the page. Uses the FramesetQueryParameter.LearnerAssignmentId 
         /// to determine attempt information.
         /// </summary>
-        /// <param name="showErrorPage"></param>
-        /// <param name="learnerAssignmentId"></param>
+        /// <param name="showErrorPage">Whether to show the error page or not.</param>
+        /// <param name="learnerAssignmentGuidId">The id of the learner assignment.</param>
         /// <returns></returns>
         protected bool TryProcessLearnerAssignmentIdParameter(bool showErrorPage, out Guid learnerAssignmentGuidId)
         {
@@ -434,6 +435,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
         }
 
         private AssignmentView m_assignmentView;
+
+        /// <summary>The assignment view.</summary>
         protected AssignmentView AssignmentView
         {
             get {  return m_assignmentView;  }
@@ -462,7 +465,9 @@ namespace Microsoft.SharePointLearningKit.Frameset
             return SlkRole.None;
         }
 
-        // Add details to the content.aspx URL to provide information about the learner assignment
+        /// <summary>Add details to the content.aspx URL to provide information about the learner assignment</summary>
+        /// <param name="session"></param>
+        /// <param name="sb"></param>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // parameters are validated
         protected void AppendContentFrameDetails(LearningSession session, StringBuilder sb)
         {
@@ -505,6 +510,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             return FramesetHelper.TryProcessAttemptIdParameter(showErrorPage, out attemptId);
         }
 
+        /// <summary>Writes the slk javascript initialization.</summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
         protected static void WriteSlkMgrInit(StringBuilder sb)
         {
@@ -523,6 +529,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             sb.AppendLine("var slkMgr;");
         }
 
+        /// <summary>Whether an error has occurred or not.</summary>
         protected bool HasError
         {
             get { return FramesetHelper.HasError; }
@@ -558,6 +565,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>Whether to show the error as information.</summary>
         public bool ErrorAsInfo
         {
             get { return FramesetHelper.ErrorAsInfo; }

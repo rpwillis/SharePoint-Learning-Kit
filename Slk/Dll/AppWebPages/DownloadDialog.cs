@@ -22,6 +22,7 @@ using System.Collections.ObjectModel;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
+    /// <summary>The download dialogue.</summary>
     public class DownloadDialog : SlkAppBasePage
     {
         long? m_assignmentId;
@@ -53,7 +54,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
+
         // TODO: Needs error handling. Remove catch all exceptions and ignore as that is worse than none.
+        
+        /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         protected override void OnLoad(EventArgs e)
         {
             AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);

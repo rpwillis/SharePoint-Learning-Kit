@@ -1,2 +1,2 @@
 $file = Get-ChildItem "SharePointLearningKit.wsp"
-Update-SPSolution –Identity SharePointProject.wsp –LiteralPath $file.FullName -GACDeployment
+Update-SPSolution –Identity SharePointLearningKit.wsp –LiteralPath $file.FullName -GACDeployment
