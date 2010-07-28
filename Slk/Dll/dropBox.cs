@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using Microsoft.SharePoint;
@@ -9,21 +10,21 @@ namespace Microsoft.SharePointLearningKit
     /// <summary>An object responsible for returning and creating the drop box.</summary>
     public class DropBox
     {
-        const string dropBoxName = "DropBox";
-        public const string ColumnAssignmentKey = "Assignment";
-        public const string ColumnAssignmentDate = "AssignmentDate";
-        public const string ColumnAssignmentName = "AssignmentName";
-        public const string ColumnAssignmentId = "AssignmentId";
-        public const string ColumnIsLatest = "IsLatest";
-        public const string ColumnLearnerId = "LearnerId";
-        public const string ColumnLearner = "Learner";
+        internal const string dropBoxName = "DropBox";
+        internal const string ColumnAssignmentKey = "Assignment";
+        internal const string ColumnAssignmentDate = "AssignmentDate";
+        internal const string ColumnAssignmentName = "AssignmentName";
+        internal const string ColumnAssignmentId = "AssignmentId";
+        internal const string ColumnIsLatest = "IsLatest";
+        internal const string ColumnLearnerId = "LearnerId";
+        internal const string ColumnLearner = "Learner";
         const string propertyKey = "SLKDropBox";
         const string noPermissionsFolderName = "NoPermissions";
         SPWeb web;
         SPList dropBoxList;
 
 #region constructors
-        /// <summary>Initializes a new instance of <see cref="DropBoxCreator"/>.</summary>
+        /// <summary>Initializes a new instance of <see cref="DropBox"/>.</summary>
         /// <param name="web">The web to create the drop box in.</param>
         public DropBox(SPWeb web)
         {
@@ -32,6 +33,7 @@ namespace Microsoft.SharePointLearningKit
 #endregion constructors
 
 #region properties
+        /// <summary>The list which is the drop box.</summary>
         public SPList DropBoxList
         {
             get
@@ -64,6 +66,84 @@ namespace Microsoft.SharePointLearningKit
 #endregion properties
 
 #region public methods
+        /// <summary>The last submitted files of a user.</summary>
+        /// <param name="user">The user to get the files for.</param>
+        /// <param name="assignmentKey">The key of the assignment.</param>
+        /// <returns>The last submitted files.</returns>
+        public AssignmentFile[] LastSubmittedFiles(SPUser user, long assignmentKey)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            string queryXml = @"<Where>
+                                <And>
+                                    <Eq><FieldRef Name='{0}'/><Value Type='Text'>{1}</Value></Eq>
+                                    <Eq><FieldRef Name='{2}'/><Value Type='Text'>{3}</Value></Eq>
+                                </And>
+                             </Where>";
+            queryXml = string.Format(CultureInfo.InvariantCulture, queryXml, ColumnAssignmentId, assignmentKey, ColumnLearnerId, user.Sid);
+            SPQuery query = new SPQuery();
+            query.ViewAttributes = "Scope=\"Recursive\"";
+            query.Query = queryXml;
+            SPListItemCollection items = dropBoxList.GetItems(query);
+
+            List<AssignmentFile> files = new List<AssignmentFile>();
+
+            foreach (SPListItem item in items)
+            {
+                if (item[ColumnIsLatest] != null)
+                {
+                    if ((bool)item[ColumnIsLatest])
+                    {
+                        SPFile file = item.File;
+                        files.Add(new AssignmentFile(file.Name, file.ServerRelativeUrl));
+                    }
+                }
+            }
+            return files.ToArray();
+        }
+        /// <summary>Returns all files for an assignment grouped by learner.</summary>
+        /// <param name="assignmentKey">The key of the assignment.</param>
+        public Dictionary<string, List<SPFile>> AllFiles(long assignmentKey)
+        {
+            string queryXml = @"<Where>
+                                <And>
+                                    <Eq><FieldRef Name='{0}'/><Value Type='Text'>{1}</Value></Eq>
+                                    <Eq><FieldRef Name='{2}'/><Value Type='Boolean'>1</Value></Eq>
+                                </And>
+                             </Where>";
+            queryXml = string.Format(CultureInfo.InvariantCulture, queryXml, ColumnAssignmentId, assignmentKey, ColumnIsLatest);
+            SPQuery query = new SPQuery();
+            query.ViewAttributes = "Scope=\"Recursive\"";
+            query.Query = queryXml;
+            SPListItemCollection items = dropBoxList.GetItems(query);
+
+            SPFieldUser learnerField = (SPFieldUser)dropBoxList.Fields[ColumnLearner];
+
+            Dictionary<string, List<SPFile>> files = new Dictionary<string, List<SPFile>>();
+
+            foreach (SPListItem item in items)
+            {
+                SPFile file = item.File;
+                SPFieldUserValue learnerValue = (SPFieldUserValue) learnerField.GetFieldValue(item[ColumnLearner].ToString());
+                SPUser learner = learnerValue.User;
+
+                List<SPFile> learnerFiles;
+                string learnerAccount = learner.LoginName.Replace("\\", "-");
+                if (files.TryGetValue(learnerAccount, out learnerFiles) == false)
+                {
+                    learnerFiles = new List<SPFile>();
+                    files.Add(learnerAccount, learnerFiles);
+                }
+
+                learnerFiles.Add(item.File);
+            }
+
+            return files;
+        }
+
         /// <summary>Creates the drop box.</summary>
         /// <returns>The drop box.</returns>
         public SPList Create()
@@ -72,36 +152,27 @@ namespace Microsoft.SharePointLearningKit
             return DropBoxList;
         }
 
+        /// <summary>Creates the assignment folder.</summary>
+        /// <param name="properties">The assignment properties.</param>
+        /// <returns>The assignment folder.</returns>
         public AssignmentFolder CreateAssignmentFolder(AssignmentProperties properties)
         {
-            DropBoxManager.Debug("Starting DropBox.CreateAssignmentFolder");
             string url = DropBoxList.RootFolder.ServerRelativeUrl;
-            DropBoxManager.Debug("DropBox.CreateAssignmentFolder: url {0}", url);
             bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
 
             SPFolder noPermissionsFolder = GetNoPermissionsFolder().Folder;
-            DropBoxManager.Debug("DropBox.CreateAssignmentFolder: got no permissions folder");
 
             try
             {
                 web.AllowUnsafeUpdates = true;
                 string name = GenerateFolderName(properties);
-            DropBoxManager.Debug("DropBox.CreateAssignmentFolder: folder name {0}", name);
                 SPFolder folder = noPermissionsFolder.SubFolders.Add(name);
-            DropBoxManager.Debug("DropBox.CreateAssignmentFolder: created folder in no permissions");
                 folder.MoveTo(url + "\\" + name);
-            DropBoxManager.Debug("DropBox.CreateAssignmentFolder: moved");
                 folder.Update();
-            DropBoxManager.Debug("DropBox.CreateAssignmentFolder: updated");
                 SPListItem assignmentFolder = folder.Item;
-            DropBoxManager.Debug("DropBox.CreateAssignmentFolder: item url {0}", assignmentFolder.Url);
-            DropBoxManager.Debug("DropBox.CreateAssignmentFolder: before clear permissions");
                 DropBox.ClearPermissions(assignmentFolder);
-            DropBoxManager.Debug("DropBox.CreateAssignmentFolder: after clear permissions");
                 DropBoxList.Update();
-            DropBoxManager.Debug("DropBox.CreateAssignmentFolder: updated");
                 CreateAssignmentView(properties);
-            DropBoxManager.Debug("DropBox.CreateAssignmentFolder: Created view");
                 return new AssignmentFolder(assignmentFolder, false, properties);
             }
             finally
@@ -110,6 +181,9 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Gets the assignment folder and creates it if it doesn't exist.</summary>
+        /// <param name="properties">The assignment properties.</param>
+        /// <returns>The assignment folder.</returns>
         public AssignmentFolder GetOrCreateAssignmentFolder(AssignmentProperties properties)
         {
             AssignmentFolder folder = GetAssignmentFolder(properties);
@@ -147,6 +221,9 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Changes the assignment folder name.</summary>
+        /// <param name="oldAssignmentProperties">The old assignment properties.</param>
+        /// <param name="newAssignmentProperties">The new assignment properties.</param>
         public void ChangeFolderName(AssignmentProperties oldAssignmentProperties, AssignmentProperties newAssignmentProperties)
         {
             string oldAssignmentFolderName = GenerateFolderName(oldAssignmentProperties);
@@ -362,7 +439,7 @@ namespace Microsoft.SharePointLearningKit
 #endregion private methods
 
 #region static members
-        public static void RemoveFieldNameFromGroupHeader(SPView view)
+        static void RemoveFieldNameFromGroupHeader(SPView view)
         {
             string fieldNameHtml = "<GetVar Name=\"GroupByField\" HTMLEncode=\"TRUE\" /><HTML><![CDATA[</a> :&nbsp;]]></HTML>";
             if (view.GroupByHeader != null)
@@ -371,6 +448,8 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Clears the permissions on a folder.</summary>
+        /// <param name="folder">The folder to clear the permissions for.</param>
         public static void ClearPermissions(SPListItem folder)
         {
             RemoveRoleAssignments(folder, folder.ParentList.ParentWeb);

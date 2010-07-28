@@ -29,7 +29,9 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <!--
     <DocumentationFile>bin\Debug\Microsoft.SharePointLearningKit.XML</DocumentationFile>
+    -->
     <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.MSInternal#CA905;-Microsoft.MSInternal#CA908;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703</CodeAnalysisRules>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
