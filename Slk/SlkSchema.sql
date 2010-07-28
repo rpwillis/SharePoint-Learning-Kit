@@ -3150,8 +3150,7 @@ RETURN (
     lui.[Key]                       LearnerKey,
     lai.IsFinal                     IsFinal,
     lai.NonELearningStatus          NonELearningStatus,
-    CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END
-    FinalPoints,
+    CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END FinalPoints,
     lai.InstructorComments          InstructorComments,
     
     ----- from AssignmentItem -----

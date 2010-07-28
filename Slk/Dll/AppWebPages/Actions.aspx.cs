@@ -288,6 +288,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
 #region protected members
+        /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         protected override void OnInit(EventArgs e)
         {
             // Adding in a fake control to handle our "(show details...)" link
@@ -319,6 +320,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
+        /// <summary>See <see cref="Page.Render"/>.</summary>
         protected override void Render(HtmlTextWriter writer)
         {
             // This is needed to allow the showWarnings postback
@@ -327,6 +329,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             base.Render(writer);
         }
 
+        /// <summary>See <see cref="Page.OnPreRender"/>.</summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected override void OnPreRender(EventArgs e)
         {

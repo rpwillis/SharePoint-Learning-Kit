@@ -179,6 +179,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     // Protected Methods
     //
 
+    /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
     protected override void OnInit(EventArgs e)
     {
         AppResources.Culture = Thread.CurrentThread.CurrentCulture;

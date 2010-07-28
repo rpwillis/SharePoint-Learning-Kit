@@ -25,12 +25,14 @@ namespace Microsoft.SharePointLearningKit.Frameset
     // AttemptId = 
     // View = 
     // ActivityId =     // the new activity id
+    /// <summary>The change activity page.</summary>
     public partial class ChangeActivity : FramesetPage
     {
         private ChangeActivityHelper m_helper;
 
         bool m_pageLoadSuccessful = true;
 
+        /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -63,6 +65,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>Retrieves the session view.</summary>
         public override bool TryGetSessionView(bool showErrorPage, out SessionView view)
         {
             string viewParam;
@@ -101,6 +104,10 @@ namespace Microsoft.SharePointLearningKit.Frameset
             return true;
         }
 
+        /// <summary>Trys to get the activity id.</summary>
+        /// <param name="showErrorPage">Whether to show the error page on an error.</param>
+        /// <param name="activityId">The activity id retrieved.</param>
+        /// <returns>True if the id is found.</returns>
         public bool TryGetActivityId(bool showErrorPage, out long activityId)
         {
             string activityIdParam = null;
@@ -136,6 +143,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             return isValid;
         }
 
+        /// <summary>Tries to get the attempt id.</summary>
         public override bool TryGetAttemptId(bool showErrorPage, out AttemptItemIdentifier attemptId)
         {
             string attemptIdParam = null;
@@ -173,14 +181,17 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
         #region called from aspx
 
+        /// <summary>The error title.</summary>
         public string ErrorTitleHtml {
             get { return m_helper.ErrorTitleHtml; }
         }
 
+        /// <summary>The error message..</summary>
         public string ErrorMsgHtml { 
             get { return m_helper.ErrorMessageHtml; } 
         }
 
+        /// <summary>Whether the page has an error.</summary>
         public string HasErrorHtml { get { return (HasError ? "true" : "false"); } }
 
         public static string PleaseWaitHtml {
@@ -191,6 +202,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>Writes the frame manager initialization.</summary>
         public void WriteFrameMgrInit()
         {
             if (!m_pageLoadSuccessful)
@@ -199,7 +211,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
             m_helper.WriteFrameMgrInit();
         }
 
-        // Gets url path to the SLK folder that contains our images, theme, etc.
+        /// <summary>Gets url path to the SLK folder that contains our images, theme, etc.</summary>
+        /// <value></value>
         [SuppressMessage("Microsoft.Usage", "CA2234:PassSystemUriObjectsInsteadOfStrings")]
         public Uri SlkEmbeddedUIPath
         {

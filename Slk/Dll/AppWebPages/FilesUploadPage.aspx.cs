@@ -19,20 +19,32 @@ using System.Globalization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
+    /// <summary>The upload files page.</summary>
     public class FilesUploadPage : SlkAppBasePage
     {
         #region Controls Declaration
 
+        /// <summary>The upload files controls.</summary>
         protected HtmlInputFile uploadFile1, uploadFile2, uploadFile3, uploadFile4, uploadFile5;
+        /// <summary>The message label.</summary>
         protected Label lblMessage;
+        /// <summary>The page buttons.</summary>
         protected Button btnOK, btnCancel;
+        /// <summary>The error banner.</summary>
         protected ErrorBanner errorBanner;
+        /// <summary>The content panel.</summary>
         protected Panel contentPanel = new Panel();
+        /// <summary>The old files panel.</summary>
         protected Panel pnlOldFiles = new Panel();
+        /// <summary>The page title.</summary>
         protected Literal pageTitle;
+        /// <summary>The page title.</summary>
         protected Label pageTitleInTitlePage;
+        /// <summary>The label for the document upload.</summary>
         protected Label documentUpload;
+        /// <summary>The description for the document upload.</summary>
         protected Label documentUploadDescription;
+        /// <summary>The name label.</summary>
         protected Label name;
 
         #endregion
@@ -117,6 +129,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #endregion
 
+        /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         protected override void OnLoad(EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -147,6 +160,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
+        /// <summary>The OK button event handler.</summary>
         protected void btnOK_Click(object sender, EventArgs e)
         {
             SlkMemberships members = SlkStore.GetInstructorMemberships(SPWeb);
@@ -203,6 +217,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
+        /// <summary>The cancel button event handler.</summary>
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             //Go back to the homepage

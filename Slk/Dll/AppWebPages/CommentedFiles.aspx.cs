@@ -30,21 +30,28 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     {
         #region Control Declarations
 
+        /// <summary>The title of the page.</summary>
         protected Literal pageTitle;
+        /// <summary>The title of the page.</summary>
         protected Literal pageTitleInTitlePage;
+        /// <summary>The description of the page.</summary>
         protected Literal pageDescription;
 
+        /// <summary>The error banner.</summary>
         protected ErrorBanner errorBanner;
 
+        /// <summary>The contents panel.</summary>
         protected Panel contentPanel;
 
-        /// <summary>
-        /// Page header label
-        /// </summary>
+        /// <summary>Page header label</summary>
         protected Label headerMessage;
+        /// <summary>The file upload control.</summary>
         protected FileUpload commentedFileUpload;
+        /// <summary>The upload button.</summary>
         protected Button UploadButton;
+        /// <summary>The status label.</summary>
         protected Label UploadStatusLabel;
+        /// <summary>The error label.</summary>
         protected Label UploadErrorStatusLabel;
         
         #endregion
@@ -122,6 +129,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             return originalFiles.ContainsKey(entry.Name);
         }
 
+        /// <summary>The event handler for clicking on the upload button.</summary>
         protected void UploadButton_Click(object sender, EventArgs e)
         {
             string tempFolderPath = Path.GetTempPath();
@@ -607,7 +615,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
     }
     
-    public class AssignmentUploadTracker
+    class AssignmentUploadTracker
     {
         string _studentFolderName;
 

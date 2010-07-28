@@ -78,6 +78,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             set { m_target = value; }
         }
 
+        /// <summary>The click event handler.</summary>
         public event EventHandler Click;
 
         /// <summary>
@@ -94,6 +95,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             }
         }
 
+        /// <summary>See <see cref="Page.Render"/>.</summary>
         protected override void Render(HtmlTextWriter writer)
         {
             writer.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "1");
@@ -193,6 +195,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
         #region IPostBackEventHandler Members
 
+        /// <summary>The post back event handler.</summary>
         public void RaisePostBackEvent(string eventArgument)
         {
             OnClick(new EventArgs());
