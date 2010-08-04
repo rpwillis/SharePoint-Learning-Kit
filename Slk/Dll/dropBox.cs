@@ -87,9 +87,10 @@ namespace Microsoft.SharePointLearningKit
             SPQuery query = new SPQuery();
             query.ViewAttributes = "Scope=\"Recursive\"";
             query.Query = queryXml;
-            SPListItemCollection items = dropBoxList.GetItems(query);
+            SPListItemCollection items = DropBoxList.GetItems(query);
 
             List<AssignmentFile> files = new List<AssignmentFile>();
+
 
             foreach (SPListItem item in items)
             {
@@ -104,6 +105,7 @@ namespace Microsoft.SharePointLearningKit
             }
             return files.ToArray();
         }
+
         /// <summary>Returns all files for an assignment grouped by learner.</summary>
         /// <param name="assignmentKey">The key of the assignment.</param>
         public Dictionary<string, List<SPFile>> AllFiles(long assignmentKey)
@@ -118,9 +120,9 @@ namespace Microsoft.SharePointLearningKit
             SPQuery query = new SPQuery();
             query.ViewAttributes = "Scope=\"Recursive\"";
             query.Query = queryXml;
-            SPListItemCollection items = dropBoxList.GetItems(query);
+            SPListItemCollection items = DropBoxList.GetItems(query);
 
-            SPFieldUser learnerField = (SPFieldUser)dropBoxList.Fields[ColumnLearner];
+            SPFieldUser learnerField = (SPFieldUser)DropBoxList.Fields[ColumnLearner];
 
             Dictionary<string, List<SPFile>> files = new Dictionary<string, List<SPFile>>();
 
