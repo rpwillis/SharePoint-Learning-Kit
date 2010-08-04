@@ -416,6 +416,8 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Populates the SPUser property of each SlkUser in the collection of SLK members.</summary>
+        /// <param name="slkMembers">The collection of SLK members to populate.</param>
         public void PopulateSPUsers(SlkMemberships slkMembers)
         {
             PopulateSPUsers(slkMembers.Learners, Learners);

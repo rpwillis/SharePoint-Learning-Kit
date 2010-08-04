@@ -40,6 +40,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     public class LobbyPage : SlkAppBasePage
     {
         #region Control Declarations
+#pragma warning disable 1591
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblScoreValue;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
@@ -93,6 +94,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected Literal pageDescription;
 
         protected Panel contentPanel;
+#pragma warning restore 1591
         #endregion
 
         #region Private Variables
@@ -469,7 +471,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         void SetUpSubmitButtons(bool enableSubmitFiles)
         {
-            ///Check if non e-learning and enable the appropriate button accordingly
+            //Check if non e-learning and enable the appropriate button accordingly
             if (LearnerAssignmentProperties.RootActivityId == null)
             {
                 slkButtonSubmitFiles.Visible = true;
@@ -505,7 +507,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             pageTitle.Text = AppResources.LobbyReviewAssignmentText;
             pageTitleInTitlePage.Text = AppResources.LobbyReviewAssignmentText;
 
-            ///Check if non-elearning content
+            //Check if non-elearning content
             if (LearnerAssignmentProperties.RootActivityId == null)
             {
                 string url = GenerateUrlForAssignmentReview();

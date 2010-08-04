@@ -39,6 +39,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         // If true, the content being displayed is e-learning (i.e., scorm or lrm) content
         private bool m_isELearning;
 
+        /// <summary>The page load event.</summary>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // all exceptions caught and written to server event log
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -659,6 +660,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             get { return m_framesetHelper.RteRequired; }
         }
 
+        /// <summary>Shows if the frameset has been opened by the grading page.</summary>
         public bool OpenedByGradingPage
         {
             get
@@ -673,6 +675,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>The html to display if cannot update grading.</summary>
         public static string CannotUpdateGradingHtml
         {
             get 

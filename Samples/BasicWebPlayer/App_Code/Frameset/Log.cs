@@ -43,19 +43,24 @@ namespace Microsoft.LearningComponents.Frameset
             m_filePath = filePath;
         }
 
-        public Log()
-            : this(FILENAME)
+        /// <summary>Initializes a new instance of <see cref="Log"/>.</summary>
+        public Log() : this(FILENAME)
         {
         }
 
+        /// <summary>See <see cref="IDisposable.Dispose"/>.</summary>
         public void Dispose()
         {
             if (m_isDisposed)
+            {
                 return;
+            }
 
             // Even in debug builds don't log anything unless compiled to do so.
             if (!IsLogEnabled)
+            {
                 return;
+            }
 
             if (m_writer != null)
             {
@@ -68,6 +73,8 @@ namespace Microsoft.LearningComponents.Frameset
         }
 
 
+        /// <summary>Writes a message to the log.</summary>
+        /// <param name="message">The message to write.</param>
         public void WriteMessage(string message)
         {
             // Even in debug builds don't log anything unless compiled to do so.
@@ -83,6 +90,7 @@ namespace Microsoft.LearningComponents.Frameset
             m_writer.Flush(); 
         }
 
+        /// <summary>The log file path.</summary>
         public string FilePath { get { return m_filePath; } }
     }
 }

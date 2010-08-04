@@ -306,7 +306,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                     // render the Status column headers
                                     RenderColumnHeader(AppResources.GradingStatusHeaderText, writer);
 
-                                    /// render the File Submission column headers
+                                    // render the File Submission column headers
                                     RenderColumnHeader(AppResources.GradingFileSubmissionHeaderText, writer);
 
                                     // render the Graded Score column headers
@@ -786,7 +786,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 {
                     htmlTextWriter.Write(SlkUtilities.GetLearnerAssignmentState(item.Status));
                 }
-                ///Render file submission state 
+                //Render file submission state 
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "padding-left: 5px; padding-top:5pt");
                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))

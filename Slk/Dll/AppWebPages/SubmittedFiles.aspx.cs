@@ -26,51 +26,29 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     {
         #region Control Declarations
 
+        /// <summary>The title of the page.</summary>
         protected Literal pageTitle;
+        /// <summary>The page's description.</summary>
         protected Literal pageDescription;
-
+        /// <summary>The page's <see cref="ErrorBanner"/>..</summary>
         protected ErrorBanner errorBanner;
-
+        /// <summary>The page's content area.</summary>
         protected Panel contentPanel;
-
-        /// <summary>
-        /// Page header label
-        /// </summary>
+        /// <summary>Page header label</summary>
         protected Label headerMessage;
-
-        /// <summary>
-        /// Instructor message label
-        /// </summary>
+        /// <summary>Instructor message label</summary>
         protected Label instructorMessage;
-
-        /// <summary>
-        /// First assignment file hyperlink
-        /// </summary>
+        /// <summary>First assignment file hyperlink</summary>
         protected HyperLink file1;
-
-        /// <summary>
-        /// Second assignment file hyperlink
-        /// </summary>
+        /// <summary>Second assignment file hyperlink</summary>
         protected HyperLink file2;
-
-        /// <summary>
-        /// Third assignment file hyperlink
-        /// </summary>
+        /// <summary>Third assignment file hyperlink</summary>
         protected HyperLink file3;
-
-        /// <summary>
-        /// Fourth assignment file hyperlink
-        /// </summary>
+        /// <summary>Fourth assignment file hyperlink</summary>
         protected HyperLink file4;
-
-        /// <summary>
-        /// Fifth assignment file hyperlink
-        /// </summary>
+        /// <summary>Fifth assignment file hyperlink</summary>
         protected HyperLink file5;
-
-        /// <summary>
-        /// Instructor message hyperlink
-        /// </summary>
+        /// <summary>Instructor message hyperlink</summary>
         protected HyperLink instructorLink;
 
         #endregion
@@ -376,7 +354,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Display the assignment file link and URL
         /// </summary>
         /// <param name="linkName">The name of the file's hyperlink control</param>
-        /// <param name="assignmentFile">The assignment file</param>
+        /// <param name="file">The assignment file</param>
         private void DisplayFileLink(HyperLink linkName, AssignmentFile file)
         {
             string assignmentFileName = file.Name;

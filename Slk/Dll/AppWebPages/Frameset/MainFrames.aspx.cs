@@ -26,6 +26,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         AssignmentView m_view;
         AttemptItemIdentifier m_attemptId;
 
+        /// <summary>The page load event.</summary>
         protected void Page_Load(object sender, EventArgs e)
         {
             // On page load, just get the required parameters. Errors are not registered, as this frame doesn't show errors.
@@ -44,6 +45,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         }
 
         #region called from aspx
+        /// <summary>The url for the hidden frame.</summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2234:PassSystemUriObjectsInsteadOfStrings"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string HiddenFrameUrl
         {
@@ -58,6 +60,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>The url for the table of contents frame.</summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2234:PassSystemUriObjectsInsteadOfStrings"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string TocFrameUrl
         {

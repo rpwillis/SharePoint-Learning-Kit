@@ -583,6 +583,9 @@ namespace Microsoft.SharePointLearningKit.Frameset
             asInfo = ErrorAsInfo;
         }
 
+        /// <summary>Gets an appropriate message.</summary>
+        /// <param name="stringId">The id of the message.</param>
+        /// <returns>The message.</returns>
         public string GetMessage(FramesetStringId stringId)
         {
             SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
@@ -646,9 +649,13 @@ namespace Microsoft.SharePointLearningKit.Frameset
     /// </summary>
     public enum AssignmentView
     {
+        /// <summary>Execute the assignment.</summary>
         Execute = 0,
+        /// <summary>Instuctor is reviewing.</summary>
         InstructorReview,
+        /// <summary>Student is reviewing.</summary>
         StudentReview,
+        /// <summary>Instructor is grading.</summary>
         Grading
     }
 }

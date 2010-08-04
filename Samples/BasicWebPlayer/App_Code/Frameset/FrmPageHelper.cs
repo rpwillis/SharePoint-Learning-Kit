@@ -32,6 +32,8 @@ namespace Microsoft.LearningComponents.Frameset
 
         private HttpRequest m_request; 
 
+        /// <summary>Initializes a new instance of <see cref="FramesetPageHelper"/>.</summary>
+        /// <param name="request">The current HttpRequest.</param>
         public FramesetPageHelper(HttpRequest request)
             : base()
         {
@@ -185,6 +187,7 @@ namespace Microsoft.LearningComponents.Frameset
             return isValid;
         }
 
+        /// <summary>Shows if the page has an error.</summary>
         public bool HasError
         {
             get { return m_hasError; }
@@ -214,6 +217,7 @@ namespace Microsoft.LearningComponents.Frameset
             get { return m_errorMsg; }
         }
 
+        /// <summary>If true show an error as information.</summary>
         public bool ErrorAsInfo
         {
             get { return m_errorAsInfo; }
@@ -226,6 +230,7 @@ namespace Microsoft.LearningComponents.Frameset
     /// </summary>
     public class Commands
     {
+#pragma warning disable 1591
         public const string DoNext = "N";
         public const string DoPrevious = "P";
         public const string DoSave = "S";
@@ -235,13 +240,15 @@ namespace Microsoft.LearningComponents.Frameset
         public const string DoIsChoiceValid = "V";
         public const string DoIsNavigationValid = "NV";
         public const string DoSubmit = "DS";    // Do the submission or end the grading session
+#pragma warning restore 1591
     }
 
-    // Names (and ids) of hidden fields in the posted data. 
-    // CAUTION: The value of the names is hard-coded in the *.js files. Don't change them without a thorough 
-    // search.
+    /// <summary>Names (and ids) of hidden fields in the posted data. </summary>
+    /// <remarks>CAUTION: The value of the names is hard-coded in the *.js files. Don't change them without a thorough search.</remarks>
+    ///
     public partial class HiddenFieldNames
     {
+#pragma warning disable 1591
         public const string ActivityId = "hidActivityId";
         public const string AttemptId = "hidAttemptId";
         public const string Command = "hidCommand";
@@ -256,6 +263,7 @@ namespace Microsoft.LearningComponents.Frameset
         public const string View = "hidView";
         public const string ObjectiveIdMap = "hidObjectiveIdMap";
         public const string TocState = "hidTocState";
+#pragma warning restore 1591
     }
 
     /// <summary>
@@ -290,14 +298,17 @@ namespace Microsoft.LearningComponents.Frameset
         }
     }
 
+    /// <summary>A utility class.</summary>
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
     public static class FramesetUtil
     {
+        /// <summary>Gets the string value of the SessionView.</summary>
         public static string GetString(SessionView view)
         {
             return Convert.ToInt32(view, NumberFormatInfo.InvariantInfo).ToString(NumberFormatInfo.InvariantInfo);
         }
 
+        /// <summary>Gets the string value of the LearningStoreItemIdentifier.</summary>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // parameter is validated
         public static string GetString(LearningStoreItemIdentifier id)
         {
@@ -305,11 +316,13 @@ namespace Microsoft.LearningComponents.Frameset
             return id.GetKey().ToString(NumberFormatInfo.InvariantInfo);
         }
 
+        /// <summary>Gets the string value of a long.</summary>
         public static string GetStringInvariant(long value)
         {
             return value.ToString(NumberFormatInfo.InvariantInfo);
         }
 
+        /// <summary>Checks that a value is not null.</summary>
         public static void ValidateNonNullParameter(string parameterName, object parameterValue)
         {
             if (parameterValue == null)

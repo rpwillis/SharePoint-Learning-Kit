@@ -79,6 +79,7 @@ static class DomainGroupUtilities
     /// <param name="configRoot">Last successful AD Configuration root searched.</param>
     /// <param name="configResult">Last successful AD Configuration search result.</param>
     /// <param name="configPath">DN Path from last successfully processed directory entry.</param>
+    /// <param name="hideDisabledUsers">Indicates is disabled users should be returned or not.</param>
     ///
     static private void GetSPUserInfoFromLocalGroupMembersInfo(LOCALGROUP_MEMBERS_INFO_3 lgmi3,
         DateTime timeoutTime, Dictionary<string, SPUserInfo> users,
@@ -143,6 +144,7 @@ static class DomainGroupUtilities
     /// <param name="configRoot">Last successful AD Configuration root searched.</param>
     /// <param name="configResult">Last successful AD Configuration search result.</param>
     /// <param name="configPath">DN Path from last successfully processed directory entry.</param>
+    /// <param name="hideDisabledUsers">Indicates is disabled users should be returned or not.</param>
     ///
     /// <returns>True if this is a local group, false otherwise.</returns>
     private static bool ReadLocalGroup(string domainName, string groupName, DateTime timeoutTime,
@@ -240,6 +242,7 @@ static class DomainGroupUtilities
     /// <param name="configRoot">Last successful AD Configuration root searched.</param>
     /// <param name="configResult">Last successful AD Configuration search result.</param>
     /// <param name="configPath">DN Path from last successfully processed directory entry.</param>
+    /// <param name="hideDisabledUsers">Indicates is disabled users should be returned or not.</param>
     ///
     /// <exception cref="DomainGroupEnumerationException">
     /// Enumeration of the domain group failed.

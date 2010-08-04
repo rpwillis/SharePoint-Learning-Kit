@@ -659,16 +659,20 @@ namespace Microsoft.LearningComponents.Frameset
             return new JScriptString(quoteChar + jscript + quoteChar);
         }
 
+        /// <summary>See <see cref="object.ToString"/>.</summary>
         public override string ToString()
         {
             return m_jscript;
         }
 
+        /// <summary>Converts to a javascript call.</summary>
+        /// <returns>Add javascript: to start and replaces % with %25.</returns>
         public string ToJavascriptProtocol()
         {
             return "javascript:" + m_jscript.Replace("%", "%25");
         }
 
+        /// <summary>Implicit conversion of JScriptString to string.</summary>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // it is validated
         public static implicit operator string(JScriptString jscript)
         {
@@ -676,40 +680,34 @@ namespace Microsoft.LearningComponents.Frameset
             return jscript.m_jscript;
         }
 
+        /// <summary>Explicit conversion of string to JScriptString.</summary>
         public static explicit operator JScriptString(string jscript)
         {
             return new JScriptString(jscript);
         }
     }
 
-    /**
-
-    <summary>
-    [Internal class?]
-    Represents a string that can be typed into the address bar of a Web
-    browser, or a substring of such a string.
-    </summary>
-
-    <seealso cref="PlainTextString" />
-    <seealso cref="HtmlString" />
-    <seealso cref="JScriptString" />
-    <seealso cref="HtmlStringWriter" />
-
-    */
+    /// <summary>
+    /// Represents a string that can be typed into the address bar of a Web
+    /// browser, or a substring of such a string.
+    /// </summary>
     [DebuggerDisplay("{m_url}")]
-    public class UrlString // see TODO#1 above
+    public class UrlString 
     {
         /// <summary>
         /// The string value wrapped by this class.
         /// </summary>
         private string m_url;
 
+        /// <summary>Initializes a new instance of <see cref="UrlString"/>.</summary>
+        /// <param name="url">The string value representing a url.</param>
         [SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads")]    // the class operates on strings
         public UrlString(string url)
         {
             m_url = url;
         }
 
+        /// <summary>Initializes a new instance of <see cref="UrlString"/>.</summary>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // it is validated
         public UrlString(Uri uri)
         {
@@ -717,6 +715,7 @@ namespace Microsoft.LearningComponents.Frameset
             m_url = uri.AbsoluteUri;
         }
 
+        /// <summary>Implicitly converts a UrlString to a string.</summary>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // it is validated
         public static implicit operator string(UrlString url)
         {
@@ -724,12 +723,14 @@ namespace Microsoft.LearningComponents.Frameset
             return url.m_url;
         }
 
+        /// <summary>Explicitly converts a string to a UrlString.</summary>
         [SuppressMessage("Microsoft.Usage", "CA2234:PassSystemUriObjectsInsteadOfStrings")] // the class operates on strings, so creating an object so that a string can be read is not ideal
         public static explicit operator UrlString(string url)
         {
             return new UrlString(url);
         }
 
+        /// <summary>See <see cref="object.ToString"/>.</summary>
         public override string ToString()
         {
             return m_url;
@@ -1215,12 +1216,15 @@ namespace Microsoft.LearningComponents.Frameset
             m_htmlTextWriter = new HtmlTextWriter(sw);
         }
 
+        /// <summary>See <see cref="IDisposable.Dispose"/>.</summary>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
                 if (m_htmlTextWriter != null)
+                {
                     m_htmlTextWriter.Dispose();
+                }
             }
         }
 
@@ -1462,6 +1466,7 @@ namespace Microsoft.LearningComponents.Frameset
             set  { m_htmlTextWriter.Indent = value;  }
         }
 
+        /// <summary>Writes a blank line.</summary>
         public void WriteLine()
         {
             m_htmlTextWriter.WriteLine();

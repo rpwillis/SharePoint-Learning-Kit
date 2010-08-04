@@ -42,21 +42,23 @@ namespace Microsoft.SharePointLearningKit.WebControls
    ToolboxData("<{0}:TableGrid runat=\"server\"></{0}:TableGrid>")]
     public class TableGrid : Table
     {       
+        /// <summary>Renders the control.</summary>
         protected override void Render(HtmlTextWriter writer)
         {                  
             base.Render(writer);
         }
     }
-    /// <summary>
-    ///  TableGridRow Renders <tr></tr>
-    /// </summary>
+
+    /// <summary> TableGridRow Renders </summary>
     public class TableGridRow : TableRow
     {        
+        /// <summary>Renders the control.</summary>
         protected override void Render(HtmlTextWriter writer)
         {
             base.Render(writer);
         }
     }
+
     /// <summary>
     ///  TableGridColumn Renders &lt;td&gt;&lt;/td&gt; in applied format depends on
     ///  the selected FormType attribute.
@@ -89,12 +91,19 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// </summary>
         public enum FormType
         {
+            /// <summary>A label.</summary>
             FormLabel = 0,
+            /// <summary>A body.</summary>
             FormBody,
+            /// <summary>A line.</summary>
             FormLine,
+            /// <summary>A break.</summary>
             FormBreak,
+            /// <summary>An error.</summary>
             FormError,
+            /// <summary>A section line.</summary>
             SectionLine,
+            /// <summary>A default.</summary>
             FormDefault
         }
 

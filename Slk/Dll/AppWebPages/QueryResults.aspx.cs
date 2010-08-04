@@ -25,6 +25,7 @@ using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
+    /// <summary>The assignment list web part query results page.</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
     public partial class AlwpQueryResults : SlkAppBasePage
     {
@@ -103,6 +104,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
+        /// <summary>The <see cref="SlkStore"/> to use.</summary>
         public override SlkStore SlkStore
         {
             get
@@ -661,6 +663,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Renders the File Submission column cell
         /// </summary>
         /// <param name="renderedCell">The value to render, from the query results.</param>
+        /// <param name="webNameRenderedCell"></param>
         /// <param name="assignmentGUID">The GUID of the current assignment</param>
         /// <param name="hw">The HtmlTextWriter to write to.</param>
         void RenderFileSubmissionCell(RenderedCell renderedCell, WebNameRenderedCell webNameRenderedCell, Guid assignmentGUID, HtmlTextWriter hw)
@@ -698,6 +701,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Renders The File Submission column cell as "Submitted" link
         /// </summary>
         /// <param name="fileURL">The URL of the file to be redirected to when the cell link is clicked</param>
+        /// <param name="webNameRenderedCell"></param>
         /// <param name="assignmentGUID">The GUID of the current assignment</param>
         /// <param name="renderedCellValue">The text to be displayed in the cell</param>
         /// <param name="hw">The HtmlTextWriter to write to.</param>
@@ -735,6 +739,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Renders The File Submission column cell as "Submit File(s)" link
         /// </summary>
         /// <param name="fileURL">The URL of the file to be redirected to when the cell link is clicked</param>
+        /// <param name="webNameRenderedCell"></param>
         /// <param name="assignmentGUID">The GUID of the current assignment</param>
         /// <param name="renderedCellValue">The text to be displayed in the cell</param>
         /// <param name="hw">The HtmlTextWriter to write to.</param>
@@ -760,18 +765,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Renders a column cell, i.e. one column of one row in the query results.
         /// </summary>
-        ///
         /// <param name="renderedCell">The value to render, from the query results.</param>
-        ///
         /// <param name="webNameRenderedCell">If the row containing this cell also contains a cell
         ///     of type <c>WebNameRenderedCell</c>, i.e. a cell referring to a SharePoint Web site,
         ///     this parameter refers to that cell.  Otherwise, this parameter is <c>null</c>.
         ///     </param>
-        ///
         /// <param name="hw">The <c>HtmlTextWriter</c> to write to.</param>
-        ///
-        void RenderColumnCell(RenderedCell renderedCell,
-            WebNameRenderedCell webNameRenderedCell, HtmlTextWriter hw, SlkStore slkStore)
+        /// <param name="slkStore">The SlkStore to use to get assignment information from.</param>
+        void RenderColumnCell(RenderedCell renderedCell, WebNameRenderedCell webNameRenderedCell, HtmlTextWriter hw, SlkStore slkStore)
         {
             // render the cell contents inside a "<span>" (not sure why SharePoint uses a "<span>"
             // here, but I'm copying what they do)

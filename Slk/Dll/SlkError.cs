@@ -185,7 +185,7 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
         /// writes the exeception to the event Log and outs the SlkError Object. 
         /// </summary>    
         /// <param name="ex">Exception</param>       
-        /// <param name="slkerror">SlkError Object.</param>
+        /// <param name="slkError">SlkError Object.</param>
         public static void WriteException(Exception ex, out SlkError slkError)
         {           
             //Check for Exception Type. For all Handled Exceptions
@@ -342,6 +342,7 @@ namespace Microsoft.SharePointLearningKit
             m_validationResults = (ValidationResults) info.GetValue("ValidationResults", typeof(ValidationResults));
         }
 
+        /// <summary>Support serialization.</summary>
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

@@ -20,24 +20,24 @@ using Microsoft.SharePoint;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.SharePointLearningKit.Localization;
 
-// <summary>
-// Views supported in this page: Student/InstructorReview, Execute, Grading
-// 
-// Displays the content frame. The URL to this page is of the form:
-// For attempt-based sessions:
-// Content.aspx?PF="post-file path information"
-// 
-// The post-file-path information is parsed as follows:
-// For attempt-based sessions:
-//     /view/attemptId/view-specific-information/path-to-resource
-//     where view-specific-information is:
-//         if (view = Execute)
-//             view-specific-information is not provided
-//     where path-to-resource is optional. If not provided, the default resource of the current activity will be used.
-// 
-// </summary>
 namespace Microsoft.SharePointLearningKit.Frameset
 {
+    /// <summary>
+    /// Views supported in this page: Student/InstructorReview, Execute, Grading
+    /// 
+    /// Displays the content frame. The URL to this page is of the form:
+    /// For attempt-based sessions:
+    /// Content.aspx?PF="post-file path information"
+    /// 
+    /// The post-file-path information is parsed as follows:
+    /// For attempt-based sessions:
+    ///     /view/attemptId/view-specific-information/path-to-resource
+    ///     where view-specific-information is:
+    ///         if (view = Execute)
+    ///             view-specific-information is not provided
+    ///     where path-to-resource is optional. If not provided, the default resource of the current activity will be used.
+    /// 
+    /// </summary>
     public class Content : FramesetPage
     {
         ContentHelper m_contentHelper;
@@ -58,6 +58,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
         LearnerAssignmentProperties m_learnerAssignment;    // cached version of learner assignment to display
 
+        /// <summary>The page load event.</summary>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // all exceptions caught and written to event log rather than getting aspx error page
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -130,6 +131,10 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>Gets the view information.</summary>
+        /// <param name="showErrorPage">Whether to show the error page if no view present.</param>
+        /// <param name="view">The view to output.</param>
+        /// <returns>True if the view details are retrieved.</returns>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // need to catch it to provide correct SLK message
         public bool TryGetViewInfo(bool showErrorPage, out SessionView view)
         {
@@ -184,6 +189,10 @@ namespace Microsoft.SharePointLearningKit.Frameset
             return true;
         }
 
+        /// <summary>Gets the attempt information.</summary>
+        /// <param name="showErrorPage">Whether to show the error page if the attempt id is not valid.</param>
+        /// <param name="attemptId">The attempt to output.</param>
+        /// <returns>True if the attempt details are retrieved.</returns>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // catch general exception so that message can be SLK-specific
         public bool TryGetAttemptInfo(bool showErrorPage, out AttemptItemIdentifier attemptId)
         {
@@ -236,6 +245,10 @@ namespace Microsoft.SharePointLearningKit.Frameset
             return true;
         }
 
+        /// <summary>Gets the activity information.</summary>
+        /// <param name="showErrorPage">Whether to show the error page if the activity id is not valid.</param>
+        /// <param name="activityId">The activity to output.</param>
+        /// <returns>True if the activity details are retrieved.</returns>
         public bool TryGetActivityInfo(bool showErrorPage, out long activityId)
         {
             FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
@@ -269,6 +282,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             return true;
         }
 
+        /// <summary>Gets the resource path.</summary>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]   // It does too much work
         public string GetResourcePath()
         {
@@ -627,7 +641,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         }
 
         #region Called from aspx
-        // Gets url path to the SLK folder that contains our images, theme, etc.
+        /// <summary>Gets url path to the SLK folder that contains our images, theme, etc.</summary>
         [SuppressMessage("Microsoft.Usage", "CA2234:PassSystemUriObjectsInsteadOfStrings")]
         public Uri SlkEmbeddedUIPath
         {
@@ -637,6 +651,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>The title html for an error.</summary>
         public string ErrorTitleHtml
         {
             get
@@ -649,6 +664,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>The message html for an error.</summary>
         public string ErrorMessageHtml
         {
             get
@@ -661,21 +677,26 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
-        // Write initialization code for frameset manager. This method is called when an "error" message 
-        // is displayed. Note that this includes the case where the 'submit' page is displayed.
+        /// <summary>Write initialization code for frameset manager. This method is called when an "error" message  is displayed. 
+        /// Note that this includes the case where the 'submit' page is displayed.</summary>
         public void WriteFrameMgrInit()
         {
             m_contentHelper.WriteFrameMgrInit();
         }
 
+        /// <summary>The error icon.</summary>
         public string ErrorIcon
         {
             get
             {
                 if (ErrorAsInfo)
+                {
                     return "Info.gif";
-
-                return "Error.gif";
+                }
+                else
+                {
+                    return "Error.gif";
+                }
             }
         }
         #endregion

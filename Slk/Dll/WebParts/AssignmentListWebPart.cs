@@ -39,8 +39,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
         #region WebPartCommunication
 
         private int _cellConnectedCount=0;
+        /// <summary>The event raised then the cell is consumed.</summary>
         public event CellConsumerInitEventHandler CellConsumerInit;
 
+        /// <summary>See <see cref="Microsoft.SharePoint.WebPartPages.WebPart.EnsureInterfaces"/>.</summary>
         [Obsolete]
         public override void EnsureInterfaces()
         {
@@ -55,6 +57,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                "Learner Information Receiving Interface");               //Description
         }
 
+        /// <summary>See <see cref="Microsoft.SharePoint.WebPartPages.WebPart.CanRunAt"/>.</summary>
         [Obsolete]
         public override ConnectionRunAt CanRunAt()
         {
@@ -62,6 +65,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             return ConnectionRunAt.Server;
         }
     
+        /// <summary>See <see cref="Microsoft.SharePoint.WebPartPages.WebPart.PartCommunicationConnect"/>.</summary>
         [Obsolete]
         public override void PartCommunicationConnect(string interfaceName,
          Microsoft.SharePoint.WebPartPages.WebPart connectedPart,
@@ -76,6 +80,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
           }
 
       }
+
+        /// <summary>See <see cref="Microsoft.SharePoint.WebPartPages.WebPart.PartCommunicationInit"/>.</summary>
         [Obsolete]
         public override void PartCommunicationInit()
         {
@@ -98,6 +104,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
         }
 
+        /// <summary>Initialises the cell provider.</summary>
         public void CellProviderInit(object sender, CellProviderInitEventArgs cellProviderInitArgs)
         {
             //Callback on the Cell Provider's initialization
@@ -105,6 +112,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             InitializeLearnerKey();
         }
+
+        /// <summary>Raised when the cell is ready.</summary>
         public void CellReady(object sender, CellReadyEventArgs cellReadyArgs)
         {
             observerRoleLearnerLogin = "";

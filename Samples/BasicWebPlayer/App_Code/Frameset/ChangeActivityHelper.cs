@@ -24,8 +24,10 @@ namespace Microsoft.LearningComponents.Frameset
         private AttemptItemIdentifier m_attemptId;
         private long m_activityId;
 
+        /// <summary>Initializes a new instance of <see cref="ChangeActivityHelper"/>.</summary>
         public ChangeActivityHelper(HttpRequest request, HttpResponse response) : base(request, response, null) { }
 
+        /// <summary>Processes the page.</summary>
         [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly")]
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
         public void ProcessPageLoad(TryGetViewInfo TryGetViewInfo,
@@ -58,6 +60,7 @@ namespace Microsoft.LearningComponents.Frameset
             }
         }
 
+        /// <summary>Writes the frame manager initialization javascript.</summary>
         public void WriteFrameMgrInit()
         {
             Response.Write(ResHelper.Format("frameMgr.SetAttemptId({0});\r\n", FramesetUtil.GetString(m_attemptId)));
@@ -69,7 +72,9 @@ namespace Microsoft.LearningComponents.Frameset
             Response.Write(ResHelper.Format("frameMgr.DoChoice(\"{0}\", true);\r\n", FramesetUtil.GetStringInvariant(m_activityId)));
         }
 
+        /// <summary>The html for an error message.</summary>
         public string ErrorMessageHtml { get { return ErrorMessage; } }
+        /// <summary>The html for an error title.</summary>
         public string ErrorTitleHtml { get { return ErrorTitle; } }
     }
 }

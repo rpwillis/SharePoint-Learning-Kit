@@ -14,6 +14,7 @@ namespace Microsoft.LearningComponents.Frameset
     /// </summary>
     public partial class FramesetQueryParameter
     {
+#pragma warning disable 1591
         public const string LearnerAssignmentId = "LearnerAssignmentId";
         public const string SlkView = "SlkView";
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Src")]
@@ -23,5 +24,6 @@ namespace Microsoft.LearningComponents.Frameset
         {
             return view.ToString();
         }
+#pragma warning restore 1591
     }
 }

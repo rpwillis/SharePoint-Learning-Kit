@@ -404,13 +404,15 @@ namespace Microsoft.LearningComponents.Frameset
                            
         }
 
-        // Write initialization code for frameset manager. 
-        // This method is called in three possible cases:
-        // 1. An error condition occurred
-        // 2. The submit page is being displayed. Note that in this case, since the submit page is registered as displaying an 
-        // error condition, HasError will be true.
-        // 3. The current activity has changed and we display this page mainly so that the 'please wait' information can be 
-        // displayed and the client can issue a GET request to load the new activity. 
+        /// <summary>Write initialization code for frameset manager. </summary>
+        /// <remarks>
+        /// This method is called in three possible cases:
+        /// 1. An error condition occurred
+        /// 2. The submit page is being displayed. Note that in this case, since the submit page is registered as displaying an 
+        /// error condition, HasError will be true.
+        /// 3. The current activity has changed and we display this page mainly so that the 'please wait' information can be 
+        /// displayed and the client can issue a GET request to load the new activity. 
+        /// </remarks>
         public void WriteFrameMgrInit()
         {
             // Write frame to post. When displaying an error (which is the case, since we are here) the hidden frame is posted next

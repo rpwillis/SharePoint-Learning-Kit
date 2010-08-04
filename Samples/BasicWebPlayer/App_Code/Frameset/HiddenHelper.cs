@@ -75,6 +75,7 @@ namespace Microsoft.LearningComponents.Frameset
 
         private bool m_saveOnly;    // if true, the only command being processed is a save command
         
+        /// <summary>Initializes a new instance of <see cref="HiddenHelper"/>.</summary>
         public HiddenHelper(HttpRequest request, HttpResponse response, Uri embeddedUIPath)
             : base(request, response, embeddedUIPath)
         {
@@ -1234,22 +1235,27 @@ namespace Microsoft.LearningComponents.Frameset
         }
     }
 
+    /// <summary>A hidden control.</summary>
     public class HiddenControlInfo
     {
         private PlainTextString m_id;
         private PlainTextString m_value;
         private JScriptString m_FrameManagerInitializationScript;
 
+        /// <summary>Initializes a new instance of <see cref="HiddenControlInfo"/>.</summary>
         public HiddenControlInfo()
         {
         }
 
+        /// <summary>The control's Id.</summary>
         public PlainTextString Id
         {
             get { return m_id; }
             set { m_id = value; }
         }
 
+        /// <summary>The control's value.</summary>
+        /// <value></value>
         public PlainTextString Value
         {
             get { return m_value; }

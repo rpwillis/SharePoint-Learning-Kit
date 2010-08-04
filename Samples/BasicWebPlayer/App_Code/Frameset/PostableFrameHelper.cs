@@ -27,6 +27,7 @@ namespace Microsoft.LearningComponents.Frameset
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")] // postable == a frame that can be posted
     public class PostableFrameHelper
     {
+#pragma warning disable 1591
         private StoredLearningSession m_session;
 
         private bool m_activityHasChanged;
@@ -79,6 +80,7 @@ namespace Microsoft.LearningComponents.Frameset
             m_response = response;
             m_embeddedUIPath = embeddedUIPath;
         }
+#pragma warning restore 1591
 
         /// <summary>
         /// Gets and sets the current session
@@ -272,6 +274,7 @@ namespace Microsoft.LearningComponents.Frameset
             return sb.ToString();
         }  
 
+#pragma warning disable 1591
         protected bool HasError
         {
             get
@@ -323,6 +326,7 @@ namespace Microsoft.LearningComponents.Frameset
                 return asInfo;
             }
         }
+#pragma warning restore 1591
 
         /// <summary>
         /// If there was an error condition, write the error message to the hidden control so that it can
@@ -425,6 +429,7 @@ namespace Microsoft.LearningComponents.Frameset
         }
 
         private bool m_submitPageDisplayed;
+        /// <summary>True if the submit page is displayed.</summary>
         protected bool SubmitPageDisplayed
         {
             get { return m_submitPageDisplayed; }
@@ -462,6 +467,8 @@ namespace Microsoft.LearningComponents.Frameset
             }
         }
 
+        /// <summary>Gets the commands for the frame.</summary>
+        /// <returns></returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]   // this method does too much work to be a property
         protected ReadOnlyCollection<CommandInfo> GetCommands()
         {
@@ -547,18 +554,26 @@ namespace Microsoft.LearningComponents.Frameset
         private string m_data;
         private string m_command;
 
+        /// <summary>Initializes a new instance of <see cref="CommandInfo"/>.</summary>
+        /// <param name="command">The command name.</param>
         public CommandInfo(string command)
         {
             m_command = command;
         }
 
+        /// <summary>Initializes a new instance of <see cref="CommandInfo"/>.</summary>
+        /// <param name="command">The command name.</param>
+        /// <param name="data">The command data.</param>
         public CommandInfo(string command, string data)
         {
             m_command = command;
             m_data = data;
         }
+
+        /// <summary>The name of the command.</summary>
         public string Command { get { return m_command; } }
 
+        /// <summary>The data of the command.</summary>
         public string CommandData { get { return m_data; } }
     }
 }

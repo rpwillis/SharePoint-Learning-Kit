@@ -58,17 +58,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
 
         #region Private Variables
-        /// <summary>
-        /// Holds assignmentID value.
-        /// </summary>
+        /// <summary>Holds assignmentID value. </summary>
         private long? m_assignmentId;
-        /// <summary>
-        /// Holds Assignment Properties.
-        /// </summary>
+        /// <summary>Holds Assignment Properties. </summary>
         private AssignmentProperties m_assignmentProperties;
-        /// <summary>
-        /// Keeps track if there was an error during one of the click events.
-        /// </summary>
 
         #endregion
 

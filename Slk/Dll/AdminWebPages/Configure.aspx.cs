@@ -39,6 +39,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
 public class ConfigurePage : System.Web.UI.Page
 {
     // controls
+    #pragma warning disable 1591
     protected Label LabelErrorMessage;
     protected SiteAdministrationSelector SPSiteSelector;
     protected InputFormTextBox TxtDatabaseServer;
@@ -78,6 +79,7 @@ public class ConfigurePage : System.Web.UI.Page
 	protected InputFormControl inputSlkSettingsFile;
 	protected Label labelSlkSettingDescription;
 	protected InputFormSection inputSlkSettings;
+#pragma warning restore 1591
     
         /*
     protected InputFormTextBox TxtDropBoxFilesExtensions;
@@ -86,12 +88,14 @@ public class ConfigurePage : System.Web.UI.Page
     protected InputFormControl inputDropBoxFilesExtensions;
     */
 
+        /// <summary>The OnInit event.</summary>
     protected override void OnInit(EventArgs e)
     {
         AppResources.Culture = Thread.CurrentThread.CurrentCulture;
         base.OnInit(e);
     }
 
+    /// <summary>The OnPreRender event.</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
     protected override void OnPreRender(EventArgs e)
     {
@@ -160,11 +164,13 @@ public class ConfigurePage : System.Web.UI.Page
         base.OnPreRender(e);
     }
 
+    /// <summary>Event raised when a new SPSite is chosen.</summary>
     protected void SPSiteSelector_OnContextChange(object sender, EventArgs e)
     {
         // the user selected a new SPSite
     }
 
+    /// <summary>Event raised by OK button.</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Btn"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
     protected void BtnOk_Click(object sender, EventArgs e)
     {
@@ -333,16 +339,20 @@ public class ConfigurePage : System.Web.UI.Page
 public class DownloadSettingsPage : System.Web.UI.Page
 {
 
+    /// <summary>The OnInit event.</summary>
     protected override void OnInit(EventArgs e)
     {
         AppResources.Culture = Thread.CurrentThread.CurrentCulture;
         base.OnInit(e);
     }
+
+    /// <summary>Initializes a new instance of <see cref="DownloadSettingsPage"/>.</summary>
     public DownloadSettingsPage()
     {
         Load += new EventHandler(DownloadSettingsPage_Load);
     }
 
+    /// <summary>The page load event.</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
     void DownloadSettingsPage_Load(object sender, EventArgs e)
     {
