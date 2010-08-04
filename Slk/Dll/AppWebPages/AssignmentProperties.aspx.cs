@@ -44,6 +44,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     public class AssignmentPropertiesPage : SlkAppBasePage
     {
         #region Control Declarations
+#pragma warning disable 1591
         //Button controls
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "btn")]
         protected System.Web.UI.WebControls.Button btnTopOK;
@@ -149,6 +150,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         //SPControls DateTime Picker
         protected SPControls.DateTimeControl spDateTimeStart;
         protected SPControls.DateTimeControl spDateTimeDue;
+#pragma warning restore 1591
 
         #endregion
 

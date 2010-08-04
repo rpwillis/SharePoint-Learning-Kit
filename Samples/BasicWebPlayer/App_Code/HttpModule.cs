@@ -15,8 +15,10 @@ using System.Text;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    /// <summary>The <see cref="IHttpModule"/> for the frameset.</summary>
     public class FramesetModule : IHttpModule
     {
+        /// <summary>The name of the module.</summary>
         public static String ModuleName
         {
             get { return "FramesetContentModule"; }
@@ -24,19 +26,22 @@ namespace Microsoft.LearningComponents.Frameset
 
         // Register for HttpApplication events by adding handler.
         // Rational for suppression: This is called by IIS. If it's null, there's something SERIOUSLY wrong
+        /// <summary>Initializes the module.</summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
         public void Init(HttpApplication context)
         {
             context.BeginRequest += (new EventHandler(this.Application_BeginRequest));
         }
 
-        // BeginRequest event handler. This determines if the current request is destined for 
-        // the frameset Content.aspx page. If so, it re-writes the URL to have the path to the 
-        // resource (if it exists) as a query parameter.
-        // If the module applies, the incoming request is of the form:
-        // http://<server>/<application>/Frameset/Content.aspx/<view>/<view data>/optional_resource_path
-        // After processing, the URL will be of the form:
-        // http://<server>/<application>/Frameset/Content.aspx?ResPath=/<view>/<view data>/optional_resource_path
+        /// <summary>
+        /// BeginRequest event handler. This determines if the current request is destined for 
+        /// the frameset Content.aspx page. If so, it re-writes the URL to have the path to the 
+        /// resource (if it exists) as a query parameter.
+        /// If the module applies, the incoming request is of the form:
+        /// http://server/application/Frameset/Content.aspx/view/view data/optional_resource_path
+        /// After processing, the URL will be of the form:
+        /// http://server/application/Frameset/Content.aspx?ResPath=/view/view data/optional_resource_path
+        /// </summary>
         private void Application_BeginRequest(Object source, EventArgs e)
         {
             // See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnaspp/html/urlrewriting.asp 
@@ -91,6 +96,7 @@ namespace Microsoft.LearningComponents.Frameset
             }
         }
 
+        /// <summary>See <see cref="IDisposable.Dispose"/>.</summary>
         public void Dispose()
         {
         }

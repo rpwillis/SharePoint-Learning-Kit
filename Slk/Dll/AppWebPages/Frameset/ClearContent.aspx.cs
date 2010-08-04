@@ -17,13 +17,10 @@ using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.Frameset
 {
+    /// <summary>The Clear Content Frame.</summary>
     public class ClearContent : FramesetPage
     {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>The Please Wait Html</summary>
         public static string PleaseWaitHtml
         {
             get  
@@ -33,6 +30,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>The unexpected error title Html</summary>
         public static  string UnexpectedErrorTitleHtml
         {
             get 
@@ -42,6 +40,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>The unexpected error message Html</summary>
         public static string UnexpectedErrorMsgHtml
         {
             get 

@@ -194,14 +194,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <summary>Whether the page has an error.</summary>
         public string HasErrorHtml { get { return (HasError ? "true" : "false"); } }
 
-        public static string PleaseWaitHtml {
-            get
-            {
-                FramesetResources.Culture = LocalizationManager.GetCurrentCulture(); 
-                return ResHelper.GetMessage(FramesetResources.CON_PleaseWait); 
-            }
-        }
-
         /// <summary>Writes the frame manager initialization.</summary>
         public void WriteFrameMgrInit()
         {

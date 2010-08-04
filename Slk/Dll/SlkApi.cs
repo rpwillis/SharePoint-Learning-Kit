@@ -403,10 +403,9 @@ public class SlkGroup : IComparable<SlkGroup>
 ///
 public class SlkUserCollection : KeyedCollection<UserItemIdentifier, SlkUser>
 {
-    // <summary> /*internal*/
-    // Identifies <c>SlkUser.UserId</c> as the key for items in this collection.
-    // </summary>
-    //
+    /// <summary>
+    /// Identifies <c>SlkUser.UserId</c> as the key for items in this collection.
+    /// </summary>
     protected override UserItemIdentifier GetKeyForItem(SlkUser item)
     {
         return item.UserId;

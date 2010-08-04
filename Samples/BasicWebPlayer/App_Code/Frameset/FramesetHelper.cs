@@ -273,6 +273,8 @@ namespace Microsoft.LearningComponents.Frameset
         }
     }
 
+
+#pragma warning disable 1591
     // Ids that uniquely identify strings to be displayed in the frameset. The specific frameset
     // (SLK or BWP) will map these ids to strings that are different between the versions of the frameset.
     public enum FramesetStringId
@@ -292,4 +294,5 @@ namespace Microsoft.LearningComponents.Frameset
         SelectActivityMessageHtml,
         SelectActivityTitleHtml
     }
+#pragma warning restore 1591
 }

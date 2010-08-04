@@ -460,6 +460,7 @@ namespace Microsoft.LearningComponents.Frameset
             set { m_dataModelValues = value; }
         }
 
+        /// <summary>The objective id map.</summary>
         public PlainTextString ObjectiveIdMap
         {
             get { return m_objectiveIdMap; }

@@ -7,15 +7,12 @@ using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.Frameset
 {
+    /// <summary>The navigation closed frame.</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Nav")]
     public class NavClosed : FramesetPage
     {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-
-        }
-
         #region called from aspx
+        /// <summary>The html for the next title.</summary>
         public static string NextTitleHtml
         {
             get
@@ -25,6 +22,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 return new HtmlString(titleTxt).ToString();
             }
         }
+
+        /// <summary>The html for the previous title.</summary>
         public static string PreviousTitleHtml
         {
             get
@@ -34,6 +33,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 return new HtmlString(titleTxt).ToString();
             }
         }
+        /// <summary>The html for the save title.</summary>
         public static string SaveTitleHtml
         {
             get
@@ -44,6 +44,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>The html for the maximize title.</summary>
         public static string MaximizeTitleHtml
         {
             get

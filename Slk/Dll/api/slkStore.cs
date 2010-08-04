@@ -227,12 +227,12 @@ namespace Microsoft.SharePointLearningKit
             //
 
         /// <summary>
-            /// Returns the <c>SlkStore</c> object associated the SharePoint <c>SPSite</c> that a given
+        /// Returns the <c>SlkStore</c> object associated the SharePoint <c>SPSite</c> that a given
         /// SharePoint <c>SPWeb</c> belongs to.  If no such object exists (i.e. if SharePoint Learning
         /// Kit was not yet configured for the specified SPSite in SharePoint Central Administration),
         /// an exception is thrown.
-            /// </summary>
-            ///
+        /// </summary>
+        ///
         /// <remarks>
         /// <para>
         /// If there is an active <c>HttpContext</c> (i.e. if the caller is executing from within the
@@ -265,6 +265,29 @@ namespace Microsoft.SharePointLearningKit
             return GetStore(spWeb, "");
         }
 
+        /// <summary>
+        /// Returns the <c>SlkStore</c> object associated the SharePoint <c>SPSite</c> that a given
+        /// SharePoint <c>SPWeb</c> belongs to.  If no such object exists (i.e. if SharePoint Learning
+        /// Kit was not yet configured for the specified SPSite in SharePoint Central Administration),
+        /// an exception is thrown.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// If there is an active <c>HttpContext</c> (i.e. if the caller is executing from within the
+        /// context of ASP.NET web page code), the retrieved <c>SlkStore</c> is cached for a
+        /// period of time specified by <c>HttpContextCacheTime</c>: that many seconds after being
+        /// loaded, the next time <c>GetStore</c> is called the <c>SlkSPSiteMapping</c>
+        /// information is reloaded from the SharePoint configuration database, and the
+        /// <c>SlkSettings</c> information is reloaded from the SharePoint Learning Kit database.
+        /// </para>
+        /// <para>
+        /// If there is no active <c>HttpContext</c>, no caching is performed.
+        /// </para>
+        /// </remarks>
+        /// <param name="spWeb">The SharePoint <c>SPWeb</c> from which to retrieve the current user's
+        ///     identity and the identity of the <c>SPSite</c> of the SLK store to open.</param>
+        /// <param name="learningStoreUserKey">The key of the current learning store.</param>
+        /// <returns></returns>
         public static SlkStore GetStore(SPWeb spWeb, string learningStoreUserKey)
             {
                 // Security checks: None
@@ -985,34 +1008,33 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>
         /// Retrieves the lists of instructors, learners, and learner groups from a given SharePoint
         /// <c>SPWeb</c>.  Returns a <c>Boolean</c> value indicating whether information about any
-            /// instructors or learners could not be retrieved.
+        /// instructors or learners could not be retrieved.
         /// </summary>
         ///
         /// <param name="spWeb">The <c>SPWeb</c> to retrieve information from.</param>
-            ///
+        ///
         /// <param name="additionalInstructors">A list of instructors to add to those in the
-            ///     returned <c>SlkMemberships.Instructors</c> list.  The resulting combined list is sorted
-            ///     and duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
-            ///     for items in <paramref name="additionalInstructors"/>.  If <c>additionalInstructors</c>
-            ///     is <c>null</c> it is ignored.</param>
-            ///
+        ///     returned <c>SlkMemberships.Instructors</c> list.  The resulting combined list is sorted
+        ///     and duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
+        ///     for items in <paramref name="additionalInstructors"/>.  If <c>additionalInstructors</c>
+        ///     is <c>null</c> it is ignored.</param>
+        ///
         /// <param name="additionalLearners">A list of learners to add to those in the returned
-            ///     <c>SlkMemberships.Learners</c> list.  The resulting combined list is sorted and
-            ///     duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
-            ///     for items in <paramref name="additionalLearners"/>.  If <c>additionalLearners</c> is
-            ///     <c>null</c> it is ignored.</param>
-            ///
-            /// <remarks>
-            /// <b>Security:</b>&#160; Fails if the <a href="SlkApi.htm#AccessingSlkStore">current
-            /// user</a> doesn't have SLK
-            /// <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.InstructorPermission.Property.htm">instructor</a>
-            /// and SharePoint "Reader" permissions on <pr>spWeb</pr>.
-            /// </remarks>
+        ///     <c>SlkMemberships.Learners</c> list.  The resulting combined list is sorted and
+        ///     duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
+        ///     for items in <paramref name="additionalLearners"/>.  If <c>additionalLearners</c> is
+        ///     <c>null</c> it is ignored.</param>
+        ///
+        /// <remarks>
+        /// <b>Security:</b>&#160; Fails if the <a href="SlkApi.htm#AccessingSlkStore">current
+        /// user</a> doesn't have SLK
+        /// <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.InstructorPermission.Property.htm">instructor</a>
+        /// and SharePoint "Reader" permissions on <pr>spWeb</pr>.
+        /// </remarks>
         /// 
         /// <exception cref="InvalidOperationException">
         /// <pr>spWeb</pr> is not in the SPSite that this <r>SlkStore</r> is associated with.
         /// </exception>
-            ///
         [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
         public SlkMemberships GetMemberships(SPWeb spWeb, IEnumerable<SlkUser> additionalInstructors,
@@ -1026,6 +1048,9 @@ namespace Microsoft.SharePointLearningKit
             return GetMemberships(spWeb, additionalInstructors, additionalLearners, out groupFailures, out groupFailureDetails);
         }
 
+        /// <summary>Retrieves all instructors for the site.</summary>
+        /// <param name="spWeb">The site to get the instructors for.</param>
+        /// <returns>A collection of instructors.</returns>
         public SlkMemberships GetInstructorMemberships(SPWeb spWeb)
         {
             ReadOnlyCollection<string> groupFailures;
@@ -1033,6 +1058,38 @@ namespace Microsoft.SharePointLearningKit
             return GetMemberships(spWeb, null, null, out groupFailures, out groupFailureDetails, true);
         }
 
+        /// <summary>
+        /// Retrieves the lists of instructors, learners, and learner groups from a given SharePoint
+        /// <c>SPWeb</c>.  Returns a <c>Boolean</c> value indicating whether information about any
+        /// instructors or learners could not be retrieved.
+        /// </summary>
+        /// <remarks>
+        /// <b>Security:</b>&#160; Fails if the <a href="SlkApi.htm#AccessingSlkStore">current
+        /// user</a> doesn't have SLK
+        /// <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.InstructorPermission.Property.htm">instructor</a>
+        /// and SharePoint "Reader" permissions on <pr>spWeb</pr>.
+        /// </remarks>
+        /// <param name="spWeb">The <c>SPWeb</c> to retrieve information from.</param>
+        /// <param name="additionalInstructors">A list of instructors to add to those in the
+        ///     returned <c>SlkMemberships.Instructors</c> list.  The resulting combined list is sorted
+        ///     and duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
+        ///     for items in <paramref name="additionalInstructors"/>.  If <c>additionalInstructors</c>
+        ///     is <c>null</c> it is ignored.</param>
+        /// <param name="additionalLearners">A list of learners to add to those in the returned
+        ///     <c>SlkMemberships.Learners</c> list.  The resulting combined list is sorted and
+        ///     duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
+        ///     for items in <paramref name="additionalLearners"/>.  If <c>additionalLearners</c> is
+        ///     <c>null</c> it is ignored.</param>
+        /// <param name="groupFailures">If one or more groups could not be enumerated, then this
+        ///     parameter is set to a collection of the names of those groups.  Otherwise, this
+        ///     parameter is set to <c>null</c>.</param>
+        /// 
+        /// <param name="groupFailureDetails">If one or more groups could not be enumerated, then this
+        ///     parameter is set to additional information (beyond <paramref name="groupFailures"/>)
+        ///     that is appropriate for storing in an error log for later review by an administrator.
+        ///     This information may contain security details that are inappropriate for a browser
+        ///     user to see.  If no group enumeration problem occurs, this parameter is set to
+        ///     <c>null</c>.</param>
         public SlkMemberships GetMemberships(SPWeb spWeb, IEnumerable<SlkUser> additionalInstructors,
                     IEnumerable<SlkUser> additionalLearners, out ReadOnlyCollection<string> groupFailures,
             out string groupFailureDetails)
@@ -1043,22 +1100,22 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>
         /// Retrieves the lists of instructors, learners, and learner groups from a given SharePoint
         /// <c>SPWeb</c>.  Returns a <c>Boolean</c> value indicating whether information about any
-            /// instructors or learners could not be retrieved.
+        /// instructors or learners could not be retrieved.
         /// </summary>
         ///
         /// <param name="spWeb">The <c>SPWeb</c> to retrieve information from.</param>
-            ///
+        ///
         /// <param name="additionalInstructors">A list of instructors to add to those in the
-            ///     returned <c>SlkMemberships.Instructors</c> list.  The resulting combined list is sorted
-            ///     and duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
-            ///     for items in <paramref name="additionalInstructors"/>.  If <c>additionalInstructors</c>
-            ///     is <c>null</c> it is ignored.</param>
-            ///
+        ///     returned <c>SlkMemberships.Instructors</c> list.  The resulting combined list is sorted
+        ///     and duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
+        ///     for items in <paramref name="additionalInstructors"/>.  If <c>additionalInstructors</c>
+        ///     is <c>null</c> it is ignored.</param>
+        ///
         /// <param name="additionalLearners">A list of learners to add to those in the returned
-            ///     <c>SlkMemberships.Learners</c> list.  The resulting combined list is sorted and
-            ///     duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
-            ///     for items in <paramref name="additionalLearners"/>.  If <c>additionalLearners</c> is
-            ///     <c>null</c> it is ignored.</param>
+        ///     <c>SlkMemberships.Learners</c> list.  The resulting combined list is sorted and
+        ///     duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
+        ///     for items in <paramref name="additionalLearners"/>.  If <c>additionalLearners</c> is
+        ///     <c>null</c> it is ignored.</param>
         /// 
         /// <param name="groupFailures">If one or more groups could not be enumerated, then this
         ///     parameter is set to a collection of the names of those groups.  Otherwise, this
@@ -1070,13 +1127,15 @@ namespace Microsoft.SharePointLearningKit
         ///     This information may contain security details that are inappropriate for a browser
         ///     user to see.  If no group enumeration problem occurs, this parameter is set to
         ///     <c>null</c>.</param>
-            ///
-            /// <remarks>
-            /// <b>Security:</b>&#160; Fails if the <a href="SlkApi.htm#AccessingSlkStore">current
-            /// user</a> doesn't have SLK
-            /// <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.InstructorPermission.Property.htm">instructor</a>
-            /// and SharePoint "Reader" permissions on <pr>spWeb</pr>.
-            /// </remarks>
+        ///
+        /// <param name="instructorsOnly">Indicates if only instructors should be returned.</param>
+        ///
+        /// <remarks>
+        /// <b>Security:</b>&#160; Fails if the <a href="SlkApi.htm#AccessingSlkStore">current
+        /// user</a> doesn't have SLK
+        /// <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.InstructorPermission.Property.htm">instructor</a>
+        /// and SharePoint "Reader" permissions on <pr>spWeb</pr>.
+        /// </remarks>
         /// 
         /// <exception cref="InvalidOperationException">
         /// <pr>spWeb</pr> is not in the SPSite that this <r>SlkStore</r> is associated with.
@@ -1094,7 +1153,7 @@ namespace Microsoft.SharePointLearningKit
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
         public SlkMemberships GetMemberships(SPWeb spWeb, IEnumerable<SlkUser> additionalInstructors,
                     IEnumerable<SlkUser> additionalLearners, out ReadOnlyCollection<string> groupFailures,
-            out string groupFailureDetails, bool instructorsOnly)
+                    out string groupFailureDetails, bool instructorsOnly)
         {
 
             if (spWeb == null)
@@ -2425,7 +2484,7 @@ namespace Microsoft.SharePointLearningKit
         /// Starts an attempt on a learner assignment
         /// </summary>
         /// 
-        /// <param name="learnerAssignmentId">The learner assignment</param>
+        /// <param name="learnerAssignmentGuidId">The learner assignment</param>
         /// 
         /// <returns>The id of the new attempt</returns>
             ///
@@ -2616,7 +2675,7 @@ namespace Microsoft.SharePointLearningKit
             /// about an assignment related to a single learner) given the learner assignment's identifier.
             /// </summary>
             ///
-        /// <param name="learnerAssignmentId">The ID of the learner assignment to return information
+        /// <param name="learnerAssignmentGuidId">The ID of the learner assignment to return information
             ///     about.</param>
             ///
             /// <param name="slkRole">The <c>SlkRole</c> for which information is to be retrieved.</param>
@@ -3446,7 +3505,7 @@ namespace Microsoft.SharePointLearningKit
         /// Sets the final points for a learner assignment.
         /// </summary>
         ///
-        /// <param name="learnerAssignmentId">The <c>LearnerAssignmentItemIdentifier</c> of the
+        /// <param name="learnerAssignmentGuidId">The <c>LearnerAssignmentItemIdentifier</c> of the
         ///     learner assignment to change.</param>
         ///
         /// <param name="finalPoints">New final points.</param>
@@ -3549,7 +3608,7 @@ namespace Microsoft.SharePointLearningKit
         /// Increments the final points for a learner assignment.
         /// </summary>
         ///
-        /// <param name="learnerAssignmentId">The <c>LearnerAssignmentItemIdentifier</c> of the
+        /// <param name="learnerAssignmentGuidId">The <c>LearnerAssignmentItemIdentifier</c> of the
         ///     learner assignment to change.</param>
         ///
         /// <param name="points">Points to add.</param>
@@ -3912,7 +3971,7 @@ namespace Microsoft.SharePointLearningKit
         /// Changes the <c>LearnerAssignmentState</c> of a learner assignment.
         /// </summary>
             ///
-        /// <param name="learnerAssignmentId">The ID of the learner assignment to change the
+        /// <param name="learnerAssignmentGuidId">The ID of the learner assignment to change the
             ///     <c>LearnerAssignmentState</c> of.</param>
             ///
         /// <param name="newStatus">The <c>LearnerAssignmentState</c> to transition this learner
@@ -4099,7 +4158,7 @@ namespace Microsoft.SharePointLearningKit
         /// Finishes the learner assignment.
         /// </summary>
         ///
-        /// <param name="learnerAssignmentId">The ID of the learner assignment to finish.</param>
+        /// <param name="learnerAssignmentGuidId">The ID of the learner assignment to finish.</param>
         ///
         /// <remarks>
         /// This method should be called after a session is completed in order to update the information
@@ -4682,6 +4741,22 @@ namespace Microsoft.SharePointLearningKit
         }
 
 
+        /// <summary>
+        /// Retrieves general information about an assignment for the current learner.
+        /// </summary>
+        ///
+        /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to
+        ///     retrieve information about.</param>
+        ///
+        /// <returns>
+        /// An <c>AssignmentProperties</c> object containing information about the assignment.
+        /// Note that only the <c>UserId</c> and <c>Name</c> of each <c>SlkUser</c> object within the
+        /// returned <c>AssignmentProperties.Instructors</c> and <c>AssignmentProperties.Learners</c>
+        /// collections is valid, and the <c>Name</c> is a cache of the user's name from the first
+        /// time the user was added to the SLK store (which may not be the user's current name in
+        /// SharePoint).
+        /// </returns>
+        ///
         public AssignmentProperties GetAssignmentPropertiesForCurrentLearner(AssignmentItemIdentifier assignmentId)
         {
             if (assignmentId == null)

@@ -35,6 +35,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     public class Grading : SlkAppBasePage
     {
         #region Control Declarations
+#pragma warning disable 1591
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblPointsValue;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
@@ -94,6 +95,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         protected SlkButton slkButtonUpload;
         protected SlkButton slkButtonDownload;
+#pragma warning restore 1591
 
         #endregion
 

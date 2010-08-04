@@ -17,12 +17,13 @@ using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.Frameset
 {
+    /// <summary>The Table of Contents frame.</summary>
     [SuppressMessage("Microsoft.Naming", "CA1705:LongAcronymsShouldBePascalCased")]
     public class TOC : FramesetPage
     {
         TocHelper m_tocHelper;
 
-        // suppress message as this is the top-level page displayed.
+        /// <summary>The page load event.</summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected void Page_Load(object sender, EventArgs e)
         {

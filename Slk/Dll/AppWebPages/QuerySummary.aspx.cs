@@ -39,6 +39,7 @@ using Microsoft.SharePointLearningKit.Localization;
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
 
+    /// <summary>The assignment list web part query summary frame results.</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
     public partial class AlwpQuerySummary : SlkAppBasePage
     {
@@ -55,6 +56,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #endregion
 
+        /// <summary>The SlkStore to use.</summary>
         public override SlkStore SlkStore
         {
             get

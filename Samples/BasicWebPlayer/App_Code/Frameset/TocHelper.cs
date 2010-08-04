@@ -31,6 +31,7 @@ namespace Microsoft.LearningComponents.Frameset
         // The text for the submit page link. This is only used in Execute & RandomAccess (SLK only) views.
         private string m_submitPageLinkText;
 
+       /// <summary>Processes the page.</summary>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes"), // catch is to allow shared code between framesets
        SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly"),     // methods are cased as method names 
        SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]      // arguments are validated

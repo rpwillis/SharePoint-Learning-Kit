@@ -37,18 +37,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     public class ActionsPage : SlkAppBasePage
     {
 #region Control Declarations
-        // page controls
+#pragma warning disable 1591
         protected Label ResourceFileName;
         protected HyperLink DocLibLink;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblTitle;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblDescription;
-        //protected HyperLink AssignHyperLink;
         protected DropDownList organizationList;
         protected ErrorBanner errorBanner;
         protected Literal pageTitle;
-        //protected Literal pageTitleinTitlePage;
         protected Literal pageDescription;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblOrganization;
@@ -79,6 +77,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected TableGridRow organizationRow;
         protected TableGridRow organizationRowBottomLine;
         protected RequiredFieldValidator newSiteRequired;
+#pragma warning restore 1591
 #endregion
 
         #region Private Variables
@@ -91,7 +90,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private int? m_versionId;
         private bool? m_nonELearning;
         private string m_dropBoxDocLibName;
-        public SlkMemberships m_slkMembers;
+        SlkMemberships m_slkMembers;
         #endregion
 
         #region Private Properties
@@ -329,7 +328,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             base.Render(writer);
         }
 
-        /// <summary>See <see cref="Page.OnPreRender"/>.</summary>
+        /// <summary>The Pre-Render event.</summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected override void OnPreRender(EventArgs e)
         {
@@ -494,6 +493,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
+        /// <summary>Event when click on show all.</summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1705:LongAcronymsShouldBePascalCased", MessageId = "Member"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lnk"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Member")]
         protected void lnkMRUShowAll_Click(object sender, EventArgs e)
         {
@@ -588,6 +588,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 #endregion protected members
 
 #region event handlers
+        /// <summary>The event handler for the assign self click.</summary>
         protected void lnkAssignSelf_Click(object sender, EventArgs arguments)
         {
             AssignToSelf();

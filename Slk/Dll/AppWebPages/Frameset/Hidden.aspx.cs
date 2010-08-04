@@ -34,6 +34,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         private HiddenHelper m_hiddenHelper;
         private bool m_sessionEnded;    // if true, the session ended during this page rendering
 
+        /// <summary>The page load event.</summary>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // exceptions caught, added to event log
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -309,6 +310,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
     }
 
     // Hidden field names that are unique to SLK.
+#pragma warning disable 1591
     public partial class HiddenFieldNames
     {
         public const string LearnerAssignmentId = "hidLAId";
@@ -317,4 +319,5 @@ namespace Microsoft.SharePointLearningKit.Frameset
         public const string LearnerAssignmentFinalPoints = "hidLAFinalPoints";
         public const string LearnerAssignmentContentPoints = "hidContentPoints";
     }
+#pragma warning restore 1591
 }

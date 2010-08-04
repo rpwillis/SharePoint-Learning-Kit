@@ -26,8 +26,6 @@ namespace Microsoft.SharePointLearningKit
         ///  the value is optional, null is retrieved and false is returned.
         /// </summary>
         /// <param name="queryStringName">Name of the QueryString.</param>   
-        /// <param name="queryStringValue">The retrieved value. Set to null if the
-        ///   query string is empty and <paramref name="isOptional"/> is true.</param>  
         /// <param name="isOptional">If false, SafeToDisplayException is thrown if
         ///   the query string is absent.</param>
         static string Get(string queryStringName, bool isOptional)
@@ -115,7 +113,6 @@ namespace Microsoft.SharePointLearningKit
         ///  but its format is incorrect, a SafeToDisplayException is thrown.
         /// </summary>
         /// <param name="queryStringName">Name of the QueryString.</param>   
-        /// <param name="queryStringValue">The retrieved value.</param>  
         public static int Parse(string queryStringName)
         {
             string queryStringText = Get(queryStringName, true);
@@ -144,10 +141,6 @@ namespace Microsoft.SharePointLearningKit
         ///  is thrown.
         /// </summary>
         /// <param name="queryStringName">Name of the QueryString.</param>   
-        /// <param name="queryStringValue">The retrieved value. Set to null if the
-        ///   query string is empty and <paramref name="isOptional"/> is true.</param>  
-        /// <param name="isOptional">If false, SafeToDisplayException is thrown if
-        ///   the query string is absent.</param>
         public static int? ParseIntOptional(string queryStringName)
         {
             string queryStringText = Get(queryStringName, true);
