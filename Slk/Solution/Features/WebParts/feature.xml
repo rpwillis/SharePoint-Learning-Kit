@@ -1,7 +1,8 @@
 <Feature  xmlns="http://schemas.microsoft.com/sharepoint/"
     Id="47c03bc9-aac7-447d-aac4-33c495c96eea" 
-        Title="$Resources:SLK,AssignmentListWebPartFeatureTitle" 
-        Description="$Resources:SLK,AssignmentListWebPartFeatureDescription" 
+        Title="$Resources:AssignmentListWebPartFeatureTitle" 
+        Description="$Resources:AssignmentListWebPartFeatureDescription" 
+        DefaultResourceFile="SLK"
         Scope="Site">
     <ElementManifests>
         <ElementManifest Location="elements.xml"/>
