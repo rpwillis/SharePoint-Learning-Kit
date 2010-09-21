@@ -289,7 +289,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="learningStoreUserKey">The key of the current learning store.</param>
         /// <returns></returns>
         public static SlkStore GetStore(SPWeb spWeb, string learningStoreUserKey)
-            {
+        {
                 // Security checks: None
 
             // Check parameters
@@ -304,6 +304,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 throw new UserNotFoundException(AppResources.SlkExUserNotFound);
             }
+
             //Use SPUser LoginName if Sid is Null or Empty.
             string currentUserKey = SlkUser.Key(spWeb.CurrentUser);
             string currentUserName = spWeb.CurrentUser.Name;
@@ -322,26 +323,27 @@ namespace Microsoft.SharePointLearningKit
                     anonymousSlkStore = (AnonymousSlkStore) httpContext.Cache.Get(cacheItemName);
                     if (anonymousSlkStore != null)
                     {
-                            // create a new SlkStore that wraps the cached AnonymousSlkStore plus a new
-                            // <currentUserKey>-specific LearningStore
-            if (String.IsNullOrEmpty(learningStoreUserKey) == true)
-            {
-                learningStore = new LearningStore(anonymousSlkStore.Mapping.DatabaseConnectionString,
-                    currentUserKey, ImpersonationBehavior.UseOriginalIdentity);
-            }
-            else
-            {
-                learningStore = new LearningStore(anonymousSlkStore.Mapping.DatabaseConnectionString,
-                    learningStoreUserKey, ImpersonationBehavior.UseOriginalIdentity);
+                        // create a new SlkStore that wraps the cached AnonymousSlkStore plus a new
+                        // <currentUserKey>-specific LearningStore
+                        if (String.IsNullOrEmpty(learningStoreUserKey) == true)
+                        {
+                            learningStore = new LearningStore(anonymousSlkStore.Mapping.DatabaseConnectionString,
+                                currentUserKey, ImpersonationBehavior.UseOriginalIdentity);
+                        }
+                        else
+                        {
+                            learningStore = new LearningStore(anonymousSlkStore.Mapping.DatabaseConnectionString,
+                                learningStoreUserKey, ImpersonationBehavior.UseOriginalIdentity);
 
-            }
-                return new SlkStore(anonymousSlkStore, learningStore, currentUserName);
+                        }
+
+                        return new SlkStore(anonymousSlkStore, learningStore, currentUserName);
                     }
             }
 
             // set <mapping> to the SlkSPSiteMapping corresponding to <spSiteGuid>; if no such
             // mapping, exists, a SafeToDisplayException is thrown
-            SlkSPSiteMapping mapping = SlkSPSiteMapping.GetMapping(spSiteGuid);
+            SlkSPSiteMapping mapping = SlkSPSiteMapping.GetRequiredMapping(spSiteGuid);
 
             // load "SlkSettings.xsd" from a resource into <xmlSchema>
             XmlSchema xmlSchema;
@@ -393,19 +395,19 @@ namespace Microsoft.SharePointLearningKit
                 }
             }
             
-                    // create and (if possible) cache the new AnonymousSlkStore object
-                    anonymousSlkStore = new AnonymousSlkStore(spSiteGuid, mapping, settings);
-                    DateTime cacheExpirationTime = DateTime.Now.AddSeconds(HttpContextCacheTime);
-                    if (httpContext != null)
-                    {
-                            httpContext.Cache.Add(cacheItemName, anonymousSlkStore, null, cacheExpirationTime,
-                                    System.Web.Caching.Cache.NoSlidingExpiration,
-                                    System.Web.Caching.CacheItemPriority.Normal, null);
-                    }
-
-                    // return an SlkStore that wraps <anonymousSlkStore> and <learningStore>
-                    return new SlkStore(anonymousSlkStore, learningStore, currentUserName);
+            // create and (if possible) cache the new AnonymousSlkStore object
+            anonymousSlkStore = new AnonymousSlkStore(spSiteGuid, mapping, settings);
+            DateTime cacheExpirationTime = DateTime.Now.AddSeconds(HttpContextCacheTime);
+            if (httpContext != null)
+            {
+                    httpContext.Cache.Add(cacheItemName, anonymousSlkStore, null, cacheExpirationTime,
+                            System.Web.Caching.Cache.NoSlidingExpiration,
+                            System.Web.Caching.CacheItemPriority.Normal, null);
             }
+
+            // return an SlkStore that wraps <anonymousSlkStore> and <learningStore>
+            return new SlkStore(anonymousSlkStore, learningStore, currentUserName);
+        }
 
             /// <summary>
             /// Returns the <c>UserItemIdentifier</c> of the current user.  If no UserItem exists in

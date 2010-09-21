@@ -165,8 +165,8 @@
     <comment>must be what appears in the Source column of Event Viewer for SharePoint event log entries</comment>
   </data>
   <data name="SharePoint2010LogSource" xml:space="preserve">
-    <value>SharePoint Foundation</value>
-    <comment>must be what appears in the Source column of Event Viewer for SharePoint event log entries</comment>
+    <value>Microsoft-SharePoint Products-SharePoint Foundation</value>
+    <comment>must be what appears in the Source column of Event Viewer for SharePoint event log entries. Possible doesn't need to be localised</comment>
   </data>
   <data name="SelectSiteCollectionHtml" xml:space="preserve">
     <value>Please select a Site Collection</value>
@@ -1536,5 +1536,8 @@ More information may be available in the server event log.</value>
   </data>
   <data name="DropBoxColumnLearnerId" xml:space="preserve">
     <value>Learner Id</value>
+  </data>
+  <data name="NoAccessToSite" xml:space="preserve">
+    <value>Cannot access site.</value>
   </data>
 </root>

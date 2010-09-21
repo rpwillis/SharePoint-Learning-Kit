@@ -381,7 +381,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             catch (SqlException e)
             {
                 SlkError slkError;
-                ErrorBanner.WriteException(e, out slkError);
+                SlkError.WriteException(e, out slkError);
                 ErrorBanner.RenderErrorItems(writer, slkError);
             }
             catch (Exception ex)

@@ -65,7 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin.cs" />
+      <Compile Include="Admin\slkAdministration.cs" />
+      <Compile Include="Admin\slkSpSiteMapping.cs" />
+      <Compile Include="Admin\administrationConfiguration.cs" />
     <Compile Include="AppWebControls\ButtonToolbar.cs" />
     <Compile Include="AppWebControls\CustomCheckBoxList.cs" />
     <Compile Include="AppWebControls\ErrorBanner.cs" />
@@ -269,7 +271,7 @@
   -->
   <Target Name="AfterBuild">
       <!--
-        <Copy SourceFiles="\working\slk\slk\dll\bin\debug\Microsoft.SharePointLearningKit.dll" DestinationFolder="\\laptop01\transfer\slk14" SkipUnchangedFiles="true"/>
+        <Copy SourceFiles="\working\slk\slk\dll\bin\debug\Microsoft.SharePointLearningKit.dll" DestinationFolder="\\sp\transfer\slk" SkipUnchangedFiles="true"/>
         -->
   </Target>
   <PropertyGroup>
