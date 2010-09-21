@@ -441,6 +441,7 @@ namespace Microsoft.SharePointLearningKit
 #endregion private methods
 
 #region static members
+        static readonly System.Text.RegularExpressions.Regex nameRegex = new System.Text.RegularExpressions.Regex(@"[\*#%\&:<>\?/{|}\\]");
         static void RemoveFieldNameFromGroupHeader(SPView view)
         {
             string fieldNameHtml = "<GetVar Name=\"GroupByField\" HTMLEncode=\"TRUE\" /><HTML><![CDATA[</a> :&nbsp;]]></HTML>";
@@ -488,12 +489,19 @@ namespace Microsoft.SharePointLearningKit
 
         static string GenerateFolderName(AssignmentProperties properties)
         {
-            return string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", GetDateOnly(properties.StartDate), properties.Title.Trim(), properties.Id.GetKey());
+            string title = MakeTitleSafe(properties.Title.Trim());
+            return string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", GetDateOnly(properties.StartDate), title, properties.Id.GetKey());
         }
 
         internal static string AssignmentViewName(AssignmentProperties properties)
         {
-            return string.Format(CultureInfo.InvariantCulture, "{0} {1}", GetDateOnly(properties.StartDate), properties.Title.Trim());
+            string title = MakeTitleSafe(properties.Title.Trim());
+            return string.Format(CultureInfo.InvariantCulture, "{0} {1}", GetDateOnly(properties.StartDate), title);
+        }
+
+        static string MakeTitleSafe(string title)
+        {
+            return nameRegex.Replace(title, "-");
         }
 
 #endregion static members
