@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Principal;
 using System.Security.Permissions;
+using Microsoft.SharePoint;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using System.Data.SqlClient;
@@ -100,34 +101,32 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
             {
                 string message = String.Format(CultureInfo.CurrentCulture, AppResources.AppError, String.Format(CultureInfo.CurrentCulture, format, args));
                 message = message.Replace(@"\n", "\r\n");
-                WriteEvent(message, true);
+                WriteEvent(message);
             });
         }
 
         static string source;
         static object lockObject = new object();
 
-        static void WriteEvent(string message, bool firstAttempt)
+        static void WriteEvent(string message)
+        {
+            WriteEvent(message, new string[] {AppResources.SlkEventLogSource, AppResources.WssEventLogSource, AppResources.SharePoint2010LogSource});
+        }
+
+        static void WriteEvent(string message, string[] possibleSources)
         {
             using (EventLog eventLog = new EventLog())
             {
-#if true
-                // use SharePoint's event log source, since it already exists
                 if (string.IsNullOrEmpty(source))
                 {
-                    if (firstAttempt)
-                    {
-                        eventLog.Source = AppResources.WssEventLogSource;
-                    }
-                    else
-                    {
-                        eventLog.Source = AppResources.SharePoint2010LogSource;
-                    }
+                    eventLog.Source = possibleSources[0];
                 }
                 else
                 {
                     eventLog.Source = source;
                 }
+
+                bool errorOccurred = false;
 
                 try
                 {
@@ -143,39 +142,26 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
                 }
                 catch (InvalidOperationException)
                 {
-                    if (firstAttempt && string.IsNullOrEmpty(source))
-                    {
-                        WriteEvent(message, false);
-                    }
+                    errorOccurred = true;
                 }
                 catch (ArgumentException)
                 {
-                    if (firstAttempt && string.IsNullOrEmpty(source))
-                    {
-                        WriteEvent(message, false);
-                    }
+                    errorOccurred = true;
                 }
                 catch (System.Security.SecurityException)
                 {
-                    if (firstAttempt && string.IsNullOrEmpty(source))
+                    errorOccurred = true;
+                }
+
+                if (errorOccurred)
+                {
+                    if (possibleSources.Length > 1)
                     {
-                        WriteEvent(message, false);
+                        string[] newPossible = new string[possibleSources.Length - 1];
+                        Array.Copy(possibleSources, 1, newPossible, 0, possibleSources.Length - 1);
+                        WriteEvent(message, newPossible);
                     }
                 }
-#else
-                // use an SLK event log source -- but this requires the administrator to
-                // create a registry entry, since the application pool account typically
-                // won't have the ability to do so
-                eventLog.Source = AppResources.SlkEventLogSource;
-                try
-                {
-                    eventLog.WriteEntry(String.Format(format, args).Replace(@"\n", "\r\n"), type);
-                }
-                catch (System.Security.SecurityException)
-                {
-                    throw new SafeToDisplayException(AppResources.EventLogNotConfigured);
-                }
-#endif
             }
         }
         #endregion
@@ -192,16 +178,11 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
             //Add the Exception Message in Error 
             //Or Add the Standard Error Message  and 
             //log the exception in EventLog.            
-            if (ex is SafeToDisplayException || 
-                ex is UserNotFoundException ||
-                ex is SlkNotConfiguredException ||
-                ex is NotAnInstructorException)
+            if (ex is SafeToDisplayException || ex is UserNotFoundException || ex is SlkNotConfiguredException || ex is NotAnInstructorException)
             {
                 slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(ex.Message));
             }
-            else
-            if (ex is UnauthorizedAccessException || 
-                ex is LearningStoreSecurityException)
+            else if (ex is UnauthorizedAccessException || ex is LearningStoreSecurityException)
             {
                 slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(AppResources.AccessDenied));
             }
@@ -218,16 +199,28 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
                     {
                         errorText = AppResources.SlkExWorkFlowSqlDeadLockError ;
                     }
-                   
                 }     
-                //Add the Error to Error Collection.
-                slkError = new SlkError(ErrorType.Error,
-                    SlkUtilities.GetHtmlEncodedText(errorText));
+
+
+                slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(errorText));
                 //log the exception in EventLog. 
                 SlkError.WriteToEventLog(ex);
             }           
         }
         #endregion
+
+        public static void Debug (Exception e)
+        {
+            Debug(e.ToString());
+        }
+
+        public static void Debug (string message)
+        {
+            using (System.IO.StreamWriter writer = new System.IO.StreamWriter("c:\\temp\\slkError.txt", true))
+            {
+                writer.WriteLine(message);
+            }
+        }
 
         #region WriteToEventLog
         /// <summary>
