@@ -29,6 +29,7 @@ using System.Web.UI.WebControls;
 using Microsoft.SharePoint.WebControls;
 using System.Web.UI;
 using Microsoft.SharePointLearningKit.Localization;
+using Microsoft.SharePointLearningKit.WebControls;
 
 namespace Microsoft.SharePointLearningKit.AdminPages
 {
@@ -189,7 +190,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 // (e.g. stack trace) to the event log
                 EnableUi(false, true);
                 LabelErrorMessage.Text = Html(String.Format(CultureInfo.CurrentCulture, AppResources.AdminGenericException, ex.Message));
-                SlkUtilities.LogEvent(EventLogEntryType.Error, "{0}", ex.ToString());
+                SlkError.WriteToEventLog(ex);
             }
         }
 
@@ -219,7 +220,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 // administrator, we'll show them the error, but we'll write additional information
                 // (e.g. stack trace) to the event log
                 LabelErrorMessage.Text = Html(String.Format(CultureInfo.CurrentCulture, AppResources.AdminGenericException, ex.Message));
-                SlkUtilities.LogEvent(EventLogEntryType.Error, "{0}", ex.ToString());
+                SlkError.WriteToEventLog(ex);
             }
         }
 

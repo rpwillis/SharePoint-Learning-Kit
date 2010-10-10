@@ -299,11 +299,13 @@ namespace Microsoft.SharePointLearningKit
                     {
                         name = name + recursiveNumber.ToString(CultureInfo.InvariantCulture);
                     }
+                    DropBoxManager.Debug("Creating DropBox {0}", name);
                     id = web.Lists.Add(name, dropBoxName, SPListTemplateType.DocumentLibrary);
                     SetUpDropBox(web, id);
                 }
-                catch (SPException)
+                catch (SPException e)
                 {
+                    DropBoxManager.Debug("{0}", e);
                     // Library already exists, add a number to make it unique
                     if (recursiveNumber < 10)
                     {
@@ -342,12 +344,16 @@ namespace Microsoft.SharePointLearningKit
             // Set up versioning
             DropBoxList.EnableVersioning = true;
 
+            DropBoxManager.Debug("ModifyDefaultView");
             ModifyDefaultView();
+            DropBoxManager.Debug("Update");
             DropBoxList.Update();
 
+            DropBoxManager.Debug("Save id");
             web.AllProperties[propertyKey] = DropBoxList.ID.ToString("D", CultureInfo.InvariantCulture);
             web.Update();
 
+            DropBoxManager.Debug("Change international names");
             // Change name to internationalized name
             DropBoxList.Title = AppResources.DropBoxTitle;
             ChangeColumnTitle(ColumnAssignmentKey, AppResources.DropBoxColumnAssignmentKey);
@@ -359,7 +365,9 @@ namespace Microsoft.SharePointLearningKit
             ChangeColumnTitle(ColumnLearnerId, AppResources.DropBoxColumnLearnerId);
             DropBoxList.Update();
 
+            DropBoxManager.Debug("Clear Permissions");
             ClearPermissions();
+            DropBoxManager.Debug("Create no permissions folder");
             CreateNoPermissionsFolder();
         }
 
@@ -370,6 +378,7 @@ namespace Microsoft.SharePointLearningKit
 
         SPField AddField(string name, SPFieldType type, bool addToDefaultView, bool required)
         {
+            DropBoxManager.Debug("AddField {0} {1} {2} {3}", name, type, addToDefaultView, required);
             DropBoxList.Fields.Add(name, type, required);
             SPField field = DropBoxList.Fields[name];
             if (addToDefaultView)

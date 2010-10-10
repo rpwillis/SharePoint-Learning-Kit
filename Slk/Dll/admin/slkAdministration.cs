@@ -81,6 +81,7 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
+                configuration.IsNewConfiguration = true;
                 mapping = SlkSPSiteMapping.CreateMapping(spSiteGuid);
                 // the mapping doesn't exist -- set "out" parameters to default values
                 SPWebService adminWebService = SlkAdministration.GetAdminWebService();

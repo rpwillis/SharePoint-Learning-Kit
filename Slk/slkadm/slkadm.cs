@@ -37,17 +37,17 @@ class Program
         // pausing before quitting
         bool pause = false;
         int exitCode;
-		try
-		{
-			new Program(args, out pause);
+        try
+        {
+            new Program(args, out pause);
             exitCode = 0;
-		}
-		catch (UsageException)
-		{
+        }
+        catch (UsageException)
+        {
             Console.Error.WriteLine(AdmResources.CommandLineError);
-			Console.Error.WriteLine(AdmResources.AppUsage);
+            Console.Error.WriteLine(AdmResources.AppUsage);
             exitCode = 1;
-		}
+        }
         catch (SafeToDisplayException ex)
         {
             Console.Error.WriteLine(AdmResources.ErrorMessage, ex.Message);
@@ -98,98 +98,98 @@ class Program
     /// </returns>
     ///
     Program(string[] args, out bool pause)
-	{
-		// parse command-line parameters
+    {
+        // parse command-line parameters
         pause = false;
         System.Collections.IEnumerator argEnum = args.GetEnumerator();
-		string argLower;
-		switch (argLower = GetNextArg(argEnum).ToLower())
-		{
+        string argLower;
+        switch (argLower = GetNextArg(argEnum).ToLower())
+        {
 
         case "-o":
         case "-opause":
 
             // -opause is used for development: it displays "Press any key..." at end
-			if (argLower == "-opause")
-				pause = true;
+            if (argLower == "-opause")
+                pause = true;
 
-			switch (GetNextArg(argEnum))
-			{
+            switch (GetNextArg(argEnum))
+            {
 
-			case "configuresite":
+            case "configuresite":
 
-				ConfigureSite(argEnum);
-				break;
+                ConfigureSite(argEnum);
+                break;
 
-			case "getsiteconfiguration":
+            case "getsiteconfiguration":
 
-				GetSiteConfiguration(argEnum);
-				break;
+                GetSiteConfiguration(argEnum);
+                break;
 
-			case "enummappings":
+            case "enummappings":
 
-				EnumMappings(argEnum);
-				break;
+                EnumMappings(argEnum);
+                break;
 
-			case "deletemapping":
+            case "deletemapping":
 
-				DeleteMapping(argEnum);
-				break;
+                DeleteMapping(argEnum);
+                break;
 
-			default:
+            default:
 
-				throw new UsageException();
+                throw new UsageException();
 
-			}
-			break;
+            }
+            break;
 
-		case "-help":
+        case "-help":
 
-			if (argEnum.MoveNext())
-			{
-				switch (((string) argEnum.Current).ToLower())
-				{
+            if (argEnum.MoveNext())
+            {
+                switch (((string) argEnum.Current).ToLower())
+                {
 
-				case "configuresite":
+                case "configuresite":
 
-					Console.Error.WriteLine(AdmResources.ConfigureSiteHelp);
-					break;
+                    Console.Error.WriteLine(AdmResources.ConfigureSiteHelp);
+                    break;
 
-				case "getsiteconfiguration":
+                case "getsiteconfiguration":
 
-					Console.Error.WriteLine(AdmResources.GetSiteConfigurationHelp);
-					break;
+                    Console.Error.WriteLine(AdmResources.GetSiteConfigurationHelp);
+                    break;
 
-				case "enummappings":
+                case "enummappings":
 
-					Console.Error.WriteLine(AdmResources.EnumMappingsHelp);
-					break;
+                    Console.Error.WriteLine(AdmResources.EnumMappingsHelp);
+                    break;
 
-				case "deletemapping":
+                case "deletemapping":
 
-					Console.Error.WriteLine(AdmResources.DeleteMappingHelp);
-					break;
+                    Console.Error.WriteLine(AdmResources.DeleteMappingHelp);
+                    break;
 
-				default:
+                default:
 
-					throw new UsageException();
+                    throw new UsageException();
 
-				}
-			}
-			else
-				Console.Error.WriteLine(AdmResources.AppUsage);
-			break;
+                }
+            }
+            else
+                Console.Error.WriteLine(AdmResources.AppUsage);
+            break;
 
         default:
 
             throw new UsageException();
 
-		}
+        }
 
-		// there should be no further command-line parameters
-		if (argEnum.MoveNext())
-			throw new UsageException();
-	}
+        // there should be no further command-line parameters
+        if (argEnum.MoveNext())
+            throw new UsageException();
+    }
 
     /// <summary>
     /// Implements the "configuresite" operation.
@@ -199,57 +199,57 @@ class Program
     ///
     void ConfigureSite(System.Collections.IEnumerator argEnum)
     {
-		// parse parameters
-		string url = null;
-		string databaseServer = null;
-		string databaseName = null;
-		bool createDatabase = false;
-		string instructorPermission = null;
-		string learnerPermission = null;
+        // parse parameters
+        string url = null;
+        string databaseServer = null;
+        string databaseName = null;
+        bool createDatabase = false;
+        string instructorPermission = null;
+        string learnerPermission = null;
         string observerPermission = null;
-		bool createPermissions = false;
-		string settingsFileName = null;
+        bool createPermissions = false;
+        string settingsFileName = null;
         bool defaultSlkSettings = false;
         while (argEnum.MoveNext())
         {
             switch (argEnum.Current.ToString().ToLower())
-			{
-			case "-url":
-				url = GetNextArg(argEnum);
-				break;
-			case "-databaseserver":
-				databaseServer = GetNextArg(argEnum);
-				break;
-			case "-databasename":
-				databaseName = GetNextArg(argEnum);
-				break;
-			case "-createdatabase":
-				createDatabase = true;
-				break;
-			case "-instructorpermission":
-				instructorPermission = GetNextArg(argEnum);
-				break;
-			case "-learnerpermission":
-				learnerPermission = GetNextArg(argEnum);
-				break;
+            {
+            case "-url":
+                url = GetNextArg(argEnum);
+                break;
+            case "-databaseserver":
+                databaseServer = GetNextArg(argEnum);
+                break;
+            case "-databasename":
+                databaseName = GetNextArg(argEnum);
+                break;
+            case "-createdatabase":
+                createDatabase = true;
+                break;
+            case "-instructorpermission":
+                instructorPermission = GetNextArg(argEnum);
+                break;
+            case "-learnerpermission":
+                learnerPermission = GetNextArg(argEnum);
+                break;
             case "-observerpermission":
                 observerPermission = GetNextArg(argEnum);
                 break;
-			case "-createpermissions":
-				createPermissions = true;
-				break;
-			case "-uploadslksettings":
-				settingsFileName = GetNextArg(argEnum);
-				break;
+            case "-createpermissions":
+                createPermissions = true;
+                break;
+            case "-uploadslksettings":
+                settingsFileName = GetNextArg(argEnum);
+                break;
             case "-defaultslksettings":
                 defaultSlkSettings = true;
                 break;
             default:
-				Console.Error.WriteLine(AdmResources.CommandLineError);
-				Console.Error.WriteLine(AdmResources.ConfigureSiteHelp);
-				return;
-			}
-		}
+                Console.Error.WriteLine(AdmResources.CommandLineError);
+                Console.Error.WriteLine(AdmResources.ConfigureSiteHelp);
+                return;
+            }
+        }
 
         // check command-line usage:
         //   -- -url is required;
@@ -259,66 +259,74 @@ class Program
         {
             Console.Error.WriteLine(AdmResources.CommandLineError);
             Console.Error.WriteLine(AdmResources.ConfigureSiteHelp);
-			return;
+            return;
         }
 
-		// perform the operation
+        // perform the operation
         using (SPSite spSite = new SPSite(url))
-		{
-			// load default parameter values as needed
-            string currentDatabaseServer, currentDatabaseName, currentInstructorPermission,
-				currentLearnerPermission, currentObserverPermission;
-            bool currentCreateDatabase, currentCreatePermissions;
-            bool mappingFound = SlkAdministration.LoadConfiguration(spSite.ID,
-				out currentDatabaseServer, out currentDatabaseName, out currentCreateDatabase,
-				out currentInstructorPermission, out currentLearnerPermission, out currentObserverPermission,
-				out currentCreatePermissions);
-			if (databaseServer == null)
-				databaseServer = currentDatabaseServer;
-			if (databaseName == null)
-				databaseName = currentDatabaseName;
-			if (instructorPermission == null)
-				instructorPermission = currentInstructorPermission;
-			if (learnerPermission == null)
-				learnerPermission = currentLearnerPermission;
+        {
+            AdministrationConfiguration configuration = SlkAdministration.LoadConfiguration(spSite.ID);
+            if (databaseServer == null)
+            {
+                databaseServer = configuration.DatabaseServer;
+            }
+
+            if (databaseName == null)
+            {
+                databaseName = configuration.DatabaseName;
+            }
+
+            if (instructorPermission == null)
+            {
+                instructorPermission = configuration.InstructorPermission;
+            }
+
+            if (learnerPermission == null)
+            {
+                learnerPermission = configuration.LearnerPermission;
+            }
+
             if (observerPermission == null)
-                observerPermission = currentObserverPermission;
+            {
+                observerPermission = configuration.ObserverPermission;
+            }
 
 
-			// set <exeDirPath> to the full path of the directory containing this .exe
-			string exeDirPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-			// load SlkSchema.sql if the parameters specify creating the database;
-			// SlkSchema.sql is in the same directory as this .exe file
-			string schemaFileContents;
-			if (createDatabase)
-				schemaFileContents = File.ReadAllText(Path.Combine(exeDirPath, "SlkSchema.sql"));
-			else
-				schemaFileContents = null;
+            // set <exeDirPath> to the full path of the directory containing this .exe
+            string exeDirPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            // load SlkSchema.sql if the parameters specify creating the database;
+            // SlkSchema.sql is in the same directory as this .exe file
+            string schemaFileContents;
+            if (createDatabase)
+                schemaFileContents = File.ReadAllText(Path.Combine(exeDirPath, "SlkSchema.sql"));
+            else
+                schemaFileContents = null;
 
             // load the default SLK Settings file into <defaultSettingsFileContents>
             string defaultSettingsFileContents =
                 File.ReadAllText(Path.Combine(exeDirPath, "SlkSettings.xml"));
 
-			// load the SLK Settings file to upload into <settingsFileContents> if specified by the
-			// parameters
-			string settingsFileContents;
-			if (settingsFileName != null)
-				settingsFileContents = File.ReadAllText(settingsFileName);
-			else
-			if (defaultSlkSettings)
-				settingsFileContents = defaultSettingsFileContents;
-			else
-				settingsFileContents = null;
+            // load the SLK Settings file to upload into <settingsFileContents> if specified by the
+            // parameters
+            string settingsFileContents;
+            if (settingsFileName != null)
+                settingsFileContents = File.ReadAllText(settingsFileName);
+            else
+            if (defaultSlkSettings)
+                settingsFileContents = defaultSettingsFileContents;
+            else
+                settingsFileContents = null;
 
-			// save the SLK configuration for this SPSite
-			Console.WriteLine(AdmResources.ConfiguringSlk, spSite.Url, spSite.ID);
-			SlkAdministration.SaveConfiguration(spSite.ID, databaseServer, databaseName,
-				schemaFileContents, instructorPermission, learnerPermission, observerPermission, createPermissions,
-				settingsFileContents, defaultSettingsFileContents,
+            // save the SLK configuration for this SPSite
+            Console.WriteLine(AdmResources.ConfiguringSlk, spSite.Url, spSite.ID);
+            SlkAdministration.SaveConfiguration(spSite.ID, databaseServer, databaseName,
+                schemaFileContents, instructorPermission, learnerPermission, observerPermission, createPermissions,
+                settingsFileContents, defaultSettingsFileContents,
                 spSite.WebApplication.ApplicationPool.Username,
                 ImpersonationBehavior.UseOriginalIdentity);
-		}
+        }
     }
 
     /// <summary>
@@ -329,21 +337,21 @@ class Program
     ///
     void GetSiteConfiguration(System.Collections.IEnumerator argEnum)
     {
-		// parse parameters
-		string url = null;
+        // parse parameters
+        string url = null;
         while (argEnum.MoveNext())
         {
             switch (argEnum.Current.ToString().ToLower())
-			{
-			case "-url":
-				url = GetNextArg(argEnum);
-				break;
-			default:
-				Console.Error.WriteLine(AdmResources.CommandLineError);
-				Console.Error.WriteLine(AdmResources.GetSiteConfigurationHelp);
-				return;
-			}
-		}
+            {
+            case "-url":
+                url = GetNextArg(argEnum);
+                break;
+            default:
+                Console.Error.WriteLine(AdmResources.CommandLineError);
+                Console.Error.WriteLine(AdmResources.GetSiteConfigurationHelp);
+                return;
+            }
+        }
 
         // check command-line usage:
         //   -- -url is required;
@@ -351,28 +359,28 @@ class Program
         {
             Console.Error.WriteLine(AdmResources.CommandLineError);
             Console.Error.WriteLine(AdmResources.GetSiteConfigurationHelp);
-			return;
+            return;
         }
 
-		// perform the operation
+        // perform the operation
         using (SPSite spSite = new SPSite(url))
-		{
-            string databaseServer, databaseName, instructorPermission, learnerPermission, observerPermission;
-            bool createDatabase, createPermissions;
-            bool mappingFound = SlkAdministration.LoadConfiguration(spSite.ID, out databaseServer,
-                out databaseName, out createDatabase, out instructorPermission,
-                out learnerPermission, out observerPermission, out createPermissions);
-            if (mappingFound)
-                Console.WriteLine(AdmResources.SiteConfig_FoundConfig, spSite.Url, spSite.ID);
-            else
+        {
+            AdministrationConfiguration configuration = SlkAdministration.LoadConfiguration(spSite.ID);
+            if (configuration.IsNewConfiguration)
+            {
                 Console.WriteLine(AdmResources.SiteConfig_ConfigNotFound, spSite.Url, spSite.ID);
-            Console.WriteLine(AdmResources.SiteConfig_DatabaseServer, databaseServer);
-            Console.WriteLine(AdmResources.SiteConfig_DatabaseName, databaseName);
-            Console.WriteLine(AdmResources.SiteConfig_CreateDatabase, createDatabase);
-            Console.WriteLine(AdmResources.SiteConfig_InstructorPermission, instructorPermission);
-            Console.WriteLine(AdmResources.SiteConfig_LearnerPermission, learnerPermission);
-            Console.WriteLine(AdmResources.SiteConfig_CreatePermissions, createPermissions);
-		}
+            }
+            else
+            {
+                Console.WriteLine(AdmResources.SiteConfig_FoundConfig, spSite.Url, spSite.ID);
+            }
+            Console.WriteLine(AdmResources.SiteConfig_DatabaseServer, configuration.DatabaseServer);
+            Console.WriteLine(AdmResources.SiteConfig_DatabaseName, configuration.DatabaseName);
+            Console.WriteLine(AdmResources.SiteConfig_CreateDatabase, configuration.CreateDatabase);
+            Console.WriteLine(AdmResources.SiteConfig_InstructorPermission, configuration.InstructorPermission);
+            Console.WriteLine(AdmResources.SiteConfig_LearnerPermission, configuration.LearnerPermission);
+            Console.WriteLine(AdmResources.SiteConfig_CreatePermissions, configuration.CreatePermissions);
+        }
     }
 
     /// <summary>
@@ -383,16 +391,16 @@ class Program
     ///
     void EnumMappings(System.Collections.IEnumerator argEnum)
     {
-		// parse parameters
+        // parse parameters
         while (argEnum.MoveNext())
         {
             switch (argEnum.Current.ToString().ToLower())
-			{
-			// no parameters defined
-			default:
-				throw new UsageException();
-			}
-		}
+            {
+            // no parameters defined
+            default:
+                throw new UsageException();
+            }
+        }
 
         // enumerate mappings
         foreach (SlkSPSiteMapping mapping in SlkSPSiteMapping.GetMappings())
@@ -402,7 +410,7 @@ class Program
             try
             {
                 using (SPSite spSite = new SPSite(mapping.SPSiteGuid))
-					siteLabel = spSite.Url;
+                    siteLabel = spSite.Url;
             }
             catch (FileNotFoundException)
             {
@@ -423,21 +431,21 @@ class Program
     ///
     void DeleteMapping(System.Collections.IEnumerator argEnum)
     {
-		// parse parameters
-		Guid? guid = null;
+        // parse parameters
+        Guid? guid = null;
         while (argEnum.MoveNext())
         {
             switch (argEnum.Current.ToString().ToLower())
-			{
-			case "-guid":
-				guid = new Guid(GetNextArg(argEnum));
-				break;
-			default:
-				Console.Error.WriteLine(AdmResources.CommandLineError);
-				Console.Error.WriteLine(AdmResources.DeleteMappingHelp);
-				return;
-			}
-		}
+            {
+            case "-guid":
+                guid = new Guid(GetNextArg(argEnum));
+                break;
+            default:
+                Console.Error.WriteLine(AdmResources.CommandLineError);
+                Console.Error.WriteLine(AdmResources.DeleteMappingHelp);
+                return;
+            }
+        }
 
         // check command-line usage:
         //   -- -guid is required;
@@ -445,15 +453,16 @@ class Program
         {
             Console.Error.WriteLine(AdmResources.CommandLineError);
             Console.Error.WriteLine(AdmResources.DeleteMappingHelp);
-			return;
+            return;
         }
 
         // set <mapping> to the mapping between <spSiteGuid> and the LearningStore connection
         // information for that SPSite
-        SlkSPSiteMapping mapping;
-        bool mappingExists = SlkSPSiteMapping.GetMapping(guid.Value, out mapping);
-		if (!mappingExists)
+        SlkSPSiteMapping mapping= SlkSPSiteMapping.GetMapping(guid.Value);
+        if (mapping == null)
+        {
             throw new Exception(String.Format(AdmResources.MappingNotFound, guid));
+        }
 
         // delete the mapping
         mapping.Delete();

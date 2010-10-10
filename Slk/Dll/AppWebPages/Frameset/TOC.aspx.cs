@@ -13,6 +13,7 @@ using Resources.Properties;
 using Resources;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.SharePointLearningKit.Localization;
+using Microsoft.SharePointLearningKit.WebControls;
 
 
 namespace Microsoft.SharePointLearningKit.Frameset
@@ -57,7 +58,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             catch (Exception ex)
             {
                 // Unexpected exceptions are not shown to user
-                SlkUtilities.LogEvent(System.Diagnostics.EventLogEntryType.Error, FramesetResources.FRM_UnknownExceptionMsg, ex.ToString());
+                SlkError.WriteToEventLog(FramesetResources.FRM_UnknownExceptionMsg, ex.ToString());
                 RegisterError(ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionTitle),
                    ResHelper.GetMessage(SlkFrameset.FRM_UnexpectedExceptionMsg), false);
             }       
