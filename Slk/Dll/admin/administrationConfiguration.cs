@@ -59,6 +59,9 @@ namespace Microsoft.SharePointLearningKit
             get { return PermissionsExist() == false ;}
         }
 
+        /// <summary>Indicates if the configuration is existing or new.</summary>
+        public bool IsNewConfiguration { get; set; }
+
 #endregion properties
 
 #region public methods

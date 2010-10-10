@@ -332,7 +332,6 @@ namespace Microsoft.SharePointLearningKit
         /// database until <c>Update</c> is called.
         /// </returns>
         ///
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
         public static SlkSPSiteMapping GetMapping(Guid spSiteGuid)
         {
             SlkSPSiteMappingCollection mappingCollection = GetMappingInfo();

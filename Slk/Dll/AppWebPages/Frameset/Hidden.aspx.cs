@@ -16,6 +16,7 @@ using Resources.Properties;
 using Resources;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.SharePointLearningKit.Localization;
+using Microsoft.SharePointLearningKit.WebControls;
 
 
 // This file contains the BWP-specific hidden frame rendering code. Most of the actual work is done in the code shared
@@ -125,7 +126,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 ClearError();
 
                 // Unexpected exceptions are not shown to user
-                SlkUtilities.LogEvent(System.Diagnostics.EventLogEntryType.Error, FramesetResources.FRM_UnknownExceptionMsg, ex.ToString());
+                SlkError.WriteToEventLog(FramesetResources.FRM_UnknownExceptionMsg, ex.ToString());
                 RegisterError(ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionTitle),
                    ResHelper.GetMessage(SlkFrameset.FRM_UnexpectedExceptionMsg), false);
             }        

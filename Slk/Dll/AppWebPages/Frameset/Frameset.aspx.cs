@@ -18,6 +18,7 @@ using System.Threading;
 using System.Web;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.SharePointLearningKit.Localization;
+using Microsoft.SharePointLearningKit.WebControls;
 
 namespace Microsoft.SharePointLearningKit.Frameset
 {
@@ -87,7 +88,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             {
                 // Do not set response codes
 
-                SlkUtilities.LogEvent(System.Diagnostics.EventLogEntryType.Error, ex.ToString());
+                SlkError.WriteToEventLog(ex);
                 RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle, SlkFrameset.FRM_AssignmentNotAvailableMsgHtml, false);
             }
             catch (Exception ex)
@@ -95,7 +96,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 Response.StatusCode = 500;
                 Response.StatusDescription = "Internal Server Error";
 
-                SlkUtilities.LogEvent(System.Diagnostics.EventLogEntryType.Error, ex.ToString());
+                SlkError.WriteToEventLog(ex);
                 RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle, SlkFrameset.FRM_AssignmentNotAvailableMsgHtml, false);
             }
         }

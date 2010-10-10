@@ -19,6 +19,7 @@ using Resources.Properties;
 using Microsoft.SharePoint;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.SharePointLearningKit.Localization;
+using Microsoft.SharePointLearningKit.WebControls;
 
 namespace Microsoft.SharePointLearningKit.Frameset
 {
@@ -112,7 +113,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
             catch (UnauthorizedAccessException uae)
             {
-                SlkUtilities.LogEvent(System.Diagnostics.EventLogEntryType.Error, FramesetResources.FRM_UnknownExceptionMsg, uae.ToString());
+                SlkError.WriteToEventLog(FramesetResources.FRM_UnknownExceptionMsg, uae.ToString());
                 RegisterError(ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionTitle),
                    ResHelper.GetMessage(SlkFrameset.FRM_UnexpectedExceptionMsg), false);
 
@@ -122,7 +123,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             catch (Exception e2)
             {
                 // Unexpected exceptions are not shown to user
-                SlkUtilities.LogEvent(System.Diagnostics.EventLogEntryType.Error, FramesetResources.FRM_UnknownExceptionMsg, e2.ToString());
+                SlkError.WriteToEventLog(FramesetResources.FRM_UnknownExceptionMsg, e2.ToString());
                 RegisterError(ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionTitle),
                    ResHelper.GetMessage(SlkFrameset.FRM_UnexpectedExceptionMsg), false);
 
