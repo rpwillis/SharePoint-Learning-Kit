@@ -1,10 +1,17 @@
-rem  Copyright (c) Microsoft Corporation. All rights reserved. 
+mkdir bin
+copy /y ..\..\Src\Compression\Debug\Microsoft.LearningComponents.Compression.dll bin
+copy /y ..\..\Src\Compression\Debug\Microsoft.LearningComponents.Compression.pdb bin
 
-rem -- see ReadMe.txt
-mkdir Bin
-copy /y ..\..\Debug\Microsoft.LearningComponents.Compression.dll Bin
-copy /y ..\..\Debug\Microsoft.LearningComponents.Compression.pdb Bin
-copy /y ..\..\Debug\Microsoft.LearningComponents.dll Bin
-copy /y ..\..\Debug\Microsoft.LearningComponents.pdb Bin
-copy /y ..\..\Debug\Microsoft.LearningComponents.Storage.dll Bin
-copy /y ..\..\Debug\Microsoft.LearningComponents.Storage.pdb Bin
+copy /y ..\..\Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.dll bin
+copy /y ..\..\Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.pdb bin
+
+copy /y ..\..\Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.dll bin
+copy /y ..\..\Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.pdb bin
+
+copy /y ..\..\Src\Schema\InitSchema.sql .
+
+del /Q bin\*SharePoint*.*
+
+copy /y ..\..\Src\TestUtilities\LearningStoreHelpers\bin\Debug\LearningStoreHelpers.dll bin
+copy /y ..\..\Src\TestUtilities\LearningStoreHelpers\bin\Debug\LearningStoreHelpers.pdb bin
+
