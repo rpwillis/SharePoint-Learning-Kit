@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "..\..\Src\Storag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningComponents", "..\..\Src\LearningComponents\LearningComponents.csproj", "{AE610073-6C2F-4789-BAF9-8CF1769EC6D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compression", "..\..\Src\Compression\Compression\Compression.csproj", "{561657B4-176B-4112-A692-D18521C6BA11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compression", "..\..\Src\Compression\Compression.csproj", "{561657B4-176B-4112-A692-D18521C6BA11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,14 +4,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <DebugFiles Include="..\..\Src\Compression\MRCI\bin\Debug\Microsoft.LearningComponents.MRCI.dll"/>
-        <DebugFiles Include="..\..\Src\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll"/>
+        <DebugFiles Include="..\..\Src\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll"/>
         <DebugFiles Include="..\..\Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.dll"/>
         <DebugFiles Include="..\..\Src\SharePoint\bin\Debug\Microsoft.LearningComponents.SharePoint.dll"/>
         <DebugFiles Include="..\..\Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.dll"/>
         <DebugFiles Include="..\Dll\bin\Debug\Microsoft.SharePointLearningKit.dll"/>
-        <ReleaseFiles Include="..\..\Src\Compression\MRCI\bin\Release\Microsoft.LearningComponents.MRCI.dll"/>
-        <ReleaseFiles Include="..\..\Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.dll"/>
+        <ReleaseFiles Include="..\..\Src\Compression\bin\Release\Microsoft.LearningComponents.Compression.dll"/>
         <ReleaseFiles Include="..\..\Src\LearningComponents\bin\Release\Microsoft.LearningComponents.dll"/>
         <ReleaseFiles Include="..\..\Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.dll"/>
         <ReleaseFiles Include="..\..\Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.dll"/>
@@ -19,8 +17,8 @@
     </ItemGroup>
 
     <Target Name="Build">
-        <CallTarget Targets="Release" Condition="$(Configuration) == 'Release'"/>
         <CallTarget Targets="Debug" Condition="$(Configuration) == 'Debug'"/>
+        <CallTarget Targets="Release" Condition="$(Configuration) == 'Release'"/>
     </Target>
 
     <Target Name="Release">

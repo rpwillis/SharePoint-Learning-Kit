@@ -7,10 +7,8 @@ all: rel
 deb:
 	-rmdir /s /q Build 2> nul
 	mkdir Build
-	copy ..\..\Src\Compression\MRCI\bin\Debug\Microsoft.LearningComponents.MRCI.dll Build
-	copy ..\..\Src\Compression\MRCI\bin\Debug\Microsoft.LearningComponents.MRCI.pdb Build
-	copy ..\..\Src\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll Build
-	copy ..\..\Src\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.pdb Build
+	copy ..\..\Src\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll Build
+	copy ..\..\Src\Compression\bin\Debug\Microsoft.LearningComponents.Compression.pdb Build
 	copy ..\..\Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.dll Build
 	copy ..\..\Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.pdb Build
 	copy ..\..\Src\SharePoint\bin\Debug\Microsoft.LearningComponents.SharePoint.dll Build
@@ -32,8 +30,7 @@ deb:
 rel:
 	-rmdir /s /q Build 2> nul
 	mkdir Build
-	copy ..\..\Src\Compression\MRCI\bin\Release\Microsoft.LearningComponents.MRCI.dll Build
-	copy ..\..\Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.dll Build
+	copy ..\..\Src\Compression\bin\Release\Microsoft.LearningComponents.Compression.dll Build
 	copy ..\..\Src\LearningComponents\bin\Release\Microsoft.LearningComponents.dll Build
 	copy ..\..\Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.dll Build
 	copy ..\..\Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.dll Build
