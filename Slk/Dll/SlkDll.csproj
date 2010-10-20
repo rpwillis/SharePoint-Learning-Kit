@@ -214,7 +214,7 @@
       <Project>{7E83613A-27E0-49D5-B1B7-9E0DB2942A67}</Project>
       <Name>Storage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Src\Compression\Compression\Compression.csproj">
+    <ProjectReference Include="..\..\Src\Compression\Compression.csproj">
       <Project>{561657B4-176B-4112-A692-D18521C6BA11}</Project>
       <Name>Compression</Name>
     </ProjectReference>

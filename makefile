@@ -87,10 +87,8 @@ all: deb rel slk samplesdeb samplesrel loc
 # "samplesdeb" target: builds Debug samples
 samplesdeb: deb
 	-mkdir Debug 2> nul
-	copy /y Src\Compression\MRCI\bin\Debug\Microsoft.LearningComponents.MRCI.dll Debug
-	copy /y Src\Compression\MRCI\bin\Debug\Microsoft.LearningComponents.MRCI.pdb Debug
-	copy /y Src\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll Debug
-	copy /y Src\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.pdb Debug
+	copy /y Src\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll Debug
+	copy /y Src\Compression\bin\Debug\Microsoft.LearningComponents.Compression.pdb Debug
 	copy /y Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.dll Debug
 	copy /y Src\LearningComponents\bin\Debug\Microsoft.LearningComponents.pdb Debug
 	copy /y Src\Storage\bin\Debug\Microsoft.LearningComponents.Storage.dll Debug
@@ -263,8 +261,7 @@ drop: nul
 
 	rem -- Copy release PDBs...
 	mkdir $(RELEASEPDB)
-	copy Src\Compression\MRCI\bin\Release\Microsoft.LearningComponents.MRCI.pdb $(RELEASEPDB)
-	copy Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.pdb $(RELEASEPDB)
+	copy Src\Compression\bin\Release\Microsoft.LearningComponents.Compression.pdb $(RELEASEPDB)
 	copy Src\LearningComponents\bin\Release\Microsoft.LearningComponents.pdb $(RELEASEPDB)
 	copy Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.pdb $(RELEASEPDB)
 	copy Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.pdb $(RELEASEPDB)

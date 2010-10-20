@@ -70,7 +70,7 @@ This directory tree contains the following directories:
        -- Solution: Build scripts for building SharePointLearningKit.wsp.
 
   -- Src: Source code for MLC (Microsoft Learning Components).  Contains these subdirectories:
-       -- Compression: Source code for Microsoft.LearningComponents.Compression.dll and Microsoft.LearningComponents.MRCI.dll
+       -- Compression: Source code for Microsoft.LearningComponents.Compression.dll
        -- LearningComponents: Source code for Microsoft.LearningComponents.dll.
        -- Shared: Source files shared among subdirectories of Src.
        -- SharePoint: Source code for Microsoft.LearningComponents.SharePoint.dll.

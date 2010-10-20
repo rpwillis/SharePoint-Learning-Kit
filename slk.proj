@@ -7,7 +7,7 @@
 
     <ItemGroup>
         <Projects Include="slk\slk.proj"/>
-        <Projects Include="src\compression\compression\compression.csproj"/>
+        <Projects Include="src\compression\compression.csproj"/>
         <Projects Include="src\learningcomponents\learningcomponents.csproj"/>
         <Projects Include="src\storage\storage.csproj"/>
         <Projects Include="src\sharepoint\sharepoint.csproj"/>
