@@ -324,8 +324,7 @@ class Program
             SlkAdministration.SaveConfiguration(spSite.ID, databaseServer, databaseName,
                 schemaFileContents, instructorPermission, learnerPermission, observerPermission, createPermissions,
                 settingsFileContents, defaultSettingsFileContents,
-                spSite.WebApplication.ApplicationPool.Username,
-                ImpersonationBehavior.UseOriginalIdentity);
+                spSite.WebApplication.ApplicationPool.Username);
         }
     }
 

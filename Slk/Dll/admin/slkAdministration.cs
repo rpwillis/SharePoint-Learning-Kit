@@ -156,9 +156,6 @@ namespace Microsoft.SharePointLearningKit
         ///     used, or, if the current identity is impersonated, the original Windows identity is
         ///     used.</param>
         ///
-        /// <param name="createDatabaseImpersonationBehavior">Identifies which <c>WindowsIdentity</c>
-        ///     is used to create the database.</param>
-        ///
         /// <remarks>
         /// This method is static so it can used outside the context of IIS.  Only SharePoint
         /// administrators can perform this function.
@@ -168,72 +165,31 @@ namespace Microsoft.SharePointLearningKit
         /// An error occurred that can be displayed to a browser user.
         /// </exception>
         ///
+
         public static void SaveConfiguration(Guid spSiteGuid, string databaseServer,
             string databaseName, string schemaToCreateDatabase, string instructorPermission,
             string learnerPermission, string observerPermission, bool createPermissions, string settingsFileContents,
-            string defaultSettingsFileContents, string appPoolAccountName,
-            ImpersonationBehavior createDatabaseImpersonationBehavior)
+            string defaultSettingsFileContents, string appPoolAccountName)
         {
-            // Check parameters
-            if (databaseServer == null)
-                throw new ArgumentNullException("databaseServer");
-            if (databaseName == null)
-                throw new ArgumentNullException("databaseName");
-            if (instructorPermission == null)
-                throw new ArgumentNullException("instructorPermission");
-            if (learnerPermission == null)
-                throw new ArgumentNullException("learnerPermission");
-            ////////////////////////////////////////////////////////////////////////////////////////////////////
-            if (observerPermission == null)
-                throw new ArgumentNullException("observerPermission");
-            ////////////////////////////////////////////////////////////////////////////////////////////////////
-            if (defaultSettingsFileContents == null)
-                throw new ArgumentNullException("defaultSettingsFileContents");
-
+            CheckParameters(databaseServer, databaseName, instructorPermission, learnerPermission, observerPermission, defaultSettingsFileContents);
             // only SharePoint administrators can perform this action
             CheckPermissions();
 
-            // check arguments
-            if (defaultSettingsFileContents == null)
-                throw new ArgumentNullException("defaultSettingsFileContents");
-
-            // set <mapping> to the mapping between <spSiteGuid> and the LearningStore connection
-            // information for that SPSite
-            bool mappingChanged = false;
+            // set <mapping> to the mapping between <spSiteGuid> and the LearningStore connection information for that SPSite
             SlkSPSiteMapping mapping = SlkSPSiteMapping.GetMapping(spSiteGuid);
 
             if (mapping == null)
             {
                 mapping = SlkSPSiteMapping.CreateMapping(spSiteGuid);
-                mappingChanged = true;
             }
 
-            if (mapping.DatabaseServer != databaseServer)
-            {
-                mapping.DatabaseServer = databaseServer;
-                mappingChanged = true;
-            }
-            if (mapping.DatabaseName != databaseName)
-            {
-                mapping.DatabaseName = databaseName;
-                mappingChanged = true;
-            }
-            if (mapping.InstructorPermission != instructorPermission)
-            {
-                mapping.InstructorPermission = instructorPermission;
-                mappingChanged = true;
-            }
-            if (mapping.LearnerPermission != learnerPermission)
-            {
-                mapping.LearnerPermission = learnerPermission;
-                mappingChanged = true;
-            }
-            if (mapping.ObserverPermission != observerPermission)
-            {
-                mapping.ObserverPermission = observerPermission;
-                mappingChanged = true;
-            }
-            if (mappingChanged)
+            mapping.DatabaseServer = databaseServer;
+            mapping.DatabaseName = databaseName;
+            mapping.InstructorPermission = instructorPermission;
+            mapping.LearnerPermission = learnerPermission;
+            mapping.ObserverPermission = observerPermission;
+
+            if (mapping.IsDirty)
             {
                 mapping.Update();
             }
@@ -241,147 +197,20 @@ namespace Microsoft.SharePointLearningKit
             // create the database if specified
             if (schemaToCreateDatabase != null)
             {
-                // restrict the characters in <databaseName>
-                if (!Regex.Match(databaseName, @"^\w+$").Success)
-                    throw new SafeToDisplayException(AppResources.InvalidDatabaseName, databaseName);
-
-                // if <appPoolAccountName> is null, set it to the name of the application pool account
-                // (e.g. "NT AUTHORITY\NETWORK SERVICE"); set <appPoolSid> to its SID
-                byte[] appPoolSid = null;
-                if (appPoolAccountName == null)
-                {
-                    SlkUtilities.ImpersonateAppPool(delegate()
-                    {
-                        WindowsIdentity appPool = WindowsIdentity.GetCurrent();
-                        appPoolAccountName = appPool.Name;
-                        appPoolSid = new byte[appPool.User.BinaryLength];
-                        appPool.User.GetBinaryForm(appPoolSid, 0);
-                    });
-                }
-                else
-                {
-                    NTAccount appPoolAccount = new NTAccount(appPoolAccountName);
-                    SecurityIdentifier securityId =
-                        (SecurityIdentifier)appPoolAccount.Translate(typeof(SecurityIdentifier));
-                    appPoolSid = new byte[securityId.BinaryLength];
-                    securityId.GetBinaryForm(appPoolSid, 0);
-                }
-
-                switch (createDatabaseImpersonationBehavior)
-                {
-                    case ImpersonationBehavior.UseImpersonatedIdentity:
-                        CreateDatabase(mapping.DatabaseServerConnectionString, databaseName,
-                            mapping.DatabaseConnectionString, appPoolAccountName,
-                            appPoolSid, schemaToCreateDatabase);
-                        break;
-
-                    case ImpersonationBehavior.UseOriginalIdentity:
-                        SlkUtilities.ImpersonateAppPool(delegate()
-                        {
-                            CreateDatabase(mapping.DatabaseServerConnectionString, databaseName,
-                                mapping.DatabaseConnectionString, appPoolAccountName,
-                                appPoolSid, schemaToCreateDatabase);
-                        });
-                        break;
-
-                    default:
-                        throw new InternalErrorException("SLK1100");
-                }
+                CreateDatabase(mapping, databaseName, appPoolAccountName, schemaToCreateDatabase);
             }
 
             // create permissions if specified
             if (createPermissions)
             {
                 // create the permissions if they don't exist yet
-                CreatePermission(spSiteGuid, instructorPermission,
-                    AppResources.SlkInstructorPermissionDescription, 0);
-                CreatePermission(spSiteGuid, learnerPermission,
-                    AppResources.SlkLearnerPermissionDescription, 0);
-                ////////////////////////////////////////////////////////////////////////////////////////////////////
-                CreatePermission(spSiteGuid, observerPermission,
-                    AppResources.SlkObserverPermissionDescription, 0);
-                ////////////////////////////////////////////////////////////////////////////////////////////////////        
+                CreatePermission(spSiteGuid, instructorPermission, AppResources.SlkInstructorPermissionDescription, 0);
+                CreatePermission(spSiteGuid, learnerPermission, AppResources.SlkLearnerPermissionDescription, 0);
+                CreatePermission(spSiteGuid, observerPermission, AppResources.SlkObserverPermissionDescription, 0);
             }
 
-            // make sure we can access LearningStore; while we're at it, find out if there's a row
-            // corresponding to this SPSite in the SiteSettingsItem table
-            LearningStore learningStore = new LearningStore(mapping.DatabaseConnectionString, "", true);
-            LearningStoreJob job = learningStore.CreateJob();
-            LearningStoreQuery query = learningStore.CreateQuery(
-                Schema.SiteSettingsItem.ItemTypeName);
-            query.AddColumn(Schema.SiteSettingsItem.SettingsXml);
-            query.AddCondition(Schema.SiteSettingsItem.SiteGuid,
-                LearningStoreConditionOperator.Equal, spSiteGuid);
-            job.PerformQuery(query);
-            DataRowCollection results = job.Execute<DataTable>().Rows;
-            if (results.Count == 0)
-            {
-                // this SPSite isn't listed in the SiteSettingsItem table, so we need to add a row
-                if (settingsFileContents == null)
-                    settingsFileContents = defaultSettingsFileContents;
-            }
-            else
-            {
-                object currentSettingsFileContents =
-                    results[0][Schema.SiteSettingsItem.SettingsXml];
-                if ((currentSettingsFileContents == null) ||
-                    (currentSettingsFileContents is DBNull) ||
-                    (((string)currentSettingsFileContents).Length == 0))
-                {
-                    // the SLK Settings for this SPSite are missing, so we need to add them
-                    if (settingsFileContents == null)
-                        settingsFileContents = defaultSettingsFileContents;
-                }
-            }
+            UpdateSlkSettings(mapping.DatabaseConnectionString, spSiteGuid, settingsFileContents, defaultSettingsFileContents);
 
-            // upload the SLK Settings file if needed
-            if (settingsFileContents != null)
-            {
-                // load "SlkSettings.xsd" from a resource into <xmlSchema>
-                XmlSchema xmlSchema;
-                using (StringReader schemaStringReader = new StringReader(
-                    AppResources.SlkSettingsSchema))
-                {
-                    xmlSchema = XmlSchema.Read(schemaStringReader,
-                        delegate(object sender2, ValidationEventArgs e2)
-                        {
-                            // ignore warnings (already displayed when SLK Settings file was uploaded)
-                        });
-                }
-
-                // validate <settingsFileContents>
-                using (StringReader stringReader = new StringReader(settingsFileContents))
-                {
-                    XmlReaderSettings xmlSettings = new XmlReaderSettings();
-                    xmlSettings.Schemas.Add(xmlSchema);
-                    xmlSettings.ValidationType = ValidationType.Schema;
-                    using (XmlReader xmlReader = XmlReader.Create(stringReader, xmlSettings))
-                    {
-                        try
-                        {
-                            SlkSettings.ParseSettingsFile(xmlReader,
-                                DateTime.MinValue);
-                        }
-                        catch (SlkSettingsException ex)
-                        {
-                            throw new SafeToDisplayException(AppResources.SlkSettingsFileError,
-                                ex.Message);
-                        }
-                    }
-                }
-
-                // store <settingsFileContents> in the database
-                job = learningStore.CreateJob();
-                Dictionary<string, object> uniqueProperties = new Dictionary<string, object>();
-                uniqueProperties.Add(Schema.SiteSettingsItem.SiteGuid, spSiteGuid);
-                Dictionary<string, object> updateProperties = new Dictionary<string, object>();
-                updateProperties.Add(Schema.SiteSettingsItem.SettingsXml, settingsFileContents);
-                updateProperties.Add(Schema.SiteSettingsItem.SettingsXmlLastModified,
-                    DateTime.Now.ToUniversalTime());
-                job.AddOrUpdateItem(Schema.SiteSettingsItem.ItemTypeName, uniqueProperties,
-                    updateProperties);
-                job.Execute();
-            }
         }
 
         /// <summary>
@@ -462,6 +291,90 @@ namespace Microsoft.SharePointLearningKit
 
     #region private methods
 
+        static void UpdateSlkSettings(string connectionString, Guid spSiteGuid, string settingsFileContents, string defaultSettingsFileContents)
+        {
+            // make sure we can access LearningStore; while we're at it, find out if there's a row
+            // corresponding to this SPSite in the SiteSettingsItem table
+            LearningStore learningStore = new LearningStore(connectionString, "", true);
+            LearningStoreJob job = learningStore.CreateJob();
+            LearningStoreQuery query = learningStore.CreateQuery(Schema.SiteSettingsItem.ItemTypeName);
+            query.AddColumn(Schema.SiteSettingsItem.SettingsXml);
+            query.AddCondition(Schema.SiteSettingsItem.SiteGuid, LearningStoreConditionOperator.Equal, spSiteGuid);
+            job.PerformQuery(query);
+            DataRowCollection results = job.Execute<DataTable>().Rows;
+            if (results.Count == 0)
+            {
+                // this SPSite isn't listed in the SiteSettingsItem table, so we need to add a row
+                if (settingsFileContents == null)
+                {
+                    settingsFileContents = defaultSettingsFileContents;
+                }
+            }
+            else
+            {
+                object currentSettingsFileContents = results[0][Schema.SiteSettingsItem.SettingsXml];
+                if ((currentSettingsFileContents == null) ||
+                    (currentSettingsFileContents is DBNull) ||
+                    (((string)currentSettingsFileContents).Length == 0))
+                {
+                    // the SLK Settings for this SPSite are missing, so we need to add them
+                    if (settingsFileContents == null)
+                    {
+                        settingsFileContents = defaultSettingsFileContents;
+                    }
+                }
+            }
+
+            // upload the SLK Settings file if needed
+            if (settingsFileContents != null)
+            {
+                // load "SlkSettings.xsd" from a resource into <xmlSchema>
+                XmlSchema xmlSchema;
+                using (StringReader schemaStringReader = new StringReader(
+                    AppResources.SlkSettingsSchema))
+                {
+                    xmlSchema = XmlSchema.Read(schemaStringReader,
+                        delegate(object sender2, ValidationEventArgs e2)
+                        {
+                            // ignore warnings (already displayed when SLK Settings file was uploaded)
+                        });
+                }
+
+                // validate <settingsFileContents>
+                using (StringReader stringReader = new StringReader(settingsFileContents))
+                {
+                    XmlReaderSettings xmlSettings = new XmlReaderSettings();
+                    xmlSettings.Schemas.Add(xmlSchema);
+                    xmlSettings.ValidationType = ValidationType.Schema;
+                    using (XmlReader xmlReader = XmlReader.Create(stringReader, xmlSettings))
+                    {
+                        try
+                        {
+                            SlkSettings.ParseSettingsFile(xmlReader,
+                                DateTime.MinValue);
+                        }
+                        catch (SlkSettingsException ex)
+                        {
+                            throw new SafeToDisplayException(AppResources.SlkSettingsFileError,
+                                ex.Message);
+                        }
+                    }
+                }
+
+                // store <settingsFileContents> in the database
+                job = learningStore.CreateJob();
+                Dictionary<string, object> uniqueProperties = new Dictionary<string, object>();
+                uniqueProperties.Add(Schema.SiteSettingsItem.SiteGuid, spSiteGuid);
+                Dictionary<string, object> updateProperties = new Dictionary<string, object>();
+                updateProperties.Add(Schema.SiteSettingsItem.SettingsXml, settingsFileContents);
+                updateProperties.Add(Schema.SiteSettingsItem.SettingsXmlLastModified,
+                    DateTime.Now.ToUniversalTime());
+                job.AddOrUpdateItem(Schema.SiteSettingsItem.ItemTypeName, uniqueProperties,
+                    updateProperties);
+                job.Execute();
+            }
+        }
+
         /// <summary>
         /// Adds a given permission to the root SPWeb of a given SPSite, if it doesn't exist.
         /// An optional set of base permissions are added to the permission.
@@ -505,6 +418,39 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        static void CreateDatabase(SlkSPSiteMapping mapping, string databaseName, string appPoolAccountName, string databaseSchema)
+        {
+            // restrict the characters in <databaseName>
+            if (!Regex.Match(databaseName, @"^\w+$").Success)
+            {
+                throw new SafeToDisplayException(AppResources.InvalidDatabaseName, databaseName);
+            }
+
+            // if <appPoolAccountName> is null, set it to the name of the application pool account
+            // (e.g. "NT AUTHORITY\NETWORK SERVICE"); set <appPoolSid> to its SID
+            byte[] appPoolSid = null;
+            if (appPoolAccountName == null)
+            {
+                using (SPSite site = new SPSite(mapping.SPSiteGuid))
+                {
+                    appPoolAccountName = site.WebApplication.ApplicationPool.Username;
+                }
+            }
+
+            NTAccount appPoolAccount = new NTAccount(appPoolAccountName);
+            SecurityIdentifier securityId =
+                (SecurityIdentifier)appPoolAccount.Translate(typeof(SecurityIdentifier));
+            appPoolSid = new byte[securityId.BinaryLength];
+            securityId.GetBinaryForm(appPoolSid, 0);
+
+            SlkUtilities.ImpersonateAppPool(delegate()
+            {
+                CreateDatabase(mapping.DatabaseServerConnectionString, databaseName,
+                    mapping.DatabaseConnectionString, appPoolAccountName,
+                    appPoolSid, databaseSchema);
+            });
+        }
+
         /// <summary>
         /// Create a database and give the application pool account access to it
         /// </summary>
@@ -530,25 +476,26 @@ namespace Microsoft.SharePointLearningKit
         {
             // perform operations that require a database connection string that doesn't specify a
             // particular database
-            using (SqlConnection sqlConnection = new SqlConnection(
-                databaseServerConnectionString))
+            using (SqlConnection sqlConnection = new SqlConnection(databaseServerConnectionString))
             {
                 // open the connection
                 sqlConnection.Open();
 
                 // create the database
-                using (SqlCommand command = new SqlCommand(
-                    String.Format(CultureInfo.InvariantCulture, "CREATE DATABASE {0}", databaseName),
-                        sqlConnection))
+                string createDatabaseSql = String.Format(CultureInfo.InvariantCulture, "CREATE DATABASE {0}", databaseName);
+                using (SqlCommand command = new SqlCommand(createDatabaseSql, sqlConnection))
+                {
                     command.ExecuteNonQuery();
+                }
                 
                 // grant the application pool account access to SQL Server
-                using (SqlCommand command = new SqlCommand(
-                    String.Format(CultureInfo.InvariantCulture,
-                        "IF NOT EXISTS(SELECT * FROM sys.server_principals WHERE sid=@sid) " +
-                        "BEGIN " +
-                        "CREATE LOGIN [{0}] FROM WINDOWS " +
-                        "END", appPoolAccountName), sqlConnection))
+                string grantAccessSql = @"IF NOT EXISTS(SELECT * FROM sys.server_principals WHERE sid=@sid) 
+                                            BEGIN 
+                                            CREATE LOGIN [{0}] FROM WINDOWS
+                                            END";
+                grantAccessSql = string.Format(CultureInfo.InvariantCulture, grantAccessSql, appPoolAccountName);
+
+                using (SqlCommand command = new SqlCommand(grantAccessSql, sqlConnection))
                 {
                     command.Parameters.AddWithValue("@sid", appPoolSid);
                     command.ExecuteNonQuery();
@@ -639,6 +586,34 @@ namespace Microsoft.SharePointLearningKit
             catch (ArgumentException) // e.g. invalid connection string parameter
             {
                 return false;
+            }
+        }
+
+        static void CheckParameters(string databaseServer, string databaseName, string instructorPermission, string learnerPermission, string observerPermission, string defaultSettingsFileContents)
+        {
+            if (databaseServer == null)
+            {
+                throw new ArgumentNullException("databaseServer");
+            }
+            if (databaseName == null)
+            {
+                throw new ArgumentNullException("databaseName");
+            }
+            if (instructorPermission == null)
+            {
+                throw new ArgumentNullException("instructorPermission");
+            }
+            if (learnerPermission == null)
+            {
+                throw new ArgumentNullException("learnerPermission");
+            }
+            if (observerPermission == null)
+            {
+                throw new ArgumentNullException("observerPermission");
+            }
+            if (defaultSettingsFileContents == null)
+            {
+                throw new ArgumentNullException("defaultSettingsFileContents");
             }
         }
     #endregion private methods
