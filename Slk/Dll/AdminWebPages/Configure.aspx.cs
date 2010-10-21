@@ -173,7 +173,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                     TxtDatabaseServer.Text, TxtDatabaseName.Text, schemaFileContents,
                     TxtInstructorPermission.Text, TxtLearnerPermission.Text, TxtObserverPermission.Text,
                     ChkCreatePermissions.Checked, settingsFileContents, defaultSettingsFileContents,
-                    null, ImpersonationBehavior.UseOriginalIdentity);
+                    null);
 
                 BtnOK.Visible = false;
                 OperationCompletedPanel.Visible = true;

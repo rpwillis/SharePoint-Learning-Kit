@@ -37,9 +37,6 @@ namespace Microsoft.SharePointLearningKit
     ///
     public class SlkSPSiteMapping : SPPersistedObject
     {
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // Private Fields
-        //
 
         /// <summary>
         /// The format string used to construct the name of this object as persisted in SharePoint's
@@ -47,6 +44,7 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         const string PersistedObjectNameFormat = "SharePointLearningKitMapping_{0}";
 
+#region fields
         /// <summary>
         /// Holds the value of the <c>SPSiteGuid</c> property.
         /// configuration database.
@@ -83,14 +81,12 @@ namespace Microsoft.SharePointLearningKit
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         string m_learnerPermission;
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// Holds the value of the <c>ObserverPermission</c> property.
         /// </summary>
         [Persisted]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         string m_observerPermission;
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Holds the value of the <c>DropBoxFilesExtensions</c> property.
@@ -98,12 +94,11 @@ namespace Microsoft.SharePointLearningKit
         [Persisted]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         string m_dropBoxFilesExtensions;
+#endregion fields
 
                 
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // Public Properties
-        //
 
+#region properties
         /// <summary>
         /// Gets the GUID of the SPSite represented by this SPSite-to-LearningStore mapping.
         /// </summary>
@@ -133,7 +128,11 @@ namespace Microsoft.SharePointLearningKit
             [DebuggerStepThrough]
             set
             {
-                m_databaseServer = value;
+                if (m_databaseServer != value)
+                {
+                    m_databaseServer = value;
+                    IsDirty = true;
+                }
             }
         }
 
@@ -151,7 +150,11 @@ namespace Microsoft.SharePointLearningKit
             [DebuggerStepThrough]
             set
             {
-                m_databaseName = value;
+                if (m_databaseName != value)
+                {
+                    m_databaseName = value;
+                    IsDirty = true;
+                }
             }
         }
 
@@ -221,7 +224,11 @@ namespace Microsoft.SharePointLearningKit
             [DebuggerStepThrough]
             set
             {
-                m_instructorPermission = value;
+                if (m_instructorPermission != value)
+                {
+                    m_instructorPermission = value;
+                    IsDirty = true;
+                }
             }
         }
 
@@ -238,11 +245,17 @@ namespace Microsoft.SharePointLearningKit
             [DebuggerStepThrough]
             set
             {
-                m_learnerPermission = value;
+                if (m_learnerPermission != value)
+                {
+                    m_learnerPermission = value;
+                    IsDirty = true;
+                }
             }
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>Shows if the object is changed or not.</summary>
+        public bool IsDirty { get; private set; }
+
         /// <summary>
         /// Sets or gets the name of SharePoint permission used to identify observers.
         /// </summary>
@@ -256,15 +269,18 @@ namespace Microsoft.SharePointLearningKit
             [DebuggerStepThrough]
             set
             {
-                m_observerPermission = value;
+                if (m_observerPermission != value)
+                {
+                    m_observerPermission = value;
+                    IsDirty = true;
+                }
             }
         }
-        ////////////////////////////////////////////////////////////////////////////////////////////////////            
 
         /// <summary>
         /// Sets or gets the allowed extensions for DropBox uploaded files.
         /// </summary>
-        public string DropBoxFilesExtensions
+        string DropBoxFilesExtensions
         {
             [DebuggerStepThrough]
             get
@@ -277,12 +293,10 @@ namespace Microsoft.SharePointLearningKit
                 m_dropBoxFilesExtensions = value;
             }
         }
+#endregion properties
 
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // Public Methods
-        //
-
+#region constructors
         /// <summary>
         /// Initializes an instance of this class.  This constructor is only used for deserialization
         /// and should not be used directly by applications.
@@ -291,6 +305,28 @@ namespace Microsoft.SharePointLearningKit
         public SlkSPSiteMapping()
         {
         }
+        //
+
+        /// <summary>
+        /// Initializes an instance of this class.
+        /// </summary>
+        ///
+        /// <param name="persistedObjectName">The name of this object as it will be persisted in
+        ///     SharePoint's configuration database.</param>
+        ///
+        /// <param name="adminWebService">An instance of the SharePoint Central Administration web
+        ///     service.</param>
+        ///
+        /// <param name="spSiteGuid">The GUID of the SPSite represented by this
+        ///     SPSite-to-LearningStore mapping.</param>
+        ///
+        SlkSPSiteMapping(string persistedObjectName, SPWebService adminWebService, Guid spSiteGuid)
+            : base(persistedObjectName, adminWebService)
+        {
+            m_spSiteGuid = spSiteGuid;
+            IsDirty = true;
+        }
+#endregion constructors
 
         /// <summary>
         /// Returns the SPSite-to-LearningStore mapping represented by a given SPSite GUID.  If no
@@ -371,28 +407,6 @@ namespace Microsoft.SharePointLearningKit
             return GetMappingInfo();
         }
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // Private Methods
-        //
-
-        /// <summary>
-        /// Initializes an instance of this class.
-        /// </summary>
-        ///
-        /// <param name="persistedObjectName">The name of this object as it will be persisted in
-        ///     SharePoint's configuration database.</param>
-        ///
-        /// <param name="adminWebService">An instance of the SharePoint Central Administration web
-        ///     service.</param>
-        ///
-        /// <param name="spSiteGuid">The GUID of the SPSite represented by this
-        ///     SPSite-to-LearningStore mapping.</param>
-        ///
-        SlkSPSiteMapping(string persistedObjectName, SPWebService adminWebService, Guid spSiteGuid)
-            : base(persistedObjectName, adminWebService)
-        {
-            m_spSiteGuid = spSiteGuid;
-        }
 
         /// <summary>Retrieves various pieces of information related to SharePoint Central Administration and
         /// the SPSite-to-LearningStore mappings. </summary>
