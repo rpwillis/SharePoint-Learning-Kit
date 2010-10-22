@@ -10,6 +10,7 @@
 ..\Admin\DownloadSettings.aspx                                              Admin\SharePointLearningKit\DownloadSettings.aspx
 ..\Admin\Info.gif                                                           Admin\SharePointLearningKit\Info.gif
 ..\Admin\Wait.gif                                                           Admin\SharePointLearningKit\Wait.gif
+..\Admin\icon.png                                                           Admin\SharePointLearningKit\icon.png
 Features\AdminFeature\elements.xml                                          SharePointLearningKitAdmin\elements.xml
 Features\AdminFeature\feature.xml                                           SharePointLearningKitAdmin\feature.xml
 ..\App\Actions.aspx                                                         Layouts\SharePointLearningKit\Actions.aspx
