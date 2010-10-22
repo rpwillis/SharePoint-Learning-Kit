@@ -41,7 +41,7 @@
     </Reference>
     <Reference Include="Microsoft.LearningComponents.Compression, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\src\compression\compression\bin\debug\Microsoft.LearningComponents.Compression.dll</HintPath>
+      <HintPath>..\..\..\src\compression\bin\debug\Microsoft.LearningComponents.Compression.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.LearningComponents.SharePoint, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Feature xmlns="http://schemas.microsoft.com/sharepoint/"
 		 Id="00057005-c978-11da-ba52-00042350e42e"
-		 Scope="WebApplication"
-                 Hidden="true"
+		 Scope="Farm"
+                 Hidden="false"
 		 Title="$Resources:SLK,AdminFeatureTitle"
 		 AutoActivateInCentralAdmin="TRUE">
 	<ElementManifests>

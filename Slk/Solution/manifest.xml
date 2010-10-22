@@ -23,6 +23,7 @@
         <TemplateFile Location="Admin\SharePointLearningKit\SlkSchema.sql" />
         <TemplateFile Location="Admin\SharePointLearningKit\SlkSettings.xml.dat" />
         <TemplateFile Location="Admin\SharePointLearningKit\Wait.gif" />
+        <TemplateFile Location="Admin\SharePointLearningKit\icon.png" />
         <TemplateFile Location="Layouts\layouts.sitemap.SharePointLearningKit.xml" />
         <TemplateFile Location="Layouts\SharePointLearningKit\Actions.aspx" />
         <TemplateFile Location="Layouts\SharePointLearningKit\AssignmentProperties.aspx" />

@@ -450,24 +450,19 @@ class Program
 
         using (SPSite spSite = new SPSite(siteCollectionUrl))
         {
-            // load default parameter values as needed
-            string currentDatabaseServer, currentDatabaseName, instructorPermission,
-                learnerPermission, observerPermission;
-            bool createDatabase, createPermissions;
-            bool mappingFound = SlkAdministration.LoadConfiguration(spSite.ID,
-                out currentDatabaseServer, out currentDatabaseName, out createDatabase,
-                out instructorPermission, out learnerPermission, out observerPermission, out createPermissions);
+            AdministrationConfiguration configuration = SlkAdministration.LoadConfiguration(spSite.ID);
+
             if (databaseServer == "CurrentOrDefaultServer")
-                databaseServer = currentDatabaseServer;
+                databaseServer = configuration.DatabaseServer;
             else
             if (databaseServer == "localhost")
                 databaseServer = spSite.HostName;
             if (databaseName == "CurrentOrDefaultDatabase")
-                databaseName = currentDatabaseName;
+                databaseName = configuration.DatabaseName;
 
             // load SlkSchema.sql, the SQL Server schema for SLK
             string schemaFileContents;
-            if (createDatabase)
+            if (configuration.CreateDatabase)
             {
                 schemaFileContents = File.ReadAllText(
                     Path.Combine(slkAdminLocation, "SlkSchema.sql"));
@@ -484,10 +479,9 @@ class Program
                 Path.Combine(slkAdminLocation, "SlkSettings.xml.dat"));
 
             // save the SLK configuration for this SPSite
-            SlkAdministration.SaveConfiguration(spSite.ID, databaseServer, databaseName,
-                schemaFileContents, instructorPermission, learnerPermission, observerPermission, createPermissions,
-                null, settingsFileContents, spSite.WebApplication.ApplicationPool.Username,
-                ImpersonationBehavior.UseOriginalIdentity);
+            SlkAdministration.SaveConfiguration(spSite.ID, configuration.DatabaseServer, configuration.DatabaseName,
+                schemaFileContents, configuration.InstructorPermission, configuration.LearnerPermission, configuration.ObserverPermission, configuration.CreatePermissions,
+                null, settingsFileContents, spSite.WebApplication.ApplicationPool.Username);
         }
     }
 
