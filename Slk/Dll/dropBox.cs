@@ -508,7 +508,9 @@ namespace Microsoft.SharePointLearningKit
             return string.Format(CultureInfo.InvariantCulture, "{0} {1}", GetDateOnly(properties.StartDate), title);
         }
 
-        static string MakeTitleSafe(string title)
+        /// <summary>Makes a string a safe title for a folder.</summary>
+        /// <param name="title">The starting point.</param>
+        public static string MakeTitleSafe(string title)
         {
             return nameRegex.Replace(title, "-");
         }
