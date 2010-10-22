@@ -308,9 +308,7 @@ namespace Microsoft.SharePointLearningKit
         static string LearnerFolderName(SPUser learner)
         {
             string folderName = learner.LoginName;
-
-            folderName = folderName.Replace("\\", "-");
-            return folderName.Replace(":", "-");
+            return DropBox.MakeTitleSafe(folderName);
         }
 
 #endregion static members

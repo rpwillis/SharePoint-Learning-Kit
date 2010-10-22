@@ -2,7 +2,6 @@
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
 	<CustomActionGroup Id="00057006-c978-11da-ba52-00042350e42e"
                Title="$Resources:SLK,AdminCustomActionGroupTitle"
-               ImageUrl="/_admin/SharePointLearningKit/icon.png"
 			   Location="Microsoft.SharePoint.Administration.Applications"
 			   Sequence="120" />
     <CustomAction Id="00057007-c978-11da-ba52-00042350e42e"
