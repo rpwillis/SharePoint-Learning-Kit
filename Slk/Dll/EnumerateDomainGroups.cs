@@ -550,6 +550,8 @@ static class DomainGroupUtilities
     /// <c>SpUserInfo</c> is used simply as a convenient class to contain information about users.</returns>
     static public ICollection<SPUserInfo> EnumerateDomainGroup(string groupName, TimeSpan timeout, bool hideDisabledUsers)
     {
+        todo use SPUser.SID instead
+
         /* Placeholders for cached last AD Configuration processed
          * to speed up NETBIOS domain name retrieval - most group entries 
          * will be from same domain and this therefore allows us to minimise 
