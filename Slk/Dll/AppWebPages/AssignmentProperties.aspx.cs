@@ -235,10 +235,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Holds Current SPWeb User's SlkUser Key 
         /// </summary>
         private string m_currentSlkUserKey;
-        /// <summary>
-        /// The name of the drop box document library 
-        /// </summary>
-        private string m_dropBoxDocLibName;
 
         #endregion
 
@@ -535,21 +531,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                 }
                 return m_currentSlkUserKey;
-            }
-        }
-
-        /// <summary>
-        /// Current SPWeb User's SlkUser Key 
-        /// </summary>
-        private String DropBoxDocLibName
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(m_dropBoxDocLibName))
-                {
-                    m_dropBoxDocLibName = AppResources.DropBoxDocLibName;
-                }
-                return m_dropBoxDocLibName;
             }
         }
 
@@ -1130,8 +1111,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             //Find the Literal Control in the MasterPage Placeholder and return
             Literal literalCtrl = null;
-            ContentPlaceHolder mpContentPlaceHolder =
-                 (ContentPlaceHolder)Master.FindControl(placeHolderID);
+            ContentPlaceHolder mpContentPlaceHolder = (ContentPlaceHolder)Master.FindControl(placeHolderID);
             if (mpContentPlaceHolder != null)
             {
                 literalCtrl = (Literal)mpContentPlaceHolder.FindControl(literalControlID);
@@ -1146,39 +1126,36 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary> 
         private void SetMasterPageControlText()
         {
-            // Gets a reference to a Label control that is  in a 
-            // ContentPlaceHolder control of Master Page
+            Literal title = GetMasterPageControl("PlaceHolderPageTitle", "pageTitle");
+            Literal titleArea = GetMasterPageControl("PlaceHolderPageTitleInTitleArea", "pageTitleinTitlePage");
+            Literal pageDescription = GetMasterPageControl("PlaceHolderPageDescription", "pageDescription");
 
-            Literal ltrlTitle, ltrlTitleArea, ltrlPageDescription;
-
-            //Set Page Title in Title Area
-            ltrlTitle = GetMasterPageControl("PlaceHolderPageTitle", "pageTitle");
-
-            //Set Page Title in Title Area
-            ltrlTitleArea = GetMasterPageControl("PlaceHolderPageTitleInTitleArea", "pageTitleinTitlePage");
-
-            //Set Page Description 
-            ltrlPageDescription = GetMasterPageControl("PlaceHolderPageDescription", "pageDescription");
-
-            //Set Master Page Title Controls accroding to APP Page Rendered Mode  
-
+            //Set Master Page Title Controls according to APP Page Rendered Mode  
             switch (AppMode)
             {
                 case PageMode.Create:
-                    ltrlTitle.Text = AppResources.AppPageCreationTitle;
-                    ltrlTitleArea.Text = AppResources.AppPageCreationTitleInTitleArea;
-                    ltrlPageDescription.Text = AppResources.AppPageCreationDescription;
+                    SetLiteralText(title, AppResources.AppPageCreationTitle);
+                    SetLiteralText(titleArea, AppResources.AppPageCreationTitleInTitleArea);
+                    SetLiteralText(pageDescription, AppResources.AppPageCreationDescription);
                     break;
                 case PageMode.Edit:
-                    ltrlTitle.Text = AppResources.AppPageEditTitle;
-                    ltrlTitleArea.Text = AppResources.AppPageEditTitleInTitleArea;
-                    ltrlPageDescription.Text = AppResources.AppPageEditDescription;
+                    SetLiteralText(title, AppResources.AppPageEditTitle);
+                    SetLiteralText(titleArea, AppResources.AppPageEditTitleInTitleArea);
+                    SetLiteralText(pageDescription, AppResources.AppPageEditDescription);
                     break;
                 case PageMode.Confirmation:
-                    ltrlTitle.Text = AppResources.AppPageCreateConfirmationTitle;
-                    ltrlTitleArea.Text = AppResources.AppPageCreateConfirmationTitle;
-                    ltrlPageDescription.Text = String.Empty;
+                    SetLiteralText(title, AppResources.AppPageCreateConfirmationTitle);
+                    SetLiteralText(titleArea, AppResources.AppPageCreateConfirmationTitle);
+                    SetLiteralText(pageDescription, String.Empty);
                     break;
+            }
+        }
+
+        void SetLiteralText(Literal literal, string value)
+        {
+            if (literal != null)
+            {
+                literal.Text = value;
             }
         }
         #endregion
@@ -1595,6 +1572,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                                     try
                                     {
+                                        Microsoft.SharePoint.Utilities.SPUtility.ValidateFormDigest();
                                         dropBoxMgr.CreateAssignmentFolder();
                                         SetConfirmationPage(assignmentItemIdentifier.GetKey());
                                     }
