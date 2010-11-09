@@ -43,7 +43,7 @@
                                 <tr><td></td></tr>
                                 <!-- Validation Summary  -->
                                 <tr>
-                                    <td class="ms-formbody" style="border: black 1px solid;background-color:transparent">
+                                    <td class="ms-formbody" >
                                         <asp:ValidationSummary CssClass="SlkError" ID="appValidationSummary" runat="server" />
                                     </td>
                                 </tr>
