@@ -18,6 +18,6 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("Microsoft Learning Components Module")]
 [assembly: AssemblyCompany("Microsoft Corporation")]
 [assembly: AssemblyProduct("Microsoft Learning Components")]
-[assembly: AssemblyCopyright("\x00A9 Microsoft Corp. 2005-2006.  All rights reserved.")]
+[assembly: AssemblyCopyright("\x00A9 Microsoft Corp. 2005-2010.  All rights reserved.")]
 [assembly: AssemblyCulture("")]
 
