@@ -364,6 +364,8 @@ namespace Microsoft.SharePointLearningKit
         public void CreateAssignmentFolder()
         {
             Debug("Starting DropBoxManager.CreateAssignmentFolder");
+            Microsoft.SharePoint.Utilities.SPUtility.ValidateFormDigest();
+
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
                 using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))

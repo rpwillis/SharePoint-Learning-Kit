@@ -287,6 +287,7 @@ namespace Microsoft.SharePointLearningKit
 
         void CreateDropBoxLibrary(int recursiveNumber)
         {
+            DropBoxManager.Debug("Starting CreateDropBoxLibrary");
             bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
             try
             {
@@ -301,15 +302,16 @@ namespace Microsoft.SharePointLearningKit
                     }
                     DropBoxManager.Debug("Creating DropBox {0}", name);
                     id = web.Lists.Add(name, dropBoxName, SPListTemplateType.DocumentLibrary);
+                    DropBoxManager.Debug("Created DropBox {0}", name);
                     SetUpDropBox(web, id);
                 }
                 catch (SPException e)
                 {
                     DropBoxManager.Debug("{0}", e);
                     // Library already exists, add a number to make it unique
-                    if (recursiveNumber < 10)
+                    if (recursiveNumber < 2)
                     {
-                        CreateDropBoxLibrary(recursiveNumber++);
+                        CreateDropBoxLibrary(recursiveNumber + 1);
                     }
                     else
                     {
@@ -322,37 +324,56 @@ namespace Microsoft.SharePointLearningKit
             {
                 web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
             }
+            DropBoxManager.Debug("Ending CreateDropBoxLibrary");
         }
 
-        void SetUpDropBox(SPWeb web, Guid id)
+        void AddFields()
         {
-            dropBoxList = web.Lists[id];
+            DropBoxManager.Debug("Adding fields");
 
-            SPField assignmentId = AddField(ColumnAssignmentId, SPFieldType.Text, false);
-            assignmentId.Indexed = true;
-            assignmentId.Update();
-            AddField(ColumnAssignmentDate, SPFieldType.DateTime, true);
-            AddField(ColumnAssignmentName, SPFieldType.Text, true);
-            SPFieldCalculated assignmentKey = (SPFieldCalculated)AddField(ColumnAssignmentKey, SPFieldType.Calculated, true, false);
-            string formula = "=TEXT([{0}], \"yyyy-mm-dd\")&\" \"&[{1}]";
-            assignmentKey.Formula = string.Format(formula, ColumnAssignmentDate, ColumnAssignmentName);
-            assignmentKey.Update();
-            AddField(ColumnIsLatest, SPFieldType.Boolean, true);
-            AddField(ColumnLearner, SPFieldType.User, true);
-            AddField(ColumnLearnerId, SPFieldType.Text, false);
+            // can only set up the formula if in an English locale, so change then change back after
+            int webLocaleId = web.Locale.LCID;
+            bool localeChanged = false;
 
-            // Set up versioning
-            DropBoxList.EnableVersioning = true;
+            if (webLocaleId != 1033)
+            {
+                web.Locale = new CultureInfo(1033);
+                web.Update();
+                localeChanged = true;
+            }
 
-            DropBoxManager.Debug("ModifyDefaultView");
-            ModifyDefaultView();
-            DropBoxManager.Debug("Update");
-            DropBoxList.Update();
 
-            DropBoxManager.Debug("Save id");
-            web.AllProperties[propertyKey] = DropBoxList.ID.ToString("D", CultureInfo.InvariantCulture);
-            web.Update();
+            try
+            {
+                SPField assignmentId = AddField(ColumnAssignmentId, SPFieldType.Text, false);
+                assignmentId.Indexed = true;
+                assignmentId.Update();
 
+                AddField(ColumnAssignmentDate, SPFieldType.DateTime, true);
+                AddField(ColumnAssignmentName, SPFieldType.Text, true);
+                SPFieldCalculated assignmentKey = (SPFieldCalculated)AddField(ColumnAssignmentKey, SPFieldType.Calculated, true, false);
+                string formula = "=TEXT([{0}], \"yyyy-mm-dd\")&\" \"&[{1}]";
+                assignmentKey.Formula = string.Format(formula, ColumnAssignmentDate, ColumnAssignmentName);
+                assignmentKey.Update();
+                AddField(ColumnIsLatest, SPFieldType.Boolean, true);
+                AddField(ColumnLearner, SPFieldType.User, true);
+                AddField(ColumnLearnerId, SPFieldType.Text, false);
+                DropBoxList.Update();
+                DropBoxManager.Debug("End Adding fields");
+            }
+            finally
+            {
+                if (localeChanged)
+                {
+                    web.Locale = new CultureInfo(webLocaleId);
+                    web.Update();
+                }
+            }
+        }
+
+        void ChangeToInternationalNames()
+        {
+            //This is done separately so the internal names are consistent.
             DropBoxManager.Debug("Change international names");
             // Change name to internationalized name
             DropBoxList.Title = AppResources.DropBoxTitle;
@@ -364,10 +385,26 @@ namespace Microsoft.SharePointLearningKit
             ChangeColumnTitle(ColumnLearner, AppResources.DropBoxColumnLearner);
             ChangeColumnTitle(ColumnLearnerId, AppResources.DropBoxColumnLearnerId);
             DropBoxList.Update();
+        }
 
-            DropBoxManager.Debug("Clear Permissions");
+        void SetUpDropBox(SPWeb web, Guid id)
+        {
+            dropBoxList = web.Lists[id];
+            DropBoxManager.Debug("Save id");
+            web.AllProperties[propertyKey] = DropBoxList.ID.ToString("D", CultureInfo.InvariantCulture);
+            web.Update();
+            DropBoxManager.Debug("Saved id");
+
+            AddFields();
+            ChangeToInternationalNames();
+
+            // Set up versioning
+            DropBoxList.EnableVersioning = true;
+            DropBoxList.Update();
+
+            ModifyDefaultView();
+
             ClearPermissions();
-            DropBoxManager.Debug("Create no permissions folder");
             CreateNoPermissionsFolder();
         }
 
@@ -385,6 +422,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 DropBoxList.DefaultView.ViewFields.Add(field);
             }
+            DropBoxManager.Debug("End AddField {0} {1} {2} {3}", name, type, addToDefaultView, required);
             return field;
         }
 
@@ -399,6 +437,8 @@ namespace Microsoft.SharePointLearningKit
 
         SPListItem CreateNoPermissionsFolder()
         {
+            DropBoxManager.Debug("Create no permissions folder");
+
             string url = DropBoxList.RootFolder.ServerRelativeUrl;
             bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
 
@@ -409,6 +449,7 @@ namespace Microsoft.SharePointLearningKit
                 folder.Update();
                 ClearPermissions(folder);
                 DropBoxList.Update();
+                DropBoxManager.Debug("End Create no permissions folder");
                 return folder;
             }
             finally
@@ -419,6 +460,7 @@ namespace Microsoft.SharePointLearningKit
 
         void ClearPermissions()
         {
+            DropBoxManager.Debug("Clear Permissions");
             bool allowUnsafeUpdatesValue = web.AllowUnsafeUpdates;
 
             try
@@ -429,10 +471,12 @@ namespace Microsoft.SharePointLearningKit
             {
                 web.AllowUnsafeUpdates = allowUnsafeUpdatesValue;
             }
+            DropBoxManager.Debug("End Clear Permissions");
         }
 
         void ModifyDefaultView()
         {
+            DropBoxManager.Debug("ModifyDefaultView");
             SPView defaultView = DropBoxList.DefaultView;
             defaultView.Title = AppResources.DropBoxDefaultViewTitle;
             string query = "<GroupBy Collapse=\"TRUE\" GroupLimit=\"100\"><FieldRef Name=\"{0}\" /><FieldRef Name=\"{1}\" /></GroupBy>";
@@ -445,6 +489,8 @@ namespace Microsoft.SharePointLearningKit
             view.Scope = SPViewScope.Recursive;
             RemoveFieldNameFromGroupHeader(view);
             view.Update();
+            DropBoxList.Update();
+            DropBoxManager.Debug("End ModifyDefaultView");
         }
 
 #endregion private methods
