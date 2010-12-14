@@ -11,14 +11,18 @@
         <Projects Include="src\learningcomponents\learningcomponents.csproj"/>
         <Projects Include="src\storage\storage.csproj"/>
         <Projects Include="src\sharepoint\sharepoint.csproj"/>
-        <InstallFiles Include="slk\solution\BatchFiles\*.cmd"/>
-        <InstallFiles Include="slk\solution\output\SharePointLearningKit.wsp"/>
         <InstallFiles Include="slk\slkadm\bin\release\slkadm.exe"/>
         <InstallFiles Include="slk\slkschema.xml"/>
         <InstallFiles Include="slk\slkschema.sql"/>
         <InstallFiles Include="slk\SlkSettings.xml"/>
         <InstallFiles Include="doc\root\*"/>
         <InstallFiles Include="doc\install\*"/>
+        <SPVersion Include="slk.proj">
+            <Version>2007</Version>
+        </SPVersion>
+        <SPVersion Include="slk.proj">
+            <Version>2010</Version>
+        </SPVersion>
     </ItemGroup>
 
     <Target Name="All" DependsOnTargets="BuildDebug;BuildRelease;BuildSamplesDebug;BuildSamplesRelease;Localization;Drop">
@@ -49,17 +53,21 @@
     </Target>
 
     <Target Name="Localization" >
-        <Error Text="Localization target not written."/>
         <!--
 	cd Slk\Tools\LocalizationGuide
 	$(MAKE)
         -->
     </Target>
 
-    <Target Name="Drop" >
-        <MakeDir Directories="$(DropDirectory)"/>
-        <MakeDir Directories="$(InstallDirectory)"/>
-        <Copy SourceFiles="@(InstallFiles)" DestinationFolder="$(InstallDirectory)"/>
+    <Target Name="Drop" Outputs="$(InstallDirectory)\%(SPVersion.Version)\SharePointLearningKit.wsp">
+        <ItemGroup>
+            <VersionFiles Include="slk\solution\output\%(SPVersion.Version)\SharePointLearningKit.wsp"/>
+            <VersionFiles Include="slk\solution\InstallCommands\%(SPVersion.Version)\*"/>
+        </ItemGroup>
+        <MakeDir Directories="$(InstallDirectory)\%(SPVersion.Version)"/>
+        <Copy SourceFiles="@(InstallFiles)" DestinationFolder="$(InstallDirectory)\%(SPVersion.Version)"/>
+        <Copy SourceFiles="@(VersionFiles)" DestinationFolder="$(InstallDirectory)\%(SPVersion.Version)"/>
+
         <!--
         Create the drop directory
 
