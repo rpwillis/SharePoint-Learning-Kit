@@ -1,6 +1,7 @@
 <Project DefaultTargets="Build"  xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
 
     <PropertyGroup>
+        <Configuration>Release</Configuration>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,11 +15,34 @@
         <ReleaseFiles Include="..\..\Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.dll"/>
         <ReleaseFiles Include="..\..\Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.dll"/>
         <ReleaseFiles Include="..\Dll\bin\Release\Microsoft.SharePointLearningKit.dll"/>
+
+        <VersionedAspx Include="..\App\AssignmentProperties.aspx"/>
+        <VersionedAspx Include="..\App\SubmittedFiles.aspx"/>
+        <VersionedAspx Include="..\Admin\Configure.aspx"/>
+
+        <SPVersion Include="cab.ddf">
+            <Version>2007</Version>
+        </SPVersion>
+        <SPVersion Include="cab.ddf">
+            <Version>2010</Version>
+        </SPVersion>
     </ItemGroup>
 
-    <Target Name="Build">
+    <Target Name="Build" DependsOnTargets="VersionFiles">
         <CallTarget Targets="Debug" Condition="$(Configuration) == 'Debug'"/>
         <CallTarget Targets="Release" Condition="$(Configuration) == 'Release'"/>
+    </Target>
+
+    <Target Name="VersionFiles">
+        <MakeDir Directories="Build"/>
+        <MakeDir Directories="Build\2007"/>
+        <MakeDir Directories="Build\2010"/>
+        <Copy SourceFiles="@(VersionedAspx)" DestinationFolder="Build\2007"/>
+        <Copy SourceFiles="Features\AdminFeature\2010elements.xml" DestinationFiles="Build\2010\elements.xml"/>
+        <Copy SourceFiles="Features\AdminFeature\2007elements.xml" DestinationFiles="Build\2007\elements.xml"/>
+
+        <MSBuild Projects="../Tools/ChangeVersion/build.proj" Targets="Build" StopOnFirstFailure="true"/>
+        <Exec Command="..\Tools\ChangeVersion\ChangeVersion Build\2010 @(VersionedAspx, ' ')" WorkingDirectory="."/>
     </Target>
 
     <Target Name="Release">
@@ -38,9 +62,10 @@
         <RemoveDir Directories="Output"/>
     </Target>
 
-    <Target Name="MakeWsp">
+    <Target Name="MakeWsp" Outputs="Output\%(SPVersion.Version)\SharePointLearningKit.wsp">
         <MakeDir Directories="Output"/>
-        <Exec Command="makecab /F cab.ddf"/>
+        <MakeDir Directories="Output\%(SPVersion.Version)"/>
+        <Exec Command="makecab /F cab.ddf /D SPVersion=%(SPVersion.Version)"/>
         <Delete Files="setup.inf"/>
         <Delete Files="setup.rpt"/>
     </Target>

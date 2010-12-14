@@ -1,23 +1,22 @@
 ;
-.OPTION EXPLICIT     ; Generate errors 
-.Set CabinetNameTemplate=Output\SharePointLearningKit.wsp
+.Set CabinetNameTemplate=Output\%SPVersion%\SharePointLearningKit.wsp
 .set DiskDirectoryTemplate=CDROM ; All cabinets go in a single directory
 .Set CompressionType=MSZIP;** All files are compressed in cabinet files
 .Set UniqueFiles="ON"
 .Set Cabinet=on
 .Set DiskDirectory1=.
-..\Admin\Configure.aspx                                                     Admin\SharePointLearningKit\Configure.aspx
+Build\%SPVersion%\Configure.aspx                                            Admin\SharePointLearningKit\Configure.aspx
 ..\Admin\DownloadSettings.aspx                                              Admin\SharePointLearningKit\DownloadSettings.aspx
 ..\Admin\Info.gif                                                           Admin\SharePointLearningKit\Info.gif
 ..\Admin\Wait.gif                                                           Admin\SharePointLearningKit\Wait.gif
 ..\Admin\icon.png                                                           Admin\SharePointLearningKit\icon.png
-Features\AdminFeature\elements.xml                                          SharePointLearningKitAdmin\elements.xml
+Build\%SPVersion%\elements.xml                                              SharePointLearningKitAdmin\elements.xml
 Features\AdminFeature\feature.xml                                           SharePointLearningKitAdmin\feature.xml
 ..\App\Actions.aspx                                                         Layouts\SharePointLearningKit\Actions.aspx
-..\App\AssignmentProperties.aspx                                            Layouts\SharePointLearningKit\AssignmentProperties.aspx
+Build\%SPVersion%\AssignmentProperties.aspx                                 Layouts\SharePointLearningKit\AssignmentProperties.aspx
 ..\App\Grading.aspx                                                         Layouts\SharePointLearningKit\Grading.aspx
 ..\App\Lobby.aspx                                                           Layouts\SharePointLearningKit\Lobby.aspx
-..\App\SubmittedFiles.aspx                                                  Layouts\SharePointLearningKit\SubmittedFiles.aspx
+Build\%SPVersion%\SubmittedFiles.aspx                                       Layouts\SharePointLearningKit\SubmittedFiles.aspx
 ..\App\DownloadDialog.aspx                                                  Layouts\SharePointLearningKit\DownloadDialog.aspx
 ..\App\CommentedFiles.aspx                                                  Layouts\SharePointLearningKit\CommentedFiles.aspx
 ..\App\FilesUploadPage.aspx                                                 Layouts\SharePointLearningKit\FilesUploadPage.aspx
