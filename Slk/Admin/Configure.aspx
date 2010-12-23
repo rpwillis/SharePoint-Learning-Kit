@@ -28,25 +28,31 @@
     {
         if (window.g_OKClicked == undefined)
         {
-            TBodyError.style.display = 'none';
-            TBodyWait.style.display = 'block';
-            TBodyDone.style.display = 'none';
-            TBodyMain.style.display = 'none';
-            TBodyButtons.style.display = 'none';
+            document.getElementById('TBodyError').style.display = 'none';
+            document.getElementById('TBodyWait').style.display = 'block';
+            document.getElementById('TBodyDone').style.display = 'none';
+            document.getElementById('TBodyMain').style.display = 'none';
+            document.getElementById('TBodyButtons').style.display = 'none';
             window.g_OKClicked = true;
-            setTimeout('aspnetForm.' + strBtnId + '.click()', 1);
+            setTimeout("PostForm('" + strBtnId + "')", 1);
             return false;
         }
         else
             return true;
     }
+
+    function PostForm(strBtnId)
+    {
+        document.getElementById(strBtnId).click();
+    }
+
     function OperationCompleted()
     {
-        TBodyError.style.display = 'none';
-        TBodyWait.style.display = 'none';
-        TBodyDone.style.display = 'block';
-        TBodyMain.style.display = 'none';
-        TBodyButtons.style.display = 'none';
+        document.getElementById('TBodyError').style.display = 'none';
+        document.getElementById('TBodyWait').style.display = 'none';
+        document.getElementById('TBodyDone').style.display = 'block';
+        document.getElementById('TBodyMain').style.display = 'none';
+        document.getElementById('TBodyButtons').style.display = 'none';
     }
   </script>
 </asp:content>
