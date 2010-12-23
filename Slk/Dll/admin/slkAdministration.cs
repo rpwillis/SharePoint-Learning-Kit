@@ -393,29 +393,32 @@ namespace Microsoft.SharePointLearningKit
         static void CreatePermission(Guid spSiteGuid, string permissionName,
             string permissionDescription, SPBasePermissions basePermissionsToAdd)
         {
-            using (SPSite spSite = new SPSite(spSiteGuid))
+            SPSecurity.RunWithElevatedPrivileges(delegate()
             {
-                using(SPWeb rootWeb = spSite.RootWeb)
+                using (SPSite spSite = new SPSite(spSiteGuid))
                 {
-                    SPRoleDefinitionCollection roleDefs = rootWeb.RoleDefinitions;
-                    try
+                    using(SPWeb rootWeb = spSite.RootWeb)
                     {
-                        SPRoleDefinition roleDef = roleDefs[permissionName];
-                        roleDef.BasePermissions |= basePermissionsToAdd;
-                        roleDef.Update();
-                        // permission already exists
-                    }
-                    catch (SPException)
-                    {
-                        // permission doesn't exist -- create it
-                        SPRoleDefinition roleDef = new SPRoleDefinition();
-                        roleDef.Name = permissionName;
-                        roleDef.Description = permissionDescription;
-                        roleDef.BasePermissions |= basePermissionsToAdd;
-                        roleDefs.Add(roleDef);
+                        SPRoleDefinitionCollection roleDefs = rootWeb.RoleDefinitions;
+                        try
+                        {
+                            SPRoleDefinition roleDef = roleDefs[permissionName];
+                            roleDef.BasePermissions |= basePermissionsToAdd;
+                            roleDef.Update();
+                            // permission already exists
+                        }
+                        catch (SPException)
+                        {
+                            // permission doesn't exist -- create it
+                            SPRoleDefinition roleDef = new SPRoleDefinition();
+                            roleDef.Name = permissionName;
+                            roleDef.Description = permissionDescription;
+                            roleDef.BasePermissions |= basePermissionsToAdd;
+                            roleDefs.Add(roleDef);
+                        }
                     }
                 }
-            }
+            });
         }
 
         static void CreateDatabase(SlkSPSiteMapping mapping, string databaseName, string appPoolAccountName, string databaseSchema)
