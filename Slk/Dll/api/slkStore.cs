@@ -1477,13 +1477,20 @@ namespace Microsoft.SharePointLearningKit
             ICollection<SPUserInfo> spUserInfos;
             try
             {
-                spUserInfos = DomainGroupUtilities.EnumerateDomainGroup(domainGroup.LoginName, timeRemaining, Settings.HideDisabledUsers);
+                DomainGroupUtilities enumerateDomainGroups = new DomainGroupUtilities(timeRemaining, Settings.HideDisabledUsers);
+                spUserInfos = enumerateDomainGroups.EnumerateDomainGroup(domainGroup);
+
+                foreach (string error in enumerateDomainGroups.Errors)
+                {
+                    groupFailuresList.Add(domainGroup.Name);
+                    groupFailureDetailsBuilder.AppendFormat(AppResources.DomainGroupError, domainGroup.LoginName, ex);
+                    groupFailureDetailsBuilder.Append("\r\n\r\n");
+                }
             }
             catch (DomainGroupEnumerationException ex)
             {
                 groupFailuresList.Add(domainGroup.Name);
-                groupFailureDetailsBuilder.AppendFormat(AppResources.DomainGroupError,
-                                    domainGroup.LoginName, ex);
+                groupFailureDetailsBuilder.AppendFormat(AppResources.DomainGroupError, domainGroup.LoginName, ex);
                 groupFailureDetailsBuilder.Append("\r\n\r\n");
                 return false;
             }
