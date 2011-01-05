@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Microsoft.SharePoint;
 using System.Diagnostics;
+using System.Security.Principal;
 using Microsoft.LearningComponents.Storage;
 
 namespace Microsoft.SharePointLearningKit
@@ -9,73 +10,61 @@ namespace Microsoft.SharePointLearningKit
     /// <summary>
     /// Represents a SharePoint Learning Kit learner or instructor.
     /// </summary>
-    [DebuggerDisplay("SlkUser {UserId.GetKey()}: {Name}")]
     public class SlkUser : IComparable<SlkUser>
     {
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // Private Fields
-        //
+        string key;
 
-        /// <summary>
-        /// Holds the value of the <c>UserId</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        UserItemIdentifier m_userId;
-
-        /// <summary>
-        /// Holds the value of the <c>SPUser</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        SPUser m_spUser;
-
-        /// <summary>
-        /// Holds the value of the <c>Name</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        string m_name;
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // Public Properties
-        //
-
-        /// <summary>
-        /// Gets the SharePoint Learning Kit <c>UserItemIdentifier</c> of the user.
-        /// </summary>
-        public UserItemIdentifier UserId
+#region properties
+        /// <summary>The key for the user item.</summary>
+        public string Key
         {
-            [DebuggerStepThrough]
             get
             {
-                return m_userId;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_userId = value;
+                if (key == null)
+                {
+                    key = SPUser.Sid;
+
+                    if (String.IsNullOrEmpty(key))
+                    {
+                        string userName = SPUser.LoginName;
+                        key = userName;
+                        int pipeIndex = userName.IndexOf("|");
+                        if (pipeIndex > -1)
+                        {
+                            // Claims based authentication
+                            string claimUserName = userName.Substring(pipeIndex + 1);
+
+                            if (claimUserName.IndexOf("\\") > -1)
+                            {
+                                // Probably Active Directory account
+                                NTAccount account = new NTAccount(claimUserName);
+                                try
+                                {
+                                    SecurityIdentifier sid = (SecurityIdentifier)account.Translate(typeof(SecurityIdentifier));
+                                    key = sid.Value;
+                                }
+                                catch (IdentityNotMappedException)
+                                {
+                                    // Not a valid AD account so use the login name
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return key;
             }
         }
 
-        /// <summary>
-        /// Gets the SharePoint <c>SPUser</c> object that represents this user.
-        /// </summary>
-        public SPUser SPUser
-        {
-            [DebuggerStepThrough]
-            get { return m_spUser; }
-            internal set { m_spUser = value ;}
-        }
+        /// <summary>Gets the SharePoint Learning Kit <c>UserItemIdentifier</c> of the user. </summary>
+        public UserItemIdentifier UserId { get; internal set; }
 
-        /// <summary>
-        /// Gets the name of the user.
-        /// </summary>
-        public string Name
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_name;
-            }
-        }
+        /// <summary>Gets the SharePoint <c>SPUser</c> object that represents this user. </summary>
+        public SPUser SPUser { get; internal set; }
+
+        /// <summary>Gets the name of the user. </summary>
+        public string Name { get; private set;}
+#endregion properties
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // Public Methods
@@ -100,19 +89,19 @@ namespace Microsoft.SharePointLearningKit
                 throw new ArgumentNullException("userId");
             }
                 
-            m_userId = userId;
+            UserId = userId;
         }
 
         // If this constructor is used the calling code is responsible for setting the userId.
         internal SlkUser(SPUser spUser)
         {
-            m_spUser = spUser;
-            m_name = spUser.Name;
+            SPUser = spUser;
+            Name = spUser.Name;
         }
 
         internal SlkUser(UserItemIdentifier userId, string name) : this (userId)
         {
-            m_name = name;
+            Name = name;
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,18 +111,6 @@ namespace Microsoft.SharePointLearningKit
         int IComparable<SlkUser>.CompareTo(SlkUser other)
         {
             return String.Compare(Name, other.Name, StringComparison.CurrentCultureIgnoreCase);
-        }
-
-        internal static string Key(SPUser user)
-        {
-             if (String.IsNullOrEmpty(user.Sid))
-             {
-                 return user.LoginName;
-             }
-             else
-             {
-                 return user.Sid;
-             }
         }
     }
 }
