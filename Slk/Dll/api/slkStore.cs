@@ -306,7 +306,8 @@ namespace Microsoft.SharePointLearningKit
             }
 
             //Use SPUser LoginName if Sid is Null or Empty.
-            string currentUserKey = SlkUser.Key(spWeb.CurrentUser);
+            SlkUser currentUser = new SlkUser(spWeb.CurrentUser);
+            string currentUserKey = currentUser.Key;
             string currentUserName = spWeb.CurrentUser.Name;
 
             // set <httpContext> to the current HttpContext (null if none)
@@ -1306,7 +1307,7 @@ namespace Microsoft.SharePointLearningKit
             foreach (SlkUser user in users.Values)
             {
                 uniqueProperties.Clear();
-                uniqueProperties[Schema.UserItem.Key] = SlkUser.Key(user.SPUser);
+                uniqueProperties[Schema.UserItem.Key] = user.Key;
                 updateProperties.Clear();
                 updateProperties[Schema.UserItem.Name] = user.Name;
                 job.AddOrUpdateItem(Schema.UserItem.ItemTypeName, uniqueProperties, updateProperties, null, true);
@@ -1483,7 +1484,7 @@ namespace Microsoft.SharePointLearningKit
                 foreach (string error in enumerateDomainGroups.Errors)
                 {
                     groupFailuresList.Add(domainGroup.Name);
-                    groupFailureDetailsBuilder.AppendFormat(AppResources.DomainGroupError, domainGroup.LoginName, ex);
+                    groupFailureDetailsBuilder.AppendFormat(AppResources.DomainGroupError, domainGroup.LoginName, error);
                     groupFailureDetailsBuilder.Append("\r\n\r\n");
                 }
             }
@@ -1562,13 +1563,17 @@ namespace Microsoft.SharePointLearningKit
                     Dictionary<string, SlkUser> learnersByUserKey, 
                     SlkGroup learnerGroup, List<string> learnerKeys)
         {
-            SlkUser slkUser;
+            SlkUser slkUser = new SlkUser(user);
+            SlkUser slkUser2;
             //Use SPUser LoginName if Sid is Null or Empty.
-            string userKey = SlkUser.Key(user);
+            string userKey = slkUser.Key;
 
-            if (!users.TryGetValue(userKey, out slkUser))
+            if (users.TryGetValue(userKey, out slkUser2))
             {
-                slkUser = new SlkUser(user);
+                slkUser = slkUser2;
+            }
+            else
+            {
                 users[userKey] = slkUser;
             }
 
