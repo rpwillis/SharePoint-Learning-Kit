@@ -28,7 +28,7 @@ namespace Microsoft.SharePointLearningKit
         Dictionary<string, object> processedThisGroup;
         Dictionary<string, string> domainNames = new Dictionary<string, string>();
         List<string> errors = new List<string>();
-        string[] searchAttributes = new string[]{"member", "distinguishedName", "objectClass", "sAMAccountName", "userPrincipalName" , "mail", "name", "displayName", "userAccountControl"};
+        string[] searchAttributes = new string[]{"member", "distinguishedName", "objectClass", "sAMAccountName", "userPrincipalName" , "mail", "name", "displayName", "userAccountControl", "objectSid"};
 
     #region Native Methods
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -139,7 +139,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 else
                 {
-                    throw new DomainGroupEnumerationException(string.Format(CultureInfo.CurrentUICulture, "Could not find group {0}.", group.Name));
+                    throw new DomainGroupEnumerationException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupNotFound, group.Name));
                 }
             }
         }
@@ -233,6 +233,28 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        static void CheckSid(byte[] sid)
+        {
+            SecurityIdentifier identifier = new SecurityIdentifier(sid, 0);
+            CheckSid(identifier.Value);
+        }
+
+        static void CheckSid(string sddl)
+        {
+            if (sddl == "S-1-5-11")
+            {
+                throw new DomainGroupEnumerationException(AppResources.DomainGroupAuthenticatedUsers);
+            }
+            else if (sddl.StartsWith("S-1-5-21-"))
+            {
+                if (sddl.EndsWith("-513"))
+                {
+                    // Domain users group
+                    throw new DomainGroupEnumerationException(AppResources.DomainGroupDomainUsers);
+                }
+            }
+        }
+
         /// <summary>Returns the groups SID in octet format.</summary>
         /// <remarks>Required for Windows 2000.</remarks>
         /// <returns>The SID in octet format.</returns>
@@ -246,13 +268,15 @@ namespace Microsoft.SharePointLearningKit
                 int index = loginName.IndexOf("|");
                 if (index == -1)
                 {
-                    throw new DomainGroupEnumerationException("Cannot determine group in AD");
+                    throw new DomainGroupEnumerationException(AppResources.DomainGroupInvalid);
                 }
                 else
                 {
                     sddl = loginName.Substring(index + 1);
                 }
             }
+
+            CheckSid(sddl);
 
             SecurityIdentifier sid = new SecurityIdentifier(sddl);
             byte[] bytes = new byte[sid.BinaryLength];
@@ -279,9 +303,17 @@ namespace Microsoft.SharePointLearningKit
                         processedThisGroup.Add(dn, null);
                         if (result.Properties["objectClass"].Contains("group"))
                         {
-                            using (DirectoryEntry childGroup = result.GetDirectoryEntry())
+                            try
                             {
-                                users.AddRange(Expand(childGroup));
+                                CheckSid((byte[])result.Properties["objectSid"][0]);
+                                using (DirectoryEntry childGroup = result.GetDirectoryEntry())
+                                {
+                                    users.AddRange(Expand(childGroup));
+                                }
+                            }
+                            catch (DomainGroupEnumerationException e)
+                            {
+                                errors.Add(e.Message);
                             }
                         }
                         else if (result.Properties["objectClass"].Contains("user"))

@@ -1612,6 +1612,24 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot use NT AUTHORITY\Authenticated users group for assigning work in SLK..
+        /// </summary>
+        internal static string DomainGroupAuthenticatedUsers {
+            get {
+                return ResourceManager.GetString("DomainGroupAuthenticatedUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot use Domain Users group for assigning work in SLK..
+        /// </summary>
+        internal static string DomainGroupDomainUsers {
+            get {
+                return ResourceManager.GetString("DomainGroupDomainUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Domain group enumeration failed for path &quot;{0}&quot;.
         /// </summary>
         internal static string DomainGroupEnumFailed {
@@ -1648,11 +1666,38 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot determine group in AD.
+        /// </summary>
+        internal static string DomainGroupInvalid {
+            get {
+                return ResourceManager.GetString("DomainGroupInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Domain group &quot;{0}&quot; has no backslash (\).
         /// </summary>
         internal static string DomainGroupNameHasNoBackslash {
             get {
                 return ResourceManager.GetString("DomainGroupNameHasNoBackslash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find group {0}..
+        /// </summary>
+        internal static string DomainGroupNotFound {
+            get {
+                return ResourceManager.GetString("DomainGroupNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to xxx.
+        /// </summary>
+        internal static string DomainGroupxxx {
+            get {
+                return ResourceManager.GetString("DomainGroupxxx", resourceCulture);
             }
         }
         

@@ -1083,6 +1083,24 @@ saving, click Cancel.</value>
     <value>Domain group enumeration failed for path "{0}"</value>
     <comment>{0} = directory path</comment>
   </data>
+  <data name="DomainGroupNotFound" xml:space="preserve">
+    <value>Could not find group {0}.</value>
+  </data>
+  <data name="DomainGroupAuthenticatedUsers" xml:space="preserve">
+      <value>Cannot use NT AUTHORITY\Authenticated users group for assigning work in SLK.</value>
+  </data>
+  <data name="DomainGroupDomainUsers" xml:space="preserve">
+      <value>Cannot use Domain Users group for assigning work in SLK.</value>
+  </data>
+  <data name="DomainGroupInvalid" xml:space="preserve">
+    <value>Cannot determine group in AD</value>
+  </data>
+  <data name="DomainGroupxxx" xml:space="preserve">
+    <value>xxx</value>
+  </data>
+  <data name="DomainGroupxxx" xml:space="preserve">
+    <value>xxx</value>
+  </data>
   <data name="DomainGroupEnumTimeout" xml:space="preserve">
     <value>Domain group enumeration timed out</value>
   </data>
