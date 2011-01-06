@@ -574,6 +574,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //Setting the 24 hour mode from regional settings for start and due dates
             spDateTimeStart.HoursMode24 = SPWeb.RegionalSettings.Time24;
             spDateTimeDue.HoursMode24 = SPWeb.RegionalSettings.Time24;
+            spDateTimeStart.FirstDayOfWeek = (int)SPWeb.RegionalSettings.FirstDayOfWeek;
+            spDateTimeDue.FirstDayOfWeek = (int)SPWeb.RegionalSettings.FirstDayOfWeek;
+            spDateTimeStart.FirstWeekOfYear = SPWeb.RegionalSettings.FirstWeekOfYear;
+            spDateTimeDue.FirstWeekOfYear = SPWeb.RegionalSettings.FirstWeekOfYear;
             spDateTimeStart.LocaleId = SPWeb.Locale.LCID;
             spDateTimeDue.LocaleId = SPWeb.Locale.LCID;
         }
