@@ -1483,14 +1483,14 @@ namespace Microsoft.SharePointLearningKit
 
                 foreach (string error in enumerateDomainGroups.Errors)
                 {
-                    groupFailuresList.Add(domainGroup.Name);
+                    groupFailuresList.Add(string.Format(CultureInfo.InvariantCulture, "{0} : {1}", domainGroup.Name, error));
                     groupFailureDetailsBuilder.AppendFormat(AppResources.DomainGroupError, domainGroup.LoginName, error);
                     groupFailureDetailsBuilder.Append("\r\n\r\n");
                 }
             }
             catch (DomainGroupEnumerationException ex)
             {
-                groupFailuresList.Add(domainGroup.Name);
+                groupFailuresList.Add(string.Format(CultureInfo.InvariantCulture, "{0} : {1}", domainGroup.Name, ex.Message));
                 groupFailureDetailsBuilder.AppendFormat(AppResources.DomainGroupError, domainGroup.LoginName, ex);
                 groupFailureDetailsBuilder.Append("\r\n\r\n");
                 return false;
@@ -1517,6 +1517,7 @@ namespace Microsoft.SharePointLearningKit
                     usersToAddToSPSite.Add(spUserInfo);
                 }
             }
+
             if (usersToAddToSPSite != null)
             {
                 try
