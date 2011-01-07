@@ -1522,7 +1522,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 try
                 {
-                    spWeb.AllUsers.AddCollection(usersToAddToSPSite.ToArray());
+                    spWeb.SiteUsers.AddCollection(usersToAddToSPSite.ToArray());
                     foreach (SPUserInfo spUserInfo in usersToAddToSPSite)
                     {
                         SPUser spUserInGroup = spWeb.AllUsers[spUserInfo.LoginName];
