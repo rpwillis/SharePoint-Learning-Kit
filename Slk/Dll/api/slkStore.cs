@@ -1844,18 +1844,18 @@ namespace Microsoft.SharePointLearningKit
         /// </exception>
             ///
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2004:RemoveCallsToGCKeepAlive")]
-        private static void GetFileFromSharePointLocation(string location,
-            out SPFile spFile, out SharePointFileLocation spFileLocation)
+        private static void GetFileFromSharePointLocation(string location, out SPFile spFile, out SharePointFileLocation spFileLocation)
         {
             // Security checks: Fails if user doesn't have access to the package (implemented
             // by accessing the assignment properties)
 
-            if (!SharePointFileLocation.TryParse(location, out spFileLocation))
+            if (SharePointFileLocation.TryParse(location, out spFileLocation) == false)
+            {
                 throw new ArgumentException(AppResources.IncorrectLocationStringSyntax, "location");
+            }
 
             using (SPSite spSite = new SPSite(spFileLocation.SiteId))
             {
-                            // get <spWeb>, <spFile>, and <versionId> from the parsed information above
                 using(SPWeb spWeb = spSite.OpenWeb(spFileLocation.WebId))
                 {
                     spFile = spWeb.GetFile(spFileLocation.FileId);
@@ -1925,12 +1925,12 @@ namespace Microsoft.SharePointLearningKit
             /// this operation fails if the current user isn't a learner on the assignment.
             /// </remarks>
             ///
-        /// <exception cref="SafeToDisplayException">
-        /// An error occurred that can be displayed to a browser user.  Possible cause: the user
+            /// <exception cref="SafeToDisplayException">
+            /// An error occurred that can be displayed to a browser user.  Possible cause: the user
             /// isn't an instructor on the assignment (if <pr>slkRole</pr> is <r>SlkRole.Instructor</r>),
             /// or the user isn't a learner on the assignment (if <pr>slkRole</pr> is
             /// <r>SlkRole.Learner</r>).
-        /// </exception>
+            /// </exception>
             ///
             public AssignmentProperties GetAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole)
             {
@@ -1941,19 +1941,16 @@ namespace Microsoft.SharePointLearningKit
 
                 // Check parameters
                 if (assignmentId == null)
+                {
                     throw new ArgumentNullException("assignmentId");
+                }
+
                 if ((slkRole != SlkRole.Instructor) && (slkRole != SlkRole.Learner))
+                {
                     throw new ArgumentOutOfRangeException("slkRole");
-
-                try
-                {
-                    return GetAssignmentProperties(assignmentId, slkRole, false);
-                }
-                catch (Exception)
-                {
-                    return null;
                 }
 
+                return GetAssignmentProperties(assignmentId, slkRole, false);
             }
 
             /// <summary>
