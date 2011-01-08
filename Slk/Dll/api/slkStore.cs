@@ -647,140 +647,140 @@ namespace Microsoft.SharePointLearningKit
             SPFile spFile;
             GetFileFromSharePointLocation(location, out spFile, out fileLocation);
            
-                    // find the package in the SharePointPackageStore; add it if it doesn't exist;
-                    // set <packageId> to its PackageItemIdentifier; set <warnings> to refer to warnings
-                    // about the package contents
+            // find the package in the SharePointPackageStore; add it if it doesn't exist;
+            // set <packageId> to its PackageItemIdentifier; set <warnings> to refer to warnings
+            // about the package contents
             TransactionOptions options = new TransactionOptions();
             options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
             using (LearningStoreTransactionScope scope =
                             new LearningStoreTransactionScope(options))
+            {
+                // Anyone who has access to the package can register it.  Since we verified that
+                // the user has access to the package above, we can skip any package-related
+                // security checks
+                using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
+                {
+                        LearningStoreJob job = LearningStore.CreateJob();
+                        LearningStoreQuery query = LearningStore.CreateQuery(Schema.PackageItem.ItemTypeName);
+                        query.AddColumn(Schema.PackageItem.Id);
+                        query.AddColumn(Schema.PackageItem.Warnings);
+                        query.AddCondition(Schema.PackageItem.Location, LearningStoreConditionOperator.Equal,
+                fileLocation.ToString());
+                        job.PerformQuery(query);
+                        DataRowCollection result = job.Execute<DataTable>().Rows;
+                        if (result.Count > 0)
+                        {
+                                // package exists in SharePointPackageStore, i.e. it's listed one or more times in
+                                // the PackageItem table -- set <packageId> to the PackageItemIdentifier of the
+                                // first of them
+                                LearningStoreHelper.CastNonNull(result[0][Schema.PackageItem.Id], out packageId);
+                                LearningStoreHelper.Cast(result[0][Schema.PackageItem.Warnings], out warnings);
+                        }
+                        else
+                        {
+                                // package doesn't exist in SharePointPackageStore -- register it if <validateOnly>
+                                // is false, or just validate it if <validateOnly> is true, and <log> to the
+                                // validation log in either case
+                ValidationResults log;
+                if (validateOnly)
+                {
+                    // validate the package, but don't register it
+                    packageId = null;
+                    SharePointPackageReader packageReader;
+                    try
                     {
-                        // Anyone who has access to the package can register it.  Since we verified that
-                        // the user has access to the package above, we can skip any package-related
-                        // security checks
-                        using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
+                        packageReader = new SharePointPackageReader(
+                            SharePointCacheSettings, fileLocation, false);
+                    }
+                    catch (InvalidPackageException ex)
+                    {
+                                                    throw new SafeToDisplayException(
+                            String.Format(CultureInfo.CurrentCulture, 
+                                          AppResources.PackageNotValid, ex.Message));
+                    }
+                    using (packageReader)
+                    {
+                        PackageValidatorSettings settings = new PackageValidatorSettings(
+                            ValidationBehavior.LogWarning, ValidationBehavior.None,
+                            ValidationBehavior.LogError, ValidationBehavior.LogWarning);
+                        try
                         {
-                                LearningStoreJob job = LearningStore.CreateJob();
-                                LearningStoreQuery query = LearningStore.CreateQuery(Schema.PackageItem.ItemTypeName);
-                                query.AddColumn(Schema.PackageItem.Id);
-                                query.AddColumn(Schema.PackageItem.Warnings);
-                                query.AddCondition(Schema.PackageItem.Location, LearningStoreConditionOperator.Equal,
-                        fileLocation.ToString());
-                                job.PerformQuery(query);
-                                DataRowCollection result = job.Execute<DataTable>().Rows;
-                                if (result.Count > 0)
-                                {
-                                        // package exists in SharePointPackageStore, i.e. it's listed one or more times in
-                                        // the PackageItem table -- set <packageId> to the PackageItemIdentifier of the
-                                        // first of them
-                                        LearningStoreHelper.CastNonNull(result[0][Schema.PackageItem.Id], out packageId);
-                                        LearningStoreHelper.Cast(result[0][Schema.PackageItem.Warnings], out warnings);
-                                }
-                                else
-                                {
-                                        // package doesn't exist in SharePointPackageStore -- register it if <validateOnly>
-                                        // is false, or just validate it if <validateOnly> is true, and <log> to the
-                                        // validation log in either case
-                        ValidationResults log;
-                        if (validateOnly)
-                        {
-                            // validate the package, but don't register it
-                            packageId = null;
-                            SharePointPackageReader packageReader;
-                            try
+                            log = PackageValidator.Validate(packageReader, settings);
+                            if (log.HasErrors)
                             {
-                                packageReader = new SharePointPackageReader(
-                                    SharePointCacheSettings, fileLocation, false);
-                            }
-                            catch (InvalidPackageException ex)
-                            {
-                                                            throw new SafeToDisplayException(
-                                    String.Format(CultureInfo.CurrentCulture, 
-                                                  AppResources.PackageNotValid, ex.Message));
-                            }
-                            using (packageReader)
-                            {
-                                PackageValidatorSettings settings = new PackageValidatorSettings(
-                                    ValidationBehavior.LogWarning, ValidationBehavior.None,
-                                    ValidationBehavior.LogError, ValidationBehavior.LogWarning);
-                                try
-                                {
-                                    log = PackageValidator.Validate(packageReader, settings);
-                                    if (log.HasErrors)
-                                    {
-                                        throw new SafeToDisplayException(log,
-                                            String.Format(CultureInfo.CurrentCulture,
-                                                      AppResources.PackageNotValid, ""));
-                                    }
-                                }
-                                catch (InvalidPackageException ex)
-                                {
-                                    throw new SafeToDisplayException(
-                                        String.Format(CultureInfo.CurrentCulture, 
-                                                      AppResources.PackageNotValid, ex.Message));
-                                }
+                                throw new SafeToDisplayException(log,
+                                    String.Format(CultureInfo.CurrentCulture,
+                                              AppResources.PackageNotValid, ""));
                             }
                         }
-                                        else
+                        catch (InvalidPackageException ex)
+                        {
+                            throw new SafeToDisplayException(
+                                String.Format(CultureInfo.CurrentCulture, 
+                                              AppResources.PackageNotValid, ex.Message));
+                        }
+                    }
+                }
+                                else
+                                {
+                    // validate and register the package
+                                        PackageEnforcement pe = new PackageEnforcement(false, true, false);
+                                        RegisterPackageResult registerResult;
+                                        try
                                         {
-                            // validate and register the package
-                                                PackageEnforcement pe = new PackageEnforcement(false, true, false);
-                                                RegisterPackageResult registerResult;
-                                                try
-                                                {
-                                registerResult = PackageStore.RegisterPackage(fileLocation, pe);
-                                                }
-                                                catch (PackageImportException ex)
-                                                {
-                                throw new SafeToDisplayException(ex.Log, ex.Message);
-                            }
-                                            packageId = registerResult.PackageId;
-                            log = registerResult.Log;
+                        registerResult = PackageStore.RegisterPackage(fileLocation, pe);
                                         }
-
-                                        // if there were warnings, set <warnings> to refer to them and update the
-                                        // PackageItem in LearningStore to contain the warnings (if there is a PackageItem)
-                                        if (log.HasWarnings || log.HasErrors)
+                                        catch (PackageImportException ex)
                                         {
-                                                // set <warnings> to XML that refers to the warnings in <registerResult.Log>
-                                                StringBuilder stringBuilder = new StringBuilder(2000);
-                                                using (XmlWriter xmlWriter = XmlWriter.Create(stringBuilder))
+                        throw new SafeToDisplayException(ex.Log, ex.Message);
+                    }
+                                    packageId = registerResult.PackageId;
+                    log = registerResult.Log;
+                                }
+
+                                // if there were warnings, set <warnings> to refer to them and update the
+                                // PackageItem in LearningStore to contain the warnings (if there is a PackageItem)
+                                if (log.HasWarnings || log.HasErrors)
+                                {
+                                        // set <warnings> to XML that refers to the warnings in <registerResult.Log>
+                                        StringBuilder stringBuilder = new StringBuilder(2000);
+                                        using (XmlWriter xmlWriter = XmlWriter.Create(stringBuilder))
+                                        {
+                                                xmlWriter.WriteStartElement("Warnings");
+                                                foreach (ValidationResult validationResult in log.Results)
                                                 {
-                                                        xmlWriter.WriteStartElement("Warnings");
-                                                        foreach (ValidationResult validationResult in log.Results)
-                                                        {
-                                                                xmlWriter.WriteStartElement("Warning");
-                                                                xmlWriter.WriteAttributeString("Type",
-                                                                        validationResult.IsError ? "Error" : "Warning");
-                                                                xmlWriter.WriteString(validationResult.Message);
-                                                                xmlWriter.WriteEndElement();
-                                                        }
+                                                        xmlWriter.WriteStartElement("Warning");
+                                                        xmlWriter.WriteAttributeString("Type",
+                                                                validationResult.IsError ? "Error" : "Warning");
+                                                        xmlWriter.WriteString(validationResult.Message);
                                                         xmlWriter.WriteEndElement();
                                                 }
-                                                string xml = stringBuilder.ToString();
-                                                using (StringReader stringReader = new StringReader(xml))
-                                                {
-                                                        using (XmlReader xmlReader = XmlReader.Create(stringReader))
-                                                                warnings = LearningStoreXml.CreateAndLoad(xmlReader);
-                                                }
-
-                                                // copy <warnings> into the PackageItem table row (if any)
-                            if (packageId != null)
-                            {
-                                job = LearningStore.CreateJob();
-                                Dictionary<string, object> properties = new Dictionary<string, object>();
-                                properties[Schema.PackageItem.Warnings] = warnings;
-                                job.UpdateItem(packageId, properties);
-                                job.Execute();
-                            }
+                                                xmlWriter.WriteEndElement();
                                         }
-                                        else
-                                                warnings = null;
-                                }                
-                            }
-                            
-                            scope.Complete();
+                                        string xml = stringBuilder.ToString();
+                                        using (StringReader stringReader = new StringReader(xml))
+                                        {
+                                                using (XmlReader xmlReader = XmlReader.Create(stringReader))
+                                                        warnings = LearningStoreXml.CreateAndLoad(xmlReader);
+                                        }
+
+                                        // copy <warnings> into the PackageItem table row (if any)
+                    if (packageId != null)
+                    {
+                        job = LearningStore.CreateJob();
+                        Dictionary<string, object> properties = new Dictionary<string, object>();
+                        properties[Schema.PackageItem.Warnings] = warnings;
+                        job.UpdateItem(packageId, properties);
+                        job.Execute();
                     }
+                                }
+                                else
+                                        warnings = null;
+                        }                
+                    }
+                    
+                    scope.Complete();
+                }
             }
 
         //////////////////////////////////////////////////////////////////////////////////////////////
