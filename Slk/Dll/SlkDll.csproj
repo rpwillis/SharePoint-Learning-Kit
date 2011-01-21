@@ -170,6 +170,9 @@
     <Compile Include="AdminWebPages\Configure.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="AdminWebPages\DownloadSettingsPage.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Constants.cs" />
     <Compile Include="AppWebPages\Frameset\SlkFramesetPage.cs">
       <SubType>ASPXCodeBehind</SubType>
