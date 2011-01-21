@@ -135,11 +135,9 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 // an unexpected exception occurred
                 Response.Clear();
                 Response.ContentType = "text/html";
-                            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Write(String.Format(CultureInfo.CurrentCulture, AppResources.AdminErrorPageHtml,
-                    Server.HtmlEncode(AppResources.SeriousErrorInEventLog)));
-                SlkUtilities.LogEvent(EventLogEntryType.Error, AppResources.DownloadSettingsError,
-                    ex.ToString());
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.Write(String.Format(CultureInfo.CurrentCulture, AppResources.AdminErrorPageHtml, Server.HtmlEncode(AppResources.SeriousErrorInEventLog)));
+                Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(ex);
                 Response.End();
             }
         }
