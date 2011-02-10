@@ -45,9 +45,9 @@ SharePoint Learning Kit is a community source project. This means that it is mad
 
         i.      Unzip the installation package on a web front end server.
         ii.     Right click on AddSolution.ps1 and choose properties. Then click the unblock button.
-        iii.    Add the solution to SharePoint by running AddSolution.ps1. This will add the solution to the solution gallery. Ro run AddSolution.ps1
-                - Find SharePoint 2010 Management Shell in the start menu (All Programs | Microsoft SharePoint 2010 Programs)
-                - Right Click on SharePoint 2010 Management Shell and choose Run as Administrator
+        iii.    Add the solution to SharePoint by running AddSolution.ps1. This will add the solution to the solution gallery. To run AddSolution.ps1
+                - Find PowerShell or SharePoint 2010 Management Shell in the start menu (All Programs | Microsoft SharePoint 2010 Programs)
+                - Right Click on PowerShell SharePoint 2010 Management Shell and choose Run as Administrator
                 - cd to the directory containing the installation files
                 - type in .\AddSolution.ps1 and hit enter
         iv.     Open SharePoint 2010 Central Administration
@@ -81,6 +81,7 @@ SharePoint Learning Kit is a community source project. This means that it is mad
 
     a.  Open SharePoint Central Adminstation.
     b.  Open the SharePoint Learning Kit Configuration page which is under Application Management | SharePoint Learning Kit Configuration | Configure SharePoint Learning Kit
+        If this page is not present on the page then enable the Farm level feature SharePoint Learning Kit Administration.
     c.  Choose the site collection to configure.
     d.  Choose the SQL server to use and the database name. If you are using a named instance of SQL Server remember to include the the instance name as part of the server name. You can either create a new SLK database or use an existing one.
     e.  Choose the names of the permissions used by SLK. You can use names of existing permissions, but it is likely to be easier and less confusing to use new ones. Check the Create Permissions check box if these permissions need creating in the site collection.
