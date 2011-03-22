@@ -1,1 +1,0 @@
-When you create an activity, if you do not start with a document, the learning kit automatically attaches this placeholder document. You cannot edit this document. However, you can replace it with another one. To do so, under <b>Document</b>, click the title of this file, and then click <b>Browse...</b> to open the library and find the document you want.
