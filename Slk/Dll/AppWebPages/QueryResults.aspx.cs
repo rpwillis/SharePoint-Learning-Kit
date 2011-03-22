@@ -21,7 +21,6 @@ using Microsoft.SharePointLearningKit.WebControls;
 using Resources.Properties;
 using System.Text;
 using System.Configuration;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -147,7 +146,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected void Page_Load(object sender, EventArgs e)
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             String queryCount = String.Empty;
             // render the HTML for the page
             using (HtmlTextWriter hw = new HtmlTextWriter(Response.Output, "  "))
@@ -362,8 +360,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected void ResolveSPWebName(Guid spWebGuid, Guid spSiteGuid, out string spWebName,
             out string spWebUrl)
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
-
             //Restore previously assigned value 
             bool previousValue = SPSecurity.CatchAccessDeniedException;
 
@@ -443,8 +439,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 List<RenderedCell[]> renderedRows,
                                 HtmlTextWriter hw)
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
-
             // get the column definitions
             IList<ColumnDefinition> columnDefs = queryDef.Columns;
 
@@ -668,7 +662,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="hw">The HtmlTextWriter to write to.</param>
         void RenderFileSubmissionCell(RenderedCell renderedCell, WebNameRenderedCell webNameRenderedCell, Guid assignmentGUID, HtmlTextWriter hw)
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             if (renderedCell.ToString().Equals(AppResources.AlwpFileSubmissionSubmitText))
             {
                 RenderFileSubmissionCellAsSubmitLink(

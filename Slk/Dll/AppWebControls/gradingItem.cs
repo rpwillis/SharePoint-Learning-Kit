@@ -16,7 +16,6 @@ using System.Text;
 using System.Globalization;
 using Microsoft.SharePointLearningKit.ApplicationPages;
 using Microsoft.SharePoint;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.WebControls
 {

@@ -28,7 +28,6 @@ using Schema = Microsoft.SharePointLearningKit.Schema;
 using System.Web.UI.WebControls;
 using Microsoft.SharePoint.WebControls;
 using System.Web.UI;
-using Microsoft.SharePointLearningKit.Localization;
 using Microsoft.SharePointLearningKit.WebControls;
 
 namespace Microsoft.SharePointLearningKit.AdminPages
@@ -266,8 +265,6 @@ namespace Microsoft.SharePointLearningKit.AdminPages
         /// </summary>
         private void SetResourceText()
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
-
             pageTitle.Text = AppResources.ConfigureTitle;
             pageTitleInTitlePage.Text = AppResources.ConfigureTitle;
             pageDescription.Text = AppResources.ConfigureDescription;

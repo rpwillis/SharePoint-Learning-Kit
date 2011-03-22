@@ -13,7 +13,6 @@ using System.Globalization;
 using System.Runtime.Serialization;
 using System.Web;
 using System.Threading;
-using Microsoft.SharePointLearningKit.Localization;
 
 
 namespace Microsoft.LearningComponents
@@ -78,7 +77,7 @@ namespace Microsoft.LearningComponents
         /// </remarks>
         internal LearningSession(SessionView view) 
         {
-            Resources.Culture = LocalizationManager.GetCurrentCulture();
+            Resources.Culture = Thread.CurrentThread.CurrentCulture;;
             m_view = view;
         }
 
@@ -1233,7 +1232,7 @@ namespace Microsoft.LearningComponents
             get { return m_relativePath; }
             set
             {
-                Resources.Culture = LocalizationManager.GetCurrentCulture();
+                Resources.Culture = Thread.CurrentThread.CurrentCulture;;
                 ValidatePropertyNotEmpty(value);
 
                 try
@@ -1430,7 +1429,7 @@ namespace Microsoft.LearningComponents
         /// </summary>
         private static void ValidatePropertyNotEmpty(string propertyValue)
         {
-            Resources.Culture = LocalizationManager.GetCurrentCulture();
+            Resources.Culture = Thread.CurrentThread.CurrentCulture;;
             if (propertyValue == null)
                 throw new ArgumentNullException("value", Resources.LS_StringCannotBeEmpty);
             if (String.IsNullOrEmpty(propertyValue.Trim()))
@@ -1442,7 +1441,7 @@ namespace Microsoft.LearningComponents
         /// </summary>
         private static void ValidatePropertyNotNull(object propertyValue)
         {
-            Resources.Culture = LocalizationManager.GetCurrentCulture();
+            Resources.Culture = Thread.CurrentThread.CurrentCulture;;
             if (propertyValue == null)
                 throw new ArgumentNullException("value", Resources.LS_PropertyCannotBeNull);
         }

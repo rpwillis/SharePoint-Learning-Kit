@@ -33,8 +33,6 @@ using Microsoft.SharePointLearningKit;
 using Resources.Properties;
 using Microsoft.SharePointLearningKit.WebControls;
 using Microsoft.SharePointLearningKit.WebParts;
-using Microsoft.SharePointLearningKit.Localization;
-
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -97,7 +95,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
-                AppResources.Culture = LocalizationManager.GetCurrentCulture();
                 string querySetName = QueryString.ParseString(QueryStringKeys.QuerySet);
 
                 //Get the Visibility 
@@ -176,7 +173,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                int numberOfQueries,
                                ReadOnlyCollection<object> results)
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             // render the HTML for the page
             using (HtmlTextWriter hw = new HtmlTextWriter(Response.Output, "  "))
             {

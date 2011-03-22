@@ -15,7 +15,6 @@ using Microsoft.SharePoint;
 using Microsoft.SharePointLearningKit;
 using Microsoft.SharePointLearningKit.WebControls;
 using Resources.Properties;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -213,7 +212,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             if (!Page.IsPostBack)
             {
-                AppResources.Culture = LocalizationManager.GetCurrentCulture();
                 try
                 {
                     this.SetResourceText();
@@ -320,7 +318,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void SetResourceText()
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             this.pageTitle.Text = AppResources.SubmittedFilesPageTitle;
             this.pageDescription.Text = AppResources.SubmittedFilesPageDescription;
 

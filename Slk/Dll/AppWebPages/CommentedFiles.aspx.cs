@@ -19,7 +19,6 @@ using Resources.Properties;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Collections.ObjectModel;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -597,7 +596,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void SetResourceText()
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             this.pageTitle.Text = AppResources.CommentedFilesPageTitle;
             this.pageTitleInTitlePage.Text = AppResources.CommentedFilesTitleinTitlePage;
             this.pageDescription.Text = AppResources.CommentedFilesPageDescription;
