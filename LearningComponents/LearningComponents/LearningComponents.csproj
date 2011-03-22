@@ -49,7 +49,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.LearningComponents.Compression, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Compression\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll</HintPath>
+      <HintPath>..\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint">
       <SpecificVersion>False</SpecificVersion>
