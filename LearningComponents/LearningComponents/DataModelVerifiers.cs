@@ -2,10 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Text;
 using Microsoft.LearningComponents;
 using System.Globalization;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.LearningComponents.DataModel
 {
@@ -86,7 +86,7 @@ namespace Microsoft.LearningComponents.DataModel
         /// <param name="value">The value to validate.</param>
         public static void ValidateCMIIdentifier(string value)
         {
-            Resources.Culture = LocalizationManager.GetCurrentCulture();
+            Resources.Culture = Thread.CurrentThread.CurrentCulture;;
             if(value != null)
             {
                 if(value.Length > 255 || value.Length < 1)

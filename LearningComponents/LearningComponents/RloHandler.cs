@@ -10,7 +10,6 @@ using Microsoft.LearningComponents.DataModel;
 using System.Globalization;
 using System.Web;
 using System.Threading;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.LearningComponents
 {
@@ -24,7 +23,7 @@ namespace Microsoft.LearningComponents
     {
         internal RloHandler()
         {
-            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+            AIResources.Culture = Thread.CurrentThread.CurrentCulture;;
         }
 
         /// <summary>
@@ -113,7 +112,7 @@ namespace Microsoft.LearningComponents
         /// the current activity does not have a resource in the package.</exception>
         public virtual Stream GetInputStream()
         {
-            Resources.Culture = LocalizationManager.GetCurrentCulture();
+            Resources.Culture = Thread.CurrentThread.CurrentCulture;;
             if (CurrentActivityEntryPoint.IsAbsoluteUri)
                 throw new InvalidOperationException(Resources.DRLO_CurrentActivityEntryPointIsAbsolute);
 

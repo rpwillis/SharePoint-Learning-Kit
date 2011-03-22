@@ -14,7 +14,6 @@ using Microsoft.SharePoint;
 using Microsoft.SharePointLearningKit;
 using Resources.Properties;
 using Microsoft.SharePointLearningKit.WebControls;
-using Microsoft.SharePointLearningKit.Localization;
 using System.Globalization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
@@ -134,8 +133,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             if (!Page.IsPostBack)
             {
-                AppResources.Culture = LocalizationManager.GetCurrentCulture();
-
                 pageTitle.Text = AppResources.FilesUploadPageTitle;
                 pageTitleInTitlePage.Text = AppResources.FilesUploadPageTitleInTitle;
                 documentUpload.Text = AppResources.FilesUploadDocumentUpload;
@@ -166,8 +163,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             SlkMemberships members = SlkStore.GetInstructorMemberships(SPWeb);
             CurrentAssignmentProperties.PopulateSPUsers(members);
             DropBoxManager dropBoxMgr = new DropBoxManager(CurrentAssignmentProperties);
-
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
             List<AssignmentUpload> uploadedFiles = new List<AssignmentUpload>();
 

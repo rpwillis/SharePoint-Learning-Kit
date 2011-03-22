@@ -29,7 +29,6 @@ using Microsoft.LearningComponents.Frameset;
 using Microsoft.SharePointLearningKit.Frameset;
 using System.Threading;
 using System.Configuration;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -216,8 +215,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
-                AppResources.Culture = LocalizationManager.GetCurrentCulture();
-
                 // setting default title
                 pageTitle.Text = AppResources.LobbyBeginAssignmentText;
                 pageTitleInTitlePage.Text = AppResources.LobbyBeginAssignmentText;
@@ -563,7 +560,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
-                AppResources.Culture = LocalizationManager.GetCurrentCulture();
                 try
                 {
                     SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
@@ -576,7 +572,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
                 catch (InvalidOperationException)
                 {
-                    AppResources.Culture = LocalizationManager.GetCurrentCulture();
                     // state transition isn't supported
                     errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyCannotChangeState));
                 }
@@ -624,8 +619,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 #region private methods
         private void SetResourceText()
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
-
             pageDescription.Text = AppResources.LobbyPageDescription;
 
             lblSite.Text = AppResources.LobbylblSite;

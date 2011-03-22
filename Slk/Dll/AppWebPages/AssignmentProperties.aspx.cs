@@ -34,7 +34,6 @@ using SPControls = Microsoft.SharePoint.WebControls;
 using System.Threading;
 using System.IO;
 using System.Configuration;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -952,8 +951,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void SetResourceText()
         {
             //Set the Display Text for all APP page controls from Resources
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
-
             btnBottomOK.Text = AppResources.CtrlOKButtonText;
             btnTopOK.Text = AppResources.CtrlOKButtonText;
 

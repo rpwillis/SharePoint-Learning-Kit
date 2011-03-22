@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Text;
 using System.Collections.ObjectModel;
 using Microsoft.LearningComponents.DataModel;
@@ -11,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.Xml.XPath;
 using System.Globalization;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.LearningComponents
 {
@@ -115,7 +115,7 @@ namespace Microsoft.LearningComponents
                 TerminationRequest? termRequest;
                 Activity deliveryRequest = null;
                 bool exitSession;
-                Resources.Culture = LocalizationManager.GetCurrentCulture();
+                Resources.Culture = Thread.CurrentThread.CurrentCulture;;
                 m_command = command;
                 ProcessNavigationRequest(destination, out seqRequest, out termRequest);
                 if(termRequest != null)
@@ -505,7 +505,7 @@ exitAllLabel:
             {
                 seqRequest = null;
                 termRequest = null;
-                Resources.Culture = LocalizationManager.GetCurrentCulture();
+                Resources.Culture = Thread.CurrentThread.CurrentCulture;;
                 if(activity.DataModel.ActivityIsSuspended)
                 {
                     return;
@@ -555,7 +555,7 @@ exitAllLabel:
             private void SequencingExitActionRules(Activity activity)
             {
                 Stack<Activity> activities = new Stack<Activity>();
-                Resources.Culture = LocalizationManager.GetCurrentCulture();
+                Resources.Culture = Thread.CurrentThread.CurrentCulture;;
                 // Form the activity path as the ordered series of activities from the root 
                 // of the activity tree to the parent of the CurrentActivity, inclusive
                 for(Activity a = activity.Parent ; a != null ; a = a.Parent)
@@ -703,7 +703,7 @@ exitAllLabel:
             /// <remarks>Corresponds to RB.1.5 in the SCORM 2004 Sequencing/Navigation manual, appendix C.</remarks>
             private void OverallRollup(Activity activity)
             {
-                Resources.Culture = LocalizationManager.GetCurrentCulture();
+                Resources.Culture = Thread.CurrentThread.CurrentCulture;;
                 m_navigator.LogSequencing(SequencingEventType.Rollup, m_command, Resources.RollupInitiated, activity.Key);
 
                 // Form the activity path as the ordered series of activities from the root 
@@ -1381,7 +1381,7 @@ exitAllLabel:
             /// <remarks>Corresponds to RB.1.1 in the SCORM 2004 Sequencing/Navigation manual, appendix C.</remarks>
             private void MeasureRollup(Activity activity)
             {
-                Resources.Culture = LocalizationManager.GetCurrentCulture();
+                Resources.Culture = Thread.CurrentThread.CurrentCulture;;
                 float totalWeightedMeasure = (float)0.0;
                 bool validData = false;
                 double countedMeasures = 0.0;
@@ -1786,7 +1786,7 @@ exitAllLabel:
             private void GetObjectiveNormalizedMeasure(Activity activity, string objectiveId, 
                 out bool objectiveMeasureStatus, out float objectiveNormalizedMeasure)
             {
-                Resources.Culture = LocalizationManager.GetCurrentCulture();
+                Resources.Culture = Thread.CurrentThread.CurrentCulture;;
                 Objective obj;
                 if(String.IsNullOrEmpty(objectiveId))
                 {
@@ -2185,7 +2185,7 @@ exitAllLabel:
             /// <remarks>Corresponds to SB.2.2 in the SCORM 2004 Sequencing/Navigation manual, appendix C.</remarks>
             private Activity FlowActivityTraversal(Activity activity, TraversalDirection dir, TraversalDirection previousDirection)
             {
-                Resources.Culture = LocalizationManager.GetCurrentCulture();
+                Resources.Culture = Thread.CurrentThread.CurrentCulture;;
                 if(!activity.Parent.Sequencing.Flow)
                 {
                     throw new SequencingException(SequencingExceptionCode.SB_2_2__1);
@@ -2247,7 +2247,7 @@ exitAllLabel:
             private Activity Flow(Activity activity, TraversalDirection dir, bool considerChildren)
             {
                 TraversalDirection newDirection;
-                Resources.Culture = LocalizationManager.GetCurrentCulture();
+                Resources.Culture = Thread.CurrentThread.CurrentCulture;;
                 activity = FlowTreeTraversal(activity, dir, considerChildren, TraversalDirection.NotApplicable, out newDirection);
                 m_navigator.LogSequencing(SequencingEventType.IntermediateNavigation, m_command, Resources.SequencingFlowingTo, activity.Key);
                 return FlowActivityTraversal(activity, dir, TraversalDirection.NotApplicable);

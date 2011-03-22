@@ -13,7 +13,6 @@ using System.Runtime.Serialization;
 using Microsoft.LearningComponents.Manifest;
 using System.Security.Permissions;
 using System.Threading;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.LearningComponents
 {
@@ -364,7 +363,7 @@ namespace Microsoft.LearningComponents
         /// of <c>ValidationBehavior.Enforce</c>.</exception>
         public static ValidationResults Validate(PackageReader packageReader, PackageValidatorSettings packageValidatorSettings)
         {
-            ValidatorResources.Culture = LocalizationManager.GetCurrentCulture();
+            ValidatorResources.Culture = Thread.CurrentThread.CurrentCulture;;
 
             Utilities.ValidateParameterNonNull("packageReader", packageReader);
             Utilities.ValidateParameterNonNull("packageValidatorSettings", packageValidatorSettings);
@@ -396,7 +395,7 @@ namespace Microsoft.LearningComponents
         /// <returns>The results of validation.</returns>
         public static ValidationResults Validate(PackageReader packageReader)
         {
-            ValidatorResources.Culture = LocalizationManager.GetCurrentCulture();
+            ValidatorResources.Culture = Thread.CurrentThread.CurrentCulture;;
 
             Utilities.ValidateParameterNonNull("packageReader", packageReader);
             ValidationResults results = new ValidationResults();
@@ -425,7 +424,7 @@ namespace Microsoft.LearningComponents
                             LrmSettings lrmSettings,
                             out ManifestReader manifestReader)
         {
-            ValidatorResources.Culture = LocalizationManager.GetCurrentCulture();
+            ValidatorResources.Culture = Thread.CurrentThread.CurrentCulture;;
 
             if (packageReader == null)
                 throw new ArgumentNullException("packageReader");
@@ -518,7 +517,7 @@ namespace Microsoft.LearningComponents
 			Dictionary<string, bool> manifestFilePaths, ValidationResults log,
 			PackageValidatorSettings packageValidatorSettings)
 		{
-            ValidatorResources.Culture = LocalizationManager.GetCurrentCulture();
+            ValidatorResources.Culture = Thread.CurrentThread.CurrentCulture;;
 
             // Check all of the files in the package to make sure they are referenced in the manifest.
 			foreach (string filePath in packageFilePaths)
@@ -540,7 +539,7 @@ namespace Microsoft.LearningComponents
 			Dictionary<string, bool> manifestFilePaths, ValidationResults log,
 			PackageValidatorSettings packageValidatorSettings)
 		{
-            ValidatorResources.Culture = LocalizationManager.GetCurrentCulture();
+            ValidatorResources.Culture = Thread.CurrentThread.CurrentCulture;;
             
             // Check all of the files in the manifest to make sure they are referenced in the package.
 			Dictionary<string, bool> packageFileDictionary = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
@@ -564,7 +563,7 @@ namespace Microsoft.LearningComponents
 
         private static void ProcessError(ValidationBehavior validationBehavior, string errorMessage, ValidationResults log)
         {
-            ValidatorResources.Culture = LocalizationManager.GetCurrentCulture();
+            ValidatorResources.Culture = Thread.CurrentThread.CurrentCulture;;
 
             switch (validationBehavior)
             {

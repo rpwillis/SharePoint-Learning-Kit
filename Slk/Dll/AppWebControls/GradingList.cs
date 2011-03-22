@@ -22,7 +22,6 @@ using System.Text;
 using System.Globalization;
 using Microsoft.SharePointLearningKit.ApplicationPages;
 using Microsoft.SharePoint;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.WebControls
 {
@@ -233,7 +232,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <returns>File Submission State to be displayed in the File Submission Column</returns>
         public string GetFileSubmissionValue(GradingProperties gradingProperties)
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
             SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
 
@@ -278,7 +276,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         {
             if (Items != null && Items.Count > 0)
             {
-                AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
                 writer.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
                 writer.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
@@ -388,7 +385,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="htmlTextWriter">Text Writer to write to.</param>
         private void RenderGradedLearner(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
             if (item.Status == LearnerAssignmentState.NotStarted)
             {
@@ -468,7 +464,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="htmlTextWriter">Text Writer to write to.</param>
         private void RenderFileSubmissionState(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             //If the state is "NA" or "Not Submitted", display it as label text
             if (item.FileSubmissionState.Equals(AppResources.GradingFileSubmissionNA) ||
                 item.FileSubmissionState.Equals(AppResources.GradingFileSubmissionNotSubmitted))
@@ -531,7 +526,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="htmlTextWriter">Text Writer to write to.</param>
         private void RenderGradedScore(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
@@ -622,7 +616,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         private void RenderFinalScore(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
             //Renders  the computed points value, and always shows full precision.
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
 
             string uniqueId = FinalScoreId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
 
@@ -694,7 +687,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
             string uniqueId
                 = ActionId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
             string actionToolTip = String.Empty;
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             switch (item.Status)
             {
                 //If LearnerAssignmentState is NotStarted or Active, checkbox label is "Collect", 
@@ -1040,7 +1032,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         private void RegisterGradingClientScriptBlock()
         {
             // Define the name and type of the client scripts on the page.
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             String csTitle = "GradingClientScript";
 
             Type cstype = this.GetType();

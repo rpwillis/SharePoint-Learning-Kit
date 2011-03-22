@@ -25,7 +25,6 @@ using System.Collections.ObjectModel;
 using Resources.Properties;
 using System.Threading;
 using System.IO;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -264,8 +263,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void AddReactivationCheck()
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
-
             StringBuilder script = new StringBuilder();
             script.AppendLine("function CheckReactivate()");
             script.AppendLine("{");
@@ -483,8 +480,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             else
             {
-                AppResources.Culture = LocalizationManager.GetCurrentCulture();
-
                 slkButtonUpload.Enabled = false;
                 slkButtonUpload.ToolTip = AppResources.GradingNotAllLearnersSubmitted;
 
@@ -508,7 +503,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void SetResourceText()
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             lblPoints.Text = AppResources.GradinglblPoints;
             lblStart.Text = AppResources.GradinglblStart;
             lblDue.Text = AppResources.GradinglblDue;

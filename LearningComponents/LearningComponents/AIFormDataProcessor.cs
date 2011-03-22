@@ -9,7 +9,6 @@ using System.Globalization;
 using System.IO;
 using System.Web;
 using System.Threading;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.LearningComponents
 {
@@ -28,7 +27,6 @@ namespace Microsoft.LearningComponents
         /// <param name="context">Context in which data from a posted form is processed.</param>
         public FormDataProcessor(RloProcessFormDataContext context)
         {
-            AIResources.Culture = LocalizationManager.GetCurrentCulture();
             m_context = context;
         }
 
@@ -124,7 +122,6 @@ namespace Microsoft.LearningComponents
         /// the correct name/value pairs expected by the interaction.</exception>
         internal void ValidateRandomAccessView(NameValueCollection formData)
         {
-            AIResources.Culture = LocalizationManager.GetCurrentCulture();
             // Validate the score field.
             // only the "0" ordinal score is used
             string formFieldName = ItemScoreAssessmentRenderer.RenderFormFieldName(Interaction.Id, "0");
@@ -233,7 +230,6 @@ namespace Microsoft.LearningComponents
         /// <exception cref="InvalidFormDataException">The posted score isn't a valid float.</exception>
         internal float? GetPostedEvaluationPointsForInteraction(NameValueCollection formData)
         {
-            AIResources.Culture = LocalizationManager.GetCurrentCulture();
             // only the "0" ordinal score is used
             string formFieldName = ItemScoreAssessmentRenderer.RenderFormFieldName(Interaction.Id, "0");
             string postedScore = formData[formFieldName];
@@ -761,7 +757,6 @@ namespace Microsoft.LearningComponents
         /// the correct name/value pairs expected by the interaction.</exception>
         public override void ValidateFormData(NameValueCollection formData, IDictionary<string, HttpPostedFile>  files)
         {
-            AIResources.Culture = LocalizationManager.GetCurrentCulture();
             if (Context.View == SessionView.Execute)
             {
                 // There must be form data for every text area
@@ -817,7 +812,6 @@ namespace Microsoft.LearningComponents
             // LrmRloHandler.EncodePattern() to compare
             // with the encoded answers in the CorrectResponse field, and in order to add them
             // to the LearnerResponse field.
-            AIResources.Culture = LocalizationManager.GetCurrentCulture();
 
             List<string> correctResponses;
             bool ignoreCase;
@@ -1244,7 +1238,6 @@ namespace Microsoft.LearningComponents
         /// the correct name/value pairs expected by the interaction.</exception>
         private string[] GetPostedValues(NameValueCollection formData)
         {
-            AIResources.Culture = LocalizationManager.GetCurrentCulture();
 
             string[] values = null;
             // For each select tag, check the submitted option and ensure it exists and is within the legal range.

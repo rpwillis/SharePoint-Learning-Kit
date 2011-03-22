@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Text;
 using Microsoft.LearningComponents;
 using System.IO;
@@ -9,7 +10,6 @@ using System.Collections.Specialized;
 using System.Globalization;
 using Microsoft.LearningComponents.DataModel;
 using System.Web;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.LearningComponents
 {
@@ -24,7 +24,7 @@ namespace Microsoft.LearningComponents
 
         internal LrmRloHandler()
         {
-            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+            AIResources.Culture = Thread.CurrentThread.CurrentCulture;;
 
             m_assessmentItemMgr = new AssessmentItemManager();
             string numberDecimalSeparator = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
@@ -201,7 +201,7 @@ namespace Microsoft.LearningComponents
         /// <exception cref="FileNotFoundException">The requested file attachment can't be found.</exception>
         public override void Render(RloRenderContext context)
         {
-            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+            AIResources.Culture = Thread.CurrentThread.CurrentCulture;;
 
             // string is the key (which is AssessmentItem.Id_AssessmentItem.Type)
             // int is the ordinal (0 based) which is the number of times the key has been processed
@@ -356,7 +356,7 @@ namespace Microsoft.LearningComponents
         /// <exception cref="FileNotFoundException">The requested file attachment can't be found.</exception>
         private static void RenderFileAttachment(RloRenderContext context, string attachmentInfo)
         {
-            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+            AIResources.Culture = Thread.CurrentThread.CurrentCulture;;
 
             // File attachments will have a relativePath of the form:
             //  .../~RLO/<interactionId>/<attachmentIndex>
@@ -418,7 +418,7 @@ namespace Microsoft.LearningComponents
         /// </summary>
         private void HandleNode(HtmlTextReader reader, StreamWriter writer)
         {
-            AIResources.Culture = LocalizationManager.GetCurrentCulture();
+            AIResources.Culture = Thread.CurrentThread.CurrentCulture;;
 
             RloRenderContext context = AssessmentItemManager.RenderContext;
 
