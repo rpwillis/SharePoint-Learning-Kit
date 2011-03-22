@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.LearningComponents, Version=1.0.705.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\src\learningcomponents\bin\release\Microsoft.LearningComponents.dll</HintPath>
+      <HintPath>..\..\LearningComponents\learningcomponents\bin\release\Microsoft.LearningComponents.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
