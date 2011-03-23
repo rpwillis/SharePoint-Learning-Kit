@@ -4489,15 +4489,15 @@ namespace Microsoft.LearningComponents.DataModel
             m_dataModel = dataModel;
             switch(m_dataModel.Format)
             {
-            case PackageFormat.Lrm:
-                m_verifier = new InteractionVerifierLrm();
-                break;
-            case PackageFormat.V1p2:
-                m_verifier = new InteractionVerifierV1p2();
-                break;
-            case PackageFormat.V1p3:
-                m_verifier = new InteractionVerifierV1p3();
-                break;
+                case PackageFormat.Lrm:
+                    m_verifier = new InteractionVerifierLrm();
+                    break;
+                case PackageFormat.V1p2:
+                    m_verifier = new InteractionVerifierV1p2();
+                    break;
+                case PackageFormat.V1p3:
+                    m_verifier = new InteractionVerifierV1p3();
+                    break;
             }
             m_nav = nav.Clone();
             m_isInDataModel = isInDataModel;
@@ -4967,7 +4967,7 @@ namespace Microsoft.LearningComponents.DataModel
                 }
                 if(Description != value)
                 {
-                    m_verifier.ValidateDescription(value);
+                    value = m_verifier.ValidateDescription(value);
                     DataModelUtilities.SetAttribute(m_nav, "description", value);
                     if(m_isInDataModel)
                     {
