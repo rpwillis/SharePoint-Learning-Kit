@@ -81,7 +81,18 @@
     </Compile>
     <Compile Include="AssessmentItemManager.cs" />
     <Compile Include="DataModel.cs" />
-    <Compile Include="DataModelVerifiers.cs" />
+    <Compile Include="DataModelVerifiers\CommentVerifier.cs" />
+    <Compile Include="DataModelVerifiers\CorrectResponseVerifier.cs" />
+    <Compile Include="DataModelVerifiers\DataModelVerifier.cs" />
+    <Compile Include="DataModelVerifiers\EvaluationVerifier.cs" />
+    <Compile Include="DataModelVerifiers\InteractionObjectiveVerifier.cs" />
+    <Compile Include="DataModelVerifiers\InteractionVerifier.cs" />
+    <Compile Include="DataModelVerifiers\LearnerVerifier.cs" />
+    <Compile Include="DataModelVerifiers\NavigationRequestVerifier.cs" />
+    <Compile Include="DataModelVerifiers\ObjectiveVerifier.cs" />
+    <Compile Include="DataModelVerifiers\RubricVerifier.cs" />
+    <Compile Include="DataModelVerifiers\ScoreVerifier.cs" />
+    <Compile Include="DataModelVerifiers\VerifierHelpers.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LearningSession.cs" />
     <Compile Include="ManifestConverter.cs" />
