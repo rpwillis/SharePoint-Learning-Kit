@@ -2837,6 +2837,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete the assignment. More information may be available in the server event log..
+        /// </summary>
+        internal static string LobbyDeleteException {
+            get {
+                return ResourceManager.GetString("LobbyDeleteException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deleting an assignment will delete all the associated learner data, including learner work and grades for the assignment. You cannot recover deleted information. Click OK to delete the assignment..
         /// </summary>
         internal static string LobbyDeleteMessage {
@@ -3094,6 +3103,15 @@ namespace Resources.Properties {
         internal static string LobbySubmitAccessKey {
             get {
                 return ResourceManager.GetString("LobbySubmitAccessKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to submit the assignment. More information may be available in the server event log..
+        /// </summary>
+        internal static string LobbySubmitException {
+            get {
+                return ResourceManager.GetString("LobbySubmitException", resourceCulture);
             }
         }
         

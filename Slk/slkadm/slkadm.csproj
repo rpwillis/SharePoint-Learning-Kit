@@ -76,9 +76,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>copy /y $(ProjectDir)..\SlkSchema.sql $(TargetDir)
-copy /y $(ProjectDir)..\SlkSettings.xml $(TargetDir)
-</PostBuildEvent>
-  </PropertyGroup>
 </Project>

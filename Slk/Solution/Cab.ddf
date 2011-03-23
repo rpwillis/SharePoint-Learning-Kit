@@ -110,7 +110,7 @@ Features\AppFeature\AssignSite\feature.xml                                  Shar
 Features\WebParts\elements.xml                                              SharePointLearningKitWebParts\elements.xml
 Features\WebParts\feature.xml                                               SharePointLearningKitWebParts\feature.xml
 Features\WebParts\AssignmentList.webpart                                    SharePointLearningKitWebParts\AssignmentList.webpart
-..\SlkSchema.sql                                                            Admin\SharePointLearningKit\SlkSchema.sql
+..\Sql\SlkSchema.sql                                                        Admin\SharePointLearningKit\SlkSchema.sql
 ..\SlkSettings.xml                                                          Admin\SharePointLearningKit\SlkSettings.xml.dat
 SiteMaps\admin.sitemap.SharePointLearningKit.xml                            Admin\admin.sitemap.SharePointLearningKit.xml
 Build\Microsoft.LearningComponents.Compression.dll                          Microsoft.LearningComponents.Compression.dll

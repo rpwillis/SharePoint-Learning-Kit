@@ -122,7 +122,7 @@
     <value>..\..\SlkSettings.xsd;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="SlkSchemaSql" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\SlkSchema.sql;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\..\Sql\SlkSchema.sql;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="InvalidDatabaseName" xml:space="preserve">
     <value>Invalid database name "{0}".  Database names may only contain letters, digits, and underscores.</value>
@@ -1119,6 +1119,14 @@ saving, click Cancel.</value>
   <data name="DomainGroupNameHasNoBackslash" xml:space="preserve">
     <value>Domain group "{0}" has no backslash (\)</value>
     <comment>{0} = domain group name</comment>
+  </data>
+  <data name="LobbyDeleteException" xml:space="preserve">
+    <value>Failed to delete the assignment. More information may be available in the server event log.</value>
+    <comment>Message shown when an exception happens on delete.</comment>
+  </data>
+  <data name="LobbySubmitException" xml:space="preserve">
+    <value>Failed to submit the assignment. More information may be available in the server event log.</value>
+    <comment>Message shown when an exception happens on submit.</comment>
   </data>
   <data name="AppEnumerationWarning" xml:space="preserve">
     <value>The list of instructors or learners may be incomplete because the following groups could not be read:
