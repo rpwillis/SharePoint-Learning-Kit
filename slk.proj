@@ -13,7 +13,7 @@
         <Projects Include="slk\slk.proj"/>
         <InstallFiles Include="slk\slkadm\bin\release\slkadm.exe"/>
         <InstallFiles Include="slk\slkschema.xml"/>
-        <InstallFiles Include="slk\slkschema.sql"/>
+        <InstallFiles Include="slk\Sql\slkschema.sql"/>
         <InstallFiles Include="slk\SlkSettings.xml"/>
         <InstallFiles Include="doc\root\*"/>
         <InstallFiles Include="doc\install\*"/>
@@ -112,7 +112,7 @@
 	mkdir $(SDK_DIR)\SLK
 	copy slk\SlkSchema.xml  $(SDK_DIR)\SLK
 	copy slk\Dll\SlkSchema.cs  $(SDK_DIR)\SLK
-	copy slk\SlkSchema.sql  $(SDK_DIR)\SLK
+	copy slk\Sql\SlkSchema.sql  $(SDK_DIR)\SLK
 	copy slk\SlkSettings.xsd  $(SDK_DIR)\SLK
 	copy slk\SlkSettings.xsx  $(SDK_DIR)\SLK
 	copy Slk\SlkSettings.xml $(SDK_DIR)\SLK

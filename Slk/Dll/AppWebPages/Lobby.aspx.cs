@@ -411,9 +411,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // Calling Response.Redirect throws a ThreadAbortException which needs to be rethrown
                 throw;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                errorBanner.AddException(ex);
+                errorBanner.AddException(exception);
                 contentPanel.Visible = false;
             }
         }
@@ -555,7 +555,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Member"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Member")]
         protected void slkButtonSubmit_Click(object sender, EventArgs e)
         {
             try
@@ -578,9 +578,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // Clear the object so it will refresh from the database
                 LearnerAssignmentProperties = null;
             }
-            catch (Exception)
+            catch (LearningStoreConstraintViolationException exception)
             {
                 // any exceptions here will be handled in PreRender
+                errorBanner.AddException(new SafeToDisplayException(AppResources.LobbySubmitException));
+                SlkError.WriteToEventLog(exception);
             }
         }
 
@@ -610,9 +612,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // flag an error in the next step if we don't do this.
                 throw;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // any exceptions here will be handled in PreRender
+                errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyDeleteException));
+                SlkError.WriteToEventLog(exception);
             }
         }
 
