@@ -80,10 +80,14 @@ namespace Microsoft.LearningComponents.Frameset
         {
             // It's not valid to call in Review mode
             if (View == SessionView.Review)
+            {
                 throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_InvalidViewOnSetValue));
+            }
 
             if (ObjectiveIndexer == null)
+            {
                 throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_MappingRequired));
+            }
 
             CurrentElementName = inName.ToString();
             string[] nameParts = CurrentElementName.Split('.');
@@ -92,81 +96,7 @@ namespace Microsoft.LearningComponents.Frameset
 
             if (nameParts[0] == "cmi")
             {
-                if (nameParts.Length < 2)
-                    throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
-
-                switch (nameParts[1])
-                {
-                    case "comments_from_learner":
-                        {
-                            VerifyElementNameTokens(4, nameParts);
-                            SetCommentsFromLearner(nameParts[2], nameParts[3], value);
-                        }
-                        break;
-                    case "completion_status":
-                        {
-                            SetCompletionStatus(value);
-                        }
-                        break;
-                    case "exit":
-                        {
-                            SetExit(value);
-                        }
-                        break;
-                    case "interactions":
-                        {
-                            SetInteractions(CurrentElementName.Substring(17), value);
-                        }
-                        break;
-                    case "learner_preference":
-                        {
-                            VerifyElementNameTokens(3, nameParts);
-                            SetLearnerPreferences(nameParts[2], value);
-                        }
-                        break;
-                    case "location":
-                        {
-                            DataModel.Location = value;
-                        }
-                        break;
-                    case "objectives":
-                        {
-                            SetObjectives(CurrentElementName.Substring(15), value);
-                        }
-                        break;
-                    case "progress_measure":
-                        {
-                            SetProgressMeasure(value);
-                        }
-                        break;
-                    case "score":
-                        {
-                            VerifyElementNameTokens(3, nameParts);
-                            SetScore(nameParts[2], value);
-                        }
-                        break;
-                    case "session_time":
-                        {
-                            SetSessionTime(value);
-                        }
-                        break;
-                    case "success_status":
-                        {
-                            SetSuccessStatus(value);
-                        }
-                        break;
-                    case "suspend_data":
-                        {
-                            SetSuspendData(value);
-                        }
-                        break;
-
-                    default:
-                        // All other values are read-only. This will throw exception.
-                        SetReadOnlyValue();
-                        break;
-                }
-
+                SetCmiValue(nameParts, value);
             }
             else if (nameParts[0] == "adl")
             {
@@ -231,11 +161,15 @@ namespace Microsoft.LearningComponents.Frameset
         {
             string[] elementParts = subElementName.Split('.');
             if (elementParts.Length < 2)
+            {
                 throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+            }
 
             int index;
             if (!int.TryParse(elementParts[0], out index))
+            {
                 return;
+            }
 
             Interaction interaction;
             if (index < InteractionsByIndex.Count)
@@ -250,7 +184,6 @@ namespace Microsoft.LearningComponents.Frameset
                 PendingInteractions.Add(interaction);
                 InteractionsByIndex.Add(index, interaction);
             }
-
 
             switch (elementParts[1])
             {
@@ -729,6 +662,87 @@ namespace Microsoft.LearningComponents.Frameset
         protected override TimeSpan TimeSpanFromRte(string rteTimeSpan)
         {
             return XmlConvert.ToTimeSpan(rteTimeSpan);
+        }
+
+        void SetCmiValue(string[] nameParts, string value)
+        {
+            if (nameParts.Length < 2)
+            {
+                throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidName, CurrentElementName));
+            }
+
+            switch (nameParts[1])
+            {
+                case "comments_from_learner":
+                    {
+                        VerifyElementNameTokens(4, nameParts);
+                        SetCommentsFromLearner(nameParts[2], nameParts[3], value);
+                    }
+                    break;
+                case "completion_status":
+                    {
+                        SetCompletionStatus(value);
+                    }
+                    break;
+                case "exit":
+                    {
+                        SetExit(value);
+                    }
+                    break;
+                case "interactions":
+                    {
+                        SetInteractions(CurrentElementName.Substring(17), value);
+                    }
+                    break;
+                case "learner_preference":
+                    {
+                        VerifyElementNameTokens(3, nameParts);
+                        SetLearnerPreferences(nameParts[2], value);
+                    }
+                    break;
+                case "location":
+                    {
+                        DataModel.Location = value;
+                    }
+                    break;
+                case "objectives":
+                    {
+                        SetObjectives(CurrentElementName.Substring(15), value);
+                    }
+                    break;
+                case "progress_measure":
+                    {
+                        SetProgressMeasure(value);
+                    }
+                    break;
+                case "score":
+                    {
+                        VerifyElementNameTokens(3, nameParts);
+                        SetScore(nameParts[2], value);
+                    }
+                    break;
+                case "session_time":
+                    {
+                        SetSessionTime(value);
+                    }
+                    break;
+                case "success_status":
+                    {
+                        SetSuccessStatus(value);
+                    }
+                    break;
+                case "suspend_data":
+                    {
+                        SetSuspendData(value);
+                    }
+                    break;
+
+                default:
+                    // All other values are read-only. This will throw exception.
+                    SetReadOnlyValue();
+                    break;
+            }
+
         }
 
         #region GetValue helper functions
