@@ -1494,9 +1494,6 @@ More information may be available in the server event log.</value>
   <data name="FilesUploadOrCancel" xml:space="preserve">
     <value>At least one file should be uploaded to submit the assignment.If you are not ready yet to submit the assignment click Cancel.</value>
   </data>
-  <data name="SLKFeatureNotActivated" xml:space="preserve">
-    <value>SharePoint Learning Kit feature might not be activated on the site.</value>
-  </data>
   <data name="DefaultDropBoxFilesExtensions" xml:space="preserve">
     <value>doc;pdf</value>
   </data>
@@ -1532,12 +1529,6 @@ More information may be available in the server event log.</value>
   </data>
   <data name="AssignmentTitleInvalidErrMsg" xml:space="preserve">
     <value>The file or folder name contains characters that are not permitted.  Please use a different name.</value>
-  </data>
-  <data name="AssignmentTitleTooLong" xml:space="preserve">
-    <value>The specified file or folder name is too long. The URL path for all files and folders must be 260 characters or less (and no more than 128 characters for any single file or folder name in the URL). Please type a shorter file or folder name.</value>
-  </data>
-  <data name="AssignmentTitleTooLongErrMsg" xml:space="preserve">
-    <value>The specified file or folder name is too long. The URL path for all files and folders must be 260 characters or less (and no more than 128 characters for any single file or folder name in the URL). Please type a shorter file or folder name.</value>
   </data>
   <data name="DropBoxTitle" xml:space="preserve">
     <value>Drop Box</value>

@@ -37,9 +37,7 @@ using System.Configuration;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
-    /// <summary>
-    /// Code-behind for AssignmentProperties.aspx.
-    /// </summary>
+    /// <summary>Code-behind for AssignmentProperties.aspx.</summary>
     public class AssignmentPropertiesPage : SlkAppBasePage
     {
         #region Control Declarations
@@ -153,43 +151,30 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #endregion
 
-        #region Private Variables
-        /// <summary>
-        /// Types of Modes that page can be rendered as. 
-        /// </summary>
+#region PageMode enum
+        /// <summary>Types of Modes that page can be rendered as. </summary>
         private enum PageMode
         {
-            /// <summary>
-            /// Creating a new assignment, e.g. instructor navigates to APP from Actions.
-            /// </summary>
+            /// <summary>Creating a new assignment, e.g. instructor navigates to APP from Actions. </summary>
             Create = 0,
 
-            /// <summary>
-            /// Editing an assignment, e.g. instructor navigates to APP from Grading.
-            /// </summary>
+            /// <summary>Editing an assignment, e.g. instructor navigates to APP from Grading. </summary>
             Edit,
 
-            /// <summary>
-            /// User clicked OK, from either Create or Edit mode.
-            /// </summary>
+            /// <summary>User clicked OK, from either Create or Edit mode. </summary>
             PostBack,
 
-            /// <summary>
-            /// In the same server request as PostBack (after Create mode), the PageMode switches
-            /// to Confirmation, indicating that we're displaying the confirmation page.
-            /// </summary>
+            /// <summary>In the same server request as PostBack (after Create mode), the PageMode switches
+            /// to Confirmation, indicating that we're displaying the confirmation page.</summary>
             Confirmation,
 
-            /// <summary>
-            /// If any exception occurs, the PageMode switches to Error mode.  The form is not displayed.
-            /// </summary>
+            /// <summary>If any exception occurs, the PageMode switches to Error mode.  The form is not displayed.</summary>
             Error
         };
 
-        /// <summary>
-        /// Holds Assignment Properties
-        /// </summary>    
-        private AssignmentProperties m_assignmentProperties;
+#endregion PageMode enum
+
+        #region Private Variables
         /// <summary>
         /// Holds Location Query String value  Location is only used in PageMode.Create -- it's an error if it's
         /// absent.  Location is the string used to uniquely identify one version of one file in a SharePoint
@@ -209,30 +194,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private long? m_assignmentId;
         /// <summary>
-        /// Holds App Mode --  see PageMode.
-        /// </summary>
-        private PageMode m_appMode;
-        /// <summary>
         /// Holds all Slk Members, i.e. the learners, instructors, and groups on this SPWeb.  In PageMode.Edit,
         /// this list also contains all instructors and learners on the assignment, even if they no longer have the
         /// SLK Instructor/Learner permission on the SPWeb.
         /// </summary>
         public SlkMemberships m_slkMembers;
-        /// <summary>
-        /// Stores all Groups and associated Group Members for each group.
-        /// </summary>
-        private long[][] m_slkGroupMemberCollection;
-        /// <summary>
-        /// Stores all assigned Learner for this Assignment.
-        /// </summary>
-        private List<long> m_assignedLearnersCollection;
-        /// <summary>
-        /// Holds the Logged in User has Instructor Persmisson in the Current SPWeb.
-        /// </summary>
+        /// <summary>Holds the Logged in User has Instructor Persmisson in the Current SPWeb. </summary>
         private bool? m_isInstructor;
-        /// <summary>
-        /// Holds Current SPWeb User's SlkUser Key 
-        /// </summary>
+        /// <summary>Holds Current SPWeb User's SlkUser Key </summary>
         private string m_currentSlkUserKey;
 
         #endregion
@@ -286,9 +255,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        /// <summary>
-        /// Gets the AssignmentItemIdentifier value.
-        /// </summary>
+        /// <summary>Gets the AssignmentItemIdentifier value. </summary>
         private AssignmentItemIdentifier AssignmentItemIdentifier
         {
             get
@@ -302,161 +269,31 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        /// <summary>
-        /// Gets the AssignmentProperties.
-        /// </summary>
-        private AssignmentProperties AssignmentProperties
-        {
-            get
-            {
-                return m_assignmentProperties;
-            }
-            set
-            {
-                m_assignmentProperties = value;
-            }
-        }
+        /// <summary>Gets the AssignmentProperties. </summary>
+        private AssignmentProperties AssignmentProperties {get; set;}
 
-        /// <summary>
-        /// Gets/Sets the AssignmentProperties Page Mode.
-        /// </summary>
-        private PageMode AppMode
-        {
-            get
-            {
-                return m_appMode;
-            }
-            set
-            {
-                m_appMode = value;
-            }
-        }
+        /// <summary>Gets/Sets the AssignmentProperties Page Mode. </summary>
+        private PageMode AppMode {get; set;}
 
-        /// <summary>
-        /// Get All Slk Members: Instructors,Learners and groups 
-        /// </summary>
+        /// <summary>Get All Slk Members: Instructors,Learners and groups </summary>
         private SlkMemberships SlkMembers
         {
             get
             {
                 if (m_slkMembers == null)
                 {
-                    //Check for PageMode if it is Edit mode 
-                    //pass the additional Learners and Instructors 
-                    ReadOnlyCollection<string> groupFailures;
-                    string groupFailureDetails;
-                    if (AppMode == PageMode.Create || AppMode == PageMode.PostBack)
-                    {
-                        m_slkMembers
-                            = SlkStore.GetMemberships(SPWeb,
-                                                      null,
-                                                      null,
-                                                      out groupFailures,
-                                                      out groupFailureDetails);
-                    }
-                    else if (AppMode == PageMode.Edit)
-                    {
-
-                        try
-                        {
-                            m_slkMembers
-                                = SlkStore.GetMemberships(SPWeb,
-                                                          AssignmentProperties.Instructors,
-                                                          AssignmentProperties.Learners,
-                                                          out groupFailures,
-                                                          out groupFailureDetails);
-                        }
-                        catch (NotAnInstructorException)
-                        {
-                            //check  whether Instructor List has the current userkey.
-                            bool isInstructorInCurrentAssignment = false;
-                            groupFailures = null;
-                            groupFailureDetails = null;
-
-
-                            //This Code executed only if the slkUser.SPUser is  null. 
-                            //Get the CurrentUserKey from database and compare with SlkUserkey
-
-                            //set the Current SlkUser Key 
-                            UserItemIdentifier currentSlkUser = SlkStore.GetCurrentUserId();
-                            m_currentSlkUserKey = currentSlkUser.GetKey().ToString(CultureInfo.InvariantCulture);
-                            //return True if currentSlkUserKey mathces the slkUser key in Instructor List
-                            foreach (SlkUser slkUser in AssignmentProperties.Instructors)
-                            {
-                                if (currentSlkUser == slkUser.UserId)
-                                {
-                                    m_isInstructor = true;
-                                    m_slkMembers = GetMemberships();
-                                    isInstructorInCurrentAssignment = true;
-                                    //If Instrutor permission is removed from an SPWeb, 
-                                    //but that instructor is still an instructor on an assignment on that SPWeb, 
-                                    //then when the instructor navigates to APP (Edit Mode) 
-                                    //for that assignment they  see a warning 
-                                    SlkError slkError
-                                       = new SlkError(ErrorType.Warning, AppResources.AppNotAnInstructorInCurrentSiteError);
-                                    errorBanner.AddError(slkError);
-                                    break;
-                                }
-                            }
-
-
-                            //if not an instructor in the current Assignment as well 
-                            //throw the exception
-                            if (!isInstructorInCurrentAssignment)
-                                throw;
-                        }
-
-
-                    }
-                    else
-                        return m_slkMembers;
-
-                    if (groupFailures != null)
-                    {
-                        //Handles <groupFailures> and <groupFailureDetails>, display the 
-                        //Formatted Error in Error Banner and log the failure details in event log.
-                        StringBuilder enumerationWarning = new StringBuilder(1000);
-                        enumerationWarning.AppendLine("<ul style=\"margin-top:0;margin-bottom:0;margin-left:24;\">");
-                        foreach (string groupName in groupFailures)
-                        {
-                            enumerationWarning.Append("<li>");
-                            enumerationWarning.Append(Server.HtmlEncode(groupName));
-                            enumerationWarning.AppendLine("</li>");
-                            enumerationWarning.Append("</ul>\n");
-                        }
-                        errorBanner.AddHtmlErrorText(ErrorType.Warning,
-                                             String.Format(CultureInfo.CurrentCulture, AppResources.AppEnumerationWarning,
-                                                           enumerationWarning.ToString()));
-                    }
-
-                    if (groupFailureDetails != null)
-                        SlkError.WriteToEventLog("{0}", groupFailureDetails);
+                    PopulateSlkMembers();
                 }
                 return m_slkMembers;
             }
         }
 
-        /// <summary>
-        /// Gets the Assigned Learners for this Assignment.
-        /// </summary>
-        private List<long> AssignedLearnersCollection
-        {
-            get
-            {
-                return m_assignedLearnersCollection;
-            }
-        }
+        /// <summary>Gets the Assigned Learners for this Assignment. </summary>
+        private List<long> AssignedLearnersCollection {get; set;}
 
-        /// <summary>
-        /// Get Groups and associated Group Members for each group.
-        /// </summary>
-        private long[][] SlkGroupMemberCollection
-        {
-            get
-            {
-                return m_slkGroupMemberCollection;
-            }
-        }
+        /// <summary>Get Groups and associated Group Members for each group. </summary>
+        private long[][] SlkGroupMemberCollection { get; set; }
+
         /// <summary>
         /// Return true if the Current User is Instructor in the given SPWeb or 
         /// Instructor in the Current Assignment (accessed thro in Edit Mode)
@@ -513,9 +350,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        /// <summary>
-        /// Current SPWeb User's SlkUser Key 
-        /// </summary>
+        /// <summary>Current SPWeb User's SlkUser Key </summary>
         private String CurrentSlkUserKey
         {
             get
@@ -536,9 +371,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region LoadViewState
-        /// <summary>
-        /// LoadsViewState
-        /// </summary>
+        /// <summary>LoadsViewState</summary>
         /// <param name="savedState">savedState</param>
         protected override void LoadViewState(object savedState)
         {
@@ -547,16 +380,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 Pair p = (Pair)savedState;
                 base.LoadViewState(p.First);
                 Triplet appState = (Triplet)p.Second;
-                m_assignedLearnersCollection = new List<long>();
+                AssignedLearnersCollection = new List<long>();
                 //Restore the Group from ViewState
                 if (appState.First != null)
                 {
-                    m_slkGroupMemberCollection = (long[][])appState.First;
+                    SlkGroupMemberCollection = (long[][])appState.First;
                 }
                 //Restore the Learner Collection from ViewState
                 if (appState.Second != null)
                 {
-                    m_assignedLearnersCollection.AddRange((long[])appState.Second);
+                    AssignedLearnersCollection.AddRange((long[])appState.Second);
                 }
                 //Restore the Current User Key from ViewState
                 if (appState.Third != null)
@@ -582,132 +415,109 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
 
         #region OnPreRender
-        /// <summary>
-        ///  Over rides OnPreRender to Render APP 
-        /// </summary> 
+        /// <summary> Over rides OnPreRender to Render APP </summary> 
         /// <param name="e">An EventArgs that contains the event data.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected override void OnPreRender(EventArgs e)
         {
             try
             {
-                if (!this.IsPostBack)
+                if (this.IsPostBack == false)
                 {
                     //check for general page initialization and validation                      
-
                     if (AssignmentId != null)
                     {
-                        //sets the Page Mode as Edit
                         AppMode = PageMode.Edit;
                         //set master page control text before any exception may occur
                         SetMasterPageControlText();
 
-
-                        AssignmentProperties
-                                       = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier,
-                                                                          SlkRole.Instructor);
-                        // for the assignment site, if the user doesn't have permission to view it
-                        // we'll catch the exception 
-                        bool previousValue = SPSecurity.CatchAccessDeniedException;
-                        SPSecurity.CatchAccessDeniedException = false;
-                        try
-                        {
-                            //Check whether the Url is directed from rite SPWeb.
-                            //If not redirect to the correct SPWeb.
-                            if (SPWeb.ID != AssignmentProperties.SPWebGuid)
-                            {
-                                using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
-                                {
-                                    using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
-                                    {
-                                        Response.Redirect(
-                                                SlkUtilities.UrlCombine(spWeb.Url,
-                                                                        Request.Path + "?" +
-                                                                        Request.QueryString.ToString()));
-                                    }
-                                }
-                            }
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            //Catch the exception to not to restrict the user to access the content 
-                            //if user does not have access to SPWeb. 
-                            //Set the Sharepoint Site Title similar to Web Site not accessible.
-                            lnkSharePointSite.Text = AppResources.APPInvalidSite;
-
-                        }
-                        catch (FileNotFoundException)
-                        {
-                            // Catch the exception to not to restrict the user to access the content if SPWeb does not exist.
-                            //Set the Sharepoint Site Title similar to Web Site not accessible.
-                            lnkSharePointSite.Text = AppResources.APPInvalidSite;
-
-                        }
-                        finally
-                        {
-                            SPSecurity.CatchAccessDeniedException = previousValue;
-                        }
+                        AssignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+                        CheckInCorrectSite();
                     }
                     else
                     {
-                        //sets the Page Mode as Create
                         AppMode = PageMode.Create;
                         //set master page control text before any exception may occur
                         SetMasterPageControlText();
                         //If the Current User is Instructor in the given SPWeb 
                         //proceed with creating the Assignment
                         LearningStoreXml packageWarnings;
-                        AssignmentProperties =
-                            SlkStore.GetNewAssignmentDefaultProperties(SPWeb,
-                                                                       Location,
-                                                                       OrgIndex,
-                                                                       SlkRole.Instructor,
-                                                                       out packageWarnings);
-                        //if <packageWarnings> is not null, display the
-                        //E-Learning content validation warning message
+                        AssignmentProperties = SlkStore.GetNewAssignmentDefaultProperties(SPWeb, Location, OrgIndex, SlkRole.Instructor, out packageWarnings);
+
+                        //if <packageWarnings> is not null, display the E-Learning content validation warning message
                         if (packageWarnings != null)
                         {
                             //Add the Package Warning in the Error Banner
-                            errorBanner.AddHtmlErrorText(ErrorType.Warning,
-                                                         AppResources.ActionsWarning);
+                            errorBanner.AddHtmlErrorText(ErrorType.Warning, AppResources.ActionsWarning);
                         }
-
                     }
 
-                    //Set the Page Elements Attributes 
-                    SetPageElementAttributes();
-                    //Set the Page Validator Attributes 
-                    SetPageValidatorAttributes();
+                    SetupPageElementAttributes();
+                    SetupPageValidatorAttributes();
 
                     if (AssignmentProperties != null)
                     {
                         //Set the Assignment Properties to UI Controls
-                        SetAssignmentProperties();
+                        DisplayAssignmentProperties();
                     }
 
-                    //Show Assignment Properties the Panel
                     panelAssignmentProperties.Visible = true;
                 }
             }
             catch (ThreadAbortException)
             {
-                // Calling Response.Redirect throws a ThreadAbortException which will
-                // flag an error in the next step if we don't do this.
+                // Calling Response.Redirect throws a ThreadAbortException which will flag an error in the next step if we don't do this.
                 throw;
             }
             catch (Exception ex)
             {
                 AppMode = PageMode.Error;
-                //Log the Exception 
                 WriteError(ex);
             }
         }
         #endregion
 
+        void CheckInCorrectSite()
+        {
+            // for the assignment site, if the user doesn't have permission to view it we'll catch the exception 
+            bool previousValue = SPSecurity.CatchAccessDeniedException;
+            SPSecurity.CatchAccessDeniedException = false;
+            try
+            {
+                //Check whether the Url is directed from correct SPWeb. If not redirect to the correct SPWeb.
+                if (SPWeb.ID != AssignmentProperties.SPWebGuid)
+                {
+                    using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
+                    {
+                        using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
+                        {
+                            Response.Redirect(SlkUtilities.UrlCombine(spWeb.Url, Request.Path + "?" + Request.QueryString.ToString()));
+                        }
+                    }
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                //Catch the exception to not to restrict the user to access the content 
+                //if user does not have access to SPWeb. 
+                //Set the Sharepoint Site Title similar to Web Site not accessible.
+                lnkSharePointSite.Text = AppResources.APPInvalidSite;
+
+            }
+            catch (FileNotFoundException)
+            {
+                // Catch the exception to not to restrict the user to access the content if SPWeb does not exist.
+                //Set the Sharepoint Site Title similar to Web Site not accessible.
+                lnkSharePointSite.Text = AppResources.APPInvalidSite;
+            }
+            finally
+            {
+                SPSecurity.CatchAccessDeniedException = previousValue;
+            }
+        }
+
         #region OnPreRenderComplete
-        /// <summary>
-        ///  Overrides OnPreRenderComplete to Render APP Client Script.
-        /// </summary> 
+        /// <summary> Overrides OnPreRenderComplete to Render APP Client Script. </summary> 
         /// <param name="e">An EventArgs that contains the event data.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected override void OnPreRenderComplete(EventArgs e)
@@ -718,8 +528,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 SetResourceText();
 
                 //Render the Client Script Only when rendering APP in Create and Edit Mode 
-                if (!(AppMode == PageMode.Confirmation ||
-                      AppMode == PageMode.Error))
+                if (!(AppMode == PageMode.Confirmation || AppMode == PageMode.Error))
                 {
                     //Register Client Script
                     RegisterGroupsClientScriptBlock();
@@ -734,32 +543,32 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region GetMemberships
-        /// <summary>
-        /// Constructs the lists of instructors, learners, and learner groups for the current Assignment
-        /// and returns the SlkMemberships.
-        /// </summary>
+        /// <summary>Constructs the lists of instructors, learners, and learner groups for the current Assignment
+        /// and returns the SlkMemberships. </summary>
         private SlkMemberships GetMemberships()
         {
             // combine <instructorsByUserKey> and <additionalInstructors> (if any) into
             // <instructorsById>; we add the users from the SPWeb last, so that SharePoint user names
             // take precedence over LearningStore user names
-            Dictionary<long, SlkUser> instructorsById =
-                new Dictionary<long, SlkUser>(AssignmentProperties.Instructors.Count);
+            Dictionary<long, SlkUser> instructorsById = new Dictionary<long, SlkUser>(AssignmentProperties.Instructors.Count);
             if (AssignmentProperties.Instructors != null)
             {
                 foreach (SlkUser slkUser in AssignmentProperties.Instructors)
+                {
                     instructorsById[slkUser.UserId.GetKey()] = slkUser;
+                }
             }
 
             // combine <learnersByUserKey> and <additionalLearners> (if any) into <learnersById>;
             // we add the users from the SPWeb last, so that SharePoint user names take precedence over
             // LearningStore user names
-            Dictionary<long, SlkUser> learnersById =
-                new Dictionary<long, SlkUser>(AssignmentProperties.Learners.Count + 50);
+            Dictionary<long, SlkUser> learnersById = new Dictionary<long, SlkUser>(AssignmentProperties.Learners.Count + 50);
             if (AssignmentProperties.Learners != null)
             {
                 foreach (SlkUser slkUser in AssignmentProperties.Learners)
+                {
                     learnersById[slkUser.UserId.GetKey()] = slkUser;
+                }
             }
 
             // convert <instructorsById> into an array, <instructors>, sorted by name
@@ -778,17 +587,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region BindCheckBoxItems
-        /// <summary>
-        ///  Binds the Member Items to the given CheckBox List Control
-        /// </summary>  
+        /// <summary> Binds the Member Items to the given CheckBox List Control</summary>  
         /// <param name="customChkBoxList">control to bind the items</param>    
         /// <param name="slkUserCollection">Member items to bind </param>  
         /// <remarks>
         /// This method will be called once for the list of learners and once for the list
         /// of instructors.  This method is not used for learner groups checkboxes.
         /// </remarks>
-        private void BindCheckBoxItems(CustomCheckBoxList customChkBoxList,
-                                       ReadOnlyCollection<SlkUser> slkUserCollection)
+        private void BindCheckBoxItems(CustomCheckBoxList customChkBoxList, ReadOnlyCollection<SlkUser> slkUserCollection)
         {
 
             //Adding Items to the CheckBox List Control
@@ -806,8 +612,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             if (slkUserCollection != null && slkUserCollection.Count > 0)
             {
-                itemCollection
-                        = new List<SlkCheckBoxItem>(slkUserCollection.Count);
+                itemCollection = new List<SlkCheckBoxItem>(slkUserCollection.Count);
 
                 foreach (SlkUser slkUser in slkUserCollection)
                 {
@@ -815,8 +620,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     string userKey = slkUser.UserId.GetKey().ToString(CultureInfo.InvariantCulture);
 
                     //Create a Slk CheckBox Item
-                    SlkCheckBoxItem item
-                        = new SlkCheckBoxItem(userName, userKey, false, String.Empty);
+                    SlkCheckBoxItem item = new SlkCheckBoxItem(userName, userKey, false, String.Empty);
 
                     //Check If Current User is Instructor
                     if (customChkBoxList.ID == chkListInstructors.ID)
@@ -851,14 +655,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 customChkBoxList.DataSource = itemCollection;
                 customChkBoxList.DataBind();
             }
-
         }
         #endregion
 
         #region BindCheckBoxItems
-        /// <summary>
-        ///  Binds the Member Items to the given CheckBox List Control
-        /// </summary>  
+        /// <summary> Binds the Member Items to the given CheckBox List Control</summary>  
         /// <param name="customChkBoxList">control to bind the items</param>    
         /// <param name="slkGroupCollection">Member items to bind </param>  
         /// <remarks>
@@ -873,14 +674,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // construct CheckBox List item Id IDs for checkbox controls as follows:
             // "{0}" for each learner group
             // where {0} is AssignmentMemberGroup.SPGroup.ID
-
-
             List<SlkCheckBoxItem> itemCollection = new List<SlkCheckBoxItem>();
 
             int groupCount = 0;
 
-            SlkCheckBoxItem item
-                       = new SlkCheckBoxItem(AppResources.AppAllLearnersGroup,
+            SlkCheckBoxItem item = new SlkCheckBoxItem(AppResources.AppAllLearnersGroup,
                                              groupCount.ToString(CultureInfo.InvariantCulture),
                                              false, string.Empty);
             itemCollection.Add(item);
@@ -889,7 +687,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             if (slkGroupCollection != null && slkGroupCollection.Count > 0)
             {
-
                 foreach (SlkGroup slkGroup in slkGroupCollection)
                 {
                     //If the Domain/SPGroup
@@ -912,6 +709,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
                             isGroupSelected = true;
                         }
+
                         //Build the Members tool Tip.                  
                         foreach (SlkUser slkUser in slkGroup.Users)
                         {
@@ -928,10 +726,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         //Removes SemiColon at the End.
                         members.Remove(members.Length - 1, 1);
 
-                        item = new SlkCheckBoxItem(groupName,
-                                                   groupId,
-                                                   isGroupSelected,
-                                                   members.ToString());
+                        item = new SlkCheckBoxItem(groupName, groupId, isGroupSelected, members.ToString());
                         itemCollection.Add(item);
                     }
                 }
@@ -945,9 +740,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region SetResourceText
-        /// <summary>
-        ///  Set the Control Text from Resource File
-        /// </summary>   
+        /// <summary> Set the Control Text from Resource File</summary>   
         private void SetResourceText()
         {
             //Set the Display Text for all APP page controls from Resources
@@ -987,48 +780,27 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             spDateTimeStart.ToolTip = AppResources.AppCalendarToolTip;
             spDateTimeDue.ToolTip = AppResources.AppCalendarToolTip;
 
-
             //Set Server Relative Url for Start Date Picker Control 
-            spDateTimeStart.DatePickerFrameUrl
-                = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeStart.DatePickerFrameUrl);
-
-            spDateTimeStart.DatePickerJavaScriptUrl
-                = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeStart.DatePickerJavaScriptUrl);
-
-            spDateTimeStart.CalendarImageUrl
-               = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeStart.CalendarImageUrl);
+            spDateTimeStart.DatePickerFrameUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeStart.DatePickerFrameUrl);
+            spDateTimeStart.DatePickerJavaScriptUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeStart.DatePickerJavaScriptUrl);
+            spDateTimeStart.CalendarImageUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeStart.CalendarImageUrl);
 
             //Set Server Relative Url for Due Date Picker Control 
-            spDateTimeDue.DatePickerFrameUrl
-                = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeDue.DatePickerFrameUrl);
-
-            spDateTimeDue.DatePickerJavaScriptUrl
-                = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeDue.DatePickerJavaScriptUrl);
-
-            spDateTimeDue.CalendarImageUrl
-               = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeDue.CalendarImageUrl);
+            spDateTimeDue.DatePickerFrameUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeDue.DatePickerFrameUrl);
+            spDateTimeDue.DatePickerJavaScriptUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeDue.DatePickerJavaScriptUrl);
+            spDateTimeDue.CalendarImageUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeDue.CalendarImageUrl);
 
         }
         #endregion
 
-        #region SetPageElementAttributes
-        /// <summary>
-        ///  Set the Page Control Element's Validation and Other Properties
-        /// </summary>   
-        private void SetPageElementAttributes()
+        #region SetupPageElementAttributes
+        /// <summary> Set the Page Control Element's Validation and Other Properties</summary>   
+        private void SetupPageElementAttributes()
         {
-            //Hide the Confirmation Panel
             panelConfirmation.Visible = false;
-
-            //Hide Assignment Properties the Panel
             panelAssignmentProperties.Visible = false;
-
-            //Set the Displaymode for Bulleted list
             lstNavigateBulletedList.DisplayMode = BulletedListDisplayMode.HyperLink;
-
-            //Set the Max width for Title
             txtTitle.MaxLength = 1000;
-
             //Set Default DateTime for Start Date
             spDateTimeStart.SelectedDate = DateTime.Now.Date;
 
@@ -1040,11 +812,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
         #endregion
 
-        #region SetPageValidatorAttributes
-        /// <summary>
-        ///  Set the Page Control Elements Validation and Other Properties
-        /// </summary>   
-        private void SetPageValidatorAttributes()
+        #region SetupPageValidatorAttributes
+        /// <summary> Set the Page Control Elements Validation and Other Properties</summary>   
+        private void SetupPageValidatorAttributes()
         {
             //Add a ValidationSummary Control in Error Banner
 
@@ -1102,10 +872,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region GetMasterPageControl
-        /// <summary>
-        ///  Returns a reference to a Label control that is  
-        ///  in a ContentPlaceHolder control of Master Page
-        /// </summary>  
+        /// <summary> Returns a reference to a Label control that is in a ContentPlaceHolder control of Master Page</summary>  
         /// <param name="placeHolderID">Id of placeHolder to Find</param>
         /// <param name="literalControlID">Id of label control to be find </param>
         private Literal GetMasterPageControl(string placeHolderID, string literalControlID)
@@ -1122,9 +889,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region SetMasterPageControlText
-        /// <summary>
-        ///  Set the Control Text from Resource File
-        /// </summary> 
+        /// <summary> Set the Control Text from Resource File</summary> 
         private void SetMasterPageControlText()
         {
             Literal title = GetMasterPageControl("PlaceHolderPageTitle", "pageTitle");
@@ -1161,11 +926,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
         #endregion
 
-        #region SetAssignmentProperties
-        /// <summary>
-        ///  Sets the Assignment Properties
-        /// </summary>  
-        private void SetAssignmentProperties()
+        #region DisplayAssignmentProperties
+        /// <summary> Sets the Assignment Properties</summary>  
+        private void DisplayAssignmentProperties()
         {
 
             //Get Instructors,Learners and groups list and adds them to the control 
@@ -1201,9 +964,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 lnkSharePointSite.ToolTip = AppResources.AppSharePointSiteToolTip;
             }
 
-
             //Set DateTime Start and Due Date 
-
             if (AssignmentProperties.DueDate != null)
             {
                 spDateTimeDue.SelectedDate = AssignmentProperties.DueDate.Value;
@@ -1255,13 +1016,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region GetAssignmentProperties
-        /// <summary>
-        ///  Gets the Assignment Properties Modified in UI
-        /// </summary>  
-        private void GetAssignmentProperties()
+        /// <summary> Gets the Assignment Properties Modified in UI</summary>  
+        private void CreateAssignmentPropertiesObject()
         {
-            // copy information to <assignmentProperties> from the UI
-
+            AssignmentProperties = new AssignmentProperties(AssignmentId == null ? 0 : AssignmentId.Value);
             AssignmentProperties.Title = SlkUtilities.Trim(txtTitle.Text);
             AssignmentProperties.Description = SlkUtilities.Trim(txtDescription.Text);
 
@@ -1269,10 +1027,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             if (!String.IsNullOrEmpty(pointsPossible))
             {
-                AssignmentProperties.PointsPossible
-                                      = float.Parse(pointsPossible, NumberFormatInfo);
+                AssignmentProperties.PointsPossible = float.Parse(pointsPossible, NumberFormatInfo);
             }
-
 
             //Set the selected StartDate/Due Date Value
             AssignmentProperties.StartDate = spDateTimeStart.SelectedDate;
@@ -1286,8 +1042,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             AssignmentProperties.AutoReturn = chkAutoReturnLearners.Checked;
 
             // Assign the assignmentProperties value for Show Answers ToLearners;
-            AssignmentProperties.ShowAnswersToLearners
-                                            = chkShowAnswersToLearners.Checked;
+            AssignmentProperties.ShowAnswersToLearners = chkShowAnswersToLearners.Checked;
 
             // Assign the Learners and Instructor list for assignmentProperties
             SetMembersList(AssignmentProperties.Instructors, chkListInstructors);
@@ -1296,27 +1051,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region SetMembersList
-        /// <summary>
-        ///  Adds the Selected Members to the given List
-        /// </summary>  
+        /// <summary> Adds the Selected Members to the given List</summary>  
         /// <param name="slkUserCollection">list to add the members to</param>
         /// <param name="customChkBoxList">control to retrive the item from</param>
-        private static void SetMembersList(SlkUserCollection slkUserCollection,
-                                    CustomCheckBoxList customChkBoxList)
+        private static void SetMembersList(SlkUserCollection slkUserCollection, CustomCheckBoxList customChkBoxList)
         {
-
             if (customChkBoxList.Items.Count > 0)
             {
                 //Get all the selected members and adds to the collection
-
                 foreach (SlkCheckBoxItem item in customChkBoxList.Items)
                 {
                     //Get the selected member
                     if (item.Selected)
                     {
                         //get the item key and add to collection
-                        slkUserCollection.Add(
-                                    new SlkUser(GetUserItemIdentifier(item.Value)));
+                        slkUserCollection.Add(new SlkUser(GetUserItemIdentifier(item.Value)));
                     }
                 }
 
@@ -1325,23 +1074,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region SetAssignedLearnersCollection
-        /// <summary>
-        ///  Adds the assigned Learners to the Assigned Learners Collection.
-        /// </summary>  
+        /// <summary> Adds the assigned Learners to the Assigned Learners Collection. </summary>  
         private void SetAssignedLearnersCollection()
         {
             if (AssignmentProperties != null)
             {
                 if (AssignmentProperties.Learners.Count > 0)
                 {
-                    m_assignedLearnersCollection = new List<long>(AssignmentProperties.Learners.Count);
+                    AssignedLearnersCollection = new List<long>(AssignmentProperties.Learners.Count);
                     foreach (SlkUser slkUser in AssignmentProperties.Learners)
                     {
                         long userKey = slkUser.UserId.GetKey();
                         //Adds the User Item to the Collection
-                        if (!m_assignedLearnersCollection.Contains(userKey))
+                        if (!AssignedLearnersCollection.Contains(userKey))
                         {
-                            m_assignedLearnersCollection.Add(userKey);
+                            AssignedLearnersCollection.Add(userKey);
                         }
                     }
                 }
@@ -1350,9 +1097,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region SetGroupMemberCollection
-        /// <summary>
-        ///  Adds the Group and associate Group Members to the array.
-        /// </summary>  
+        /// <summary> Adds the Group and associate Group Members to the array. </summary>  
         private void SetGroupMemberCollection()
         {
             ReadOnlyCollection<SlkGroup> slkGroupCollection = SlkMembers.LearnerGroups;
@@ -1360,7 +1105,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //Populate the Group  in array
             if (slkGroupCollection != null && slkGroupCollection.Count > 0)
             {
-                m_slkGroupMemberCollection = new long[slkGroupCollection.Count + 1][];
+                SlkGroupMemberCollection = new long[slkGroupCollection.Count + 1][];
 
                 int grCount = 1;
 
@@ -1370,15 +1115,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         int count = 0;
 
-                        m_slkGroupMemberCollection[grCount] = new long[slkGroup.Users.Count];
+                        SlkGroupMemberCollection[grCount] = new long[slkGroup.Users.Count];
 
                         //Populate the Member Info in array .
                         foreach (SlkUser slkUser in slkGroup.Users)
                         {
                             long userKey = slkUser.UserId.GetKey();
-                            m_slkGroupMemberCollection[grCount][count] = userKey;
+                            SlkGroupMemberCollection[grCount][count] = userKey;
                             count++;
-
                         }
                         grCount++;
                     }
@@ -1388,7 +1132,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                      slkGroupCollection == null)
             {
                 //To Store only All Learners Members 
-                m_slkGroupMemberCollection = new long[1][];
+                SlkGroupMemberCollection = new long[1][];
             }
 
             List<long> slkGroupUserList = new List<long>();
@@ -1405,35 +1149,26 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             if (slkGroupUserList.Count > 0)
             {
                 //Copy all the group users  in to All Learner Index ie 0; 
-                m_slkGroupMemberCollection[0] = new long[slkGroupUserList.Count];
-                slkGroupUserList.CopyTo(m_slkGroupMemberCollection[0]);
+                SlkGroupMemberCollection[0] = new long[slkGroupUserList.Count];
+                slkGroupUserList.CopyTo(SlkGroupMemberCollection[0]);
             }
-
-
         }
         #endregion
 
         #region GetUserItemIdentifier
-        /// <summary>
-        ///  Gets the userItem Identifier for the given key
-        /// </summary>  
+        /// <summary> Gets the userItem Identifier for the given key</summary>  
         /// <param name="userKeyValue">user key value</param>
         /// <returns> UserItemIdentifier&lt;SlkUser&gt; UserItemIdentifier </returns>
         private static UserItemIdentifier GetUserItemIdentifier(string userKeyValue)
         {
             //Get the User Identifier from Learning Components
             long userKey = long.Parse(userKeyValue, CultureInfo.InvariantCulture);
-
-            UserItemIdentifier userId = new UserItemIdentifier(userKey);
-
-            return userId;
+            return new UserItemIdentifier(userKey);
         }
         #endregion
 
         #region ValidateDateTime
-        /// <summary>
-        ///  Validates DateTime Picker
-        /// </summary>    
+        /// <summary> Validates DateTime Picker</summary>    
         /// <returns>bool</returns>
         private bool ValidateDateTime()
         {
@@ -1511,10 +1246,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //Check for Page Validation before perform any transaction.
                 if (VerifyPageSubmit())
                 {
-                    AssignmentProperties = new AssignmentProperties(AssignmentId == null ? 0 : AssignmentId.Value);
-
                     //Get the Assignment Properties from the submitted form.
-                    GetAssignmentProperties();
+                    CreateAssignmentPropertiesObject();
 
                     UserItemIdentifier userID = SlkStore.GetCurrentUserId();
                     bool removeCurrent = false;
@@ -1588,34 +1321,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             }
                             catch (Exception ex)
                             {
-                                if (ex.Message == AppResources.SLKFeatureNotActivated)
-                                {
-                                    // Deletes the assignment
-                                    SlkStore.DeleteAssignment(assignmentItemIdentifier);
-                                    //Log the Exception 
-                                    WriteError(ex, true);
-                                }
-                                else if (ex.Message.Contains(AppResources.AssignmentTitleInvalid))
-                                {
-                                    //Deletes the assignment
-                                    SlkStore.DeleteAssignment(assignmentItemIdentifier);
-
-                                    errorBanner.Clear();
-                                    errorBanner.AddError(ErrorType.Error, AppResources.AssignmentTitleInvalidErrMsg);
-                                }
-                                else if (ex.Message.Contains(AppResources.AssignmentTitleTooLong))
-                                {
-                                    //Deletes the assignment
-                                    SlkStore.DeleteAssignment(assignmentItemIdentifier);
-
-                                    errorBanner.Clear();
-                                    errorBanner.AddError(ErrorType.Error, AppResources.AssignmentTitleTooLongErrMsg);
-                                }
-                                else
-                                {
-                                    //Log the Exception 
-                                    WriteError(ex, true);
-                                }
+                                SlkError.WriteToEventLog(ex);
+                                throw;
                             }
                         }
                         else
@@ -1693,71 +1400,41 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region SetConfirmationPage
-        /// <summary>
-        /// Sets the Assignment Properties of Confirmation Page
-        /// </summary>
+        /// <summary>Sets the Assignment Properties of Confirmation Page</summary>
         /// <param name="assignmentId">Assignment Id to be Passed to Grading Page</param>
         private void SetConfirmationPage(long assignmentId)
         {
             //Set the Confirmation Page Labels
 
-            lblAssignmentTitle.Text
-                        = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Title);
-            lblAssignmentDescription.Text
-                        = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description);
+            lblAssignmentTitle.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Title);
+            lblAssignmentDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description);
 
             // say e.g.: {0:D}, {1:t} where {0} = date, {1} = time;
-            lblAssignmentStartText.Text
-                            = string.Format(CultureInfo.CurrentCulture,
-                                            AppResources.SlkDateFormatSpecifier,
-                                            AssignmentProperties.StartDate);
+            lblAssignmentStartText.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate);
             if (AssignmentProperties.DueDate != null)
             {
-                lblAssignmentDueText.Text
-                                = string.Format(CultureInfo.CurrentCulture,
-                                                AppResources.SlkDateFormatSpecifier,
-                                                AssignmentProperties.DueDate.Value);
+                lblAssignmentDueText.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.DueDate.Value);
             }
 
             if (AssignmentProperties.PointsPossible != null)
             {
-                lblAssignmentPointsText.Text
-                                    = AssignmentProperties.PointsPossible.Value.
-                                      ToString(Constants.RoundTrip, NumberFormatInfo);
-            }
+                lblAssignmentPointsText.Text = AssignmentProperties.PointsPossible.Value.  ToString(Constants.RoundTrip, NumberFormatInfo); }
 
             //Add items to the What Next list
-
-            lstNavigateBulletedList.Items.Add(new ListItem(
-                                                    AppResources.AppNavigateToSite
-                                                    + Constants.Space
-                                                    + SPWeb.Title,
-                                                    SPWeb.ServerRelativeUrl));
+            lstNavigateBulletedList.Items.Add(new ListItem( AppResources.AppNavigateToSite + Constants.Space + SPWeb.Title, SPWeb.ServerRelativeUrl));
 
             // Get the ServerRelativeUrl for Grading Page
-            string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl,
-                                    Constants.SlkUrlPath,
-                                    Constants.GradingPage);
+            string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, Constants.GradingPage);
             // Append the AssignmentId QueryString key for Grading Page
-            urlString = String.Format(CultureInfo.InvariantCulture,
-                                      "{0}" + Constants.QuestionMark +
-                                      QueryStringKeys.AssignmentId + "={1}",
-                                      urlString,
-                                      assignmentId);
+            urlString = String.Format(CultureInfo.InvariantCulture,"{0}?{1}={2}", urlString, QueryStringKeys.AssignmentId, assignmentId);
 
-            lstNavigateBulletedList.Items.Add(new ListItem(
-                                              AppResources.AppGradeOrManage,
-                                              urlString));
+            lstNavigateBulletedList.Items.Add(new ListItem( AppResources.AppGradeOrManage, urlString));
 
             //Add Doclib Url
-
             SPFile spFile = SlkUtilities.GetSPFileFromPackageLocation(Location);
 
-            lstNavigateBulletedList.Items.Add(new ListItem(
-                                                    String.Format(CultureInfo.CurrentCulture,
-                                                                  AppResources.AppNavigateToDocLib,
-                                                                  spFile.ParentFolder.Name),
-                                                    spFile.ParentFolder.ServerRelativeUrl));
+            string message = String.Format(CultureInfo.CurrentCulture, AppResources.AppNavigateToDocLib, spFile.ParentFolder.Name);
+            lstNavigateBulletedList.Items.Add(new ListItem(message, spFile.ParentFolder.ServerRelativeUrl));
 
             //Set MasterPage Controls Text for APP Confirmation Page.
             SetMasterPageControlText();
@@ -1765,8 +1442,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //sets the Page Mode as Confirmation
             AppMode = PageMode.Confirmation;
 
-            //  Hides the Assignment Properties Panel and 
-            //  Shows the Confirmation Panels.
             panelAssignmentProperties.Visible = false;
             panelConfirmation.Visible = true;
 
@@ -1776,9 +1451,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region RegisterGroupsClientScriptBlock
-        /// <summary>
-        ///  Defines the App Learners Grouping Client Script 
-        /// </summary>    
+        /// <summary> Defines the App Learners Grouping Client Script </summary>    
         private void RegisterGroupsClientScriptBlock()
         {
             // Define the name and type of the client scripts on the page.
@@ -2110,10 +1783,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region WriteError
-        /// <summary>
-        ///  Log the Exception Write the Standard Error in 
-        ///  ErrorBanner and Hide the Panels
-        /// </summary>  
+        /// <summary>Log the Exception Write the Standard Error in ErrorBanner and Hide the Panels</summary>  
         /// <param name="ex">Exception to be logged.</param>
         private void WriteError(Exception ex)
         {
@@ -2122,9 +1792,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region WriteError
-        /// <summary>
-        ///  Log the Exception Write the Standard Error in ErrorBanner and Hide the Panels
-        /// </summary>  
+        /// <summary> Log the Exception Write the Standard Error in ErrorBanner and Hide the Panels</summary>  
         /// <param name="ex">Exception to be logged.</param>
         /// <param name="isAppVisible">Shows/Hides the Assignment Properties Panel</param>
         private void WriteError(Exception ex, bool isAppVisible)
@@ -2138,10 +1806,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region SetAppVisible
-        /// <summary>
-        ///  Shows/Hides the Assignment Properties Panel and 
-        ///  Hides the Confirmation Panels.
-        /// </summary>         
+        /// <summary>Shows/Hides the Assignment Properties Panel and Hides the Confirmation Panels.</summary>         
         /// <param name="isAppVisible">Shows/Hides the Assignment Properties Panel</param>
         private void SetAppVisible(bool isAppVisible)
         {
@@ -2153,9 +1818,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region SaveViewState
-        /// <summary>
-        /// SaveViewState
-        /// </summary>
+        /// <summary>SaveViewState</summary>
         /// <returns>savedObject</returns>
         protected override object SaveViewState()
         {
@@ -2182,6 +1845,91 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             return new Pair(baseState, itemState);
         }
         #endregion
+
+        void PopulateSlkMembers()
+        {
+            //Check for PageMode if it is Edit mode 
+            //pass the additional Learners and Instructors 
+            ReadOnlyCollection<string> groupFailures;
+            string groupFailureDetails;
+            if (AppMode == PageMode.Create || AppMode == PageMode.PostBack)
+            {
+                m_slkMembers = SlkStore.GetMemberships(SPWeb, null, null, out groupFailures, out groupFailureDetails);
+            }
+            else if (AppMode == PageMode.Edit)
+            {
+
+                try
+                {
+                    m_slkMembers = SlkStore.GetMemberships(SPWeb, AssignmentProperties.Instructors, AssignmentProperties.Learners, out groupFailures, out groupFailureDetails);
+                }
+                catch (NotAnInstructorException)
+                {
+                    //check  whether Instructor List has the current userkey.
+                    bool isInstructorInCurrentAssignment = false;
+                    groupFailures = null;
+                    groupFailureDetails = null;
+
+
+                    //This Code executed only if the slkUser.SPUser is  null. 
+                    //Get the CurrentUserKey from database and compare with SlkUserkey
+
+                    //set the Current SlkUser Key 
+                    UserItemIdentifier currentSlkUser = SlkStore.GetCurrentUserId();
+                    m_currentSlkUserKey = currentSlkUser.GetKey().ToString(CultureInfo.InvariantCulture);
+                    //return True if currentSlkUserKey mathces the slkUser key in Instructor List
+                    foreach (SlkUser slkUser in AssignmentProperties.Instructors)
+                    {
+                        if (currentSlkUser == slkUser.UserId)
+                        {
+                            m_isInstructor = true;
+                            m_slkMembers = GetMemberships();
+                            isInstructorInCurrentAssignment = true;
+                            //If Instrutor permission is removed from an SPWeb, 
+                            //but that instructor is still an instructor on an assignment on that SPWeb, 
+                            //then when the instructor navigates to APP (Edit Mode) 
+                            //for that assignment they  see a warning 
+                            SlkError slkError = new SlkError(ErrorType.Warning, AppResources.AppNotAnInstructorInCurrentSiteError);
+                            errorBanner.AddError(slkError);
+                            break;
+                        }
+                    }
+
+
+                    //if not an instructor in the current Assignment as well 
+                    //throw the exception
+                    if (!isInstructorInCurrentAssignment)
+                    {
+                        throw;
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
+
+            if (groupFailures != null)
+            {
+                //Handles <groupFailures> and <groupFailureDetails>, display the 
+                //Formatted Error in Error Banner and log the failure details in event log.
+                StringBuilder enumerationWarning = new StringBuilder(1000);
+                enumerationWarning.AppendLine("<ul style=\"margin-top:0;margin-bottom:0;margin-left:24;\">");
+                foreach (string groupName in groupFailures)
+                {
+                    enumerationWarning.Append("<li>");
+                    enumerationWarning.Append(Server.HtmlEncode(groupName));
+                    enumerationWarning.AppendLine("</li>");
+                    enumerationWarning.Append("</ul>\n");
+                }
+                errorBanner.AddHtmlErrorText(ErrorType.Warning, String.Format(CultureInfo.CurrentCulture, AppResources.AppEnumerationWarning, enumerationWarning.ToString()));
+            }
+
+            if (groupFailureDetails != null)
+            {
+                SlkError.WriteToEventLog("{0}", groupFailureDetails);
+            }
+        }
     }
 }
 
