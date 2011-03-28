@@ -867,24 +867,6 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The specified file or folder name is too long. The URL path for all files and folders must be 260 characters or less (and no more than 128 characters for any single file or folder name in the URL). Please type a shorter file or folder name..
-        /// </summary>
-        internal static string AssignmentTitleTooLong {
-            get {
-                return ResourceManager.GetString("AssignmentTitleTooLong", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The specified file or folder name is too long. The URL path for all files and folders must be 260 characters or less (and no more than 128 characters for any single file or folder name in the URL). Please type a shorter file or folder name..
-        /// </summary>
-        internal static string AssignmentTitleTooLongErrMsg {
-            get {
-                return ResourceManager.GetString("AssignmentTitleTooLongErrMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to , .
         /// </summary>
         internal static string CommaSpace {
@@ -3373,15 +3355,6 @@ namespace Resources.Properties {
         internal static string SlkExWorkFlowSqlDeadLockError {
             get {
                 return ResourceManager.GetString("SlkExWorkFlowSqlDeadLockError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SharePoint Learning Kit feature might not be activated on the site..
-        /// </summary>
-        internal static string SLKFeatureNotActivated {
-            get {
-                return ResourceManager.GetString("SLKFeatureNotActivated", resourceCulture);
             }
         }
         
