@@ -103,6 +103,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected System.Web.UI.WebControls.Label lblAutoReturnLearners;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected System.Web.UI.WebControls.Label lblShowAnswersToLearners;
+        protected Label labelEmail;
 
         //TextBox Controls
         protected System.Web.UI.WebControls.TextBox txtTitle;
@@ -117,6 +118,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         //CheckBox and CheckBoxList
 
+        protected CheckBox checkboxEmail;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
         protected System.Web.UI.WebControls.CheckBox chkAutoReturnLearners;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "chk")]
@@ -333,7 +335,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                     //set the Current SlkUser Key 
 
-                    UserItemIdentifier currentSlkUser = SlkStore.GetCurrentUserId();
+                    UserItemIdentifier currentSlkUser = SlkStore.CurrentUserId;
                     m_currentSlkUserKey = currentSlkUser.GetKey().ToString(CultureInfo.InvariantCulture);
                     //return True if currentSlkUserKey mathces the slkUser key in Instructor List
                     foreach (SlkUser slkUser in SlkMembers.Instructors)
@@ -766,6 +768,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //Show Answer and Auto Return Label Text
             lblAutoReturnLearners.Text = AppResources.CtrlChkBoxTextAutoReturnAssignments;
             lblShowAnswersToLearners.Text = AppResources.CtrlChkBoxTextShowAnswers;
+            labelEmail.Text = AppResources.CheckBoxEmailAssignment;
 
             //Confirmation Panel Label Text 
             lblAssignmentPoints.Text = AppResources.CtrlLabelPointsText;
@@ -995,6 +998,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             chkAutoReturnLearners.Checked = AssignmentProperties.AutoReturn;
             chkShowAnswersToLearners.Checked = AssignmentProperties.ShowAnswersToLearners;
+            checkboxEmail.Checked = AssignmentProperties.EmailChanges;
 
             //Add Instructor List
             BindCheckBoxItems(chkListInstructors, SlkMembers.Instructors);
@@ -1019,7 +1023,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary> Gets the Assignment Properties Modified in UI</summary>  
         private void CreateAssignmentPropertiesObject()
         {
-            AssignmentProperties = new AssignmentProperties(AssignmentId == null ? 0 : AssignmentId.Value);
+            AssignmentProperties = new AssignmentProperties(AssignmentId == null ? 0 : AssignmentId.Value, SlkStore);
             AssignmentProperties.Title = SlkUtilities.Trim(txtTitle.Text);
             AssignmentProperties.Description = SlkUtilities.Trim(txtDescription.Text);
 
@@ -1038,11 +1042,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 AssignmentProperties.DueDate = spDateTimeDue.SelectedDate;
             }
 
-            // Assign the assignmentProperties value for AutoReturn;
             AssignmentProperties.AutoReturn = chkAutoReturnLearners.Checked;
-
-            // Assign the assignmentProperties value for Show Answers ToLearners;
             AssignmentProperties.ShowAnswersToLearners = chkShowAnswersToLearners.Checked;
+            AssignmentProperties.EmailChanges = checkboxEmail.Checked;
 
             // Assign the Learners and Instructor list for assignmentProperties
             SetMembersList(AssignmentProperties.Instructors, chkListInstructors);
@@ -1249,7 +1251,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     //Get the Assignment Properties from the submitted form.
                     CreateAssignmentPropertiesObject();
 
-                    UserItemIdentifier userID = SlkStore.GetCurrentUserId();
+                    UserItemIdentifier userID = SlkStore.CurrentUserId;
                     bool removeCurrent = false;
 
                     if (!AssignmentProperties.Instructors.Contains(userID))
@@ -1260,132 +1262,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                     if (AssignmentId == null)
                     {
-                        // create the assignment -- this returns an AssignmentItemIdentifier
-                        AssignmentItemIdentifier assignmentItemIdentifier = SlkStore.CreateAssignment(SPWeb,
-                                                  Location,
-                                                  OrgIndex,
-                                                  SlkRole.Instructor,
-                                                  AssignmentProperties);
-
-                        //Update the MRU list
-                        SlkStore.AddToUserWebList(SPWeb);
-
-                        if (OrgIndex == null)
-                        {
-                            AssignmentProperties currentAssProperties = null;
-
-                            if (SlkStore.IsInstructor(SPWeb))
-                            {
-                                currentAssProperties = SlkStore.GetAssignmentProperties(assignmentItemIdentifier, SlkRole.Instructor);
-                            }
-                            else if (SlkStore.IsLearner(SPWeb))
-                            {
-                                currentAssProperties = SlkStore.GetAssignmentProperties(assignmentItemIdentifier, SlkRole.Learner);
-                            }
-                            else if (SlkStore.IsObserver(SPWeb))
-                            {
-                                currentAssProperties = SlkStore.GetAssignmentProperties(assignmentItemIdentifier, SlkRole.Observer);
-                            }
-
-                            if (removeCurrent)
-                            {
-                                currentAssProperties.Instructors.Remove(userID);
-                                AssignmentProperties.Instructors.Remove(userID);
-
-                                SlkStore.SetAssignmentProperties(assignmentItemIdentifier, AssignmentProperties);
-
-                                removeCurrent = false;
-                            }
-
-                            try
-                            {
-                                if (currentAssProperties.IsELearning == false)
-                                {
-                                    currentAssProperties.PopulateSPUsers(SlkMembers);
-                                    DropBoxManager dropBoxMgr = new DropBoxManager(currentAssProperties);
-
-                                    try
-                                    {
-                                        Microsoft.SharePoint.Utilities.SPUtility.ValidateFormDigest();
-                                        dropBoxMgr.CreateAssignmentFolder();
-                                        SetConfirmationPage(assignmentItemIdentifier.GetKey());
-                                    }
-                                    catch (SafeToDisplayException ex)
-                                    {
-                                        SlkStore.DeleteAssignment(assignmentItemIdentifier);
-                                        //Log the Exception 
-                                        errorBanner.Clear();
-                                        errorBanner.AddError(ErrorType.Error, ex.Message);
-                                    }
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                SlkError.WriteToEventLog(ex);
-                                throw;
-                            }
-                        }
-                        else
-                        {
-                            //Render the Confirmation Page
-                            SetConfirmationPage(assignmentItemIdentifier.GetKey());
-                        }
+                        CreateAssignment();
                     }
                     else
                     {
-                        //Sets the Page Mode as Edit for rest of the page processing
-                        //Needed this to process some Edit mode Operations
-                        //AppMode = PageMode.Edit;
-
-                        //Get the old assignment properties
-                        AssignmentProperties oldAssignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
-
-                        //Update the Assignment Properties.
-                        SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, AssignmentProperties);
-
-                        // Get the ServerRelativeUrl for Grading Page
-                        string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, Constants.GradingPage);
-
-                        // Append the AssignmentId QueryString key for Grading Page
-                        urlString = String.Format(CultureInfo.InvariantCulture, "{0}{1}{2}={3}", urlString, Constants.QuestionMark, QueryStringKeys.AssignmentId, AssignmentId);
-
-                        try
-                        {
-                            if (oldAssignmentProperties.IsELearning == false)
-                            {
-                                //Get the new assignment properties
-                                AssignmentProperties newAssignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
-
-                                if (removeCurrent)
-                                {
-                                    newAssignmentProperties.Instructors.Remove(userID);
-                                    AssignmentProperties.Instructors.Remove(userID);
-
-                                    SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, AssignmentProperties);
-
-                                    removeCurrent = false;
-                                }
-
-                                // Update the assignment folder in the Drop Box
-                                oldAssignmentProperties.PopulateSPUsers(SlkMembers);
-                                newAssignmentProperties.PopulateSPUsers(SlkMembers);
-                                DropBoxManager dropBoxMgr = new DropBoxManager(oldAssignmentProperties);
-                                dropBoxMgr.UpdateAssignment(newAssignmentProperties);
-                            }
-
-                            // Redirect to Grading Page
-                            Response.Redirect(urlString, false);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            // Return the Assignment Properties back as Drop Box could not be updated successfully.
-                            SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, oldAssignmentProperties);
-                            //Log the Exception 
-                            WriteError(ex, true);
-                            errorBanner.Clear();
-                            errorBanner.AddError(ErrorType.Error, ex.Message);
-                        }
+                        UpdateAssignment(removeCurrent, userID);
                     }
                 }
             }
@@ -1398,6 +1279,48 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         }
         #endregion
+
+        void CreateAssignment()
+        {
+            try
+            {
+                AssignmentProperties.SetLocation(Location, OrgIndex);
+                AssignmentProperties.Save(SPWeb, SlkRole.Instructor);
+                SetConfirmationPage(AssignmentProperties.Id.GetKey());
+            }
+            catch (Exception ex)
+            {
+                SlkStore.DeleteAssignment(AssignmentProperties.Id);
+                //Log the Exception 
+                WriteError(ex, true);
+            }
+            /*
+                try
+                {
+                    if (currentAssProperties.IsELearning == false)
+                    {
+                        currentAssProperties.PopulateSPUsers(SlkMembers);
+                        DropBoxManager dropBoxMgr = new DropBoxManager(currentAssProperties);
+
+                        try
+                        {
+                            Microsoft.SharePoint.Utilities.SPUtility.ValidateFormDigest();
+                            dropBoxMgr.CreateAssignmentFolder();
+                            SetConfirmationPage(assignmentItemIdentifier.GetKey());
+                        }
+                        catch (SafeToDisplayException ex)
+                        {
+                            SlkStore.DeleteAssignment(assignmentItemIdentifier);
+                            //Log the Exception 
+                            errorBanner.Clear();
+                            errorBanner.AddError(ErrorType.Error, ex.Message);
+                        }
+                    }
+                }
+                */
+        }
+
+
 
         #region SetConfirmationPage
         /// <summary>Sets the Assignment Properties of Confirmation Page</summary>
@@ -1846,6 +1769,63 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
         #endregion
 
+        void UpdateAssignment(bool removeCurrent, UserItemIdentifier userID)
+        {
+            //Sets the Page Mode as Edit for rest of the page processing
+            //Needed this to process some Edit mode Operations
+            //AppMode = PageMode.Edit;
+
+            //Get the old assignment properties
+            AssignmentProperties oldAssignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+
+            //Update the Assignment Properties.
+            SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, AssignmentProperties);
+
+            // Get the ServerRelativeUrl for Grading Page
+            string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, Constants.GradingPage);
+
+            // Append the AssignmentId QueryString key for Grading Page
+            urlString = String.Format(CultureInfo.InvariantCulture, "{0}{1}{2}={3}", urlString, Constants.QuestionMark, QueryStringKeys.AssignmentId, AssignmentId);
+
+            try
+            {
+                if (oldAssignmentProperties.IsELearning == false)
+                {
+                    //Get the new assignment properties
+                    AssignmentProperties newAssignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+
+                    if (removeCurrent)
+                    {
+                        newAssignmentProperties.Instructors.Remove(userID);
+                        AssignmentProperties.Instructors.Remove(userID);
+
+                        SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, AssignmentProperties);
+
+                        removeCurrent = false;
+                    }
+
+                    // Update the assignment folder in the Drop Box
+                    oldAssignmentProperties.PopulateSPUsers(SlkMembers);
+                    newAssignmentProperties.PopulateSPUsers(SlkMembers);
+                    DropBoxManager dropBoxMgr = new DropBoxManager(oldAssignmentProperties);
+                    dropBoxMgr.UpdateAssignment(newAssignmentProperties);
+                }
+
+                // Redirect to Grading Page
+                Response.Redirect(urlString, false);
+
+            }
+            catch (Exception ex)
+            {
+                // Return the Assignment Properties back as Drop Box could not be updated successfully.
+                SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, oldAssignmentProperties);
+                //Log the Exception 
+                WriteError(ex, true);
+                errorBanner.Clear();
+                errorBanner.AddError(ErrorType.Error, ex.Message);
+            }
+        }
+
         void PopulateSlkMembers()
         {
             //Check for PageMode if it is Edit mode 
@@ -1875,7 +1855,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     //Get the CurrentUserKey from database and compare with SlkUserkey
 
                     //set the Current SlkUser Key 
-                    UserItemIdentifier currentSlkUser = SlkStore.GetCurrentUserId();
+                    UserItemIdentifier currentSlkUser = SlkStore.CurrentUserId;
                     m_currentSlkUserKey = currentSlkUser.GetKey().ToString(CultureInfo.InvariantCulture);
                     //return True if currentSlkUserKey mathces the slkUser key in Instructor List
                     foreach (SlkUser slkUser in AssignmentProperties.Instructors)

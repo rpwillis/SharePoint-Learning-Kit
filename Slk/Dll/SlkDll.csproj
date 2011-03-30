@@ -111,6 +111,8 @@
     </Compile>
     <Compile Include="SlkApi.cs" />
     <Compile Include="api\SlkStore.cs" />
+    <Compile Include="api\ISlkStore.cs" />
+    <Compile Include="api\slkMemberships.cs" />
     <Compile Include="api\LearnerAssignmentProperties.cs" />
     <Compile Include="api\assignmentProperties.cs" />
     <Compile Include="api\slkUser.cs" />

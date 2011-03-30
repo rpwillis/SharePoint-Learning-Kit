@@ -2059,8 +2059,9 @@ CREATE TABLE [AssignmentItem](
     [DueDate] datetime,
     [PointsPossible] float(24),
     [Description] nvarchar(max) NOT NULL,
-    [AutoReturn] bit NOT NULL,
-    [ShowAnswersToLearners] bit NOT NULL,
+    [AutoReturn] bit NOT NULL CONSTRAINT DF_AssignmentItem_AutoReturn DEFAULT 0,
+    [ShowAnswersToLearners] bit NOT NULL CONSTRAINT DF_AssignmentItem_ShowAnswersToLearners DEFAULT 0,
+    EmailChanges BIT NOT NULL CONSTRAINT DF_AssignmentItem_EmailChanges DEFAULT 0,
     [CreatedBy] bigint,
     [DateCreated] datetime NOT NULL
 )

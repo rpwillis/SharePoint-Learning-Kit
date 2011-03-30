@@ -881,7 +881,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             LearningStoreXml packageWarnings;
             AssignmentProperties properties = SlkStore.GetNewAssignmentDefaultProperties(SPWeb, Location, OrganizationIndex, SlkRole.Learner, out packageWarnings);
-            AssignmentItemIdentifier assignmentId = SlkStore.CreateAssignment(SPWeb, Location, OrganizationIndex, SlkRole.Learner, properties);
+            if (packageWarnings != null || packageWarnings == null)
+            {
+                throw new NotSupportedException();
+            }
+            AssignmentItemIdentifier assignmentId = SlkStore.CreateAssignment(properties);
+            //AssignmentItemIdentifier assignmentId = SlkStore.CreateAssignment(SPWeb, Location, OrganizationIndex, SlkRole.Learner, properties);
             Guid learnerAssignmentGuidId = SlkStore.GetCurrentUserLearnerAssignment(assignmentId);
 
             AssignmentProperties currentAssProperties = SlkStore.GetAssignmentProperties(assignmentId, SlkRole.Learner);

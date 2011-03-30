@@ -274,6 +274,10 @@ More information has been written to the server event log.</value>
     <value>Show learners the correct answers to autograded questions when the assignment is final (Class Server learning resources only)</value>
     <comment>Check Box Label Text for Show Answers to Learners.</comment>
   </data>
+  <data name="CheckBoxEmailAssignment" xml:space="preserve">
+    <value>Email learners on creation or when changed.</value>
+    <comment>Check Box Label Text for Email Learners.</comment>
+  </data>
   <data name="CtrlChkBoxTextAutoReturnAssignments" xml:space="preserve">
     <value>Automatically return learner assignments when they are submitted.</value>
     <comment>Check Box Label Text for Auto Return Learners Assignments</comment>
@@ -1523,12 +1527,6 @@ More information may be available in the server event log.</value>
   </data>
   <data name="DropBoxDefaultViewTitle" xml:space="preserve">
       <value>My Assignments</value>
-  </data>
-  <data name="AssignmentTitleInvalid" xml:space="preserve">
-    <value>The file or folder name contains characters that are not permitted.  Please use a different name.</value>
-  </data>
-  <data name="AssignmentTitleInvalidErrMsg" xml:space="preserve">
-    <value>The file or folder name contains characters that are not permitted.  Please use a different name.</value>
   </data>
   <data name="DropBoxTitle" xml:space="preserve">
     <value>Drop Box</value>

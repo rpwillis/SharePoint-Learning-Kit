@@ -71,13 +71,8 @@ namespace Microsoft.LearningComponents.Storage
         /// </remarks>
         private long m_key;
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        private LearningStoreItemIdentifier()
-        {
-        }
 
+#region constructors
         /// <summary>
         /// Create a new instance of the <Typ>LearningStoreItemIdentifier</Typ> class.
         /// </summary>
@@ -107,16 +102,26 @@ namespace Microsoft.LearningComponents.Storage
             m_key = key;
         }
 
-        /// <summary>
-        /// Create a new instance of the <Typ>LearningStoreItemIdentifier</Typ> class.
-        /// </summary>
+        /// <summary>Create a new instance of the <Typ>LearningStoreItemIdentifier</Typ> class. </summary>
         /// <param name="id">Identifier that should be copied.</param>
         /// <exception cref="ArgumentNullException"><paramref name="id"/> is a null reference.</exception>
         protected LearningStoreItemIdentifier(LearningStoreItemIdentifier id)
         {
-            // Check parameters
-            if(id == null)
+            AssignIdentifier(id);
+        }
+
+        /// <summary>Initializes a new instance of <see cref="LearningStoreItemIdentifier"/>.</summary>
+        protected LearningStoreItemIdentifier()
+        {
+        }
+#endregion constructors
+
+        public void AssignIdentifier(LearningStoreItemIdentifier id)
+        {
+            if (id == null)
+            {
                 throw new ArgumentNullException("id");
+            }
             
             m_itemTypeName = id.m_itemTypeName;
             m_key = id.m_key;

@@ -6286,13 +6286,17 @@ namespace Microsoft.LearningComponents.Storage {
     /// </summary>
     public class ActivityPackageItemIdentifier : LearningStoreItemIdentifier {
         
+        public ActivityPackageItemIdentifier() : base()
+        {
+        }
+
         /// <summary>
         /// Create a new instance of the ActivityPackageItemIdentifier class.
         /// </summary>
         /// <param name="key">The unique integer value assigned to the item.  This must be a positive integer.</param>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="key"/> is not a valid positive integer.</exception>
-        public ActivityPackageItemIdentifier(long key) : 
-                base(Microsoft.LearningComponents.Storage.BaseSchema.ActivityPackageItem.ItemTypeName, key) {
+        public ActivityPackageItemIdentifier(long key) : base(Microsoft.LearningComponents.Storage.BaseSchema.ActivityPackageItem.ItemTypeName, key) 
+        {
         }
         
         /// <summary>
@@ -6302,8 +6306,8 @@ namespace Microsoft.LearningComponents.Storage {
         /// <exception cref="System.ArgumentNullException"><paramref name="id"/> is a null refrence.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="id"/> does not contain
         /// a ActivityPackageItem identifier.</exception>
-        public ActivityPackageItemIdentifier(LearningStoreItemIdentifier id) : 
-                base(id) {
+        public ActivityPackageItemIdentifier(LearningStoreItemIdentifier id) : base(id) 
+        {
             if ((id == null)) {
                 throw new ArgumentNullException("id");
             }
@@ -6861,14 +6865,19 @@ namespace Microsoft.LearningComponents.Storage {
     /// Represents an identifier to a <Typ>/Microsoft.LearningComponents.Storage.BaseSchema.UserItem</Typ> in a store.
     /// </summary>
     public class UserItemIdentifier : LearningStoreItemIdentifier {
+
+        /// <summary>Initializes a new instance of <see cref="UserItemIdentifier"/>.</summary>
+        public UserItemIdentifier() : base()
+        {
+        }
         
         /// <summary>
         /// Create a new instance of the UserItemIdentifier class.
         /// </summary>
         /// <param name="key">The unique integer value assigned to the item.  This must be a positive integer.</param>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="key"/> is not a valid positive integer.</exception>
-        public UserItemIdentifier(long key) : 
-                base(Microsoft.LearningComponents.Storage.BaseSchema.UserItem.ItemTypeName, key) {
+        public UserItemIdentifier(long key) : base(Microsoft.LearningComponents.Storage.BaseSchema.UserItem.ItemTypeName, key) 
+        {
         }
         
         /// <summary>
@@ -6878,8 +6887,8 @@ namespace Microsoft.LearningComponents.Storage {
         /// <exception cref="System.ArgumentNullException"><paramref name="id"/> is a null refrence.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="id"/> does not contain
         /// a UserItem identifier.</exception>
-        public UserItemIdentifier(LearningStoreItemIdentifier id) : 
-                base(id) {
+        public UserItemIdentifier(LearningStoreItemIdentifier id) : base(id) 
+        {
             if ((id == null)) {
                 throw new ArgumentNullException("id");
             }
