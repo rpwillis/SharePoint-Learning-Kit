@@ -849,20 +849,11 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The file or folder name contains characters that are not permitted.  Please use a different name..
+        ///   Looks up a localized string similar to Email learners on creation or when changed..
         /// </summary>
-        internal static string AssignmentTitleInvalid {
+        internal static string CheckBoxEmailAssignment {
             get {
-                return ResourceManager.GetString("AssignmentTitleInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The file or folder name contains characters that are not permitted.  Please use a different name..
-        /// </summary>
-        internal static string AssignmentTitleInvalidErrMsg {
-            get {
-                return ResourceManager.GetString("AssignmentTitleInvalidErrMsg", resourceCulture);
+                return ResourceManager.GetString("CheckBoxEmailAssignment", resourceCulture);
             }
         }
         

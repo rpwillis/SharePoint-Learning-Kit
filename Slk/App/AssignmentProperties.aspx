@@ -152,6 +152,14 @@
                                             <table border="0" width="100%"  cellspacing="0" cellpadding="0">
                                                 <tr>
                                                   <td width="0%" valign="top">  
+                                                     <asp:CheckBox ID="checkboxEmail" runat="server"></asp:CheckBox>
+                                                   </td>
+                                                   <td class="ms-formbody" style="border-top: none; padding-top:1px" width="100%" valign="top">
+                                                      <asp:Label ID="labelEmail"  runat="server" AssociatedControlID="checkboxEmail" EnableViewState="false"></asp:Label>  
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                  <td width="0%" valign="top">  
                                                      <asp:CheckBox ID="chkAutoReturnLearners" runat="server"></asp:CheckBox>
                                                    </td>
                                                    <td class="ms-formbody" style="border-top: none; padding-top:1px" width="100%" valign="top">

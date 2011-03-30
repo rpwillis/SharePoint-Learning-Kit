@@ -278,43 +278,6 @@ public static class LearningStoreHelper
 
     /// <summary>
     /// Converts a value returned from a LearningStore query to a
-    /// <c>ActivityPackageItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
-    /// </summary>
-    ///
-    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
-    ///     returned from a LearningStore query.</param>
-    ///
-    /// <param name="result">Where to store the result.</param>
-    ///
-    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void Cast(object value, out ActivityPackageItemIdentifier result)
-    {
-        LearningStoreItemIdentifier id;
-        Cast(value, out id);
-        result = (id == null) ? null : new ActivityPackageItemIdentifier(id);
-    }
-
-    /// <summary>
-    /// Converts a value returned from a LearningStore query to a
-    /// <c>ActivityPackageItemIdentifier</c>.  Throws an exception if the value is
-    /// <c>DBNull</c>.
-    /// </summary>
-    ///
-    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
-    ///     returned from a LearningStore query.</param>
-    ///
-    /// <param name="result">Where to store the result.</param>
-    ///
-    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void CastNonNull(object value, out ActivityPackageItemIdentifier result)
-    {
-        LearningStoreItemIdentifier id;
-        CastNonNull(value, out id);
-        result = new ActivityPackageItemIdentifier(id);
-    }
-
-    /// <summary>
-    /// Converts a value returned from a LearningStore query to a
     /// <c>PackageGlobalObjectiveItemIdentifier</c>, or <c>null</c> if the value is
     /// <c>DBNull</c>.
     /// </summary>
@@ -876,15 +839,20 @@ public static class LearningStoreHelper
     ///
     /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
     ///     returned from a LearningStore query.</param>
-    ///
-    /// <param name="result">Where to store the result.</param>
-    ///
-    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void Cast(object value, out UserItemIdentifier result)
+    public static T Cast<T>(object value) where T : LearningStoreItemIdentifier, new()
     {
         LearningStoreItemIdentifier id;
         Cast(value, out id);
-        result = (id == null) ? null : new UserItemIdentifier(id);
+        if (id == null)
+        {
+            return null;
+        }
+        else
+        {
+            T result = new T();
+            result.AssignIdentifier(id);
+            return result;
+        }
     }
 
     /// <summary>
@@ -894,15 +862,13 @@ public static class LearningStoreHelper
     ///
     /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
     ///     returned from a LearningStore query.</param>
-    ///
-    /// <param name="result">Where to store the result.</param>
-    ///
-    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void CastNonNull(object value, out UserItemIdentifier result)
+    public static T CastNonNull<T>(object value) where T : LearningStoreItemIdentifier, new()
     {
         LearningStoreItemIdentifier id;
         CastNonNull(value, out id);
-        result = new UserItemIdentifier(id);
+        T result = new T();
+        result.AssignIdentifier(id);
+        return result;
     }
 
     //----- SLK Data Conversion -----

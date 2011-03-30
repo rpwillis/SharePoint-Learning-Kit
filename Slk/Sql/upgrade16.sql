@@ -19,6 +19,17 @@ GO
 
 exec DropConstraints 'ActivityAttemptItem', 'CHECK'
 
+ALTER TABLE AssignmentItem ADD EmailChanges BIT NOT NULL CONSTRAINT DF_AssignmentItem_EmailChanges DEFAULT 0
+GO
+ALTER TABLE AssignmentItem ADD CONSTRAINT DF_AssignmentItem_AutoReturn DEFAULT 0 FOR AutoReturn
+GO
+ALTER TABLE AssignmentItem ADD CONSTRAINT DF_AssignmentItem_ShowAnswersToLearners DEFAULT 0 FOR ShowAnswersToLearners
+GO
+
+
+
+GO
+
 
 DROP PROCEDURE DropConstraints
 GO

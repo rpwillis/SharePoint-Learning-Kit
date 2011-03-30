@@ -28,11 +28,10 @@ namespace Microsoft.SharePointLearningKit
     /// the store (used for authorization purposes).
     /// </summary>
     ///
-    public class SlkStore
+    public class SlkStore : ISlkStore
     {
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // Private Fields
-        //
+#region fields
+        UserItemIdentifier currentUserId;
 
         /// <summary>
         /// Information about the connection to the SharePoint Learning Kit store that doesn't
@@ -75,27 +74,21 @@ namespace Microsoft.SharePointLearningKit
         /// <c>GetMemberships</c> executes longer for this time span.
         /// </summary>
         static readonly TimeSpan DomainGroupEnumerationTotalTimeout = new TimeSpan(0, 5, 0);
-        
-            ///////////////////////////////////////////////////////////////////////////////////////////////
-            // Internal Fields
-            //
+#endregion fields
 
-            /// <summary>
-            /// Specifies for how many seconds <c>SlkStore</c> is cached within the current
-            /// <c>HttpContext</c>.  This many seconds after being loaded, the next time you create an
-            /// instance of <c>SlkStore</c>, information is reloaded from the SharePoint configuration
-            /// database, and <c>SlkSettings</c> information is reloaded from the SharePoint Learning Kit
-            /// database.
-            /// </summary>
-            internal const int HttpContextCacheTime = 60;
+#region internal constants
+        /// <summary>
+        /// Specifies for how many seconds <c>SlkStore</c> is cached within the current
+        /// <c>HttpContext</c>.  This many seconds after being loaded, the next time you create an
+        /// instance of <c>SlkStore</c>, information is reloaded from the SharePoint configuration
+        /// database, and <c>SlkSettings</c> information is reloaded from the SharePoint Learning Kit
+        /// database.
+        /// </summary>
+        internal const int HttpContextCacheTime = 60;
+#endregion internal constants
 
-            //////////////////////////////////////////////////////////////////////////////////////////////
-            // Public Properties
-            //
-
-            /// <summary>
-            /// Gets the <c>Guid</c> of the <c>SPSite</c> associated with this <c>SlkStore</c>.
-            /// </summary>
+#region properties
+            /// <summary>Gets the <c>Guid</c> of the <c>SPSite</c> associated with this <c>SlkStore</c>.</summary>
             public Guid SPSiteGuid
             {
                     [DebuggerStepThrough]
@@ -126,7 +119,7 @@ namespace Microsoft.SharePointLearningKit
                     [DebuggerStepThrough]
                     get
                     {
-                return m_anonymousSlkStore.Settings;
+                        return m_anonymousSlkStore.Settings;
                     }
             }
 
@@ -176,6 +169,20 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>The SLK ID of the current user.</summary>
+        public UserItemIdentifier CurrentUserId 
+        {
+            get 
+            { 
+                if (currentUserId == null)
+                {
+                    RetrieveCurrentUserId();
+                }
+
+                return currentUserId ;
+            }
+        }
+
         /// <summary>
         /// Gets information about the file system cache used by <c>PackageStore</c>.
         /// </summary>
@@ -215,12 +222,13 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         public string CurrentUserName
         {
-                    [DebuggerStepThrough]
+            [DebuggerStepThrough]
             get
             {
                 return m_currentUserName;
             }
         }
+#endregion properties
 
             //////////////////////////////////////////////////////////////////////////////////////////////
             // Public Methods
@@ -294,10 +302,12 @@ namespace Microsoft.SharePointLearningKit
 
             // Check parameters
             if(spWeb == null)
+            {
                 throw new ArgumentNullException("spWeb");
+            }
                         
-                // Get the interesting information from the SPWeb
-                Guid spSiteGuid = spWeb.Site.ID;
+            // Get the interesting information from the SPWeb
+            Guid spSiteGuid = spWeb.Site.ID;
                     
             //If the User not signed in throw user not found exception
             if (spWeb.CurrentUser == null)
@@ -426,11 +436,8 @@ namespace Microsoft.SharePointLearningKit
             /// </remarks>
             ///
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        public UserItemIdentifier GetCurrentUserId()
-            {
-            // Security checks: None
-
-            // create a LearningStore job
+        void RetrieveCurrentUserId()
+        {
             LearningStoreJob job = LearningStore.CreateJob();
             job.DisableFollowingSecurityChecks();
             
@@ -438,91 +445,20 @@ namespace Microsoft.SharePointLearningKit
             // they're not yet in the SLK database
             Dictionary<string, object> uniqueProperties = new Dictionary<string, object>();
             Dictionary<string, object> updateProperties = new Dictionary<string, object>();
-            uniqueProperties.Clear();
             uniqueProperties[Schema.UserItem.Key] = CurrentUserKey;
-            updateProperties.Clear();
             updateProperties[Schema.UserItem.Name] = CurrentUserName;
-            job.AddOrUpdateItem(Schema.UserItem.ItemTypeName, uniqueProperties, updateProperties,
-                null, true);
+            job.AddOrUpdateItem(Schema.UserItem.ItemTypeName, uniqueProperties, updateProperties, null, true);
 
-            // execute the job
             ReadOnlyCollection<object> results = job.Execute();
             IEnumerator<object> resultEnumerator = results.GetEnumerator();
 
             // retrieve the UserItemIdentifier of the current user from the job results and return it
-            UserItemIdentifier currentUserId;
             if (!resultEnumerator.MoveNext())
+            {
                 throw new InternalErrorException("SLK1003");
-            LearningStoreHelper.CastNonNull(resultEnumerator.Current, out currentUserId);
-                    return currentUserId;
             }
 
-        /// <summary>
-        /// Registers a specified version of a given e-learning package (that's stored in a SharePoint
-            /// document library) in the <c>SharePointPackageStore</c> associated with this
-            /// SharePoint Learning Kit store, and returns its <c>PackageItemIdentifier</c> and content
-            /// warnings.  If that version -- with the same last-modified date/time -- is already
-            /// registered, its information is returned rather than re-registering the package.
-            /// Uses an MLC SharePoint location string to locate the package.
-        /// </summary>
-            ///
-        /// <param name="location">The MLC SharePoint location string that refers to the e-learning
-        ///     package to register.  Use <c>SharePointPackageStore.GetLocation</c> to construct this
-            ///     string.</param>
-        /// 
-        /// <param name="packageId">Where the returned <c>PackageItemIdentifier</c> is stored.</param>
-            ///
-        /// <param name="warnings">Where the returned warnings are stored.  This XML consists of
-            ///     a root "&lt;Warnings&gt;" element containing one "&lt;Warning&gt;" element per
-            ///     warning, each of which contains the text of the warning as the content of the element
-            ///     plus the following attributes: the "Code" attribute contains the warning's
-        ///     <c>ValidationResultCode</c>, and the "Type" attribute contains the warning's
-        ///     type, either "Error" or "Warning".  <paramref name="warnings"/> is set to <c>null</c>
-            ///     if there are no warnings.</param>
-            ///
-            /// <remarks>
-            /// <para>
-            /// If the package is valid, <pr>warnings</pr> is set to <n>null</n>.  If the package is not
-            /// completely valid, but is valid enough to be assigned within SharePoint Learning Kit,
-            /// <pr>warnings</pr> is set to warnings about the package.  If the package has problems
-            /// severe enough to prevent it from being assignable within SLK, a
-            /// <r>SafeToDisplayException</r> is thrown.
-            /// </para>
-            /// <para>
-            /// <b>Security:</b>&#160; This operation fails if the
-            /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> doesn't have access to the package.
-            /// </para>
-            /// </remarks>
-            ///
-        /// <exception cref="ArgumentException">
-        /// The syntax of <pr>location</pr> is incorrect.
-        /// </exception>
-            ///
-        /// <exception cref="FileNotFoundException">
-        /// <pr>location</pr> refers to a file that does not exist.
-        /// </exception>
-        /// 
-        /// <exception cref="SafeToDisplayException">
-        /// An error occurred that can be displayed to a browser user.  Possible cause: the package has
-            /// problems severe enough to prevent it from being assignable within SharePoint Learning Kit.
-        /// </exception>
-        /// 
-        /// <exception cref="UnauthorizedAccessException">
-        /// <pr>location</pr> refers to a file that the user does not have access to.
-        /// </exception>
-            ///
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-        public void RegisterPackage(string location,
-            out PackageItemIdentifier packageId, out LearningStoreXml warnings)
-        {
-            // Security checks: Fails if user doesn't have access to the package (implemented
-            // by RegisterAndValidatePackage)
-
-            // Check parameters
-            if (location == null)
-                throw new ArgumentNullException("location");
-
-            RegisterAndValidatePackage(location, false, out packageId, out warnings);
+            currentUserId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(resultEnumerator.Current);
         }
 
         /// <summary>
@@ -632,15 +568,9 @@ namespace Microsoft.SharePointLearningKit
         /// </exception>
         ///
         [SuppressMessage("Microsoft.Reliability", "CA2004:RemoveCallsToGCKeepAlive")]
-        private void RegisterAndValidatePackage(string location, bool validateOnly,
-                    out PackageItemIdentifier packageId, out LearningStoreXml warnings)
-            {
-            // Security checks: Fails if user doesn't have access to the package (implemented
-            // by GetFileFromSharePointLocation)
-
-            // Check parameters
-            if (location == null)
-                throw new ArgumentNullException("location");
+        private void RegisterAndValidatePackage(string location, bool validateOnly, out PackageItemIdentifier packageId, out LearningStoreXml warnings)
+        {
+            // Security checks: Fails if user doesn't have access to the package (implemented by GetFileFromSharePointLocation)
 
             // Set <fileLocation> to the file location
             SharePointFileLocation fileLocation;
@@ -652,8 +582,7 @@ namespace Microsoft.SharePointLearningKit
             // about the package contents
             TransactionOptions options = new TransactionOptions();
             options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
-            using (LearningStoreTransactionScope scope =
-                            new LearningStoreTransactionScope(options))
+            using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
             {
                 // Anyone who has access to the package can register it.  Since we verified that
                 // the user has access to the package above, we can skip any package-related
@@ -811,40 +740,22 @@ namespace Microsoft.SharePointLearningKit
                     m_currentUserName = currentUserName;
             }
 
-        /// <summary>
-        /// Throws an exception if the current user isn't an instructor on an SPWeb
-        /// </summary>
-        /// 
-        /// <param name="spWeb">SPWeb that should be checked.</param>
-        /// 
-        /// <exception cref="InvalidOperationException">
-        /// <pr>spWeb</pr> is not in the SPSite that this <r>SlkStore</r> is associated with.
-        /// </exception>
-        /// 
-        /// <exception cref="NotAnInstructorException">
-        /// The user is not an instructor.
-        /// </exception>
-        ///
-        /// <exception cref="UnauthorizedAccessException">
-        /// The user is not a Reader on <pr>spWeb</pr>.
-        /// </exception>
-        ///
-        private void EnsureInstructor(SPWeb spWeb)
+        /// <summary>See <see cref="ISlkStore.EnsureInstructor"/>.</summary>
+        public void EnsureInstructor(SPWeb spWeb)
         {
             // Security checks: Fails if the user doesn't have Reader access (implemented
             // by IsInstructor) or Instructor access.
 
             // Verify that the web is in the site
-            if(spWeb.Site.ID != m_anonymousSlkStore.SPSiteGuid)
+            if (spWeb.Site.ID != m_anonymousSlkStore.SPSiteGuid)
+            {
                 throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
+            }
 
-                    // Verify that the user is an instructor
+            // Verify that the user is an instructor
             if (!IsInstructor(spWeb))
             {
-                throw new NotAnInstructorException(
-                    String.Format(CultureInfo.CurrentCulture,
-                                  AppResources.SlkExInstructorPermissonNotFound,
-                                  spWeb.Title));
+                throw new NotAnInstructorException(String.Format(CultureInfo.CurrentCulture,AppResources.SlkExInstructorPermissonNotFound, spWeb.Title));
             }
         }
 
@@ -1323,7 +1234,7 @@ namespace Microsoft.SharePointLearningKit
                 if (!resultEnumerator.MoveNext())
                     throw new InternalErrorException("SLK1001");
                 UserItemIdentifier userId;
-                LearningStoreHelper.CastNonNull(resultEnumerator.Current, out userId);
+                userId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(resultEnumerator.Current);
                 user.UserId = userId;
             }
                     if (resultEnumerator.MoveNext())
@@ -1700,7 +1611,7 @@ namespace Microsoft.SharePointLearningKit
                     bool isSelfAssigned;
                     if (slkRole == SlkRole.Instructor)
                     {
-                EnsureInstructor(destinationSPWeb);
+                        EnsureInstructor(destinationSPWeb);
                             isSelfAssigned = false;
                     }
                     else
@@ -1713,7 +1624,7 @@ namespace Microsoft.SharePointLearningKit
 
                     // set <currentUserId> to the UserItemIdentifier of the current user; note that this
                     // requires a round trip to the database
-            UserItemIdentifier currentUserId = GetCurrentUserId();
+            UserItemIdentifier currentUserId = CurrentUserId;
 
             // get information about the package/file being assigned
             string title;
@@ -1724,10 +1635,10 @@ namespace Microsoft.SharePointLearningKit
             {
                 // <location> refers to an e-learning package (e.g. SCORM)...
 
-                            // register the package with PackageStore (if it's not registered yet), and set
-                            // <packageWarnings> to warnings about the content (or null if none)
-                            PackageItemIdentifier packageId;
-                            RegisterPackage(location, out packageId, out packageWarnings);
+                // register the package with PackageStore (if it's not registered yet), and set
+                // <packageWarnings> to warnings about the content (or null if none)
+                PackageItemIdentifier packageId;
+                RegisterAndValidatePackage(location, false, out packageId, out packageWarnings);
 
                 // The RegisterPackage call above will fail if the user doesn't have access to
                 // the package.  Therefore, since we've already verified that the user has
@@ -1809,7 +1720,7 @@ namespace Microsoft.SharePointLearningKit
 
             // return a new AssignmentProperties object populated with the information retrieved above
             // plus a few defaults
-            AssignmentProperties ap = new AssignmentProperties(null);
+            AssignmentProperties ap = new AssignmentProperties(null, this);
             ap.Title = title;
             ap.Description = description;
             ap.PointsPossible = pointsPossible;
@@ -2118,284 +2029,137 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        /// <summary>
-        /// Creates a new SharePoint Learning Kit assignment.
-        /// </summary>
-        ///
-        /// <param name="destinationSPWeb">The <c>SPWeb</c> to create the assignment in.</param>
-        ///
-        /// <param name="location">The MLC SharePoint location string that refers to the e-learning
-        ///     package or non-e-learning document to assign.  Use
-        ///     <c>SharePointPackageStore.GetLocation</c> to construct this string.</param>
-        ///
-        /// <param name="organizationIndex">The zero-based index of the organization within the
-        ///     e-learning content to assign; this is the value that's used as an index to
-        ///     <c>ManifestReader.Organizations</c>.  If the content being assigned is a non-e-learning
-        ///     document, use <c>null</c> for <paramref name="organizationIndex"/>.</param>
-            ///
-            /// <param name="slkRole">The <c>SlkRole</c> to use when creating the assignment.  Use
-            ///     <c>SlkRole.Learner</c> to create a self-assigned assignment, i.e. an assignment with
-            ///     no instructors for which the current learner is the only learner.  Otherwise, use
-            ///     <c>SlkRole.Instructor</c>.</param>
-            ///
-            /// <param name="properties">Properties of the new assignment.  Note that, within
-            ///     <c>AssignmentProperties.Instructors</c> and <c>AssignmentProperties.Learners</c>, all
-            ///     properties except <c>UserId</c> are ignored.  Also, if <paramref name="slkRole"/> is
-            ///     <c>SlkRole.Learner</c>, then <c>AssignmentProperties.Instructors</c> must be
-            ///     empty, and <c>AssignmentProperties.Learners</c> must contain only the current user.
-        ///     The <c>SPSiteGuid</c>, <c>SPWebGuid</c>, <c>Location</c>, and <c>CreatedById</c>
-        ///     properties are ignored when creating a new assignment.
-            ///     </param>
-            ///
-            /// <remarks>
-            /// <para>
-            /// When creating a self-assigned assignment, take care to ensure that
-            /// <r>AssignmentProperties.AutoReturn</r> is <n>true</n>, otherwise the learner assignments
-            /// will never reach
-            /// <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Final</a>
-            /// state.
-            /// </para>
-            /// <para>
-            /// <b>Security:</b>&#160; If <pr>slkRole</pr> is
-            /// <a href="Microsoft.SharePointLearningKit.SlkRole.Enumeration.htm">SlkRole.Instructor</a>,
-            /// this operation fails if the <a href="SlkApi.htm#AccessingSlkStore">current user</a> doesn't
-            /// have SLK
-            /// <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.InstructorPermission.Property.htm">instructor</a>
-        /// permissions on <pr>destinationSPWeb</pr>.  Also fails if the current user doesn't have access to the
-            /// package/file.
-            /// </para>
-            /// </remarks>
-            ///
-        /// <exception cref="InvalidOperationException">
-        /// <pr>destinationSPWeb</pr> is not in the SPSite that this <r>SlkStore</r> is associated
-            /// with.
-        /// </exception>
-            ///
-        /// <exception cref="SafeToDisplayException">
-        /// An error occurred that can be displayed to a browser user.
-        /// </exception>
-        /// 
-        /// <exception cref="UnauthorizedAccessException">
-        /// <pr>location</pr> refers to a file that the user does not have access to, the user is not
-        /// a Reader on <pr>destinationSPWeb</pr>, or the user is trying to create an assignment
-        /// with other learners or instructors but the assignment is self-assigned.
-        /// </exception>
-        ///
-        /// <exception cref="NotAnInstructorException">
-        /// The user is not an instructor on <pr>destinationSPWeb</pr> and the assignment is not self-assigned.
-        /// </exception>
-        ///
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"), SuppressMessage("Microsoft.Reliability", "CA2004:RemoveCallsToGCKeepAlive")]
-        public AssignmentItemIdentifier CreateAssignment(SPWeb destinationSPWeb, string location,
-                    Nullable<int> organizationIndex, SlkRole slkRole, AssignmentProperties properties)
-            {
-            // Security checks: If assigning as an instructor, fails if user isn't an instructor on
-            // the web (implemented by calling EnsureInstructor).  Fails if the user doesn't have access
-            // to the package/file (implemented by calling RegisterPackage or accessing the properties
-            // of the file)
-
-            // Check parameters
-            if (destinationSPWeb == null)
-                throw new ArgumentNullException("destinationSPWeb");
+        /// <summary>See <see cref="ISlkStore.FindRootActivity"/>.</summary>
+        public ActivityPackageItemIdentifier FindRootActivity(string location, int organizationIndex)
+        {
             if (location == null)
+            {
                 throw new ArgumentNullException("location");
-            if ((slkRole != SlkRole.Instructor) && (slkRole != SlkRole.Learner))
-                throw new ArgumentOutOfRangeException("slkRole");
-            if(properties == null)
-                throw new ArgumentNullException("properties");
-                
-            // Verify that the web is in the site
-            if (destinationSPWeb.Site.ID != m_anonymousSlkStore.SPSiteGuid)
-                throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
-
-            // Set <isSelfAssigned> to true if this is a self-assigned assignment (no instructors,
-            // user is the only learner); verify that the current user is an instructor if
-            // necessary
-            bool isSelfAssigned;
-                    if (slkRole == SlkRole.Instructor)
-                    {
-                            isSelfAssigned = false;
-                    }
-                    else
-                    if (slkRole == SlkRole.Learner)
-                    {
-                            isSelfAssigned = true;
-                    }
-                    else
-                            throw new ArgumentException(AppResources.InvalidSlkRole, "slkRole");
-
-                    // do some security checking
-                    if (isSelfAssigned)
-                    {
-                            // self-assigned assignment...
-
-                            // set <currentUserId> to the UserItemIdentifier of the current user; note that this
-                            // requires a round trip to the database
-                            UserItemIdentifier currentUserId = GetCurrentUserId();
-
-                            // verify that <properties> specify no instructors and that the current user is the
-                            // only learner
-                            if (properties.Instructors.Count != 0)
-                                    throw new UnauthorizedAccessException(AppResources.AccessDenied);
-                            if ((properties.Learners.Count != 1) ||
-                                (properties.Learners[0].UserId != currentUserId))
-                                    throw new UnauthorizedAccessException(AppResources.AccessDenied);
-                    }
-            else
-            {
-                // regular (non self-assigned) assignment...
-
-                EnsureInstructor(destinationSPWeb);
             }
-            
-            // set <rootActivityId> to the ID of the organization, or null if a non-e-learning
-                    // document is being assigned
-            ActivityPackageItemIdentifier rootActivityId;
-                    if (organizationIndex != null)
-                    {
-                // register the package with PackageStore (if it's not registered yet), and set
-                // <packageId> to its PackageItemIdentifier
-                PackageItemIdentifier packageId;
-                LearningStoreXml packageWarnings;
-                RegisterPackage(location, out packageId, out packageWarnings);
 
-                // The RegisterPackage call above will fail if the user doesn't have access to
-                // the package.  Therefore, since we've already verified that the user has
-                // access to the package, we don't need to check package-related security
-                // again.  So just perform the package-related operations within a
-                // privileged scope
-                using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
+            // register the package with PackageStore (if it's not registered yet), and set <packageId> to its PackageItemIdentifier
+            PackageItemIdentifier packageId;
+            LearningStoreXml packageWarnings;
+            RegisterAndValidatePackage(location, false, out packageId, out packageWarnings);
+
+            // The RegisterPackage call above will fail if the user doesn't have access to
+            // the package.  Therefore, since we've already verified that the user has
+            // access to the package, we don't need to check package-related security
+            // again.  So just perform the package-related operations within a
+            // privileged scope
+            using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
+            {
+                LearningStoreJob job = LearningStore.CreateJob();
+                LearningStoreQuery query = LearningStore.CreateQuery(Schema.ActivityPackageItemView.ViewName);
+                query.AddColumn(Schema.ActivityPackageItemView.Id);
+                query.AddCondition(Schema.ActivityPackageItemView.PackageId, LearningStoreConditionOperator.Equal, packageId);
+                query.AddCondition(Schema.ActivityPackageItemView.ParentActivityId, LearningStoreConditionOperator.Equal, null);
+                query.AddSort(Schema.ActivityPackageItemView.OriginalPlacement, LearningStoreSortDirection.Ascending);
+                job.PerformQuery(query);
+                DataRowCollection result = job.Execute<DataTable>().Rows;
+                if (result.Count == 0)
                 {
-                    // set <rootActivityId>
-                                LearningStoreJob job = LearningStore.CreateJob();
-                                LearningStoreQuery query = LearningStore.CreateQuery(
-                                        Schema.ActivityPackageItemView.ViewName);
-                    query.AddColumn(Schema.ActivityPackageItemView.Id);
-                    query.AddCondition(Schema.ActivityPackageItemView.PackageId,
-                                        LearningStoreConditionOperator.Equal, packageId);
-                    query.AddCondition(Schema.ActivityPackageItemView.ParentActivityId,
-                        LearningStoreConditionOperator.Equal, null);
-                    query.AddSort(Schema.ActivityPackageItemView.OriginalPlacement,
-                                        LearningStoreSortDirection.Ascending);
-                    job.PerformQuery(query);
-                                DataRowCollection result = job.Execute<DataTable>().Rows;
-                                if (result.Count == 0)
-                                {
-                        // this error message includes the package ID, but that package ID came from
-                        // another API call (above) -- it's pretty unlikely the user will see it
-                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, 
-                                                AppResources.PackageNotFoundInDatabase, packageId.GetKey()));
-                                }
-                                if ((organizationIndex < 0) || (organizationIndex >= result.Count))
-                        throw new SafeToDisplayException(AppResources.InvalidOrganizationIndex);
-                                LearningStoreHelper.CastNonNull(
-                        result[organizationIndex.Value][Schema.ActivityPackageItemView.Id],
-                                        out rootActivityId);
+                    // this error message includes the package ID, but that package ID came from
+                    // another API call (above) -- it's pretty unlikely the user will see it
+                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotFoundInDatabase, packageId.GetKey()));
                 }
-                    }
-                    else
-                    {
-                        // Access the properties of the file to verify that the user has
-                        // access to the file
-                SPFile file = SlkUtilities.GetSPFileFromPackageLocation(location);
-                        Hashtable fileProperties = file.Properties;
-                        GC.KeepAlive(fileProperties);
-                        
-                            rootActivityId = null;
+
+                if ((organizationIndex < 0) || (organizationIndex >= result.Count))
+                {
+                    throw new SafeToDisplayException(AppResources.InvalidOrganizationIndex);
+                }
+
+                return LearningStoreHelper.CastNonNull<ActivityPackageItemIdentifier>( result[organizationIndex][Schema.ActivityPackageItemView.Id]);
+            }
+        }
+
+        /// <summary>See <see cref="ISlkStore.CreateAssignment"/>.</summary>
+        public AssignmentItemIdentifier CreateAssignment(AssignmentProperties properties)
+        {
+            if (properties == null)
+            {
+                throw new ArgumentNullException("properties");
             }
 
-            // create the assignment; set <assignmentId> to its AssignmentItemIdentifier
             AssignmentItemIdentifier assignmentId;
+                
+            // create the assignment; set <assignmentId> to its AssignmentItemIdentifier
             TransactionOptions options = new TransactionOptions();
-            options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
-            using (LearningStoreTransactionScope scope =
-                new LearningStoreTransactionScope(options))
+            options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
+            using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
             {
-                // We've already verified all the security above, so just turn off
-                // security checks for the rest of this
+                // We've already verified all the security above, so just turn off security checks for the rest of this
                 using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
                 {            
-                                // create a LearningStore job
-                                LearningStoreJob job = LearningStore.CreateJob();
-
-                    // request the UserItemIdentifier of the current user -- create a UserItem for that user if
-                    // they're not yet in the SLK database
-                    Dictionary<string, object> uniqueProperties = new Dictionary<string, object>();
-                    Dictionary<string, object> updateProperties = new Dictionary<string, object>();
-                    uniqueProperties[Schema.UserItem.Key] = CurrentUserKey;
-                    updateProperties[Schema.UserItem.Name] = CurrentUserName;
-                    UserItemIdentifier currentUserId = new UserItemIdentifier(job.AddOrUpdateItem(
-                        Schema.UserItem.ItemTypeName, uniqueProperties, updateProperties, null, false));
+                    // create a LearningStore job
+                    LearningStoreJob job = LearningStore.CreateJob();
 
                     // create an AssignmentItem corresponding to the properties of this object; set
-                                // <tempAssignmentId> to a temporary AssignmentItemIdentifier (that can be used only
-                                // within this job) of the new assignment
-                                // to the UserItemIdentifier of the instructor
-                                bool isNonELearning = (organizationIndex == null);
-                                Dictionary<string, object> dbProperties = new Dictionary<string, object>();
-                    dbProperties[Schema.AssignmentItem.SPSiteGuid] = destinationSPWeb.Site.ID;
-                    dbProperties[Schema.AssignmentItem.SPWebGuid] = destinationSPWeb.ID;
-                                dbProperties[Schema.AssignmentItem.Title] = properties.Title;
-                                dbProperties[Schema.AssignmentItem.StartDate] = properties.StartDate.ToUniversalTime();
-                                dbProperties[Schema.AssignmentItem.DueDate] =
-                                        ((properties.DueDate == null) ? null :
+                    // <tempAssignmentId> to a temporary AssignmentItemIdentifier (that can be used only
+                    // within this job) of the new assignment
+                    // to the UserItemIdentifier of the instructor
+                    Dictionary<string, object> dbProperties = new Dictionary<string, object>();
+                    dbProperties[Schema.AssignmentItem.SPSiteGuid] = properties.SPSiteGuid;
+                    dbProperties[Schema.AssignmentItem.SPWebGuid] = properties.SPWebGuid;
+                    dbProperties[Schema.AssignmentItem.Title] = properties.Title;
+                    dbProperties[Schema.AssignmentItem.StartDate] = properties.StartDate.ToUniversalTime();
+                    dbProperties[Schema.AssignmentItem.DueDate] = ((properties.DueDate == null) ? null :
                                                 (object) properties.DueDate.Value.ToUniversalTime());
-                                dbProperties[Schema.AssignmentItem.PointsPossible] = properties.PointsPossible;
-                                if (isNonELearning)
-                                {
-                                        dbProperties[Schema.AssignmentItem.RootActivityId] = null;
-                                        dbProperties[Schema.AssignmentItem.NonELearningLocation] = location;
-                                }
-                                else
-                                {
-                                        dbProperties[Schema.AssignmentItem.RootActivityId] = rootActivityId;
-                                        dbProperties[Schema.AssignmentItem.NonELearningLocation] = null;
-                                }
-                                dbProperties[Schema.AssignmentItem.Description] = properties.Description;
-                                dbProperties[Schema.AssignmentItem.AutoReturn] = properties.AutoReturn;
-                                dbProperties[Schema.AssignmentItem.ShowAnswersToLearners] =
-                                        properties.ShowAnswersToLearners;
-                                dbProperties[Schema.AssignmentItem.CreatedBy] = currentUserId;
-                                dbProperties[Schema.AssignmentItem.DateCreated] = DateTime.Now.ToUniversalTime();
-                                AssignmentItemIdentifier tempAssignmentId = new AssignmentItemIdentifier(
-                                        job.AddItem(Schema.AssignmentItem.ItemTypeName, dbProperties, true));
+                    dbProperties[Schema.AssignmentItem.PointsPossible] = properties.PointsPossible;
+                    dbProperties[Schema.AssignmentItem.RootActivityId] = properties.RootActivityId;
+                    if (properties.IsNonELearning)
+                    {
+                        dbProperties[Schema.AssignmentItem.NonELearningLocation] = properties.Location;
+                    }
+                    else
+                    {
+                        dbProperties[Schema.AssignmentItem.NonELearningLocation] = null;
+                    }
 
-                                // create one InstructorAssignmentItem for each instructor of the assignment
-                                foreach (SlkUser instructor in properties.Instructors)
-                                {
-                                        dbProperties = new Dictionary<string, object>();
-                                        dbProperties[Schema.InstructorAssignmentItem.AssignmentId] = tempAssignmentId;
-                                        dbProperties[Schema.InstructorAssignmentItem.InstructorId] = instructor.UserId;
-                                        job.AddItem(Schema.InstructorAssignmentItem.ItemTypeName, dbProperties);
-                                }
+                    dbProperties[Schema.AssignmentItem.Description] = properties.Description;
+                    dbProperties[Schema.AssignmentItem.AutoReturn] = properties.AutoReturn;
+                    dbProperties[Schema.AssignmentItem.ShowAnswersToLearners] = properties.ShowAnswersToLearners;
+                    dbProperties[Schema.AssignmentItem.CreatedBy] = CurrentUserId;
+                    dbProperties[Schema.AssignmentItem.DateCreated] = DateTime.Now.ToUniversalTime();
+                    AssignmentItemIdentifier tempAssignmentId = new AssignmentItemIdentifier(
+                            job.AddItem(Schema.AssignmentItem.ItemTypeName, dbProperties, true));
 
-                                // create one LearnerAssignmentItem for each learner of the assignment
-                                foreach (SlkUser learner in properties.Learners)
-                                {
-                                        dbProperties = new Dictionary<string, object>();
-                                        dbProperties[Schema.LearnerAssignmentItem.AssignmentId] = tempAssignmentId;
-                                        dbProperties[Schema.LearnerAssignmentItem.LearnerId] = learner.UserId;
-                                        dbProperties[Schema.LearnerAssignmentItem.IsFinal] = false;
-                                        dbProperties[Schema.LearnerAssignmentItem.NonELearningStatus] = null;
-                                        dbProperties[Schema.LearnerAssignmentItem.FinalPoints] = null;
-                                        dbProperties[Schema.LearnerAssignmentItem.InstructorComments] = "";
-                                        job.AddItem(Schema.LearnerAssignmentItem.ItemTypeName, dbProperties);
-                                }
+                    // create one InstructorAssignmentItem for each instructor of the assignment
+                    foreach (SlkUser instructor in properties.Instructors)
+                    {
+                        Dictionary<string, object> instructorProperties = new Dictionary<string, object>();
+                        instructorProperties[Schema.InstructorAssignmentItem.AssignmentId] = tempAssignmentId;
+                        instructorProperties[Schema.InstructorAssignmentItem.InstructorId] = instructor.UserId;
+                        job.AddItem(Schema.InstructorAssignmentItem.ItemTypeName, instructorProperties);
+                    }
 
-                                // execute the job
-                                ReadOnlyCollection<object> results = job.Execute();
+                    // create one LearnerAssignmentItem for each learner of the assignment
+                    foreach (SlkUser learner in properties.Learners)
+                    {
+                        Dictionary<string, object> learnerProperties = new Dictionary<string, object>();
+                        learnerProperties[Schema.LearnerAssignmentItem.AssignmentId] = tempAssignmentId;
+                        learnerProperties[Schema.LearnerAssignmentItem.LearnerId] = learner.UserId;
+                        learnerProperties[Schema.LearnerAssignmentItem.IsFinal] = false;
+                        learnerProperties[Schema.LearnerAssignmentItem.NonELearningStatus] = null;
+                        learnerProperties[Schema.LearnerAssignmentItem.FinalPoints] = null;
+                        learnerProperties[Schema.LearnerAssignmentItem.InstructorComments] = string.Empty;
+                        job.AddItem(Schema.LearnerAssignmentItem.ItemTypeName, learnerProperties);
+                    }
 
-                                // execute the job; set <assignmentId> to the "real" (permanent)
-                                // AssignmentItemIdentifier of the newly-created assignment
-                                LearningStoreHelper.CastNonNull(results[0], out assignmentId);
+                    // execute the job
+                    ReadOnlyCollection<object> results = job.Execute();
 
-                                // finish the transaction
+                    // execute the job; set <assignmentId> to the "real" (permanent)
+                    // AssignmentItemIdentifier of the newly-created assignment
+                    LearningStoreHelper.CastNonNull(results[0], out assignmentId);
+
+                    // finish the transaction
                     scope.Complete();
                 }
             }
 
-                    return assignmentId;
-            }
+            return assignmentId;
+        }
 
         /// <summary>
         /// Deletes a SharePoint Learning Kit assignment.
@@ -2918,12 +2682,12 @@ namespace Microsoft.SharePointLearningKit
                 lap.ShowAnswersToLearners = boolValue;
 
                 UserItemIdentifier userId;
-                LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentCreatedById], out userId);
+                userId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentCreatedById]);
                 lap.CreatedById = userId;
 
                 lap.CreatedByName = LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentCreatedByName], string.Empty);
 
-                LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.LearnerId], out userId);
+                userId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentListForObservers.LearnerId]);
                 lap.LearnerId = userId;
 
                 lap.LearnerName = LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.LearnerName], string.Empty);
@@ -3058,23 +2822,18 @@ namespace Microsoft.SharePointLearningKit
                     out boolValue);
                 lap.ShowAnswersToLearners = boolValue;
 
-                UserItemIdentifier userId;
-                LearningStoreHelper.CastNonNull(dataRow[instructorRole
+                lap.CreatedById = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[instructorRole
                     ? Schema.LearnerAssignmentListForInstructors.AssignmentCreatedById
-                    : Schema.LearnerAssignmentListForLearners.AssignmentCreatedById],
-                    out userId);
-                lap.CreatedById = userId;
+                    : Schema.LearnerAssignmentListForLearners.AssignmentCreatedById]);
 
                 lap.CreatedByName = LearningStoreHelper.CastNonNull(dataRow[instructorRole
                     ? Schema.LearnerAssignmentListForInstructors.AssignmentCreatedByName
                     : Schema.LearnerAssignmentListForLearners.AssignmentCreatedByName],
                     string.Empty);
 
-                LearningStoreHelper.CastNonNull(dataRow[instructorRole
+                lap.LearnerId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[instructorRole
                     ? Schema.LearnerAssignmentListForInstructors.LearnerId
-                    : Schema.LearnerAssignmentListForLearners.LearnerId],
-                    out userId);
-                lap.LearnerId = userId;
+                    : Schema.LearnerAssignmentListForLearners.LearnerId]);
 
                 lap.LearnerName = LearningStoreHelper.CastNonNull(dataRow[instructorRole
                     ? Schema.LearnerAssignmentListForInstructors.LearnerName
@@ -3234,11 +2993,7 @@ namespace Microsoft.SharePointLearningKit
             dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId], out learnerAssignmentId);
                     GradingProperties gp = new GradingProperties(learnerAssignmentId);
 
-                    // set <gp.LearnerId>
-                    UserItemIdentifier userId;
-                    LearningStoreHelper.CastNonNull(
-            dataRow[Schema.LearnerAssignmentListForInstructors.LearnerId], out userId);
-                    gp.LearnerId = userId;
+                gp.LearnerId = LearningStoreHelper.CastNonNull<UserItemIdentifier>( dataRow[Schema.LearnerAssignmentListForInstructors.LearnerId]);
 
                     // set <gp.LearnerName>
                     gp.LearnerName = LearningStoreHelper.CastNonNull(
@@ -3414,12 +3169,7 @@ namespace Microsoft.SharePointLearningKit
                                             out learnerAssignmentId);
                                     GradingProperties gp = new GradingProperties(learnerAssignmentId);
 
-                    UserItemIdentifier learnerId;
-                    LearningStoreHelper.CastNonNull(
-                        dataRow[Schema.LearnerAssignmentListForInstructors.LearnerId],
-                                            out learnerId);
-                                    gp.LearnerId = learnerId;
-
+                    gp.LearnerId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerId]);
                     gp.LearnerName = LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerName], string.Empty);
 
                     LearnerAssignmentState status;
@@ -4143,7 +3893,7 @@ namespace Microsoft.SharePointLearningKit
                                 AttemptItemIdentifier attemptId;
                                 LearningStoreHelper.Cast(dataRow[2], out attemptId);
                     UserItemIdentifier learnerId;
-                    LearningStoreHelper.CastNonNull(dataRow[3], out learnerId);
+                    learnerId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[3]);
                     bool isAutoReturn;
                                 LearningStoreHelper.CastNonNull(dataRow[4], out isAutoReturn);
                     LearnerAssignmentItemIdentifier learnerAssignmentId;
@@ -4448,23 +4198,20 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>
         /// Adds a given <c>SPWeb</c> to the current user's SharePoint Learning Kit user web list.
-            /// If the <c>SPWeb</c> already exists in the user web list, it's last-access time is updated
-            /// to be the current time.
+        /// If the <c>SPWeb</c> already exists in the user web list, it's last-access time is updated
+        /// to be the current time.
         /// </summary>
-            ///
-            /// <remarks>
-            /// <para>
-            /// The user web list is the list of Web sites that the user added to their E-Learning Actions
-            /// page.
-            /// </para>
-            /// <para>
-            /// <b>Security:</b>&#160; None.  The <a href="SlkApi.htm#AccessingSlkStore">current user</a>
-            /// may be any user.
-            /// </para>
-            /// </remarks>
-            ///
+        /// <remarks>
+        /// <para>
+        /// The user web list is the list of Web sites that the user added to their E-Learning Actions
+        /// page.
+        /// </para>
+        /// <para>
+        /// <b>Security:</b>&#160; None.  The <a href="SlkApi.htm#AccessingSlkStore">current user</a>
+        /// may be any user.
+        /// </para>
+        /// </remarks>
         /// <param name="spWeb">The <c>SPWeb</c> to add.</param>
-            ///
         public void AddToUserWebList(SPWeb spWeb)
         {
             // Security checks: None
@@ -4624,7 +4371,7 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        static AssignmentProperties PopulateAssignmentProperties(IEnumerator<object> resultEnumerator,
+        AssignmentProperties PopulateAssignmentProperties(IEnumerator<object> resultEnumerator,
             AssignmentItemIdentifier assignmentId, SlkRole slkRole, bool basicOnly)
         {
             return PopulateAssignmentProperties(resultEnumerator, assignmentId, slkRole, basicOnly, false);
@@ -4645,7 +4392,7 @@ namespace Microsoft.SharePointLearningKit
         ///     properties of the returned <c>AssignmentProperties</c> object are not set.</param>
         /// <param name="forLearnerAssignment">If <c>true</c> loads the individual learner details.</param>
         /// <returns></returns>
-        static AssignmentProperties PopulateAssignmentProperties(IEnumerator<object> resultEnumerator,
+        AssignmentProperties PopulateAssignmentProperties(IEnumerator<object> resultEnumerator,
             AssignmentItemIdentifier assignmentId, SlkRole slkRole, bool basicOnly, bool forLearnerAssignment)
         {
             if (!resultEnumerator.MoveNext())
@@ -4662,7 +4409,7 @@ namespace Microsoft.SharePointLearningKit
                     AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
             }
             DataRow dataRow = dataRows[0];
-            AssignmentProperties ap = new AssignmentProperties(assignmentId);
+            AssignmentProperties ap = new AssignmentProperties(assignmentId, this);
 
             // copy information from <dataRow> into properties of <ap>...
 
@@ -4699,9 +4446,7 @@ namespace Microsoft.SharePointLearningKit
             LearningStoreHelper.CastNonNull(dataRow[Schema.AssignmentPropertiesView.AssignmentShowAnswersToLearners],out boolValue);
             ap.ShowAnswersToLearners = boolValue;
 
-            UserItemIdentifier userId;
-            LearningStoreHelper.CastNonNull(dataRow[Schema.AssignmentPropertiesView.AssignmentCreatedById], out userId);
-            ap.CreatedById = userId;
+            ap.CreatedById = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[Schema.AssignmentPropertiesView.AssignmentCreatedById]);
             LearningStoreHelper.CastNonNull(dataRow[Schema.AssignmentPropertiesView.AssignmentDateCreated], out utc);
             ap.DateCreated = utc.ToLocalTime();
 
@@ -4745,8 +4490,7 @@ namespace Microsoft.SharePointLearningKit
             DataRowCollection dataRows = ((DataTable)resultEnumerator.Current).Rows;
             foreach (DataRow dataRow2 in dataRows)
             {
-                UserItemIdentifier userId;
-                LearningStoreHelper.CastNonNull(dataRow2[idColumn], out userId);
+                UserItemIdentifier userId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow2[idColumn]);
                 string userName = LearningStoreHelper.CastNonNull(dataRow2[nameColumn], string.Empty);
                 users.Add(new SlkUser(userId, userName));
             }
@@ -4834,4 +4578,5 @@ namespace Microsoft.SharePointLearningKit
         }
 
     }
+
 }
