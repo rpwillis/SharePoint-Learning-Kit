@@ -7,10 +7,13 @@ using System.Reflection;
 
 namespace Microsoft.SharePointLearningKit.Localization
 {
+    /// <summary></summary>
     public class LocalizationSettings:ConfigurationSection
     {
        
 
+        /// <summary></summary>
+        /// <value></value>
         [ConfigurationProperty("ProviderTypeName", IsRequired = true)]
         public string LocalizationProviderTypeName
         {
@@ -18,6 +21,7 @@ namespace Microsoft.SharePointLearningKit.Localization
             set { this["ProviderTypeName"] = value; }
         }
 
+        /// <summary></summary>
         [ConfigurationProperty("ProviderAssemblyName", IsRequired = true)]
         public string LocalizationProviderAssemblyName
         {
@@ -26,6 +30,7 @@ namespace Microsoft.SharePointLearningKit.Localization
         }
 
         private ILocalizationProvider providerInstance;
+        /// <summary></summary>
         public ILocalizationProvider ProviderInstance
         {
             get

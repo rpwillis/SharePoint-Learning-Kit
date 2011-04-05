@@ -1558,4 +1558,7 @@ More information may be available in the server event log.</value>
   <data name="NoAccessToSite" xml:space="preserve">
     <value>Cannot access site.</value>
   </data>
+  <data name="GroupEnumerationFail" xml:space="preserve">
+    <value>Could not get the members of group {0}.</value>
+  </data>
 </root>

@@ -9,6 +9,7 @@ using System.Threading;
 
 namespace Microsoft.SharePointLearningKit.Localization
 {
+    /// <summary></summary>
     public static class LocalizationManager
     {
        // private static int defaultLcid = 1033;

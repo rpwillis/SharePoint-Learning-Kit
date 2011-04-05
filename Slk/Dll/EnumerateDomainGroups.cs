@@ -338,9 +338,10 @@ namespace Microsoft.SharePointLearningKit
                     ProcessSearchResults(searcher, users);
                 }
             }
-            catch (DirectoryServicesCOMException)
+            catch (COMException e)
             {
-                errors.Add(string.Format(CultureInfo.CurrentUICulture, "Could not get the members of group {0}.", group.Name));
+                errors.Add(string.Format(CultureInfo.CurrentUICulture, AppResources.GroupEnumerationFail, group.Name));
+                Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(e);
             }
 
             return users;

@@ -2657,6 +2657,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not get the members of group {0}..
+        /// </summary>
+        internal static string GroupEnumerationFail {
+            get {
+                return ResourceManager.GetString("GroupEnumerationFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incorrect location string syntax.
         /// </summary>
         internal static string IncorrectLocationStringSyntax {
