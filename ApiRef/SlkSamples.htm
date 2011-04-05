@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>
+	SLK Samples
+</title>
+
+<link rel="stylesheet" href="Doc.css" />
+
+<style type="text/css">
+TABLE.SamplesTable COL.Column1_
+{
+	width: 150pt;
+}
+</style>
+
+</head>
+
+<body id="DocTopic">
+
+<div class="TopicHeader">
+	<div class="Supertitle_">
+		SharePoint Learning Kit Customization
+	</div>
+	SLK Samples
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="Summary">
+
+<p>The following samples demonstrate how to call the <a href="SlkApi.htm">SLK API</a> from
+applications.</p>
+
+<p><b>Note</b>&nbsp; Although you can access the SLK API using any programming language compatible
+with the .NET common language runtime (CLR), the code samples in this documentation are all
+written in C#.</p>
+
+<table class="Grid SamplesTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<tr class="Header_">
+		<td class="Header1_">Sample Name</td>
+		<td class="Header1_">Sample Type</td>
+		<td class="Header2_">Description</td>
+	</tr>
+	<tr>
+		<td><a href="CreateAssignments.cs.htm">CreateAssignments.cs</a></td>
+		<td>Console Application</td>
+		<td>Shows how to create an assignment given the URL of e-learning or non-e-learning content
+			to assign, the URL of a Web site to assign to, a title for the assignment, the login
+			name of an instructor, and the login names of one or more learners.</td>
+	</tr>
+	<tr>
+		<td><a href="SimulateClass.cs.htm">SimulateClass.cs</a></td>
+		<td>Console Application</td>
+		<td>Creates a simulated "virtual classroom" on a given SharePoint Web site.  A number of
+			assignments are created, assigned to students, and set to various
+			<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">states</a>
+			(not started, active, completed, and final).  This sample can be used to help learn
+			how to use the SLK API, and can also be used to populate a Web site with a set of
+			assignments for testing other SLK components, such as Assignment List Web Part.</td>
+	</tr>
+	<tr>
+		<td><a href="SimulateJobTraining.cs.htm">SimulateJobTraining.cs</a></td>
+		<td>Console Application</td>
+		<td>Creates a simulated job training program, by creating a number of local machine
+			accounts (corresponding to simulated users), SharePoint Web sites, and SLK assignments
+			(leveraging the SimulateClass.cs sample code).  This sample application is primarily
+			designed to be used for database load testing.</td>
+	</tr>
+	<tr>
+		<td><a href="AddToUserWebLists.cs.htm">AddToUserWebLists.cs</a></td>
+		<td>Console Application</td>
+		<td>Adds Web sites to the user Web list (visible in the E-Learning Actions page in
+			the SLK user interface) of a given set of users.  The input is a spreadsheet in
+			Microsoft Excel XML Spreadsheet format.</td>
+	</tr>
+	<tr>
+		<td><a href="ProvisionFromExcel.cs.htm">ProvisionFromExcel.cs</a></td>
+		<td>Console Application</td>
+		<td>Executes commands for partially provisioning SharePoint and SLK from a Microsoft Excel
+			XML Spreadsheet.  Implements commands to create SharePoint managed paths, site
+			collections, and Web sites, and commands to add users to site collections and grant
+			them access to Web sites.  Also implements commands to configure site collections for
+			use with SLK, activate the E-Learning Actions feature on Web sites, and update user
+			Web lists (like the simpler AddToUserWebLists.cs sample).  This sample code can create
+			local machine accounts for test purposes, but not domain accounts&mdash;which is what
+			a real provisioning system would likely do.</td>
+	</tr>
+	<tr>
+		<td><a href="ReportPages_Report1.aspx.htm">Report1.aspx</a></td>
+		<td>Web Page</td>
+		<td>A report page, based on a SharePoint master page (so that it includes common SharePoint
+			user interface elements), which displays a list of all fully graded assignments for
+			which the current user is an instructor.  Clicking an assignment title opens the
+			Grading page for that assignment.</td>
+	</tr>
+	<tr>
+		<td><a href="ReportPages_Report2.aspx.htm">Report2.aspx</a></td>
+		<td>Web Page</td>
+		<td>A report page, not based a SharePoint master page, which displays a grid of "final
+			score" values for each graded learner assignment for which the current user is an
+			instructor.  Clicking an assignment title opens the Grading page for that assignment.
+			</td>
+	</tr>
+	<tr>
+		<td><a href="ReportPages_SiteCollectionInfo.aspx.htm">SiteCollectionInfo.aspx</a></td>
+		<td>Web Page</td>
+		<td>A report page that queries the SLK database directly, rather than using the SLK API.
+			(The advantage of this approach is that the user can access information that would not
+			normally be available through the SLK API.  The disadvantage is that SLK cannot ensure
+			that the current user is entitled to view the information displayed -- so this page
+			requires the user to have direct database access permission.)  This report displays
+			information about SLK's mapping between the current SharePoint site collection
+			(specified in the URL path) and the SLK database, as well as summary information about
+			assignments within sites in that site collection.</td>
+	</tr>
+	<tr>
+		<td><a href="AddInstructors.aspx.cs.htm">AddInstructors.aspx.cs</a> &amp;
+			<a href="AddInstructors_AddInstructors.aspx.htm">AddInstructors.aspx</a></td>
+		<td>Web Page</td>
+		<td>Demonstrates how to add instructors to SLK assignments without the user being one of
+			those instructors, to address scenarios such as the following: imagine that an
+			instructor has created a number of assignments, with him or herself as the only
+			instructor on those assignments, then unexpectedly quit and moved far away.  How can
+			an administrator reassign that instructor's assignments to a new instructor?</td>
+	</tr>
+	<tr>
+		<td><a href="WebService_SampleWebService.asmx.htm">SampleWebService.asmx</a></td>
+		<td>Web Service</td>
+		<td>A sample Web service which accesses SLK.</td>
+	</tr>
+</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">For More Information</div>
+<div class="Section">
+
+<div><a href="SlkConcepts.htm">SLK Concepts</a></div>
+<div><a href="SlkQueriesAndQuerySets.htm">SLK Queries and Query Sets</a></div>
+<div><a href="SlkSettings.htm">SLK Settings</a></div>
+<div><a href="SlkApi.htm">SLK API Overview</a></div>
+<div><a href="Microsoft.SharePointLearningKit.Namespace.htm">Microsoft.SharePointLearningKit Namespace (API Reference)</a></div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader"></div>
+<div class="Section">
+<b><a href="Mlc.htm">Next Topic: Overview of Microsoft Learning Components</a></b>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="TopicFooter">
+</div>
+
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div>
+
+</body>
+
+</html>
+

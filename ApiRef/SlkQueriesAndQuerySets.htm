@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>
+	SLK Queries and Query Sets
+</title>
+
+<link rel="stylesheet" href="Doc.css" />
+
+</head>
+
+<body id="DocTopic">
+
+<div class="TopicHeader">
+	<div class="Supertitle_">
+		SharePoint Learning Kit Customization
+	</div>
+	SLK Queries and Query Sets
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="Summary">
+
+<p>The SharePoint Learning Kit query and query set features allow you to use XML to customize the
+simple tabular reports that display in the SLK Assignment List Web Part.  This section explains
+how.</p>
+
+<p>If you're a programmer, you can also access SLK query and query set functionality from within
+your own programs&mdash;a <a href="SlkApi.htm">later section</a> explains how.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="Queries"></a>
+<div class="SectionHeader">SLK Queries in Assignment List Web Part</div>
+<div class="Section">
+
+<p>The right pane in the SharePoint Learning Kit's Assignment List Web Part displays the
+results of a query selected in the left pane:</p>
+
+<p><img src="AlwpRight.gif" alt="" border="0" galleryimg="no" /></p>
+
+<p>These queries are defined within the <a href="SlkSettings.htm">SLK Settings</a> file,
+a customizable configuration file.  For example, the SLK Settings file excerpt below on the left
+products Assignment List Web Part output such as that shown on the right.</p>
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr style="vertical-align: top">
+<td>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;<b>Query</b>
+					<div>Name="GradedLearnerAssignments"</div>
+					<div>Title="Graded Assignments"</div>
+					<div>ViewName="LearnerAssignmentListForLearners"</div>
+					<div>CountViewColumnName="LearnerAssignmentId"&gt;</div>
+					<div>&lt;<b>Column</b>
+						<div>Title="Assignment"</div>
+						<div>RenderAs="Link"</div>
+						<div>ViewColumnName="AssignmentTitle"</div>
+						<div>ViewColumnName2="LearnerAssignmentId"</div>
+						<div>NullDisplayString="Untitled" /&gt;</div>
+					</div>
+					<div>&lt;<b>Condition</b>
+						<div>ViewColumnName="IsFinal"</div>
+						<div>Operator="Equal"</div>
+						<div>Value="1" /&gt;</div>
+					</div>
+					<div>&lt;<b>Sort</b>
+						<div>ViewColumnName="AssignmentTitle"</div>
+						<div>Ascending="true" /&gt;</div>
+					</div>
+				&lt;/Query&gt;
+			</td>
+		</tr>
+	</table>
+</td>
+<td style="padding-left: 8pt; padding-top: 7pt">
+	<img src="QueryExample.gif" alt="" border="0" galleryimg="no" />
+</td>
+</tr>
+</table>
+
+<p>(Note that in the query above, "ascending" is the default sort, but the screen shot above
+reflects the display after the user clicked on the "Assignment" column header to re-sort in a
+descending order.)</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="Views"></a>
+<div class="SectionHeader">LearningStore Views</div>
+<div class="Section">
+
+<p>The example above contains the attribute assignment
+<tt>ViewName="LearnerAssignmentListForLearners"</tt>.  "LearnerAssignmentListForLearners" is a
+<a href="SlkSchema.htm">LearningStore view defined by SLK</a>.  In order to understand how SLK
+queries work, you need to understand LearningStore views.  (LearningStore is a database access
+component, part of <a href="Mlc.htm">Microsoft Learning Components</a>, explained later in this
+documentation set.)</p>
+
+<p>One example of a LearningStore view is LearnerAssignmentListForLearners, which you can think of as a
+"virtual table" containing approximately 40 columns, and one row for each assignment for which the
+current user is a learner.</p>
+
+<p>If you're familiar with Microsoft SQL Server, it may help to think of a LearningStore view as a
+"join" across multiple tables.  (That's basically how it's implemented.)  In the case of
+LearnerAssignmentListForLearners, this join includes over half a dozen tables, retrieving many pieces
+of information related to <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are
+accessible by a learner (hence the name of the view).</p>
+
+<p>Each LearningStore view contains security rules that determine what information can be
+returned in a query using that view. Disallowed rows (for example, other learner's assignments) and
+columns (such as assignment grade, before grading is completed) are automatically excluded.</p>
+
+<p>A SLK query pulls a subset of rows and columns from a given LearningStore view.  In the example
+above:</p>
+
+<ul>
+	<li>The single <tt>&lt;Column&gt;</tt> element defines the one column that's pulled from
+		the view.</li>
+	<li>The single <tt>&lt;Condition&gt;</tt> element specifies a condition which must be met
+		in order for a row to be returned, effectively defining the rows to return.</li>
+	<li>The <tt>&lt;Sort&gt;</tt> element specifies how to order the returned rows.</li>
+</ul>
+
+<p>In the general case, a SLK query can include any number of <tt>&lt;Column&gt;</tt>,
+<tt>&lt;Condition&gt;</tt>, and <tt>&lt;Sort&gt;</tt> elements.  Multiple conditions are
+"AND-ed" together.</p>
+
+<p>For detailed information about how to construct SLK queries, see
+<a href="SlkSettings.htm">SLK Settings</a>.  For more information about LearningStore views,
+see <a href="SlkSchema.htm">SLK+MLC Schema</a>.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Non-Assignment Queries</div>
+<div class="Section">
+
+<p>Assignment List Web Part is optimized for viewing assignments, but it can be used to display
+other information as well.  Here's an example that displays the SLK identifiers and names of all
+users that SLK is aware of:</p>
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr style="vertical-align: top">
+<td>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;<b>Query</b>
+					<div>Name="Users"</div>
+					<div>Title="All Users"</div>
+					<div>ViewName="UserItem"&gt;</div>
+					<div>&lt;<b>Column</b>
+						<div>Title="ID"</div>
+						<div>ViewColumnName="Id"/&gt;</div>
+					</div>
+					<div>&lt;<b>Column</b>
+						<div>Title="Name"</div>
+						<div>ViewColumnName="Name"/&gt;</div>
+					</div>
+					<div>&lt;<b>Sort</b>
+						<div>ViewColumnName="Name"</div>
+						<div>Ascending="true" /&gt;</div>
+					</div>
+				&lt;/Query&gt;
+			</td>
+		</tr>
+	</table>
+</td>
+<td style="padding-left: 8pt; padding-top: 6pt">
+	<img src="QueryExample2.gif" alt="" border="0" galleryimg="no" />
+</td>
+</tr>
+</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="Security"></a>
+<div class="SectionHeader">LearningStore Security</div>
+<div class="Section">
+
+<p>Consider the preceding example, the "Users" query.  If you added the query above to your Web
+site's SLK Settings, you'd get an "access denied" message when you tried to access the query using
+Assignment List Web Part, because the default security rules for the "UserItem" view (actually a
+table in the SLK database, as described in a <a href="SlkSchema.htm">later section</a>) don't
+permit anyone to access this table (except under
+<a href="Microsoft.LearningComponents.Storage.LearningStorePrivilegedScope.Class.htm">elevated privileges</a>).
+This is consistent with the "secure by default" philosophy of Microsoft Learning Components.</p>
+
+<p>You can modify the SLK database schema to change these rules.  For example you could insert the
+following XML into <a href="SlkSchema.xml.htm">SlkSchema.xml</a>, run "<tt>SchemaCompiler.exe
+SlkSchema.xml /OutputUpgrade SlkUpgrade.sql</tt>" (SchemaCompiler.exe is a console application
+available in the SLK SDK), and then update the SLK database using a command line such as
+"<tt>sqlcmd -d SharePointLearningKit -i SlkUpgrade.sql</tt>" (sqlcmd.exe is a SQL Server console
+application tool).</p>
+
+<table class="Grid Code" style="width: 300px">
+	<col class="Column1_" />
+	<tr class="Header_">
+		<td class="Header1_">XML</td>
+	</tr>
+	<tr>
+		<td class="Content_ Indent_">
+			&lt;<b>ExtendItemType</b> Name="UserItem"&gt;
+				<div>&lt;<b>GrantQueryRight</b>&gt;
+					<div>&lt;<b>Expression</b>&gt;1&lt;/Expression&gt;</div>
+				</div>
+				<div>&lt;/GrantQueryRight&gt;</div>
+			&lt;/ExtendItemType&gt;
+		</td>
+	</tr>
+</table>
+
+<p>After resetting IIS (<c>iisreset.exe</c>), the new security rule above will take effect, and the
+"Users" query above will show a list of all users know to SLK.  Of course, this security rule
+isn't particularly secure&mdash;the condition for granting a user permission to execute the
+query is <c>1</c> (i.e. "always")&mdash;but in the general case this expression could be an
+arbitrary SQL expression that takes into account the role(s) of the current user.</p>
+
+<p>See the <a href="SlkSchema.htm">SLK+MLC Schema</a> section for more information about
+customizing security in SLK.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="QuerySets"></a>
+<div class="SectionHeader">SLK Query Sets</div>
+<div class="Section">
+
+<p>A <i>SLK query set</i> is simply an ordered set of SLK queries.  The left pane in SLK's
+Assignment List Web Part is defined by a query set, similar to the following:</p>
+
+<p><img src="AlwpLeft.gif" alt="" border="0" galleryimg="no" /></p>
+
+<p>As with SLK queries, SLK query sets are defined in the
+<a href="SlkSettings.htm">SLK Settings</a> file.  Assignment List Web Part allows the Web site
+designer to choose a query set to display.  Alternatively, the query set can be chosen
+automatically based on the user's roles (learner, instructor, or both) on that Web site.</p>
+
+<p>Here's an example of a query set definition:</p>
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr style="vertical-align: top">
+<td>
+	<table class="Grid Code">
+		<col class="Column1_" />
+		<tr class="Header_">
+			<td class="Header1_">XML</td>
+		</tr>
+		<tr>
+			<td class="Content_ Indent_">
+				&lt;<b>QuerySet</b>
+					<div>Name="LearnerQuerySet"</div>
+					<div>Title="Learner Query Set"</div>
+					<div>DefaultQueryName="DueTodayLearner"&gt;</div>
+					<div>&lt;<b>IncludeQuery</b>
+						<div>QueryName="OverdueLearner"/&gt;</div>
+					</div>
+					<div>&lt;<b>IncludeQuery</b>
+						<div>QueryName="DueTodayLearner"/&gt;</div>
+					</div>
+					<div>&lt;<b>IncludeQuery</b>
+						<div>QueryName="DueThisWeekLearner"/&gt;</div>
+					</div>
+					<div>&lt;<b>IncludeQuery</b>
+						<div>QueryName="DueNextWeekLearner"/&gt;</div>
+					</div>
+					<div>&lt;<b>IncludeQuery</b>
+						<div>QueryName="ReturnedLearner"/&gt;</div>
+					</div>
+				&lt;/QuerySet&gt;
+			</td>
+		</tr>
+	</table>
+</td>
+<td style="padding-left: 8pt; padding-top: 9pt">
+	<img src="QuerySetExample.gif" alt="" border="0" galleryimg="no" />
+</td>
+</tr>
+</table>
+
+<p>A <tt>&lt;QuerySet&gt;</tt> XML element defines a single query set.  Each nested
+<tt>&lt;IncludeQuery&gt;</tt> XML element specifies a SLK query to include in the query set.
+Note that the display name of each query (such as "Due Today" in the example above) comes from
+the definition of the query, not the <tt>&lt;IncludeQuery&gt;</tt> XML element.</p>
+
+<p>For detailed information about how to construct SLK query sets, see
+<a href="SlkSettings.htm">SLK Settings</a>.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Default Queries</div>
+<div class="Section">
+
+<p>The SLK Settings file that's supplied with SharePoint Learning Kit contains the following
+queries.  The query names shown in <b>bold</b> are the internal query names that are used to
+refer to a query from within a <a href="SlkSettings.htm">query set definition</a> or within code
+that calls the <a href="SlkApi.htm">SLK API</a>.</p>
+
+<ul>
+	<li><b><i>Learner assignment queries</i></b>: These queries all return
+		<a href="SlkConcepts.htm#Assignments">learner assignments</a> for which the current user is
+		a learner, and for which the start date/time is in the past.
+		<ul>
+			<li><b>ToDoLearner</b>: Includes learner assignments that the learner has not yet
+				submitted to the instructor.</li>
+			<li><b>OverdueLearner</b>: Includes learner assignments due before the current
+				date/time.</li>
+			<li><b>DueTodayLearner</b>: Includes learner assignments due today.</li>
+			<li><b>DueThisWeekLearner</b>:  Includes learner assignments due this week.</li>
+			<li><b>DueNextWeekLearner</b>:  Includes learner assignments due next week.</li>
+			<li><b>ReturnedLearner</b>:   Includes learner assignments marked as "final" (see
+				<a href="SlkConcepts.htm">SLK Concepts</a>).</li>
+			<li><b>AllAssignmentsLearner</b>:  Includes all learner assignments.</li>
+		</ul>
+		Note that queries above that use the assignment due date/time as a condition do not
+		return assignments that have no due date/time.
+	</li>
+	<li><b><i>Instructor assignment queries</i></b>: These queries all return
+		<a href="SlkConcepts.htm#Assignments">assignments</a> for which the current user is an
+		instructor.
+		<ul>
+			<li><b>ActiveInstructor</b>: Includes assignments for which at least one learner
+				assignment is not in the "final" state (i.e. returned to the learner).</li>
+			<li><b>ReadyToGradeInstructor</b>: Includes assignments for which at least one learner
+				assignment is in the "completed" state (i.e. ready to grade).</li>
+			<li><b>OverdueInstructor</b>: Includes assignments that are overdue (i.e. have a due
+				date that's in the past) for which at least one learner assignment is in the
+				"not started" or "active" state.  Assignments with no due date are not included.
+				</li>
+			<li><b>DueTodayInstructor</b>: Includes all assignments due today.</li>
+			<li><b>DueThisWeekInstructor</b>: Includes all assignments due this week.</li>
+			<li><b>DueNextWeekInstructor</b>: Includes all assignments due next week.</li>
+			<li><b>ReturnedInstructor</b>: Includes all assignments for which all learner
+				assignments are in the "final" state.</li>
+			<li><b>AllAssignmentsInstructor</b>:  Includes all assignments.</li>
+		</ul>
+	</li>
+</ul>
+
+<p>For more information (for example, what columns are included in each of these queries), see the
+<a href="SlkSettings.xml.htm">default SlkSettings.xml</a>, or download your Web site's current
+SLK Settings XML file from the SLK Configuration page in SharePoint Central Administration.  See
+<a href="SlkSettings.htm">SLK Settings</a> to learn how to interpret a SLK Settings file, and how
+to modify it or create a new one.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Default Query Sets</div>
+<div class="Section">
+
+The <a href="SlkSettings.xml.htm">default SLK Settings file</a> that's supplied with SharePoint
+Learning Kit contains the following query sets:
+<ul>
+	<li><b>LearnerQuerySet</b>: This is the default query set that Assignment List Web Part uses
+		if the current user is a learner and not an instructor on the current Web site.  This
+		query set includes the following queries:
+		<ul>
+			<li>ToDoLearner</li>
+			<li>OverdueLearner</li>
+			<li>DueTodayLearner</li>
+			<li>DueThisWeekLearner</li>
+			<li>DueNextWeekLearner</li>
+			<li>ReturnedLearner</li>
+			<li>AllAssignmentsLearner</li>
+		</ul>
+	</li>
+	<li><b>InstructorQuerySet</b>: This is the default query set that Assignment List Web Part uses
+		if the current user is an instructor on the current Web site.  This query set includes the
+		following queries:
+		<ul>
+			<li>ActiveInstructor</li>
+			<li>ReadyToGradeInstructor</li>
+			<li>OverdueInstructor</li>
+			<li>DueTodayInstructor</li>
+			<li>DueThisWeekInstructor</li>
+			<li>DueNextWeekInstructor</li>
+			<li>ReturnedInstructor</li>
+			<li>AllAssignmentsInstructor</li>
+		</ul>
+	</li>
+</ul>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">For More Information</div>
+<div class="Section">
+
+<div><a href="SlkConcepts.htm">SLK Concepts</a></div>
+<div><a href="SlkSettings.htm">SLK Settings</a></div>
+<div><a href="SlkSettings.xml.htm">Default SLK Settings XML</a></div>
+<div><a href="SlkSchema.htm">SLK+MLC Schema</a></div>
+<div><a href="SlkApi.htm">SLK API Overview</a></div>
+<div><a href="Microsoft.SharePointLearningKit.SlkSettings.Class.htm">SlkSettings Class (SLK API)</a></div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader"></div>
+<div class="Section">
+<b><a href="SlkSchema.htm">Next Topic: SLK+MLC Schema</a></b>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="TopicFooter">
+</div>
+
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div>
+
+</body>
+
+</html>
+

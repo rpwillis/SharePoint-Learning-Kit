@@ -1,0 +1,75 @@
+<script language="javascript" type="text/javascript">
+var ECS_ViewType=6;
+
+function mlc_RoundTwoDecimalPlaces(val)
+{
+	return (Math.round( val * 100 ) / 100);
+}
+
+function mlc_CultureStringToDouble(score)
+{
+	var re = new RegExp( "^[\\+\\-]?[0-9]*(\\x<%=DecimalSeparatorHex%>)?[0-9]*$" );
+	var check = score.match(re);
+	if( check == null ) return NaN;
+	else return parseFloat(score.replace( "<%=DecimalSeparator%>", "." ));
+}
+
+function mlc_DoubleToCultureString(dbl)
+{
+	// convert a double into a string, using the supplied decimal separator.
+	return dbl.toString(10).replace( ".", "<%=DecimalSeparator%>" );
+}
+
+function mlc_ValidateScore(itemscore)
+{
+	var score = itemscore.value.replace(/^\s+|\s+$/g, "");
+	var scoreAsFloat = mlc_CultureStringToDouble(score);
+	if( isNaN(scoreAsFloat) || scoreAsFloat < -1000 || scoreAsFloat > 1000 )
+	{
+		if( score != "" )
+		{
+			alert(<%=ScoreOutOfRange%>); 
+			setTimeout( "document.forms[\"<%=FormId%>\"].elements[\"" + itemscore.id + "\"].select()", 1 );
+			return false;
+		}
+	}
+	else
+	{
+		itemscore.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces( scoreAsFloat ));
+		return true;
+	}
+}
+
+function mlc_ValidateComment(commentField)
+{
+    if( commentField.innerText.length > <%=MaxCommentLength%> )
+    {
+        alert(<%=CommentTooLong%>);
+        setTimeout( "document.forms[\"<%=FormId%>\"].elements[\"" + commentField.id + "\"].select()", 1 );
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+function mlc_RubricClick(checkbox, itemscoreName)
+{
+	// increment or decrement the corresponding ITEMSCORE.  Note that a blank ITEMSCORE is the same as 0.
+	var scoreTextBox = document.forms["<%=FormId%>"].elements[itemscoreName];
+	var scoreAsFloat = mlc_CultureStringToDouble(scoreTextBox.value);
+	var deltaScoreAsFloat = mlc_CultureStringToDouble(checkbox.value);
+	if( isNaN(scoreAsFloat) ) scoreAsFloat = 0;
+	if( isNaN(deltaScoreAsFloat) ) deltaScoreAsFloat = 0;
+	if( checkbox.checked )
+	{
+		scoreTextBox.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces(scoreAsFloat + deltaScoreAsFloat));
+	}
+	else
+	{
+		scoreTextBox.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces(scoreAsFloat - deltaScoreAsFloat));
+	}
+	scoreTextBox.select();
+}
+</script>

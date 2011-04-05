@@ -1,0 +1,82 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+
+SharePoint Learning Kit Version 1.3.0 Release Notes
+Last Updated:	11/28/2007
+
+
+1. Introduction
+2. New In This Release
+2. SLK Known Issues
+3. How You Can Participate
+
+
+INTRODUCTION
+
+	About SharePoint Learning Kit
+
+SharePoint Learning Kit (SLK) is a SCORM 2004-conformant e-learning delivery and tracking application built as a Windows SharePoint Services 3.0 solution. It works with either Windows SharePoint Services 3.0 or Microsoft Office SharePoint Server 2007, and has the following core features:
+
+* Supports SCORM 1.2, SCORM 2004, and Class Server content, allowing users to store and manage this content in SharePoint document libraries.
+* Supports a learner-centric or instructor-led (assigned) workflow.
+* Allows assignment, tracking and grading of both e-learning and non-e-learning content.
+
+SharePoint Learning Kit is a community source project. This means that it is made available to you for free, and that you can use it as-is or modify it to suit your needs as long as you comply with the conditions that are described in the accompanying License.txt file. You are responsible for reading and complying with this license. SharePoint Learning Kit is supported by a community of users and developers through discussion forums at http://www.codeplex.com/slk. You are invited to participate in this community, to help others, to report issues, and to contribute your ideas to carry SLK forward. For the most up to date information about SLK, please refer to http://www.codeplex.com/slk.
+
+	About This Drop
+
+This release of SLK is organized in one zip package:
+
+SLK-Install-1.4.0.zip -- contains all files necessary to install and run SLK on a Windows SharePoint Services 3.0 or Microsoft Office SharePoint Server 2007 server. You do not need to be a developer to use this package. 
+
+Not included in this release at this time:
+
+SLK-Install-xxx-x64-ENU.zip
+SLK-SDK-xxx-ENU.zip
+SLK-SDK-xxx-x64-ENU.zip
+SLK-LanguagePacks-xxx-ENU.zip
+
+        To Install
+    1.  Unzip onto your SharePoint server.
+    2.  Run AddSolution.cmd
+    3.  Run UpdateSolutionNavigation.cmd
+    4.  Open SharePoint Central Administration | Operations | Solutions and deploy to the web applications you want it available in
+    5.  Use  SharePoint Central Administration | Applications | Configure SharePoint Learning Kit to configure it for the site collections you want to use it in
+    6.  In the site collection you want to use it in add the web part to the gallery
+
++--------------------------------------------------------------------------------------------------
+| Special Instructions: Upgrading to 1.3+ from an earlier build
++--------------------------------------------------------------------------------------------------
+
+Due to the change in the signing key in SLK 1.3, SLK must be reconfigured after upgrading.  To
+upgrade to this release, use the steps:
+
+  1.  Follow 2.1. Upgrade the SLK solution in GettingStarted.pdf.
+  2.  Follow 3.2.2. Configure SLK
+  3.  Follow 3.2.3. with the change that you first de-activate SharePoint Learning Kit and then
+      re-activate.
+  3.  Per 3.2.3. Remove the Assignment WebPart from the Gallery.
+  4.  Per 3.2.3. Re-add the Assignment WebPart to the Gallery.
+  5.  Per 3.2.3. Add the My Assignments WebPart to the Site.
+
+NEW IN THIS RELEASE
+
+Feature: Drop Box Functionality
+
+Details of all the fixes that have happened for this release can be found on the release web page at:
+https://www.codeplex.com/Release/ProjectReleases.aspx?ProjectName=SLK&ReleaseId=8184
+
+SLK KNOWN ISSUES
+
+Information on all the current reported issues and their status can be found in the CodePlex Issue Tracker at:
+http://www.codeplex.com/SLK/WorkItem/List.aspx
+
+
+HOW YOU CAN PARTICIPATE
+
+The SharePoint Learning Kit is a community-owned project. All of us on the product development team believe strongly in the power of e-learning, and we believe that SLK is a great e-learning component that will be useful for a wide variety of instructional scenarios. We expect and hope that SLK will continue to grow and improve over time, but it can only do so with your help.
+
+A community is only as strong as its members. Community members will find and fix issues, help each other learn best practices, contribute ideas, and determine the SLK roadmap. Going forward, SLK will be a reflection of the energy, drive and creativity of its community.
+
+If, like us, you believe in SLK, then we invite you to join us. Contribute your ideas, help others who are learning SLK, and help carry SLK forward by joining the community at http://www.codeplex.com/slk.
+
+Thank you for your interest in and support of the SharePoint Learning Kit.

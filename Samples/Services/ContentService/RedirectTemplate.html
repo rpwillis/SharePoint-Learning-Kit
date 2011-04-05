@@ -1,0 +1,71 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--
+HTML Stub Template for Grava Content Store.  When this HTML file is launched, Grava prerequistes are checked (via inspecting the UserAgent),
+appropriate messaging made if prereqs are missing, and then the content itself is launched.
+-->
+
+<html>
+    <head>
+        <title>{PageTitle}</title>
+    </head>
+    <body>
+    
+        <h1>Checking requirements to start {ContentType}</h1>
+        
+        <script type="text/javascript">
+            <!-- // This script inserts the appropriate HTML based on its findings
+            
+            var href = window.location.href;
+
+            // Find the Document Library Url by pulling it out of the href
+            var url = window.location.href.split("://")[1]; // Pull off the http://
+            var hostname = url.substr(0, url.indexOf("/"));
+            var relativePath = url.slice(url.indexOf("/"));
+            var relativePathMinusFileName = relativePath.substr(0, relativePath.lastIndexOf("/"));
+            var documentLibraryUrl = relativePathMinusFileName;
+
+            // Pull the query string out of the document's HREF (e.g. launch url) since this contains the LearnerAssignmentId
+            var launchUrl = "{LaunchUrl}";
+            if (href.indexOf("?") > -1) // If there is some query data to pass on, like LearnerAssignmentId
+            {
+                var query = href.substr(href.indexOf("?") + 1);
+                launchUrl += "&" + query; // pass on query parameters, use & because we always already have a ? in {LaunchUrl}
+            }
+
+            // Verify requirements -- CLR, browser, and OS
+            var requirementsMet = true;
+            
+            if (navigator.userAgent.indexOf("MSIE 7.0") == -1 && navigator.userAgent.indexOf("MSIE 6.0") == -1) // Firefox/ for that other one...
+            {
+                requirementsMet = false;
+                document.writeln("<p><b>Supported web browser is not detected.  {ContentType} is supported on Microsoft Internet Explorer 6 or 7.</b></p>");
+            }
+            // This logic has been moved into else because Firefox does not put the .NET version into the userAgent, so if the end user is running Firefox we have no way of doing intelligent .NET detection from a web page
+            else if (navigator.userAgent.indexOf(".NET CLR 3.5") == -1)
+            {
+                requirementsMet = false;
+                document.writeln("<p><b><a href='http://www.microsoft.com/downloads/details.aspx?FamilyID=333325fd-ae52-4e35-b531-508d977d32a6'>Microsoft .NET Framework 3.5</a> is not detected, please install and try again.</b></p>");
+            }
+
+            if (navigator.userAgent.indexOf("Windows NT 6.0") == -1 && navigator.userAgent.indexOf("Windows NT 5.1") == -1)
+            {
+                requirementsMet = false;
+                document.writeln("<p><b>Supported operating system is not detected.  {ContentType} is supported on Windows XP and Windows Vista.</b></p>");
+            }
+                        
+            if (requirementsMet == true) // Everything is fine, redirection time...
+            {
+                document.writeln("<p>All requirements met, starting...</p>");
+                window.location = launchUrl; // Auto-redirect by changing the browser window location that contains this document to the content
+            }
+            else
+            {
+                document.writeln("<p>Not starting because a requirement is not installed.</p>");
+                document.writeln("<p><i>Don't be silly, let me try and <a href='" + launchUrl + "'>start</a> anyways...</i></p>");
+            }
+            //-->
+        </script>
+        
+    </body>
+</html>
