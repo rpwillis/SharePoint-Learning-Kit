@@ -88,8 +88,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private string m_location;
         private int? m_versionId;
         private bool? m_nonELearning;
-        private string m_dropBoxDocLibName;
-        SlkMemberships m_slkMembers;
         #endregion
 
         #region Private Properties
@@ -251,36 +249,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             set
             {
                 ViewState["showAllSites"] = value;
-            }
-        }
-
-        /// <summary>
-        /// Current SPWeb User's SlkUser Key 
-        /// </summary>
-        private String DropBoxDocLibName
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(m_dropBoxDocLibName))
-                {
-                    m_dropBoxDocLibName = AppResources.DropBoxDocLibName;
-                }
-                return m_dropBoxDocLibName;
-            }
-        }
-
-        /// <summary>
-        /// Get All Slk Members on the current web 
-        /// </summary>
-        private SlkMemberships SlkMembers
-        {
-            get
-            {
-                if (m_slkMembers == null)
-                {
-                    m_slkMembers = SlkStore.GetMemberships(SPContext.Current.Web, null, null);
-                }
-                return m_slkMembers;
             }
         }
         #endregion

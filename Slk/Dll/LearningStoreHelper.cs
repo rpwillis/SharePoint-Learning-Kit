@@ -93,6 +93,31 @@ public static class LearningStoreHelper
     }
 
     /// <summary>
+    /// Converts a value returned from a LearningStore query to a given type.  Throws an
+    /// exception if the value is <c>DBNull</c>.
+    /// </summary>
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    /// <typeparam name="T">The type to convert to.</typeparam>
+    /// <remarks>
+    /// This version of <c>Cast</c> is used to retrieve a <i>value type</i> from LearningStore,
+    /// i.e. <c>bool</c>, <c>DateTime</c>, <c>float</c>, <c>double</c>, <c>Guid</c>,
+    /// <c>int</c>, or an enumerated type, when you know that the input value will not be the
+    /// database "NULL" value.  (If it is, an exception is thrown.)
+    /// </remarks>
+    public static T CastNonNullStruct<T>(object value) where T : struct
+    {
+        if (value is DBNull)
+        {
+            throw new ArgumentException(AppResources.UnexpectedDBNull);
+        }
+        else
+        {
+            return (T) value;
+        }
+    }
+
+    /// <summary>
     /// Converts a value returned from a LearningStore query to a given type, or <c>null</c>
     /// if the value is <c>DBNull</c>.
     /// </summary>
@@ -307,8 +332,7 @@ public static class LearningStoreHelper
     /// <param name="result">Where to store the result.</param>
     ///
     [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void CastNonNull(object value,
-        out PackageGlobalObjectiveItemIdentifier result)
+    public static void CastNonNull(object value, out PackageGlobalObjectiveItemIdentifier result)
     {
         LearningStoreItemIdentifier id;
         CastNonNull(value, out id);

@@ -160,8 +160,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>The OK button event handler.</summary>
         protected void btnOK_Click(object sender, EventArgs e)
         {
-            SlkMemberships members = SlkStore.GetInstructorMemberships(SPWeb);
-            CurrentAssignmentProperties.PopulateSPUsers(members);
+            SlkMemberships memberships = new SlkMemberships(null, null, null);
+            memberships.FindAllSlkMembers(SPWeb, SlkStore, true);
+            CurrentAssignmentProperties.PopulateSPUsers(memberships);
+
             DropBoxManager dropBoxMgr = new DropBoxManager(CurrentAssignmentProperties);
 
             List<AssignmentUpload> uploadedFiles = new List<AssignmentUpload>();

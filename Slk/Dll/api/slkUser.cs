@@ -59,6 +59,9 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Gets the SharePoint Learning Kit <c>UserItemIdentifier</c> of the user. </summary>
         public UserItemIdentifier UserId { get; internal set; }
 
+        /// <summary>Gets the SharePoint Learning Kit <c>LearningStoreItemIdentifier</c> of the user as associated with an assignment. </summary>
+        public LearningStoreItemIdentifier AssignmentUserId { get; set; }
+
         /// <summary>Gets the SharePoint <c>SPUser</c> object that represents this user. </summary>
         public SPUser SPUser { get; internal set; }
 
@@ -66,25 +69,13 @@ namespace Microsoft.SharePointLearningKit
         public string Name { get; private set;}
 #endregion properties
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // Public Methods
-        //
-
-        /// <summary>
-        /// Initializes an instance of this class, given a <c>UserItemIdentifier</c>.
-        /// </summary>
-        ///
-        /// <param name="userId">The SharePoint Learning Kit <c>UserItemIdentifier</c> of the user.
-        ///     </param>
-        ///
-        /// <remarks>
-        /// When this constructor is used, the <c>SPUser</c> and <c>Name</c> properties are
-        /// <c>null</c>.
-        /// </remarks>
-        ///
+#region constructors
+        /// <summary>Initializes an instance of this class, given a <c>UserItemIdentifier</c>.</summary>
+        /// <remarks>When this constructor is used, the <c>SPUser</c> and <c>Name</c> properties are <c>null</c>.</remarks>
+        /// <param name="userId">The SharePoint Learning Kit <c>UserItemIdentifier</c> of the user.</param>
         public SlkUser(UserItemIdentifier userId)
         {
-            if(userId == null)
+            if (userId == null)
             {
                 throw new ArgumentNullException("userId");
             }
@@ -99,19 +90,19 @@ namespace Microsoft.SharePointLearningKit
             Name = spUser.Name;
         }
 
-        internal SlkUser(UserItemIdentifier userId, string name) : this (userId)
+        internal SlkUser(UserItemIdentifier userId, string name, string key) : this (userId)
         {
             Name = name;
+            this.key = key;
         }
+#endregion constructors
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // IComparable<SlkUser> Implementation
-        //
-
+#region IComparable
         int IComparable<SlkUser>.CompareTo(SlkUser other)
         {
             return String.Compare(Name, other.Name, StringComparison.CurrentCultureIgnoreCase);
         }
+#endregion IComparable
     }
 }
 

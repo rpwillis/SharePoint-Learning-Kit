@@ -386,6 +386,7 @@ SET @schema = @schema +
         '<Property Name="PointsPossible" TypeCode="5" Nullable="true" HasDefault="false"/>' +
         '<Property Name="Description" TypeCode="2" Nullable="false" HasDefault="false"/>' +
         '<Property Name="AutoReturn" TypeCode="3" Nullable="false" HasDefault="false"/>' +
+        '<Property Name="EmailChanges" TypeCode="3" Nullable="false" HasDefault="false"/>' +
         '<Property Name="ShowAnswersToLearners" TypeCode="3" Nullable="false" HasDefault="false"/>' +
         '<Property Name="CreatedBy" TypeCode="1" Nullable="true" HasDefault="false" ReferencedItemTypeName="UserItem"/>' +
         '<Property Name="DateCreated" TypeCode="4" Nullable="false" HasDefault="false"/>' +
@@ -757,6 +758,7 @@ SET @schema = @schema +
         '<Column Name="LearnerAssignmentGuidId" TypeCode="11" Nullable="true"/>' +
         '<Column Name="LearnerId" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
         '<Column Name="AssignmentAutoReturn" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentEmailChanges" TypeCode="3" Nullable="true"/>' +
         '<Column Name="RootActivityId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityPackageItem"/>' +
         '<Column Name="AttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
         '<Column Name="AttemptGradedPoints" TypeCode="5" Nullable="true"/>' +
@@ -773,6 +775,7 @@ SET @schema = @schema +
         '<Column Name="AssignmentPointsPossible" TypeCode="5" Nullable="true"/>' +
         '<Column Name="AssignmentDescription" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentAutoReturn" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentEmailChanges" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentShowAnswersToLearners" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentCreatedById" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
         '<Column Name="AssignmentCreatedByName" TypeCode="2" Nullable="true"/>' +
@@ -797,6 +800,7 @@ SET @schema = @schema +
         '<Column Name="AssignmentPointsPossible" TypeCode="5" Nullable="true"/>' +
         '<Column Name="AssignmentDescription" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentAutoReturn" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentEmailChanges" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentShowAnswersToLearners" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentCreatedById" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
         '<Column Name="AssignmentCreatedByName" TypeCode="2" Nullable="true"/>' +
@@ -838,6 +842,7 @@ SET @schema = @schema +
         '<Column Name="AssignmentPointsPossible" TypeCode="5" Nullable="true"/>' +
         '<Column Name="AssignmentDescription" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentAutoReturn" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentEmailChanges" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentShowAnswersToLearners" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentCreatedById" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
         '<Column Name="AssignmentCreatedByName" TypeCode="2" Nullable="true"/>' +
@@ -863,6 +868,7 @@ SET @schema = @schema +
         '<Column Name="AssignmentPointsPossible" TypeCode="5" Nullable="true"/>' +
         '<Column Name="AssignmentDescription" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentAutoReturn" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentEmailChanges" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentShowAnswersToLearners" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentCreatedById" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
         '<Column Name="AssignmentCreatedByName" TypeCode="2" Nullable="true"/>' +
@@ -893,6 +899,7 @@ SET @schema = @schema +
         '<Column Name="AssignmentPointsPossible" TypeCode="5" Nullable="true"/>' +
         '<Column Name="AssignmentDescription" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentAutoReturn" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentEmailChanges" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentShowAnswersToLearners" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentCreatedById" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
         '<Column Name="AssignmentCreatedByName" TypeCode="2" Nullable="true"/>' +
@@ -939,6 +946,7 @@ SET @schema = @schema +
         '<Column Name="AssignmentPointsPossible" TypeCode="5" Nullable="true"/>' +
         '<Column Name="AssignmentDescription" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentAutoReturn" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentEmailChanges" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentShowAnswersToLearners" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentCreatedById" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
         '<Column Name="AssignmentCreatedByName" TypeCode="2" Nullable="true"/>' +
@@ -1000,6 +1008,7 @@ SET @schema = @schema +
         '<Column Name="AssignmentPointsPossible" TypeCode="5" Nullable="true"/>' +
         '<Column Name="AssignmentDescription" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentAutoReturn" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentEmailChanges" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentShowAnswersToLearners" TypeCode="3" Nullable="true"/>' +
         '<Column Name="AssignmentCreatedById" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
         '<Column Name="AssignmentCreatedByName" TypeCode="2" Nullable="true"/>' +
@@ -2744,6 +2753,7 @@ RETURN (
     lai.LearnerId                   LearnerId,
     ----- from AssignmentItem -----
     asi.AutoReturn                  AssignmentAutoReturn,
+    asi.EmailChanges                AssignmentEmailChanges,
     asi.RootActivityId              RootActivityId,
     ----- from AttemptItem -----
     ati.Id AttemptId,
@@ -2776,6 +2786,7 @@ RETURN (
     asi.PointsPossible              AssignmentPointsPossible,
     asi.Description                 AssignmentDescription,
     asi.AutoReturn                  AssignmentAutoReturn,
+    asi.EmailChanges                AssignmentEmailChanges,
     asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
     asi.CreatedBy                   AssignmentCreatedById,
     cbui.[Name]                     AssignmentCreatedByName,
@@ -2839,6 +2850,7 @@ RETURN (
     asi.PointsPossible              AssignmentPointsPossible,
     asi.Description                 AssignmentDescription,
     asi.AutoReturn                  AssignmentAutoReturn,
+    asi.EmailChanges                AssignmentEmailChanges,
     asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
     asi.CreatedBy                   AssignmentCreatedById,
     cbui.[Name]                     AssignmentCreatedByName,
@@ -2953,6 +2965,7 @@ RETURN (
     asi.PointsPossible              AssignmentPointsPossible,
     asi.Description                 AssignmentDescription,
     asi.AutoReturn                  AssignmentAutoReturn,
+    asi.EmailChanges                AssignmentEmailChanges,
     asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
     asi.CreatedBy                   AssignmentCreatedById,
     cbui.[Name]                     AssignmentCreatedByName,
@@ -3016,6 +3029,7 @@ RETURN (
     asi.PointsPossible              AssignmentPointsPossible,
     asi.Description                 AssignmentDescription,
     asi.AutoReturn                  AssignmentAutoReturn,
+    asi.EmailChanges                AssignmentEmailChanges,
     asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
     asi.CreatedBy                   AssignmentCreatedById,
     cbui.[Name]                     AssignmentCreatedByName,
@@ -3076,6 +3090,7 @@ RETURN (
     asi.PointsPossible              AssignmentPointsPossible,
     asi.Description                 AssignmentDescription,
     asi.AutoReturn                  AssignmentAutoReturn,
+    asi.EmailChanges                AssignmentEmailChanges,
     asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
     asi.CreatedBy                   AssignmentCreatedById,
     cbui.[Name]                     AssignmentCreatedByName,
@@ -3165,6 +3180,7 @@ RETURN (
     asi.PointsPossible              AssignmentPointsPossible,
     asi.Description                 AssignmentDescription,
     asi.AutoReturn                  AssignmentAutoReturn,
+    asi.EmailChanges                AssignmentEmailChanges,
     asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
     asi.CreatedBy                   AssignmentCreatedById,
     cbui.[Name]                     AssignmentCreatedByName,
@@ -3308,6 +3324,7 @@ RETURN (
     asi.PointsPossible              AssignmentPointsPossible,
     asi.Description                 AssignmentDescription,
     asi.AutoReturn                  AssignmentAutoReturn,
+    asi.EmailChanges                AssignmentEmailChanges,
     asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
     asi.CreatedBy                   AssignmentCreatedById,
     cbui.[Name]                     AssignmentCreatedByName,
@@ -3883,7 +3900,7 @@ CREATE FUNCTION [AssignmentItem$DefaultView](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT Id, [SPSiteGuid], [SPWebGuid], [RootActivityId], [NonELearningLocation], [Title], [StartDate], [DueDate], [PointsPossible], [Description], [AutoReturn], [ShowAnswersToLearners], [CreatedBy], [DateCreated]
+    SELECT Id, [SPSiteGuid], [SPWebGuid], [RootActivityId], [NonELearningLocation], [Title], [StartDate], [DueDate], [PointsPossible], [Description], [AutoReturn], [EmailChanges], [ShowAnswersToLearners], [CreatedBy], [DateCreated]
     FROM [AssignmentItem]
 )
 GO

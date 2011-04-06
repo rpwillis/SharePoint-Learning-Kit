@@ -456,7 +456,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             learnersGradingCollection = SlkStore.GetGradingProperties(AssignmentItemIdentifier, out m_assignmentProperties);
             if (m_assignmentProperties.IsELearning == false)
             {
-                m_assignmentProperties.PopulateSPUsers(SlkStore.GetMemberships(SPWeb, null, null));
+                SlkMemberships memberships = new SlkMemberships();
+                memberships.FindAllSlkMembers(SPWeb, SlkStore, false);
+                m_assignmentProperties.PopulateSPUsers(memberships);
             }
             gradingList.AssignmentProperties = m_assignmentProperties;
         }
