@@ -566,7 +566,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     if (AssignmentProperties.PackageFormat == null)
                     {
                         DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
-                        AssignmentProperties.PopulateSPUsers(SlkStore.GetInstructorMemberships(SPWeb));
+                        SlkMemberships memberships = new SlkMemberships(null, null, null);
+                        memberships.FindAllSlkMembers(SPWeb, SlkStore, true);
+                        AssignmentProperties.PopulateSPUsers(memberships);
                         dropBoxMgr.ApplySubmittedPermissions();
                     }
                 }

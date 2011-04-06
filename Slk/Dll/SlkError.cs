@@ -214,11 +214,11 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
             Debug(e.ToString());
         }
 
-        public static void Debug (string message)
+        public static void Debug (string message, params object[] arguments)
         {
-            using (System.IO.StreamWriter writer = new System.IO.StreamWriter("c:\\temp\\slkError.txt", true))
+            using (System.IO.StreamWriter writer = new System.IO.StreamWriter("c:\\temp\\slkDebug.txt", true))
             {
-                writer.WriteLine(message);
+                writer.WriteLine(message, arguments);
             }
         }
 

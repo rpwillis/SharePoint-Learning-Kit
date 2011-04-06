@@ -240,11 +240,9 @@ namespace Microsoft.SharePointLearningKit
             
         }
 
-        /// <summary>
-        /// Function to update the DropBox document library after the current assignment being edited
-        /// </summary>
-        /// <param name="newAssignmentProperties">The new assignment properties</param>
-        public void UpdateAssignment(AssignmentProperties newAssignmentProperties)
+        /// <summary>Function to update the DropBox document library after the current assignment being edited</summary>
+        /// <param name="oldAssignmentProperties">The old assignment properties</param>
+        public void UpdateAssignment(AssignmentProperties oldAssignmentProperties)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
@@ -254,18 +252,18 @@ namespace Microsoft.SharePointLearningKit
                     {
                         DropBox dropBox = new DropBox(spWeb);
 
-                        string oldAssignmentFolderName = FolderName;
-                        string newAssignmentFolderName = GenerateFolderName(newAssignmentProperties);
+                        string oldAssignmentFolderName = GenerateFolderName(oldAssignmentProperties);
+                        string newAssignmentFolderName = FolderName;
 
                         // If assignment title has been changed, create a new assignment folder and move old assignment folder contents to it
                         if (string.Compare(oldAssignmentFolderName,  newAssignmentFolderName, true, CultureInfo.CurrentUICulture) != 0)
                         {
-                            dropBox.ChangeFolderName(assignmentProperties, newAssignmentProperties);
+                            dropBox.ChangeFolderName(oldAssignmentFolderName, newAssignmentFolderName);
                         }
 
                         // Get new assignment folder, or the old one if the title has not been changed
                         // in both cases, the value of the current assignment folder name will be stored in newAssignmentFolderName
-                        AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(newAssignmentProperties);
+                        AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
 
                         if (assignmentFolder != null)
                         {
@@ -276,9 +274,9 @@ namespace Microsoft.SharePointLearningKit
                             ApplyInstructorsReadAccessPermissions(assignmentFolder);
 
                             // Delete subfolders of the learners who have been removed from the assignment
-                            DeleteRemovedLearnerFolders(assignmentFolder, newAssignmentProperties);
+                            DeleteRemovedLearnerFolders(assignmentFolder, oldAssignmentProperties);
 
-                            foreach (SlkUser learner in newAssignmentProperties.Learners)
+                            foreach (SlkUser learner in assignmentProperties.Learners)
                             {
                                 // Grant assignment learners Read permission on the assignment folder
                                 assignmentFolder.ApplyPermission(learner.SPUser, SPRoleType.Reader);
@@ -511,11 +509,11 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        void DeleteRemovedLearnerFolders(AssignmentFolder assignmentFolder, AssignmentProperties newAssignmentProperties)
+        void DeleteRemovedLearnerFolders(AssignmentFolder assignmentFolder, AssignmentProperties oldAssignmentProperties)
         {
-            foreach (SlkUser oldLearner in assignmentProperties.Learners)
+            foreach (SlkUser oldLearner in oldAssignmentProperties.Learners)
             {
-                if (!newAssignmentProperties.Learners.Contains(oldLearner.UserId))
+                if (!assignmentProperties.Learners.Contains(oldLearner.UserId))
                 {
                     // Get learner subfolder, and delete it if exists
                     AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(oldLearner.SPUser);

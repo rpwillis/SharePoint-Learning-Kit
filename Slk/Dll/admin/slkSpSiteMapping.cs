@@ -96,8 +96,6 @@ namespace Microsoft.SharePointLearningKit
         string m_dropBoxFilesExtensions;
 #endregion fields
 
-                
-
 #region properties
         /// <summary>
         /// Gets the GUID of the SPSite represented by this SPSite-to-LearningStore mapping.
@@ -294,7 +292,6 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 #endregion properties
-
 
 #region constructors
         /// <summary>

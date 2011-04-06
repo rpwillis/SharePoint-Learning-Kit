@@ -397,22 +397,6 @@ public class SlkGroup : IComparable<SlkGroup>
 }
 
 /// <summary>
-/// Represents a collection of <c>SlkUser</c> objects.  The key for the collection is the
-/// <c>UserItemIdentifier</c> of each <c>SlkUser</c>.
-/// </summary>
-///
-public class SlkUserCollection : KeyedCollection<UserItemIdentifier, SlkUser>
-{
-    /// <summary>
-    /// Identifies <c>SlkUser.UserId</c> as the key for items in this collection.
-    /// </summary>
-    protected override UserItemIdentifier GetKeyForItem(SlkUser item)
-    {
-        return item.UserId;
-    }
-}
-
-/// <summary>
 /// Contains information about a SharePoint Learning Kit package.
 /// </summary>
 /// 

@@ -3731,6 +3731,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// <ul>
     /// <li><Fld>Id</Fld></li>
     /// <li><Fld>AutoReturn</Fld></li>
+    /// <li><Fld>EmailChanges</Fld></li>
     /// <li><Fld>CreatedBy</Fld></li>
     /// <li><Fld>DateCreated</Fld></li>
     /// <li><Fld>Description</Fld></li>
@@ -3955,6 +3956,20 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const int MaxDescriptionLength = 1073741822;
+        
+        /// <summary>
+        /// Name of the EmailChanges property on the <Typ>AssignmentItem</Typ> item type.
+        /// <para>
+        /// EmailChanges is <b>true</b> if emails should be sent to the learners on creation and modification of assignments.
+        /// Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.EmailChanges.Property.htm">AssignmentProperties.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Property type: Boolean<p/>
+        /// Property can not contain null.<p/>
+        /// Property does not have a default value.<p/>
+        /// </remarks>
+        public const string EmailChanges = "EmailChanges";
         
         /// <summary>
         /// Name of the AutoReturn property on the <Typ>AssignmentItem</Typ> item type.
@@ -6912,6 +6927,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AttemptGradedPoints</Fld></li>
     /// <li><Fld>AttemptId</Fld></li>
     /// <li><Fld>LearnerAssignmentGuidId</Fld></li>
@@ -6988,6 +7004,15 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
+        
+        /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>LearnerAssignmentView</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
         
         /// <summary>
         /// Name of the RootActivityId column on the <Typ>LearnerAssignmentView</Typ> view.
@@ -7072,6 +7097,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -7231,6 +7257,16 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
+
+        /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>AssignmentPropertiesView</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
+        
         
         /// <summary>
         /// Name of the AssignmentShowAnswersToLearners column on the <Typ>AssignmentPropertiesView</Typ> view.
@@ -7406,6 +7442,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -7592,6 +7629,15 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
+        
+        /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>AssignmentListForInstructors</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
         
         /// <summary>
         /// Name of the AssignmentShowAnswersToLearners column on the <Typ>AssignmentListForInstructors</Typ> view.
@@ -7978,6 +8024,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -8210,6 +8257,15 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
         
         /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>InstructorAssignmentListForInstructors</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
+        
+        /// <summary>
         /// Name of the AssignmentShowAnswersToLearners column on the <Typ>InstructorAssignmentListForInstructors</Typ> view.
         /// <para>
         /// AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
@@ -8348,6 +8404,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -8578,6 +8635,16 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
+
+        /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>InstructorAssignmentList</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
+        
         
         /// <summary>
         /// Name of the AssignmentShowAnswersToLearners column on the <Typ>InstructorAssignmentList</Typ> view.
@@ -8716,6 +8783,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -9037,6 +9105,15 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
+        
+        /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
         
         /// <summary>
         /// Name of the AssignmentShowAnswersToLearners column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
@@ -9402,6 +9479,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -9738,6 +9816,16 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
+
+        /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
+        
         
         /// <summary>
         /// Name of the AssignmentShowAnswersToLearners column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
@@ -10334,6 +10422,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -10654,6 +10743,15 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
+        
+        /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
         
         /// <summary>
         /// Name of the AssignmentShowAnswersToLearners column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
@@ -12015,6 +12113,11 @@ namespace Microsoft.SharePointLearningKit {
             if ((id.ItemTypeName != Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.ItemTypeName)) {
                 throw new ArgumentOutOfRangeException("id");
             }
+        }
+
+        /// <summary>Initializes a new instance of <see cref="LearnerAssignmentItemIdentifier"/>.</summary>
+        public LearnerAssignmentItemIdentifier()
+        {
         }
     }
     

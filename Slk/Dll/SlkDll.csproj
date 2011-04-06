@@ -116,6 +116,8 @@
     <Compile Include="api\LearnerAssignmentProperties.cs" />
     <Compile Include="api\assignmentProperties.cs" />
     <Compile Include="api\slkUser.cs" />
+    <Compile Include="api\slkUserCollection.cs" />
+    <Compile Include="api\slkUserCollectionChanges.cs" />
     <Compile Include="FramesetResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -275,9 +277,11 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-      <!--
       <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
-      -->
+      <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
+      <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.SharePoint.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
+      <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.Storage.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
+      <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
   </Target>
   <PropertyGroup>
     <PostBuildEvent>

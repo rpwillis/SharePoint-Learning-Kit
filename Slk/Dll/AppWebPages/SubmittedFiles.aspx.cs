@@ -154,9 +154,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        /// <summary>
-        /// Gets or sets the general properties of the learner assignment being displayed by this page.
-        /// </summary>
+        /// <summary>Gets or sets the general properties of the learner assignment being displayed by this page. </summary>
         private AssignmentProperties AssignmentProperties
         {
             get
@@ -189,7 +187,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                 }
 
-                m_assignmentProperties.PopulateSPUsers(SlkStore.GetMemberships(SPWeb, null, null));
+                SlkMemberships memberships = new SlkMemberships();
+                memberships.FindAllSlkMembers(SPWeb, SlkStore, false);
+                m_assignmentProperties.PopulateSPUsers(memberships);
 
                 return this.m_assignmentProperties;
             }

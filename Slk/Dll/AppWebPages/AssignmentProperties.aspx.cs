@@ -1251,22 +1251,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     //Get the Assignment Properties from the submitted form.
                     CreateAssignmentPropertiesObject();
 
-                    UserItemIdentifier userID = SlkStore.CurrentUserId;
-                    bool removeCurrent = false;
-
-                    if (!AssignmentProperties.Instructors.Contains(userID))
-                    {
-                        AssignmentProperties.Instructors.Add(new SlkUser(userID));
-                        removeCurrent = true;
-                    }
-
                     if (AssignmentId == null)
                     {
                         CreateAssignment();
                     }
                     else
                     {
-                        UpdateAssignment(removeCurrent, userID);
+                        UpdateAssignment();
                     }
                 }
             }
@@ -1285,8 +1276,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             try
             {
                 AssignmentProperties.SetLocation(Location, OrgIndex);
-                AssignmentProperties.Save(SPWeb, SlkRole.Instructor);
+                AssignmentProperties.Save(SPWeb, SlkRole.Instructor, SlkMembers);
                 SetConfirmationPage(AssignmentProperties.Id.GetKey());
+            }
+            catch (SafeToDisplayException ex)
+            {
+                SlkStore.DeleteAssignment(AssignmentProperties.Id);
+                errorBanner.Clear();
+                errorBanner.AddError(ErrorType.Error, ex.Message);
             }
             catch (Exception ex)
             {
@@ -1294,30 +1291,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //Log the Exception 
                 WriteError(ex, true);
             }
-            /*
-                try
-                {
-                    if (currentAssProperties.IsELearning == false)
-                    {
-                        currentAssProperties.PopulateSPUsers(SlkMembers);
-                        DropBoxManager dropBoxMgr = new DropBoxManager(currentAssProperties);
-
-                        try
-                        {
-                            Microsoft.SharePoint.Utilities.SPUtility.ValidateFormDigest();
-                            dropBoxMgr.CreateAssignmentFolder();
-                            SetConfirmationPage(assignmentItemIdentifier.GetKey());
-                        }
-                        catch (SafeToDisplayException ex)
-                        {
-                            SlkStore.DeleteAssignment(assignmentItemIdentifier);
-                            //Log the Exception 
-                            errorBanner.Clear();
-                            errorBanner.AddError(ErrorType.Error, ex.Message);
-                        }
-                    }
-                }
-                */
         }
 
 
@@ -1769,56 +1742,22 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
         #endregion
 
-        void UpdateAssignment(bool removeCurrent, UserItemIdentifier userID)
+        void UpdateAssignment()
         {
-            //Sets the Page Mode as Edit for rest of the page processing
-            //Needed this to process some Edit mode Operations
-            //AppMode = PageMode.Edit;
-
-            //Get the old assignment properties
-            AssignmentProperties oldAssignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
-
-            //Update the Assignment Properties.
-            SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, AssignmentProperties);
 
             // Get the ServerRelativeUrl for Grading Page
             string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, Constants.GradingPage);
-
-            // Append the AssignmentId QueryString key for Grading Page
             urlString = String.Format(CultureInfo.InvariantCulture, "{0}{1}{2}={3}", urlString, Constants.QuestionMark, QueryStringKeys.AssignmentId, AssignmentId);
 
             try
             {
-                if (oldAssignmentProperties.IsELearning == false)
-                {
-                    //Get the new assignment properties
-                    AssignmentProperties newAssignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
-
-                    if (removeCurrent)
-                    {
-                        newAssignmentProperties.Instructors.Remove(userID);
-                        AssignmentProperties.Instructors.Remove(userID);
-
-                        SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, AssignmentProperties);
-
-                        removeCurrent = false;
-                    }
-
-                    // Update the assignment folder in the Drop Box
-                    oldAssignmentProperties.PopulateSPUsers(SlkMembers);
-                    newAssignmentProperties.PopulateSPUsers(SlkMembers);
-                    DropBoxManager dropBoxMgr = new DropBoxManager(oldAssignmentProperties);
-                    dropBoxMgr.UpdateAssignment(newAssignmentProperties);
-                }
-
+                AssignmentProperties.Save(SPWeb, SlkRole.Instructor, SlkMembers);
                 // Redirect to Grading Page
                 Response.Redirect(urlString, false);
 
             }
             catch (Exception ex)
             {
-                // Return the Assignment Properties back as Drop Box could not be updated successfully.
-                SlkStore.SetAssignmentProperties(AssignmentItemIdentifier, oldAssignmentProperties);
                 //Log the Exception 
                 WriteError(ex, true);
                 errorBanner.Clear();
@@ -1834,14 +1773,20 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             string groupFailureDetails;
             if (AppMode == PageMode.Create || AppMode == PageMode.PostBack)
             {
-                m_slkMembers = SlkStore.GetMemberships(SPWeb, null, null, out groupFailures, out groupFailureDetails);
+                m_slkMembers = new SlkMemberships();
+                m_slkMembers.FindAllSlkMembers(SPWeb, SlkStore, false);
+                groupFailures = m_slkMembers.GroupFailures;
+                groupFailureDetails = m_slkMembers.GroupFailureDetails;
             }
             else if (AppMode == PageMode.Edit)
             {
 
                 try
                 {
-                    m_slkMembers = SlkStore.GetMemberships(SPWeb, AssignmentProperties.Instructors, AssignmentProperties.Learners, out groupFailures, out groupFailureDetails);
+                    m_slkMembers = new SlkMemberships(AssignmentProperties.Instructors, AssignmentProperties.Learners, null);
+                    m_slkMembers.FindAllSlkMembers(SPWeb, SlkStore, false);
+                    groupFailures = m_slkMembers.GroupFailures;
+                    groupFailureDetails = m_slkMembers.GroupFailureDetails;
                 }
                 catch (NotAnInstructorException)
                 {
@@ -1849,7 +1794,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     bool isInstructorInCurrentAssignment = false;
                     groupFailures = null;
                     groupFailureDetails = null;
-
 
                     //This Code executed only if the slkUser.SPUser is  null. 
                     //Get the CurrentUserKey from database and compare with SlkUserkey
@@ -1875,7 +1819,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         }
                     }
 
-
                     //if not an instructor in the current Assignment as well 
                     //throw the exception
                     if (!isInstructorInCurrentAssignment)
@@ -1889,11 +1832,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 return;
             }
 
-            if (groupFailures != null)
+            if (groupFailures != null && groupFailures.Count > 0)
             {
                 //Handles <groupFailures> and <groupFailureDetails>, display the 
                 //Formatted Error in Error Banner and log the failure details in event log.
-                StringBuilder enumerationWarning = new StringBuilder(1000);
+                StringBuilder enumerationWarning = new StringBuilder();
                 enumerationWarning.AppendLine("<ul style=\"margin-top:0;margin-bottom:0;margin-left:24;\">");
                 foreach (string groupName in groupFailures)
                 {

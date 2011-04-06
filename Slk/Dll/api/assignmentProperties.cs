@@ -154,14 +154,6 @@ namespace Microsoft.SharePointLearningKit
 
 #region public methods
         /// <summary>Saves the assignment.</summary>
-        ///
-        /// <param name="web">The <c>SPWeb</c> to create the assignment in.</param>
-        ///
-        /// <param name="slkRole">The <c>SlkRole</c> to use when creating the assignment.  Use
-        ///     <c>SlkRole.Learner</c> to create a self-assigned assignment, i.e. an assignment with
-        ///     no instructors for which the current learner is the only learner.  Otherwise, use
-        ///     <c>SlkRole.Instructor</c>.</param>
-        ///
         /// <remarks>
         /// <para>
         /// When creating a self-assigned assignment, take care to ensure that
@@ -180,30 +172,27 @@ namespace Microsoft.SharePointLearningKit
         /// package/file.
         /// </para>
         /// </remarks>
-        /// <exception cref="InvalidOperationException">
-        /// <pr>destinationSPWeb</pr> is not in the SPSite that this <r>SlkStore</r> is associated
-        /// with.
-        /// </exception>
-        ///
-        /// <exception cref="SafeToDisplayException">
-        /// An error occurred that can be displayed to a browser user.
-        /// </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// <pr>location</pr> refers to a file that the user does not have access to, the user is not
-        /// a Reader on <pr>destinationSPWeb</pr>, or the user is trying to create an assignment
-        /// with other learners or instructors but the assignment is self-assigned.
-        /// </exception>
-        /// <exception cref="NotAnInstructorException">
-        /// The user is not an instructor on <pr>destinationSPWeb</pr> and the assignment is not self-assigned.
-        /// </exception>
-        public void Save(SPWeb web, SlkRole slkRole)
+        /// <param name="web">The <c>SPWeb</c> to create the assignment in.</param>
+        /// <param name="slkRole">The <c>SlkRole</c> to use when creating the assignment.  Use
+        ///     <c>SlkRole.Learner</c> to create a self-assigned assignment, i.e. an assignment with
+        ///     no instructors for which the current learner is the only learner.  Otherwise, use
+        ///     <c>SlkRole.Instructor</c>.</param>
+        /// <param name="slkMembers">The Slk membership of the web. Needs refactoring to remove.</param>
+        public void Save(SPWeb web, SlkRole slkRole, SlkMemberships slkMembers)
         {
+            // Verify that the web is in the site
+            if (web.Site.ID != store.SPSiteGuid)
+            {
+                throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
+            }
+
             if (Id == null)
             {
-                SaveNewAssignment(web, slkRole);
+                SaveNewAssignment(web, slkRole, slkMembers);
             }
             else
             {
+                UpdateAssignment(slkMembers);
             }
         }
 
@@ -211,8 +200,8 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="slkMembers">The collection of SLK members to populate.</param>
         public void PopulateSPUsers(SlkMemberships slkMembers)
         {
-            PopulateSPUsers(slkMembers.Learners, Learners);
-            PopulateSPUsers(slkMembers.Instructors, Instructors);
+            PopulateSPUsers(slkMembers, Learners);
+            PopulateSPUsers(slkMembers, Instructors);
         }
 
         /// <summary>Sets the location of the package.</summary>
@@ -249,26 +238,71 @@ namespace Microsoft.SharePointLearningKit
         }
 #endregion public methods
 
+#region private methods
+        void CopyInvariantProperties(AssignmentProperties properties)
+        {
+            SPSiteGuid = properties.SPSiteGuid;
+            SPWebGuid = properties.SPWebGuid;
+            CreatedById = properties.CreatedById;
+            DateCreated = properties.DateCreated;
+            RootActivityId = properties.RootActivityId;
+            PackageFormat = properties.PackageFormat;
+            Location = properties.Location;
+        }
+
+        void UpdateAssignment(SlkMemberships slkMembers)
+        {
+            AssignmentProperties oldProperties = store.GetAssignmentProperties(Id, SlkRole.Instructor);
+            CopyInvariantProperties(oldProperties);
+
+            bool corePropertiesChanged = false;
+
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("{0} {1} {2} {3} {4} {5} {6} {7}", 
+            Title != oldProperties.Title , StartDate != oldProperties.StartDate , DueDate != oldProperties.DueDate , PointsPossible != oldProperties.PointsPossible
+                    , Description != oldProperties.Description , AutoReturn != oldProperties.AutoReturn , ShowAnswersToLearners != oldProperties.ShowAnswersToLearners 
+                    , EmailChanges != oldProperties.EmailChanges);
+                    
+
+            if (Title != oldProperties.Title || StartDate != oldProperties.StartDate || DueDate != oldProperties.DueDate || PointsPossible != oldProperties.PointsPossible
+                    || Description != oldProperties.Description || AutoReturn != oldProperties.AutoReturn || ShowAnswersToLearners != oldProperties.ShowAnswersToLearners 
+                    || EmailChanges != oldProperties.EmailChanges)
+            {
+                corePropertiesChanged = true;
+            }
+
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("corePropertiesChanged {0}", corePropertiesChanged);
+
+            SlkUserCollectionChanges instructorChanges = new SlkUserCollectionChanges(oldProperties.Instructors, Instructors);
+            SlkUserCollectionChanges learnerChanges = new SlkUserCollectionChanges(oldProperties.Learners, Learners);
+
+            if (corePropertiesChanged || instructorChanges.HasChanges || learnerChanges.HasChanges)
+            {
+                store.UpdateAssignment(this, corePropertiesChanged, instructorChanges, learnerChanges);
+
+                if (IsNonELearning)
+                {
+                    // Update the assignment folder in the Drop Box
+                    oldProperties.PopulateSPUsers(slkMembers);
+                    PopulateSPUsers(slkMembers);
+                    DropBoxManager dropBoxMgr = new DropBoxManager(this);
+                    dropBoxMgr.UpdateAssignment(oldProperties);
+                }
+
+            }
+
+        }
+
+        void SaveNewAssignment(SPWeb web, SlkRole slkRole, SlkMemberships slkMembers)
+        {
             // Security checks: If assigning as an instructor, fails if user isn't an instructor on
             // the web (implemented by calling EnsureInstructor).  Fails if the user doesn't have access to the package/file
-#region private methods
-        void SaveNewAssignment(SPWeb web, SlkRole slkRole)
-        {
             if (web == null)
             {
                 throw new ArgumentNullException("web");
             }
 
-            // Verify that the web is in the site
-            if (web.Site.ID != store.SPSiteGuid)
-            {
-                throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
-            }
-            else
-            {
-                SPSiteGuid = web.Site.ID;
-                SPWebGuid = web.ID;
-            }
+            SPSiteGuid = web.Site.ID;
+            SPWebGuid = web.ID;
 
             VerifyRole(web, slkRole);
             Id = store.CreateAssignment(this);
@@ -278,8 +312,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (IsNonELearning)
             {
-                PopulateSPUsers(null);
-                //PopulateSPUsers(SlkMembers);
+                PopulateSPUsers(slkMembers);
                 DropBoxManager dropBoxMgr = new DropBoxManager(this);
                 Microsoft.SharePoint.Utilities.SPUtility.ValidateFormDigest();
                 dropBoxMgr.CreateAssignmentFolder();
@@ -305,22 +338,16 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        void PopulateSPUsers(ReadOnlyCollection<SlkUser> members, SlkUserCollection users)
+        void PopulateSPUsers(SlkMemberships members, SlkUserCollection users)
         {
-            if (members.Count > 0)
+            foreach (SlkUser user in users)
             {
-                foreach (SlkUser user in users)
+                if (user.SPUser == null)
                 {
-                    if (user.SPUser == null)
+                    SlkUser member = members[user.UserId.GetKey()];
+                    if (member != null)
                     {
-                        foreach (SlkUser member in members)
-                        {
-                            if (member.UserId.GetKey() == user.UserId.GetKey())
-                            {
-                                user.SPUser = member.SPUser;
-                                break;
-                            }
-                        }
+                        user.SPUser = member.SPUser;
                     }
                 }
             }

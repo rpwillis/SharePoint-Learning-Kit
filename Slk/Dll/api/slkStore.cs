@@ -69,11 +69,6 @@ namespace Microsoft.SharePointLearningKit
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         string m_currentUserName;
 
-        /// <summary>
-        /// Enumerating domain groups in <c>GetMemberships</c> will time out if
-        /// <c>GetMemberships</c> executes longer for this time span.
-        /// </summary>
-        static readonly TimeSpan DomainGroupEnumerationTotalTimeout = new TimeSpan(0, 5, 0);
 #endregion fields
 
 #region internal constants
@@ -88,54 +83,37 @@ namespace Microsoft.SharePointLearningKit
 #endregion internal constants
 
 #region properties
-            /// <summary>Gets the <c>Guid</c> of the <c>SPSite</c> associated with this <c>SlkStore</c>.</summary>
-            public Guid SPSiteGuid
-            {
-                    [DebuggerStepThrough]
-                    get
-                    {
-                            return m_anonymousSlkStore.SPSiteGuid;
-                    }
-            }
+        /// <summary>See <see cref="ISlkStore.SPSiteGuid"/>.</summary>
+        public Guid SPSiteGuid
+        {
+            [DebuggerStepThrough]
+            get { return m_anonymousSlkStore.SPSiteGuid; }
+        }
 
-            /// <summary>
-            /// Gets the <c>SlkSPSiteMapping</c> of the <c>SPSite</c> associated with this
-            /// <c>AnonymousSlkStore</c>.
-            /// </summary>
-            public SlkSPSiteMapping Mapping
-            {
-                    [DebuggerStepThrough]
-                    get
-                    {
-                            return m_anonymousSlkStore.Mapping;
-                    }
-            }
+        /// <summary>See <see cref="ISlkStore.Mapping"/>.</summary>
+        public SlkSPSiteMapping Mapping
+        {
+            [DebuggerStepThrough]
+            get { return m_anonymousSlkStore.Mapping; }
+        }
 
-            /// <summary>
-            /// Gets the <c>SlkSettings</c> of the <c>SPSite</c> associated with this <c>SlkStore</c>.
-            /// </summary>
-            public SlkSettings Settings
-            {
-                    [DebuggerStepThrough]
-                    get
-                    {
-                        return m_anonymousSlkStore.Settings;
-                    }
-            }
+        /// <summary>See <see cref="ISlkStore.Settings"/>.</summary>
+        public SlkSettings Settings
+        {
+            [DebuggerStepThrough]
+            get { return m_anonymousSlkStore.Settings; }
+        }
 
-            /// <summary>
-            /// Gets the <c>LearningStore</c> of the <c>SPSite</c> associated with this <c>SlkStore</c>.
-            /// <c>LearningStore</c> contains information about e-learning assignments, learner
-            /// assignments (including SCORM attempts), and other e-learning information.
-            /// </summary>
-            public LearningStore LearningStore
-            {
-                    [DebuggerStepThrough]
-                    get
-                    {
-                            return m_learningStore;
-                    }
-            }
+        /// <summary>
+        /// Gets the <c>LearningStore</c> of the <c>SPSite</c> associated with this <c>SlkStore</c>.
+        /// <c>LearningStore</c> contains information about e-learning assignments, learner
+        /// assignments (including SCORM attempts), and other e-learning information.
+        /// </summary>
+        public LearningStore LearningStore
+        {
+            [DebuggerStepThrough]
+            get { return m_learningStore; }
+        }
 
         /// <summary>
         /// Gets a reference to the <c>SharePointPackageStore</c> associated with this SharePoint
@@ -919,294 +897,9 @@ namespace Microsoft.SharePointLearningKit
             return IsInRole(spWeb, m_anonymousSlkStore.Mapping.LearnerPermission);        
         }
         
-        /// <summary>
-        /// Retrieves the lists of instructors, learners, and learner groups from a given SharePoint
-        /// <c>SPWeb</c>.  Returns a <c>Boolean</c> value indicating whether information about any
-        /// instructors or learners could not be retrieved.
-        /// </summary>
-        ///
-        /// <param name="spWeb">The <c>SPWeb</c> to retrieve information from.</param>
-        ///
-        /// <param name="additionalInstructors">A list of instructors to add to those in the
-        ///     returned <c>SlkMemberships.Instructors</c> list.  The resulting combined list is sorted
-        ///     and duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
-        ///     for items in <paramref name="additionalInstructors"/>.  If <c>additionalInstructors</c>
-        ///     is <c>null</c> it is ignored.</param>
-        ///
-        /// <param name="additionalLearners">A list of learners to add to those in the returned
-        ///     <c>SlkMemberships.Learners</c> list.  The resulting combined list is sorted and
-        ///     duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
-        ///     for items in <paramref name="additionalLearners"/>.  If <c>additionalLearners</c> is
-        ///     <c>null</c> it is ignored.</param>
-        ///
-        /// <remarks>
-        /// <b>Security:</b>&#160; Fails if the <a href="SlkApi.htm#AccessingSlkStore">current
-        /// user</a> doesn't have SLK
-        /// <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.InstructorPermission.Property.htm">instructor</a>
-        /// and SharePoint "Reader" permissions on <pr>spWeb</pr>.
-        /// </remarks>
-        /// 
-        /// <exception cref="InvalidOperationException">
-        /// <pr>spWeb</pr> is not in the SPSite that this <r>SlkStore</r> is associated with.
-        /// </exception>
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
-        public SlkMemberships GetMemberships(SPWeb spWeb, IEnumerable<SlkUser> additionalInstructors,
-            IEnumerable<SlkUser> additionalLearners)
+        /// <summary>See <see cref="ISlkStore.AssignUserItemIdentifier"/>.</summary>
+        public void AssignUserItemIdentifier(IEnumerable<SlkUser> users)
         {
-            // Security checks: Fails if the user isn't an instructor and a Reader (implemented
-            // by other GetMemberships method)
-
-            ReadOnlyCollection<string> groupFailures;
-            string groupFailureDetails;
-            return GetMemberships(spWeb, additionalInstructors, additionalLearners, out groupFailures, out groupFailureDetails);
-        }
-
-        /// <summary>Retrieves all instructors for the site.</summary>
-        /// <param name="spWeb">The site to get the instructors for.</param>
-        /// <returns>A collection of instructors.</returns>
-        public SlkMemberships GetInstructorMemberships(SPWeb spWeb)
-        {
-            ReadOnlyCollection<string> groupFailures;
-            string groupFailureDetails;
-            return GetMemberships(spWeb, null, null, out groupFailures, out groupFailureDetails, true);
-        }
-
-        /// <summary>
-        /// Retrieves the lists of instructors, learners, and learner groups from a given SharePoint
-        /// <c>SPWeb</c>.  Returns a <c>Boolean</c> value indicating whether information about any
-        /// instructors or learners could not be retrieved.
-        /// </summary>
-        /// <remarks>
-        /// <b>Security:</b>&#160; Fails if the <a href="SlkApi.htm#AccessingSlkStore">current
-        /// user</a> doesn't have SLK
-        /// <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.InstructorPermission.Property.htm">instructor</a>
-        /// and SharePoint "Reader" permissions on <pr>spWeb</pr>.
-        /// </remarks>
-        /// <param name="spWeb">The <c>SPWeb</c> to retrieve information from.</param>
-        /// <param name="additionalInstructors">A list of instructors to add to those in the
-        ///     returned <c>SlkMemberships.Instructors</c> list.  The resulting combined list is sorted
-        ///     and duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
-        ///     for items in <paramref name="additionalInstructors"/>.  If <c>additionalInstructors</c>
-        ///     is <c>null</c> it is ignored.</param>
-        /// <param name="additionalLearners">A list of learners to add to those in the returned
-        ///     <c>SlkMemberships.Learners</c> list.  The resulting combined list is sorted and
-        ///     duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
-        ///     for items in <paramref name="additionalLearners"/>.  If <c>additionalLearners</c> is
-        ///     <c>null</c> it is ignored.</param>
-        /// <param name="groupFailures">If one or more groups could not be enumerated, then this
-        ///     parameter is set to a collection of the names of those groups.  Otherwise, this
-        ///     parameter is set to <c>null</c>.</param>
-        /// 
-        /// <param name="groupFailureDetails">If one or more groups could not be enumerated, then this
-        ///     parameter is set to additional information (beyond <paramref name="groupFailures"/>)
-        ///     that is appropriate for storing in an error log for later review by an administrator.
-        ///     This information may contain security details that are inappropriate for a browser
-        ///     user to see.  If no group enumeration problem occurs, this parameter is set to
-        ///     <c>null</c>.</param>
-        public SlkMemberships GetMemberships(SPWeb spWeb, IEnumerable<SlkUser> additionalInstructors,
-                    IEnumerable<SlkUser> additionalLearners, out ReadOnlyCollection<string> groupFailures,
-            out string groupFailureDetails)
-        {
-            return GetMemberships(spWeb, additionalInstructors, additionalLearners, out groupFailures, out groupFailureDetails, false);
-        }
-
-        /// <summary>
-        /// Retrieves the lists of instructors, learners, and learner groups from a given SharePoint
-        /// <c>SPWeb</c>.  Returns a <c>Boolean</c> value indicating whether information about any
-        /// instructors or learners could not be retrieved.
-        /// </summary>
-        ///
-        /// <param name="spWeb">The <c>SPWeb</c> to retrieve information from.</param>
-        ///
-        /// <param name="additionalInstructors">A list of instructors to add to those in the
-        ///     returned <c>SlkMemberships.Instructors</c> list.  The resulting combined list is sorted
-        ///     and duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
-        ///     for items in <paramref name="additionalInstructors"/>.  If <c>additionalInstructors</c>
-        ///     is <c>null</c> it is ignored.</param>
-        ///
-        /// <param name="additionalLearners">A list of learners to add to those in the returned
-        ///     <c>SlkMemberships.Learners</c> list.  The resulting combined list is sorted and
-        ///     duplicates are removed.  <c>SlkUser.SPUser</c> is ignored and may be <c>null</c>
-        ///     for items in <paramref name="additionalLearners"/>.  If <c>additionalLearners</c> is
-        ///     <c>null</c> it is ignored.</param>
-        /// 
-        /// <param name="groupFailures">If one or more groups could not be enumerated, then this
-        ///     parameter is set to a collection of the names of those groups.  Otherwise, this
-        ///     parameter is set to <c>null</c>.</param>
-        /// 
-        /// <param name="groupFailureDetails">If one or more groups could not be enumerated, then this
-        ///     parameter is set to additional information (beyond <paramref name="groupFailures"/>)
-        ///     that is appropriate for storing in an error log for later review by an administrator.
-        ///     This information may contain security details that are inappropriate for a browser
-        ///     user to see.  If no group enumeration problem occurs, this parameter is set to
-        ///     <c>null</c>.</param>
-        ///
-        /// <param name="instructorsOnly">Indicates if only instructors should be returned.</param>
-        ///
-        /// <remarks>
-        /// <b>Security:</b>&#160; Fails if the <a href="SlkApi.htm#AccessingSlkStore">current
-        /// user</a> doesn't have SLK
-        /// <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.InstructorPermission.Property.htm">instructor</a>
-        /// and SharePoint "Reader" permissions on <pr>spWeb</pr>.
-        /// </remarks>
-        /// 
-        /// <exception cref="InvalidOperationException">
-        /// <pr>spWeb</pr> is not in the SPSite that this <r>SlkStore</r> is associated with.
-        /// </exception>
-            ///
-        /// <exception cref="UnauthorizedAccessException">
-        /// The user is not a Reader on <pr>spWeb</pr>.
-        /// </exception>
-        ///
-        /// <exception cref="NotAnInstructorException">
-        /// The user is not an instructor on <pr>spWeb</pr>
-        /// </exception>
-        ///
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
-        public SlkMemberships GetMemberships(SPWeb spWeb, IEnumerable<SlkUser> additionalInstructors,
-                    IEnumerable<SlkUser> additionalLearners, out ReadOnlyCollection<string> groupFailures,
-                    out string groupFailureDetails, bool instructorsOnly)
-        {
-
-            if (spWeb == null)
-            {
-                throw new ArgumentNullException("spWeb");
-            }
-
-            // keep track of when this method started, for timeout purposes
-            DateTime startTime = DateTime.Now;
-
-            // Verify that the SPWeb is in the SPSite associated with this SlkStore, because if it
-                    // isn't then the code below below may be using the wrong SLK instructor and learner
-                    // permission names; for example, the SPSite of this SlkStore may name the instructor
-                    // permission "SLK Instructor", but <spWeb> may be in a different SPSite which might name
-                    // the instructor permission "SLK Teacher"
-            if (spWeb.Site.ID != m_anonymousSlkStore.SPSiteGuid)
-            {
-                throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
-            }
-
-            // Security checks: Fails if the user isn't an instructor and a Reader (implemented
-            // by EnsureInstructor)
-            // since we use SPSecurity.RunWithElevatedPrivileges, we need to make sure the current
-            // user is an instructor
-            if (instructorsOnly == false)
-            {
-                EnsureInstructor(spWeb);
-            }
-
-            // track the names of groups for which member enumeration failed, and details about those failures
-            List<string> groupFailuresList = new List<string>();
-            StringBuilder groupFailureDetailsBuilder = new StringBuilder();
-
-            // set <instructorsByUserKey> and <learnersByUserKey> to dictionarys (keyed on SID) of
-            // users who have the the SLK instructor permission and SLK learner permission,
-            // respectively, in <spWeb>; set <users> to the union of <instructorsByUserKey> and
-            // <learnersByUserKey>; set <learnerGroups> to the list of groups that have the SLK
-            // learner permission in <spWeb>
-            Dictionary<string, SlkUser> instructorsByUserKey = new Dictionary<string, SlkUser>(10);
-            Dictionary<string, SlkUser> learnersByUserKey = new Dictionary<string, SlkUser>(100);
-            Dictionary<string, SlkUser> users = new Dictionary<string, SlkUser>(100);
-            List<SlkGroup> learnerGroups = new List<SlkGroup>(20);
-            SlkSPSiteMapping mapping = m_anonymousSlkStore.Mapping;
-            SPRoleDefinition instructorRoleDef, learnerRoleDef;
-
-            try
-            {
-                    instructorRoleDef = spWeb.RoleDefinitions[mapping.InstructorPermission];
-            }
-            catch (SPException)
-            {
-                    instructorRoleDef = null; // no SLK instructor permission defined
-            }
-            try
-            {
-                    learnerRoleDef = spWeb.RoleDefinitions[mapping.LearnerPermission];
-            }
-            catch (SPException)
-            {
-                    learnerRoleDef = null; // no SLK learner permission defined
-            }
-
-            string spWebUrl = spWeb.Url;
-            SPSecurity.RunWithElevatedPrivileges(delegate()
-            {
-                bool previousValue = SPSecurity.CatchAccessDeniedException;
-                using (SPSite spSite2 = new SPSite(spWebUrl))
-                {
-                    using (SPWeb spWeb2 = spSite2.OpenWeb())
-                    {
-                        spWeb2.AllowUnsafeUpdates = true; // enable spWeb2.AllUsers.AddCollection()
-                        foreach (SPRoleAssignment roleAssignment in spWeb2.RoleAssignments)
-                        {
-                            // determine if this role assignment refers to an instructor or a learner; skip
-                            // it if it's neither
-                            bool isInstructor = (instructorRoleDef == null) ? false : roleAssignment.RoleDefinitionBindings.Contains(instructorRoleDef);
-                            bool isLearner = false;
-
-                            if (instructorsOnly == false)
-                            {
-                                isLearner =(learnerRoleDef == null) ? false : roleAssignment.RoleDefinitionBindings.Contains(learnerRoleDef);
-                            }
-
-                            
-
-                            if (isInstructor == false && isLearner == false)
-                            {
-                                continue;
-                            }
-
-                            // process the role assignment
-                            SPPrincipal member = roleAssignment.Member;
-                            SPUser spUser = member as SPUser;
-                            SPGroup spGroup = member as SPGroup;
-                            if (spUser != null)
-                            {
-                                AddSPUserAsMember(spWeb2, spUser, isInstructor, isLearner, startTime, instructorsByUserKey, learnersByUserKey, users, null, learnerGroups, groupFailuresList, groupFailureDetailsBuilder);
-                            }
-                            else if (spGroup != null)
-                            {
-                                // role assignment member is a SharePoint group...
-                                SlkGroup learnerGroup = null;
-                                if (isLearner)
-                                {
-                                    learnerGroup = new SlkGroup(spGroup, null);
-                                    learnerGroup.UserKeys = new List<string>(50);
-                                }
-
-                                // add users from the domain group to the collections of instructors,
-                                // learners, and/or this learner group, as appropriate
-                                foreach (SPUser spUserInGroup in spGroup.Users)
-                                {
-                                    AddSPUserAsMember(spWeb2, spUserInGroup, isInstructor, isLearner, startTime, instructorsByUserKey, learnersByUserKey, users, learnerGroup, null, groupFailuresList, groupFailureDetailsBuilder);
-                                }
-                                if (isLearner)
-                                {
-                                    if (learnerGroup.UserKeys.Count > 0)
-                                    {
-                                        learnerGroups.Add(learnerGroup);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // set <groupFailures> and <groupFailureDetails> if any group enumeration failures occurred
-            if (groupFailuresList.Count > 0)
-            {
-                groupFailures = new ReadOnlyCollection<string>(groupFailuresList);
-                groupFailureDetails = groupFailureDetailsBuilder.ToString();
-            }
-            else
-            {
-                groupFailures = null;
-                groupFailureDetails = null;
-            }
-
             // create a LearningStore job
             LearningStoreJob job = LearningStore.CreateJob();
             job.DisableFollowingSecurityChecks();
@@ -1215,11 +908,9 @@ namespace Microsoft.SharePointLearningKit
             // for that user if they're not yet in the SLK database
             Dictionary<string, object> uniqueProperties = new Dictionary<string, object>();
             Dictionary<string, object> updateProperties = new Dictionary<string, object>();
-            foreach (SlkUser user in users.Values)
+            foreach (SlkUser user in users)
             {
-                uniqueProperties.Clear();
                 uniqueProperties[Schema.UserItem.Key] = user.Key;
-                updateProperties.Clear();
                 updateProperties[Schema.UserItem.Name] = user.Name;
                 job.AddOrUpdateItem(Schema.UserItem.ItemTypeName, uniqueProperties, updateProperties, null, true);
             }
@@ -1229,283 +920,19 @@ namespace Microsoft.SharePointLearningKit
             IEnumerator<object> resultEnumerator = results.GetEnumerator();
 
             // for each user in <users>, retrieve the user's UserItemIdentifier from the job results
-            foreach (SlkUser user in users.Values)
+            foreach (SlkUser user in users)
             {
                 if (!resultEnumerator.MoveNext())
+                {
                     throw new InternalErrorException("SLK1001");
-                UserItemIdentifier userId;
-                userId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(resultEnumerator.Current);
-                user.UserId = userId;
-            }
-                    if (resultEnumerator.MoveNext())
-                            throw new InternalErrorException("SLK1002");
-
-            // populate the Users property of each item in <learnerGroups>
-            foreach (SlkGroup learnerGroup in learnerGroups)
-            {
-                foreach (string userKey in learnerGroup.UserKeys)
-                    learnerGroup.AddUser(users[userKey]);
-            }
-
-                    // combine <instructorsByUserKey> and <additionalInstructors> (if any) into
-                    // <instructorsById>; we add the users from the SPWeb last, so that SharePoint user names
-                    // take precedence over LearningStore user names
-                    Dictionary<long, SlkUser> instructorsById =
-                            new Dictionary<long, SlkUser>(instructorsByUserKey.Count + 50);
-                    if (additionalInstructors != null)
-                    {
-                            foreach (SlkUser slkUser in additionalInstructors)
-                                    instructorsById[slkUser.UserId.GetKey()] = slkUser;
-                    }
-                    foreach (SlkUser slkUser in instructorsByUserKey.Values)
-                            instructorsById[slkUser.UserId.GetKey()] = slkUser;
-
-                    // combine <learnersByUserKey> and <additionalLearners> (if any) into <learnersById>;
-                    // we add the users from the SPWeb last, so that SharePoint user names take precedence over
-                    // LearningStore user names
-                    Dictionary<long, SlkUser> learnersById =
-                            new Dictionary<long, SlkUser>(learnersByUserKey.Count + 50);
-                    if (additionalLearners != null)
-                    {
-                            foreach (SlkUser slkUser in additionalLearners)
-                                    learnersById[slkUser.UserId.GetKey()] = slkUser;
-                    }
-                    foreach (SlkUser slkUser in learnersByUserKey.Values)
-                            learnersById[slkUser.UserId.GetKey()] = slkUser;
-
-                    // convert <instructorsById> into an array, <instructors>, sorted by name
-                    SlkUser[] instructors = new SlkUser[instructorsById.Keys.Count];
-            instructorsById.Values.CopyTo(instructors, 0);
-            Array.Sort(instructors);
-
-                    // convert <learnersById> into an array, <learners>, sorted by name
-                    SlkUser[] learners = new SlkUser[learnersById.Keys.Count];
-            learnersById.Values.CopyTo(learners, 0);
-            Array.Sort(learners);
-
-                    // sort <learnerGroups>
-            learnerGroups.Sort();
-
-                    // return a new SlkMemberships object
-            return new SlkMemberships(instructors, learners, learnerGroups.ToArray());
-            }
-
-        void AddSPUserAsMember(SPWeb spWeb2, SPUser user , bool isInstructor, bool isLearner, DateTime startTime,
-                                Dictionary<string, SlkUser> instructorsByUserKey, 
-                                Dictionary<string, SlkUser> learnersByUserKey, 
-                                Dictionary<string, SlkUser> users,
-                                SlkGroup learnerGroup,
-                                List<SlkGroup> learnerGroups,
-                                List<string> groupFailuresList, 
-                                StringBuilder groupFailureDetailsBuilder) 
-        {
-            if (user.IsDomainGroup)
-            {
-                // role assignment member is a domain group
-                EnumerateDomainGroupMembers(spWeb2, user, isInstructor, isLearner, groupFailuresList,
-                    groupFailureDetailsBuilder, instructorsByUserKey,
-                    learnersByUserKey, users, 
-                    ((learnerGroup != null) ? learnerGroup.UserKeys : null),
-                    learnerGroups, startTime);
-            }
-            else
-            {
-                AddUser(user, users, isInstructor, isLearner, instructorsByUserKey, learnersByUserKey, learnerGroup, null);
-            }
-        }
-
-        /// <summary>
-        /// Enumerates the members of a domain group.
-        /// </summary>
-        ///
-        /// <param name="spWeb">An <c>SPWeb</c> within the site collection to which users from the
-        ///     domain group will be added as needed.</param>
-        ///
-        /// <param name="domainGroup">The <c>SPUser</c> representing the domain group to enumerate.
-        ///     </param>
-        ///
-        /// <param name="isInstructor"><c>true</c> if this domain group has the "SLK Instructor"
-        ///     permission.</param>
-        ///
-        /// <param name="isLearner"><c>true</c> if this domain group has the "SLK Learner"
-        ///     permission.</param>
-        ///
-        /// <param name="groupFailuresList">If enumeration fails, the name of this domain group will
-        ///     added to this list.  This information can be displayed to the browser user.</param>
-        ///
-        /// <param name="groupFailureDetailsBuilder">If enumeration fails, details about the failure
-        ///     will be appended to this <c>StringBuilder</c>.  This information may contain sensitive
-        ///     details that should not be displayed to browser user -- it's intended for inclusion
-        ///     within a log that can be perused at a later time by a system administrator.</param>
-        ///
-        /// <param name="instructorsByUserKey">Instructors found within the domain group are added
-            ///     to this dictionary; the key is the user's SLK "user key" (e.g. SID or login name);
-            ///     the value is a <c>SlkUser</c> object containing the user's <c>SPUser</c> and name.
-            ///     </param>
-        ///
-        /// <param name="learnersByUserKey">Learners found within the domain group are added
-            ///     to this dictionary; the key is the user's SLK "user key" (e.g. SID or login name);
-            ///     the value is a <c>SlkUser</c> object containing the user's <c>SPUser</c> and name.
-            ///     </param>
-        ///
-        /// <param name="users">All users found within the domain group are added to this dictionary;
-            ///     the key is the user's SLK "user key" (e.g. SID or login name); the value is a
-            ///     <c>SlkUser</c> object containing the user's <c>SPUser</c> and name.</param>
-            ///
-        /// <param name="learnerKeys">The SLK "user key" (e.g. SID or login name) of each learner is
-        ///     added to this collection, unless <paramref name="learnerKeys"/> is <c>null</c>.
-        ///     </param>
-            ///
-        /// <param name="learnerGroups">If this domain group has the "SLK Learner" permission then
-            ///     a <c>SlkGroup</c> referring to this domain group is added to this list, unless
-            ///     <paramref name="learnerGroups"/> is <c>null</c>.</param>
-        ///
-        /// <param name="startTime">The time that the timeout period started.  If this method runs
-            ///     past this time plus <c>DomainGroupEnumerationTotalTimeout</c> (approximately), this
-            ///        method will time out (updating <paramref name="groupFailuresList"/> and
-            ///        <paramref name="groupFailureDetailsBuilder"/> as needed, and returning <c>false</c>).
-            ///     </param>
-            ///
-        /// <returns>
-            /// <c>true</c> if enumeration succeeds, <c>false</c> if not.
-            /// </returns>
-            ///
-        bool EnumerateDomainGroupMembers(SPWeb spWeb, SPUser domainGroup, bool isInstructor,
-                    bool isLearner, List<string> groupFailuresList, StringBuilder groupFailureDetailsBuilder, 
-                    Dictionary<string, SlkUser> instructorsByUserKey, 
-                    Dictionary<string, SlkUser> learnersByUserKey, Dictionary<string, SlkUser> users, 
-            List<string> learnerKeys, List<SlkGroup> learnerGroups, DateTime startTime)
-        {
-            // if timeout occurred, output a message to <groupFailureDetailsBuilder>
-            TimeSpan timeRemaining = DomainGroupEnumerationTotalTimeout - (DateTime.Now - startTime);
-            if (timeRemaining <= TimeSpan.Zero)
-            {
-                groupFailureDetailsBuilder.AppendFormat( AppResources.DomainGroupEnumSkippedDueToTimeout, domainGroup.LoginName);
-                groupFailureDetailsBuilder.Append("\r\n\r\n");
-                return false;
-            }
-
-            // get the users in this group, in the form of a collection of SPUserInfo objects 
-            ICollection<SPUserInfo> spUserInfos;
-            try
-            {
-                DomainGroupUtilities enumerateDomainGroups = new DomainGroupUtilities(timeRemaining, Settings.HideDisabledUsers);
-                spUserInfos = enumerateDomainGroups.EnumerateDomainGroup(domainGroup);
-
-                foreach (string error in enumerateDomainGroups.Errors)
-                {
-                    groupFailuresList.Add(string.Format(CultureInfo.InvariantCulture, "{0} : {1}", domainGroup.Name, error));
-                    groupFailureDetailsBuilder.AppendFormat(AppResources.DomainGroupError, domainGroup.LoginName, error);
-                    groupFailureDetailsBuilder.Append("\r\n\r\n");
-                }
-            }
-            catch (DomainGroupEnumerationException ex)
-            {
-                groupFailuresList.Add(string.Format(CultureInfo.InvariantCulture, "{0} : {1}", domainGroup.Name, ex.Message));
-                groupFailureDetailsBuilder.AppendFormat(AppResources.DomainGroupError, domainGroup.LoginName, ex);
-                groupFailureDetailsBuilder.Append("\r\n\r\n");
-                return false;
-            }
-
-            // convert <spUserInfos> to <spUsers> (a collection of SPUser); add users to the site
-                    // collection as needed
-            List<SPUserInfo> usersToAddToSPSite = null;
-            List<SPUser> spUsers = new List<SPUser>(spUserInfos.Count);
-            foreach (SPUserInfo spUserInfo in spUserInfos)
-            {
-                try
-                {
-                    SPUser spUserInGroup = spWeb.AllUsers[spUserInfo.LoginName];
-                    spUsers.Add(spUserInGroup);
-                }
-                catch (SPException)
-                {
-                    // need to add user to site collection (below)
-                    if (usersToAddToSPSite == null)
-                    {
-                        usersToAddToSPSite = new List<SPUserInfo>();
-                    }
-                    usersToAddToSPSite.Add(spUserInfo);
-                }
-            }
-
-            if (usersToAddToSPSite != null)
-            {
-                try
-                {
-                    spWeb.SiteUsers.AddCollection(usersToAddToSPSite.ToArray());
-                    foreach (SPUserInfo spUserInfo in usersToAddToSPSite)
-                    {
-                        SPUser spUserInGroup = spWeb.AllUsers[spUserInfo.LoginName];
-                        spUsers.Add(spUserInGroup);
-                    }
-                }
-                catch (SPException ex)
-                {
-                    groupFailuresList.Add(domainGroup.Name);
-                    groupFailureDetailsBuilder.AppendFormat(AppResources.ErrorCreatingSPSiteUser, spWeb.Site.Url, ex);
-                    groupFailureDetailsBuilder.Append("\r\n\r\n");
-                    return false;
-                }
-            }
-
-            // create a SlkGroup if this role assignment has the "SLK Learner" permission, unless
-                    // <learnerGroups> is null
-            SlkGroup learnerGroup = null;
-            if (isLearner && (learnerGroups != null))
-            {
-                learnerGroup = new SlkGroup(null, domainGroup);
-                learnerGroup.UserKeys = new List<string>(spUserInfos.Count);
-                learnerGroups.Add(learnerGroup);
-            }
-
-            // add users from the domain group to the collections of instructors, learners, and/or this
-                    // learner group, as appropriate
-            foreach (SPUser spUserInGroup in spUsers)
-            {
-                AddUser(spUserInGroup, users, isInstructor, isLearner, instructorsByUserKey, learnersByUserKey, learnerGroup, learnerKeys);
-            }
-
-            return true;
-        }
-
-        void AddUser(SPUser user, Dictionary<string, SlkUser> users, 
-                bool isInstructor, bool isLearner, 
-                    Dictionary<string, SlkUser> instructorsByUserKey, 
-                    Dictionary<string, SlkUser> learnersByUserKey, 
-                    SlkGroup learnerGroup, List<string> learnerKeys)
-        {
-            SlkUser slkUser = new SlkUser(user);
-            SlkUser slkUser2;
-            //Use SPUser LoginName if Sid is Null or Empty.
-            string userKey = slkUser.Key;
-
-            if (users.TryGetValue(userKey, out slkUser2))
-            {
-                slkUser = slkUser2;
-            }
-            else
-            {
-                users[userKey] = slkUser;
-            }
-
-            if (isInstructor)
-            {
-                instructorsByUserKey[userKey] = slkUser;
-            }
-
-            if (isLearner)
-            {
-                learnersByUserKey[userKey] = slkUser;
-                if (learnerGroup != null)
-                {
-                    learnerGroup.UserKeys.Add(userKey);
                 }
 
-                if (learnerKeys != null)
-                {
-                    learnerKeys.Add(userKey);
-                }
+                user.UserId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(resultEnumerator.Current);
+            }
+
+            if (resultEnumerator.MoveNext())
+            {
+                throw new InternalErrorException("SLK1002");
             }
         }
 
@@ -1727,6 +1154,7 @@ namespace Microsoft.SharePointLearningKit
                     ap.StartDate = DateTime.Today; // midnight today
             ap.DueDate = null;
             ap.AutoReturn = isSelfAssigned;
+            ap.EmailChanges = false;
             ap.ShowAnswersToLearners = isSelfAssigned;
             ap.CreatedById = currentUserId;
                     if (isSelfAssigned)
@@ -1811,220 +1239,99 @@ namespace Microsoft.SharePointLearningKit
                     return new SharePointPackageReader(cacheSettings, spFileLocation, false);
         }
         
-            /// <summary>
-            /// Retrieves general information about an assignment.
-            /// </summary>
-            ///
-            /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to
-            ///     retrieve information about.</param>
-            ///
-            /// <param name="slkRole">The <c>SlkRole</c> for which information is to be retrieved.</param>
-            ///
-            /// <returns>
-            /// An <c>AssignmentProperties</c> object containing information about the assignment.
-            /// Note that only the <c>UserId</c> of each <c>SlkUser</c> object within the returned
-            /// <c>AssignmentProperties.Instructors</c> and <c>AssignmentProperties.Learners</c>
-            /// collections is valid.
-            /// </returns>
-            ///
-            /// <remarks>
-            /// <b>Security:</b>&#160; If <pr>slkRole</pr> is
-            /// <a href="Microsoft.SharePointLearningKit.SlkRole.Enumeration.htm">SlkRole.Instructor</a>,
-            /// this operation fails if the <a href="SlkApi.htm#AccessingSlkStore">current user</a> isn't
-            /// an instructor on the assignment.  If <pr>slkRole</pr> is
-            /// <a href="Microsoft.SharePointLearningKit.SlkRole.Enumeration.htm">SlkRole.Learner</a>,
-            /// this operation fails if the current user isn't a learner on the assignment.
-            /// </remarks>
-            ///
-            /// <exception cref="SafeToDisplayException">
-            /// An error occurred that can be displayed to a browser user.  Possible cause: the user
-            /// isn't an instructor on the assignment (if <pr>slkRole</pr> is <r>SlkRole.Instructor</r>),
-            /// or the user isn't a learner on the assignment (if <pr>slkRole</pr> is
-            /// <r>SlkRole.Learner</r>).
-            /// </exception>
-            ///
-            public AssignmentProperties GetAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole)
-            {
-                // Security checks: Fails if the user isn't an instructor
-                // on the assignment (if SlkRole=Instructor) or if the user isn't
-                // a learner on the assignment (if SlkRole=Learner), since it
-                // calls the other GetAssignmentProperties method.
-
-                // Check parameters
-                if (assignmentId == null)
-                {
-                    throw new ArgumentNullException("assignmentId");
-                }
-
-                if ((slkRole != SlkRole.Instructor) && (slkRole != SlkRole.Learner))
-                {
-                    throw new ArgumentOutOfRangeException("slkRole");
-                }
-
-                return GetAssignmentProperties(assignmentId, slkRole, false);
-            }
-
-            /// <summary>
-            /// Updates general information about an assignment.
-            /// </summary>
-            ///
-            /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to
-            ///     store information about.</param>
-            ///
-            /// <param name="newProperties">An <c>AssignmentProperties</c> object containing updated
-            ///     information about the assignment.  The following properties of
-            ///     <c>AssignmentProperties</c> are not updatable and are ignored: <c>SPSiteGuid</c>,
-            ///     <c>SPWebGuid</c>, <c>CreatedBy</c>, <c>DateCreated</c>.  Also, within
-            ///     <c>AssignmentProperties.Instructors</c> and <c>AssignmentProperties.Learners</c>, all
-            ///     properties except <c>UserId</c> are ignored.</param>
-            ///
-            /// <remarks>
-            /// <b>Security:</b>&#160; This operation fails if the
-            /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> isn't an instructor on the
-            /// assignment.
-            /// </remarks>
-            ///
-        /// <exception cref="SafeToDisplayException">
-        /// An error occurred that can be displayed to a browser user.  Possible cause: the user isn't
-            /// an instructor on the assignment.
-        /// </exception>
-            ///
-        public void SetAssignmentProperties(AssignmentItemIdentifier assignmentId,
-            AssignmentProperties newProperties)
+        /// <summary>See <see cref="ISlkStore.GetAssignmentProperties"/>.</summary>
+        public AssignmentProperties GetAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole)
         {
-            // Security checks: Fails if the user isn't an instructor on the assignment
-            // (since it calls GetAssignmentProperties with SlkRole.Instructor)
+            // Security checks: Fails if the user isn't an instructor
+            // on the assignment (if SlkRole=Instructor) or if the user isn't
+            // a learner on the assignment (if SlkRole=Learner), since it
+            // calls the other GetAssignmentProperties method.
 
             // Check parameters
             if (assignmentId == null)
+            {
                 throw new ArgumentNullException("assignmentId");
-            if (newProperties == null)
-                throw new ArgumentNullException("newProperties");
+            }
+
+            if ((slkRole != SlkRole.Instructor) && (slkRole != SlkRole.Learner))
+            {
+                throw new ArgumentOutOfRangeException("slkRole");
+            }
+
+            return GetAssignmentProperties(assignmentId, slkRole, false);
+        }
+
+        /// <summary>See <see cref="ISlkStore.UpdateAssignment"/>.</summary>
+        public void UpdateAssignment(AssignmentProperties assignment, bool corePropertiesChanged, SlkUserCollectionChanges instructorChanges, SlkUserCollectionChanges learnerChanges)
+        {
+            // Check parameters
+            if (assignment == null)
+            {
+                throw new ArgumentNullException("assignment");
+            }
 
             // perform the operation within a transaction so that if the operation fails no data is
-                    // committed to the database
+            // committed to the database
             TransactionOptions options = new TransactionOptions();
-            options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
-            using (LearningStoreTransactionScope scope =
-                new LearningStoreTransactionScope(options))
+            options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
+            using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
             {
-                            // set <oldProperties> to the current (stored-in-database) properties of the assignment
-                            AssignmentProperties oldProperties = GetAssignmentProperties(assignmentId,
-                    SlkRole.Instructor);
-
-                // The above line will fail if the user doesn't have instructor access to the assignment.
-                // Once we've verified that he does, we don't need to perform any other
-                // security checks
                 using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
                 {
-                                // create a LearningStore job
-                                LearningStoreJob job = LearningStore.CreateJob();
+                    LearningStoreJob job = LearningStore.CreateJob();
+                    Dictionary<string,object> properties = new Dictionary<string,object>();
 
-                    // request the InstructorAssignmentItemIdentifier of each instructor that the caller
-                                // wants removed from the assignment
-                    foreach (SlkUser slkUser in oldProperties.Instructors)
+                    // update properties of the assignment
+                    if (corePropertiesChanged)
                     {
-                        if (!newProperties.Instructors.Contains(slkUser.UserId))
-                        {
-                            // the caller wants to delete instructor <slkUser>
-                                                LearningStoreQuery query = LearningStore.CreateQuery(
-                                                        Schema.InstructorAssignmentItem.ItemTypeName);
-                                                query.AddColumn(Schema.InstructorAssignmentItem.Id);
-                            query.AddCondition(Schema.InstructorAssignmentItem.AssignmentId,
-                                LearningStoreConditionOperator.Equal, assignmentId);
-                            query.AddCondition(Schema.InstructorAssignmentItem.InstructorId,
-                                LearningStoreConditionOperator.Equal, slkUser.UserId);
-                            job.PerformQuery(query);
-                        }
+                        properties[Schema.AssignmentItem.Title] = assignment.Title;
+                        properties[Schema.AssignmentItem.StartDate] = assignment.StartDate.ToUniversalTime();
+                        DateTime? dueDate = (assignment.DueDate == null) ? (DateTime?) null : assignment.DueDate.Value.ToUniversalTime();
+                        properties[Schema.AssignmentItem.DueDate] = dueDate;
+                        properties[Schema.AssignmentItem.PointsPossible] = assignment.PointsPossible;
+                        properties[Schema.AssignmentItem.Description] = assignment.Description;
+                        properties[Schema.AssignmentItem.AutoReturn] = assignment.AutoReturn;
+                        properties[Schema.AssignmentItem.EmailChanges] = assignment.EmailChanges;
+                        properties[Schema.AssignmentItem.ShowAnswersToLearners] = assignment.ShowAnswersToLearners;
+                        job.UpdateItem(assignment.Id, properties);
                     }
-
-                    // request the LearnerAssignmentItemIdentifier of each learner that the caller wants
-                                // removed from the assignment
-                    foreach (SlkUser slkUser in oldProperties.Learners)
-                    {
-                        if (!newProperties.Learners.Contains(slkUser.UserId))
-                        {
-                            // the caller wants to delete learner <slkUser>
-                                                LearningStoreQuery query = LearningStore.CreateQuery(
-                                                        Schema.LearnerAssignmentItem.ItemTypeName);
-                                                query.AddColumn(Schema.LearnerAssignmentItem.Id);
-                            query.AddCondition(Schema.LearnerAssignmentItem.AssignmentId,
-                                LearningStoreConditionOperator.Equal, assignmentId);
-                            query.AddCondition(Schema.LearnerAssignmentItem.LearnerId,
-                                LearningStoreConditionOperator.Equal, slkUser.UserId);
-                            job.PerformQuery(query);
-                        }
-                    }
-
-                                // set <itemsToDelete> to the list of LearningStore items to delete
-                                ReadOnlyCollection<object> results = job.Execute();
-                                List<LearningStoreItemIdentifier> itemsToDelete =
-                                        new List<LearningStoreItemIdentifier>(results.Count);
-                                foreach (DataTable result in results)
-                    {
-                        if (result.Rows.Count != 1)
-                            throw new InternalErrorException("SLK1014");
-                        itemsToDelete.Add((LearningStoreItemIdentifier)result.Rows[0][0]);
-                    }
-
-                                // create a new LearningStore job
-                                job = LearningStore.CreateJob();
-
-                                // update properties of the assignment
-                                Dictionary<string,object> properties = new Dictionary<string,object>();
-                                properties[Schema.AssignmentItem.Title] = newProperties.Title;
-                                properties[Schema.AssignmentItem.StartDate] =
-                                            newProperties.StartDate.ToUniversalTime();
-                    properties[Schema.AssignmentItem.DueDate] =
-                        ((newProperties.DueDate == null)
-                                             ? (DateTime?) null : newProperties.DueDate.Value.ToUniversalTime());
-                                properties[Schema.AssignmentItem.PointsPossible] = newProperties.PointsPossible;
-                                properties[Schema.AssignmentItem.Description] = newProperties.Description;
-                                properties[Schema.AssignmentItem.AutoReturn] = newProperties.AutoReturn;
-                                properties[Schema.AssignmentItem.ShowAnswersToLearners] =
-                                        newProperties.ShowAnswersToLearners;
-                                job.UpdateItem(assignmentId, properties);
 
                     // add instructors that the caller wants added to the assignment
-                    foreach (SlkUser slkUser in newProperties.Instructors)
+                    foreach (SlkUser slkUser in instructorChanges.Additions)
                     {
-                        if (!oldProperties.Instructors.Contains(slkUser.UserId))
-                        {
-                            // add instructor <slkUser>
-                            properties.Clear();
-                                                properties[Schema.InstructorAssignmentItem.AssignmentId] = assignmentId;
-                            properties[Schema.InstructorAssignmentItem.InstructorId] = slkUser.UserId;
-                                                job.AddItem(Schema.InstructorAssignmentItem.ItemTypeName, properties);
-                        }
+                        properties.Clear();
+                        properties[Schema.InstructorAssignmentItem.AssignmentId] = assignment.Id;
+                        properties[Schema.InstructorAssignmentItem.InstructorId] = slkUser.UserId;
+                        job.AddItem(Schema.InstructorAssignmentItem.ItemTypeName, properties);
                     }
 
                     // add learners that the caller wants added to the assignment
-                    foreach (SlkUser slkUser in newProperties.Learners)
+                    foreach (SlkUser slkUser in learnerChanges.Additions)
                     {
-                        if (!oldProperties.Learners.Contains(slkUser.UserId))
-                        {
-                            // add learner <slkUser>
-                            properties.Clear();
-                            properties[Schema.LearnerAssignmentItem.AssignmentId] = assignmentId;
-                            properties[Schema.LearnerAssignmentItem.LearnerId] = slkUser.UserId;
-                                                properties[Schema.LearnerAssignmentItem.IsFinal] = false;
-                                                properties[Schema.LearnerAssignmentItem.NonELearningStatus] = null;
-                                                properties[Schema.LearnerAssignmentItem.FinalPoints] = null;
-                                                properties[Schema.LearnerAssignmentItem.InstructorComments] = "";
-                                                job.AddItem(Schema.LearnerAssignmentItem.ItemTypeName, properties);
-                        }
+                        properties.Clear();
+                        properties[Schema.LearnerAssignmentItem.AssignmentId] = assignment.Id;
+                        properties[Schema.LearnerAssignmentItem.LearnerId] = slkUser.UserId;
+                        properties[Schema.LearnerAssignmentItem.IsFinal] = false;
+                        properties[Schema.LearnerAssignmentItem.NonELearningStatus] = null;
+                        properties[Schema.LearnerAssignmentItem.FinalPoints] = null;
+                        properties[Schema.LearnerAssignmentItem.InstructorComments] = String.Empty;
+                        job.AddItem(Schema.LearnerAssignmentItem.ItemTypeName, properties);
                     }
 
-                                // delete instructors and learners that the caller wanted to delete from the
-                                // assignment
-                                foreach (LearningStoreItemIdentifier itemToDelete in itemsToDelete)
-                                        job.DeleteItem(itemToDelete);
+                    foreach (SlkUser slkUser in instructorChanges.Removals)
+                    {
+                        job.DeleteItem(slkUser.AssignmentUserId);
+                    }
+
+                    foreach (SlkUser slkUser in learnerChanges.Removals)
+                    {
+                        job.DeleteItem(slkUser.AssignmentUserId);
+                    }
 
                     // execute the LearningStore job
                     job.Execute();
                 }
                 
-                            // finish the transaction
                 scope.Complete();
             }
         }
@@ -2118,6 +1425,7 @@ namespace Microsoft.SharePointLearningKit
 
                     dbProperties[Schema.AssignmentItem.Description] = properties.Description;
                     dbProperties[Schema.AssignmentItem.AutoReturn] = properties.AutoReturn;
+                    dbProperties[Schema.AssignmentItem.EmailChanges] = properties.EmailChanges;
                     dbProperties[Schema.AssignmentItem.ShowAnswersToLearners] = properties.ShowAnswersToLearners;
                     dbProperties[Schema.AssignmentItem.CreatedBy] = CurrentUserId;
                     dbProperties[Schema.AssignmentItem.DateCreated] = DateTime.Now.ToUniversalTime();
@@ -2515,10 +1823,12 @@ namespace Microsoft.SharePointLearningKit
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentStartDate);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentDueDate);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentAutoReturn);
+                query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentEmailChanges);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentShowAnswersToLearners);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentCreatedById);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentCreatedByName);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerId);
+                query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerKey);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerName);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentState);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptId);
@@ -2548,6 +1858,7 @@ namespace Microsoft.SharePointLearningKit
                 query.AddColumn(Schema.LearnerAssignmentListForObservers.AssignmentStartDate);
                 query.AddColumn(Schema.LearnerAssignmentListForObservers.AssignmentDueDate);
                 query.AddColumn(Schema.LearnerAssignmentListForObservers.AssignmentAutoReturn);
+                query.AddColumn(Schema.LearnerAssignmentListForObservers.AssignmentEmailChanges);
                 query.AddColumn(Schema.LearnerAssignmentListForObservers.AssignmentShowAnswersToLearners);
                 query.AddColumn(Schema.LearnerAssignmentListForObservers.AssignmentCreatedById);
                 query.AddColumn(Schema.LearnerAssignmentListForObservers.AssignmentCreatedByName);
@@ -2582,6 +1893,7 @@ namespace Microsoft.SharePointLearningKit
                 query.AddColumn(Schema.LearnerAssignmentListForLearners.AssignmentStartDate);
                 query.AddColumn(Schema.LearnerAssignmentListForLearners.AssignmentDueDate);
                 query.AddColumn(Schema.LearnerAssignmentListForLearners.AssignmentAutoReturn);
+                query.AddColumn(Schema.LearnerAssignmentListForLearners.AssignmentEmailChanges);
                 query.AddColumn(Schema.LearnerAssignmentListForLearners.AssignmentShowAnswersToLearners);
                 query.AddColumn(Schema.LearnerAssignmentListForLearners.AssignmentCreatedById);
                 query.AddColumn(Schema.LearnerAssignmentListForLearners.AssignmentCreatedByName);
@@ -2674,12 +1986,10 @@ namespace Microsoft.SharePointLearningKit
                 else
                     lap.DueDate = utcOrNull.Value.ToLocalTime();
 
-                bool boolValue;
-                LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentAutoReturn], out boolValue);
-                lap.AutoReturn = boolValue;
+                lap.AutoReturn = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentAutoReturn]);
+                //lap.EmailChanges = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentEmailChanges]);
 
-                LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentShowAnswersToLearners], out boolValue);
-                lap.ShowAnswersToLearners = boolValue;
+                lap.ShowAnswersToLearners = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentShowAnswersToLearners]);
 
                 UserItemIdentifier userId;
                 userId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentCreatedById]);
@@ -2716,9 +2026,7 @@ namespace Microsoft.SharePointLearningKit
 
                 lap.InstructorComments = LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.InstructorComments], string.Empty);
 
-                LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.HasInstructors], out boolValue);
-                lap.HasInstructors = boolValue;
-
+                lap.HasInstructors = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[Schema.LearnerAssignmentListForObservers.HasInstructors]);
             }
             else
             {
@@ -2809,18 +2117,19 @@ namespace Microsoft.SharePointLearningKit
                 else
                     lap.DueDate = utcOrNull.Value.ToLocalTime();
 
-                bool boolValue;
-                LearningStoreHelper.CastNonNull(dataRow[instructorRole
+                lap.AutoReturn = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[instructorRole
                     ? Schema.LearnerAssignmentListForInstructors.AssignmentAutoReturn
-                    : Schema.LearnerAssignmentListForLearners.AssignmentAutoReturn],
-                    out boolValue);
-                lap.AutoReturn = boolValue;
+                    : Schema.LearnerAssignmentListForLearners.AssignmentAutoReturn]);
 
-                LearningStoreHelper.CastNonNull(dataRow[instructorRole
+                /*
+                lap.EmailChanges = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[instructorRole
+                    ? Schema.LearnerAssignmentListForInstructors.AssignmentEmailChanges
+                    : Schema.LearnerAssignmentListForLearners.AssignmentEmailChanges]);
+                    */
+
+                lap.ShowAnswersToLearners = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[instructorRole
                     ? Schema.LearnerAssignmentListForInstructors.AssignmentShowAnswersToLearners
-                    : Schema.LearnerAssignmentListForLearners.AssignmentShowAnswersToLearners],
-                    out boolValue);
-                lap.ShowAnswersToLearners = boolValue;
+                    : Schema.LearnerAssignmentListForLearners.AssignmentShowAnswersToLearners]);
 
                 lap.CreatedById = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[instructorRole
                     ? Schema.LearnerAssignmentListForInstructors.AssignmentCreatedById
@@ -2886,11 +2195,9 @@ namespace Microsoft.SharePointLearningKit
                     : Schema.LearnerAssignmentListForLearners.InstructorComments],
                     string.Empty);
 
-                LearningStoreHelper.CastNonNull(dataRow[instructorRole
+                lap.HasInstructors = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[instructorRole
                     ? Schema.LearnerAssignmentListForInstructors.HasInstructors
-                    : Schema.LearnerAssignmentListForLearners.HasInstructors],
-                    out boolValue);
-                lap.HasInstructors = boolValue;
+                    : Schema.LearnerAssignmentListForLearners.HasInstructors]);
             }
 
             return lap;
@@ -3047,117 +2354,118 @@ namespace Microsoft.SharePointLearningKit
                 return new ReadOnlyCollection<GradingProperties>(gpList);
             }
 
-            /// <summary>
-            /// Stores grading-related information about an assignment into the SLK database.  The user
-            /// must be an instructor on the assignment.
-            /// </summary>
-            ///
-            /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to
-            ///     store information about.</param>
-            ///
-            /// <param name="gradingPropertiesList">Contains one <c>GradingProperties</c> object for each
-            ///     learner assignment to update.  Note that <c>GradingProperties.LearnerId</c>,
-            ///     <c>GradingProperties.LearnerName</c>, and <c>GradingProperties.GradedPoints</c>
-            ///     are ignored.  Also, see <c>GradingProperties.Status</c> for information about which
-            ///     <c>LearnerAssignmentState</c> changes are permitted.</param>
-            ///
-            /// <returns>
-            /// If the operation is fully successful, <c>null</c> is returned.  Note that data loss caused
-            /// by one instructor overwriting the changes of another is considered normal behavior and is
-            /// therefore treated as fully successful.  If the operation is partially successul, a
-            /// warning string is returned.  In both the fully-successful and partially-successful cases
-            /// the caller should assume that all data that could be saved to the database was saved, and
-            /// if the data is to be redisplayed to the user the caller should reload the data using
-            /// <c>GetGradingProperties</c>.  If the operation fails, an exception is thrown -- in this
-            /// case, the caller should assume no data was stored in the database.
-            /// </returns>
-            ///
-            /// <remarks>
-            /// <b>Security:</b>&#160; Fails if the
-            /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> isn't an instructor on the
-            /// assignment.
-            /// </remarks>
-            ///
+        /// <summary>
+        /// Stores grading-related information about an assignment into the SLK database.  The user
+        /// must be an instructor on the assignment.
+        /// </summary>
+        ///
+        /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to
+        ///     store information about.</param>
+        ///
+        /// <param name="gradingPropertiesList">Contains one <c>GradingProperties</c> object for each
+        ///     learner assignment to update.  Note that <c>GradingProperties.LearnerId</c>,
+        ///     <c>GradingProperties.LearnerName</c>, and <c>GradingProperties.GradedPoints</c>
+        ///     are ignored.  Also, see <c>GradingProperties.Status</c> for information about which
+        ///     <c>LearnerAssignmentState</c> changes are permitted.</param>
+        ///
+        /// <returns>
+        /// If the operation is fully successful, <c>null</c> is returned.  Note that data loss caused
+        /// by one instructor overwriting the changes of another is considered normal behavior and is
+        /// therefore treated as fully successful.  If the operation is partially successul, a
+        /// warning string is returned.  In both the fully-successful and partially-successful cases
+        /// the caller should assume that all data that could be saved to the database was saved, and
+        /// if the data is to be redisplayed to the user the caller should reload the data using
+        /// <c>GetGradingProperties</c>.  If the operation fails, an exception is thrown -- in this
+        /// case, the caller should assume no data was stored in the database.
+        /// </returns>
+        ///
+        /// <remarks>
+        /// <b>Security:</b>&#160; Fails if the
+        /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> isn't an instructor on the
+        /// assignment.
+        /// </remarks>
+        ///
         /// <exception cref="SafeToDisplayException">
         /// An error occurred that can be displayed to a browser user.  Possible cause: the user isn't
-            /// an instructor on the assignment.
+        /// an instructor on the assignment.
         /// </exception>
-            ///
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-        public string SetGradingProperties(AssignmentItemIdentifier assignmentId,
-                    IEnumerable<GradingProperties> gradingPropertiesList)
-            {
+        public string SetGradingProperties(AssignmentItemIdentifier assignmentId, IEnumerable<GradingProperties> gradingPropertiesList)
+        {
             // Security checks: Fails if the user isn't an instructor on the assignment
             // (since it tries to access the file using AssignmentListForInstructors, and
             // that returns zero rows if the user isn't an instructor on the assignment)
 
             // Check parameters
             if (assignmentId == null)
+            {
                 throw new ArgumentNullException("assignmentId");
+            }
+
             if (gradingPropertiesList == null)
+            {
                 throw new ArgumentNullException("gradingPropertiesList");
+            }
 
-            // if learner assignments couldn't be saved, the names of the learners of the affected
-                    // learner assignments are added to <warningLearners>
-                    List<string> warningLearners = null;
+            // if learner assignments couldn't be saved, the names of the learners of the affected learner assignments are added to <warningLearners>
+            List<string> warningLearners = null;
 
-                    // perform the operation within a transaction so that if the operation fails no data is
-                    // committed to the database
+            // perform the operation within a transaction so that if the operation fails no data is committed to the database
             TransactionOptions options = new TransactionOptions();
             options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
-            using (LearningStoreTransactionScope scope =
-                            new LearningStoreTransactionScope(options))
-                    {
-                            // create a LearningStore job
-                            LearningStoreJob job = LearningStore.CreateJob();
+            using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
+            {
+                // create a LearningStore job
+                LearningStoreJob job = LearningStore.CreateJob();
 
-                            // request basic information about the specified assignment
-                            LearningStoreQuery query = LearningStore.CreateQuery(
-                                    Schema.AssignmentListForInstructors.ViewName);
+                // request basic information about the specified assignment
+                LearningStoreQuery query = LearningStore.CreateQuery(Schema.AssignmentListForInstructors.ViewName);
                 query.AddColumn(Schema.AssignmentListForInstructors.RootActivityId);
                 query.AddColumn(Schema.AssignmentListForInstructors.AssignmentAutoReturn);
-                query.AddCondition(Schema.AssignmentListForInstructors.AssignmentId,
-                                    LearningStoreConditionOperator.Equal, assignmentId);
-                            job.PerformQuery(query);
+                query.AddCondition(Schema.AssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
+                job.PerformQuery(query);
 
-                            // request current (stored-in-database) information about each learner assignment
-                            // in <gradingPropertiesList>; note that not all properties are retrieved
-                            query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
+                // request current (stored-in-database) information about each learner assignment
+                // in <gradingPropertiesList>; note that not all properties are retrieved
+                query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerId);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerName);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentState);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptId);
                 query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
-                query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId,
-                                    LearningStoreConditionOperator.Equal, assignmentId);
-                            job.PerformQuery(query);
+                query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
+                job.PerformQuery(query);
 
-                            // execute the job; set <resultEnumerator> to enumerate the results
-                            IEnumerator<object> resultEnumerator = job.Execute().GetEnumerator();
+                // execute the job; set <resultEnumerator> to enumerate the results
+                IEnumerator<object> resultEnumerator = job.Execute().GetEnumerator();
 
-                            // set <isNonELearning> to true if this assignment has non-e-learning content;
-                            // set <isAutoReturn> if this is an auto-return assignment
-                            if (!resultEnumerator.MoveNext())
-                                    throw new InternalErrorException("SLK1005");
-                            DataRowCollection dataRows = ((DataTable) resultEnumerator.Current).Rows;
-                            if (dataRows.Count != 1)
-                            {
+                if (!resultEnumerator.MoveNext())
+                {
+                    throw new InternalErrorException("SLK1005");
+                }
+
+                DataRowCollection dataRows = ((DataTable) resultEnumerator.Current).Rows;
+                if (dataRows.Count != 1)
+                {
                     // this error message includes the assignment ID, but that's okay since
                     // the information we provide does not allow the user to distinguish between the
                     // assignment not existing and the user not having access to it
                     throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
                                             AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
-                            }
-                ActivityPackageItemIdentifier rootActivityId;
-                LearningStoreHelper.Cast(dataRows[0][0], out rootActivityId);
-                bool isAutoReturn;
-                LearningStoreHelper.CastNonNull(dataRows[0][1], out isAutoReturn);
+                }
 
-                            // store the information about each learner assignment <allOldProperties>
-                            if (!resultEnumerator.MoveNext())
-                                    throw new InternalErrorException("SLK1006");
-                            DataTable dataTable = (DataTable) resultEnumerator.Current;
+                ActivityPackageItemIdentifier rootActivityId = LearningStoreHelper.Cast<ActivityPackageItemIdentifier>(dataRows[0][0]);
+                // set <isAutoReturn> if this is an auto-return assignment
+                bool isAutoReturn = LearningStoreHelper.CastNonNullStruct<bool>(dataRows[0][1]);
+
+                // store the information about each learner assignment <allOldProperties>
+                if (!resultEnumerator.MoveNext())
+                {
+                    throw new InternalErrorException("SLK1006");
+                }
+
+                DataTable dataTable = (DataTable) resultEnumerator.Current;
                 Dictionary<LearnerAssignmentItemIdentifier, GradingProperties> allOldProperties =
                     new Dictionary<LearnerAssignmentItemIdentifier, GradingProperties>(
                                             dataRows.Count);
@@ -4339,6 +3647,7 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentPointsPossible);
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentDescription);
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentAutoReturn);
+            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentEmailChanges);
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentShowAnswersToLearners);
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentCreatedById);
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentDateCreated);
@@ -4354,6 +3663,8 @@ namespace Microsoft.SharePointLearningKit
                 query = LearningStore.CreateQuery(Schema.InstructorAssignmentList.ViewName);
                 query.AddColumn(Schema.InstructorAssignmentList.InstructorId);
                 query.AddColumn(Schema.InstructorAssignmentList.InstructorName);
+                query.AddColumn(Schema.InstructorAssignmentList.InstructorKey);
+                query.AddColumn(Schema.InstructorAssignmentList.InstructorAssignmentId);
                 query.AddCondition(Schema.InstructorAssignmentList.AssignmentId,
                     LearningStoreConditionOperator.Equal, assignmentId);
                 job.PerformQuery(query);
@@ -4364,6 +3675,8 @@ namespace Microsoft.SharePointLearningKit
                     query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
                     query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerId);
                     query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerName);
+                    query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerKey);
+                    query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId);
                     query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId,
                         LearningStoreConditionOperator.Equal, assignmentId);
                     job.PerformQuery(query);
@@ -4439,12 +3752,10 @@ namespace Microsoft.SharePointLearningKit
 
             ap.Description = LearningStoreHelper.CastNonNull(dataRow[Schema.AssignmentPropertiesView.AssignmentDescription], string.Empty);
 
-            bool boolValue;
-            LearningStoreHelper.CastNonNull(dataRow[Schema.AssignmentPropertiesView.AssignmentAutoReturn], out boolValue);
-            ap.AutoReturn = boolValue;
+            ap.AutoReturn = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[Schema.AssignmentPropertiesView.AssignmentAutoReturn]);
+            ap.EmailChanges = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[Schema.AssignmentPropertiesView.AssignmentEmailChanges]);
 
-            LearningStoreHelper.CastNonNull(dataRow[Schema.AssignmentPropertiesView.AssignmentShowAnswersToLearners],out boolValue);
-            ap.ShowAnswersToLearners = boolValue;
+            ap.ShowAnswersToLearners = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[Schema.AssignmentPropertiesView.AssignmentShowAnswersToLearners]);
 
             ap.CreatedById = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[Schema.AssignmentPropertiesView.AssignmentCreatedById]);
             LearningStoreHelper.CastNonNull(dataRow[Schema.AssignmentPropertiesView.AssignmentDateCreated], out utc);
@@ -4467,21 +3778,24 @@ namespace Microsoft.SharePointLearningKit
 
             if (!basicOnly)
             {
-                AddSlkUsers(resultEnumerator, ap.Instructors, InstructorAssignmentList.InstructorId, InstructorAssignmentList.InstructorName, "SLK1011");
+                AddSlkUsers(resultEnumerator, ap.Instructors, InstructorAssignmentList.InstructorId, InstructorAssignmentList.InstructorName, InstructorAssignmentList.InstructorKey, 
+                        InstructorAssignmentList.InstructorAssignmentId, "SLK1011");
                 if (slkRole == SlkRole.Instructor)
                 {
-                    AddSlkUsers(resultEnumerator, ap.Learners, LearnerAssignmentListForInstructors.LearnerId, LearnerAssignmentListForInstructors.LearnerName, "SLK1011");
+                    AddSlkUsers(resultEnumerator, ap.Learners, LearnerAssignmentListForInstructors.LearnerId, LearnerAssignmentListForInstructors.LearnerName, LearnerAssignmentListForInstructors.LearnerKey, 
+                            LearnerAssignmentListForInstructors.LearnerAssignmentId, "SLK1011");
                 }
             }
             else if (forLearnerAssignment)
             {
-                AddSlkUsers(resultEnumerator, ap.Learners, LearnerAssignmentListForLearners.LearnerId, LearnerAssignmentListForLearners.LearnerName, "SLK1011");
+                AddSlkUsers(resultEnumerator, ap.Learners, LearnerAssignmentListForLearners.LearnerId, LearnerAssignmentListForLearners.LearnerName, LearnerAssignmentListForLearners.LearnerKey, 
+                        LearnerAssignmentListForLearners.LearnerAssignmentId, "SLK1011");
             }
 
             return ap;
         }
 
-        static void AddSlkUsers(IEnumerator<object> resultEnumerator, SlkUserCollection users, string idColumn, string nameColumn, string errorNumberIfMissing)
+        static void AddSlkUsers(IEnumerator<object> resultEnumerator, SlkUserCollection users, string idColumn, string nameColumn, string keyColumn, string assignmentIdColumn, string errorNumberIfMissing)
         {
             if (!resultEnumerator.MoveNext())
             {
@@ -4492,7 +3806,10 @@ namespace Microsoft.SharePointLearningKit
             {
                 UserItemIdentifier userId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow2[idColumn]);
                 string userName = LearningStoreHelper.CastNonNull(dataRow2[nameColumn], string.Empty);
-                users.Add(new SlkUser(userId, userName));
+                string key = LearningStoreHelper.CastNonNull(dataRow2[keyColumn], string.Empty);
+                SlkUser user = new SlkUser(userId, userName, key);
+                user.AssignmentUserId = LearningStoreHelper.CastNonNull<LearnerAssignmentItemIdentifier>(dataRow2[assignmentIdColumn]);
+                users.Add(user);
             }
         }
 
@@ -4559,6 +3876,7 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentPointsPossible);
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentDescription);
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentAutoReturn);
+            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentEmailChanges);
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentShowAnswersToLearners);
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentCreatedById);
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentDateCreated);
@@ -4572,6 +3890,7 @@ namespace Microsoft.SharePointLearningKit
             query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForLearners.ViewName);
             query.AddColumn(Schema.LearnerAssignmentListForLearners.LearnerId);
             query.AddColumn(Schema.LearnerAssignmentListForLearners.LearnerName);
+            query.AddColumn(Schema.LearnerAssignmentListForLearners.LearnerKey);
             query.AddCondition(Schema.LearnerAssignmentListForLearners.AssignmentId,
                 LearningStoreConditionOperator.Equal, assignmentId);
             job.PerformQuery(query);

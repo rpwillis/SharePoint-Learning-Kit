@@ -303,8 +303,11 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                     // render the Status column headers
                                     RenderColumnHeader(AppResources.GradingStatusHeaderText, writer);
 
-                                    // render the File Submission column headers
-                                    RenderColumnHeader(AppResources.GradingFileSubmissionHeaderText, writer);
+                                    if (assignmentProperties.IsNonELearning)
+                                    {
+                                        // render the File Submission column headers
+                                        RenderColumnHeader(AppResources.GradingFileSubmissionHeaderText, writer);
+                                    }
 
                                     // render the Graded Score column headers
                                     RenderColumnHeader(AppResources.GradingGradedScoreHeaderText, writer);
@@ -778,13 +781,18 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 {
                     htmlTextWriter.Write(SlkUtilities.GetLearnerAssignmentState(item.Status));
                 }
-                //Render file submission state 
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "padding-left: 5px; padding-top:5pt");
-                using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
+
+                if (assignmentProperties.IsNonELearning)
                 {
-                    RenderFileSubmissionState(item, htmlTextWriter);
+                    //Render file submission state 
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "padding-left: 5px; padding-top:5pt");
+                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
+                    {
+                        RenderFileSubmissionState(item, htmlTextWriter);
+                    }
                 }
+
                 //Render the Graded Score 
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style,
