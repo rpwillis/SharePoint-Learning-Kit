@@ -231,7 +231,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 if (IsNonElearningNotStarted)
                 {
-                    CopyDocumentToDropBox();
+                    if (LearnerAssignmentProperties.IsNoPackageAssignment == false)
+                    {
+                        CopyDocumentToDropBox();
+                    }
                 }
                 else if (IsNonElearning)
                 {
@@ -420,38 +423,45 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         void SetUpSlkBeginButtonAction(AssignmentView view)
         {
-            string openFrameset = String.Format(CultureInfo.InvariantCulture, "javascript:SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}');",
-                                                FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId);
-            if (IsNonElearning)
+            if (LearnerAssignmentProperties.IsNoPackageAssignment)
             {
-                string thisUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
-                thisUrl = String.Format(CultureInfo.InvariantCulture, "{0}?{1}", thisUrl, Request.QueryString);
-
-                if (string.IsNullOrEmpty(initialFileUrl))
-                {
-                    slkButtonBegin.NavigateUrl = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';", openFrameset, thisUrl, startQueryStringName);
-                }
-                else
-                {
-                    string script = DropBoxManager.EditJavascript(initialFileUrl, SPWeb);
-                    if (LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted)
-                    {
-                        script = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';return false;", script, thisUrl, startQueryStringName);
-                    }
-                    else
-                    {
-                        script = script + "return false;";
-                    }
-                    slkButtonBegin.OnClientClick = script;
-                    slkButtonBegin.NavigateUrl = initialFileUrl;
-                }
+                slkButtonBegin.Visible = false;
             }
             else
             {
-                slkButtonBegin.OnClientClick = openFrameset;
-                slkButtonBegin.NavigateUrl = openFrameset;
+                string openFrameset = String.Format(CultureInfo.InvariantCulture, "javascript:SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}');",
+                                                    FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId);
+                if (IsNonElearning)
+                {
+                    string thisUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
+                    thisUrl = String.Format(CultureInfo.InvariantCulture, "{0}?{1}", thisUrl, Request.QueryString);
+
+                    if (string.IsNullOrEmpty(initialFileUrl))
+                    {
+                        slkButtonBegin.NavigateUrl = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';", openFrameset, thisUrl, startQueryStringName);
+                    }
+                    else
+                    {
+                        string script = DropBoxManager.EditJavascript(initialFileUrl, SPWeb);
+                        if (LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted)
+                        {
+                            script = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';return false;", script, thisUrl, startQueryStringName);
+                        }
+                        else
+                        {
+                            script = script + "return false;";
+                        }
+                        slkButtonBegin.OnClientClick = script;
+                        slkButtonBegin.NavigateUrl = initialFileUrl;
+                    }
+                }
+                else
+                {
+                    slkButtonBegin.OnClientClick = openFrameset;
+                    slkButtonBegin.NavigateUrl = openFrameset;
+                }
+                slkButtonBegin.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
             }
-            slkButtonBegin.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
         }
 
         void SetUpForActive()
@@ -563,7 +573,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 try
                 {
                     SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
-                    if (AssignmentProperties.PackageFormat == null)
+                    if (AssignmentProperties.IsNonELearning)
                     {
                         DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
                         SlkMemberships memberships = new SlkMemberships(null, null, null);

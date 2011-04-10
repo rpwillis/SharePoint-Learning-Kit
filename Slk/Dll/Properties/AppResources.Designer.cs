@@ -2666,6 +2666,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must set the location of an assignment before creating one..
+        /// </summary>
+        internal static string InvalidNewAssignment {
+            get {
+                return ResourceManager.GetString("InvalidNewAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Organization not found in e-learning package.
         /// </summary>
         internal static string InvalidOrganizationIndex {
@@ -3166,6 +3175,15 @@ namespace Resources.Properties {
         internal static string NoAccessToSite {
             get {
                 return ResourceManager.GetString("NoAccessToSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Assignment..
+        /// </summary>
+        internal static string NoPackageTitle {
+            get {
+                return ResourceManager.GetString("NoPackageTitle", resourceCulture);
             }
         }
         

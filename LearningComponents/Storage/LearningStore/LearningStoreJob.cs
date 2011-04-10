@@ -1295,8 +1295,7 @@ namespace Microsoft.LearningComponents.Storage
         /// results[1] contains the Id of the new global objective, and results[2] contains
         /// the Id of the new learner global objective.
         /// </example>
-        public LearningStoreItemIdentifier AddItem(string itemTypeName,
-            IDictionary<string,object> propertyValues, bool requestItemId)
+        public LearningStoreItemIdentifier AddItem(string itemTypeName, IDictionary<string,object> propertyValues, bool requestItemId)
         {
             // Check input parameters
             if (itemTypeName == null)

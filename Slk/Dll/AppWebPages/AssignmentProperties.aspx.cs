@@ -443,11 +443,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         SetMasterPageControlText();
                         //If the Current User is Instructor in the given SPWeb 
                         //proceed with creating the Assignment
-                        LearningStoreXml packageWarnings;
-                        AssignmentProperties = SlkStore.GetNewAssignmentDefaultProperties(SPWeb, Location, OrgIndex, SlkRole.Instructor, out packageWarnings);
+                        AssignmentProperties = AssignmentProperties.CreateNewAssignmentObject(SlkStore, SPWeb, Location, OrgIndex, SlkRole.Instructor);
+                        AssignmentProperties.SetLocation(Location, OrgIndex, Request.QueryString["title"]);
 
                         //if <packageWarnings> is not null, display the E-Learning content validation warning message
-                        if (packageWarnings != null)
+                        if (AssignmentProperties.PackageWarnings != null)
                         {
                             //Add the Package Warning in the Error Banner
                             errorBanner.AddHtmlErrorText(ErrorType.Warning, AppResources.ActionsWarning);
@@ -1024,6 +1024,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void CreateAssignmentPropertiesObject()
         {
             AssignmentProperties = new AssignmentProperties(AssignmentId == null ? 0 : AssignmentId.Value, SlkStore);
+
             AssignmentProperties.Title = SlkUtilities.Trim(txtTitle.Text);
             AssignmentProperties.Description = SlkUtilities.Trim(txtDescription.Text);
 
@@ -1281,15 +1282,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             catch (SafeToDisplayException ex)
             {
-                SlkStore.DeleteAssignment(AssignmentProperties.Id);
                 errorBanner.Clear();
                 errorBanner.AddError(ErrorType.Error, ex.Message);
+                //SlkStore.DeleteAssignment(AssignmentProperties.Id);
             }
             catch (Exception ex)
             {
-                SlkStore.DeleteAssignment(AssignmentProperties.Id);
                 //Log the Exception 
                 WriteError(ex, true);
+                //SlkStore.DeleteAssignment(AssignmentProperties.Id);
             }
         }
 
@@ -1326,11 +1327,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             lstNavigateBulletedList.Items.Add(new ListItem( AppResources.AppGradeOrManage, urlString));
 
-            //Add Doclib Url
-            SPFile spFile = SlkUtilities.GetSPFileFromPackageLocation(Location);
-
-            string message = String.Format(CultureInfo.CurrentCulture, AppResources.AppNavigateToDocLib, spFile.ParentFolder.Name);
-            lstNavigateBulletedList.Items.Add(new ListItem(message, spFile.ParentFolder.ServerRelativeUrl));
+            if (AssignmentProperties.IsNoPackageAssignment == false)
+            {
+                //Add Doclib Url
+                SPFile spFile = SlkUtilities.GetSPFileFromPackageLocation(Location);
+                string message = String.Format(CultureInfo.CurrentCulture, AppResources.AppNavigateToDocLib, spFile.ParentFolder.Name);
+                lstNavigateBulletedList.Items.Add(new ListItem(message, spFile.ParentFolder.ServerRelativeUrl));
+            }
 
             //Set MasterPage Controls Text for APP Confirmation Page.
             SetMasterPageControlText();

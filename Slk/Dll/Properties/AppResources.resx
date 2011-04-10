@@ -1555,4 +1555,10 @@ More information may be available in the server event log.</value>
   <data name="NoAccessToSite" xml:space="preserve">
     <value>Cannot access site.</value>
   </data>
+  <data name="InvalidNewAssignment" xml:space="preserve">
+    <value>You must set the location of an assignment before creating one.</value>
+  </data>
+  <data name="NoPackageTitle" xml:space="preserve">
+    <value>Quick Assignment.</value>
+  </data>
 </root>

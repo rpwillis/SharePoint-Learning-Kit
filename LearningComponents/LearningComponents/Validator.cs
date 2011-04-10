@@ -628,13 +628,10 @@ namespace Microsoft.LearningComponents
         /// </summary>
         /// <param name="log">If non-null, the warning is added to it.</param>
         /// <param name="message">The message to log.</param>
-        internal static void LogWarning(ValidationResults log, string message)
+        internal void LogWarning(string message)
         {
-            if (log != null)
-            {
-                log.m_results.Add(new ValidationResult(false, message));
-                log.m_hasWarnings = true;
-            }
+            m_results.Add(new ValidationResult(false, message));
+            m_hasWarnings = true;
         }
 
         /// <summary>
@@ -645,16 +642,38 @@ namespace Microsoft.LearningComponents
         /// <param name="throwInvalidPackageException">True to throw a <Typ>InvalidPackageException</Typ> containing the <paramref name="message"/>.
         /// </param>
         /// <param name="message">The message to log.</param>
-        internal static void LogError(ValidationResults log, bool throwInvalidPackageException, string message)
+        internal void LogError(bool throwInvalidPackageException, string message)
         {
-            if (log != null)
-            {
-                log.m_results.Add(new ValidationResult(true, message));
-                log.m_hasErrors = true;
-            }
+            m_results.Add(new ValidationResult(true, message));
+            m_hasErrors = true;
+
             if (throwInvalidPackageException)
             {
                 throw new InvalidPackageException(message);
+            }
+        }
+
+        /// <summary>Converts the log into Xml.</summary>
+        public XmlReader ToXml()
+        {
+            // set <warnings> to XML that refers to the warnings in <registerResult.Log>
+            StringBuilder stringBuilder = new StringBuilder();
+            using (XmlWriter xmlWriter = XmlWriter.Create(stringBuilder))
+            {
+                xmlWriter.WriteStartElement("Warnings");
+                foreach (ValidationResult validationResult in Results)
+                {
+                    xmlWriter.WriteStartElement("Warning");
+                    xmlWriter.WriteAttributeString("Type", validationResult.IsError ? "Error" : "Warning");
+                    xmlWriter.WriteString(validationResult.Message);
+                    xmlWriter.WriteEndElement();
+                }
+                xmlWriter.WriteEndElement();
+            }
+
+            using (StringReader stringReader = new StringReader(stringBuilder.ToString()))
+            {
+                return XmlReader.Create(stringReader);
             }
         }
 

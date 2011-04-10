@@ -225,6 +225,13 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Indicates if the assignment is a no package assignment.</summary>
+        public bool IsNoPackageAssignment
+        {
+            get { return Location == AssignmentProperties.noPackageLocation ;}
+        }
+
+
         /// <summary>
         /// Gets the <c>Guid</c> of the SPSite that contains the SPWeb that the assignment is
         /// associated with.

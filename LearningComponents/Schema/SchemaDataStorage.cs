@@ -6737,6 +6737,10 @@ namespace Microsoft.LearningComponents.Storage {
     /// Represents an identifier to a <Typ>/Microsoft.LearningComponents.Storage.BaseSchema.PackageItem</Typ> in a store.
     /// </summary>
     public class PackageItemIdentifier : LearningStoreItemIdentifier {
+
+        public PackageItemIdentifier() : base()
+        {
+        }
         
         /// <summary>
         /// Create a new instance of the PackageItemIdentifier class.
