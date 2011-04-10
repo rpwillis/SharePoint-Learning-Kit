@@ -176,6 +176,20 @@
     <value>Display the assignments for an instructor or learner.</value>
   </data>
 
+  <!-- AssignmentList web part -->
+  <data name="QuickAssignmentWebPartFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit - Quick Assignment Web Part</value>
+  </data>
+  <data name="QuickAssignmentWebPartFeatureDescription" xml:space="preserve">
+    <value>Web Part to allow an instructor to quickly assign a piece of work.</value>
+  </data>
+  <data name="QuickAssignmentWebPartTitle" xml:space="preserve">
+    <value>Quick Assignment</value>
+  </data>
+  <data name="QuickAssignmentWebPartDescription" xml:space="preserve">
+    <value>Allows an instructor to quickly assign a piece of work.</value>
+  </data>
+
   <data name="SharePointLearningKitWebPartsGroup" xml:space="preserve">
     <value>SharePoint Learning Kit</value>
   </data>

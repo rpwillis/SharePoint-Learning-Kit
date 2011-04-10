@@ -342,9 +342,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // files are not validated
                 LearningStoreXml warnings;
                 if (NonELearning)
+                {
                     warnings = null;
+                }
                 else
+                {
                     warnings = SlkStore.ValidatePackage(Location);
+                }
 
                 if (!IsPostBack)
                 {
@@ -847,14 +851,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         Guid CreateSelfAssignment()
         {
-            LearningStoreXml packageWarnings;
-            AssignmentProperties properties = SlkStore.GetNewAssignmentDefaultProperties(SPWeb, Location, OrganizationIndex, SlkRole.Learner, out packageWarnings);
-            if (packageWarnings != null || packageWarnings == null)
-            {
-                throw new NotSupportedException();
-            }
+            AssignmentProperties properties = AssignmentProperties.CreateNewAssignmentObject(SlkStore, SPWeb, Location, OrganizationIndex, SlkRole.Learner);
             AssignmentItemIdentifier assignmentId = SlkStore.CreateAssignment(properties);
-            //AssignmentItemIdentifier assignmentId = SlkStore.CreateAssignment(SPWeb, Location, OrganizationIndex, SlkRole.Learner, properties);
             Guid learnerAssignmentGuidId = SlkStore.GetCurrentUserLearnerAssignment(assignmentId);
 
             AssignmentProperties currentAssProperties = SlkStore.GetAssignmentProperties(assignmentId, SlkRole.Learner);

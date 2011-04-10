@@ -1278,7 +1278,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <remarks>Actually this method just calls <c>ValidationResults.LogWarning()</c>.</remarks>
         private void LogWarning(string message)
         {
-            ValidationResults.LogWarning(Log, message);
+            Log.LogWarning(message);
         }
 
         /// <summary>
@@ -1286,7 +1286,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         private void LogErrorAndThrow(string message)
         {
-            ValidationResults.LogError(Log, true, message);
+            Log.LogError(true, message);
         }
 
         /// <summary>
@@ -1294,7 +1294,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// </summary>
         private void LogError(string message)
         {
-            ValidationResults.LogError(Log, false, message);
+            Log.LogError(false, message);
         }
 
         internal void LogSPMViolation(string attributeValue, string attributeName, XPathNavigator node, int spm)
@@ -1578,8 +1578,7 @@ namespace Microsoft.LearningComponents.Manifest
 
         internal static void LogMissingManifestNode(ValidationResults log)
         {
-            ValidationResults.LogError(log, true, 
-                String.Format(CultureInfo.CurrentCulture, ValidatorResources.RequiredElementMissing, Helper.Strings.Manifest, ValidatorResources.ManifestNodeMissing));
+            log.LogError(true, String.Format(CultureInfo.CurrentCulture, ValidatorResources.RequiredElementMissing, Helper.Strings.Manifest, ValidatorResources.ManifestNodeMissing));
         }
 
         internal void LogRequiredAttributeMissing(string attributeName, string nodeName, string reason)

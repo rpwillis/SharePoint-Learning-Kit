@@ -419,6 +419,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
+                string redirectUrl;
+                using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
+                {
+                    using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
+                    {
+                        SlkStore.DeleteAssignment(AssignmentItemIdentifier);
+                        redirectUrl = spWeb.ServerRelativeUrl;
+                    }
+                }
+
                 //Delete corresponding assignment folder from the drop box if exists
                 if (AssignmentProperties.IsNonELearning)
                 {
@@ -426,14 +436,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     dropBoxManager.DeleteAssignmentFolder();
                 }
 
-                using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
-                    {
-                        SlkStore.DeleteAssignment(AssignmentItemIdentifier);
-                        Response.Redirect(spWeb.ServerRelativeUrl, true);
-                    }
-                }
+                Response.Redirect(redirectUrl, true);
+
             }
             catch (ThreadAbortException)
             {

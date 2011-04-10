@@ -83,6 +83,16 @@ namespace Microsoft.SharePointLearningKit
             UserId = userId;
         }
 
+        /// <summary>Initializes a new instance of <see cref="SlkUser"/>.</summary>
+        /// <summary>Initializes an instance of <see cref="SlkUser"/>, given a <c>UserItemIdentifier</c>.</summary>
+        /// <param name="userId">The SharePoint Learning Kit <c>UserItemIdentifier</c> of the user.</param>
+        /// <param name="spUser">The <see cref="SPUser"/> of the user.</param>
+        public SlkUser(UserItemIdentifier userId, SPUser spUser) : this(userId)
+        {
+            SPUser = spUser;
+            Name = spUser.Name;
+        }
+
         // If this constructor is used the calling code is responsible for setting the userId.
         internal SlkUser(SPUser spUser)
         {

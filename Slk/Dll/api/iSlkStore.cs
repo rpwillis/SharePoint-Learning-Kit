@@ -48,10 +48,10 @@ namespace Microsoft.SharePointLearningKit
         UserItemIdentifier CurrentUserId  { get; }
 
         /// <summary>Finds the root activity of a package.</summary>
-        /// <param name="location">The location of the package in MLC format.</param>
-        /// <param name="organizationIndex">The index of the chosen organization.</param>
+        /// <param name="packageId">The id of the package.</param>
+        /// <param name="organizationIndex">The index of the organization.</param>
         /// <returns>The root identifier.</returns>
-        ActivityPackageItemIdentifier FindRootActivity(string location, int organizationIndex);
+        ActivityPackageItemIdentifier FindRootActivity(PackageItemIdentifier packageId, int organizationIndex);
 
         /// <summary>Creates a new SharePoint Learning Kit assignment. </summary>
         /// <param name="properties">Properties of the new assignment.  Note that, within
@@ -97,5 +97,50 @@ namespace Microsoft.SharePointLearningKit
         /// <r>SlkRole.Learner</r>).
         /// </exception>
         AssignmentProperties GetAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole);
+
+        /// <summary>Deletes a SharePoint Learning Kit assignment. </summary>
+        /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to delete.</param>
+        /// <remarks>
+        /// <b>Security:</b>&#160; This operation fails if the
+        /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> isn't either an instructor on the
+        /// assignment or the person who created the assignment.
+        /// </remarks>
+        /// <exception cref="SafeToDisplayException">
+        /// An error occurred that can be displayed to a browser user.  Possible cause: the user
+        /// isn't an instructor on the assignment, and the assignment isn't self-assigned.
+        /// </exception>
+        void DeleteAssignment(AssignmentItemIdentifier assignmentId);
+
+        /// <summary>
+        /// Registers a specified version of a given e-learning package (that's stored in a SharePoint
+        /// document library) in the <c>SharePointPackageStore</c> associated with this
+        /// SharePoint Learning Kit store, and returns its <c>PackageItemIdentifier</c> and content
+        /// warnings.  If that version -- with the same last-modified date/time -- is already
+        /// registered, its information is returned rather than re-registering the package.
+        /// Uses an <c>SPFile</c> and version ID to locate the package.
+        /// </summary>
+        /// <param name="location">The location string.</param>
+        /// <remarks>
+        /// If the package is valid, <pr>warnings</pr> is set to <n>null</n>.  If the package is not
+        /// completely valid, but is valid enough to be assigned within SharePoint Learning Kit,
+        /// <pr>warning</pr> is set to warnings about the package.  If the package has problems
+        /// severe enough to prevent it from being assignable within SLK, a
+        /// <r>SafeToDisplayException</r> is thrown.
+        /// </remarks>
+        /// <exception cref="SafeToDisplayException">
+        /// An error occurred that can be displayed to a browser user.  Possible cause: the package has
+            /// problems severe enough to prevent it from being assignable within SharePoint Learning Kit.
+        /// <r>SafeToDisplayException.ValidationResults</r> may contain further information.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// The user is not authorized to access the package.
+        /// </exception>
+        PackageDetails RegisterAndValidatePackage(string location);
+
+        /// <summary>Gets information about the package.</summary>
+        /// <param name="packageId">The id of the package.</param>
+        /// <param name="file">The actual package.</param>
+        /// <returns>The package information.</returns>
+        PackageInformation GetPackageInformation(PackageItemIdentifier packageId, SPFile file);
     }
 }

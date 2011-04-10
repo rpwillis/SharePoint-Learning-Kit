@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Diagnostics;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
+using Microsoft.LearningComponents.Manifest;
 using Microsoft.SharePoint;
 using Resources.Properties;
 
@@ -17,6 +18,7 @@ namespace Microsoft.SharePointLearningKit
     ///
     public class AssignmentProperties
     {
+        internal const string noPackageLocation = "{00000}";
         ISlkStore store;
 
 #region properties
@@ -102,6 +104,12 @@ namespace Microsoft.SharePointLearningKit
             get { return (PackageFormat == null) ;}
         }
 
+        /// <summary>Indicates if the assignment is a no package assignment.</summary>
+        public bool IsNoPackageAssignment
+        {
+            get { return Location == noPackageLocation ;}
+        }
+
         /// <summary>The root activity for SCORM packages.</summary>
         public ActivityPackageItemIdentifier RootActivityId { get; set; }
 
@@ -125,6 +133,9 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Indicates whether to email assignment changes.</summary>
         public bool EmailChanges { get; set; }
+
+        /// <summary>Any packabe warnings.</summary>
+        public LearningStoreXml PackageWarnings { get; private set; }
 #endregion properties
 
 #region constructors
@@ -196,12 +207,40 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Deletes the assignment.</summary>
+        public void Delete()
+        {
+        }
+
         /// <summary>Populates the SPUser property of each SlkUser in the collection of SLK members.</summary>
         /// <param name="slkMembers">The collection of SLK members to populate.</param>
         public void PopulateSPUsers(SlkMemberships slkMembers)
         {
             PopulateSPUsers(slkMembers, Learners);
             PopulateSPUsers(slkMembers, Instructors);
+        }
+
+        /// <summary>Makes the assignment be a no package assignemnt.</summary>
+        public void MakeNoPackageAssignment(string title)
+        {
+            Location = noPackageLocation;
+            if (String.IsNullOrEmpty(Title))
+            {
+                if (string.IsNullOrEmpty(title))
+                {
+                    Title = AppResources.NoPackageTitle;
+                }
+                else
+                {
+                    Title = title;
+                }
+            }
+
+            if (Description == null)
+            {
+                Description = String.Empty;
+            }
+            return;
         }
 
         /// <summary>Sets the location of the package.</summary>
@@ -215,25 +254,95 @@ namespace Microsoft.SharePointLearningKit
         ///     document, use <c>null</c> for <paramref name="organizationIndex"/>.</param>
         public void SetLocation(string location, Nullable<int> organizationIndex)
         {
+            SetLocation(location, organizationIndex, null);
+        }
+
+        /// <summary>Sets the location of the package.</summary>
+        /// <remarks>Security checks:Fails if the user doesn't have access to the package/file</remarks>
+        /// <param name="location">The MLC SharePoint location string that refers to the e-learning
+        ///     package or non-e-learning document to assign.  Use
+        ///     <c>SharePointPackageStore.GetLocation</c> to construct this string.</param>
+        /// <param name="organizationIndex">The zero-based index of the organization within the
+        ///     e-learning content to assign; this is the value that's used as an index to
+        ///     <c>ManifestReader.Organizations</c>.  If the content being assigned is a non-e-learning
+        ///     document, use <c>null</c> for <paramref name="organizationIndex"/>.</param>
+        /// <param name="title">Any title that has been passed in.</param>
+        public void SetLocation(string location, Nullable<int> organizationIndex, string title)
+        {
             if (location == null)
             {
                 throw new ArgumentNullException("location");
             }
 
+            if (location == noPackageLocation)
+            {
+                MakeNoPackageAssignment(title);
+                return;
+            }
+
+            // Access the properties of the file to verify that the user has access to the file
+            SPFile file = SlkUtilities.GetSPFileFromPackageLocation(location);
+            System.Collections.Hashtable fileProperties = file.Properties;
+
             // set <rootActivityId> to the ID of the organization, or null if a non-e-learning document is being assigned
             if (organizationIndex != null)
             {
-                RootActivityId = store.FindRootActivity(location, organizationIndex.Value);
-                // Set PackageFormat so IsNonELearning is set correctly
-                PackageFormat = Microsoft.LearningComponents.PackageFormat.V1p3;
+                // register the package with PackageStore (if it's not registered yet), and get the PackageItemIdentifier
+                PackageDetails package = store.RegisterAndValidatePackage(location);
+
+                RootActivityId = store.FindRootActivity(package.PackageId, organizationIndex.Value);
+                PackageInformation information = store.GetPackageInformation(package.PackageId, file);
+
+                Title = information.Title;
+                Description = information.Description;
+
+                // validate <organizationIndex>
+                if ((organizationIndex.Value < 0) || (organizationIndex.Value >= information.ManifestReader.Organizations.Count))
+                {
+                    throw new SafeToDisplayException(AppResources.InvalidOrganizationIndex);
+                }
+
+                PackageFormat = information.ManifestReader.PackageFormat;
+
+                // set <organizationNodeReader> to refer to the organization
+                OrganizationNodeReader organizationNodeReader = information.ManifestReader.Organizations[organizationIndex.Value];
+
+                // if there is more than one organization, append the organization title, if any
+                if (information.ManifestReader.Organizations.Count > 1)
+                {
+                    if (!String.IsNullOrEmpty(organizationNodeReader.Title))
+                    {
+                        Title = String.Format(CultureInfo.CurrentCulture, AppResources.SlkPackageAndOrganizationTitle, Title, organizationNodeReader.Title);
+                    }
+                }
+
+                // set <pointsPossible> to the points-possible value stored in the manifest, or null if none
+                switch (information.ManifestReader.PackageFormat)
+                {
+                    case Microsoft.LearningComponents.PackageFormat.Lrm:
+                        PointsPossible = organizationNodeReader.PointsPossible;
+                        break;
+                    case Microsoft.LearningComponents.PackageFormat.V1p3:
+                        PointsPossible = 100;
+                        break;
+                    default:
+                        PointsPossible = null;
+                        break;
+                }
             }
             else  // Non-elearning content
             {
-                // Access the properties of the file to verify that the user has access to the file
-                SPFile file = SlkUtilities.GetSPFileFromPackageLocation(location);
-                System.Collections.Hashtable fileProperties = file.Properties;
                 RootActivityId = null;
                 Location = location;
+                Title = file.Title;
+                if (String.IsNullOrEmpty(Title))
+                {
+                    Title = System.IO.Path.GetFileNameWithoutExtension(file.Name);
+                }
+                Description = string.Empty;
+                PointsPossible = null;      // "Points Possible" defaults to null for non-e-learning content
+                PackageWarnings = null;     // no package warnings
+                PackageFormat = null;       // non-e-learning package
             }
         }
 #endregion public methods
@@ -257,20 +366,12 @@ namespace Microsoft.SharePointLearningKit
 
             bool corePropertiesChanged = false;
 
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("{0} {1} {2} {3} {4} {5} {6} {7}", 
-            Title != oldProperties.Title , StartDate != oldProperties.StartDate , DueDate != oldProperties.DueDate , PointsPossible != oldProperties.PointsPossible
-                    , Description != oldProperties.Description , AutoReturn != oldProperties.AutoReturn , ShowAnswersToLearners != oldProperties.ShowAnswersToLearners 
-                    , EmailChanges != oldProperties.EmailChanges);
-                    
-
             if (Title != oldProperties.Title || StartDate != oldProperties.StartDate || DueDate != oldProperties.DueDate || PointsPossible != oldProperties.PointsPossible
                     || Description != oldProperties.Description || AutoReturn != oldProperties.AutoReturn || ShowAnswersToLearners != oldProperties.ShowAnswersToLearners 
                     || EmailChanges != oldProperties.EmailChanges)
             {
                 corePropertiesChanged = true;
             }
-
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("corePropertiesChanged {0}", corePropertiesChanged);
 
             SlkUserCollectionChanges instructorChanges = new SlkUserCollectionChanges(oldProperties.Instructors, Instructors);
             SlkUserCollectionChanges learnerChanges = new SlkUserCollectionChanges(oldProperties.Learners, Learners);
@@ -299,6 +400,11 @@ namespace Microsoft.SharePointLearningKit
             if (web == null)
             {
                 throw new ArgumentNullException("web");
+            }
+
+            if (PackageFormat == null && Location == null)
+            {
+                throw new InvalidOperationException(AppResources.InvalidNewAssignment);
             }
 
             SPSiteGuid = web.Site.ID;
@@ -372,6 +478,102 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 #endregion private methods
+
+#region public static methods
+        /// <summary>
+        /// Returns an <c>AssignmentProperties</c> object populated with default information for
+        /// a new assignment based on a given e-learning package or non-e-learning document.
+        /// This method doesn't actually create the assignment -- it just returns information that
+        /// can be used as defaults for a form that a user would fill in to create a new assignment.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// If <paramref name="slkRole"/> is <c>SlkRole.Learner</c>, default properties for a
+        /// self-assigned assignment are returned.  In this case, the returned
+        /// <c>AssignmentProperties</c> will contain no users in 
+        /// <c>AssignmentProperties.Instructors</c>, and <c>AssignmentProperties.Learners</c> will
+        /// contain only the current user.
+        /// </para>
+        /// <para>
+        /// <b>Security:</b>&#160; If <pr>slkRole</pr> is
+        /// <a href="Microsoft.SharePointLearningKit.SlkRole.Enumeration.htm">SlkRole.Instructor</a>,
+        /// this operation fails if the <a href="SlkApi.htm#AccessingSlkStore">current user</a> doesn't
+        /// have SLK
+        /// <a href="Microsoft.SharePointLearningKit.SlkSPSiteMapping.InstructorPermission.Property.htm">instructor</a>
+        /// permissions on <pr>destinationSPWeb</pr>.  Also fails if the current user doesn't have access to the
+        /// package/file.
+        /// </para>
+        /// </remarks>
+        /// <param name="store"></param>
+        /// <param name="destinationSPWeb">The <c>SPWeb</c> that the assignment would be assigned in.</param>
+        /// <param name="location">The MLC SharePoint location string that refers to the e-learning
+        ///     package or non-e-learning document that would be assigned.  Use
+        ///     <c>SharePointPackageStore.GetLocation</c> to construct this string.</param>
+        /// <param name="organizationIndex">The zero-based index of the organization within the
+        ///     e-learning content to assign; this is the value that's used as an index to
+        ///     <c>ManifestReader.Organizations</c>.  If the content being assigned is a non-e-learning
+        ///     document, use <c>null</c> for <paramref name="organizationIndex"/>.</param>
+        /// <param name="slkRole">The <c>SlkRole</c> for which information is to be retrieved.
+        ///     Use <c>SlkRole.Learner</c> to get default information for a self-assigned assignment,
+        ///     i.e. an assignment with no instructors for which the current learner is the only
+        ///     learner.  Otherwise, use <c>SlkRole.Instructor</c>.</param>
+        /// <returns></returns>
+        public static AssignmentProperties CreateNewAssignmentObject(ISlkStore store, SPWeb destinationSPWeb, string location, Nullable<int> organizationIndex, SlkRole slkRole)
+        {
+            // Security checks: Fails if the user isn't an instructor on the web if SlkRole=Instructor
+            // (verified by EnsureInstructor).  Fails if the user doesn't have access to the
+            // package (verified by calling RegisterPackage or by accessing
+            // the properties of the non-elearning file).
+
+            // Check parameters
+            if (destinationSPWeb == null)
+            {
+                throw new ArgumentNullException("destinationSPWeb");
+            }
+
+            // Verify that the web is in the site
+            if (destinationSPWeb.Site.ID != store.SPSiteGuid)
+            {
+                throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
+            }
+
+            UserItemIdentifier currentUserId = store.CurrentUserId;
+            AssignmentProperties assignment = new AssignmentProperties(null, store);
+            assignment.StartDate = DateTime.Today; // midnight today
+            assignment.DueDate = null;
+            assignment.EmailChanges = false;
+            assignment.CreatedById = currentUserId;
+
+            // Role checking and determine if self assigned
+            bool isSelfAssigned;
+            if (slkRole == SlkRole.Instructor)
+            {
+                store.EnsureInstructor(destinationSPWeb);
+                isSelfAssigned = false;
+            }
+            else if (slkRole == SlkRole.Learner)
+            {
+                isSelfAssigned = true;
+            }
+            else
+            {
+                throw new ArgumentException(AppResources.InvalidSlkRole, "slkRole");
+            }
+
+            assignment.ShowAnswersToLearners = isSelfAssigned;
+            assignment.AutoReturn = isSelfAssigned;
+            if (isSelfAssigned)
+            {
+                assignment.Learners.Add(new SlkUser(currentUserId, destinationSPWeb.CurrentUser));
+            }
+            else
+            {
+                assignment.Instructors.Add(new SlkUser(currentUserId, destinationSPWeb.CurrentUser));
+            }
+
+            return assignment;
+        }
+#endregion public static methods
     }
 }
 
