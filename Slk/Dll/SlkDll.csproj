@@ -119,6 +119,8 @@
     <Compile Include="api\slkUser.cs" />
     <Compile Include="api\slkUserCollection.cs" />
     <Compile Include="api\slkUserCollectionChanges.cs" />
+    <Compile Include="api\userWebList.cs" />
+    <Compile Include="api\webListItem.cs" />
     <Compile Include="FramesetResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -142,5 +142,13 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="file">The actual package.</param>
         /// <returns>The package information.</returns>
         PackageInformation GetPackageInformation(PackageItemIdentifier packageId, SPFile file);
+
+        /// <summary>Returns the SharePoint Learning Kit user web list for the current user. </summary>
+        /// <remarks>
+        /// <para>The user web list is the list of Web sites that the user added to their E-Learning Actions page.</para>
+        /// <para><b>Security:</b>&#160; None.  The <a href="SlkApi.htm#AccessingSlkStore">current user</a>
+        /// may be any user.</para>
+        /// </remarks>
+        ReadOnlyCollection<SlkUserWebListItem> FetchUserWebList();
     }
 }
