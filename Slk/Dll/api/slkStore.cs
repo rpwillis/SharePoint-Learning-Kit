@@ -3097,48 +3097,32 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        /// <summary>
-            /// Returns the SharePoint Learning Kit user web list for the current user.
-            /// </summary>
-            ///
-            /// <remarks>
-            /// <para>
-            /// The user web list is the list of Web sites that the user added to their E-Learning Actions
-            /// page.
-            /// </para>
-            /// <para>
-            /// <b>Security:</b>&#160; None.  The <a href="SlkApi.htm#AccessingSlkStore">current user</a>
-            /// may be any user.
-            /// </para>
-            /// </remarks>
-            ///
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        public ReadOnlyCollection<SlkUserWebListItem> GetUserWebList()
-            {
+        /// <summary>See <see cref="ISlkStore.FetchUserWebList"/>.</summary>
+        public ReadOnlyCollection<SlkUserWebListItem> FetchUserWebList()
+        {
             // Security checks: None
             
             LearningStoreJob job = LearningStore.CreateJob();
-            LearningStoreQuery query = LearningStore.CreateQuery(
-                Schema.UserWebList.ViewName);
+            LearningStoreQuery query = LearningStore.CreateQuery(Schema.UserWebList.ViewName);
             query.AddColumn(Schema.UserWebList.SPSiteGuid);
             query.AddColumn(Schema.UserWebList.SPWebGuid);
             query.AddColumn(Schema.UserWebList.LastAccessTime);
-            query.AddSort(Schema.UserWebList.LastAccessTime,
-                LearningStoreSortDirection.Descending);
+            query.AddSort(Schema.UserWebList.LastAccessTime, LearningStoreSortDirection.Descending);
             job.PerformQuery(query);
-                    DataRowCollection dataRows = job.Execute<DataTable>().Rows;
-                    List<SlkUserWebListItem> userWebList = new List<SlkUserWebListItem>(dataRows.Count);
-                    foreach (DataRow dataRow in dataRows)
-                    {
-                            Guid spSiteGuid;
-                            Guid spWebGuid;
-                            DateTime lastAccessTime;
-                            LearningStoreHelper.CastNonNull(dataRow[0], out spSiteGuid);
-                            LearningStoreHelper.CastNonNull(dataRow[1], out spWebGuid);
-                            LearningStoreHelper.CastNonNull(dataRow[2], out lastAccessTime);
-                            userWebList.Add(new SlkUserWebListItem(spSiteGuid, spWebGuid, lastAccessTime));
-                    }
-                    return new ReadOnlyCollection<SlkUserWebListItem>(userWebList);
+            DataRowCollection dataRows = job.Execute<DataTable>().Rows;
+            List<SlkUserWebListItem> userWebList = new List<SlkUserWebListItem>(dataRows.Count);
+            foreach (DataRow dataRow in dataRows)
+            {
+                Guid spSiteGuid;
+                Guid spWebGuid;
+                DateTime lastAccessTime;
+                LearningStoreHelper.CastNonNull(dataRow[0], out spSiteGuid);
+                LearningStoreHelper.CastNonNull(dataRow[1], out spWebGuid);
+                LearningStoreHelper.CastNonNull(dataRow[2], out lastAccessTime);
+                userWebList.Add(new SlkUserWebListItem(spSiteGuid, spWebGuid, lastAccessTime));
+            }
+
+            return new ReadOnlyCollection<SlkUserWebListItem>(userWebList);
         }
 
         /// <summary>

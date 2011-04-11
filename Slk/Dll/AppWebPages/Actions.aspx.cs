@@ -516,7 +516,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         }
 
                         // check if the site is already in the list
-                        ReadOnlyCollection<SlkUserWebListItem> userWebList = SlkStore.GetUserWebList();
+                        ReadOnlyCollection<SlkUserWebListItem> userWebList = SlkStore.FetchUserWebList();
                         foreach (SlkUserWebListItem webListItem in userWebList)
                         {
                             if (destinationWeb.ID.Equals(webListItem.SPWebGuid))
@@ -768,7 +768,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             int mruItems = SlkStore.Settings.UserWebListMruSize;
             int itemMax;
             int listCount;
-            ReadOnlyCollection<SlkUserWebListItem> userWebList = SlkStore.GetUserWebList();
+            ReadOnlyCollection<SlkUserWebListItem> userWebList = SlkStore.FetchUserWebList();
 
             foreach (SlkUserWebListItem webListItem in userWebList)
             {
@@ -875,57 +875,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
 #endregion private methods
 
-#region class WebListItem
-        private class WebListItem : SlkUserWebListItem, IComparable
-        {
-            private string m_url;
-            private string m_title;
-
-            internal string Url
-            {
-                [DebuggerStepThrough]
-                get
-                {
-                    return m_url;
-                }
-            }
-
-            /// <summary>
-            /// The plain text (not HTML) to display for this page.
-            /// </summary>
-            internal string Title
-            {
-                [DebuggerStepThrough]
-                get
-                {
-                    return m_title;
-                }
-            }
-
-            internal WebListItem(Guid spSiteGuid, Guid spWebGuid, DateTime lastAccessTime, string url, string title)
-                : base(spSiteGuid, spWebGuid, lastAccessTime)
-            {
-                m_url = url;
-                m_title = title;
-            }
-
-            internal WebListItem(SlkUserWebListItem item, string url, string title)
-                : base(item.SPSiteGuid, item.SPWebGuid, item.LastAccessTime)
-            {
-                m_url = url;
-                m_title = title;
-            }
-
-            #region IComparable Members
-
-            int IComparable.CompareTo(object obj)
-            {
-                return StringComparer.CurrentCultureIgnoreCase.Compare(Title, ((WebListItem)obj).Title);
-            }
-
-            #endregion
-        }
-#endregion class WebListItem
 
     }
 }

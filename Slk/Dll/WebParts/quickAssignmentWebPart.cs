@@ -12,6 +12,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
     {
         TextBox titleBox;
         Button submit;
+        DropDownList sites;
+        UserWebList webList;
 
 #region protected methods
         /// <summary>Creates the child controls.</summary>
@@ -21,6 +23,18 @@ namespace Microsoft.SharePointLearningKit.WebParts
             titleBox.MaxLength = 100;
             titleBox.Rows = 2;
             Controls.Add(titleBox);
+
+            SPWeb web = SPContext.Current.Web;
+            SlkStore store = SlkStore.GetStore(web);
+            webList = new UserWebList(store, web);
+
+            sites = new DropDownList();
+            foreach (WebListItem item in webList.Items)
+            {
+                sites.Items.Add(new ListItem(item.Title, item.SPWebGuid.ToString()));
+            }
+
+            Controls.Add(sites);
 
             submit = new Button();
             submit.Text = "Assign";
@@ -37,8 +51,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             try
             {
-                SPWeb web = SPContext.Current.Web;
-                string url = SlkUtilities.UrlCombine(web.ServerRelativeUrl, "_layouts/SharePointLearningKit/AssignmentProperties.aspx");
+                string webUrl = FindSelectedWeb();
+                string url = SlkUtilities.UrlCombine(webUrl, "_layouts/SharePointLearningKit/AssignmentProperties.aspx");
                 string encodedTitle = HttpUtility.UrlEncode(titleBox.Text);
                 url = String.Format(CultureInfo.InvariantCulture, "{0}?Location={1}&Title={2}", url, AssignmentProperties.noPackageLocation, encodedTitle);
 
@@ -52,5 +66,43 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
         }
 #endregion click event
+
+#region private methods
+        string FindSelectedWeb()
+        {
+            if (sites.SelectedIndex > -1)
+            {
+                Guid webId = new Guid(sites.SelectedItem.Value);
+                foreach (WebListItem item in webList.Items)
+                {
+                    if (item.SPWebGuid == webId)
+                    {
+
+                        try
+                        {
+                            using (SPSite site = new SPSite(item.SPSiteGuid, SPContext.Current.Site.Zone))
+                            {
+                                using (SPWeb web = site.OpenWeb(item.SPWebGuid))
+                                {
+                                    return web.ServerRelativeUrl;
+                                }
+                            }
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            // the user doesn't have permission to access this site, so ignore it
+                        }
+                        catch (System.IO.FileNotFoundException)
+                        {
+                            // the site doesn't exist
+                        }
+                    }
+                }
+
+            }
+
+            return SPContext.Current.Web.ServerRelativeUrl;
+        }
+#endregion private methods
     }
 }
