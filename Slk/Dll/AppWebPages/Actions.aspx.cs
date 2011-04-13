@@ -364,19 +364,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     warnings = SlkStore.ValidatePackage(Location);
                 }
 
-                    SlkError.Debug("xyz");
-                    SlkError.Debug("IsPostBack {0}", IsPostBack);
                 if (!IsPostBack)
                 {
-                    SlkError.Debug("blah2");
                     // get information about the package: populate the "Organizations" row
                     // (as applicable) in the UI, and set <title> and <description> to the text
                     // of the title and description to display
                     string title, description;
-                    SlkError.Debug("Getting title");
                     if (NonELearning)
                     {
-                        SlkError.Debug("NonELearning");
                         // non-e-learning content...
 
                         // set <title> and <description>
@@ -393,7 +388,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                     else
                     {
-                        SlkError.Debug("ELearning");
                         // e-learning content...
 
                         // set <packageInformation> to refer to information about the package
@@ -878,8 +872,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             AssignmentProperties properties = AssignmentProperties.CreateNewAssignmentObject(SlkStore, SPWeb, SlkRole.Learner);
             properties.SetLocation(Location, OrganizationIndex);
-            AssignmentItemIdentifier assignmentId = SlkStore.CreateAssignment(properties);
+            // Have to allow unsafe updates or self assignment fails
+            bool allowUnsafeUpdates = SPWeb.AllowUnsafeUpdates;
+            SPWeb.AllowUnsafeUpdates = true;
+            try
+            {
+                properties.Save(SPWeb, SlkRole.Learner, null);
+            }
+            finally
+            {
+                SPWeb.AllowUnsafeUpdates = allowUnsafeUpdates;
+            }
+
+            AssignmentItemIdentifier assignmentId = properties.Id;
             Guid learnerAssignmentGuidId = SlkStore.GetCurrentUserLearnerAssignment(assignmentId);
+            /*
 
             AssignmentProperties currentAssProperties = SlkStore.GetAssignmentProperties(assignmentId, SlkRole.Learner);
 
@@ -896,6 +903,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     throw new SafeToDisplayException(AppResources.AssFolderAlreadyExists);
                 }
             }
+            */
 
             return learnerAssignmentGuidId;
         }

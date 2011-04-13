@@ -466,14 +466,17 @@ namespace Microsoft.SharePointLearningKit
 
         void PopulateSPUsers(SlkMemberships members, SlkUserCollection users)
         {
-            foreach (SlkUser user in users)
+            if (members != null)
             {
-                if (user.SPUser == null)
+                foreach (SlkUser user in users)
                 {
-                    SlkUser member = members[user.UserId.GetKey()];
-                    if (member != null)
+                    if (user.SPUser == null)
                     {
-                        user.SPUser = member.SPUser;
+                        SlkUser member = members[user.UserId.GetKey()];
+                        if (member != null)
+                        {
+                            user.SPUser = member.SPUser;
+                        }
                     }
                 }
             }
