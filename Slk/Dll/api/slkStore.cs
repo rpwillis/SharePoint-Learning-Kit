@@ -546,7 +546,14 @@ namespace Microsoft.SharePointLearningKit
                         // package doesn't exist in SharePointPackageStore -- register it if <validateOnly>
                         // is false, or just validate it if <validateOnly> is true, and <log> to the
                         // validation log in either case
-                        package = RegisterAndValidatePackage(validateOnly, fileLocation.Location);
+                        if (validateOnly)
+                        {
+                            package = ValidateActualPackage(fileLocation.Location);
+                        }
+                        else
+                        {
+                            package = RegisterAndValidatePackage(fileLocation.Location);
+                        }
                     }
                 }
                     
@@ -556,79 +563,86 @@ namespace Microsoft.SharePointLearningKit
             return package;
         }
 
-        /// <summary>Register the package in the SharePointPackageStore.</summary>
-        PackageDetails RegisterAndValidatePackage(bool validateOnly, SharePointFileLocation location)
+        /// <summary>Validates a package.</summary>
+        /// <param name="location">The location of the package.</param>
+        /// <returns>The package details.</returns>
+        PackageDetails ValidateActualPackage(SharePointFileLocation location)
         {
             PackageDetails package = new PackageDetails();
 
-            ValidationResults log;
-            if (validateOnly)
+            // validate the package, but don't register it
+            package.PackageId = null;
+            SharePointPackageReader packageReader;
+
+            try
             {
-                // validate the package, but don't register it
-                package.PackageId = null;
-                SharePointPackageReader packageReader;
+                packageReader = new SharePointPackageReader(SharePointCacheSettings, location, false);
+            }
+            catch (InvalidPackageException ex)
+            {
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotValid, ex.Message));
+            }
+
+            using (packageReader)
+            {
+                PackageValidatorSettings settings = new PackageValidatorSettings(ValidationBehavior.LogWarning, ValidationBehavior.None, ValidationBehavior.LogError, ValidationBehavior.LogWarning);
                 try
                 {
-                    packageReader = new SharePointPackageReader(SharePointCacheSettings, location, false);
+                    ValidationResults log = PackageValidator.Validate(packageReader, settings);
+                    if (log.HasErrors)
+                    {
+                        throw new SafeToDisplayException(log, String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotValid, ""));
+                    }
+                    else if (log.HasWarnings)
+                    {
+                        using (XmlReader xmlLog = log.ToXml())
+                        {
+                            package.Warnings = LearningStoreXml.CreateAndLoad(xmlLog);
+                        }
+                    }
+
+                    return package;
                 }
                 catch (InvalidPackageException ex)
                 {
                     throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotValid, ex.Message));
                 }
-
-                using (packageReader)
-                {
-                    PackageValidatorSettings settings = new PackageValidatorSettings(ValidationBehavior.LogWarning, ValidationBehavior.None, ValidationBehavior.LogError, ValidationBehavior.LogWarning);
-                    try
-                    {
-                        log = PackageValidator.Validate(packageReader, settings);
-                        if (log.HasErrors)
-                        {
-                            throw new SafeToDisplayException(log, String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotValid, ""));
-                        }
-                    }
-                    catch (InvalidPackageException ex)
-                    {
-                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotValid, ex.Message));
-                    }
-                }
             }
-            else
-            {
-                // validate and register the package
-                PackageEnforcement pe = new PackageEnforcement(false, true, false);
-                try
-                {
-                    RegisterPackageResult registerResult = PackageStore.RegisterPackage(location, pe);
-                    package.PackageId = registerResult.PackageId;
-                    log = registerResult.Log;
-                }
-                catch (PackageImportException ex)
-                {
-                    throw new SafeToDisplayException(ex.Log, ex.Message);
-                }
+        }
 
+        /// <summary>Register the package in the SharePointPackageStore.</summary>
+        PackageDetails RegisterAndValidatePackage(SharePointFileLocation location)
+        {
+            PackageDetails package = new PackageDetails();
+
+            ValidationResults log;
+            // validate and register the package
+            PackageEnforcement pe = new PackageEnforcement(false, true, false);
+            try
+            {
+                RegisterPackageResult registerResult = PackageStore.RegisterPackage(location, pe);
+                package.PackageId = registerResult.PackageId;
+                log = registerResult.Log;
+            }
+            catch (PackageImportException ex)
+            {
+                throw new SafeToDisplayException(ex.Log, ex.Message);
             }
 
             // if there were warnings, set <warnings> to refer to them and update the
             // PackageItem in LearningStore to contain the warnings (if there is a PackageItem)
             if (log.HasWarnings || log.HasErrors)
             {
-                package.Warnings = LearningStoreXml.CreateAndLoad(log.ToXml());
-
-                // copy <warnings> into the PackageItem table row (if any)
-                if (package.PackageId != null)
+                using (XmlReader xmlLog = log.ToXml())
                 {
-                    LearningStoreJob job = LearningStore.CreateJob();
-                    Dictionary<string, object> properties = new Dictionary<string, object>();
-                    properties[Schema.PackageItem.Warnings] = package.Warnings;
-                    job.UpdateItem(package.PackageId, properties);
-                    job.Execute();
+                    package.Warnings = LearningStoreXml.CreateAndLoad(xmlLog);
                 }
-            }
-            else
-            {
-                package.Warnings = null;
+
+                LearningStoreJob job = LearningStore.CreateJob();
+                Dictionary<string, object> properties = new Dictionary<string, object>();
+                properties[Schema.PackageItem.Warnings] = package.Warnings;
+                job.UpdateItem(package.PackageId, properties);
+                job.Execute();
             }
 
             return package;
@@ -1293,13 +1307,9 @@ namespace Microsoft.SharePointLearningKit
                 
                     // Copy information out of <DataRow>
                     
-                    UserItemIdentifier learnerId;
-                    LearningStoreHelper.Cast(dataRow[Schema.LearnerAssignmentView.LearnerId],
-                        out learnerId);
+                    UserItemIdentifier learnerId = LearningStoreHelper.Cast<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentView.LearnerId]);
                         
-                    ActivityPackageItemIdentifier rootActivityId;
-                    LearningStoreHelper.Cast(dataRow[Schema.LearnerAssignmentView.RootActivityId],
-                        out rootActivityId);
+                    ActivityPackageItemIdentifier rootActivityId = LearningStoreHelper.Cast<ActivityPackageItemIdentifier>(dataRow[Schema.LearnerAssignmentView.RootActivityId]);
 
                     LearningStoreHelper.Cast(dataRow[Schema.LearnerAssignmentView.AttemptId],
                         out attemptId);
@@ -1599,10 +1609,8 @@ namespace Microsoft.SharePointLearningKit
                 LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentSPWebGuid], out guid);
                 lap.SPWebGuid = guid;
 
-                ActivityPackageItemIdentifier activityId;
-                LearningStoreHelper.Cast(dataRow[Schema.LearnerAssignmentListForObservers.RootActivityId], out activityId);
-                lap.RootActivityId = activityId;
-                bool isNonELearning = (activityId == null);
+                lap.RootActivityId = LearningStoreHelper.Cast<ActivityPackageItemIdentifier>(dataRow[Schema.LearnerAssignmentListForObservers.RootActivityId]);
+                bool isNonELearning = (lap.RootActivityId == null);
 
                 if (isNonELearning)
                 {
@@ -1637,14 +1645,11 @@ namespace Microsoft.SharePointLearningKit
 
                 lap.ShowAnswersToLearners = LearningStoreHelper.CastNonNullStruct<bool>(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentShowAnswersToLearners]);
 
-                UserItemIdentifier userId;
-                userId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentCreatedById]);
-                lap.CreatedById = userId;
+                lap.CreatedById = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentCreatedById]);
 
                 lap.CreatedByName = LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.AssignmentCreatedByName], string.Empty);
 
-                userId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentListForObservers.LearnerId]);
-                lap.LearnerId = userId;
+                lap.LearnerId = LearningStoreHelper.CastNonNull<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentListForObservers.LearnerId]);
 
                 lap.LearnerName = LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForObservers.LearnerName], string.Empty);
 
@@ -1706,13 +1711,10 @@ namespace Microsoft.SharePointLearningKit
                     out guid);
                 lap.SPWebGuid = guid;
 
-                ActivityPackageItemIdentifier activityId;
-                LearningStoreHelper.Cast(dataRow[instructorRole
+                lap.RootActivityId = LearningStoreHelper.Cast<ActivityPackageItemIdentifier >(dataRow[instructorRole
                     ? Schema.LearnerAssignmentListForInstructors.RootActivityId
-                    : Schema.LearnerAssignmentListForLearners.RootActivityId],
-                    out activityId);
-                lap.RootActivityId = activityId;
-                bool isNonELearning = (activityId == null);
+                    : Schema.LearnerAssignmentListForLearners.RootActivityId]);
+                bool isNonELearning = (lap.RootActivityId == null);
 
                 if (isNonELearning)
                 {
@@ -2842,8 +2844,7 @@ namespace Microsoft.SharePointLearningKit
                                 DataRow dataRow = dataRows[0];
                                 LearnerAssignmentState oldStatus;
                                 LearningStoreHelper.CastNonNull<LearnerAssignmentState>(dataRow[0], out oldStatus);
-                    ActivityPackageItemIdentifier rootActivityId;
-                    LearningStoreHelper.Cast(dataRow[1], out rootActivityId);
+                    ActivityPackageItemIdentifier rootActivityId = LearningStoreHelper.Cast<ActivityPackageItemIdentifier>(dataRow[1]);
                                 AttemptItemIdentifier attemptId;
                                 LearningStoreHelper.Cast(dataRow[2], out attemptId);
                     UserItemIdentifier learnerId;
@@ -2960,8 +2961,7 @@ namespace Microsoft.SharePointLearningKit
                     DataRow dataRow = dataRows[0];
                     LearnerAssignmentState status;
                     LearningStoreHelper.CastNonNull<LearnerAssignmentState>(dataRow[0], out status);
-                    ActivityPackageItemIdentifier rootActivityId;
-                    LearningStoreHelper.Cast(dataRow[1], out rootActivityId);
+                    ActivityPackageItemIdentifier rootActivityId = LearningStoreHelper.Cast<ActivityPackageItemIdentifier>(dataRow[1]);
                     float? gradedPoints;
                     LearningStoreHelper.Cast(dataRow[2], out gradedPoints);                
                     bool isAutoReturn;
@@ -2996,7 +2996,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Retrieves some information about an e-learning package. </summary>
         /// <param name="packageReader">A <c>PackageReader</c> open onto the e-learning package to retrieve information about.</param>
         /// <param name="spFile">The <c>SPFile</c> of the package to retrieve information about.</param>
-        private static PackageInformation GetPackageInformation(PackageReader packageReader, SPFile spFile)
+        static PackageInformation GetPackageInformation(PackageReader packageReader, SPFile spFile)
         {
             PackageInformation information = new PackageInformation();
             information.SPFile = spFile;
@@ -3008,20 +3008,25 @@ namespace Microsoft.SharePointLearningKit
             //   1. if there's a Title column value, use it;
             //   2. otherwise, if there's a title specified in the package metadata, use it;
             //   3. otherwise, use the file name without the extension
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("file title xx{0}yy", spFile.Title);
             if (String.IsNullOrEmpty(spFile.Title) == false)
             {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("file title {0}", spFile.Title);
                 information.Title = spFile.Title;
             }
             else 
             {
                 string titleFromMetadata = metadataReader.GetTitle(CultureInfo.CurrentCulture);
-                if (titleFromMetadata != null)
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("meta data title xx{0}yy", titleFromMetadata);
+                if (string.IsNullOrEmpty(titleFromMetadata) == false)
                 {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("meta data {0}", titleFromMetadata);
                     information.Title = titleFromMetadata;
                 }
                 else
                 {
                     information.Title = Path.GetFileNameWithoutExtension(spFile.Name);
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("path {0}", information.Title);
                 }
             }
 

@@ -26,7 +26,6 @@ namespace Microsoft.SharePointLearningKit
             {
                 if (originalCollection.Contains(user.UserId) == false)
                 {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Add {0}", user.UserId);
                     Additions.Add(newCollection[user.UserId]);
                 }
             }
