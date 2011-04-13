@@ -85,9 +85,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private SPFile m_spFile;
         private SPListItem m_spListItem;
         private SPList m_spList;
-        private string m_location;
+        private string location;
         private int? m_versionId;
         private bool? m_nonELearning;
+        SharePointFileLocation fileLocation;
         #endregion
 
         #region Private Properties
@@ -99,13 +100,20 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             get
             {
-                if (m_location == null)
+                if (location == null)
                 {
-                    LoadSlkObjects();
-                    if (m_location == null)
+                    // set <location> to the SharePointPackageStore location string for the package specified
+                    // by <spWeb> and <spFile>; note that this package may not exist yet in the PackageStore,
+                    // but if it does than <location> will be its location string
+                    fileLocation = new SharePointFileLocation(SPWeb, SPFile.UniqueId, VersionId);
+                    location = fileLocation.ToString();
+                    if (location == null)
+                    {
                         throw new InternalErrorException("SLKActions1001");
+                    }
                 }
-                return m_location;
+
+                return location;
             }
         }
 
@@ -121,7 +129,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     LoadObjects();
                     if (!m_versionId.HasValue)
+                    {
                         throw new InternalErrorException("SLKActions1002");
+                    }
                 }
                 return m_versionId.Value;
             }
@@ -139,7 +149,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     LoadSlkObjects();
                     if (!m_nonELearning.HasValue)
+                    {
                         throw new InternalErrorException("SLKActions1003");
+                    }
                 }
                 return m_nonELearning.Value;
             }
@@ -174,7 +186,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     LoadObjects();
                     if (m_spFile == null)
+                    {
                         throw new InternalErrorException("SLKActions1004");
+                    }
                 }
                 return m_spFile;
             }
@@ -350,20 +364,27 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     warnings = SlkStore.ValidatePackage(Location);
                 }
 
+                    SlkError.Debug("xyz");
+                    SlkError.Debug("IsPostBack {0}", IsPostBack);
                 if (!IsPostBack)
                 {
+                    SlkError.Debug("blah2");
                     // get information about the package: populate the "Organizations" row
                     // (as applicable) in the UI, and set <title> and <description> to the text
                     // of the title and description to display
                     string title, description;
+                    SlkError.Debug("Getting title");
                     if (NonELearning)
                     {
+                        SlkError.Debug("NonELearning");
                         // non-e-learning content...
 
                         // set <title> and <description>
                         title = SPFile.Title;
                         if (String.IsNullOrEmpty(title))
+                        {
                             title = Path.GetFileNameWithoutExtension(SPFile.Name);
+                        }
                         description = "";
 
                         // hide the "Organizations" row
@@ -372,6 +393,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                     else
                     {
+                        SlkError.Debug("ELearning");
                         // e-learning content...
 
                         // set <packageInformation> to refer to information about the package
@@ -388,8 +410,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             string id = nodeReader.Id;
                             organizationList.Items.Add(new ListItem(Server.HtmlEncode(GetDefaultTitle(nodeReader.Title, id)), id));
                             if (packageInformation.ManifestReader.DefaultOrganization.Id == id)
+                            {
                                 organizationList.Items.FindByValue(id).Selected = true;
+                            }
                         }
+
                         if (organizations.Count == 1)
                         {
                             organizationRow.Visible = false;
@@ -433,9 +458,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     errorBanner.AddHtmlErrorText(ErrorType.Warning, sb.ToString());
                 }
 
-
                 List<WebListItem> webList = GetSiteList();
-
 
                 PopulateSiteListControl(webList);
 
@@ -691,16 +714,19 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 m_spList = SPWeb.Lists[listId];
                 int itemId = QueryString.Parse(QueryStringKeys.ItemId);
                 m_spListItem = m_spList.GetItemById(itemId);
+
                 // reject folders
                 if (m_spListItem.FileSystemObjectType.Equals(SPFileSystemObjectType.Folder))
                 {
                     throw new SafeToDisplayException(AppResources.ActionsItemIsFolder);
                 }
+
                 // reject anything but a file
                 if (!m_spListItem.FileSystemObjectType.Equals(SPFileSystemObjectType.File))
                 {
                     throw new SafeToDisplayException(AppResources.ActionsItemNotFound);
                 }
+
                 m_spFile = m_spListItem.File;
             }
             catch (SPException)
@@ -722,16 +748,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void LoadSlkObjects()
         {
-            // set <location> to the SharePointPackageStore location string for the package specified
-            // by <spWeb> and <spFile>; note that this package may not exist yet in the PackageStore,
-            // but if it does than <location> will be its location string
-            SharePointFileLocation spFileLocation = new SharePointFileLocation(SPWeb, SPFile.UniqueId, VersionId);
-            m_location = spFileLocation.ToString();
+            if (fileLocation == null)
+            {
+                string location = Location;
+            }
 
             // set <nonELearning> to true if this file isn't an e-learning package type
-            using (SharePointPackageReader spReader = new SharePointPackageReader(SlkStore.SharePointCacheSettings, spFileLocation, false))
+            using (SharePointPackageReader spReader = new SharePointPackageReader(SlkStore.SharePointCacheSettings, fileLocation, false))
             {
-                m_nonELearning = PackageValidator.Validate(spReader).HasErrors;
+                m_nonELearning = PackageValidator.ValidateIsELearning(spReader).HasErrors;
             }
         }
 
@@ -851,7 +876,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         Guid CreateSelfAssignment()
         {
-            AssignmentProperties properties = AssignmentProperties.CreateNewAssignmentObject(SlkStore, SPWeb, Location, OrganizationIndex, SlkRole.Learner);
+            AssignmentProperties properties = AssignmentProperties.CreateNewAssignmentObject(SlkStore, SPWeb, SlkRole.Learner);
+            properties.SetLocation(Location, OrganizationIndex);
             AssignmentItemIdentifier assignmentId = SlkStore.CreateAssignment(properties);
             Guid learnerAssignmentGuidId = SlkStore.GetCurrentUserLearnerAssignment(assignmentId);
 

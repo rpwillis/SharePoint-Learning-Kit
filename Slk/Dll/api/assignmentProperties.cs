@@ -293,8 +293,17 @@ namespace Microsoft.SharePointLearningKit
                 RootActivityId = store.FindRootActivity(package.PackageId, organizationIndex.Value);
                 PackageInformation information = store.GetPackageInformation(package.PackageId, file);
 
-                Title = information.Title;
-                Description = information.Description;
+                bool existingTitle = (string.IsNullOrEmpty(Title) == false);
+
+                if (existingTitle == false)
+                {
+                    Title = information.Title;
+                }
+
+                if (string.IsNullOrEmpty(Description))
+                {
+                    Description = information.Description;
+                }
 
                 // validate <organizationIndex>
                 if ((organizationIndex.Value < 0) || (organizationIndex.Value >= information.ManifestReader.Organizations.Count))
@@ -308,7 +317,7 @@ namespace Microsoft.SharePointLearningKit
                 OrganizationNodeReader organizationNodeReader = information.ManifestReader.Organizations[organizationIndex.Value];
 
                 // if there is more than one organization, append the organization title, if any
-                if (information.ManifestReader.Organizations.Count > 1)
+                if (existingTitle == false && information.ManifestReader.Organizations.Count > 1)
                 {
                     if (!String.IsNullOrEmpty(organizationNodeReader.Title))
                     {
@@ -334,15 +343,26 @@ namespace Microsoft.SharePointLearningKit
             {
                 RootActivityId = null;
                 Location = location;
-                Title = file.Title;
-                if (String.IsNullOrEmpty(Title))
+                if (string.IsNullOrEmpty(Title))
                 {
-                    Title = System.IO.Path.GetFileNameWithoutExtension(file.Name);
+                    Title = file.Title;
+                    if (String.IsNullOrEmpty(Title))
+                    {
+                        Title = System.IO.Path.GetFileNameWithoutExtension(file.Name);
+                    }
                 }
-                Description = string.Empty;
-                PointsPossible = null;      // "Points Possible" defaults to null for non-e-learning content
-                PackageWarnings = null;     // no package warnings
-                PackageFormat = null;       // non-e-learning package
+
+                if (string.IsNullOrEmpty(Description))
+                {
+                    Description = string.Empty;
+                }
+
+                if (PointsPossible == null)
+                {
+                    PointsPossible = null;      // "Points Possible" defaults to null for non-e-learning content
+                    PackageWarnings = null;     // no package warnings
+                    PackageFormat = null;       // non-e-learning package
+                }
             }
         }
 #endregion public methods
@@ -506,19 +526,12 @@ namespace Microsoft.SharePointLearningKit
         /// </remarks>
         /// <param name="store"></param>
         /// <param name="destinationSPWeb">The <c>SPWeb</c> that the assignment would be assigned in.</param>
-        /// <param name="location">The MLC SharePoint location string that refers to the e-learning
-        ///     package or non-e-learning document that would be assigned.  Use
-        ///     <c>SharePointPackageStore.GetLocation</c> to construct this string.</param>
-        /// <param name="organizationIndex">The zero-based index of the organization within the
-        ///     e-learning content to assign; this is the value that's used as an index to
-        ///     <c>ManifestReader.Organizations</c>.  If the content being assigned is a non-e-learning
-        ///     document, use <c>null</c> for <paramref name="organizationIndex"/>.</param>
         /// <param name="slkRole">The <c>SlkRole</c> for which information is to be retrieved.
         ///     Use <c>SlkRole.Learner</c> to get default information for a self-assigned assignment,
         ///     i.e. an assignment with no instructors for which the current learner is the only
         ///     learner.  Otherwise, use <c>SlkRole.Instructor</c>.</param>
         /// <returns></returns>
-        public static AssignmentProperties CreateNewAssignmentObject(ISlkStore store, SPWeb destinationSPWeb, string location, Nullable<int> organizationIndex, SlkRole slkRole)
+        public static AssignmentProperties CreateNewAssignmentObject(ISlkStore store, SPWeb destinationSPWeb, SlkRole slkRole)
         {
             // Security checks: Fails if the user isn't an instructor on the web if SlkRole=Instructor
             // (verified by EnsureInstructor).  Fails if the user doesn't have access to the

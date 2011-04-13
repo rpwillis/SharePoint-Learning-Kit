@@ -68,7 +68,13 @@ namespace Microsoft.LearningComponents.Storage
         {
             // Check input parameters
             if (reader == null)
+            {
                 throw new ArgumentNullException("reader");
+            }
+            else if (reader.ReadState == ReadState.Closed)
+            {
+                throw new ArgumentOutOfRangeException("reader");
+            }
 
             LearningStoreXml xml = new LearningStoreXml();
             xml.m_sqlxml = new SqlXml(reader);

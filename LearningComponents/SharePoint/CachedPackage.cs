@@ -721,7 +721,7 @@ namespace Microsoft.LearningComponents.SharePoint
 
         private static void ValidatePackage(PackageReader reader)
         {
-            ValidationResults results = PackageValidator.Validate(reader);
+            ValidationResults results = PackageValidator.ValidateIsELearning(reader);
             StringBuilder logMessage = new StringBuilder(100);
             if (results.HasErrors)
             {

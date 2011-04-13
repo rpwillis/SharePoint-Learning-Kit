@@ -443,7 +443,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         SetMasterPageControlText();
                         //If the Current User is Instructor in the given SPWeb 
                         //proceed with creating the Assignment
-                        AssignmentProperties = AssignmentProperties.CreateNewAssignmentObject(SlkStore, SPWeb, Location, OrgIndex, SlkRole.Instructor);
+                        AssignmentProperties = AssignmentProperties.CreateNewAssignmentObject(SlkStore, SPWeb, SlkRole.Instructor);
                         AssignmentProperties.SetLocation(Location, OrgIndex, Request.QueryString["title"]);
 
                         //if <packageWarnings> is not null, display the E-Learning content validation warning message
@@ -997,6 +997,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
 
             chkAutoReturnLearners.Checked = AssignmentProperties.AutoReturn;
+
+            if (AssignmentProperties.IsNonELearning)
+            {
+                chkAutoReturnLearners.Enabled = false;
+                lblAutoReturnLearners.Enabled = false;
+            }
+
+
             chkShowAnswersToLearners.Checked = AssignmentProperties.ShowAnswersToLearners;
             checkboxEmail.Checked = AssignmentProperties.EmailChanges;
 

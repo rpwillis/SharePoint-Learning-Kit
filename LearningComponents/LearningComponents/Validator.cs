@@ -368,7 +368,7 @@ namespace Microsoft.LearningComponents
             Utilities.ValidateParameterNonNull("packageReader", packageReader);
             Utilities.ValidateParameterNonNull("packageValidatorSettings", packageValidatorSettings);
 
-            ValidationResults log = Validate(packageReader);
+            ValidationResults log = ValidateIsELearning(packageReader);
             if (log.HasErrors || (packageValidatorSettings.ScormRequirementValidation == ValidationBehavior.None && 
                 packageValidatorSettings.ScormRecommendationValidation == ValidationBehavior.None && 
                 packageValidatorSettings.LrmRequirementValidation == ValidationBehavior.None && 
@@ -393,7 +393,7 @@ namespace Microsoft.LearningComponents
         /// </summary>
         /// <param name="packageReader">The package to validate.</param>
         /// <returns>The results of validation.</returns>
-        public static ValidationResults Validate(PackageReader packageReader)
+        public static ValidationResults ValidateIsELearning(PackageReader packageReader)
         {
             ValidatorResources.Culture = Thread.CurrentThread.CurrentCulture;;
 
@@ -671,10 +671,8 @@ namespace Microsoft.LearningComponents
                 xmlWriter.WriteEndElement();
             }
 
-            using (StringReader stringReader = new StringReader(stringBuilder.ToString()))
-            {
-                return XmlReader.Create(stringReader);
-            }
+            StringReader stringReader = new StringReader(stringBuilder.ToString());
+            return XmlReader.Create(stringReader);
         }
 
         /// <summary>
