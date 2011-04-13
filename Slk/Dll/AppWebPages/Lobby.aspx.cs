@@ -224,7 +224,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 LearnerAssignmentState learnerAssignmentStatus = LearnerAssignmentProperties.Status;
                 bool setStatusToActive = (Request.QueryString[startQueryStringName] == "true");
 
-
                 if (IsNonElearningNotStarted)
                 {
                     if (LearnerAssignmentProperties.IsNoPackageAssignment)
@@ -272,8 +271,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 SPSecurity.CatchAccessDeniedException = false;
                 try
                 {
+                        SlkError.Debug("{0}", LearnerAssignmentProperties.SPSiteGuid);
                     using(SPSite assignmentSite = new SPSite(LearnerAssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
                     {
+                        SlkError.Debug("{0}", LearnerAssignmentProperties.SPWebGuid);
                         using(SPWeb assignmentWeb = assignmentSite.OpenWeb(LearnerAssignmentProperties.SPWebGuid))
                         {
 
@@ -281,6 +282,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             if (SPWeb.ID != assignmentWeb.ID)
                                 Response.Redirect(SlkUtilities.UrlCombine(assignmentWeb.Url, Request.Path + "?" + Request.QueryString.ToString()));
 
+                        SlkError.Debug("{0}", assignmentWeb.Title);
                             lnkSite.Text = Server.HtmlEncode(assignmentWeb.Title);
                             lnkSite.NavigateUrl = assignmentWeb.ServerRelativeUrl;
                         }
