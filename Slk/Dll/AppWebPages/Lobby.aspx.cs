@@ -100,7 +100,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
         private LearnerAssignmentProperties m_learnerAssignmentProperties;
         string initialFileUrl;
-                const string startQueryStringName = "start";
+        const string startQueryStringName = "start";
 
         /// <summary>
         /// Holds AssignmentProperties value.
@@ -223,15 +223,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 LearnerAssignmentState learnerAssignmentStatus = LearnerAssignmentProperties.Status;
                 bool setStatusToActive = (Request.QueryString[startQueryStringName] == "true");
-                if (setStatusToActive && learnerAssignmentStatus == LearnerAssignmentState.NotStarted)
-                {
-                    learnerAssignmentStatus = LearnerAssignmentState.Active;
-                    SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Active);
-                }
+
 
                 if (IsNonElearningNotStarted)
                 {
-                    if (LearnerAssignmentProperties.IsNoPackageAssignment == false)
+                    if (LearnerAssignmentProperties.IsNoPackageAssignment)
+                    {
+                        setStatusToActive = true;
+                    }
+                    else
                     {
                         CopyDocumentToDropBox();
                     }
@@ -240,8 +240,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     FindDocumentUrl();
                 }
-                else
+
+                if (setStatusToActive && learnerAssignmentStatus == LearnerAssignmentState.NotStarted)
                 {
+                    learnerAssignmentStatus = LearnerAssignmentState.Active;
+                    SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Active);
                 }
 
                 ClientScript.RegisterClientScriptBlock(this.GetType(), "lblStatusValue", "var lblStatusValue = \"" + lblStatusValue.ClientID + "\";", true);
