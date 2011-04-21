@@ -130,6 +130,14 @@ function SlkOpenFramesetWindow(navigateUrl)
 		<asp:Label ID="lblScoreValue" runat="server" />
 	</slk:TableGridColumn>
 </slk:TableGridRow>
+<slk:TableGridRow ID="rowGrade" runat="server">
+	<slk:TableGridColumn ColumnType="FormLabel">
+		<asp:Label ID="labelGrade" runat="server" EnableViewState="false" />
+	</slk:TableGridColumn>
+	<slk:TableGridColumn ColumnType="FormBody">
+		<asp:Label ID="labelGradeValue" runat="server" />
+	</slk:TableGridColumn>
+</slk:TableGridRow>
 <slk:TableGridRow>
 	<slk:TableGridColumn ColumnType="FormLabel">
 		<asp:Label ID="lblStatus" runat="server" EnableViewState="false" />

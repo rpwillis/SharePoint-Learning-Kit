@@ -886,24 +886,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             AssignmentItemIdentifier assignmentId = properties.Id;
             Guid learnerAssignmentGuidId = SlkStore.GetCurrentUserLearnerAssignment(assignmentId);
-            /*
-
-            AssignmentProperties currentAssProperties = SlkStore.GetAssignmentProperties(assignmentId, SlkRole.Learner);
-
-            if (currentAssProperties.PackageFormat == null)
-            {
-                DropBoxManager dropBoxMgr = new DropBoxManager(currentAssProperties);
-                AssignmentFolder assignmentFolder = dropBoxMgr.CreateSelfAssignmentFolder();
-
-                if (assignmentFolder == null)
-                {
-                    // Deletes the assignment
-                    SlkStore.DeleteAssignment(assignmentId);
-                    //Log the Exception 
-                    throw new SafeToDisplayException(AppResources.AssFolderAlreadyExists);
-                }
-            }
-            */
 
             return learnerAssignmentGuidId;
         }

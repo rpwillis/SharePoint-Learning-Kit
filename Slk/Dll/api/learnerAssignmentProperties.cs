@@ -165,12 +165,6 @@ namespace Microsoft.SharePointLearningKit
         float? m_gradedPoints;
 
         /// <summary>
-        /// Holds the value of the <c>FinalPoints</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        float? m_finalPoints;
-
-        /// <summary>
         /// Holds the value of the <c>InstructorComments</c> property.
         /// </summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -619,19 +613,10 @@ namespace Microsoft.SharePointLearningKit
         /// <c>GradedPoints</c>, but the instructor may manually change the value of <c>FinalPoint</c>.
         /// For example, the instructor may award bonus points to the learner.
         /// </summary>
-        public Nullable<Single> FinalPoints
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_finalPoints;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_finalPoints = value;
-            }
-        }
+        public Nullable<Single> FinalPoints { get; set; }
+
+        /// <summary>Holds the marked grade.</summary>
+        public string Grade { get; set; }
 
         /// <summary>
         /// Gets comments from the instructor (if any) on this learner assignment; <c>String.Empty</c>

@@ -74,8 +74,8 @@ public class SlkSettings
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     int? m_packageCacheExpirationMinutes;
 
-        ///<summary>Indicates whether to hide disabled users on the assignment page.</summary>
-        bool hideDisabledUsers;
+    ///<summary>Indicates whether to hide disabled users on the assignment page.</summary>
+    bool hideDisabledUsers;
 
     /// <summary>
     /// Holds the value of the <c>PackageCacheLocation</c> property.
@@ -203,11 +203,14 @@ public class SlkSettings
         }
     }
 
-        ///<summary>Indicates whether to hide disabled users on the assignment page.</summary>
-        public bool HideDisabledUsers
-        {
-            get { return hideDisabledUsers ;}
-        }
+    ///<summary>Indicates whether to hide disabled users on the assignment page.</summary>
+    public bool HideDisabledUsers
+    {
+        get { return hideDisabledUsers ;}
+    }
+
+    /// <summary>Inidicates whether to use grades as well as points.</summary>
+    public bool UseGrades { get; private set; }
 
     /// <summary>
     /// Gets the value of the "PackageCacheLocation" attribute of the "&lt;Settings&gt;" element
@@ -409,13 +412,23 @@ public class SlkSettings
 
                     // parse "HideDisabledUsers" attribute
                     if (!xmlReader.MoveToAttribute("HideDisabledUsers"))
-                                        {
-                                            slkSettings.hideDisabledUsers = false;
-                                        }
+                    {
+                        slkSettings.hideDisabledUsers = false;
+                    }
                     else
-                                        {
-                                            slkSettings.hideDisabledUsers = xmlReader.ReadContentAsBoolean();
-                                        }
+                    {
+                        slkSettings.hideDisabledUsers = xmlReader.ReadContentAsBoolean();
+                    }
+
+                    // parse "UseGrades" attribute
+                    if (!xmlReader.MoveToAttribute("UseGrades"))
+                    {
+                        slkSettings.UseGrades = false;
+                    }
+                    else
+                    {
+                        slkSettings.UseGrades = xmlReader.ReadContentAsBoolean();
+                    }
 
                     // parse "PackageCacheExpirationMinutes" attribute
                     if (!xmlReader.MoveToAttribute("PackageCacheExpirationMinutes"))

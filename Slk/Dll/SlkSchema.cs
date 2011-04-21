@@ -4168,6 +4168,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// <li><Fld>Id</Fld></li>
     /// <li><Fld>AssignmentId</Fld></li>
     /// <li><Fld>FinalPoints</Fld></li>
+    /// <li><Fld>Grade</Fld></li>
     /// <li><Fld>GuidId</Fld></li>
     /// <li><Fld>InstructorComments</Fld></li>
     /// <li><Fld>IsFinal</Fld></li>
@@ -4315,6 +4316,20 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string FinalPoints = "FinalPoints";
+        
+        /// <summary>
+        /// Name of the Grade property on the <Typ>LearnerAssignmentItem</Typ> item type.
+        /// <para>
+        /// Grade is a manually marked grade on this <a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+        /// Corresponds to <a href="Microsoft.SharePointLearningKit.GradingProperties.Grade.Property.htm">GradingProperties.Grade</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Property type: String[20]<p/>
+        /// Property can contain null.<p/>
+        /// Property does not have a default value.<p/>
+        /// </remarks>
+        public const string Grade = "Grade";
         
         /// <summary>
         /// Name of the InstructorComments property on the <Typ>LearnerAssignmentItem</Typ> item type.
@@ -8812,6 +8827,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// <li><Fld>AttemptSuspendedActivityId</Fld></li>
     /// <li><Fld>FileSubmissionState</Fld></li>
     /// <li><Fld>FinalPoints</Fld></li>
+    /// <li><Fld>Grade</Fld></li>
     /// <li><Fld>HasInstructors</Fld></li>
     /// <li><Fld>InstructorComments</Fld></li>
     /// <li><Fld>IsFinal</Fld></li>
@@ -8951,6 +8967,17 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string FinalPoints = "FinalPoints";
+        
+        /// <summary>
+        /// Name of the Grade column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
+        /// <para>
+        /// Grade holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Grade.Field.htm">LearnerAssignmentItem.Grade</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Column type: String[20]
+        /// </remarks>
+        public const string Grade = "Grade";
         
         /// <summary>
         /// Name of the InstructorComments column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
@@ -9519,6 +9546,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// <li><Fld>CountTotal</Fld></li>
     /// <li><Fld>FileSubmissionState</Fld></li>
     /// <li><Fld>FinalPoints</Fld></li>
+    /// <li><Fld>Grade</Fld></li>
     /// <li><Fld>HasInstructors</Fld></li>
     /// <li><Fld>InstructorComments</Fld></li>
     /// <li><Fld>IsFinal</Fld></li>
@@ -9662,6 +9690,17 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string FinalPoints = "FinalPoints";
+        
+        /// <summary>
+        /// Name of the Grade column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// <para>
+        /// Grade holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Grade.Field.htm">LearnerAssignmentItem.Grade</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Column type: String[20]
+        /// </remarks>
+        public const string Grade = "Grade";
         
         /// <summary>
         /// Name of the InstructorComments column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
@@ -10449,6 +10488,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// <li><Fld>AttemptSuccessStatus</Fld></li>
     /// <li><Fld>AttemptSuspendedActivityId</Fld></li>
     /// <li><Fld>FinalPoints</Fld></li>
+    /// <li><Fld>Grade</Fld></li>
     /// <li><Fld>HasInstructors</Fld></li>
     /// <li><Fld>InstructorComments</Fld></li>
     /// <li><Fld>IsFinal</Fld></li>
@@ -10589,6 +10629,17 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string FinalPoints = "FinalPoints";
+        
+        /// <summary>
+        /// Name of the Grade column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
+        /// <para>
+        /// Grade holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Grade.Field.htm">LearnerAssignmentItem.Grade</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Column type: String[20]
+        /// </remarks>
+        public const string Grade = "Grade";
         
         /// <summary>
         /// Name of the InstructorComments column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.

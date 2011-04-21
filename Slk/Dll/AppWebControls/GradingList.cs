@@ -66,6 +66,10 @@ namespace Microsoft.SharePointLearningKit.WebControls
         #endregion
 
         #region Public and Private Properties
+
+        /// <summary>Whether to use grades or not.</summary>
+        public bool UseGrades { get; set; }
+
         /// <summary>
         /// Returns Unique ID to the Control.
         /// </summary>
@@ -92,12 +96,16 @@ namespace Microsoft.SharePointLearningKit.WebControls
             get { return this.ClientID + ClientIDSeparator + "txtFinalScore" + ClientIDSeparator; }
         }
 
-        /// <summary>
-        /// Comments Field TextBox Control ID
-        /// </summary>
+        /// <summary>Comments Field TextBox Control ID</summary>
         private string CommentsId
         {
             get { return this.ClientID + ClientIDSeparator + "txtComments" + ClientIDSeparator; }
+        }
+
+        /// <summary>Grade Field TextBox Control ID</summary>
+        private string GradeId
+        {
+            get { return this.ClientID + ClientIDSeparator + "txtGrade" + ClientIDSeparator; }
         }
 
         /// <summary>
@@ -211,6 +219,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             item.LearnerAssignmentId = gradingProperties.LearnerAssignmentId.GetKey();
             item.GradedScore = gradingProperties.GradedPoints;
             item.FinalScore = gradingProperties.FinalPoints;
+            item.Grade = gradingProperties.Grade;
             item.InstructorComments = gradingProperties.InstructorComments;
             item.LearnerName = gradingProperties.LearnerName;
             item.Status = gradingProperties.Status.GetValueOrDefault();
@@ -308,11 +317,16 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                         // render the File Submission column headers
                                         RenderColumnHeader(AppResources.GradingFileSubmissionHeaderText, writer);
                                     }
-
-                                    // render the Graded Score column headers
-                                    RenderColumnHeader(AppResources.GradingGradedScoreHeaderText, writer);
+                                    else
+                                    {
+                                        RenderColumnHeader(AppResources.GradingGradedScoreHeaderText, writer);
+                                    }
                                     // render the Final Score column headers
                                     RenderColumnHeader(AppResources.GradingFinalScoreHeaderText, writer);
+                                    if (UseGrades)
+                                    {
+                                        RenderColumnHeader(AppResources.GradingGradeHeaderText, writer);
+                                    }
                                     // render the Comments column headers
                                     RenderColumnHeader(AppResources.GradingCommentsHeaderText, writer);
                                     // render the Action column headers
@@ -609,67 +623,38 @@ namespace Microsoft.SharePointLearningKit.WebControls
         }
         #endregion
 
+        TextBox CreateInputBox(string id, GradingItem item)
+        {
+            TextBox inputBox = new TextBox();
+            inputBox.CssClass = "ms-input";
+            inputBox.Width = new Unit(50, UnitType.Pixel);
+            inputBox.ID = id;
+            string onFocusHandler = String.Format(CultureInfo.InvariantCulture, "Slk_GradingHighlightGradingRow({0});", item.LearnerAssignmentId);
+            inputBox.Attributes.Add("onfocus", onFocusHandler);
+            return inputBox;
+        }
+
         #region RenderFinalScore
-        /// <summary>
-        /// Render the Final Score defaults to the computed points value, 
-        /// and always shows full precision.
-        /// </summary>
+        /// <summary>Render the Final Score defaults to the computed points value, and always shows full precision.</summary>
         /// <param name="item">Item to be rendered</param>
         /// <param name="htmlTextWriter">Text Writer to write to.</param>
         private void RenderFinalScore(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
-            //Renders  the computed points value, and always shows full precision.
-
-            string uniqueId = FinalScoreId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
-
-            TextBox txtFinalScore = new TextBox();
-            txtFinalScore.CssClass = "ms-input";
-            txtFinalScore.Width = new Unit(50, UnitType.Pixel);
-            txtFinalScore.ID = uniqueId;
-            
-
-            string onFocusHandler
-                = String.Format(CultureInfo.InvariantCulture,
-                                "Slk_GradingHighlightGradingRow({0});",
-                                item.LearnerAssignmentId);
-
-            //Add Client Event Handlers to the Control
-            txtFinalScore.Attributes.Add("onblur", "Slk_GradingValidateFinalScore(this);");
-            txtFinalScore.Attributes.Add("onclick", "Slk_GradingFinalScoreDisabled(this);");
-            txtFinalScore.Attributes.Add("onfocus", onFocusHandler);
-            if (item.FinalScore != null)
+            if (item.IsComplete)
             {
-                txtFinalScore.Text = item.FinalScore.Value.ToString(CultureInfo.CurrentCulture);
-            }
+                //Renders  the final points value, and always shows full precision.
+                string uniqueId = FinalScoreId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
+                TextBox txtFinalScore = CreateInputBox(uniqueId, item);
 
-            switch (item.Status)
-            {
-                //If LearnerAssignmentState is NotStarted or In Progress, Behavior Disabled
-                //ToolTip Similar to: The learner has not submitted the assignment. 
-                //To assign a grade, you must collect it.
-                case LearnerAssignmentState.NotStarted:
-                    txtFinalScore.ToolTip = AppResources.GradingFinalScoreNotSubmittedToolTip;
-                    txtFinalScore.Enabled = false;
-                    break;
-                case LearnerAssignmentState.Active:
-                    txtFinalScore.ToolTip = AppResources.GradingFinalScoreNotSubmittedToolTip;
-                    txtFinalScore.Enabled = false;
-                    break;
-                //If LearnerAssignmentState is Submitted, Final, Behavior Enabled
-                //ToolTip Similar to: To override autograding, enter a final score here.
-                case LearnerAssignmentState.Completed:
-                    txtFinalScore.ToolTip = AppResources.GradingFinalScoreSubmittedToolTip;
-                    break;
-                case LearnerAssignmentState.Final:
-                    txtFinalScore.ToolTip = AppResources.GradingFinalScoreSubmittedToolTip;
-                    break;
-                default:
-                    break;
-            }
+                //Add Client Event Handlers to the Control
+                txtFinalScore.Attributes.Add("onblur", "Slk_GradingValidateFinalScore(this);");
+                txtFinalScore.Attributes.Add("onclick", "Slk_GradingFinalScoreDisabled(this);");
+                if (item.FinalScore != null)
+                {
+                    txtFinalScore.Text = item.FinalScore.Value.ToString(CultureInfo.CurrentCulture);
+                }
 
-            //Render the Final Score control only in the Submitted and Final states
-            if (txtFinalScore.Enabled)
-            {
+                txtFinalScore.ToolTip = AppResources.GradingFinalScoreSubmittedToolTip;
                 txtFinalScore.RenderControl(htmlTextWriter);
             }
 
@@ -759,8 +744,8 @@ namespace Microsoft.SharePointLearningKit.WebControls
         private void RenderGradingItem(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
 
-            string onClickHandler = String.Format(CultureInfo.InvariantCulture, "Slk_GradingHighlightGradingRow({0});", item.LearnerAssignmentId);
-            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Onclick, onClickHandler);
+            string focusScript = String.Format(CultureInfo.InvariantCulture, "Slk_GradingHighlightGradingRow({0});", item.LearnerAssignmentId);
+            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Onclick, focusScript);
 
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Id, GradingRowId + item.LearnerAssignmentId);
 
@@ -792,31 +777,51 @@ namespace Microsoft.SharePointLearningKit.WebControls
                         RenderFileSubmissionState(item, htmlTextWriter);
                     }
                 }
-
-                //Render the Graded Score 
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style,
-                                    "width: 1%; padding-left: 5px; padding-top:5pt");
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
-                using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
+                else
                 {
-                    RenderGradedScore(item, htmlTextWriter);
+                    //Render the Graded Score 
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style,
+                                        "width: 1%; padding-left: 5px; padding-top:5pt");
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
+                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
+                    {
+                        RenderGradedScore(item, htmlTextWriter);
+                    }
                 }
+
                 //Render Final Score   
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style,
-                                            "width: 50px; padding-left: 5px; padding-top:3px");
+                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "width: 50px; padding-left: 5px; padding-top:3px");
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
                 {
-
                     RenderFinalScore(item, htmlTextWriter);
                 }
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style,
-                                            "width: 200px; padding-left: 5px; padding-top:3px");
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
+
+                if (UseGrades)
+                {
+                    //Render Grade  
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "width: 50px; padding-left: 5px; padding-top:3px");
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
+                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
+                    {
+                        if (item.IsComplete)
+                        {
+                            TextBox gradeBox = CreateInputBox(GradeId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture), item);
+                            gradeBox.MaxLength = 20;
+                            gradeBox.Text = item.Grade;
+                            gradeBox.RenderControl(htmlTextWriter);
+                        }
+
+                    }
+                }
+
                 //Render Comments  
+                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
+                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "width: 200px; padding-left: 5px; padding-top:3px");
+                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
                 {
                     TextBox txtInstructorComments = new TextBox();
@@ -827,14 +832,11 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
                     txtInstructorComments.Style.Value = "width: 100%; height:40px; overflow:visible";
                     txtInstructorComments.Text = item.InstructorComments;
-                    string onFocusHandler
-                        = String.Format(CultureInfo.InvariantCulture,
-                                        "Slk_GradingHighlightGradingRow({0});",
-                                        item.LearnerAssignmentId);
-                    txtInstructorComments.Attributes.Add("onfocus", onFocusHandler);
+                    txtInstructorComments.Attributes.Add("onfocus", focusScript);
                     txtInstructorComments.RenderControl(htmlTextWriter);
 
                 }
+
                 //Render Action checkboxes
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Valign, "top");
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
@@ -891,7 +893,19 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     item.FinalScore = finalScore;
                 }
 
-            }  //set the Comments Value
+            }  //set the Grade Value
+            else if (controlId.StartsWith(GradeId, StringComparison.Ordinal))
+            {
+                key = controlId.Substring(GradeId.Length);
+                GetGradingItem(key, out item);
+
+                if (item.Grade != controlValue)
+                {
+                    isGradingItemChanged = true;
+                    item.Grade = controlValue;
+                }
+
+            } //set the Comments Value
             else if (controlId.StartsWith(CommentsId, StringComparison.Ordinal))
             {
                 key = controlId.Substring(CommentsId.Length);
@@ -1441,6 +1455,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 string[] gradedScore = (string[])objState2.Third;
                 string[] finalScore = (string[])objState4.First;
                 string[] instructorComments = (string[])objState4.Second;
+                string[] grades = (string[])objState3.Third;
                 bool[] actionState = (bool[])objState4.Third;
 
                 for (int i = 0; i < assignmentId.Length; i++)
@@ -1457,6 +1472,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     if (!String.IsNullOrEmpty(finalScore[i]))
                         item.FinalScore = float.Parse(finalScore[i],
                                                       CultureInfo.CurrentCulture.NumberFormat);
+                    item.Grade = grades[i];
                     item.InstructorComments = instructorComments[i];
                     item.ActionState = actionState[i];
                     Add(item);
@@ -1484,6 +1500,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 string[] gradedScore = new string[numOfItems];
                 string[] finalScore = new string[numOfItems];
                 string[] instructorComments = new string[numOfItems];
+                string[] grades = new string[numOfItems];
                 bool[] actionState = new bool[numOfItems];
 
                 for (int i = 0; i < numOfItems; i++)
@@ -1493,14 +1510,9 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     learnerId[i] = this[i].LearnerId;
                     learnerStatus[i] = this[i].Status;
                     successStatus[i] = this[i].SuccessStatus;
-                    gradedScore[i]
-                            = this[i].GradedScore == null ?
-                                                String.Empty :
-                                                this[i].GradedScore.Value.ToString(CultureInfo.CurrentCulture);
-                    finalScore[i]
-                        = this[i].FinalScore == null ?
-                                            String.Empty :
-                                            this[i].FinalScore.Value.ToString(CultureInfo.CurrentCulture);
+                    gradedScore[i] = this[i].GradedScore == null ?  String.Empty : this[i].GradedScore.Value.ToString(CultureInfo.CurrentCulture);
+                    finalScore[i] = this[i].FinalScore == null ?  String.Empty : this[i].FinalScore.Value.ToString(CultureInfo.CurrentCulture);
+                    grades[i] = this[i].Grade;
                     instructorComments[i] = this[i].InstructorComments;
                     actionState[i] = this[i].ActionState;
                 }
@@ -1508,7 +1520,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 Triplet objState4 = new Triplet(finalScore, instructorComments, actionState);
                 Triplet objState1 = new Triplet(assignmentId, learnerName, LearnerItemsChanged.ToArray());
                 Triplet objState2 = new Triplet(learnerStatus, successStatus, gradedScore);
-                Triplet objState3 = new Triplet(objState4, learnerId, null);
+                Triplet objState3 = new Triplet(objState4, learnerId, grades);
 
                 return new Triplet(objState1, objState2, objState3);
 

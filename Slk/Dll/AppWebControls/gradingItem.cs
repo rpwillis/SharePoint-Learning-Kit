@@ -97,7 +97,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// Learner assignment ID
         /// </summary> 
-        internal long LearnerAssignmentId
+        public long LearnerAssignmentId
         {
             get { return m_learnerAssignmentId; }
             set { m_learnerAssignmentId = value; }
@@ -105,7 +105,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// Learner assignment Guid ID
         /// </summary> 
-        internal Guid LearnerAssignmentGuidId
+        public Guid LearnerAssignmentGuidId
         {
             get { return m_learnerAssignmentGuidId; }
             set { m_learnerAssignmentGuidId = value; }
@@ -113,7 +113,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// Learner Guid ID
         /// </summary> 
-        internal long LearnerId
+        public long LearnerId
         {
             get { return m_learnerId; }
             set { m_learnerId = value; }
@@ -121,7 +121,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// Learner’s name
         /// </summary> 
-        internal string LearnerName
+        public string LearnerName
         {
             get { return m_learnerName; }
             set { m_learnerName = value; }
@@ -129,7 +129,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// Displays the status of the learner assignment
         /// </summary>
-        internal LearnerAssignmentState Status
+        public LearnerAssignmentState Status
         {
             get { return m_status; }
             set { m_status = value; }
@@ -137,7 +137,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// Displays the SuccessStatus of the learner assignment
         /// </summary>
-        internal SuccessStatus SuccessStatus
+        public SuccessStatus SuccessStatus
         {
             get { return m_successStatus; }
             set { m_successStatus = value; }
@@ -145,7 +145,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// Shows the computed points rouded to the nearest integer.
         /// </summary>
-        internal float? GradedScore
+        public float? GradedScore
         {
             get { return m_gradedScore; }
             set { m_gradedScore = value; }
@@ -154,15 +154,18 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// computed points value with full precision
         /// </summary>
-        internal float? FinalScore
+        public float? FinalScore
         {
             get { return m_finalScore; }
             set { m_finalScore = value; }
         }
+
+        public string Grade { get; set; }
+
         /// <summary>
         /// InstructorComments
         /// </summary>
-        internal string InstructorComments
+        public string InstructorComments
         {
             get { return m_instructorComments; }
             set { m_instructorComments = value; }
@@ -170,7 +173,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// Action State
         /// </summary>
-        internal string ActionText
+        public string ActionText
         {
             get { return m_actionText; }
             set { m_actionText = value; }
@@ -179,7 +182,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// Action Checked
         /// </summary>
-        internal bool ActionState
+        public bool ActionState
         {
             get { return m_actionState; }
             set { m_actionState = value; }
@@ -188,10 +191,16 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// File Submission State
         /// </summary>
-        internal string FileSubmissionState
+        public string FileSubmissionState
         {
             get { return m_fileSubmissionState; }
             set { m_fileSubmissionState = value; }
+        }
+
+        /// <summary>Whether the item is complete or not.</summary>
+        public bool IsComplete
+        {
+            get { return (Status == LearnerAssignmentState.Completed || Status == LearnerAssignmentState.Final) ;}
         }
 
 
