@@ -42,6 +42,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 #pragma warning disable 1591
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblScoreValue;
+        protected Label labelGradeValue;
+        protected TableGridRow rowGrade;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblStatusValue;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
@@ -58,6 +60,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected Label lblSite;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblScore;
+        protected Label labelGrade;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblStatus;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
@@ -333,6 +336,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                 }
 
+                if (SlkStore.Settings.UseGrades)
+                {
+                    labelGradeValue.Text = LearnerAssignmentProperties.Grade;
+                }
+                else
+                {
+                    rowGrade.Visible = false;
+                }
+
                 lblStartValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LongDateShortTime, LearnerAssignmentProperties.StartDate);
                 if (LearnerAssignmentProperties.DueDate.HasValue)
                     lblDueValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LongDateShortTime, LearnerAssignmentProperties.DueDate.Value);
@@ -387,16 +399,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     slkButtonSubmit.Text = AppResources.LobbySubmitText;
                     slkButtonSubmit.ToolTip = AppResources.LobbySubmitToolTip;
-                    slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');",
-                        AppResources.LobbySubmitMessage);
+                    slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');", AppResources.LobbySubmitMessage);
                     slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.SubmitIcon;
                 }
                 else
                 {
                     slkButtonSubmit.Text = AppResources.LobbyMarkasCompleteText;
                     slkButtonSubmit.ToolTip = AppResources.LobbyMarkasCompleteToolTip;
-                    slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');",
-                         AppResources.LobbyMarkasCompleteMessage);
+                    slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');", AppResources.LobbyMarkasCompleteMessage);
                     slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.MarkCompleteIcon;
                 }
 
@@ -643,6 +653,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             lblSite.Text = AppResources.LobbylblSite;
             lblScore.Text = AppResources.LobbylblScore;
+            labelGrade.Text = AppResources.LobbyLabelGrade;
             lblStatus.Text = AppResources.LobbylblStatus;
             lblStart.Text = AppResources.LobbylblStart;
             lblDue.Text = AppResources.LobbylblDue;

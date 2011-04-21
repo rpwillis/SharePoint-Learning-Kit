@@ -456,6 +456,9 @@ More information has been written to the server event log.</value>
   <data name="LobbylblDue" xml:space="preserve">
     <value>Due</value>
   </data>
+  <data name="LobbyLabelGrade" xml:space="preserve">
+    <value>Grade</value>
+  </data>
   <data name="LobbylblScore" xml:space="preserve">
     <value>Score</value>
   </data>
@@ -906,6 +909,10 @@ saving, click Cancel.</value>
   <data name="GradingActionHeaderText" xml:space="preserve">
     <value>Action</value>
     <comment>Action Header Text in the Grading List.</comment>
+  </data>
+  <data name="GradingGradeHeaderText" xml:space="preserve">
+    <value>Grade</value>
+    <comment>Grade Header Text in the Grading List.</comment>
   </data>
   <data name="GradingCommentsHeaderText" xml:space="preserve">
     <value>Comments</value>

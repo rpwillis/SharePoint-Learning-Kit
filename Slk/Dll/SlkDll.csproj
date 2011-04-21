@@ -111,6 +111,7 @@
     </Compile>
     <Compile Include="SlkApi.cs" />
     <Compile Include="api\SlkStore.cs" />
+    <Compile Include="api\gradingProperties.cs" />
     <Compile Include="api\PackageDetails.cs" />
     <Compile Include="api\ISlkStore.cs" />
     <Compile Include="api\slkMemberships.cs" />

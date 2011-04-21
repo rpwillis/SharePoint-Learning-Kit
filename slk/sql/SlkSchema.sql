@@ -404,6 +404,7 @@ SET @schema = @schema +
         '<Property Name="IsFinal" TypeCode="3" Nullable="false" HasDefault="false"/>' +
         '<Property Name="NonELearningStatus" TypeCode="8" Nullable="true" HasDefault="false" EnumName="AttemptStatus"/>' +
         '<Property Name="FinalPoints" TypeCode="5" Nullable="true" HasDefault="false"/>' +
+        '<Property Name="Grade" TypeCode="2" Nullable="false" HasDefault="false"/>' +
         '<Property Name="InstructorComments" TypeCode="2" Nullable="false" HasDefault="false"/>' +
     '</ItemType>'
 SET @schema = @schema +
@@ -888,6 +889,7 @@ SET @schema = @schema +
         '<Column Name="IsFinal" TypeCode="3" Nullable="true"/>' +
         '<Column Name="NonELearningStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="FinalPoints" TypeCode="5" Nullable="true"/>' +
+        '<Column Name="Grade" TypeCode="2" Nullable="true"/>' +
         '<Column Name="InstructorComments" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AssignmentItem"/>' +
         '<Column Name="AssignmentSPSiteGuid" TypeCode="11" Nullable="true"/>' +
@@ -935,6 +937,7 @@ SET @schema = @schema +
         '<Column Name="IsFinal" TypeCode="3" Nullable="true"/>' +
         '<Column Name="NonELearningStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="FinalPoints" TypeCode="5" Nullable="true"/>' +
+        '<Column Name="Grade" TypeCode="2" Nullable="true"/>' +
         '<Column Name="InstructorComments" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AssignmentItem"/>' +
         '<Column Name="AssignmentSPSiteGuid" TypeCode="11" Nullable="true"/>' +
@@ -997,6 +1000,7 @@ SET @schema = @schema +
         '<Column Name="IsFinal" TypeCode="3" Nullable="true"/>' +
         '<Column Name="NonELearningStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="FinalPoints" TypeCode="5" Nullable="true"/>' +
+        '<Column Name="Grade" TypeCode="2" Nullable="true"/>' +
         '<Column Name="InstructorComments" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AssignmentItem"/>' +
         '<Column Name="AssignmentSPSiteGuid" TypeCode="11" Nullable="true"/>' +
@@ -2093,7 +2097,8 @@ CREATE TABLE [LearnerAssignmentItem](
     [IsFinal] bit NOT NULL,
     [NonELearningStatus] int,
     [FinalPoints] float(24),
-    [InstructorComments] nvarchar(max) NOT NULL
+    [Grade] NVARCHAR(20) NULL,
+    [InstructorComments] NVARCHAR(max) NOT NULL
 )
 GRANT SELECT, INSERT, DELETE, UPDATE ON [LearnerAssignmentItem] TO LearningStore
 
@@ -3076,8 +3081,8 @@ RETURN (
     lui.[Key]                       LearnerKey,
     lai.IsFinal                     IsFinal,
     lai.NonELearningStatus          NonELearningStatus,
-    CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END
-    FinalPoints,
+    CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END FinalPoints,
+    CASE WHEN lai.IsFinal = 1 THEN lai.Grade ELSE NULL END Grade,
     lai.InstructorComments          InstructorComments,
     ----- from AssignmentItem -----
     asi.Id                          AssignmentId,
@@ -3167,6 +3172,7 @@ RETURN (
     lai.IsFinal                     IsFinal,
     lai.NonELearningStatus          NonELearningStatus,
     CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END FinalPoints,
+    CASE WHEN lai.IsFinal = 1 THEN lai.Grade ELSE NULL END Grade,
     lai.InstructorComments          InstructorComments,
     
     ----- from AssignmentItem -----
@@ -3312,6 +3318,7 @@ RETURN (
     lai.IsFinal                     IsFinal,
     lai.NonELearningStatus          NonELearningStatus,
     lai.FinalPoints                 FinalPoints,
+    lai.Grade                       Grade,
     lai.InstructorComments          InstructorComments,
     ----- from AssignmentItem -----
     asi.Id                          AssignmentId,
@@ -3924,7 +3931,7 @@ CREATE FUNCTION [LearnerAssignmentItem$DefaultView](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT Id, [GuidId], [AssignmentId], [LearnerId], [IsFinal], [NonELearningStatus], [FinalPoints], [InstructorComments]
+    SELECT Id, [GuidId], [AssignmentId], [LearnerId], [IsFinal], [NonELearningStatus], [FinalPoints], [Grade], [InstructorComments]
     FROM [LearnerAssignmentItem]
 )
 GO

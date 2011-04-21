@@ -626,7 +626,6 @@ namespace Microsoft.LearningComponents
         /// <summary>
         /// Adds a warning to the <paramref name="log"/>, if provided.
         /// </summary>
-        /// <param name="log">If non-null, the warning is added to it.</param>
         /// <param name="message">The message to log.</param>
         internal void LogWarning(string message)
         {
@@ -638,7 +637,6 @@ namespace Microsoft.LearningComponents
         /// Adds an error to the <paramref name="log"/>, if provided.  Throws a <Typ>InvalidPackageException</Typ> if the
         /// <paramref name="throwInvalidPackageException"/> is <c>true</c>.
         /// </summary>
-        /// <param name="log">If non-null, the error is added to it.</param>
         /// <param name="throwInvalidPackageException">True to throw a <Typ>InvalidPackageException</Typ> containing the <paramref name="message"/>.
         /// </param>
         /// <param name="message">The message to log.</param>

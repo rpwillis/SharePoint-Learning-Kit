@@ -216,17 +216,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         Response.Redirect(SlkUtilities.UrlCombine(SPWeb.Url, Request.Path + "?" + Request.QueryString.ToString()));
                     }
 
-                    if (AssignmentProperties.IsNonELearning)
-                    {
-                        slkButtonDownload.Visible = false;
-                        slkButtonUpload.Visible = false;
-
-                        /*
-                        slkButtonDownload.Visible = true;
-                        slkButtonUpload.Visible = true;
-                        */
-                    }
-
                     AddReactivationCheck();
 
                     lblTitle.Text = Server.HtmlEncode(AssignmentProperties.Title);
@@ -603,6 +592,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 GradingProperties gradingProperties = new GradingProperties(new LearnerAssignmentItemIdentifier(item.LearnerAssignmentId));
                 gradingProperties.FinalPoints = item.FinalScore;
+                gradingProperties.Grade = item.Grade;
                 gradingProperties.InstructorComments = item.InstructorComments;
 
                 // Ignore the FinalScore Update if the Status is NotStarted or Active
@@ -710,6 +700,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 gradingList.IsClassServerContent = AssignmentProperties.IsClassServerContent;
                 gradingList.Clear();
+                gradingList.UseGrades = SlkStore.Settings.UseGrades;
                 foreach (GradingProperties item in LearnersGradingCollection)
                 {
                     gradingList.Add(item);
