@@ -3188,6 +3188,26 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;You have been assigned a new piece of work: &lt;strong&gt;%title%&lt;/strong&gt;.&lt;/p&gt;
+        ///&lt;p&gt;%description%&lt;/p&gt;
+        ///&lt;p&gt;&lt;a href=&apos;%url%&apos;&gt;%url%&lt;/a&gt;&lt;/p&gt;.
+        /// </summary>
+        internal static string NewAssignmentEmailDefaultBody {
+            get {
+                return ResourceManager.GetString("NewAssignmentEmailDefaultBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Assignment: %title%.
+        /// </summary>
+        internal static string NewAssignmentEmailDefaultTitle {
+            get {
+                return ResourceManager.GetString("NewAssignmentEmailDefaultTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot access site..
         /// </summary>
         internal static string NoAccessToSite {

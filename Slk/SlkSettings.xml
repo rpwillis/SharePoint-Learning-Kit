@@ -47,6 +47,14 @@
   <MimeTypeMapping Extension=".xltx" MimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.template" />
   <MimeTypeMapping Extension=".xml" MimeType="text/xml" />
 
+  <EmailSettings>
+      <NewAssignment Title="New Assignment: %title%">
+          <Body><p>You have been assigned a new piece of work: <strong>%title%</strong>.</p>
+<p>%description%</p>
+<p><a href='%url%'>%url%</a></p></Body>
+      </NewAssignment>
+  </EmailSettings>
+
   <Query Name="OverdueLearner" Title="Overdue" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
     <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
