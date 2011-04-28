@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using Microsoft.LearningComponents.Manifest;
 using Microsoft.SharePoint;
+using Microsoft.SharePoint.Utilities;
 using Resources.Properties;
 
 namespace Microsoft.SharePointLearningKit
@@ -20,6 +22,7 @@ namespace Microsoft.SharePointLearningKit
     {
         internal const string noPackageLocation = "{00000}";
         ISlkStore store;
+        SPWeb webWhileSaving;
 
 #region properties
         /// <summary>Gets the <c>Guid</c> of the SPSite that contains the SPWeb that this assignment is associated with.</summary>
@@ -197,13 +200,22 @@ namespace Microsoft.SharePointLearningKit
                 throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
             }
 
-            if (Id == null)
+            webWhileSaving = web;
+
+            try
             {
-                SaveNewAssignment(web, slkRole, slkMembers);
+                if (Id == null)
+                {
+                    SaveNewAssignment(web, slkRole, slkMembers);
+                }
+                else
+                {
+                    UpdateAssignment(slkMembers);
+                }
             }
-            else
+            finally
             {
-                UpdateAssignment(slkMembers);
+                webWhileSaving = null;
             }
         }
 
@@ -409,8 +421,51 @@ namespace Microsoft.SharePointLearningKit
                     dropBoxMgr.UpdateAssignment(oldProperties);
                 }
 
+                if (EmailChanges)
+                {
+                    SendUpdateEmail(learnerChanges);
+                }
             }
+        }
 
+        void SendUpdateEmail(SlkUserCollectionChanges learnerChanges)
+        {
+            SendNewEmail(learnerChanges.Additions);
+
+            string subject = EmailText("Removed Assignment: %title%");
+            string body = EmailText("You have been removed from assignment %title%");
+
+            foreach (SlkUser user in learnerChanges.Removals)
+            {
+                SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, body);
+            }
+        }
+
+        void SendNewEmail()
+        {
+            SendNewEmail(Learners);
+        }
+
+        void SendNewEmail(IEnumerable<SlkUser> toSend)
+        {
+            string subject = EmailText(AppResources.NewAssignmentEmailDefaultTitle);
+            string body = EmailText(AppResources.NewAssignmentEmailDefaultBody);
+
+            foreach (SlkUser user in toSend)
+            {
+                SPUtility.SendEmail(webWhileSaving, false, false, "Administrator@salamander.exchange2010.test", subject, body);
+                //SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, body);
+            }
+        }
+
+        string EmailText(string baseText)
+        {
+            string toReturn = baseText.Replace("%title%", Title);
+            toReturn = toReturn.Replace("%description%", Description);
+            string url = "{0}/_layouts/SharePointLearningKit/Lobby.aspx?LearnerAssignmentId={1}";
+            url = string.Format(CultureInfo.InvariantCulture, url, webWhileSaving.Url, 22);
+            toReturn = toReturn.Replace("%url%", url);
+            return toReturn;
         }
 
         void SaveNewAssignment(SPWeb web, SlkRole slkRole, SlkMemberships slkMembers)
@@ -442,6 +497,11 @@ namespace Microsoft.SharePointLearningKit
                 DropBoxManager dropBoxMgr = new DropBoxManager(this);
                 Microsoft.SharePoint.Utilities.SPUtility.ValidateFormDigest();
                 dropBoxMgr.CreateAssignmentFolder();
+            }
+
+            if (EmailChanges)
+            {
+                SendNewEmail();
             }
         }
 

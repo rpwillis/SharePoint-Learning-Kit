@@ -1568,4 +1568,12 @@ More information may be available in the server event log.</value>
   <data name="NoPackageTitle" xml:space="preserve">
     <value>Quick Assignment.</value>
   </data>
+  <data name="NewAssignmentEmailDefaultTitle" xml:space="preserve">
+    <value>New Assignment: %title%</value>
+  </data>
+  <data name="NewAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>You have been assigned a new piece of work: <strong>%title%</strong>.</p>
+<p>%description%</p>
+<p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
 </root>
