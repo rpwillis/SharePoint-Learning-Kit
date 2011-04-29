@@ -177,7 +177,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (this.m_assignmentProperties == null)
                 {
-                    this.m_assignmentProperties = SlkStore.GetAssignmentProperties(LearnerAssignmentProperties.AssignmentId, SlkRole.Learner);
+                    this.m_assignmentProperties = SlkStore.LoadAssignmentProperties(LearnerAssignmentProperties.AssignmentId, SlkRole.Learner);
                 }
 
                 return this.m_assignmentProperties;

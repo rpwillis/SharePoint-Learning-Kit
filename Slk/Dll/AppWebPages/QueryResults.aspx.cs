@@ -885,7 +885,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             LearnerAssignmentProperties learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(assignmentGUID, SlkRole.Learner);
 
-            AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(learnerAssignmentProperties.AssignmentId, SlkRole.Learner);
+            AssignmentProperties assignmentProperties = SlkStore.LoadAssignmentProperties(learnerAssignmentProperties.AssignmentId, SlkRole.Learner);
             if (SlkStore.IsObserver(SPWeb))
             {
                 string result = string.Empty;

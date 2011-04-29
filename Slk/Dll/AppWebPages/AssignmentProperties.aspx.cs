@@ -433,7 +433,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         //set master page control text before any exception may occur
                         SetMasterPageControlText();
 
-                        AssignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+                        AssignmentProperties = AssignmentProperties.Load(AssignmentItemIdentifier, SlkStore);
                         CheckInCorrectSite();
                     }
                     else
@@ -1032,7 +1032,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary> Gets the Assignment Properties Modified in UI</summary>  
         private void CreateAssignmentPropertiesObject()
         {
-            AssignmentProperties = new AssignmentProperties(AssignmentId == null ? 0 : AssignmentId.Value, SlkStore);
+            AssignmentProperties = new AssignmentProperties(AssignmentItemIdentifier, SlkStore);
 
             AssignmentProperties.Title = SlkUtilities.Trim(txtTitle.Text);
             AssignmentProperties.Description = SlkUtilities.Trim(txtDescription.Text);

@@ -148,6 +148,7 @@ namespace Microsoft.SharePointLearningKit
             this.Id = id;
         }
 
+        /*
         /// <summary>Initializes a new instance of <see cref="AssignmentProperties"/>.</summary>
         public AssignmentProperties(long id, ISlkStore store) : this(store)
         {
@@ -156,6 +157,7 @@ namespace Microsoft.SharePointLearningKit
                 this.Id = new AssignmentItemIdentifier(id);
             }
         }
+        */
 
         /// <summary>Initializes a new instance of <see cref="AssignmentProperties"/>.</summary>
         AssignmentProperties(ISlkStore store)
@@ -407,7 +409,7 @@ namespace Microsoft.SharePointLearningKit
 
         void UpdateAssignment(SlkMemberships slkMembers)
         {
-            AssignmentProperties oldProperties = store.GetAssignmentProperties(Id, SlkRole.Instructor);
+            AssignmentProperties oldProperties = store.LoadAssignmentProperties(Id, SlkRole.Instructor);
             CopyInvariantProperties(oldProperties);
 
             bool corePropertiesChanged = false;
@@ -708,6 +710,12 @@ namespace Microsoft.SharePointLearningKit
             }
 
             return assignment;
+        }
+
+        /// <summary>Loads the assignment properties.</summary>
+        public static AssignmentProperties Load(AssignmentItemIdentifier assignmentItemIdentifier, SlkStore store)
+        {
+            return store.LoadAssignmentProperties(assignmentItemIdentifier, SlkRole.Instructor);
         }
 #endregion public static methods
     }

@@ -60,7 +60,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         protected override void OnLoad(EventArgs e)
         {
-            AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+            AssignmentProperties assignmentProperties = SlkStore.LoadAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
             using (AssignmentDownloader downloader = new AssignmentDownloader(assignmentProperties))
             {
                 string zippedFileName = downloader.ZippedFileName;

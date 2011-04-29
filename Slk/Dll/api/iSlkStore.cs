@@ -96,7 +96,7 @@ namespace Microsoft.SharePointLearningKit
         /// or the user isn't a learner on the assignment (if <pr>slkRole</pr> is
         /// <r>SlkRole.Learner</r>).
         /// </exception>
-        AssignmentProperties GetAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole);
+        AssignmentProperties LoadAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole);
 
         /// <summary>Deletes a SharePoint Learning Kit assignment. </summary>
         /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to delete.</param>
