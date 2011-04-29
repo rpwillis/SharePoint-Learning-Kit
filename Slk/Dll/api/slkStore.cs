@@ -3142,24 +3142,36 @@ namespace Microsoft.SharePointLearningKit
 
             if (!basicOnly)
             {
-                AddSlkUsers(resultEnumerator, ap.Instructors, InstructorAssignmentList.InstructorId, InstructorAssignmentList.InstructorName, InstructorAssignmentList.InstructorKey, 
-                        InstructorAssignmentList.InstructorAssignmentId, "SLK1011");
-                if (slkRole == SlkRole.Instructor)
+                using (SPSite site = new SPSite(SPSiteGuid))
                 {
-                    AddSlkUsers(resultEnumerator, ap.Learners, LearnerAssignmentListForInstructors.LearnerId, LearnerAssignmentListForInstructors.LearnerName, LearnerAssignmentListForInstructors.LearnerKey, 
-                            LearnerAssignmentListForInstructors.LearnerAssignmentId, "SLK1011");
+                    using (SPWeb web = site.OpenWeb())
+                    {
+                        AddSlkUsers(web, resultEnumerator, ap.Instructors, InstructorAssignmentList.InstructorId, InstructorAssignmentList.InstructorName, InstructorAssignmentList.InstructorKey, 
+                                InstructorAssignmentList.InstructorAssignmentId, "SLK1011");
+                        if (slkRole == SlkRole.Instructor)
+                        {
+                            AddSlkUsers(web, resultEnumerator, ap.Learners, LearnerAssignmentListForInstructors.LearnerId, LearnerAssignmentListForInstructors.LearnerName, LearnerAssignmentListForInstructors.LearnerKey, 
+                                    LearnerAssignmentListForInstructors.LearnerAssignmentId, "SLK1011");
+                        }
+                    }
                 }
             }
             else if (forLearnerAssignment)
             {
-                AddSlkUsers(resultEnumerator, ap.Learners, LearnerAssignmentListForLearners.LearnerId, LearnerAssignmentListForLearners.LearnerName, LearnerAssignmentListForLearners.LearnerKey, 
-                        LearnerAssignmentListForLearners.LearnerAssignmentId, "SLK1011");
+                using (SPSite site = new SPSite(SPSiteGuid))
+                {
+                    using (SPWeb web = site.OpenWeb())
+                    {
+                        AddSlkUsers(web, resultEnumerator, ap.Learners, LearnerAssignmentListForLearners.LearnerId, LearnerAssignmentListForLearners.LearnerName, LearnerAssignmentListForLearners.LearnerKey, 
+                            LearnerAssignmentListForLearners.LearnerAssignmentId, "SLK1011");
+                    }
+                }
             }
 
             return ap;
         }
 
-        void AddSlkUsers(IEnumerator<object> resultEnumerator, SlkUserCollection users, string idColumn, string nameColumn, string keyColumn, string assignmentIdColumn, string errorNumberIfMissing)
+        void AddSlkUsers(SPWeb web, IEnumerator<object> resultEnumerator, SlkUserCollection users, string idColumn, string nameColumn, string keyColumn, string assignmentIdColumn, string errorNumberIfMissing)
         {
             if (!resultEnumerator.MoveNext())
             {
@@ -3172,7 +3184,16 @@ namespace Microsoft.SharePointLearningKit
                 string userName = CastNonNull<string>(dataRow2[nameColumn]);
                 string key = CastNonNull<string>(dataRow2[keyColumn]);
                 int spUserId = Cast<int>(dataRow2[UserItemSite.SPUserId]);
-                SlkUser user = new SlkUser(userId, userName, key, spUserId, SPSiteGuid);
+                SPUser spUser = null;
+                try
+                {
+                    spUser = web.SiteUsers.GetByID(spUserId);
+                }
+                catch (SPException)
+                {
+                    // user no longer present. Will be fixed next time assignment properties page is opened
+                }
+                SlkUser user = new SlkUser(userId, userName, key, spUser);
                 user.AssignmentUserId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow2[assignmentIdColumn]);
                 users.Add(user);
             }

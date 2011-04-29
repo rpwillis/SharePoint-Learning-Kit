@@ -224,14 +224,6 @@ namespace Microsoft.SharePointLearningKit
         {
         }
 
-        /// <summary>Populates the SPUser property of each SlkUser in the collection of SLK members.</summary>
-        /// <param name="slkMembers">The collection of SLK members to populate.</param>
-        public void PopulateSPUsers(SlkMemberships slkMembers)
-        {
-            PopulateSPUsers(slkMembers, Learners);
-            PopulateSPUsers(slkMembers, Instructors);
-        }
-
         /// <summary>Makes the assignment be a no package assignemnt.</summary>
         public void MakeNoPackageAssignment(string title)
         {
@@ -415,8 +407,6 @@ namespace Microsoft.SharePointLearningKit
                 if (IsNonELearning)
                 {
                     // Update the assignment folder in the Drop Box
-                    oldProperties.PopulateSPUsers(slkMembers);
-                    PopulateSPUsers(slkMembers);
                     DropBoxManager dropBoxMgr = new DropBoxManager(this);
                     dropBoxMgr.UpdateAssignment(oldProperties);
                 }
@@ -535,7 +525,6 @@ namespace Microsoft.SharePointLearningKit
 
             if (IsNonELearning)
             {
-                PopulateSPUsers(slkMembers);
                 DropBoxManager dropBoxMgr = new DropBoxManager(this);
                 Microsoft.SharePoint.Utilities.SPUtility.ValidateFormDigest();
                 dropBoxMgr.CreateAssignmentFolder();
@@ -563,24 +552,6 @@ namespace Microsoft.SharePointLearningKit
             else
             {
                 store.EnsureInstructor(web);
-            }
-        }
-
-        void PopulateSPUsers(SlkMemberships members, SlkUserCollection users)
-        {
-            if (members != null)
-            {
-                foreach (SlkUser user in users)
-                {
-                    if (user.SPUser == null)
-                    {
-                        SlkUser member = members[user.UserId.GetKey()];
-                        if (member != null)
-                        {
-                            user.SPUser = member.SPUser;
-                        }
-                    }
-                }
             }
         }
 

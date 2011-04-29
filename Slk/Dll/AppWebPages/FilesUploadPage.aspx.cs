@@ -162,7 +162,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             SlkMemberships memberships = new SlkMemberships(null, null, null);
             memberships.FindAllSlkMembers(SPWeb, SlkStore, true);
-            CurrentAssignmentProperties.PopulateSPUsers(memberships);
 
             DropBoxManager dropBoxMgr = new DropBoxManager(CurrentAssignmentProperties);
 

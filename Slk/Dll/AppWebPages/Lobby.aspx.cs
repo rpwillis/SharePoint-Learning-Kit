@@ -589,9 +589,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     if (AssignmentProperties.IsNonELearning)
                     {
                         DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
-                        SlkMemberships memberships = new SlkMemberships(null, null, null);
-                        memberships.FindAllSlkMembers(SPWeb, SlkStore, true);
-                        AssignmentProperties.PopulateSPUsers(memberships);
                         dropBoxMgr.ApplySubmittedPermissions();
                     }
                 }

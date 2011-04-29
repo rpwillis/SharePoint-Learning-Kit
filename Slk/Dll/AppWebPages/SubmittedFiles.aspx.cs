@@ -181,7 +181,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 SlkMemberships memberships = new SlkMemberships();
                 memberships.FindAllSlkMembers(SPWeb, SlkStore, false);
-                m_assignmentProperties.PopulateSPUsers(memberships);
 
                 return this.m_assignmentProperties;
             }
