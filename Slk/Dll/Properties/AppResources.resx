@@ -964,7 +964,7 @@ saving, click Cancel.</value>
     <value>X</value>
   </data>
   <data name="LobbyInvalidLearnerAssignmentId" xml:space="preserve">
-    <value>The assignment (ID {0}) does not exist or you may not have permission to access it.</value>
+    <value>The learner assignment (ID {0}) does not exist or you may not have permission to access it.</value>
   </data>
   <data name="LobbySubmitAccessKey" xml:space="preserve">
     <value>S</value>
@@ -1568,7 +1568,7 @@ More information may be available in the server event log.</value>
   <data name="NoPackageTitle" xml:space="preserve">
     <value>Quick Assignment.</value>
   </data>
-  <data name="NewAssignmentEmailDefaultTitle" xml:space="preserve">
+  <data name="NewAssignmentEmailDefaultSubject" xml:space="preserve">
     <value>New Assignment: %title%</value>
   </data>
   <data name="NewAssignmentEmailDefaultBody" xml:space="preserve">

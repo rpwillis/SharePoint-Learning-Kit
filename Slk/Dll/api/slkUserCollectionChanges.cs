@@ -37,7 +37,6 @@ namespace Microsoft.SharePointLearningKit
                 {
                     if (newCollection.Contains(user.UserId) == false)
                     {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Remove {0}", user.UserId);
                         Removals.Add(originalCollection[user.UserId]);
                     }
                 }

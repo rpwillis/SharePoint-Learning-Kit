@@ -122,6 +122,15 @@
     <data name="InvalidSchemaDefinition">
         <value xml:space="preserve">Invalid schema definition</value>
     </data>
+    <data name="InvalidSchemaDefinitionType">
+        <value xml:space="preserve">Invalid schema definition. Invalid type.</value>
+    </data>
+    <data name="InvalidSchemaDefinitionNoReference">
+        <value xml:space="preserve">Invalid schema definition. No ReferencedItemTypeName value.</value>
+    </data>
+    <data name="InvalidSchemaDefinitionEnum">
+        <value xml:space="preserve">Invalid schema definition, Invalid enum.</value>
+    </data>
     <data name="ItemTypeNotFoundInSchema">
         <value xml:space="preserve">Item type '{0}' not found in the schema.</value>
     </data>

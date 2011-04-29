@@ -350,13 +350,11 @@ namespace Microsoft.SharePointLearningKit
                     {
                         try
                         {
-                            SlkSettings.ParseSettingsFile(xmlReader,
-                                DateTime.MinValue);
+                            SlkSettings settings = new SlkSettings(xmlReader, DateTime.MinValue);
                         }
                         catch (SlkSettingsException ex)
                         {
-                            throw new SafeToDisplayException(AppResources.SlkSettingsFileError,
-                                ex.Message);
+                            throw new SafeToDisplayException(AppResources.SlkSettingsFileError, ex.Message);
                         }
                     }
                 }

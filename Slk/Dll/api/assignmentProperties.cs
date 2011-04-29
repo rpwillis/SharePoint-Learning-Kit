@@ -437,7 +437,10 @@ namespace Microsoft.SharePointLearningKit
 
             foreach (SlkUser user in learnerChanges.Removals)
             {
-                SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, body);
+                if (user.SPUser != null && string.IsNullOrEmpty(user.SPUser.Email) == false)
+                {
+                    SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, body);
+                }
             }
         }
 
@@ -446,25 +449,64 @@ namespace Microsoft.SharePointLearningKit
             SendNewEmail(Learners);
         }
 
+        string NewSubjectText()
+        {
+            string subject = null;
+            EmailSettings settings = store.Settings.EmailSettings;
+            if (settings != null && settings.NewAssignment != null)
+            {
+                subject = settings.NewAssignment.Subject;
+            }
+            else
+            {
+                subject = AppResources.NewAssignmentEmailDefaultSubject;
+            }
+
+            return EmailText(subject);
+        }
+
+        string NewBodyText()
+        {
+            string body = null;
+            EmailSettings settings = store.Settings.EmailSettings;
+            if (settings != null && settings.NewAssignment != null)
+            {
+                body = settings.NewAssignment.Body;
+            }
+            else
+            {
+                body = AppResources.NewAssignmentEmailDefaultBody;
+            }
+
+            return EmailText(body);
+        }
+
         void SendNewEmail(IEnumerable<SlkUser> toSend)
         {
-            string subject = EmailText(AppResources.NewAssignmentEmailDefaultTitle);
-            string body = EmailText(AppResources.NewAssignmentEmailDefaultBody);
+            string subject = NewSubjectText();
+            string body = NewBodyText();    // This is the format string as it probably contains a url placeholder which will be learner specific
 
             foreach (SlkUser user in toSend)
             {
-                SPUtility.SendEmail(webWhileSaving, false, false, "Administrator@salamander.exchange2010.test", subject, body);
-                //SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, body);
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("{0} {1} {2}", user.Name, user.SPUser != null, string.IsNullOrEmpty(user.SPUser.Email));
+                if (user.SPUser != null && string.IsNullOrEmpty(user.SPUser.Email) == false)
+                {
+                    SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, UserEmailText(body, user));
+                }
             }
+        }
+
+        string UserEmailText(string baseText, SlkUser user)
+        {
+            string url = "{0}/_layouts/SharePointLearningKit/Lobby.aspx?LearnerAssignmentId={1}";
+            url = string.Format(CultureInfo.InvariantCulture, url, webWhileSaving.Url, user.AssignmentUserGuidId);
+            return baseText.Replace("%url%", url);
         }
 
         string EmailText(string baseText)
         {
             string toReturn = baseText.Replace("%title%", Title);
             toReturn = toReturn.Replace("%description%", Description);
-            string url = "{0}/_layouts/SharePointLearningKit/Lobby.aspx?LearnerAssignmentId={1}";
-            url = string.Format(CultureInfo.InvariantCulture, url, webWhileSaving.Url, 22);
-            toReturn = toReturn.Replace("%url%", url);
             return toReturn;
         }
 

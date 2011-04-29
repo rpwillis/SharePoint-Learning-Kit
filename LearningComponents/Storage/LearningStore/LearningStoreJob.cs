@@ -1003,13 +1003,11 @@ namespace Microsoft.LearningComponents.Storage
                                         {
                                             // Item identifier
                                             case CommandFragmentResultType.ItemIdentifier:
-                                                results.Add(SqlDataReaderHelpers.ReadItemIdentifierResult(command,
-                                                    fragment.Result.ItemType));
+                                                results.Add(SqlDataReaderHelpers.ReadItemIdentifierResult(command, fragment.Result.ItemType));
                                                 break;
                                             // DataTable
                                             case CommandFragmentResultType.DataTable:
-                                                results.Add(SqlDataReaderHelpers.ReadDataTableResult(command,
-                                                    fragment.Result.Columns, m_locale));
+                                                results.Add(SqlDataReaderHelpers.ReadDataTableResult(command, fragment.Result.Columns, m_locale));
                                                 break;
                                             default:
                                                 throw new LearningComponentsInternalException("LSTR1870");
@@ -1134,12 +1132,16 @@ namespace Microsoft.LearningComponents.Storage
         {
             ReadOnlyCollection<object> results = Execute();
             if (results.Count != 1)
-                throw new InvalidOperationException(
-                    LearningStoreStrings.ResultsOfJobCanNotBeCast);
+            {
+                throw new InvalidOperationException(LearningStoreStrings.ResultsOfJobCanNotBeCast);
+            }
+
             T result = results[0] as T;
             if ((result == null) && (results[0] != null))
-                throw new InvalidOperationException(
-                    LearningStoreStrings.ResultsOfJobCanNotBeCast);
+            {
+                throw new InvalidOperationException(LearningStoreStrings.ResultsOfJobCanNotBeCast);
+            }
+
             return result;
         }
 

@@ -158,8 +158,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (m_learnerAssignmentProperties == null)
                 {
-                    m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentGuidId,
-                        SlkRole.Learner);
+                    m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentGuidId, SlkRole.Learner);
                 }
                 return m_learnerAssignmentProperties;
             }
@@ -178,9 +177,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (this.m_assignmentProperties == null)
                 {
-                    this.m_assignmentProperties = SlkStore.GetAssignmentProperties(
-                                                           LearnerAssignmentProperties.AssignmentId,
-                                                           SlkRole.Learner);
+                    this.m_assignmentProperties = SlkStore.GetAssignmentProperties(LearnerAssignmentProperties.AssignmentId, SlkRole.Learner);
                 }
 
                 return this.m_assignmentProperties;
@@ -419,8 +416,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 contentPanel.Visible = true;
 
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("{0}", ex);
                 errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyInvalidLearnerAssignmentId, LearnerAssignmentGuidId.ToString()));
                 contentPanel.Visible = false;
             }

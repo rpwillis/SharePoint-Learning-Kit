@@ -3581,6 +3581,59 @@ namespace Microsoft.SharePointLearningKit.Schema {
     }
     
     /// <summary>
+    /// Contains constants related to the UserItemSite item type.
+    /// <para>Each item contains information about the SPUser of one user in a particular site collection.</para>
+    /// <para>This <a href="SlkSchema.htm">LearningStore item type</a> is only available in <a href="Default.htm">SLK</a>.</para>
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <b><a href="SlkSchema.htm">Default operation-level security</a>:</b> In SLK, query access only is granted to all users.</para>
+    /// Properties on the item type:
+    /// <ul>
+    /// <li><Fld>UserId</Fld></li>
+    /// <li><Fld>SPSiteGuid</Fld></li>
+    /// <li><Fld>SPUserId</Fld></li>
+    /// </ul>
+    /// </remarks>
+    public abstract class UserItemSite {
+        
+        /// <summary>
+        /// Name of the <Typ>UserItemSite</Typ> item type.
+        /// </summary>
+        public const string ItemTypeName = "UserItemSite";
+        
+        /// <summary>Name of the UserId property on the <Typ>UserItemSite</Typ> item type.</summary>
+        /// <remarks>
+        /// Property type: Reference to a <Typ>UserItem</Typ> item type.<p/>
+        /// Property can not contain null.<p/>
+        /// </remarks>
+        public const string UserId = "UserId";
+
+        /// <summary>
+        /// Name of the SPSiteGuid property on the <Typ>UserItemSite</Typ> item type.
+        /// <para>
+        /// SPSiteGuid is the GUID of the SharePoint site collection (SPSite) that this
+        /// user is associated with.
+        /// Corresponds to <a href="Microsoft.SharePointLearningKit.UserItemSite.SPSiteGuid.Property.htm">UserItemSite.SPSiteGuid</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Property type: Guid<p/>
+        /// Property can not contain null.<p/>
+        /// Property does not have a default value.<p/>
+        /// </remarks>
+        public const string SPSiteGuid = "SPSiteGuid";
+
+        /// <summary>Name of the SPUserId property on the <Typ>UserItemSite</Typ> item type.</summary>
+        /// <remarks>
+        /// Property type: Reference to an id of an SPUser in a particular site collection.<p/>
+        /// Property can not contain null.<p/>
+        /// </remarks>
+        public const string SPUserId = "SPUserId";
+
+    }
+    
+    /// <summary>
     /// Contains constants related to the SiteSettingsItem item type.
     /// <para>
     /// Each item of this <a href="SlkSchema.htm">LearningStore item type</a> contains the
