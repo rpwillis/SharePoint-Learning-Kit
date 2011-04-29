@@ -120,7 +120,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (m_currentAssignmentProperties == null)
                 {
-                    m_currentAssignmentProperties = SlkStore.GetAssignmentProperties(CurrentLearnerAssignmentProperties.AssignmentId, SlkRole.Learner);
+                    m_currentAssignmentProperties = SlkStore.LoadAssignmentProperties(CurrentLearnerAssignmentProperties.AssignmentId, SlkRole.Learner);
                 }
                 return m_currentAssignmentProperties;
             }

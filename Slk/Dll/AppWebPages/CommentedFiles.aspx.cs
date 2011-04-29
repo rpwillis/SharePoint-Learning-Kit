@@ -237,7 +237,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             try
             {
-                AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+                AssignmentProperties assignmentProperties = SlkStore.LoadAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
 
                 using (SPSite site = new SPSite(assignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
                 {
@@ -485,7 +485,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 this.SetResourceText();
 
-                AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+                AssignmentProperties assignmentProperties = SlkStore.LoadAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
 
                 using (SPSite site = new SPSite(assignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
                 {

@@ -155,27 +155,19 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     if (SlkStore.IsLearner(SPWeb))
                     {
-                        this.m_assignmentProperties = SlkStore.GetAssignmentProperties(
-                                                               LearnerAssignmentProperties.AssignmentId,
-                                                               SlkRole.Learner);
+                        this.m_assignmentProperties = SlkStore.LoadAssignmentProperties(LearnerAssignmentProperties.AssignmentId, SlkRole.Learner);
                     }
                     else if (SlkStore.IsObserver(SPWeb))
                     {
-                       this.m_assignmentProperties = SlkStore.GetAssignmentProperties(
-                                                              LearnerAssignmentProperties.AssignmentId,
-                                                              SlkRole.Learner);
+                       this.m_assignmentProperties = SlkStore.LoadAssignmentProperties(LearnerAssignmentProperties.AssignmentId, SlkRole.Learner);
                     }
                     else if (SlkStore.IsInstructor(SPWeb))
                     {
-                        this.m_assignmentProperties = SlkStore.GetAssignmentProperties(
-                                                               LearnerAssignmentProperties.AssignmentId,
-                                                               SlkRole.Instructor);
+                        this.m_assignmentProperties = SlkStore.LoadAssignmentProperties(LearnerAssignmentProperties.AssignmentId, SlkRole.Instructor);
                     }
                     else
                     {
-                        this.m_assignmentProperties = SlkStore.GetAssignmentProperties(
-                                                               LearnerAssignmentProperties.AssignmentId,
-                                                               SlkRole.None);
+                        this.m_assignmentProperties = SlkStore.LoadAssignmentProperties(LearnerAssignmentProperties.AssignmentId, SlkRole.None);
                     }
                 }
 

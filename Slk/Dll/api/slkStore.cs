@@ -939,13 +939,13 @@ namespace Microsoft.SharePointLearningKit
             return fileAndLocation;
         }
 
-        /// <summary>See <see cref="ISlkStore.GetAssignmentProperties"/>.</summary>
-        public AssignmentProperties GetAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole)
+        /// <summary>See <see cref="ISlkStore.LoadAssignmentProperties"/>.</summary>
+        public AssignmentProperties LoadAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole)
         {
             // Security checks: Fails if the user isn't an instructor
             // on the assignment (if SlkRole=Instructor) or if the user isn't
             // a learner on the assignment (if SlkRole=Learner), since it
-            // calls the other GetAssignmentProperties method.
+            // calls the other LoadAssignmentProperties method.
 
             // Check parameters
             if (assignmentId == null)
@@ -958,7 +958,7 @@ namespace Microsoft.SharePointLearningKit
                 throw new ArgumentOutOfRangeException("slkRole");
             }
 
-            return GetAssignmentProperties(assignmentId, slkRole, false);
+            return LoadAssignmentProperties(assignmentId, slkRole, false);
         }
 
         /// <summary>See <see cref="ISlkStore.UpdateAssignment"/>.</summary>
@@ -2946,7 +2946,7 @@ namespace Microsoft.SharePointLearningKit
         /// SharePoint).
         /// </returns>
         ///
-        private AssignmentProperties GetAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole, bool basicOnly)
+        private AssignmentProperties LoadAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole, bool basicOnly)
         {
             // Security checks: Fails if the user isn't an instructor
             // on the assignment (if SlkRole=Instructor) or if the user isn't
@@ -3078,8 +3078,7 @@ namespace Microsoft.SharePointLearningKit
         ///     properties of the returned <c>AssignmentProperties</c> object are not set.</param>
         /// <param name="forLearnerAssignment">If <c>true</c> loads the individual learner details.</param>
         /// <returns></returns>
-        AssignmentProperties PopulateAssignmentProperties(IEnumerator<object> resultEnumerator,
-            AssignmentItemIdentifier assignmentId, SlkRole slkRole, bool basicOnly, bool forLearnerAssignment)
+        AssignmentProperties PopulateAssignmentProperties(IEnumerator<object> resultEnumerator, AssignmentItemIdentifier assignmentId, SlkRole slkRole, bool basicOnly, bool forLearnerAssignment)
         {
             if (!resultEnumerator.MoveNext())
             {
