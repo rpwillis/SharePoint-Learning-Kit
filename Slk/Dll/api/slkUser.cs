@@ -13,9 +13,6 @@ namespace Microsoft.SharePointLearningKit
     public class SlkUser : IComparable<SlkUser>
     {
         string key;
-        int spUserId;
-        Guid spSiteGuid;
-        SPUser user;
 
 #region properties
         /// <summary>The key for the user item.</summary>
@@ -69,29 +66,7 @@ namespace Microsoft.SharePointLearningKit
         public Guid AssignmentUserGuidId { get; set; }
 
         /// <summary>Gets the SharePoint <c>SPUser</c> object that represents this user. </summary>
-        public SPUser SPUser
-        {
-            get
-            {
-                if (user == null)
-                {
-                    if (spUserId != 0)
-                    {
-                        using (SPSite site = new SPSite(spSiteGuid))
-                        {
-                            using (SPWeb web = site.OpenWeb())
-                            {
-                                user = web.SiteUsers[spUserId];
-                            }
-                        }
-                    }
-                }
-
-                return user;
-            }
-
-            set { user = value ;}
-        }
+        public SPUser SPUser { get; private set; }
 
         /// <summary>Gets the name of the user. </summary>
         public string Name { get; private set;}
@@ -111,6 +86,7 @@ namespace Microsoft.SharePointLearningKit
             UserId = userId;
         }
 
+        /*
         /// <summary>Initializes an instance of this class, given a <c>UserItemIdentifier</c>.</summary>
         /// <remarks>When this constructor is used, the <c>SPUser</c> and <c>Name</c> properties are <c>null</c>.</remarks>
         /// <param name="userId">The SharePoint Learning Kit <c>UserItemIdentifier</c> of the user.</param>
@@ -121,6 +97,7 @@ namespace Microsoft.SharePointLearningKit
             this.spUserId = spUserId;
             this.spSiteGuid = spSiteGuid;
         }
+        */
 
         /// <summary>Initializes a new instance of <see cref="SlkUser"/>.</summary>
         /// <summary>Initializes an instance of <see cref="SlkUser"/>, given a <c>UserItemIdentifier</c>.</summary>
@@ -139,7 +116,7 @@ namespace Microsoft.SharePointLearningKit
             Name = spUser.Name;
         }
 
-        internal SlkUser(UserItemIdentifier userId, string name, string key, int spUserId, Guid spSiteGuid) : this (userId, spUserId, spSiteGuid)
+        internal SlkUser(UserItemIdentifier userId, string name, string key, SPUser user) : this (userId, user)
         {
             Name = name;
             this.key = key;
