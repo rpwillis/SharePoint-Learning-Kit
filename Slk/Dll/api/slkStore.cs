@@ -1710,7 +1710,6 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.Grade);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.InstructorComments);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
             query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
             query.AddSort(Schema.LearnerAssignmentListForInstructors.LearnerName, LearningStoreSortDirection.Ascending);
             job.PerformQuery(query);

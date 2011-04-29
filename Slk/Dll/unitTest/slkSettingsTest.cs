@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Xml;
+using System.Xml.Schema;
 using Xunit;
 
 namespace Microsoft.SharePointLearningKit.Test
@@ -49,6 +50,7 @@ namespace Microsoft.SharePointLearningKit.Test
   </QuerySet>
 
 </Settings>";
+
 #region tests
         /// <summary>Tests that email settings are loaded.</summary>
         [Fact]
@@ -86,6 +88,7 @@ namespace Microsoft.SharePointLearningKit.Test
             }
         }
 
+        /// <summary>Tests that the standard settings load successfully.</summary>
         [Fact]
         public void LoadSettings_StandardSettings_LoadsSuccessfully()
         {
@@ -95,6 +98,35 @@ namespace Microsoft.SharePointLearningKit.Test
                 {
                     SlkSettings settings = new SlkSettings(reader, DateTime.Now);
                     Assert.Equal(22, settings.QueryDefinitions.Count);
+                }
+            }
+        }
+
+        /// <summary>Validate that the standard settings file validates according to the schema.</summary>
+        [Fact]
+        public void LoadSettings_StandardSettingsValidateToSchema_ValidateSuccessfully()
+        {
+            using (StreamReader schemaReader = new StreamReader("../../slksettings.xsd"))
+            {
+                System.Xml.Schema.XmlSchema xmlSchema = XmlSchema.Read(schemaReader,
+                        delegate(object sender2, ValidationEventArgs e2)
+                        {
+                            XmlSchemaException schemaException = e2.Exception;
+                            string messageFormat = "[{0}:{1}] {2}";
+                            string message = string.Format(CultureInfo.InvariantCulture, messageFormat, schemaException.LineNumber, schemaException.LinePosition, schemaException.Message);
+                            throw new InvalidOperationException(message);
+                        });
+                using (StreamReader stringReader = new StreamReader("../../slksettings.xml"))
+                {
+                    XmlReaderSettings xmlSettings = new XmlReaderSettings();
+                    xmlSettings.Schemas.Add(xmlSchema);
+                    xmlSettings.ValidationType = ValidationType.Schema;
+                    using (XmlReader reader = XmlReader.Create(stringReader, xmlSettings))
+                    {
+                        while (reader.Read())
+                        {
+                        }
+                    }
                 }
             }
         }

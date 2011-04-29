@@ -1576,4 +1576,10 @@ More information may be available in the server event log.</value>
 <p>%description%</p>
 <p><a href='%url%'>%url%</a></p>]]></value>
   </data>
+  <data name="CancelAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment Cancelled : %title%</value>
+  </data>
+  <data name="CancelAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> had been collected.</p>]]></value>
+  </data>
 </root>

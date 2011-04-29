@@ -849,6 +849,24 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; had been collected.&lt;/p&gt;.
+        /// </summary>
+        internal static string CancelAssignmentEmailDefaultBody {
+            get {
+                return ResourceManager.GetString("CancelAssignmentEmailDefaultBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment Cancelled : %title%.
+        /// </summary>
+        internal static string CancelAssignmentEmailDefaultSubject {
+            get {
+                return ResourceManager.GetString("CancelAssignmentEmailDefaultSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email learners on creation or when changed..
         /// </summary>
         internal static string CheckBoxEmailAssignment {

@@ -24,24 +24,8 @@
 			<xs:element name="EmailSettings" minOccurs="0" maxOccurs="unbounded">
 				<xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="EmailSettings" minOccurs="0" maxOccurs="unbounded">
-                                            <xs:complexType>
-                                                <xs:sequence>
-                                                    <xs:element name="NewAssignment" minOccurs="0" maxOccurs="unbounded">
-                                                        <xs:complexType>
-                                                            <xs:sequence>
-                                                                <xs:element name="Body" minOccurs="1" maxOccurs="1">
-                                                                    <xs:sequence>
-                                                                        <xs:any minOccurs="0"/>
-                                                                    </xs:sequence>
-                                                                </xs:element>
-                                                            </xs:sequence>
-                                                            <xs:attribute name="Subject" type="xs:string" use="required" />
-                                                        </xs:complexType>
-                                                    </xs:element>
-                                                </xs:sequence>
-                                            </xs:complexType>
-                                        </xs:element>
+                                        <xs:element name="NewAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="CancelAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
                                     </xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -136,6 +120,18 @@
 			<xs:attribute name="UserWebListMruSize" type="xs:int" use="required" />
 		</xs:complexType>
 	</xs:element>
+        <xs:complexType name="EmailDetails">
+                <xs:sequence>
+                    <xs:element name="Body" minOccurs="1" maxOccurs="1">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="Subject" type="xs:string" use="required" />
+        </xs:complexType>
 	<xs:simpleType name="RenderAsType">
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="Default" />
