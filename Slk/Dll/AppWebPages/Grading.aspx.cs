@@ -222,13 +222,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     lblDescription.Text = Server.HtmlEncode(AssignmentProperties.Description).Replace("\r\n", "<br />\r\n");
 
                     if (AssignmentProperties.PointsPossible.HasValue)
+                    {
                         lblPointsValue.Text = AssignmentProperties.PointsPossible.Value.ToString(Constants.RoundTrip, NumberFormatInfo);
-                    lblStartValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier,
-                                                AssignmentProperties.StartDate);
+                    }
+                    lblStartValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate);
 
                     if (AssignmentProperties.DueDate.HasValue)
-                        lblDueValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier,
-                                                    AssignmentProperties.DueDate.Value);
+                    {
+                        lblDueValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.DueDate.Value);
+                    }
                     tblAutoReturn.Visible = AssignmentProperties.AutoReturn;
                     tblAnswers.Visible = AssignmentProperties.ShowAnswersToLearners;
                     tgrAutoReturn.Visible = tblAutoReturn.Visible || tblAnswers.Visible;
@@ -408,25 +410,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
-                string redirectUrl;
-                using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
+                if (SPWeb.ID == AssignmentProperties.SPWebGuid)
                 {
-                    using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
+                    Delete(SPWeb);
+                }
+                else
+                {
+                    // This should never be needed as page should always be in the context of the assignment's web.
+                    using (SPSite spSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
                     {
-                        SlkStore.DeleteAssignment(AssignmentItemIdentifier);
-                        redirectUrl = spWeb.ServerRelativeUrl;
+                        using (SPWeb spWeb = spSite.OpenWeb(AssignmentProperties.SPWebGuid))
+                        {
+                            Delete(spWeb);
+                        }
                     }
                 }
-
-                //Delete corresponding assignment folder from the drop box if exists
-                if (AssignmentProperties.IsNonELearning)
-                {
-                    DropBoxManager dropBoxManager = new DropBoxManager(AssignmentProperties);
-                    dropBoxManager.DeleteAssignmentFolder();
-                }
-
-                Response.Redirect(redirectUrl, true);
-
             }
             catch (ThreadAbortException)
             {
@@ -440,6 +438,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 contentPanel.Visible = false;
                 errorBanner.AddException(ex);
             }
+        }
+
+        void Delete(SPWeb web)
+        {
+            AssignmentProperties.Delete(web);
+            string redirectUrl = web.ServerRelativeUrl;
+            Response.Redirect(redirectUrl, true);
         }
 
         #region DisplayUploadAndDownloadButtons
@@ -700,8 +705,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     gradingList.Add(item);
                 }
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException exception)
             {
+                SlkError.WriteToEventLog(exception);
                 throw new SafeToDisplayException(AppResources.GradingInvalidAssignmentId, AssignmentId);
             }
         }

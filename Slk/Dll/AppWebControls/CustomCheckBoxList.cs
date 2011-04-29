@@ -366,28 +366,23 @@ namespace Microsoft.SharePointLearningKit.WebControls
                         htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Colspan, "2");
                         using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
                         {
-                            LiteralControl ltrl 
-                                = new LiteralControl(
-                                        SlkUtilities.GetHtmlEncodedText(this.HeaderText)
-                                    );
+                            LiteralControl ltrl = new LiteralControl(SlkUtilities.GetHtmlEncodedText(this.HeaderText));
                             ltrl.RenderControl(htmlTextWriter);
                         }
                     }
                 }
-                //for each item in  the collection of SlkCheckBoxItem objects render
-                //Checkbox and Assoicated label Control.
 
+                //for each item in  the collection of SlkCheckBoxItem objects render
+                //Checkbox and Associated label Control.
                 foreach (SlkCheckBoxItem item in this.Items)
                 {
                     using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, htmlTextWriter))
                     {
-
                         CheckBox checkBox = ControlToRepeat;
                         htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Width, "1%");
                         htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Valign,"top");
                         using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
                         {
-
                             checkBox.ID = item.Value;
                             checkBox.ToolTip = item.ToolTip;
                             checkBox.Checked = item.Selected;
@@ -403,6 +398,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                             checkBox.RenderControl(htmlTextWriter);                        
         
                         }
+
                         htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
                         htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Valign, "top");
                         htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "border-top: none; padding-top:2px");

@@ -632,6 +632,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             item.Selected = true;
                         }
                     }
+
                     //If the Page Mode is Edit Check Items Added in the Create Mode
                     if (AppMode == PageMode.Edit)
                     {

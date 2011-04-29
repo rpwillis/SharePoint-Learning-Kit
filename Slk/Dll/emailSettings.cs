@@ -23,6 +23,9 @@ namespace Microsoft.SharePointLearningKit
                         case "NewAssignment":
                             NewAssignment = new EmailDetails(reader);
                             break;
+                        case "CancelAssignment":
+                            CancelAssignment = new EmailDetails(reader);
+                            break;
                         default:
                             reader.Read();
                             break;
@@ -38,6 +41,8 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Email details for a new assignment.</summary>
         public EmailDetails NewAssignment { get; private set; }
 
+        /// <summary>Email details for a cancelled assignment.</summary>
+        public EmailDetails CancelAssignment { get; private set; }
 #endregion properties
 
 #region public methods

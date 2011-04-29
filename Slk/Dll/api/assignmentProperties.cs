@@ -167,6 +167,33 @@ namespace Microsoft.SharePointLearningKit
 #endregion constructors
 
 #region public methods
+        /// <summary>Deletes the assignment.</summary>
+        public void Delete(SPWeb web)
+        {
+            webWhileSaving = web;
+
+            try
+            {
+                store.DeleteAssignment(Id);
+
+                if (EmailChanges)
+                {
+                    SendEmail(Learners, CancelSubjectText(), CancelBodyText());
+                }
+
+                //Delete corresponding assignment folder from the drop box if exists
+                if (IsNonELearning)
+                {
+                    DropBoxManager dropBoxManager = new DropBoxManager(this);
+                    dropBoxManager.DeleteAssignmentFolder();
+                }
+            }
+            finally
+            {
+                webWhileSaving = null;
+            }
+        }
+
         /// <summary>Saves the assignment.</summary>
         /// <remarks>
         /// <para>
@@ -217,11 +244,6 @@ namespace Microsoft.SharePointLearningKit
             {
                 webWhileSaving = null;
             }
-        }
-
-        /// <summary>Deletes the assignment.</summary>
-        public void Delete()
-        {
         }
 
         /// <summary>Makes the assignment be a no package assignemnt.</summary>
@@ -421,22 +443,44 @@ namespace Microsoft.SharePointLearningKit
         void SendUpdateEmail(SlkUserCollectionChanges learnerChanges)
         {
             SendNewEmail(learnerChanges.Additions);
-
-            string subject = EmailText("Removed Assignment: %title%");
-            string body = EmailText("You have been removed from assignment %title%");
-
-            foreach (SlkUser user in learnerChanges.Removals)
-            {
-                if (user.SPUser != null && string.IsNullOrEmpty(user.SPUser.Email) == false)
-                {
-                    SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, body);
-                }
-            }
+            SendEmail(learnerChanges.Removals, CancelSubjectText(), CancelBodyText());
         }
 
         void SendNewEmail()
         {
             SendNewEmail(Learners);
+        }
+
+        string CancelSubjectText()
+        {
+            string subject = null;
+            EmailSettings settings = store.Settings.EmailSettings;
+            if (settings != null && settings.CancelAssignment != null)
+            {
+                subject = settings.CancelAssignment.Subject;
+            }
+            else
+            {
+                subject = AppResources.CancelAssignmentEmailDefaultSubject;
+            }
+
+            return EmailText(subject);
+        }
+
+        string CancelBodyText()
+        {
+            string body = null;
+            EmailSettings settings = store.Settings.EmailSettings;
+            if (settings != null && settings.CancelAssignment != null)
+            {
+                body = settings.CancelAssignment.Body;
+            }
+            else
+            {
+                body = AppResources.CancelAssignmentEmailDefaultBody;
+            }
+
+            return EmailText(body);
         }
 
         string NewSubjectText()
@@ -475,10 +519,13 @@ namespace Microsoft.SharePointLearningKit
         {
             string subject = NewSubjectText();
             string body = NewBodyText();    // This is the format string as it probably contains a url placeholder which will be learner specific
+            SendEmail(toSend, subject, body);
+        }
 
+        void SendEmail(IEnumerable<SlkUser> toSend, string subject, string body)
+        {
             foreach (SlkUser user in toSend)
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("{0} {1} {2}", user.Name, user.SPUser != null, string.IsNullOrEmpty(user.SPUser.Email));
                 if (user.SPUser != null && string.IsNullOrEmpty(user.SPUser.Email) == false)
                 {
                     SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, UserEmailText(body, user));

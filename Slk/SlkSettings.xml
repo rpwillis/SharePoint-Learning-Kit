@@ -48,11 +48,14 @@
   <MimeTypeMapping Extension=".xml" MimeType="text/xml" />
 
   <EmailSettings>
-      <NewAssignment Title="New Assignment: %title%" xmlns="">
+      <NewAssignment Subject="New Assignment: %title%">
           <slk:Body xmlns=""><p>You have been assigned a new piece of work: <strong>%title%</strong>.</p>
 <p>%description%</p>
 <p><a href='%url%'>%url%</a></p></slk:Body>
       </NewAssignment>
+      <CancelAssignment Subject="Assignment Cancelled: %title%">
+          <slk:Body xmlns=""><p>Assignment <strong>%title%</strong> has been cancelled.</p></slk:Body>
+      </CancelAssignment>
   </EmailSettings>
 
   <Query Name="OverdueLearner" Title="Overdue" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
