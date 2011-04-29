@@ -103,8 +103,7 @@ namespace Microsoft.LearningComponents.Storage
         /// <remarks>Assumes that the result has one rows.  Assumes that the
         ///     columns within the row contain exactly the correct data
         ///     for the <Mth>ReadItemIdentifierColumns</Mth> method.</remarks>
-        public static LearningStoreItemIdentifier ReadItemIdentifierResult(LogableSqlCommand command,
-            LearningStoreItemType itemType)
+        public static LearningStoreItemIdentifier ReadItemIdentifierResult(LogableSqlCommand command, LearningStoreItemType itemType)
         {
             // Check input parameters
             if (command == null)
@@ -142,8 +141,7 @@ namespace Microsoft.LearningComponents.Storage
         /// <param name="locale">Locale for the DataTable</param>
         /// <returns>The DataTable</returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502")]  // Much of the complexity is due to simple switch statements
-        public static DataTable ReadDataTableResult(LogableSqlCommand command,
-            IList<LearningStoreViewColumn> columns, CultureInfo locale)
+        public static DataTable ReadDataTableResult(LogableSqlCommand command, IList<LearningStoreViewColumn> columns, CultureInfo locale)
         {
             // Check input parameters
             if (command == null)
@@ -238,12 +236,10 @@ namespace Microsoft.LearningComponents.Storage
                             inputColumnIndex++;
                             break;
                         case LearningStoreValueTypeCode.ItemIdentifier:
-                            data[outputColumnIndex] = ReadItemIdentifierColumns(
-                                command, ref inputColumnIndex, column.ValueType.ReferencedItemType);
+                            data[outputColumnIndex] = ReadItemIdentifierColumns(command, ref inputColumnIndex, column.ValueType.ReferencedItemType);
                             break;
                         case LearningStoreValueTypeCode.Xml:
-                            data[outputColumnIndex] = ReadXmlColumns(
-                                command, ref inputColumnIndex);
+                            data[outputColumnIndex] = ReadXmlColumns(command, ref inputColumnIndex);
                             break;
                         default:
                             throw new LearningComponentsInternalException("LSTR1080");

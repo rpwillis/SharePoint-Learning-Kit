@@ -2855,7 +2855,7 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The assignment (ID {0}) does not exist or you may not have permission to access it..
+        ///   Looks up a localized string similar to The learner assignment (ID {0}) does not exist or you may not have permission to access it..
         /// </summary>
         internal static string LobbyInvalidLearnerAssignmentId {
             get {
@@ -3201,9 +3201,9 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to New Assignment: %title%.
         /// </summary>
-        internal static string NewAssignmentEmailDefaultTitle {
+        internal static string NewAssignmentEmailDefaultSubject {
             get {
-                return ResourceManager.GetString("NewAssignmentEmailDefaultTitle", resourceCulture);
+                return ResourceManager.GetString("NewAssignmentEmailDefaultSubject", resourceCulture);
             }
         }
         

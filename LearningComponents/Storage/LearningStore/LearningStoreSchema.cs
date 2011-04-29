@@ -416,8 +416,7 @@ namespace Microsoft.LearningComponents.Storage
             // Read the type code
             valueType.m_typeCode = (LearningStoreValueTypeCode)XmlConvert.ToInt32(navigator.GetAttribute("TypeCode", String.Empty));
             if((valueType.m_typeCode < LearningStoreValueTypeCode.ItemIdentifier) || (valueType.m_typeCode > LearningStoreValueTypeCode.Guid))
-                throw new InvalidOperationException(
-                    Microsoft.LearningComponents.Storage.LearningStoreStrings.InvalidSchemaDefinition);
+                throw new InvalidOperationException(Microsoft.LearningComponents.Storage.LearningStoreStrings.InvalidSchemaDefinitionType);
 
             // Read if the value is nullable
             valueType.m_nullable = XmlConvert.ToBoolean(navigator.GetAttribute("Nullable", String.Empty));
@@ -428,8 +427,7 @@ namespace Microsoft.LearningComponents.Storage
                 // Read the referenced item name
                 valueType.m_referencedItemTypeName = navigator.GetAttribute("ReferencedItemTypeName", String.Empty);
                 if(!LearningStoreSchemaUtilities.IsIdentifierValid(valueType.m_referencedItemTypeName))
-                    throw new InvalidOperationException(
-                        Microsoft.LearningComponents.Storage.LearningStoreStrings.InvalidSchemaDefinition);
+                    throw new InvalidOperationException(Microsoft.LearningComponents.Storage.LearningStoreStrings.InvalidSchemaDefinitionNoReference);
             }
 
             // Read the enumeration info if required
@@ -438,8 +436,7 @@ namespace Microsoft.LearningComponents.Storage
                 // Read the referenced enumeration name
                 valueType.m_enumTypeName = navigator.GetAttribute("EnumName", String.Empty);
                 if (!LearningStoreSchemaUtilities.IsIdentifierValid(valueType.m_enumTypeName))
-                    throw new InvalidOperationException(
-                        Microsoft.LearningComponents.Storage.LearningStoreStrings.InvalidSchemaDefinition);
+                    throw new InvalidOperationException(Microsoft.LearningComponents.Storage.LearningStoreStrings.InvalidSchemaDefinitionEnum);
             }
 
             return valueType;

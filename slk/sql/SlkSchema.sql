@@ -369,6 +369,12 @@ SET @schema = @schema +
         '<Property Name="Language" TypeCode="2" Nullable="false" HasDefault="true"/>' +
     '</ItemType>'
 SET @schema = @schema +
+    '<ItemType Name="UserItemSite" ViewFunction="UserItemSite$DefaultView">' + 
+        '<Property Name="UserId" TypeCode="1" Nullable="false" HasDefault="false" ReferencedItemTypeName="UserItem"/>' +
+        '<Property Name="SPSiteGuid" TypeCode="11" Nullable="false" HasDefault="false"/>' +
+        '<Property Name="SPUserId" TypeCode="9" Nullable="false" HasDefault="false"/>' +
+    '</ItemType>'
+SET @schema = @schema +
     '<ItemType Name="SiteSettingsItem" ViewFunction="SiteSettingsItem$DefaultView">' + 
         '<Property Name="SiteGuid" TypeCode="11" Nullable="false" HasDefault="false"/>' +
         '<Property Name="SettingsXml" TypeCode="2" Nullable="false" HasDefault="false"/>' +
@@ -404,7 +410,7 @@ SET @schema = @schema +
         '<Property Name="IsFinal" TypeCode="3" Nullable="false" HasDefault="false"/>' +
         '<Property Name="NonELearningStatus" TypeCode="8" Nullable="true" HasDefault="false" EnumName="AttemptStatus"/>' +
         '<Property Name="FinalPoints" TypeCode="5" Nullable="true" HasDefault="false"/>' +
-        '<Property Name="Grade" TypeCode="2" Nullable="false" HasDefault="false"/>' +
+        '<Property Name="Grade" TypeCode="2" Nullable="true" HasDefault="true"/>' +
         '<Property Name="InstructorComments" TypeCode="2" Nullable="false" HasDefault="false"/>' +
     '</ItemType>'
 SET @schema = @schema +
@@ -859,6 +865,7 @@ SET @schema = @schema +
         '<Column Name="InstructorId" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
         '<Column Name="InstructorName" TypeCode="2" Nullable="true"/>' +
         '<Column Name="InstructorKey" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="SPUserId" TypeCode="9" Nullable="true"/>' +
         '<Column Name="AssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AssignmentItem"/>' +
         '<Column Name="AssignmentSPSiteGuid" TypeCode="11" Nullable="true"/>' +
         '<Column Name="AssignmentSPWebGuid" TypeCode="11" Nullable="true"/>' +
@@ -886,6 +893,7 @@ SET @schema = @schema +
         '<Column Name="LearnerId" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
         '<Column Name="LearnerName" TypeCode="2" Nullable="true"/>' +
         '<Column Name="LearnerKey" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="SPUserId" TypeCode="9" Nullable="true"/>' +
         '<Column Name="IsFinal" TypeCode="3" Nullable="true"/>' +
         '<Column Name="NonELearningStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="FinalPoints" TypeCode="5" Nullable="true"/>' +
@@ -995,6 +1003,7 @@ SET @schema = @schema +
         '<Column Name="LearnerAssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="LearnerAssignmentItem"/>' +
         '<Column Name="LearnerAssignmentGuidId" TypeCode="11" Nullable="true"/>' +
         '<Column Name="LearnerId" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
+        '<Column Name="SPUserId" TypeCode="9" Nullable="true"/>' +
         '<Column Name="LearnerName" TypeCode="2" Nullable="true"/>' +
         '<Column Name="LearnerKey" TypeCode="2" Nullable="true"/>' +
         '<Column Name="IsFinal" TypeCode="3" Nullable="true"/>' +
@@ -2051,6 +2060,16 @@ CREATE TABLE [UserItem](
 )
 GRANT SELECT, INSERT, DELETE, UPDATE ON [UserItem] TO LearningStore
 
+CREATE TABLE UserItemSite (
+    Id bigint IDENTITY NOT NULL CONSTRAINT UNQ_UserItemSite UNIQUE,
+    UserId  BIGINT NOT NULL CONSTRAINT FK_UserItemSite_UserId  REFERENCES UserItem (Id) ON DELETE CASCADE,
+    [SPSiteGuid] uniqueidentifier NOT NULL,
+    SPUserId BIGINT NOT NULL,
+    CONSTRAINT PK_UserItemSite PRIMARY KEY  CLUSTERED  (UserId, SPSiteGuid)
+)
+GRANT SELECT, INSERT, DELETE, UPDATE ON [UserItem] TO LearningStore
+
+
 -- Create SiteSettingsItem table
 CREATE TABLE [SiteSettingsItem](
     Id bigint IDENTITY PRIMARY KEY NOT NULL,
@@ -3023,6 +3042,7 @@ RETURN (
     iai.InstructorId                InstructorId,
     iui.[Name]                      InstructorName,
     iui.[Key]                       InstructorKey,
+    luis.SPUserId                   SPUserId,
     ----- from AssignmentItem -----
     asi.Id                          AssignmentId,
     asi.SPSiteGuid                  AssignmentSPSiteGuid,
@@ -3048,6 +3068,8 @@ RETURN (
     FROM InstructorAssignmentItem iai
     INNER JOIN AssignmentItem asi ON iai.AssignmentId = asi.Id
     INNER JOIN UserItem iui ON iui.Id = iai.InstructorId
+    LEFT JOIN UserItemSite luis ON iui.Id = luis.UserId AND
+                                    asi.SPSiteGuid = luis.SPSiteGuid
     INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
     LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
     LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
@@ -3079,6 +3101,7 @@ RETURN (
     lai.LearnerId                   LearnerId,
     lui.[Name]                      LearnerName,
     lui.[Key]                       LearnerKey,
+    luis.SPUserId                   SPUserId,
     lai.IsFinal                     IsFinal,
     lai.NonELearningStatus          NonELearningStatus,
     CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END FinalPoints,
@@ -3134,6 +3157,8 @@ RETURN (
     FROM LearnerAssignmentItem lai
     INNER JOIN AssignmentItem asi ON lai.AssignmentId = asi.Id
     INNER JOIN UserItem lui ON lui.Id = lai.LearnerId
+    LEFT JOIN UserItemSite luis ON lui.Id = luis.UserId AND
+                                    asi.SPSiteGuid = luis.SPSiteGuid
     INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
     LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
     LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
@@ -3315,6 +3340,7 @@ RETURN (
     lai.LearnerId                   LearnerId,
     lui.[Name]                      LearnerName,
     lui.[Key]                       LearnerKey,
+    luis.SPUserId                   SPUserId,
     lai.IsFinal                     IsFinal,
     lai.NonELearningStatus          NonELearningStatus,
     lai.FinalPoints                 FinalPoints,
@@ -3368,6 +3394,8 @@ RETURN (
     FROM LearnerAssignmentItem lai
     INNER JOIN AssignmentItem asi ON lai.AssignmentId = asi.Id
     INNER JOIN UserItem lui ON lui.Id = lai.LearnerId
+    LEFT JOIN UserItemSite luis ON lui.Id = luis.UserId AND
+                                    asi.SPSiteGuid = luis.SPSiteGuid
     INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
     INNER JOIN InstructorAssignmentItem iai ON lai.AssignmentId = iai.AssignmentId
     INNER JOIN UserItem iui ON iai.InstructorId = iui.Id
@@ -3888,6 +3916,18 @@ RETURN (
 )
 GO
 GRANT SELECT ON [UserItem$DefaultView] TO LearningStore
+GO
+
+-- Create function that implements the default view for the UserItem item type
+CREATE FUNCTION [UserItemSite$DefaultView](@UserKey nvarchar(250))
+RETURNS TABLE
+AS
+RETURN (
+    SELECT Id, UserId, SPSiteGuid, SPUserId
+    FROM [UserItemSite]
+)
+GO
+GRANT SELECT ON [UserItemSite$DefaultView] TO LearningStore
 GO
 
 -- Create function that implements the default view for the SiteSettingsItem item type

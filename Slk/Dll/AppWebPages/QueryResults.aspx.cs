@@ -802,9 +802,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
                             hw.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
                             hw.AddAttribute(HtmlTextWriterAttribute.Href,
-                                String.Format(CultureInfo.InvariantCulture, url,
-                                              FramesetQueryParameter.LearnerAssignmentId,
-                                              learnerAssignmentGuidId.ToString()));
+                            String.Format(CultureInfo.InvariantCulture, url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString()));
                             using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
                                 hw.WriteEncodedText(renderedCell.ToString());
 
@@ -885,13 +883,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// If more than one, returns an empty string.</returns>
         private string CheckSubmittedFilesNumber(Guid assignmentGUID)
         {
-            LearnerAssignmentProperties learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(
-                                                                      assignmentGUID,
-                                                                      SlkRole.Learner);
+            LearnerAssignmentProperties learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(assignmentGUID, SlkRole.Learner);
 
-            AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(
-                                                               learnerAssignmentProperties.AssignmentId,
-                                                               SlkRole.Learner);
+            AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(learnerAssignmentProperties.AssignmentId, SlkRole.Learner);
             if (SlkStore.IsObserver(SPWeb))
             {
                 string result = string.Empty;

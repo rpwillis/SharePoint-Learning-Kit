@@ -1065,7 +1065,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary> Adds the Selected Members to the given List</summary>  
         /// <param name="slkUserCollection">list to add the members to</param>
         /// <param name="customChkBoxList">control to retrive the item from</param>
-        private static void SetMembersList(SlkUserCollection slkUserCollection, CustomCheckBoxList customChkBoxList)
+        private void SetMembersList(SlkUserCollection slkUserCollection, CustomCheckBoxList customChkBoxList)
         {
             if (customChkBoxList.Items.Count > 0)
             {
@@ -1076,7 +1076,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     if (item.Selected)
                     {
                         //get the item key and add to collection
-                        slkUserCollection.Add(new SlkUser(GetUserItemIdentifier(item.Value)));
+                        SlkUser user = SlkMembers[GetUserItemIdentifier(item.Value).GetKey()];
+                        slkUserCollection.Add(user);
                     }
                 }
 
