@@ -309,7 +309,7 @@ namespace Microsoft.LearningComponents.Storage
             // for this transaction we need to read from the activitypackageitem table and write new records to
             // the activityattemptitem and attemptitem tables
             TransactionOptions options = new TransactionOptions();
-            options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
+            options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
             using(LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
             {
                 // execute the query

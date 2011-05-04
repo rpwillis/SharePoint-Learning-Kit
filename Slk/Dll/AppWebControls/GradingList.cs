@@ -68,7 +68,13 @@ namespace Microsoft.SharePointLearningKit.WebControls
         #region Public and Private Properties
 
         /// <summary>Whether to use grades or not.</summary>
-        public bool UseGrades { get; set; }
+        bool UseGrades { get; set; }
+
+        /// <summary>Whether there is a learner report url to add.</summary>
+        bool HasLearnerReport { get; set; }
+
+        /// <summary>The url to the learner report.</summary>
+        string LearnerReportUrl { get; set; }
 
         /// <summary>
         /// Returns Unique ID to the Control.
@@ -346,6 +352,14 @@ namespace Microsoft.SharePointLearningKit.WebControls
         }
         #endregion
 
+        /// <summary>Initalizes the grading list based on the SLK settings.</summary>
+        public void Initialize(SlkSettings settings)
+        {
+            UseGrades = settings.UseGrades;
+            LearnerReportUrl = settings.LearnerReportUrl;
+            HasLearnerReport = string.IsNullOrEmpty(LearnerReportUrl) == false;
+        }
+
         #region RenderColumnHeader
         /// <summary>
         /// Renders a column header, i.e. the label at the top of a column in the Grading list.
@@ -555,8 +569,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 {
                     //Controls to Graded Score
                     Image imgGraded = new Image();
-                    imgGraded.ID
-                        = GradingImageId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
+                    imgGraded.ID = GradingImageId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                     imgGraded.Width = new Unit(11, UnitType.Pixel);
                     imgGraded.Height = new Unit(11, UnitType.Pixel);
 
@@ -569,27 +582,42 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
                     using (new HtmlBlock(HtmlTextWriterTag.Td, 0, htmlTextWriter))
                     {
-                        Label lblGradedScore = new Label();
-                        lblGradedScore.ID
-                            = GradingScoreId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
+                        WebControl gradedScore = new Label();
+                        bool isHyperLink = false;
+                        if (item.GradedScore != null && HasLearnerReport)
+                        {
+                            gradedScore = new HyperLink();
+                            isHyperLink = true;
+                        }
+
+                        gradedScore.ID = GradingScoreId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                         //Add the ToolTipText to get the localized Text while 
                         //Changing the Tool Tip from Client Side 
-                        lblGradedScore.Attributes.Add("ToolTipText", AppResources.GradingScoreToolTip);
+                        gradedScore.Attributes.Add("ToolTipText", AppResources.GradingScoreToolTip);
                         if (item.GradedScore != null)
                         {
-                            lblGradedScore.Text
-                                = String.Format(CultureInfo.CurrentCulture, AppResources.GradingGradedScore, item.GradedScore.Value);
+                            string text = String.Format(CultureInfo.CurrentCulture, AppResources.GradingGradedScore, item.GradedScore.Value);
+                            if (isHyperLink)
+                            {
+                                HyperLink link = (HyperLink)gradedScore;
+                                link.Text = text;
+                                link.NavigateUrl = LearnerReportUrl + item.LearnerAssignmentGuidId;
+                            }
+                            else
+                            {
+                                ((Label)gradedScore).Text = text;
+                            }
+
                             //Tool Tip for Graded Score 
                             //Similar to <Computed points with full precision> Points.
-                            lblGradedScore.ToolTip = String.Format(CultureInfo.CurrentCulture, AppResources.GradingGradedScoreToolTip,
-                                                                    item.GradedScore.Value, AppResources.GradingScoreToolTip);
+                            gradedScore.ToolTip = String.Format(CultureInfo.CurrentCulture, AppResources.GradingGradedScoreToolTip, item.GradedScore.Value, AppResources.GradingScoreToolTip);
                         }
                         else
                         {
-                            lblGradedScore.Text = Constants.NonBreakingSpace;
+                            ((Label)gradedScore).Text = Constants.NonBreakingSpace;
                         }
 
-                        lblGradedScore.RenderControl(htmlTextWriter);
+                        gradedScore.RenderControl(htmlTextWriter);
                     }
 
                     htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Align, "right");
