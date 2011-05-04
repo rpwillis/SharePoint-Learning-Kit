@@ -109,8 +109,11 @@ namespace Microsoft.SharePointLearningKit
         ///<summary>Indicates whether to hide disabled users on the assignment page.</summary>
         public bool HideDisabledUsers { get; private set; }
 
-        /// <summary>Inidicates whether to use grades as well as points.</summary>
+        /// <summary>Indicates whether to use grades as well as points.</summary>
         public bool UseGrades { get; private set; }
+
+        /// <summary>The url to use to link to a learner report.</summary>
+        public string LearnerReportUrl { get; private set; }
 
         /// <summary>
         /// Gets the value of the "PackageCacheLocation" attribute of the "&lt;Settings&gt;" element
@@ -363,7 +366,19 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        static bool ParseAttribute(XmlReader xmlReader, string name)
+        static string ParseAttributeAsString(XmlReader xmlReader, string name)
+        {
+            if (!xmlReader.MoveToAttribute(name))
+            {
+                return null;
+            }
+            else
+            {
+                return xmlReader.ReadContentAsString();
+            }
+        }
+
+        static bool ParseAttributeAsBoolean(XmlReader xmlReader, string name)
         {
             if (!xmlReader.MoveToAttribute(name))
             {
@@ -427,8 +442,9 @@ namespace Microsoft.SharePointLearningKit
             }
 
             MaxAttachmentKilobytes = xmlReader.ReadContentAsInt();
-            HideDisabledUsers = ParseAttribute(xmlReader, "HideDisabledUsers");
-            UseGrades = ParseAttribute(xmlReader, "UseGrades");
+            HideDisabledUsers = ParseAttributeAsBoolean(xmlReader, "HideDisabledUsers");
+            UseGrades = ParseAttributeAsBoolean(xmlReader, "UseGrades");
+            LearnerReportUrl = ParseAttributeAsString(xmlReader, "LearnerReportUrl");
 
             // parse "PackageCacheExpirationMinutes" attribute
             if (!xmlReader.MoveToAttribute("PackageCacheExpirationMinutes"))

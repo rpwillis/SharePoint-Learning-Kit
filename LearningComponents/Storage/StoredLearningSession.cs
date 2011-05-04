@@ -371,7 +371,7 @@ namespace Microsoft.LearningComponents.Storage
         /// <remarks>
         /// The method uses <c>LearningStore.CreateJob</c> and <c>LearningStore.Execute</c> methods to 
         /// delete the attempt. Any exceptions thrown from those methods may be thrown from this method as well.
-        /// <p/>If there isn't a current transaction when this method is called then a new serializable 
+        /// <p/>If there isn't a current transaction when this method is called then a new 
         /// transaction is created and used. If the job succeeds, the transaction is committed. If the 
         /// job fails, the transaction is rolled back. If a SQL deadlock occurs when executing the job 
         /// and the job is chosen as the deadlock victim, the job is retried several times.
@@ -392,7 +392,7 @@ namespace Microsoft.LearningComponents.Storage
             job.DisableFollowingSecurityChecks();
             job.DeleteItem(attemptId);
         
-            // Does not create a transaction because LearningStore will create a serializable one for us. 
+            // Does not create a transaction because LearningStore will create one for us. 
             job.Execute();
         }
 

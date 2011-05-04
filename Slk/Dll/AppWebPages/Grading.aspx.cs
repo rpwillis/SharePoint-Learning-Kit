@@ -699,7 +699,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 gradingList.IsClassServerContent = AssignmentProperties.IsClassServerContent;
                 gradingList.Clear();
-                gradingList.UseGrades = SlkStore.Settings.UseGrades;
+                gradingList.Initialize(SlkStore.Settings);
                 foreach (GradingProperties item in LearnersGradingCollection)
                 {
                     gradingList.Add(item);

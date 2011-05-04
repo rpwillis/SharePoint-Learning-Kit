@@ -144,7 +144,7 @@ namespace Microsoft.LearningComponents.Storage
             try
             {
                 TransactionOptions options = new TransactionOptions();
-                options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
+                options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
                 using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
                 {
                     // Add the reference to the package

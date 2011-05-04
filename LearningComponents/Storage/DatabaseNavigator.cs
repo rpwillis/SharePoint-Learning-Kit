@@ -1542,7 +1542,7 @@ namespace Microsoft.LearningComponents.Storage
                 throw new InvalidOperationException(Resources.AttemptHasNotEnded);
             }
             TransactionOptions options = new TransactionOptions();
-            options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
+            options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
             using(LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
             {
                 LearningStoreJob job = m_store.CreateJob();
@@ -1562,7 +1562,7 @@ namespace Microsoft.LearningComponents.Storage
         public void ExpandDataModelCache()
         {
             TransactionOptions options = new TransactionOptions();
-            options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
+            options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
             using(LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
             {
                 LearningStoreJob job = m_store.CreateJob();
@@ -1578,7 +1578,7 @@ namespace Microsoft.LearningComponents.Storage
         /// and tables in the <Typ>LearningStore</Typ> that are used for reporting.
         /// </summary>
         /// <param name="job">LearningStoreJob to use for the record deletions and writes.</param>
-        /// <remarks>This method assumes that the caller is responsible for transaction handling.  A Serializable 
+        /// <remarks>This method assumes that the caller is responsible for transaction handling.  A RepeatableRead 
         /// transaction is recommended for callers.</remarks>
         [SuppressMessage("Microsoft.Maintainability", "CA1502")]
         private void ExpandDataModelCache(LearningStoreJob job)
@@ -2933,7 +2933,7 @@ namespace Microsoft.LearningComponents.Storage
                 }
 
                 TransactionOptions options = new TransactionOptions();
-                options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
+                options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
                 using(LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
                 {
                     NavigatorEnlistment enlist = new NavigatorEnlistment(this);

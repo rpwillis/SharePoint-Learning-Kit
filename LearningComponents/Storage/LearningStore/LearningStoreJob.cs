@@ -819,7 +819,7 @@ namespace Microsoft.LearningComponents.Storage
         ///     the job and the job is chosen as the deadlock victim, the caller
         ///     will receive a <Typ>SqlException</Typ>.</li>
         /// <li>If this method is not executed within a <Typ>LearningStoreTransactionScope</Typ>,
-        ///     then a new serializable transaction is created and used.  If the job
+        ///     then a new transaction is created and used.  If the job
         ///     succeeds, the transaction is committed.  If the job fails, the
         ///     transaction is rolled back.  If a SQL deadlock occurs when
         ///     executing the job and the job is chosen as the deadlock victim,
@@ -869,7 +869,7 @@ namespace Microsoft.LearningComponents.Storage
                             if (LearningStoreTransactionScope.Current == null)
                             {
                                 TransactionOptions transactionOptions = new TransactionOptions();
-                                transactionOptions.IsolationLevel = System.Transactions.IsolationLevel.Serializable;                                
+                                transactionOptions.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;                                
                                 createdTransactionScope = new LearningStoreTransactionScope(transactionOptions);
                                 disposer.Push(createdTransactionScope);
                             }

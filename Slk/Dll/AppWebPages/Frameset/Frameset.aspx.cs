@@ -125,7 +125,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             // and update the assignment. Both should succeed or both should fail.
             LearnerAssignmentProperties la;
             TransactionOptions options = new TransactionOptions();
-            options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
+            options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
             using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
             {
                 // Must force a read of assignment data so that it's read in the same transaction that it might be updated.
