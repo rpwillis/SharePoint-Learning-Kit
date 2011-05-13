@@ -73,6 +73,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected LinkButton lnkMRUShowAll;
         protected Button addButton;
         protected Panel contentPanel;
+        protected TableGridRow selfAssignRow;
         protected TableGridRow organizationRow;
         protected TableGridRow organizationRowBottomLine;
         protected RequiredFieldValidator newSiteRequired;
@@ -92,6 +93,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region Private Properties
+        bool NoFileAssignment
+        {
+            get { return Request.QueryString["Location"] == AssignmentProperties.noPackageLocation ;}
+        }
 
         /// <summary>
         /// Retrieves the location string of the file that the Actions page is acting upon.
@@ -317,139 +322,19 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 SetResourceText();
 
-                ResourceFileName.Text = Server.HtmlEncode(SPFile.Name);
-                DocLibLink.NavigateUrl = SPList.DefaultViewUrl;
-                DocLibLink.Text = Server.HtmlEncode(SPList.Title);
-
-                // Make sure that the package isn't checked out.
-                //Using LoginName instead of Sid as Sid may be empty while using FBA
-                if (SPFile.CheckOutStatus != SPFile.SPCheckOutStatus.None &&
-                    SPFile.CheckedOutBy.LoginName.Equals(SPWeb.CurrentUser.LoginName))
+                if (NoFileAssignment)
                 {
-                    // If it's checked out by the current user, show an error.
-                    throw new SafeToDisplayException(AppResources.ActionsCheckedOutError);
-                }
-
-                // no minor versions or limited version number warnings
-                if (!SPList.EnableVersioning || SPList.MajorVersionLimit != 0
-                    || SPList.MajorWithMinorVersionsLimit != 0)
-                {
-                    errorBanner.AddError(ErrorType.Warning,
-                        string.Format(CultureInfo.CurrentCulture, AppResources.ActionsVersioningOff, Server.HtmlEncode(SPList.Title)));
-                }
-
-                // If the current file isn't a published version, show a warning.
-                // If the document library doesn't have minor versions, the file is NEVER SPFileLevel.Published
-                if (SPList.EnableMinorVersions)
-                {
-                    if (SPFile.Level == SPFileLevel.Draft)
-                    {
-                        errorBanner.AddError(ErrorType.Warning, AppResources.ActionsDraftVersion);
-                    }
-                }
-
-                // validate the package -- if it's already registered in LearningStore then
-                // retrieve the cached warnings, otherwise validate the package now, but don't
-                // actually register it (since we want to avoid unnecessary registrations of the
-                // package in the database in the case where an author edits and previews a
-                // package many times before deciding to assign it); note that non-e-learning
-                // files are not validated
-                LearningStoreXml warnings;
-                if (NonELearning)
-                {
-                    warnings = null;
+                    // non-file assignment
+                    DocLibLink.Text = AppResources.ActionsDocLibLinkNoFile;
+                    ResourceFileName.Text = Request.QueryString["Title"];
+                    lblTitle.Text = ResourceFileName.Text;
+                    selfAssignRow.Visible = false;
+                    organizationRow.Visible = false;
+                    organizationRowBottomLine.Visible = false;
                 }
                 else
                 {
-                    warnings = SlkStore.ValidatePackage(Location);
-                }
-
-                if (!IsPostBack)
-                {
-                    // get information about the package: populate the "Organizations" row
-                    // (as applicable) in the UI, and set <title> and <description> to the text
-                    // of the title and description to display
-                    string title, description;
-                    if (NonELearning)
-                    {
-                        // non-e-learning content...
-
-                        // set <title> and <description>
-                        title = SPFile.Title;
-                        if (String.IsNullOrEmpty(title))
-                        {
-                            title = Path.GetFileNameWithoutExtension(SPFile.Name);
-                        }
-                        description = "";
-
-                        // hide the "Organizations" row
-                        organizationRow.Visible = false;
-                        organizationRowBottomLine.Visible = false;
-                    }
-                    else
-                    {
-                        // e-learning content...
-
-                        // set <packageInformation> to refer to information about the package
-                        PackageInformation packageInformation = SlkStore.GetPackageInformation(Location);
-                        m_spFile = packageInformation.SPFile;
-                        title = packageInformation.Title;
-                        description = packageInformation.Description;
-
-                        // populate the drop-down list of organizations; hide the entire row containing that
-                        // drop-down if there's only one organization
-                        ReadOnlyCollection<OrganizationNodeReader> organizations = packageInformation.ManifestReader.Organizations;
-                        foreach (OrganizationNodeReader nodeReader in organizations)
-                        {
-                            string id = nodeReader.Id;
-                            organizationList.Items.Add(new ListItem(Server.HtmlEncode(GetDefaultTitle(nodeReader.Title, id)), id));
-                            if (packageInformation.ManifestReader.DefaultOrganization.Id == id)
-                            {
-                                organizationList.Items.FindByValue(id).Selected = true;
-                            }
-                        }
-
-                        if (organizations.Count == 1)
-                        {
-                            organizationRow.Visible = false;
-                            organizationRowBottomLine.Visible = false;
-                        }
-                    }
-
-                    // copy <title> to the UI
-                    lblTitle.Text = Server.HtmlEncode(title);
-                    lblDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(description);
-                }
-
-                // if the package has warnings, tell the user
-                if (warnings != null)
-                {
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append(AppResources.ActionsWarning);
-                    sb.AppendLine("<br />");
-                    sb.Append("<a href=\"javascript: __doPostBack('showWarnings','');\">");
-                    if (ShowWarnings)
-                        sb.Append(AppResources.ActionsHideDetails);
-                    else
-                        sb.Append(AppResources.ActionsShowDetails);
-                    sb.AppendLine("</a>");
-
-                    if (ShowWarnings)
-                    {
-                        sb.AppendLine("<ul style=\"margin-top:0;margin-bottom:0;margin-left:24;\">");
-                        using (XmlReader xmlReader = warnings.CreateReader())
-                        {
-                            XPathNavigator root = new XPathDocument(xmlReader).CreateNavigator();
-                            foreach (XPathNavigator error in root.Select("/Warnings/Warning"))
-                            {
-                                sb.Append("<li>");
-                                sb.Append(Server.HtmlEncode(error.Value));
-                                sb.AppendLine("</li>");
-                            }
-                        }
-                        sb.Append("</ul>\n");
-                    }
-                    errorBanner.AddHtmlErrorText(ErrorType.Warning, sb.ToString());
+                    CheckAndDisplayFile();
                 }
 
                 List<WebListItem> webList = GetSiteList();
@@ -470,8 +355,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             catch (SafeToDisplayException ex)
             {
-                DocLibLink.Text = Server.HtmlEncode(SPList.Title);
-                ResourceFileName.Text = Server.HtmlEncode(SPListItem.Name);
+                if (NoFileAssignment == false)
+                {
+                    DocLibLink.Text = Server.HtmlEncode(SPList.Title);
+                    ResourceFileName.Text = Server.HtmlEncode(SPListItem.Name);
+                }
                 errorBanner.AddException(ex);
             }
 
@@ -627,15 +515,32 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         string AssignmentSiteUrl(string webUrl)
         {
-            string url = SlkUtilities.UrlCombine(webUrl, "_layouts/SharePointLearningKit/AssignmentProperties.aspx");
-            url = String.Format(CultureInfo.InvariantCulture, "{0}?Location={1}", url, Location);
+            string urlFormat = "{0}/_layouts/SharePointLearningKit/AssignmentProperties.aspx?Location={1}{2}{3}";
+            string orgIndex = null;
+            string titleValue = null;
+            string location = null;
+            string title = null;
 
-            if (!NonELearning)
+            if (NoFileAssignment)
             {
-                url = String.Format(CultureInfo.InvariantCulture, "{0}&OrgIndex={1}", url, OrganizationIndex);
+                title = Request.QueryString["title"];;
+                location = AssignmentProperties.noPackageLocation;
+            }
+            else
+            {
+                location = Location;
+                if (NonELearning == false)
+                {
+                    orgIndex = String.Format(CultureInfo.InvariantCulture, "&OrgIndex={0}", OrganizationIndex);
+                }
             }
 
-            return url;
+            if (string.IsNullOrEmpty(title) == false)
+            {
+                titleValue = "&Title=" + title;
+            }
+
+            return String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, location, orgIndex, titleValue);
         }
 
         private void PopulateSiteListControl(List<WebListItem> webList)
@@ -760,11 +665,20 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void SetResourceText()
         {
             pageTitle.Text = AppResources.ActionsPageTitle;
-            pageDescription.Text = AppResources.ActionsPageDescription;
             lblOrganization.Text = AppResources.ActionslblOrganization;
-            lblWhatHeader.Text = AppResources.ActionslblWhatHeader;
+            if (NoFileAssignment)
+            {
+                lblWhatHeader.Text = AppResources.ActionslblWhatHeaderNoFile;
+                lblSelfAssignAssign.Text = AppResources.ActionslblSelfAssignAssignNoFile;
+                pageDescription.Text = AppResources.ActionsPageDescriptionNoFile;
+            }
+            else
+            {
+                lblWhatHeader.Text = AppResources.ActionslblWhatHeader;
+                lblSelfAssignAssign.Text = AppResources.ActionslblSelfAssignAssign;
+                pageDescription.Text = AppResources.ActionsPageDescription;
+            }
             lblSelfAssignHeader.Text = AppResources.ActionslblSelfAssignHeader;
-            lblSelfAssignAssign.Text = AppResources.ActionslblSelfAssignAssign;
             lnkAssignSelf.Text = AppResources.ActionslnkAssignSelf;
             lblAssignSelf.Text = AppResources.ActionslblAssignSelf;
             lblChoose.Text = AppResources.ActionslblChoose;
@@ -889,6 +803,143 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             return learnerAssignmentGuidId;
         }
+
+        void CheckAndDisplayFile()
+        {
+            ResourceFileName.Text = Server.HtmlEncode(SPFile.Name);
+            DocLibLink.NavigateUrl = SPList.DefaultViewUrl;
+            DocLibLink.Text = Server.HtmlEncode(SPList.Title);
+
+            // Make sure that the package isn't checked out.
+            //Using LoginName instead of Sid as Sid may be empty while using FBA
+            if (SPFile.CheckOutStatus != SPFile.SPCheckOutStatus.None && SPFile.CheckedOutBy.LoginName.Equals(SPWeb.CurrentUser.LoginName))
+            {
+                // If it's checked out by the current user, show an error.
+                throw new SafeToDisplayException(AppResources.ActionsCheckedOutError);
+            }
+
+            // no minor versions or limited version number warnings
+            if (!SPList.EnableVersioning || SPList.MajorVersionLimit != 0 || SPList.MajorWithMinorVersionsLimit != 0)
+            {
+                errorBanner.AddError(ErrorType.Warning,
+                    string.Format(CultureInfo.CurrentCulture, AppResources.ActionsVersioningOff, Server.HtmlEncode(SPList.Title)));
+            }
+
+            // If the current file isn't a published version, show a warning.
+            // If the document library doesn't have minor versions, the file is NEVER SPFileLevel.Published
+            if (SPList.EnableMinorVersions)
+            {
+                if (SPFile.Level == SPFileLevel.Draft)
+                {
+                    errorBanner.AddError(ErrorType.Warning, AppResources.ActionsDraftVersion);
+                }
+            }
+
+            // validate the package -- if it's already registered in LearningStore then
+            // retrieve the cached warnings, otherwise validate the package now, but don't
+            // actually register it (since we want to avoid unnecessary registrations of the
+            // package in the database in the case where an author edits and previews a
+            // package many times before deciding to assign it); note that non-e-learning
+            // files are not validated
+            LearningStoreXml warnings;
+            if (NonELearning)
+            {
+                warnings = null;
+            }
+            else
+            {
+                warnings = SlkStore.ValidatePackage(Location);
+            }
+
+            if (!IsPostBack)
+            {
+                // get information about the package: populate the "Organizations" row
+                // (as applicable) in the UI, and set <title> and <description> to the text
+                // of the title and description to display
+                string title, description;
+                if (NonELearning)
+                {
+                    // non-e-learning content...
+
+                    // set <title> and <description>
+                    title = SPFile.Title;
+                    if (String.IsNullOrEmpty(title))
+                    {
+                        title = Path.GetFileNameWithoutExtension(SPFile.Name);
+                    }
+                    description = "";
+
+                    // hide the "Organizations" row
+                    organizationRow.Visible = false;
+                    organizationRowBottomLine.Visible = false;
+                }
+                else
+                {
+                    // e-learning content...
+
+                    // set <packageInformation> to refer to information about the package
+                    PackageInformation packageInformation = SlkStore.GetPackageInformation(Location);
+                    m_spFile = packageInformation.SPFile;
+                    title = packageInformation.Title;
+                    description = packageInformation.Description;
+
+                    // populate the drop-down list of organizations; hide the entire row containing that
+                    // drop-down if there's only one organization
+                    ReadOnlyCollection<OrganizationNodeReader> organizations = packageInformation.ManifestReader.Organizations;
+                    foreach (OrganizationNodeReader nodeReader in organizations)
+                    {
+                        string id = nodeReader.Id;
+                        organizationList.Items.Add(new ListItem(Server.HtmlEncode(GetDefaultTitle(nodeReader.Title, id)), id));
+                        if (packageInformation.ManifestReader.DefaultOrganization.Id == id)
+                        {
+                            organizationList.Items.FindByValue(id).Selected = true;
+                        }
+                    }
+
+                    if (organizations.Count == 1)
+                    {
+                        organizationRow.Visible = false;
+                        organizationRowBottomLine.Visible = false;
+                    }
+                }
+
+                // copy <title> to the UI
+                lblTitle.Text = Server.HtmlEncode(title);
+                lblDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(description);
+            }
+
+            // if the package has warnings, tell the user
+            if (warnings != null)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(AppResources.ActionsWarning);
+                sb.AppendLine("<br />");
+                sb.Append("<a href=\"javascript: __doPostBack('showWarnings','');\">");
+                if (ShowWarnings)
+                    sb.Append(AppResources.ActionsHideDetails);
+                else
+                    sb.Append(AppResources.ActionsShowDetails);
+                sb.AppendLine("</a>");
+
+                if (ShowWarnings)
+                {
+                    sb.AppendLine("<ul style=\"margin-top:0;margin-bottom:0;margin-left:24;\">");
+                    using (XmlReader xmlReader = warnings.CreateReader())
+                    {
+                        XPathNavigator root = new XPathDocument(xmlReader).CreateNavigator();
+                        foreach (XPathNavigator error in root.Select("/Warnings/Warning"))
+                        {
+                            sb.Append("<li>");
+                            sb.Append(Server.HtmlEncode(error.Value));
+                            sb.AppendLine("</li>");
+                        }
+                    }
+                    sb.Append("</ul>\n");
+                }
+                errorBanner.AddHtmlErrorText(ErrorType.Warning, sb.ToString());
+            }
+        }
+
 #endregion private methods
 
 

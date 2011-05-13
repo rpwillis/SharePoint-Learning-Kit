@@ -316,12 +316,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 // set <querySetDef> to the QuerySetDefinition named <querySetName>
 
-                QuerySetDefinition querySetDef
-                        = SlkStore.Settings.FindQuerySetDefinition(QuerySetOverride, true);
+                QuerySetDefinition querySetDef = SlkStore.Settings.FindQuerySetDefinition(QuerySetOverride, true);
                 if (querySetDef == null)
                 {
-                    throw new SafeToDisplayException
-                                    (AppResources.AlwpQuerySetNotFound, QuerySetOverride);
+                    throw new SafeToDisplayException (AppResources.AlwpQuerySetNotFound, QuerySetOverride);
                 }
                 else
                 {
@@ -792,6 +790,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
         }
     }
+
     /// <summary>
     /// Defines the friendly name for a property of a ALWP.
     /// This allows the labels in ALWP's tool pane to be localized string resources.
@@ -818,6 +817,29 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 }
                 return base.DisplayName;
             }
+        }
+    }
+
+    /// <summary>
+    /// Defines the friendly name for a property of a SLK web part.
+    /// This allows the labels in web part's tool pane to be localized string resources.
+    /// </summary>
+    internal sealed class SlkCategoryAttribute : CategoryAttribute
+    {
+        /// <summary>Initializes a new instance of <see cref="SlkCategoryAttribute"/>.</summary>
+        public SlkCategoryAttribute() : base ("WebPartCategory")
+        {
+        }
+
+        /// <summary>Initializes a new instance of <see cref="SlkCategoryAttribute"/>.</summary>
+        public SlkCategoryAttribute(string category) : base (category)
+        {
+        }
+
+        /// <summary>Gets the name of a property to display.</summary>
+        protected override string GetLocalizedString(string value)
+        {
+            return AppResources.ResourceManager.GetString(value);
         }
     }
 }
