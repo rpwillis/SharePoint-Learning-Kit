@@ -97,6 +97,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assignment.
+        /// </summary>
+        internal static string ActionsDocLibLinkNoFile {
+            get {
+                return ResourceManager.GetString("ActionsDocLibLinkNoFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The learning resource is a draft. If you assign it, learners may lose access to it once it is published or approved..
         /// </summary>
         internal static string ActionsDraftVersion {
@@ -196,6 +205,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assign it.
+        /// </summary>
+        internal static string ActionslblSelfAssignAssignNoFile {
+            get {
+                return ResourceManager.GetString("ActionslblSelfAssignAssignNoFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use it myself.
         /// </summary>
         internal static string ActionslblSelfAssignHeader {
@@ -210,6 +228,15 @@ namespace Resources.Properties {
         internal static string ActionslblWhatHeader {
             get {
                 return ResourceManager.GetString("ActionslblWhatHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assign work.
+        /// </summary>
+        internal static string ActionslblWhatHeaderNoFile {
+            get {
+                return ResourceManager.GetString("ActionslblWhatHeaderNoFile", resourceCulture);
             }
         }
         
@@ -285,6 +312,15 @@ namespace Resources.Properties {
         internal static string ActionsPageDescription {
             get {
                 return ResourceManager.GetString("ActionsPageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This page allows you to choose which site to assign a piece of work to..
+        /// </summary>
+        internal static string ActionsPageDescriptionNoFile {
+            get {
+                return ResourceManager.GetString("ActionsPageDescriptionNoFile", resourceCulture);
             }
         }
         
@@ -3280,6 +3316,51 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assign.
+        /// </summary>
+        internal static string QuickAssignmentAssignText {
+            get {
+                return ResourceManager.GetString("QuickAssignmentAssignText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site.
+        /// </summary>
+        internal static string QuickAssignmentLabelSite {
+            get {
+                return ResourceManager.GetString("QuickAssignmentLabelSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        internal static string QuickAssignmentLabelTitle {
+            get {
+                return ResourceManager.GetString("QuickAssignmentLabelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controls how the control is used..
+        /// </summary>
+        internal static string QuickAssignmentTypeDescription {
+            get {
+                return ResourceManager.GetString("QuickAssignmentTypeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Type..
+        /// </summary>
+        internal static string QuickAssignmentTypeDisplayName {
+            get {
+                return ResourceManager.GetString("QuickAssignmentTypeDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a Site Collection.
         /// </summary>
         internal static string SelectSiteCollectionHtml {
@@ -3916,6 +3997,15 @@ namespace Resources.Properties {
         internal static string UnexpectedDBNull {
             get {
                 return ResourceManager.GetString("UnexpectedDBNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SharePoint Learning Kit.
+        /// </summary>
+        internal static string WebPartCategory {
+            get {
+                return ResourceManager.GetString("WebPartCategory", resourceCulture);
             }
         }
         

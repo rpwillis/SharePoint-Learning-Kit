@@ -1,12 +1,25 @@
 using System;
 using System.Globalization;
 using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using Microsoft.SharePoint;
+using Resources.Properties;
 
 namespace Microsoft.SharePointLearningKit.WebParts
 {
+    /// <summary>The type of usage.</summary>
+    public enum QuickAssignmentMode
+    {
+        /// <summary>Only show the title and move on to choosing the site on a separate page.</summary>
+        TitleOnly,
+        /// <summary>ONly show the title, but assign to this site.</summary>
+        TitleOnlyForThisSite,
+        /// <summary>Choose the site in the web part.</summary>
+        ChooseSite
+    }
+
     /// <summary>The quick assignment web part.</summary>
     public class QuickAssignmentWebPart : WebPart
     {
@@ -15,6 +28,26 @@ namespace Microsoft.SharePointLearningKit.WebParts
         DropDownList sites;
         UserWebList webList;
 
+#region properties
+        ///<summary>The license for the webpart.</summary>
+        ///<value>The license.</value>
+        [WebBrowsable(),
+         AlwpWebDisplayName("QuickAssignmentTypeDisplayName"),
+         AlwpWebDescription("QuickAssignmentTypeDescription"),
+         SlkCategory(),
+         Personalizable(PersonalizationScope.Shared)
+         ]
+        public QuickAssignmentMode Mode { get; set; }
+#endregion properties
+
+#region constuctors
+        /// <summary>Initializes a new instance of <see cref="QuickAssignmentWebPart"/>.</summary>
+        public QuickAssignmentWebPart()
+        {
+            Mode = QuickAssignmentMode.TitleOnly;
+        }
+#endregion constuctors
+
 #region protected methods
         /// <summary>Creates the child controls.</summary>
         protected override void CreateChildControls()
@@ -22,26 +55,46 @@ namespace Microsoft.SharePointLearningKit.WebParts
             titleBox = new TextBox();
             titleBox.MaxLength = 100;
             titleBox.Rows = 2;
+            titleBox.Width = Unit.Percentage(100); 
             Controls.Add(titleBox);
 
-            SPWeb web = SPContext.Current.Web;
-            SlkStore store = SlkStore.GetStore(web);
-            webList = new UserWebList(store, web);
-
-            sites = new DropDownList();
-            foreach (WebListItem item in webList.Items)
+            if (Mode != QuickAssignmentMode.TitleOnly && Mode != QuickAssignmentMode.TitleOnlyForThisSite)
             {
-                sites.Items.Add(new ListItem(item.Title, item.SPWebGuid.ToString()));
+                CreateSitesDropDown();
             }
 
-            Controls.Add(sites);
-
             submit = new Button();
-            submit.Text = "Assign";
+            submit.Text = AppResources.QuickAssignmentAssignText;
             submit.Click += AssignClick;
+            submit.CssClass="ms-ButtonHeightWidth";
             Controls.Add(submit);
 
             base.CreateChildControls();
+        }
+
+        /// <summary>Renders the web part.</summary>
+        protected override void RenderContents(HtmlTextWriter writer)
+        {
+            writer.Write("<table class='ms-formtable' width='100%' cellspacing='0' cellpadding='0' border='0' style='margin-top: 8px;'>");
+            RenderFormLine(writer, AppResources.QuickAssignmentLabelTitle, titleBox);
+            if (sites != null)
+            {
+                RenderFormLine(writer, AppResources.QuickAssignmentLabelSite, sites);
+            }
+            writer.Write("</table>");
+            submit.RenderControl(writer);
+
+
+        }
+
+        void RenderFormLine(HtmlTextWriter writer, string label, WebControl control)
+        {
+            writer.Write("<tr><td class='ms-formlabel' nowrap='true' valign='top'><h3 class='ms-standardheader'><nobr>");
+            writer.Write(label);
+            writer.Write("</nobr></h3></td>");
+            writer.Write("<td class='ms-formbody' valign='top'>");
+            control.RenderControl(writer);
+            writer.Write("</td></tr>");
         }
 #endregion protected methods
 
@@ -52,9 +105,16 @@ namespace Microsoft.SharePointLearningKit.WebParts
             try
             {
                 string webUrl = FindSelectedWeb();
-                string url = SlkUtilities.UrlCombine(webUrl, "_layouts/SharePointLearningKit/AssignmentProperties.aspx");
+                string urlFormat = "{0}/_layouts/SharePointLearningKit/{1}.aspx?Location={2}&Title={3}";
                 string encodedTitle = HttpUtility.UrlEncode(titleBox.Text);
-                url = String.Format(CultureInfo.InvariantCulture, "{0}?Location={1}&Title={2}", url, AssignmentProperties.noPackageLocation, encodedTitle);
+                string page = "assignmentproperties";
+
+                if (Mode == QuickAssignmentMode.TitleOnly)
+                {
+                    page = "actions";
+                }
+
+                string url = String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, page, AssignmentProperties.noPackageLocation, encodedTitle);
 
                 Page.Response.Redirect(url, true);
             }
@@ -70,7 +130,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 #region private methods
         string FindSelectedWeb()
         {
-            if (sites.SelectedIndex > -1)
+            if (sites != null && sites.SelectedIndex > -1)
             {
                 Guid webId = new Guid(sites.SelectedItem.Value);
                 foreach (WebListItem item in webList.Items)
@@ -102,6 +162,21 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
 
             return SPContext.Current.Web.ServerRelativeUrl;
+        }
+
+        void CreateSitesDropDown()
+        {
+            SPWeb web = SPContext.Current.Web;
+            SlkStore store = SlkStore.GetStore(web);
+            webList = new UserWebList(store, web);
+
+            sites = new DropDownList();
+            foreach (WebListItem item in webList.Items)
+            {
+                sites.Items.Add(new ListItem(item.Title, item.SPWebGuid.ToString()));
+            }
+
+            Controls.Add(sites);
         }
 #endregion private methods
     }

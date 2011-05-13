@@ -386,6 +386,19 @@ More information has been written to the server event log.</value>
     <value>The assignment must have a title.</value>
     <comment>The assignment Blank Error Message.</comment>
   </data>
+  <data name="WebPartCategory" xml:space="preserve">
+    <value>SharePoint Learning Kit</value>
+    <comment>The category for web part properties.</comment>
+  </data>
+  <data name="QuickAssignmentLabelTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="QuickAssignmentLabelSite" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="QuickAssignmentAssignText" xml:space="preserve">
+    <value>Assign</value>
+  </data>
   <data name="ActionsItemNotFound" xml:space="preserve">
     <value>The learning resource does not exist or you may not have permission to access it.</value>
   </data>
@@ -404,11 +417,17 @@ More information has been written to the server event log.</value>
   <data name="ActionslblOrganization" xml:space="preserve">
     <value>Organization</value>
   </data>
+  <data name="ActionslblSelfAssignAssignNoFile" xml:space="preserve">
+    <value>Assign it</value>
+  </data>
   <data name="ActionslblSelfAssignAssign" xml:space="preserve">
     <value>Assign it to someone else</value>
   </data>
   <data name="ActionslblSelfAssignHeader" xml:space="preserve">
     <value>Use it myself</value>
+  </data>
+  <data name="ActionslblWhatHeaderNoFile" xml:space="preserve">
+    <value>Assign work</value>
   </data>
   <data name="ActionslblWhatHeader" xml:space="preserve">
     <value>What would you like to do with this document?</value>
@@ -416,8 +435,14 @@ More information has been written to the server event log.</value>
   <data name="ActionslnkAssignSelf" xml:space="preserve">
     <value>Assign this learning resource to yourself.</value>
   </data>
+  <data name="ActionsDocLibLinkNoFile" xml:space="preserve">
+    <value>Assignment</value>
+  </data>
   <data name="ActionslnkMRUAddSite" xml:space="preserve">
     <value>Add a site to this list...</value>
+  </data>
+  <data name="ActionsPageDescriptionNoFile" xml:space="preserve">
+    <value>This page allows you to choose which site to assign a piece of work to.</value>
   </data>
   <data name="ActionsPageDescription" xml:space="preserve">
     <value>This page allows you to use a document for e-learning. You can assign
@@ -711,6 +736,14 @@ saving, click Cancel.</value>
   <data name="AppPageEditTitleInTitleArea" xml:space="preserve">
     <value>Edit Assignment</value>
     <comment>Edit Assignment in Title Area</comment>
+  </data>
+  <data name="QuickAssignmentTypeDisplayName" xml:space="preserve">
+    <value>Display Type.</value>
+    <comment>Quick Assignment web part type display name Attribute Value</comment>
+  </data>
+  <data name="QuickAssignmentTypeDescription" xml:space="preserve">
+    <value>Controls how the control is used.</value>
+    <comment>Quick Assignment web part type description Attribute Value</comment>
   </data>
   <data name="AlwpDisplaySummaryDescription" xml:space="preserve">
     <value>Show the control for selecting a query to display in the assignment list.</value>
