@@ -37,7 +37,9 @@ CREATE TABLE UserItemSite (
     SPUserId BIGINT NOT NULL,
     CONSTRAINT PK_UserItemSite PRIMARY KEY  CLUSTERED  (UserId, SPSiteGuid)
 )
-GRANT SELECT, INSERT, DELETE, UPDATE ON [UserItem] TO LearningStore
+GO
+GRANT SELECT, INSERT, DELETE, UPDATE ON [UserItemSite] TO LearningStore
+GO
 
 -- Create function that implements the default view for the UserItem item type
 CREATE FUNCTION [UserItemSite$DefaultView](@UserKey nvarchar(250))
