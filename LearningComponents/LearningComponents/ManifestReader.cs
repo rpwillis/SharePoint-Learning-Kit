@@ -785,7 +785,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// <param name="node">Node on which to find the attribute.</param>
         /// <param name="value">Ref value to return the attribute value.</param>
         /// <param name="attributeName">Name of attribute to obtain.</param>
-        /// <param name="defaultValue">Default value to set if attribute is missing.</param>
+        /// <param name="defaultValue">Default value to set if attribute is missing. If null then is set to the value but a warning/error is logged.</param>
         /// <param name="spm">SPM for the string attribute. 0 or less means "no effect".</param>
         /// <param name="mlcMaxLength">Max length for MLC validation. 0 or less means "no effect".</param>
         /// <returns></returns>
@@ -815,7 +815,10 @@ namespace Microsoft.LearningComponents.Manifest
             else
             {
                 LogBadAttribute(attributeValue, attributeName, node.Name, defaultValue, ValidatorResources.InvalidIdentifier);
-                value = defaultValue;
+                if (defaultValue == null)
+                {
+                    value = attributeValue;
+                }
             }
             return value;
         }
@@ -2599,15 +2602,10 @@ namespace Microsoft.LearningComponents.Manifest
                                         m_helper.LogRequiredAttributeMissing(Helper.Strings.Identifier, node.Name, ValidatorResources.OrganizationIdentifierMissing);
                                         return null;
                                     }
-                                    else if (Helper.ValidateId(identifier))
-                                    {
-                                        return new OrganizationNodeReader(m_packageReader, node, this);
-                                    }
                                     else
                                     {
-                                        m_helper.LogBadAttribute(identifier, Helper.Strings.Identifier, node.Name, ValidatorResources.ElementRemoved,
-                                            ValidatorResources.InvalidIdentifier);
-                                        return null;
+                                        // Do not validate ID, it will be logged by the OrganizationNodeReader.
+                                        return new OrganizationNodeReader(m_packageReader, node, this);
                                     }
                                 }));
                         m_organizations = organizations;
@@ -6869,7 +6867,7 @@ namespace Microsoft.LearningComponents.Manifest
         {
             get
             {
-                return m_helper.CacheRequiredStringIdentifierAttribute(m_helper.Node, ref m_identifier, Helper.Strings.Identifier, String.Empty, 
+                return m_helper.CacheRequiredStringIdentifierAttribute(m_helper.Node, ref m_identifier, Helper.Strings.Identifier, null, 
                     0, BaseSchemaInternal.ActivityPackageItem.MaxActivityIdFromManifestLength);
             }
         }
