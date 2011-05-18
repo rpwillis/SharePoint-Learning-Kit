@@ -58,7 +58,7 @@ namespace Microsoft.SharePointLearningKit
         public ReadOnlyCollection<SlkUser> Instructors
         {
             [DebuggerStepThrough]
-            get { return new ReadOnlyCollection<SlkUser>(new List<SlkUser>(instructors.Values)); }
+            get { return SortedDictionary(instructors); }
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Microsoft.SharePointLearningKit
         public ReadOnlyCollection<SlkUser> Learners
         {
             [DebuggerStepThrough]
-            get { return new ReadOnlyCollection<SlkUser>(new List<SlkUser>(learners.Values)); }
+            get { return SortedDictionary(learners); }
         }
 
         /// <summary>
@@ -423,6 +423,13 @@ namespace Microsoft.SharePointLearningKit
             }
 
             return true;
+        }
+
+        ReadOnlyCollection<SlkUser> SortedDictionary(Dictionary<string, SlkUser> users)
+        {
+            List<SlkUser> list = new List<SlkUser>(users.Values);
+            list.Sort();
+            return new ReadOnlyCollection<SlkUser>(list);
         }
 
 #endregion private methods
