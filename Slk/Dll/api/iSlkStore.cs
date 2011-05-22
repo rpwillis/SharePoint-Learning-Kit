@@ -150,5 +150,10 @@ namespace Microsoft.SharePointLearningKit
         /// may be any user.</para>
         /// </remarks>
         ReadOnlyCollection<SlkUserWebListItem> FetchUserWebList();
+
+        /// <summary>Loads an assignment for grading.</summary>
+        /// <param name="id">The id of the assignment.</param>
+        /// <returns>An <see cref="AssignmentProperties"/>.</returns>
+        AssignmentProperties GetGradingProperties(AssignmentItemIdentifier id);
     }
 }

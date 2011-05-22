@@ -25,6 +25,34 @@ namespace Microsoft.SharePointLearningKit
         SPWeb webWhileSaving;
 
 #region properties
+        /// <summary>Indicates if the assignment is complete or not.</summary>
+        /// <value></value>
+        public bool IsCompleted
+        {
+            get
+            {
+                if (Results == null)
+                {
+                    throw new InvalidOperationException();
+                }
+                else
+                {
+                    foreach (GradingProperties learnerGrading in Results)
+                    {
+                        if (learnerGrading.Status != LearnerAssignmentState.Completed)
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>The results of the assignment.</summary>
+        public ReadOnlyCollection<GradingProperties> Results { get; private set; }
+
         /// <summary>Gets the <c>Guid</c> of the SPSite that contains the SPWeb that this assignment is associated with.</summary>
         public Guid SPSiteGuid { get; set; }
 
@@ -624,6 +652,11 @@ namespace Microsoft.SharePointLearningKit
         }
 #endregion private methods
 
+        internal void AssignResults(List<GradingProperties> results)
+        {
+            Results = new ReadOnlyCollection<GradingProperties>(results) ;
+        }
+
 #region public static methods
         /// <summary>
         /// Returns an <c>AssignmentProperties</c> object populated with default information for
@@ -716,6 +749,15 @@ namespace Microsoft.SharePointLearningKit
         public static AssignmentProperties Load(AssignmentItemIdentifier assignmentItemIdentifier, SlkStore store)
         {
             return store.LoadAssignmentProperties(assignmentItemIdentifier, SlkRole.Instructor);
+        }
+
+        /// <summary>Loads an AssignmentProperties for grading.</summary>
+        /// <param name="assignmentItemIdentifier">The id of the assignment.</param>
+        /// <param name="store"></param>
+        /// <returns></returns>
+        public static AssignmentProperties LoadForGrading(AssignmentItemIdentifier assignmentItemIdentifier, ISlkStore store)
+        {
+            return store.GetGradingProperties(assignmentItemIdentifier);
         }
 #endregion public static methods
     }

@@ -175,22 +175,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        bool IsCompleted
-        {
-            get
-            {
-                foreach (GradingProperties learnerGrading in LearnersGradingCollection)
-                {
-                    if (learnerGrading.Status != LearnerAssignmentState.Completed)
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        }
-
         #endregion
 
         #region OnPreRender
@@ -451,8 +435,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         void LoadAssignmentProperties()
         {
-            learnersGradingCollection = SlkStore.GetGradingProperties(AssignmentItemIdentifier, out m_assignmentProperties);
-            gradingList.AssignmentProperties = m_assignmentProperties;
+            m_assignmentProperties = AssignmentProperties.LoadForGrading(AssignmentItemIdentifier, SlkStore);
+            learnersGradingCollection = AssignmentProperties.Results;
         }
 
 
@@ -462,7 +446,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void DisplayUploadAndDownloadButtons()
         {
-            if (IsCompleted)
+            if (AssignmentProperties.IsCompleted)
             {
                 slkButtonUpload.Enabled = true;
                 string uploadUrl = LayoutUrlForAssignmentId("CommentedFiles");
@@ -681,6 +665,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
                 gradingPropertiesList.Add(gradingProperties);
             }
+
             string warning = SlkStore.SetGradingProperties(AssignmentItemIdentifier, gradingPropertiesList);
             if (!string.IsNullOrEmpty(warning))
             {
@@ -697,13 +682,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
-                gradingList.IsClassServerContent = AssignmentProperties.IsClassServerContent;
-                gradingList.Clear();
+                gradingList.AssignmentProperties = AssignmentProperties;
                 gradingList.Initialize(SlkStore.Settings);
-                foreach (GradingProperties item in LearnersGradingCollection)
-                {
-                    gradingList.Add(item);
-                }
             }
             catch (InvalidOperationException exception)
             {

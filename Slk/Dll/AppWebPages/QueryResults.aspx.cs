@@ -914,9 +914,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="assignmentProperties">The AssignmentProperties</param>
         /// <returns> If one assignment submitted, returns its URL.
         /// If more than one, returns an empty string.</returns>
-        private string PerformFilesNumberChecking(
-                                LearnerAssignmentProperties learnerAssignmentProperties, 
-                                AssignmentProperties assignmentProperties)
+        private string PerformFilesNumberChecking( LearnerAssignmentProperties learnerAssignmentProperties, AssignmentProperties assignmentProperties)
         {
             DropBoxManager dropBox = new DropBoxManager(assignmentProperties);
             AssignmentFile[] assignmentFiles = dropBox.LastSubmittedFiles(learnerAssignmentProperties.LearnerId.GetKey());
