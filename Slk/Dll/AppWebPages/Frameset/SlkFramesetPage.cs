@@ -84,7 +84,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             LearnerAssignmentProperties la = GetLearnerAssignment();
 
-            return ProcessViewRequest(la, view);
+            return ProcessViewRequest(la.Status, view);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// set before calling this method.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
-        protected bool ProcessViewRequest(LearnerAssignmentProperties la, SessionView sessionView)
+        protected bool ProcessViewRequest(LearnerAssignmentState learnerStatus, SessionView sessionView)
         {
             switch (AssignmentView)
             {
@@ -105,7 +105,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         }
 
                         // Can only access active assignments in Execute view
-                        if (la.Status != LearnerAssignmentState.Active)
+                        if (learnerStatus != LearnerAssignmentState.Active)
                         {
                             RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle,
                                 SlkFrameset.FRM_AssignmentTurnedInMsgHtml, false);
@@ -123,8 +123,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         }
 
                         // Grading is not available if the assignment has not been submitted.
-                        if ((la.Status == LearnerAssignmentState.Active)
-                            || (la.Status == LearnerAssignmentState.NotStarted))
+                        if ((learnerStatus == LearnerAssignmentState.Active)
+                            || (learnerStatus == LearnerAssignmentState.NotStarted))
                         {
                             RegisterError(SlkFrameset.FRM_AssignmentNotGradableTitle,
                              SlkFrameset.FRM_AssignmentCantBeGradedMsgHtml, false);
@@ -141,7 +141,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         }
 
                         // Only available if student has started the assignment
-                        if (la.Status == LearnerAssignmentState.NotStarted)
+                        if (learnerStatus == LearnerAssignmentState.NotStarted)
                         {
                             RegisterError(SlkFrameset.FRM_ReviewNotAvailableTitle,
                              SlkFrameset.FRM_ReviewNotAvailableMsgHtml, false);
@@ -160,13 +160,13 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
                         // If the user is an observer and the assignment state is equal to 'Completed' or 'NotStarted',
                         // then register error message
-                        if (SlkStore.IsObserver(SPWeb) && ((la.Status == LearnerAssignmentState.Completed) || (la.Status == LearnerAssignmentState.NotStarted)))
+                        if (SlkStore.IsObserver(SPWeb) && ((learnerStatus == LearnerAssignmentState.Completed) || (learnerStatus == LearnerAssignmentState.NotStarted)))
                         {
                             RegisterError(SlkFrameset.FRM_ObserverReviewNotAvailableTitle, SlkFrameset.FRM_ObserverReviewNotAvailableMsgHtml, false);
                             return false;
                         }
                         // If requesting student review, the assignment state must be final
-                        if ( !SlkStore.IsObserver(SPWeb) && la.Status != LearnerAssignmentState.Final)
+                        if ( !SlkStore.IsObserver(SPWeb) && learnerStatus != LearnerAssignmentState.Final)
                         {
                             RegisterError(SlkFrameset.FRM_ReviewNotAvailableTitle,
                                 SlkFrameset.FRM_LearnerReviewNotAvailableMsgHtml, false);

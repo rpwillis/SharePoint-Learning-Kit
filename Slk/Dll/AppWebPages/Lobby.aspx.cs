@@ -375,8 +375,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 SetUpSlkBeginButtonAction(view);
 
-                if (LearnerAssignmentProperties.CreatedById.Equals(LearnerAssignmentProperties.LearnerId)
-                    && !LearnerAssignmentProperties.HasInstructors)
+                // Set up delete button
+                if (LearnerAssignmentProperties.CreatedById.Equals(LearnerAssignmentProperties.LearnerId) && !LearnerAssignmentProperties.HasInstructors)
                 {
                     slkButtonDelete.Text = AppResources.LobbyDeleteAssignmentText;
                     slkButtonDelete.ToolTip = AppResources.LobbyDeleteToolTip;
@@ -389,6 +389,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     slkButtonDelete.Visible = false;
                 }
 
+                // Set up submit button
                 if (LearnerAssignmentProperties.HasInstructors)
                 {
                     slkButtonSubmit.Text = AppResources.LobbySubmitText;

@@ -47,10 +47,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// Holds the Postback Grading Item Collection.
         /// </summary>
         private Dictionary<string, GradingItem> m_postBackGradingItems;
-        /// <summary>
-        /// Holds whether the Assignment is from Class Server Content or not.
-        /// </summary>
-        private bool m_isClassServerContent;
 
         #endregion
 
@@ -154,14 +150,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         {
             get { return m_items; }
         }
-        /// <summary>
-        /// Holds whether the Assignment is from Class Server Content or not.
-        /// </summary>
-        internal bool IsClassServerContent
-        {
-            get { return m_isClassServerContent; }
-            set { m_isClassServerContent = value; }
-        }
 
         #endregion
 
@@ -247,7 +235,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <returns>File Submission State to be displayed in the File Submission Column</returns>
         public string GetFileSubmissionValue(GradingProperties gradingProperties)
         {
-
             SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
 
             //The package is e-learning content
@@ -355,9 +342,15 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>Initalizes the grading list based on the SLK settings.</summary>
         public void Initialize(SlkSettings settings)
         {
+            Clear();
             UseGrades = settings.UseGrades;
             LearnerReportUrl = settings.LearnerReportUrl;
             HasLearnerReport = string.IsNullOrEmpty(LearnerReportUrl) == false;
+
+            foreach (GradingProperties item in AssignmentProperties.Results)
+            {
+                Add(item);
+            }
         }
 
         #region RenderColumnHeader
@@ -470,7 +463,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                 item.LearnerAssignmentGuidId,
                                 extraQueryString,
                                 item.LearnerAssignmentId,
-                                IsClassServerContent ? "true" : "false");
+                                AssignmentProperties.IsClassServerContent ? "true" : "false");
                 }
                 else
                 {
@@ -966,8 +959,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             //to the Postback Grading Item Collection to return and also Check if 
             //Item already exists in Postback Grading Item Collection.
 
-            if (isGradingItemChanged &&
-                !(m_postBackGradingItems.ContainsKey(key)))
+            if (isGradingItemChanged && !(m_postBackGradingItems.ContainsKey(key)))
             {
                 m_postBackGradingItems.Add(key, item);
                 Items.LearnerItemsChanged.Add(item.LearnerAssignmentId);
@@ -997,8 +989,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 }
             }
 
-            if (Items.LearnerItemsChanged != null && 
-                Items.LearnerItemsChanged.Count > 0)
+            if (Items.LearnerItemsChanged != null && Items.LearnerItemsChanged.Count > 0)
             {
                 foreach (long key in Items.LearnerItemsChanged)
                 {
@@ -1009,13 +1000,10 @@ namespace Microsoft.SharePointLearningKit.WebControls
                         GradingItem item = Items.FindByValue(key);
                         m_postBackGradingItems.Add(itemKey, item);
                     }
-
                 }
-                
             }
 
             return m_postBackGradingItems;
-
         }
 
         #endregion

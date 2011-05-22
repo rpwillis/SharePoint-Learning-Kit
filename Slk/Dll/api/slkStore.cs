@@ -1651,36 +1651,24 @@ namespace Microsoft.SharePointLearningKit
             return lap;
         }
 
-            /// <summary>
-            /// Retrieves grading-related information about an assignment from the SLK database.
-            /// </summary>
-            ///
-            /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to
-            ///     retrieve information about.</param>
-            ///
-            /// <param name="basicAssignmentProperties">Where returned basic assignment properties are
-            ///     stored.  <paramref name="basicAssignmentProperties"/> is populated with all its
-            ///     properties except for <c>AssignmentProperties.Instructors</c> and
-            ///     <c>AssignmentProperties.Instructors</c></param>
-            ///
-            /// <returns>
-            /// A collection of <c>GradingProperties</c> objects, one for each learner assignment in the
-            /// assignment, sorted by learner name.
-            /// </returns>
-            ///
-            /// <remarks>
-            /// <b>Security:</b>&#160; Fails if the
-            /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> isn't an instructor on the
-            /// assignment.
-            /// </remarks>
-            ///
+        /// <summary>Retrieves grading-related information about an assignment from the SLK database.</summary>
+        /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to
+        ///     retrieve information about.</param>
+        /// <returns>
+        /// An AssignmentProperties object containing 
+        /// a collection of <c>GradingProperties</c> objects, one for each learner assignment in the
+        /// assignment, sorted by learner name.
+        /// </returns>
+        /// <remarks>
+        /// <b>Security:</b>&#160; Fails if the
+        /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> isn't an instructor on the
+        /// assignment.
+        /// </remarks>
         /// <exception cref="SafeToDisplayException">
         /// An error occurred that can be displayed to a browser user.  Possible cause: the user isn't
-            /// an instructor on the assignment.
+        /// an instructor on the assignment.
         /// </exception>
-            ///
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-        public ReadOnlyCollection<GradingProperties> GetGradingProperties(AssignmentItemIdentifier assignmentId, out AssignmentProperties basicAssignmentProperties)
+        public AssignmentProperties GetGradingProperties(AssignmentItemIdentifier assignmentId)
             {
             // Security checks: Fails if the user isn't an instructor on the assignment (since
             // the query is limited to only the information the user has access to, and an exception
@@ -1730,7 +1718,7 @@ namespace Microsoft.SharePointLearningKit
             IEnumerator<object> resultEnumerator = results.GetEnumerator();
 
             // retrieve from <resultEnumerator> information requested by BeginGetAssignmentProperties()
-            basicAssignmentProperties = PopulateAssignmentProperties(resultEnumerator, assignmentId, SlkRole.Instructor, false);
+            AssignmentProperties properties = PopulateAssignmentProperties(resultEnumerator, assignmentId, SlkRole.Instructor, false);
 
             // retrieve from <resultEnumerator> information about each learner assignment
             if (!resultEnumerator.MoveNext())
@@ -1764,7 +1752,8 @@ namespace Microsoft.SharePointLearningKit
                 gpList.Add(gp);
             }
 
-            return new ReadOnlyCollection<GradingProperties>(gpList);
+            properties.AssignResults(gpList);
+            return properties;
         }
 
         /// <summary>
@@ -2514,55 +2503,52 @@ namespace Microsoft.SharePointLearningKit
         /// An error occurred that can be displayed to a browser user.  Possible cause:
         /// the user doesn't have the right to switch to the requested state.
         /// </exception>
-        ///
-            public void ChangeLearnerAssignmentState(Guid learnerAssignmentGuidId,
-                    LearnerAssignmentState newStatus)
+            public void ChangeLearnerAssignmentState(Guid learnerAssignmentGuidId, LearnerAssignmentState newStatus)
             {
             // Security checks: Fails if the user doesn't have the right to switch to
             // the requested state (checked by using a rule in the schema)
 
             // Check parameters
             if (learnerAssignmentGuidId.Equals(Guid.Empty) == true)
+            {
                 throw new ArgumentNullException("learnerAssignmentGuidId");
+            }
+
             if ((newStatus != LearnerAssignmentState.Active) && (newStatus != LearnerAssignmentState.Completed) &&
                 (newStatus != LearnerAssignmentState.Final) && (newStatus != LearnerAssignmentState.NotStarted))
+            {
                 throw new ArgumentOutOfRangeException("newStatus");
+            }
 
             // the other override of ChangeLearnerAssignmentState requires a transaction
             TransactionOptions transactionOptions = new TransactionOptions();
             transactionOptions.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
-            using (LearningStoreTransactionScope scope =
-                new LearningStoreTransactionScope(transactionOptions))
-                    {
-                            // create a LearningStore job
-                            LearningStoreJob job = LearningStore.CreateJob();
+            using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(transactionOptions))
+            {
+                LearningStoreJob job = LearningStore.CreateJob();
 
                 // Demand the correct security
-                Dictionary<string,object> securityParameters = new Dictionary<string,object>();
                 switch(newStatus)
                 {
                     case LearnerAssignmentState.Active:
-                        securityParameters.Add(Schema.ActivateLearnerAssignmentRight.LearnerAssignmentGuidId, learnerAssignmentGuidId);
-                        job.DemandRight(Schema.ActivateLearnerAssignmentRight.RightName, securityParameters);
+                        DemandRight(job, Schema.ActivateLearnerAssignmentRight.RightName, learnerAssignmentGuidId);
                         break;
                     case LearnerAssignmentState.Completed:
-                        securityParameters.Add(Schema.CompleteLearnerAssignmentRight.LearnerAssignmentGuidId, learnerAssignmentGuidId);
-                        job.DemandRight(Schema.CompleteLearnerAssignmentRight.RightName, securityParameters);
+                        DemandRight(job, Schema.CompleteLearnerAssignmentRight.RightName, learnerAssignmentGuidId);
                         break;
                     case LearnerAssignmentState.Final:
-                        securityParameters.Add(Schema.FinalizeLearnerAssignmentRight.LearnerAssignmentGuidId, learnerAssignmentGuidId);
-                        job.DemandRight(Schema.FinalizeLearnerAssignmentRight.RightName, securityParameters);
+                        DemandRight(job, Schema.FinalizeLearnerAssignmentRight.RightName, learnerAssignmentGuidId);
                         break;
                     default:
-                                            throw new InvalidOperationException(AppResources.LearnerAssignmentTransitionNotSupported);
+                        throw new InvalidOperationException(AppResources.LearnerAssignmentTransitionNotSupported);
                 }
 
                 // We've verified that the user has the correct right, so do everything else
                 // with security checks turned off
                 using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
                 {
-                                // request the current (stored in database) status of the learner assignment
-                                LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentView.ViewName);
+                    // request the current (stored in database) status of the learner assignment
+                    LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentView.ViewName);
                     query.AddColumn(Schema.LearnerAssignmentView.LearnerAssignmentState);
                     query.AddColumn(Schema.LearnerAssignmentView.RootActivityId);
                     query.AddColumn(Schema.LearnerAssignmentView.AttemptId);
@@ -2570,37 +2556,34 @@ namespace Microsoft.SharePointLearningKit
                     query.AddColumn(Schema.LearnerAssignmentView.AssignmentAutoReturn);
                     query.AddColumn(Schema.LearnerAssignmentView.LearnerAssignmentId);
                     query.AddCondition(Schema.LearnerAssignmentView.LearnerAssignmentGuidId,
-                                        LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
-                                job.PerformQuery(query);
+                    LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
+                    job.PerformQuery(query);
 
                     // execute the LearningStore job; set <oldStatus> to the current
-                                // LearnerAssignmentState; set <packageId> to the ActivityPackageItemIdentifier of the
-                                // organization assigned, if the assigned file was an e-learning package, or null if
-                                // a non-e-learning document was assigned; set <learnerId> to the UserItemIdentifier
-                                // of the learner; set <isAutoReturn> to true if a state transition of Active->Completed
-                                // should trigger a transition from Competed->Final
-                                DataRowCollection dataRows;
-                                try
-                                {
-                                    dataRows = job.Execute<DataTable>().Rows;
-                                }
-                                catch(LearningStoreSecurityException)
-                                {
-                                    throw;
+                    // LearnerAssignmentState; set <packageId> to the ActivityPackageItemIdentifier of the
+                    // organization assigned, if the assigned file was an e-learning package, or null if
+                    // a non-e-learning document was assigned; set <learnerId> to the UserItemIdentifier
+                    // of the learner; set <isAutoReturn> to true if a state transition of Active->Completed
+                    // should trigger a transition from Competed->Final
+                    DataRowCollection dataRows;
+                    try
+                    {
+                        dataRows = job.Execute<DataTable>().Rows;
+                    }
+                    catch(LearningStoreSecurityException)
+                    {
+                        throw;
                         //throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
-                                }
-                                
-                                if (dataRows.Count != 1)
-                                {
+                    }
+                    
+                    if (dataRows.Count != 1)
+                    {
                         // this error message includes the learner assignment ID, but that's okay since
                         // the information we provide does not allow the user to distinguish between the
                         // learner assignment not existing and the user not having access to it
-                        /*
                         throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
                                                 AppResources.LearnerAssignmentNotFoundInDatabase,
                                                         learnerAssignmentGuidId.ToString()));
-                                                        */
-                                    throw new Exception("no rows");
                                 }
                                 DataRow dataRow = dataRows[0];
                     LearnerAssignmentState oldStatus = CastNonNull<LearnerAssignmentState>(dataRow[0]);
@@ -3440,6 +3423,13 @@ namespace Microsoft.SharePointLearningKit
             properties.Grade = Cast<string>(dataRow[Schema.LearnerAssignmentListForObservers.Grade]);
             properties.InstructorComments = CastNonNull<string>(dataRow[Schema.LearnerAssignmentListForObservers.InstructorComments]);
             properties.HasInstructors = CastNonNull<bool>(dataRow[Schema.LearnerAssignmentListForObservers.HasInstructors]);
+        }
+
+        void DemandRight(LearningStoreJob job, string right, Guid learnerAssignmentGuidId)
+        {
+            Dictionary<string,object> securityParameters = new Dictionary<string,object>();
+            securityParameters.Add(Schema.ActivateLearnerAssignmentRight.LearnerAssignmentGuidId, learnerAssignmentGuidId);
+            job.DemandRight(right, securityParameters);
         }
 
         struct FileAndLocation

@@ -207,13 +207,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         ((SlkStore.IsLearner(SPWeb) || SlkStore.IsObserver(SPWeb)) &&
                         learnerAssignmentStatus.Equals(LearnerAssignmentState.Final.ToString())))
                     {
-                        using (SPSite site = new SPSite(LearnerAssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
-                        {
-                            using (SPWeb web = site.OpenWeb(LearnerAssignmentProperties.SPWebGuid))
-                            {
-                                this.BuildPageContent(web);
-                            }
-                        }
+                        BuildPageContent();
                     }
                     else
                     {
@@ -246,8 +240,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Builds the content displayed in the page
         /// </summary>
-        /// <param name="web">The SPWeb of the assignment</param>
-        protected void BuildPageContent(SPWeb web)
+        protected void BuildPageContent()
         {
             DropBoxManager dropBox = new DropBoxManager(AssignmentProperties);
             AssignmentFile[] files = dropBox.LastSubmittedFiles(LearnerAssignmentProperties.LearnerId.GetKey());
@@ -278,19 +271,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 fileIndex++;
             }
-
-            /*
-            if (SlkStore.IsInstructor(SPWeb))
-            {
-                this.instructorMessage.Style.Add("display", string.Empty);
-
-                StringBuilder instructorLinkURL = new StringBuilder();
-                instructorLinkURL.AppendFormat("{0}{1}{2}", web.Url, "/", assignmentSubFolder.Url);
-                this.instructorLink.NavigateUrl = instructorLinkURL.ToString();
-                this.instructorLink.Target = "_blank";
-                this.instructorLink.Style.Add("display", string.Empty);
-            }
-            */
         }
 
         #endregion

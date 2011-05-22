@@ -166,7 +166,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         {
                             // This is an error condition, since in other cases, the attempt must already exist.
                             // Use private method to get the right error message.
-                            if (!ProcessViewRequest(la, view))
+                            if (!ProcessViewRequest(la.Status, view))
 
                                 return false;
                         }
@@ -175,7 +175,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     {
                         // Attempt is already created. Verify the user has access to it and that the package exists. 
 
-                        if (!ProcessViewRequest(la, view))
+                        if (!ProcessViewRequest(la.Status, view))
                             return false;
 
                         if (!FileExistsInSharePoint(la.Location))
@@ -218,7 +218,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     {
                         // Verify this is a view they have access to given the state of the assignment. No need to check 
                         // return value, as non-elearning content always returns false from this method.
-                        if (!ProcessViewRequest(la, view))
+                        if (!ProcessViewRequest(la.Status, view))
                             return false;
 
                         if (!FileExistsInSharePoint(la.Location))
