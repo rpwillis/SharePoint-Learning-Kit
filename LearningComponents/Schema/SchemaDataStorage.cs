@@ -6353,6 +6353,11 @@ namespace Microsoft.LearningComponents.Storage {
     /// Represents an identifier to a <Typ>/Microsoft.LearningComponents.Storage.BaseSchema.AttemptItem</Typ> in a store.
     /// </summary>
     public class AttemptItemIdentifier : LearningStoreItemIdentifier {
+
+        /// <summary>Initializes a new instance of <see cref="AttemptItemIdentifier"/>.</summary>
+        public AttemptItemIdentifier()
+        {
+        }
         
         /// <summary>
         /// Create a new instance of the AttemptItemIdentifier class.
