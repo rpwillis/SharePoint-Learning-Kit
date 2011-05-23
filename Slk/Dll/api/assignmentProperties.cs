@@ -23,8 +23,31 @@ namespace Microsoft.SharePointLearningKit
         internal const string noPackageLocation = "{00000}";
         ISlkStore store;
         SPWeb webWhileSaving;
+        bool hasInstructors;
+        bool hasInstructorsIsSet;
 
 #region properties
+        /// <summary>Indicates if the assignment has any instructors.</summary>
+        public bool HasInstructors
+        {
+            get 
+            {
+                if (hasInstructorsIsSet)
+                {
+                    return hasInstructors;
+                }
+                else
+                {
+                    return Instructors.Count != 0;
+                }
+            }
+
+            set
+            {
+                hasInstructors = value;
+                hasInstructorsIsSet = true;
+            }
+        }
         /// <summary>Indicates if the assignment is complete or not.</summary>
         /// <value></value>
         public bool IsCompleted
@@ -107,6 +130,9 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Gets or sets the <c>UserItemIdentifier</c> of the user who created this assignment. </summary>
         public UserItemIdentifier CreatedById { get; set; }
 
+        /// <summary>Gets or sets the name of the user who created this assignment. </summary>
+        public string CreatedByName { get; set; }
+
         /// <summary>
         /// Gets the date/time that this assignment was created.  Unlike the related value stored in
         /// the SharePoint Learning Kit database, this value is a local date/time, not a UTC value.
@@ -126,13 +152,13 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Indicates if the assignment is e-learning or not.</summary>
         public bool IsELearning
         {
-            get { return (PackageFormat != null) ;}
+            get { return IsNonELearning == false; }
         }
 
         /// <summary>Indicates if the assignment is e-learning or not.</summary>
         public bool IsNonELearning
         {
-            get { return (PackageFormat == null) ;}
+            get { return (PackageFormat == null && RootActivityId == null) ;}
         }
 
         /// <summary>Indicates if the assignment is a no package assignment.</summary>
@@ -429,6 +455,7 @@ namespace Microsoft.SharePointLearningKit
             SPSiteGuid = properties.SPSiteGuid;
             SPWebGuid = properties.SPWebGuid;
             CreatedById = properties.CreatedById;
+            CreatedByName = properties.CreatedByName;
             DateCreated = properties.DateCreated;
             RootActivityId = properties.RootActivityId;
             PackageFormat = properties.PackageFormat;
