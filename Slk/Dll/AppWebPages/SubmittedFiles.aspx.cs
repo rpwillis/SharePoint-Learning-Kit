@@ -35,8 +35,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected Panel contentPanel;
         /// <summary>Page header label</summary>
         protected Label headerMessage;
-        /// <summary>Instructor message label</summary>
-        protected Label instructorMessage;
         /// <summary>First assignment file hyperlink</summary>
         protected HyperLink file1;
         /// <summary>Second assignment file hyperlink</summary>
@@ -62,12 +60,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Holds LearnerAssignmentProperties value.
         /// </summary>
-        private LearnerAssignmentProperties m_learnerAssignmentProperties;
+        private GradingProperties learnerAssignmentProperties;
 
         /// <summary>
         /// Holds AssignmentProperties value.
         /// </summary>
-        private AssignmentProperties m_assignmentProperties;
+        private AssignmentProperties assignmentProperties;
 
         private SlkStore m_observerRoleLearnerStore;
 
@@ -113,36 +111,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Gets or sets the properties (specific to a certain learner) of the learner assignment being displayed by this page.
         /// </summary>
-        private LearnerAssignmentProperties LearnerAssignmentProperties
+        private GradingProperties LearnerAssignmentProperties
         {
             get
             {
-                if (this.m_learnerAssignmentProperties == null)
+                if (this.learnerAssignmentProperties == null)
                 {
-                    if (SlkStore.IsLearner(SPWeb))
-                    {
-                        this.m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(this.LearnerAssignmentGuid, SlkRole.Learner);
-                    }
-                    else if (SlkStore.IsObserver(SPWeb))
-                    {
-                        this.m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(this.LearnerAssignmentGuid, SlkRole.Observer);
-                    }
-                    else if (SlkStore.IsInstructor(SPWeb))
-                    {
-                        this.m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(this.LearnerAssignmentGuid, SlkRole.Instructor);
-                    }
-                    else
-                    {
-                        this.m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(this.LearnerAssignmentGuid, SlkRole.None);
-                    }
+                    LoadAssignmentProperties();
                 }
 
-                return this.m_learnerAssignmentProperties;
-            }
-
-            set
-            {
-                this.m_learnerAssignmentProperties = value;
+                return this.learnerAssignmentProperties;
             }
         }
 
@@ -151,35 +129,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             get
             {
-                if (this.m_assignmentProperties == null)
+                if (this.assignmentProperties == null)
                 {
-                    if (SlkStore.IsLearner(SPWeb))
-                    {
-                        this.m_assignmentProperties = SlkStore.LoadAssignmentProperties(LearnerAssignmentProperties.AssignmentId, SlkRole.Learner);
-                    }
-                    else if (SlkStore.IsObserver(SPWeb))
-                    {
-                       this.m_assignmentProperties = SlkStore.LoadAssignmentProperties(LearnerAssignmentProperties.AssignmentId, SlkRole.Learner);
-                    }
-                    else if (SlkStore.IsInstructor(SPWeb))
-                    {
-                        this.m_assignmentProperties = SlkStore.LoadAssignmentProperties(LearnerAssignmentProperties.AssignmentId, SlkRole.Instructor);
-                    }
-                    else
-                    {
-                        this.m_assignmentProperties = SlkStore.LoadAssignmentProperties(LearnerAssignmentProperties.AssignmentId, SlkRole.None);
-                    }
+                    LoadAssignmentProperties();
                 }
 
-                SlkMemberships memberships = new SlkMemberships();
-                memberships.FindAllSlkMembers(SPWeb, SlkStore, false);
-
-                return this.m_assignmentProperties;
-            }
-
-            set
-            {
-                this.m_assignmentProperties = value;
+                return this.assignmentProperties;
             }
         }
 
@@ -199,13 +154,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     this.SetResourceText();
 
-                    string learnerAssignmentStatus = LearnerAssignmentProperties.Status.ToString();
+                    LearnerAssignmentState status = LearnerAssignmentProperties.Status == null ? LearnerAssignmentState.NotStarted : LearnerAssignmentProperties.Status.Value;
 
-                    if ((SlkStore.IsInstructor(SPWeb) &&
-                        (learnerAssignmentStatus.Equals(LearnerAssignmentState.Completed.ToString()) ||
-                        learnerAssignmentStatus.Equals(LearnerAssignmentState.Final.ToString()))) ||
-                        ((SlkStore.IsLearner(SPWeb) || SlkStore.IsObserver(SPWeb)) &&
-                        learnerAssignmentStatus.Equals(LearnerAssignmentState.Final.ToString())))
+                    if (
+                            (SlkStore.IsInstructor(SPWeb) && (status == LearnerAssignmentState.Completed || status == LearnerAssignmentState.Final))
+                            || SlkStore.IsLearner(SPWeb) ||
+                            (SlkStore.IsObserver(SPWeb) && status == LearnerAssignmentState.Final)
+                        )
                     {
                         BuildPageContent();
                     }
@@ -243,11 +198,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected void BuildPageContent()
         {
             DropBoxManager dropBox = new DropBoxManager(AssignmentProperties);
-            AssignmentFile[] files = dropBox.LastSubmittedFiles(LearnerAssignmentProperties.LearnerId.GetKey());
+                Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("LearnerId {0}", LearnerAssignmentProperties.LearnerId.GetKey());
+            AssignmentFile[] files = dropBox.LastSubmittedFiles(LearnerAssignmentProperties.User.SPUser);
 
             int fileIndex = 0;
+                Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("files.Length {0}", files.Length);
             foreach (AssignmentFile file in files)
             {
+                Microsoft.SharePointLearningKit.WebControls.SlkError.Debug(file.Name);
                 if (fileIndex == 0)
                 {
                     this.DisplayFileLink(this.file1, file);
@@ -283,27 +241,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             this.pageTitle.Text = AppResources.SubmittedFilesPageTitle;
             this.pageDescription.Text = AppResources.SubmittedFilesPageDescription;
-
-            StringBuilder labelText = new StringBuilder();
-            labelText.AppendFormat(
-                           "{0}{1}{2}", 
-                           LearnerAssignmentProperties.Title, 
-                           " :", 
-                           LearnerAssignmentProperties.LearnerName, 
-                           AppResources.SubmittedFilesHeader);
-
-            this.headerMessage.Text = labelText.ToString();
-
-            labelText = new StringBuilder();
-            labelText.AppendFormat(
-                           "{0}{1}{2}", 
-                           AppResources.SubmittedFilesInstructorMssage1,
-                           LearnerAssignmentProperties.LearnerName,
-                           AppResources.SubmittedFilesInstructorMessage2);
-
-            this.instructorMessage.Text = labelText.ToString();
-
-            this.instructorLink.Text = AppResources.SubmittedFilesInstructorMessage3;
+            this.headerMessage.Text = string.Format(AppResources.SubmittedFilesHeader, AssignmentProperties.Title, LearnerAssignmentProperties.LearnerName);
+            this.instructorLink.Text = string.Format(AppResources.SubmittedFilesInstructorMessage, LearnerAssignmentProperties.LearnerName);
         }
 
        #endregion
@@ -327,5 +266,29 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
 
        #endregion
+
+#region private methods
+        void LoadAssignmentProperties()
+        {
+            if (SlkStore.IsLearner(SPWeb))
+            {
+                this.assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuid, SlkRole.Learner);
+            }
+            else if (SlkStore.IsObserver(SPWeb))
+            {
+               this.assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuid, SlkRole.Learner);
+            }
+            else if (SlkStore.IsInstructor(SPWeb))
+            {
+                this.assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuid, SlkRole.Instructor);
+            }
+            else
+            {
+                this.assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuid, SlkRole.None);
+            }
+
+            learnerAssignmentProperties = assignmentProperties.Results[0];
+        }
+#endregion private methods
     }
 }

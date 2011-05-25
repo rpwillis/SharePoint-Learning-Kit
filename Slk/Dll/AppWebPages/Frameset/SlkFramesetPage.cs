@@ -31,7 +31,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
     {
         private FramesetPageHelper m_helper;
         private Guid m_learnerAssignmentGuidId;
-        private LearnerAssignmentProperties m_learnerAssignmentProperties;
+        private GradingProperties learnerAssignmentProperties;
         
         /////////////////////////////////////////////////////////////////////////////////////
         private SlkStore m_observerRoleLearnerStore;
@@ -75,23 +75,29 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
-        /// <summary>
-        /// Process a request for a view. If not allowed, register an error and return false.
-        /// </summary>
-        /// <param name="view"></param>
-        /// <param name="session"></param>
+        /// <summary>Process a request for a view. If not allowed, register an error and return false.</summary>
         public bool ProcessViewRequest(SessionView view, LearningSession session)
         {
-            LearnerAssignmentProperties la = GetLearnerAssignment();
+            GradingProperties la = GetLearnerAssignment();
 
-            return ProcessViewRequest(la.Status, view);
+            LearnerAssignmentState state = la.Status == null ? LearnerAssignmentState.NotStarted : la.Status.Value;
+            return ProcessViewRequest(state, view);
         }
 
-        /// <summary>
-        /// Process a view request to determine if it's valid. The AssignmentView must be 
-        /// set before calling this method.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
+        /// <summary>Process a view request to determine if it's valid. The AssignmentView must be set before calling this method.</summary>
+        protected bool ProcessViewRequest(LearnerAssignmentState? learnerStatus, SessionView sessionView)
+        {
+            if (learnerStatus == null)
+            {
+                return ProcessViewRequest(LearnerAssignmentState.NotStarted, sessionView);
+            }
+            else
+            {
+                return ProcessViewRequest(learnerStatus.Value, sessionView);
+            }
+        }
+
+        /// <summary>Process a view request to determine if it's valid. The AssignmentView must be set before calling this method.</summary>
         protected bool ProcessViewRequest(LearnerAssignmentState learnerStatus, SessionView sessionView)
         {
             switch (AssignmentView)
@@ -238,7 +244,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// Provides a cached version of learner assignment properties.
         /// </summary>
         /// <returns></returns>
-        protected LearnerAssignmentProperties GetLearnerAssignment()
+        protected GradingProperties GetLearnerAssignment()
         {
             return GetLearnerAssignment(false);
         }
@@ -249,12 +255,11 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// </summary>
         /// <param name="forceUpdate">If false, the value is cached.</param>
         /// <returns></returns>
-        protected LearnerAssignmentProperties GetLearnerAssignment(bool forceUpdate)
+        protected GradingProperties GetLearnerAssignment(bool forceUpdate)
         {
             // If the current value has not been set, or if we have to update it, get 
             // the information from the base class.
-            if ((m_learnerAssignmentProperties == null)
-                || forceUpdate)
+            if (learnerAssignmentProperties == null || forceUpdate)
             {
                 SlkRole slkRole;
                 if (SlkStore.IsObserver(SPWeb) && AssignmentView == AssignmentView.StudentReview)
@@ -267,10 +272,12 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 {
                     slkRole = GetSlkRole(AssignmentView);
                 }
-                m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentGuidId, slkRole);
+
+                AssignmentProperties assignment = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuidId, slkRole);
+                learnerAssignmentProperties = assignment.Results[0];
             }
 
-            return m_learnerAssignmentProperties;
+            return learnerAssignmentProperties;
         }
 
         /// <summary>
@@ -295,8 +302,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
                 // There was a learnerAssignmentId and no AttemptId, so translate from learnerAssignmentId to attemptId
                 LearnerAssignmentGuidId = learnerAssignmentGuidId;
-                LearnerAssignmentProperties la = GetLearnerAssignment();
-                attemptId = la.AttemptId;        // this causes LearningStoreAccess
+                GradingProperties la = GetLearnerAssignment();  // this causes LearningStoreAccess
+                attemptId = la.AttemptId;        
                 return (attemptId != null);
             }
             return false;

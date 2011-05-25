@@ -3884,7 +3884,7 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  files.
+        ///   Looks up a localized string similar to {0} : {1} Files.
         /// </summary>
         internal static string SubmittedFilesHeader {
             get {
@@ -3893,29 +3893,11 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  for this assignment .
+        ///   Looks up a localized string similar to Click here to view all files submitted by {0} for this assignment..
         /// </summary>
-        internal static string SubmittedFilesInstructorMessage2 {
+        internal static string SubmittedFilesInstructorMessage {
             get {
-                return ResourceManager.GetString("SubmittedFilesInstructorMessage2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to click here.
-        /// </summary>
-        internal static string SubmittedFilesInstructorMessage3 {
-            get {
-                return ResourceManager.GetString("SubmittedFilesInstructorMessage3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to To view all files submitted by .
-        /// </summary>
-        internal static string SubmittedFilesInstructorMssage1 {
-            get {
-                return ResourceManager.GetString("SubmittedFilesInstructorMssage1", resourceCulture);
+                return ResourceManager.GetString("SubmittedFilesInstructorMessage", resourceCulture);
             }
         }
         

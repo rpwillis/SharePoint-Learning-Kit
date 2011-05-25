@@ -55,7 +55,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
                    // Send assignment information to client. If the session has ended, then force a reload of the current 
                    // assignment properties. Otherwise, the cached value will have required info so no need to re-query database.
-                   LearnerAssignmentProperties la = GetLearnerAssignment(SessionEnded);
+                   GradingProperties la = GetLearnerAssignment(SessionEnded);
 
                    // Add assignment information to the hidden controls
                    HiddenControlInfo hiddenCtrlInfo = new HiddenControlInfo();
@@ -163,28 +163,28 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             FramesetUtil.ValidateNonNullParameter("session", session);
 
-            LearnerAssignmentProperties la = GetLearnerAssignment();
+            GradingProperties la = GetLearnerAssignment();
             switch (session.View)
             {
                 case SessionView.Execute:
-                    return new PlainTextString(la.Title);
+                    return new PlainTextString(la.Assignment.Title);
                 
                 case SessionView.RandomAccess:
-                    return new PlainTextString(ResHelper.Format("{0}: {1}", la.LearnerName, la.Title));
+                    return new PlainTextString(ResHelper.Format("{0}: {1}", la.LearnerName, la.Assignment.Title));
 
                 case SessionView.Review:
                     {
                         if (IsInstructorReview)
                         {
-                            return new PlainTextString(ResHelper.Format("{0}: {1}", la.LearnerName, la.Title));
+                            return new PlainTextString(ResHelper.Format("{0}: {1}", la.LearnerName, la.Assignment.Title));
                         }
                         else
                         {
-                            return new PlainTextString(la.Title);
+                            return new PlainTextString(la.Assignment.Title);
                         }
                     }
                 default:
-                    return new PlainTextString(la.Title);
+                    return new PlainTextString(la.Assignment.Title);
 
             }
         }
@@ -210,7 +210,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             if (SessionEnded)
                 return;
 
-            LearnerAssignmentProperties la = GetLearnerAssignment();
+            GradingProperties la = GetLearnerAssignment();
            
             // Session ending results in message shown to the user. 
             if (session.View == SessionView.Execute)

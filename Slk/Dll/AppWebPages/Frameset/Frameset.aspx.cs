@@ -123,7 +123,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             // Put this operation in a transaction because if the attempt has not been started, we'll start the attempt 
             // and update the assignment. Both should succeed or both should fail.
-            LearnerAssignmentProperties la;
+            GradingProperties la;
             TransactionOptions options = new TransactionOptions();
             options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
             using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
@@ -135,7 +135,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 if (!TryGetSessionView(true, out view))
                     return false;
 
-                if (IsELearningAssignment(la))
+                if (la.Assignment.IsELearning)
                 {
                     // This is e-learning content
                     m_isELearning = true;
@@ -148,7 +148,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         // Only create the attempt if this is a request for Execute view
                         if (view == SessionView.Execute)
                         {
-                            if (!FileExistsInSharePoint(la.Location))
+                            if (!FileExistsInSharePoint(la.Assignment.Location))
                             {
                                 if (showErrorPage)
                                 {
@@ -178,7 +178,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         if (!ProcessViewRequest(la.Status, view))
                             return false;
 
-                        if (!FileExistsInSharePoint(la.Location))
+                        if (!FileExistsInSharePoint(la.Assignment.Location))
                         {
                             if (showErrorPage)
                             {
@@ -199,7 +199,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     // Verify that the learner can see the assignment.
                     if (view == SessionView.Execute)
                     {
-                        if (!FileExistsInSharePoint(la.Location))
+                        if (!FileExistsInSharePoint(la.Assignment.Location))
                         {
                             if (showErrorPage)
                             {
@@ -221,7 +221,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         if (!ProcessViewRequest(la.Status, view))
                             return false;
 
-                        if (!FileExistsInSharePoint(la.Location))
+                        if (!FileExistsInSharePoint(la.Assignment.Location))
                         {
                             if (showErrorPage)
                             {
@@ -411,14 +411,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         }
 
         /// <summary>
-        /// Returns true if the learner assignment references e-learning content.
-        /// </summary>
-        private static bool IsELearningAssignment(LearnerAssignmentProperties la)
-        {
-           return (la.RootActivityId != null);
-        }
-
-        /// <summary>
         /// Called by FramesetHelper. Delegate to return session view.
         /// </summary>
         public override bool TryGetSessionView(bool showErrorPage, out SessionView view)
@@ -441,10 +433,10 @@ namespace Microsoft.SharePointLearningKit.Frameset
         private void SendNonElearningContent()
         {
             // Get the cached learner assignment properties
-            LearnerAssignmentProperties la = GetLearnerAssignment();
+            GradingProperties la = GetLearnerAssignment();
 
             SharePointFileLocation spFileLocation;
-            if (!SharePointFileLocation.TryParse(la.Location, out spFileLocation))
+            if (!SharePointFileLocation.TryParse(la.Assignment.Location, out spFileLocation))
             {
                 // location was not valid
                 RegisterError(SlkFrameset.FRM_DocumentNotFoundTitleHtml, SlkFrameset.FRM_DocumentNotFound, false);

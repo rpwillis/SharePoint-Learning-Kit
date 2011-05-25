@@ -13,6 +13,12 @@ namespace Microsoft.SharePointLearningKit
     public class GradingProperties
     {
 #region properties
+        /// <summary>The SlkUser the result is for.</summary>
+        public SlkUser User { get; internal set; }
+
+        /// <summary>The assignment the properties are for.</summary>
+        public AssignmentProperties Assignment { get; private set; }
+
         /// <summary>Gets the identifier of the learner assignment represented by this object.</summary>
         public LearnerAssignmentItemIdentifier LearnerAssignmentId { get; private set; }
 
@@ -103,12 +109,16 @@ namespace Microsoft.SharePointLearningKit
 #region constructors
         /// <summary>Initializes an instance of this class.</summary>
         /// <param name="learnerAssignmentId">The identifier of the learner assignment represented by this object.</param>
-        public GradingProperties(LearnerAssignmentItemIdentifier learnerAssignmentId)
+        /// <param name="assignment">The assignment the result is for.</param>
+        public GradingProperties(LearnerAssignmentItemIdentifier learnerAssignmentId, AssignmentProperties assignment)
         {
             if(learnerAssignmentId == null)
+            {
                 throw new ArgumentNullException("learnerAssignmentId");
+            }
                 
             LearnerAssignmentId = learnerAssignmentId;
+            Assignment = assignment;
         }
 #endregion constructors
     }

@@ -1432,35 +1432,6 @@ namespace Microsoft.SharePointLearningKit
             }
         }
         
-            /// <summary>
-            /// Retrieves the properties of a SharePoint Learning Kit learner assignment (i.e. information
-            /// about an assignment related to a single learner) given the learner assignment's identifier.
-            /// </summary>
-            ///
-        /// <param name="learnerAssignmentGuidId">The ID of the learner assignment to return information
-            ///     about.</param>
-            ///
-            /// <param name="slkRole">The <c>SlkRole</c> for which information is to be retrieved.</param>
-            ///
-            /// <remarks>
-            /// <b>Security:</b>&#160; Fails if the
-            /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> doesn't have access to the learner
-            /// assignment.
-            /// </remarks>
-            ///
-        /// <exception cref="SafeToDisplayException">
-        /// An error occurred that can be displayed to a browser user.  Possible cause: the user
-            /// isn't an instructor on the assignment (if <pr>slkRole</pr> is <r>SlkRole.Instructor</r>),
-            /// or the user isn't the learner of this learner assignment (if <pr>slkRole</pr> is
-            /// <r>SlkRole.Learner</r>).
-        /// </exception>
-            ///
-        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
-        public LearnerAssignmentProperties GetLearnerAssignmentProperties(Guid learnerAssignmentGuidId, SlkRole slkRole)
-        {
-            return null;
-        }
-
         /// <summary></summary>
         /// <param name="learnerAssignmentGuidId"></param>
         /// <param name="slkRole"></param>
@@ -1530,7 +1501,7 @@ namespace Microsoft.SharePointLearningKit
             properties.HasInstructors = CastNonNull<bool>(dataRow[LearnerAssignmentList.HasInstructors]);
 
             LearnerAssignmentItemIdentifier learnerId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[LearnerAssignmentList.LearnerAssignmentId]);
-            GradingProperties learnerProperties = new GradingProperties(learnerId);
+            GradingProperties learnerProperties = new GradingProperties(learnerId, properties);
             learnerProperties.LearnerAssignmentGuidId = learnerAssignmentGuidId;
             learnerProperties.LearnerId = CastNonNullIdentifier<UserItemIdentifier>(dataRow[LearnerAssignmentList.LearnerId]);
             learnerProperties.LearnerName = CastNonNull<string>(dataRow[LearnerAssignmentList.LearnerName]);
@@ -1540,8 +1511,22 @@ namespace Microsoft.SharePointLearningKit
             learnerProperties.SuccessStatus = Cast<SuccessStatus>(dataRow[LearnerAssignmentList.AttemptSuccessStatus]);
             learnerProperties.GradedPoints = Cast<float?>(dataRow[LearnerAssignmentList.AttemptGradedPoints]);
             learnerProperties.FinalPoints = Cast<float?>(dataRow[LearnerAssignmentList.FinalPoints]);
-            learnerProperties.Grade = CastNonNull<string>(dataRow[LearnerAssignmentList.Grade]);
+            learnerProperties.Grade = Cast<string>(dataRow[LearnerAssignmentList.Grade]);
             learnerProperties.InstructorComments = CastNonNull<string>(dataRow[LearnerAssignmentList.InstructorComments]);
+
+            if (properties.IsNonELearning)
+            {
+                SPSecurity.RunWithElevatedPrivileges(delegate
+                {
+                    using (SPSite site = new SPSite(properties.SPSiteGuid))
+                    {
+                        using (SPWeb web = site.OpenWeb(properties.SPWebGuid))
+                        {
+                            learnerProperties.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey);
+                        }
+                    }
+                });
+            }
 
             List<GradingProperties> list = new List<GradingProperties>();
             list.Add(learnerProperties);
@@ -1632,7 +1617,7 @@ namespace Microsoft.SharePointLearningKit
                 // set <gp> to a new GradingProperties object
                 LearnerAssignmentItemIdentifier learnerAssignmentId;
                 LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId], out learnerAssignmentId);
-                GradingProperties gp = new GradingProperties(learnerAssignmentId);
+                GradingProperties gp = new GradingProperties(learnerAssignmentId, properties);
                 gp.LearnerId = CastNonNullIdentifier<UserItemIdentifier>( dataRow[Schema.LearnerAssignmentListForInstructors.LearnerId]);
 
                 gp.LearnerName = CastNonNull<string>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerName]);
@@ -1775,7 +1760,7 @@ namespace Microsoft.SharePointLearningKit
                     LearningStoreHelper.CastNonNull(
                         dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId],
                                             out learnerAssignmentId);
-                                    GradingProperties gp = new GradingProperties(learnerAssignmentId);
+                                    GradingProperties gp = new GradingProperties(learnerAssignmentId, null);
 
                     gp.LearnerId = CastNonNullIdentifier<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerId]);
                     gp.LearnerName = CastNonNull<string>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerName]);
@@ -3042,8 +3027,8 @@ namespace Microsoft.SharePointLearningKit
                 {
                     using (SPWeb web = site.OpenWeb())
                     {
-                        AddSlkUsers(web, resultEnumerator, ap.Learners, LearnerAssignmentListForLearners.LearnerId, LearnerAssignmentListForLearners.LearnerName, LearnerAssignmentListForLearners.LearnerKey, 
-                            LearnerAssignmentListForLearners.LearnerAssignmentId, "SLK1011");
+                        AddSlkUsers(web, resultEnumerator, ap.Learners, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey, 
+                            LearnerAssignmentList.LearnerAssignmentId, "SLK1011");
                     }
                 }
             }
@@ -3058,25 +3043,30 @@ namespace Microsoft.SharePointLearningKit
                 throw new InternalErrorException(errorNumberIfMissing);
             }
             DataRowCollection dataRows = ((DataTable)resultEnumerator.Current).Rows;
-            foreach (DataRow dataRow2 in dataRows)
+            foreach (DataRow dataRow in dataRows)
             {
-                UserItemIdentifier userId = CastNonNullIdentifier<UserItemIdentifier>(dataRow2[idColumn]);
-                string userName = CastNonNull<string>(dataRow2[nameColumn]);
-                string key = CastNonNull<string>(dataRow2[keyColumn]);
-                int spUserId = Cast<int>(dataRow2[UserItemSite.SPUserId]);
-                SPUser spUser = null;
-                try
-                {
-                    spUser = web.SiteUsers.GetByID(spUserId);
-                }
-                catch (SPException)
-                {
-                    // user no longer present. Will be fixed next time assignment properties page is opened
-                }
-                SlkUser user = new SlkUser(userId, userName, key, spUser);
-                user.AssignmentUserId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow2[assignmentIdColumn]);
+                SlkUser user = LoadUser(web, dataRow, idColumn, nameColumn, keyColumn);
+                user.AssignmentUserId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[assignmentIdColumn]);
                 users.Add(user);
             }
+        }
+
+        SlkUser LoadUser(SPWeb web, DataRow dataRow, string idColumn, string nameColumn, string keyColumn)
+        {
+            UserItemIdentifier userId = CastNonNullIdentifier<UserItemIdentifier>(dataRow[idColumn]);
+            string userName = CastNonNull<string>(dataRow[nameColumn]);
+            string key = CastNonNull<string>(dataRow[keyColumn]);
+            int spUserId = Cast<int>(dataRow[UserItemSite.SPUserId]);
+            SPUser spUser = null;
+            try
+            {
+                spUser = web.SiteUsers.GetByID(spUserId);
+            }
+            catch (SPException)
+            {
+                // user no longer present. Will be fixed next time assignment properties page is opened
+            }
+            return new SlkUser(userId, userName, key, spUser);
         }
 
 
@@ -3142,36 +3132,37 @@ namespace Microsoft.SharePointLearningKit
                     break;
             }
 
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentId);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentSPSiteGuid);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentSPWebGuid);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.RootActivityId);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.PackageLocation);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentNonELearningLocation);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentTitle);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentDescription);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentPointsPossible);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentStartDate);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentDueDate);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentAutoReturn);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentEmailChanges);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentShowAnswersToLearners);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentCreatedById);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AssignmentCreatedByName);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerId);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerKey);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerName);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentState);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptId);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptCompletionStatus);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptSuccessStatus);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptGradedPoints);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.FinalPoints);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.Grade);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.InstructorComments);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.HasInstructors);
-            query.AddCondition(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId, LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerAssignmentId);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentId);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentSPSiteGuid);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentSPWebGuid);
+            query.AddColumn(Schema.LearnerAssignmentList.RootActivityId);
+            query.AddColumn(Schema.LearnerAssignmentList.PackageLocation);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentNonELearningLocation);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentTitle);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentDescription);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentPointsPossible);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentStartDate);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentDueDate);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentAutoReturn);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentEmailChanges);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentShowAnswersToLearners);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentCreatedById);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentCreatedByName);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerId);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerKey);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerName);
+            query.AddColumn(Schema.UserItemSite.SPUserId);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerAssignmentState);
+            query.AddColumn(Schema.LearnerAssignmentList.AttemptId);
+            query.AddColumn(Schema.LearnerAssignmentList.AttemptCompletionStatus);
+            query.AddColumn(Schema.LearnerAssignmentList.AttemptSuccessStatus);
+            query.AddColumn(Schema.LearnerAssignmentList.AttemptGradedPoints);
+            query.AddColumn(Schema.LearnerAssignmentList.FinalPoints);
+            query.AddColumn(Schema.LearnerAssignmentList.Grade);
+            query.AddColumn(Schema.LearnerAssignmentList.InstructorComments);
+            query.AddColumn(Schema.LearnerAssignmentList.HasInstructors);
+            query.AddCondition(Schema.LearnerAssignmentList.LearnerAssignmentGuidId, LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
             return query;
         }
 

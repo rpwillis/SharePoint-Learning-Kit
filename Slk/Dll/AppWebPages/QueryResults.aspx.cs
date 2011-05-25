@@ -520,10 +520,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 }
                             }
 
-                            Guid assignmentGUID = Guid.Empty;
+                            Guid learnerAssignmentGUID = Guid.Empty;
                             if (renderedRow[1].Id.ItemTypeName == Schema.LearnerAssignmentItem.ItemTypeName)
                             {
-                                assignmentGUID = SlkStore.GetLearnerAssignmentGuidId(renderedRow[1].Id);
+                                learnerAssignmentGUID = SlkStore.GetLearnerAssignmentGuidId(renderedRow[1].Id);
                             }
 
                             // render the cells in this row
@@ -540,7 +540,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 {
                                     if (columnDef.Title.Equals(AppResources.AlwpFileSubmissionColumnTitle))
                                     {
-                                        RenderFileSubmissionCell(renderedCell, webNameRenderedCell, assignmentGUID, hw);
+                                        RenderFileSubmissionCell(renderedCell, webNameRenderedCell, learnerAssignmentGUID, hw);
                                     }
                                     else    
                                     {
@@ -658,16 +658,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         /// <param name="renderedCell">The value to render, from the query results.</param>
         /// <param name="webNameRenderedCell"></param>
-        /// <param name="assignmentGUID">The GUID of the current assignment</param>
+        /// <param name="learnerAssignmentGUID">The GUID of the current assignment</param>
         /// <param name="hw">The HtmlTextWriter to write to.</param>
-        void RenderFileSubmissionCell(RenderedCell renderedCell, WebNameRenderedCell webNameRenderedCell, Guid assignmentGUID, HtmlTextWriter hw)
+        void RenderFileSubmissionCell(RenderedCell renderedCell, WebNameRenderedCell webNameRenderedCell, Guid learnerAssignmentGUID, HtmlTextWriter hw)
         {
             if (renderedCell.ToString().Equals(AppResources.AlwpFileSubmissionSubmitText))
             {
                 RenderFileSubmissionCellAsSubmitLink(
                     "{0}/_layouts/SharePointLearningKit/FilesUploadPage.aspx?LearnerAssignmentId={1}",
                     webNameRenderedCell,
-                    assignmentGUID,
+                    learnerAssignmentGUID,
                     renderedCell.ToString(),
                     hw);
             }
@@ -676,7 +676,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 RenderFileSubmissionCellAsSubmittedLink(
                     "{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}",
                     webNameRenderedCell,
-                    assignmentGUID,
+                    learnerAssignmentGUID,
                     renderedCell.ToString().Replace(" LINK",string.Empty),
                     hw);
             }
@@ -695,18 +695,18 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         /// <param name="fileURL">The URL of the file to be redirected to when the cell link is clicked</param>
         /// <param name="webNameRenderedCell"></param>
-        /// <param name="assignmentGUID">The GUID of the current assignment</param>
+        /// <param name="learnerAssignmentGUID">The GUID of the current assignment</param>
         /// <param name="renderedCellValue">The text to be displayed in the cell</param>
         /// <param name="hw">The HtmlTextWriter to write to.</param>
-        void RenderFileSubmissionCellAsSubmittedLink(string fileURL, WebNameRenderedCell webNameRenderedCell, Guid assignmentGUID, 
+        void RenderFileSubmissionCellAsSubmittedLink(string fileURL, WebNameRenderedCell webNameRenderedCell, Guid learnerAssignmentGUID, 
             string renderedCellValue, HtmlTextWriter hw)
         {
-            string url = CheckSubmittedFilesNumber(assignmentGUID);
+            string url = CheckSubmittedFilesNumber(learnerAssignmentGUID);
 
             if (url.Equals(string.Empty))
             {
                 StringBuilder pageURL = new StringBuilder();
-                pageURL.AppendFormat(fileURL, webNameRenderedCell.SPWebUrl, assignmentGUID.ToString());
+                pageURL.AppendFormat(fileURL, webNameRenderedCell.SPWebUrl, learnerAssignmentGUID.ToString());
 
                 url = pageURL.ToString();
             }
@@ -733,15 +733,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         /// <param name="fileURL">The URL of the file to be redirected to when the cell link is clicked</param>
         /// <param name="webNameRenderedCell"></param>
-        /// <param name="assignmentGUID">The GUID of the current assignment</param>
+        /// <param name="learnerAssignmentGUID">The GUID of the current assignment</param>
         /// <param name="renderedCellValue">The text to be displayed in the cell</param>
         /// <param name="hw">The HtmlTextWriter to write to.</param>
-        void RenderFileSubmissionCellAsSubmitLink(string fileURL, WebNameRenderedCell webNameRenderedCell, Guid assignmentGUID,
+        void RenderFileSubmissionCellAsSubmitLink(string fileURL, WebNameRenderedCell webNameRenderedCell, Guid learnerAssignmentGUID,
             string renderedCellValue, HtmlTextWriter hw)
         {
 
             StringBuilder url = new StringBuilder();
-            url.AppendFormat(fileURL, webNameRenderedCell.SPWebUrl, assignmentGUID.ToString());
+            url.AppendFormat(fileURL, webNameRenderedCell.SPWebUrl, learnerAssignmentGUID.ToString());
 
             hw.AddAttribute(HtmlTextWriterAttribute.Target, "_top");
             hw.AddAttribute(HtmlTextWriterAttribute.Href, url.ToString());
@@ -878,29 +878,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Checks the number of the assignment submitted files. 
         /// </summary>
-        /// <param name="assignmentGUID">The assignment GUID</param>
+        /// <param name="learnerAssignmentGUID">The assignment GUID</param>
         /// <returns> If one assignment submitted, returns its URL.
         /// If more than one, returns an empty string.</returns>
-        private string CheckSubmittedFilesNumber(Guid assignmentGUID)
+        private string CheckSubmittedFilesNumber(Guid learnerAssignmentGUID)
         {
-            LearnerAssignmentProperties learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(assignmentGUID, SlkRole.Learner);
-
-            AssignmentProperties assignmentProperties = SlkStore.LoadAssignmentProperties(learnerAssignmentProperties.AssignmentId, SlkRole.Learner);
-            if (SlkStore.IsObserver(SPWeb))
-            {
-                string result = string.Empty;
-
-                SPSecurity.RunWithElevatedPrivileges(delegate
-                {
-                     result = PerformFilesNumberChecking(learnerAssignmentProperties, assignmentProperties);
-                });
-
-                return result;
-            }
-            else
-            {
-                return PerformFilesNumberChecking(learnerAssignmentProperties, assignmentProperties);
-            }
+            AssignmentProperties properties = SlkStore.LoadAssignmentPropertiesForLearner(learnerAssignmentGUID, SlkRole.Learner);
+            return PerformFilesNumberChecking(properties);
         }
 
         #endregion
@@ -910,14 +894,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Checks the number of the assignment submitted files. 
         /// </summary>
-        /// <param name="learnerAssignmentProperties">The LearnerAssignmentProperties</param>
         /// <param name="assignmentProperties">The AssignmentProperties</param>
         /// <returns> If one assignment submitted, returns its URL.
         /// If more than one, returns an empty string.</returns>
-        private string PerformFilesNumberChecking( LearnerAssignmentProperties learnerAssignmentProperties, AssignmentProperties assignmentProperties)
+        private string PerformFilesNumberChecking(AssignmentProperties assignmentProperties)
         {
             DropBoxManager dropBox = new DropBoxManager(assignmentProperties);
-            AssignmentFile[] assignmentFiles = dropBox.LastSubmittedFiles(learnerAssignmentProperties.LearnerId.GetKey());
+            AssignmentFile[] assignmentFiles = dropBox.LastSubmittedFiles(assignmentProperties.Results[0].User.SPUser);
 
             if (assignmentFiles.Length != 1)
             {

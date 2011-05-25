@@ -189,24 +189,31 @@ namespace Microsoft.SharePointLearningKit
         /// Gets the localized string representation in text format of a LearnerAssignmentState value.
         /// </summary>
         /// <param name="learnerAssignmentState">The <c>LearnerAssignmentState</c> value.</param>
-        public static string GetLearnerAssignmentState(LearnerAssignmentState learnerAssignmentState)
+        public static string GetLearnerAssignmentState(LearnerAssignmentState? learnerAssignmentState)
         {
-            switch (learnerAssignmentState)
+            if (learnerAssignmentState == null)
             {
-                case LearnerAssignmentState.NotStarted:
-                    return AppResources.LearnerAssignmentStatusNotStarted;
-                    
-                case LearnerAssignmentState.Active:
-                    return AppResources.LearnerAssignmentStatusActive;
-                    
-                case LearnerAssignmentState.Completed:
-                    return AppResources.LearnerAssignmentStatusCompleted;
-                    
-                case LearnerAssignmentState.Final:
-                    return AppResources.LearnerAssignmentStatusFinal;
-                    
-                default:
-                    return learnerAssignmentState.ToString();
+                return AppResources.LearnerAssignmentStatusNotStarted;
+            }
+            else
+            {
+                switch (learnerAssignmentState.Value)
+                {
+                    case LearnerAssignmentState.NotStarted:
+                        return AppResources.LearnerAssignmentStatusNotStarted;
+                        
+                    case LearnerAssignmentState.Active:
+                        return AppResources.LearnerAssignmentStatusActive;
+                        
+                    case LearnerAssignmentState.Completed:
+                        return AppResources.LearnerAssignmentStatusCompleted;
+                        
+                    case LearnerAssignmentState.Final:
+                        return AppResources.LearnerAssignmentStatusFinal;
+                        
+                    default:
+                        return learnerAssignmentState.ToString();
+                }
             }
         }
         #endregion       
