@@ -55,7 +55,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
                    // Send assignment information to client. If the session has ended, then force a reload of the current 
                    // assignment properties. Otherwise, the cached value will have required info so no need to re-query database.
-                   GradingProperties la = GetLearnerAssignment(SessionEnded);
+                   LearnerAssignmentProperties la = GetLearnerAssignment(SessionEnded);
 
                    // Add assignment information to the hidden controls
                    HiddenControlInfo hiddenCtrlInfo = new HiddenControlInfo();
@@ -163,7 +163,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             FramesetUtil.ValidateNonNullParameter("session", session);
 
-            GradingProperties la = GetLearnerAssignment();
+            LearnerAssignmentProperties la = GetLearnerAssignment();
             switch (session.View)
             {
                 case SessionView.Execute:
@@ -210,7 +210,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             if (SessionEnded)
                 return;
 
-            GradingProperties la = GetLearnerAssignment();
+            LearnerAssignmentProperties la = GetLearnerAssignment();
            
             // Session ending results in message shown to the user. 
             if (session.View == SessionView.Execute)

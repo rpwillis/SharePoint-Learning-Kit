@@ -150,7 +150,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Uploads files to the learner's drop box.</summary>
         /// <param name="learnerAssignmentProperties">The learner's assignment properties.</param>
         /// <param name="files">The files to upload.</param>
-        public void UploadFiles(GradingProperties learnerAssignmentProperties, AssignmentUpload[] files)
+        public void UploadFiles(LearnerAssignmentProperties learnerAssignmentProperties, AssignmentUpload[] files)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
             {

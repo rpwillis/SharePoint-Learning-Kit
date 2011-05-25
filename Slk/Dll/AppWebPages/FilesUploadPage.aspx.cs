@@ -53,7 +53,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private string m_sourceUrl;
 
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
-        private GradingProperties learnerAssignmentProperties;
+        private LearnerAssignmentProperties learnerAssignmentProperties;
         private AssignmentProperties assignmentProperties;
 
         #endregion
@@ -95,7 +95,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         // <summary>
         // Gets current Learner Assignment Properties 
         // </summary>
-        private GradingProperties LearnerAssignmentProperties
+        private LearnerAssignmentProperties LearnerAssignmentProperties
         {
             get
             {

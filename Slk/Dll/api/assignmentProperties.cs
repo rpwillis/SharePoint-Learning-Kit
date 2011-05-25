@@ -60,7 +60,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 else
                 {
-                    foreach (GradingProperties learnerGrading in Results)
+                    foreach (LearnerAssignmentProperties learnerGrading in Results)
                     {
                         if (learnerGrading.Status != LearnerAssignmentState.Completed)
                         {
@@ -74,7 +74,7 @@ namespace Microsoft.SharePointLearningKit
         }
 
         /// <summary>The results of the assignment.</summary>
-        public ReadOnlyCollection<GradingProperties> Results { get; private set; }
+        public ReadOnlyCollection<LearnerAssignmentProperties> Results { get; private set; }
 
         /// <summary>Gets the <c>Guid</c> of the SPSite that contains the SPWeb that this assignment is associated with.</summary>
         public Guid SPSiteGuid { get; set; }
@@ -679,9 +679,9 @@ namespace Microsoft.SharePointLearningKit
         }
 #endregion private methods
 
-        internal void AssignResults(List<GradingProperties> results)
+        internal void AssignResults(List<LearnerAssignmentProperties> results)
         {
-            Results = new ReadOnlyCollection<GradingProperties>(results) ;
+            Results = new ReadOnlyCollection<LearnerAssignmentProperties>(results) ;
         }
 
 #region public static methods

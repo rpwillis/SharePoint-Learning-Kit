@@ -1501,7 +1501,7 @@ namespace Microsoft.SharePointLearningKit
             properties.HasInstructors = CastNonNull<bool>(dataRow[LearnerAssignmentList.HasInstructors]);
 
             LearnerAssignmentItemIdentifier learnerId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[LearnerAssignmentList.LearnerAssignmentId]);
-            GradingProperties learnerProperties = new GradingProperties(learnerId, properties);
+            LearnerAssignmentProperties learnerProperties = new LearnerAssignmentProperties(learnerId, properties);
             learnerProperties.LearnerAssignmentGuidId = learnerAssignmentGuidId;
             learnerProperties.LearnerId = CastNonNullIdentifier<UserItemIdentifier>(dataRow[LearnerAssignmentList.LearnerId]);
             learnerProperties.LearnerName = CastNonNull<string>(dataRow[LearnerAssignmentList.LearnerName]);
@@ -1528,7 +1528,7 @@ namespace Microsoft.SharePointLearningKit
                 });
             }
 
-            List<GradingProperties> list = new List<GradingProperties>();
+            List<LearnerAssignmentProperties> list = new List<LearnerAssignmentProperties>();
             list.Add(learnerProperties);
             properties.AssignResults(list);
 
@@ -1540,7 +1540,7 @@ namespace Microsoft.SharePointLearningKit
         ///     retrieve information about.</param>
         /// <returns>
         /// An AssignmentProperties object containing 
-        /// a collection of <c>GradingProperties</c> objects, one for each learner assignment in the
+        /// a collection of <c>LearnerAssignmentProperties</c> objects, one for each learner assignment in the
         /// assignment, sorted by learner name.
         /// </returns>
         /// <remarks>
@@ -1611,13 +1611,13 @@ namespace Microsoft.SharePointLearningKit
             }
 
             DataRowCollection dataRows = ((DataTable) resultEnumerator.Current).Rows;
-            List<GradingProperties> gpList = new List<GradingProperties>(dataRows.Count);
+            List<LearnerAssignmentProperties> gpList = new List<LearnerAssignmentProperties>(dataRows.Count);
             foreach (DataRow dataRow in dataRows)
             {
-                // set <gp> to a new GradingProperties object
+                // set <gp> to a new LearnerAssignmentProperties object
                 LearnerAssignmentItemIdentifier learnerAssignmentId;
                 LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId], out learnerAssignmentId);
-                GradingProperties gp = new GradingProperties(learnerAssignmentId, properties);
+                LearnerAssignmentProperties gp = new LearnerAssignmentProperties(learnerAssignmentId, properties);
                 gp.LearnerId = CastNonNullIdentifier<UserItemIdentifier>( dataRow[Schema.LearnerAssignmentListForInstructors.LearnerId]);
 
                 gp.LearnerName = CastNonNull<string>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerName]);
@@ -1648,10 +1648,10 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to
         ///     store information about.</param>
         ///
-        /// <param name="gradingPropertiesList">Contains one <c>GradingProperties</c> object for each
-        ///     learner assignment to update.  Note that <c>GradingProperties.LearnerId</c>,
-        ///     <c>GradingProperties.LearnerName</c>, and <c>GradingProperties.GradedPoints</c>
-        ///     are ignored.  Also, see <c>GradingProperties.Status</c> for information about which
+        /// <param name="gradingPropertiesList">Contains one <c>LearnerAssignmentProperties</c> object for each
+        ///     learner assignment to update.  Note that <c>LearnerAssignmentProperties.LearnerId</c>,
+        ///     <c>LearnerAssignmentProperties.LearnerName</c>, and <c>LearnerAssignmentProperties.GradedPoints</c>
+        ///     are ignored.  Also, see <c>LearnerAssignmentProperties.Status</c> for information about which
         ///     <c>LearnerAssignmentState</c> changes are permitted.</param>
         ///
         /// <returns>
@@ -1676,7 +1676,7 @@ namespace Microsoft.SharePointLearningKit
         /// an instructor on the assignment.
         /// </exception>
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-        public string SetGradingProperties(AssignmentItemIdentifier assignmentId, IEnumerable<GradingProperties> gradingPropertiesList)
+        public string SetGradingProperties(AssignmentItemIdentifier assignmentId, IEnumerable<LearnerAssignmentProperties> gradingPropertiesList)
         {
             // Security checks: Fails if the user isn't an instructor on the assignment
             // (since it tries to access the file using AssignmentListForInstructors, and
@@ -1751,8 +1751,8 @@ namespace Microsoft.SharePointLearningKit
                 }
 
                 DataTable dataTable = (DataTable) resultEnumerator.Current;
-                Dictionary<LearnerAssignmentItemIdentifier, GradingProperties> allOldProperties =
-                    new Dictionary<LearnerAssignmentItemIdentifier, GradingProperties>(
+                Dictionary<LearnerAssignmentItemIdentifier, LearnerAssignmentProperties> allOldProperties =
+                    new Dictionary<LearnerAssignmentItemIdentifier, LearnerAssignmentProperties>(
                                             dataRows.Count);
                             foreach (DataRow dataRow in dataTable.Rows)
                             {
@@ -1760,7 +1760,7 @@ namespace Microsoft.SharePointLearningKit
                     LearningStoreHelper.CastNonNull(
                         dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId],
                                             out learnerAssignmentId);
-                                    GradingProperties gp = new GradingProperties(learnerAssignmentId, null);
+                                    LearnerAssignmentProperties gp = new LearnerAssignmentProperties(learnerAssignmentId, null);
 
                     gp.LearnerId = CastNonNullIdentifier<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerId]);
                     gp.LearnerName = CastNonNull<string>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerName]);
@@ -1786,11 +1786,11 @@ namespace Microsoft.SharePointLearningKit
                     job = LearningStore.CreateJob();
 
                     // update the status of each learner assignment
-                    foreach (GradingProperties newProperties in gradingPropertiesList)
+                    foreach (LearnerAssignmentProperties newProperties in gradingPropertiesList)
                     {
                         // skip this learner assignment if it doesn't exist in the database (e.g. another
                         // instructor deleted it while this instructor was viewing the Grading page)
-                        GradingProperties oldProperties;
+                        LearnerAssignmentProperties oldProperties;
                         if (!allOldProperties.TryGetValue(newProperties.LearnerAssignmentId, out oldProperties))
                         {
                             continue;

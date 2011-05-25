@@ -56,7 +56,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         // The Session.TotalPoints value prior to processing any posted data.
         float? m_initialTotalPoints;
 
-        GradingProperties learnerAssignment;    // cached version of learner assignment to display
+        LearnerAssignmentProperties learnerAssignment;    // cached version of learner assignment to display
 
         /// <summary>The page load event.</summary>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // all exceptions caught and written to event log rather than getting aspx error page
@@ -309,7 +309,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             if (scriptBlock == null)
                 return;
             
-            GradingProperties la = GetLearnerAssignment();
+            LearnerAssignmentProperties la = GetLearnerAssignment();
             switch (AssignmentView)
             {
                 case AssignmentView.Execute:

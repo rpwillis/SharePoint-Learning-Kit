@@ -107,7 +107,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Holds Assignment Properties.
         /// </summary>
         private AssignmentProperties m_assignmentProperties;
-        ReadOnlyCollection<GradingProperties> learnersGradingCollection;
+        ReadOnlyCollection<LearnerAssignmentProperties> learnersGradingCollection;
         /// <summary>
         /// Keeps track if there was an error during one of the click events.
         /// </summary>
@@ -163,7 +163,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        ReadOnlyCollection<GradingProperties> LearnersGradingCollection
+        ReadOnlyCollection<LearnerAssignmentProperties> LearnersGradingCollection
         {
             get
             {
@@ -545,7 +545,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             // gradingList.DeterminePostBackGradingItems() only returns the rows that have changed
             Dictionary<string, GradingItem> gradingListItems = gradingList.DeterminePostBackGradingItems();
-            List<GradingProperties> gradingPropertiesList = new List<GradingProperties>();
+            List<LearnerAssignmentProperties> gradingPropertiesList = new List<LearnerAssignmentProperties>();
 
             if (action == SaveAction.CollectAll || action == SaveAction.ReturnAll)
             {
@@ -573,7 +573,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             foreach (GradingItem item in gradingListItems.Values)
             {
-                GradingProperties gradingProperties = new GradingProperties(new LearnerAssignmentItemIdentifier(item.LearnerAssignmentId), AssignmentProperties);
+                LearnerAssignmentProperties gradingProperties = new LearnerAssignmentProperties(new LearnerAssignmentItemIdentifier(item.LearnerAssignmentId), AssignmentProperties);
                 gradingProperties.FinalPoints = item.FinalScore;
                 gradingProperties.Grade = item.Grade;
                 gradingProperties.InstructorComments = item.InstructorComments;

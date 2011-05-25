@@ -60,7 +60,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Holds LearnerAssignmentProperties value.
         /// </summary>
-        private GradingProperties learnerAssignmentProperties;
+        private LearnerAssignmentProperties learnerAssignmentProperties;
 
         /// <summary>
         /// Holds AssignmentProperties value.
@@ -111,7 +111,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Gets or sets the properties (specific to a certain learner) of the learner assignment being displayed by this page.
         /// </summary>
-        private GradingProperties LearnerAssignmentProperties
+        private LearnerAssignmentProperties LearnerAssignmentProperties
         {
             get
             {

@@ -31,7 +31,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
     {
         private FramesetPageHelper m_helper;
         private Guid m_learnerAssignmentGuidId;
-        private GradingProperties learnerAssignmentProperties;
+        private LearnerAssignmentProperties learnerAssignmentProperties;
         
         /////////////////////////////////////////////////////////////////////////////////////
         private SlkStore m_observerRoleLearnerStore;
@@ -78,7 +78,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <summary>Process a request for a view. If not allowed, register an error and return false.</summary>
         public bool ProcessViewRequest(SessionView view, LearningSession session)
         {
-            GradingProperties la = GetLearnerAssignment();
+            LearnerAssignmentProperties la = GetLearnerAssignment();
 
             LearnerAssignmentState state = la.Status == null ? LearnerAssignmentState.NotStarted : la.Status.Value;
             return ProcessViewRequest(state, view);
@@ -244,7 +244,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// Provides a cached version of learner assignment properties.
         /// </summary>
         /// <returns></returns>
-        protected GradingProperties GetLearnerAssignment()
+        protected LearnerAssignmentProperties GetLearnerAssignment()
         {
             return GetLearnerAssignment(false);
         }
@@ -255,7 +255,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// </summary>
         /// <param name="forceUpdate">If false, the value is cached.</param>
         /// <returns></returns>
-        protected GradingProperties GetLearnerAssignment(bool forceUpdate)
+        protected LearnerAssignmentProperties GetLearnerAssignment(bool forceUpdate)
         {
             // If the current value has not been set, or if we have to update it, get 
             // the information from the base class.
@@ -302,7 +302,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
                 // There was a learnerAssignmentId and no AttemptId, so translate from learnerAssignmentId to attemptId
                 LearnerAssignmentGuidId = learnerAssignmentGuidId;
-                GradingProperties la = GetLearnerAssignment();  // this causes LearningStoreAccess
+                LearnerAssignmentProperties la = GetLearnerAssignment();  // this causes LearningStoreAccess
                 attemptId = la.AttemptId;        
                 return (attemptId != null);
             }
