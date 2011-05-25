@@ -203,10 +203,10 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
         #region Add
         /// <summary>
-        /// Adds the GradingProperties to the GradingItemCollection             
+        /// Adds the LearnerAssignmentProperties to the GradingItemCollection             
         /// </summary>
         /// <param name="gradingProperties">Grading Properties</param> 
-        public void Add(GradingProperties gradingProperties)
+        public void Add(LearnerAssignmentProperties gradingProperties)
         {
             GradingItem item = new GradingItem();
 
@@ -233,7 +233,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// </summary>
         /// <param name="gradingProperties">Grading Properties</param>
         /// <returns>File Submission State to be displayed in the File Submission Column</returns>
-        public string GetFileSubmissionValue(GradingProperties gradingProperties)
+        public string GetFileSubmissionValue(LearnerAssignmentProperties gradingProperties)
         {
             SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
 
@@ -347,7 +347,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             LearnerReportUrl = settings.LearnerReportUrl;
             HasLearnerReport = string.IsNullOrEmpty(LearnerReportUrl) == false;
 
-            foreach (GradingProperties item in AssignmentProperties.Results)
+            foreach (LearnerAssignmentProperties item in AssignmentProperties.Results)
             {
                 Add(item);
             }

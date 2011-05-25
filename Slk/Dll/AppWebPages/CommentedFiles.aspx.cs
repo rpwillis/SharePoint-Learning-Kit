@@ -505,8 +505,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     bool isAssignmentsCompleted = true;
                     m_assignmentProperties = SlkStore.GetGradingProperties(AssignmentItemIdentifier);
-                    ReadOnlyCollection<GradingProperties> learnersGradingCollection = m_assignmentProperties.Results;
-                    foreach (GradingProperties learnerGrading in learnersGradingCollection)
+                    ReadOnlyCollection<LearnerAssignmentProperties> learnersGradingCollection = m_assignmentProperties.Results;
+                    foreach (LearnerAssignmentProperties learnerGrading in learnersGradingCollection)
                     {
                         if (learnerGrading.Status != LearnerAssignmentState.Completed)
                         {

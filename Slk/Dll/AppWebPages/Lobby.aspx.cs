@@ -101,7 +101,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #region Private Variables
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
-        private GradingProperties learnerAssignmentProperties;
+        private LearnerAssignmentProperties learnerAssignmentProperties;
         string initialFileUrl;
         const string startQueryStringName = "start";
 
@@ -144,7 +144,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Gets the properties of the learner assignment being displayed by this page.
         /// </summary>
-        private GradingProperties LearnerAssignmentProperties
+        private LearnerAssignmentProperties LearnerAssignmentProperties
         {
             get
             {

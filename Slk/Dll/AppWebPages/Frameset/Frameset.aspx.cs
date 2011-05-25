@@ -123,7 +123,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             // Put this operation in a transaction because if the attempt has not been started, we'll start the attempt 
             // and update the assignment. Both should succeed or both should fail.
-            GradingProperties la;
+            LearnerAssignmentProperties la;
             TransactionOptions options = new TransactionOptions();
             options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
             using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
@@ -433,7 +433,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         private void SendNonElearningContent()
         {
             // Get the cached learner assignment properties
-            GradingProperties la = GetLearnerAssignment();
+            LearnerAssignmentProperties la = GetLearnerAssignment();
 
             SharePointFileLocation spFileLocation;
             if (!SharePointFileLocation.TryParse(la.Assignment.Location, out spFileLocation))
