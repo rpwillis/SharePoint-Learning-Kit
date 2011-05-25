@@ -56,7 +56,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         // The Session.TotalPoints value prior to processing any posted data.
         float? m_initialTotalPoints;
 
-        LearnerAssignmentProperties m_learnerAssignment;    // cached version of learner assignment to display
+        GradingProperties learnerAssignment;    // cached version of learner assignment to display
 
         /// <summary>The page load event.</summary>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // all exceptions caught and written to event log rather than getting aspx error page
@@ -81,7 +81,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     // Initialize data that may get set on a first try, but must be reset for retry
                     Response.Clear();
                     ClearError();
-                    m_learnerAssignment = null;
+                    learnerAssignment = null;
 
                     m_contentHelper = new ContentHelper(Request, Response, SlkEmbeddedUIPath);
                     m_contentHelper.ProcessPageLoad(SlkStore.PackageStore,
@@ -211,8 +211,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             try
             {
-                m_learnerAssignment = GetLearnerAssignment();
-                attemptId = m_learnerAssignment.AttemptId;
+                learnerAssignment = GetLearnerAssignment();
+                attemptId = learnerAssignment.AttemptId;
                 isValid = true;
             }
             catch (HttpException)
@@ -309,7 +309,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             if (scriptBlock == null)
                 return;
             
-            LearnerAssignmentProperties la = GetLearnerAssignment();
+            GradingProperties la = GetLearnerAssignment();
             switch (AssignmentView)
             {
                 case AssignmentView.Execute:
@@ -320,7 +320,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     break;
                 case AssignmentView.StudentReview:
                     {
-                        context.ShowCorrectAnswers = la.ShowAnswersToLearners;
+                        context.ShowCorrectAnswers = la.Assignment.ShowAnswersToLearners;
                         context.ShowReviewerInformation = false;
                     }
                     break;

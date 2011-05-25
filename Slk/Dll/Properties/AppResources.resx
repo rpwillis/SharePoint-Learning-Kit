@@ -1335,16 +1335,10 @@ More information may be available in the server event log.</value>
     <value>Submitted File(s)</value>
   </data>
   <data name="SubmittedFilesHeader" xml:space="preserve">
-    <value> files</value>
+      <value>{0} : {1} Files</value>
   </data>
-  <data name="SubmittedFilesInstructorMssage1" xml:space="preserve">
-    <value>To view all files submitted by </value>
-  </data>
-  <data name="SubmittedFilesInstructorMessage2" xml:space="preserve">
-    <value> for this assignment </value>
-  </data>
-  <data name="SubmittedFilesInstructorMessage3" xml:space="preserve">
-    <value>click here</value>
+  <data name="SubmittedFilesInstructorMessage" xml:space="preserve">
+      <value>Click here to view all files submitted by {0} for this assignment.</value>
   </data>
   <data name="SubmittedFilesLearnerNoAccessException" xml:space="preserve">
     <value>You don't have access to this page because the assignment is still not returned by the instructor.</value>

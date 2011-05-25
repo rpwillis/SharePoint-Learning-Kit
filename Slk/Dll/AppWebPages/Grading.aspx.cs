@@ -573,7 +573,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             foreach (GradingItem item in gradingListItems.Values)
             {
-                GradingProperties gradingProperties = new GradingProperties(new LearnerAssignmentItemIdentifier(item.LearnerAssignmentId));
+                GradingProperties gradingProperties = new GradingProperties(new LearnerAssignmentItemIdentifier(item.LearnerAssignmentId), AssignmentProperties);
                 gradingProperties.FinalPoints = item.FinalScore;
                 gradingProperties.Grade = item.Grade;
                 gradingProperties.InstructorComments = item.InstructorComments;

@@ -150,7 +150,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Uploads files to the learner's drop box.</summary>
         /// <param name="learnerAssignmentProperties">The learner's assignment properties.</param>
         /// <param name="files">The files to upload.</param>
-        public void UploadFiles(LearnerAssignmentProperties learnerAssignmentProperties, AssignmentUpload[] files)
+        public void UploadFiles(GradingProperties learnerAssignmentProperties, AssignmentUpload[] files)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
@@ -319,6 +319,30 @@ namespace Microsoft.SharePointLearningKit
             }
             return new AssignmentFile[0];
         }
+
+        /// <summary>Returns the last submitted files for the given learner.</summary>
+        public AssignmentFile[] LastSubmittedFiles(SPUser user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            AssignmentFile[] toReturn = null;
+            SPSecurity.RunWithElevatedPrivileges(delegate
+            {
+                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
+                {
+                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
+                    {
+                        DropBox dropBox = new DropBox(spWeb);
+                        toReturn = dropBox.LastSubmittedFiles(user, assignmentProperties.Id.GetKey());
+                    }
+                }
+            });
+            return toReturn;
+        }
+
 
         /// <summary>Returns the last submitted files for the current user.</summary>
         public AssignmentFile[] LastSubmittedFiles()
@@ -592,28 +616,6 @@ namespace Microsoft.SharePointLearningKit
                     }
                 }
             });
-        }
-
-        AssignmentFile[] LastSubmittedFiles(SPUser user)
-        {
-            if (user == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            AssignmentFile[] toReturn = null;
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        DropBox dropBox = new DropBox(spWeb);
-                        toReturn = dropBox.LastSubmittedFiles(user, assignmentProperties.Id.GetKey());
-                    }
-                }
-            });
-            return toReturn;
         }
 
         void ApplySubmittedPermissions(AssignmentFolder assignmentFolder, AssignmentFolder learnerSubFolder)
