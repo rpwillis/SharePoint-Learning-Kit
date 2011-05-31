@@ -227,6 +227,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (startAssignment && learnerAssignmentStatus == LearnerAssignmentState.NotStarted)
                 {
                     LearnerAssignmentProperties.Start();
+                    learnerAssignmentStatus = LearnerAssignmentProperties.Status.Value;
                 }
 
                 ClientScript.RegisterClientScriptBlock(this.GetType(), "lblStatusValue", "var lblStatusValue = \"" + lblStatusValue.ClientID + "\";", true);
