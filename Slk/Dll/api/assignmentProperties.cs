@@ -585,10 +585,15 @@ namespace Microsoft.SharePointLearningKit
         {
             foreach (SlkUser user in toSend)
             {
-                if (user.SPUser != null && string.IsNullOrEmpty(user.SPUser.Email) == false)
-                {
-                    SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, UserEmailText(body, user));
-                }
+                SendEmail(user, subject, body);
+            }
+        }
+
+        void SendEmail(SlkUser user, string subject, string body)
+        {
+            if (user.SPUser != null && string.IsNullOrEmpty(user.SPUser.Email) == false)
+            {
+                SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, UserEmailText(body, user));
             }
         }
 
