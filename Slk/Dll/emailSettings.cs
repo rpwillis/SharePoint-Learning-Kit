@@ -4,6 +4,22 @@ using System.Xml;
 
 namespace Microsoft.SharePointLearningKit
 {
+    /// <summary>The type of email.</summary>
+    public enum EmailType
+    {
+        /// <summary>A new assignment.</summary>
+        New,
+        /// <summary>The assignment is canceled.</summary>
+        Cancel,
+        /// <summary>On sumitting an assignment.</summary>
+        Submit,
+        /// <summary>On reactivating assignment.</summary>
+        Reactivate,
+        /// <summary>On collecting assignment.</summary>
+        Collect,
+        /// <summary>A reminder for an assignment.</summary>
+        Reminder
+    }
     /// <summary>The Email settings</summary>
     public class EmailSettings
     {
@@ -67,9 +83,36 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Email details for a assignment reminder.</summary>
         public EmailDetails AssignmentReminder { get; private set; }
+
 #endregion properties
 
 #region public methods
+        /// <summary>The details for a particular type.</summary>
+        /// <param name="type">The type of email</param>
+        /// <returns></returns>
+        public EmailDetails this[EmailType type]
+        {
+            get
+            {
+                switch (type)
+                {
+                    case EmailType.New:
+                        return NewAssignment;
+                    case EmailType.Cancel:
+                        return CancelAssignment;
+                    case EmailType.Submit:
+                        return SubmitAssignment;
+                    case EmailType.Reactivate:
+                        return ReactivateAssignment;
+                    case EmailType.Collect:
+                        return CollectAssignment;
+                    case EmailType.Reminder:
+                        return AssignmentReminder;
+                    default:
+                        throw new ArgumentOutOfRangeException("type");
+                }
+            }
+        }
 #endregion public methods
 
 #region protected methods

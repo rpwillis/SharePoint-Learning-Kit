@@ -1603,6 +1603,13 @@ More information may be available in the server event log.</value>
 <p>%description%</p>
 <p><a href='%url%'>%url%</a></p>]]></value>
   </data>
+  <data name="SubmitAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% submitted by %name%</value>
+  </data>
+  <data name="SubmitAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> had been submitted by %name%.</p>
+          <p><a href='%gradingUrl%'>%gradingUrl%</a></p>]]></value>
+  </data>
   <data name="CancelAssignmentEmailDefaultSubject" xml:space="preserve">
     <value>Assignment Cancelled : %title%</value>
   </data>

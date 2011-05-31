@@ -24,6 +24,7 @@ namespace Microsoft.SharePointLearningKit
         SPWeb webWhileSaving;
         bool hasInstructors;
         bool hasInstructorsIsSet;
+        SlkUserCollection instructors;
 
 #region properties
         /// <summary>The ISlkStore to use.</summary>
@@ -144,7 +145,25 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>
         /// Gets or sets the collection of instructors of this assignment.
         /// </summary>
-        public SlkUserCollection Instructors { get; private set; }
+        public SlkUserCollection Instructors 
+        { 
+            get 
+            { 
+                if (instructors == null)
+                {
+                    // Lazy Load
+                    Instructors = new SlkUserCollection();
+                    if (hasInstructorsIsSet && HasInstructors)
+                    {
+                        Store.LoadInstructors(Id, instructors);
+                    }
+                }
+
+                return instructors ;
+            }
+
+            private set { instructors = value ;}
+        }
 
         /// <summary>
         /// Gets or sets the collection of learners assigned this assignment.
@@ -204,27 +223,31 @@ namespace Microsoft.SharePointLearningKit
             this.Id = id;
         }
 
-        /*
-        /// <summary>Initializes a new instance of <see cref="AssignmentProperties"/>.</summary>
-        public AssignmentProperties(long id, ISlkStore store) : this(store)
-        {
-            if (id != 0)
-            {
-                this.Id = new AssignmentItemIdentifier(id);
-            }
-        }
-        */
-
         /// <summary>Initializes a new instance of <see cref="AssignmentProperties"/>.</summary>
         AssignmentProperties(ISlkStore store)
         {
             this.Store = store;
-            Instructors = new SlkUserCollection();
             Learners = new SlkUserCollection();
         }
 #endregion constructors
 
 #region public methods
+        /// <summary>Sends and email when a learner submits an assignment.</summary>
+        /// <param name="name">The name of the learner.</param>
+        public void SendSubmitEmail(string name)
+        {
+            using (SPSite site = new SPSite(SPSiteGuid))
+            {
+                using (SPWeb web = site.OpenWeb(SPWebGuid))
+                {
+                    webWhileSaving = web;
+                    Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("SendSubmitEmail {0}", Instructors.Count);
+                    SendEmail(Instructors, SubmitSubjectText(name), SubmitBodyText(name));
+                    webWhileSaving = null;
+                }
+            }
+        }
+
         /// <summary>Deletes the assignment.</summary>
         public void Delete(SPWeb web)
         {
@@ -510,6 +533,22 @@ namespace Microsoft.SharePointLearningKit
             SendNewEmail(Learners);
         }
 
+        string SubmitSubjectText(string name)
+        {
+            string subject = null;
+            EmailSettings settings = Store.Settings.EmailSettings;
+            if (settings != null && settings.SubmitAssignment != null)
+            {
+                subject = settings.SubmitAssignment.Subject;
+            }
+            else
+            {
+                subject = AppResources.SubmitAssignmentEmailDefaultSubject;
+            }
+
+            return EmailText(subject, name);
+        }
+
         string CancelSubjectText()
         {
             string subject = null;
@@ -524,6 +563,22 @@ namespace Microsoft.SharePointLearningKit
             }
 
             return EmailText(subject);
+        }
+
+        string SubmitBodyText(string name)
+        {
+            string body = null;
+            EmailSettings settings = Store.Settings.EmailSettings;
+            if (settings != null && settings.SubmitAssignment != null)
+            {
+                body = settings.SubmitAssignment.Body;
+            }
+            else
+            {
+                body = AppResources.SubmitAssignmentEmailDefaultBody;
+            }
+
+            return EmailText(body, name);
         }
 
         string CancelBodyText()
@@ -585,29 +640,57 @@ namespace Microsoft.SharePointLearningKit
         {
             foreach (SlkUser user in toSend)
             {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("SendEmail {0} {1}", user.Name, user.SPUser == null);
                 SendEmail(user, subject, body);
             }
         }
 
         void SendEmail(SlkUser user, string subject, string body)
         {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("SendEmail {0} {1} {2}", user.SPUser != null, string.IsNullOrEmpty(user.SPUser.Email), user.SPUser.Email);
             if (user.SPUser != null && string.IsNullOrEmpty(user.SPUser.Email) == false)
             {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("email sent");
                 SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, UserEmailText(body, user));
             }
         }
 
         string UserEmailText(string baseText, SlkUser user)
         {
-            string url = "{0}/_layouts/SharePointLearningKit/Lobby.aspx?LearnerAssignmentId={1}";
-            url = string.Format(CultureInfo.InvariantCulture, url, webWhileSaving.Url, user.AssignmentUserGuidId);
-            return baseText.Replace("%url%", url);
+            string text = baseText;
+
+            if (text.Contains("%url%"))
+            {
+                string url = "{0}/_layouts/SharePointLearningKit/Lobby.aspx?LearnerAssignmentId={1}";
+                url = string.Format(CultureInfo.InvariantCulture, url, webWhileSaving.Url, user.AssignmentUserGuidId);
+                text = text.Replace("%url%", url);
+            }
+
+            if (text.Contains("%gradingUrl%"))
+            {
+                string url = "{0}/_layouts/SharePointLearningKit/grading.aspx?AssignmentId={1}";
+                url = string.Format(CultureInfo.InvariantCulture, url, webWhileSaving.Url, Id.GetKey());
+                text = text.Replace("%gradingUrl%", url);
+            }
+
+            return text;
         }
 
         string EmailText(string baseText)
         {
+            return EmailText(baseText, null);
+        }
+
+        string EmailText(string baseText, string name)
+        {
             string toReturn = baseText.Replace("%title%", Title);
             toReturn = toReturn.Replace("%description%", Description);
+
+            if (string.IsNullOrEmpty(name) == false)
+            {
+                toReturn = toReturn.Replace("%name%", name);
+            }
+
             return toReturn;
         }
 

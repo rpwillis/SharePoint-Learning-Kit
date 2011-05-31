@@ -3938,6 +3938,25 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; had been submitted by %name%.&lt;/p&gt;
+        ///          &lt;p&gt;&lt;a href=&apos;%gradingUrl%&apos;&gt;%gradingUrl%&lt;/a&gt;&lt;/p&gt;.
+        /// </summary>
+        internal static string SubmitAssignmentEmailDefaultBody {
+            get {
+                return ResourceManager.GetString("SubmitAssignmentEmailDefaultBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment %title% submitted by %name%.
+        /// </summary>
+        internal static string SubmitAssignmentEmailDefaultSubject {
+            get {
+                return ResourceManager.GetString("SubmitAssignmentEmailDefaultSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only the learner can submit the assignment..
         /// </summary>
         internal static string SubmitAssignmentNotLearner {

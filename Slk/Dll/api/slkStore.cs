@@ -934,6 +934,36 @@ namespace Microsoft.SharePointLearningKit
             return fileAndLocation;
         }
 
+        /// <summary>See <see cref="ISlkStore.LoadInstructors"/>.</summary>
+        public void LoadInstructors(AssignmentItemIdentifier id, SlkUserCollection instructors)
+        {
+            LearningStoreJob job = LearningStore.CreateJob();
+            AddInstructorsQuery(job, id);
+
+            try
+            {
+                // execute the job; set <resultEnumerator> to enumerate the results
+                IEnumerator<object> resultEnumerator = job.Execute().GetEnumerator();
+
+                using (SPSite site = new SPSite(SPSiteGuid))
+                {
+                    using (SPWeb web = site.OpenWeb())
+                    {
+                        AddSlkUsers(web, resultEnumerator, instructors, InstructorAssignmentList.InstructorId, InstructorAssignmentList.InstructorName, InstructorAssignmentList.InstructorKey, 
+                                InstructorAssignmentList.InstructorAssignmentId, "SLK1011");
+                    }
+                }
+
+            }
+            catch (LearningStoreSecurityException)
+            {
+                // this error message includes the assignment ID, but that's okay since
+                // the information we provide does not allow the user to distinguish between the
+                // assignment not existing and the user not having access to it
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.AssignmentNotFoundInDatabase, id.GetKey()));
+            }
+        }
+
         /// <summary>See <see cref="ISlkStore.LoadAssignmentProperties"/>.</summary>
         public AssignmentProperties LoadAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole)
         {
@@ -1524,6 +1554,7 @@ namespace Microsoft.SharePointLearningKit
             properties.CreatedById = CastNonNullIdentifier<UserItemIdentifier>(dataRow[LearnerAssignmentList.AssignmentCreatedById]);
             properties.CreatedByName = CastNonNull<string>(dataRow[LearnerAssignmentList.AssignmentCreatedByName]);
             properties.HasInstructors = CastNonNull<bool>(dataRow[LearnerAssignmentList.HasInstructors]);
+            properties.EmailChanges = CastNonNull<bool>(dataRow[LearnerAssignmentList.AssignmentEmailChanges]);
 
             LearnerAssignmentItemIdentifier learnerId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[LearnerAssignmentList.LearnerAssignmentId]);
             LearnerAssignmentProperties learnerProperties = new LearnerAssignmentProperties(learnerId, properties);
@@ -2711,15 +2742,7 @@ namespace Microsoft.SharePointLearningKit
             job.PerformQuery(query);
 
             // request the collection of instructors of this assignment
-            query = LearningStore.CreateQuery(Schema.InstructorAssignmentList.ViewName);
-            query.AddColumn(Schema.InstructorAssignmentList.InstructorId);
-            query.AddColumn(Schema.InstructorAssignmentList.InstructorName);
-            query.AddColumn(Schema.InstructorAssignmentList.InstructorKey);
-            query.AddColumn(Schema.InstructorAssignmentList.InstructorAssignmentId);
-            query.AddColumn(Schema.UserItemSite.SPUserId);
-            query.AddCondition(Schema.InstructorAssignmentList.AssignmentId,
-                LearningStoreConditionOperator.Equal, assignmentId);
-            job.PerformQuery(query);
+            AddInstructorsQuery(job, assignmentId);
 
             if (slkRole == SlkRole.Instructor)
             {
@@ -2919,6 +2942,18 @@ namespace Microsoft.SharePointLearningKit
         {
             public SPFile File;
             public SharePointFileLocation Location;
+        }
+
+        void AddInstructorsQuery(LearningStoreJob job, AssignmentItemIdentifier assignmentId)
+        {
+            LearningStoreQuery query = LearningStore.CreateQuery(Schema.InstructorAssignmentList.ViewName);
+            query.AddColumn(Schema.InstructorAssignmentList.InstructorId);
+            query.AddColumn(Schema.InstructorAssignmentList.InstructorName);
+            query.AddColumn(Schema.InstructorAssignmentList.InstructorKey);
+            query.AddColumn(Schema.InstructorAssignmentList.InstructorAssignmentId);
+            query.AddColumn(Schema.UserItemSite.SPUserId);
+            query.AddCondition(Schema.InstructorAssignmentList.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
+            job.PerformQuery(query);
         }
 
 #region conversion methods
