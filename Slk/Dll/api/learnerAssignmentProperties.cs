@@ -163,6 +163,8 @@ namespace Microsoft.SharePointLearningKit
             {
                 Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, newStatus, null, NonELearningStatus(AttemptStatus.Active), null, session.AttemptId);
             }
+
+            Status = newStatus;
         }
 
         /// <summary>Returns the assignment.</summary>
@@ -206,6 +208,8 @@ namespace Microsoft.SharePointLearningKit
             {
                 Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, newStatus, true, NonELearningStatus(AttemptStatus.Completed), session.TotalPoints, session.AttemptId);
             }
+
+            Status = newStatus;
         }
 
         /// <summary>Collects the assignment.</summary>
@@ -268,6 +272,7 @@ namespace Microsoft.SharePointLearningKit
             ReactivateSession();
             LearnerAssignmentState newStatus = LearnerAssignmentState.Active;
             Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, newStatus, false, NonELearningStatus(AttemptStatus.Active), null, null);
+            Status = newStatus;
         }
 
         /// <summary>Submits the assignment.</summary>
@@ -349,6 +354,8 @@ namespace Microsoft.SharePointLearningKit
             {
                 Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, newStatus, isFinal, NonELearningStatus(AttemptStatus.Completed), newSession.TotalPoints, newSession.AttemptId);
             }
+
+            Status = newStatus;
         }
 
         void CheckUserIsLearner()

@@ -2317,7 +2317,7 @@ namespace Microsoft.SharePointLearningKit
 
                     if (finalPoints != null || newStatus == LearnerAssignmentState.Active)
                     {
-                        properties[Schema.LearnerAssignmentItem.FinalPoints] = finalPoints.Value;
+                        properties[Schema.LearnerAssignmentItem.FinalPoints] = finalPoints;
                     }
 
                     if (attemptId != null)
