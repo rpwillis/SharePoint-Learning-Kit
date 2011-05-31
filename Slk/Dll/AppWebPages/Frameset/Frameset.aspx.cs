@@ -211,7 +211,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         // Mark the assignment as started
                         if (la.Status != LearnerAssignmentState.Active)
                         {
-                            SlkStore.ChangeLearnerAssignmentState(la.LearnerAssignmentGuidId, LearnerAssignmentState.Active);
+                            la.Start();
                         }
                     }
                     else

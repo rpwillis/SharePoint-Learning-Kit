@@ -133,14 +133,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        bool IsNonElearningNotStarted
-        {
-            get
-            {
-                return AssignmentProperties.IsNonELearning && LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted;
-            }
-        }
-        
         /// <summary>
         /// Gets the properties of the learner assignment being displayed by this page.
         /// </summary>
@@ -214,13 +206,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 SetResourceText();
 
                 LearnerAssignmentState learnerAssignmentStatus = LearnerAssignmentProperties.Status.Value;
-                bool setStatusToActive = (Request.QueryString[startQueryStringName] == "true");
+                bool startAssignment = (Request.QueryString[startQueryStringName] == "true");
 
-                if (IsNonElearningNotStarted)
+                if (AssignmentProperties.IsNonELearning && LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted)
                 {
                     if (AssignmentProperties.IsNoPackageAssignment)
                     {
-                        setStatusToActive = true;
+                        startAssignment = true;
                     }
                     else
                     {
@@ -232,13 +224,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     FindDocumentUrl();
                 }
 
-                if (setStatusToActive && learnerAssignmentStatus == LearnerAssignmentState.NotStarted)
+                if (startAssignment && learnerAssignmentStatus == LearnerAssignmentState.NotStarted)
                 {
-                    learnerAssignmentStatus = LearnerAssignmentState.Active;
-                    SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Active);
+                    LearnerAssignmentProperties.Start();
                 }
 
                 ClientScript.RegisterClientScriptBlock(this.GetType(), "lblStatusValue", "var lblStatusValue = \"" + lblStatusValue.ClientID + "\";", true);
+
                 if (learnerAssignmentStatus == LearnerAssignmentState.Completed && AssignmentProperties.AutoReturn == true)
                 {
                     // assignment was probably changed to be "auto-return" after this learner submitted it; we'll
@@ -248,7 +240,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     // learner assignments into Final state) -- using Completed works because
                     // SlkStore.ChangeLearnerAssignmentState performs auto-return even if the current state is
                     // LearnerAssignmentState.Completed
-                    SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
+                    LearnerAssignmentProperties.Submit();
                     // Set the property to null so that it will refresh the next time it is referenced
                     LearnerAssignmentProperties = null;
                 }
@@ -578,12 +570,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 try
                 {
-                    SlkStore.ChangeLearnerAssignmentState(LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
-                    if (AssignmentProperties.IsNonELearning)
-                    {
-                        DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
-                        dropBoxMgr.ApplySubmittedPermissions();
-                    }
+                    LearnerAssignmentProperties.Submit();
                 }
                 catch (InvalidOperationException)
                 {

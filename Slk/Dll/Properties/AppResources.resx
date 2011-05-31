@@ -1609,4 +1609,28 @@ More information may be available in the server event log.</value>
   <data name="CancelAssignmentEmailDefaultBody" xml:space="preserve">
       <value><![CDATA[<p>Assignment <strong>%title%</strong> had been collected.</p>]]></value>
   </data>
+  <data name="SubmitAssignmentNotLearner" xml:space="preserve">
+    <value>Only the learner can submit the assignment.</value>
+  </data>
+  <data name="SubmitAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be submitted as it is not yet started.</value>
+  </data>
+  <data name="ReactivateAssignmentActive" xml:space="preserve">
+    <value>Assignment cannot be reactivated as it is still active.</value>
+  </data>
+  <data name="CollectAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be collected as it is not yet started.</value>
+  </data>
+  <data name="ReactivateAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be reactivated as it is not yet started.</value>
+  </data>
+  <data name="ReturnAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be returned as it is not yet started.</value>
+  </data>
+  <data name="ReturnAssignmentActive" xml:space="preserve">
+    <value>Assignment cannot be returned as it is still active.</value>
+  </data>
+  <data name="ChangeLearnerAssignmentNotInstructor" xml:space="preserve">
+    <value>Cannot change learner assignment because you are not an instructor for the assignment.</value>
+  </data>
 </root>

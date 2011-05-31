@@ -21,12 +21,14 @@ namespace Microsoft.SharePointLearningKit
     public class AssignmentProperties
     {
         internal const string noPackageLocation = "{00000}";
-        ISlkStore store;
         SPWeb webWhileSaving;
         bool hasInstructors;
         bool hasInstructorsIsSet;
 
 #region properties
+        /// <summary>The ISlkStore to use.</summary>
+        public ISlkStore Store { get; private set; }
+
         /// <summary>Indicates if the assignment has any instructors.</summary>
         public bool HasInstructors
         {
@@ -216,7 +218,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Initializes a new instance of <see cref="AssignmentProperties"/>.</summary>
         AssignmentProperties(ISlkStore store)
         {
-            this.store = store;
+            this.Store = store;
             Instructors = new SlkUserCollection();
             Learners = new SlkUserCollection();
         }
@@ -230,7 +232,7 @@ namespace Microsoft.SharePointLearningKit
 
             try
             {
-                store.DeleteAssignment(Id);
+                Store.DeleteAssignment(Id);
 
                 if (EmailChanges)
                 {
@@ -278,7 +280,7 @@ namespace Microsoft.SharePointLearningKit
         public void Save(SPWeb web, SlkRole slkRole, SlkMemberships slkMembers)
         {
             // Verify that the web is in the site
-            if (web.Site.ID != store.SPSiteGuid)
+            if (web.Site.ID != Store.SPSiteGuid)
             {
                 throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
             }
@@ -370,10 +372,10 @@ namespace Microsoft.SharePointLearningKit
             if (organizationIndex != null)
             {
                 // register the package with PackageStore (if it's not registered yet), and get the PackageItemIdentifier
-                PackageDetails package = store.RegisterAndValidatePackage(location);
+                PackageDetails package = Store.RegisterAndValidatePackage(location);
 
-                RootActivityId = store.FindRootActivity(package.PackageId, organizationIndex.Value);
-                PackageInformation information = store.GetPackageInformation(package.PackageId, file);
+                RootActivityId = Store.FindRootActivity(package.PackageId, organizationIndex.Value);
+                PackageInformation information = Store.GetPackageInformation(package.PackageId, file);
 
                 bool existingTitle = (string.IsNullOrEmpty(Title) == false);
 
@@ -464,7 +466,7 @@ namespace Microsoft.SharePointLearningKit
 
         void UpdateAssignment(SlkMemberships slkMembers)
         {
-            AssignmentProperties oldProperties = store.LoadAssignmentProperties(Id, SlkRole.Instructor);
+            AssignmentProperties oldProperties = Store.LoadAssignmentProperties(Id, SlkRole.Instructor);
             CopyInvariantProperties(oldProperties);
 
             bool corePropertiesChanged = false;
@@ -481,7 +483,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (corePropertiesChanged || instructorChanges.HasChanges || learnerChanges.HasChanges)
             {
-                store.UpdateAssignment(this, corePropertiesChanged, instructorChanges, learnerChanges);
+                Store.UpdateAssignment(this, corePropertiesChanged, instructorChanges, learnerChanges);
 
                 if (IsNonELearning)
                 {
@@ -511,7 +513,7 @@ namespace Microsoft.SharePointLearningKit
         string CancelSubjectText()
         {
             string subject = null;
-            EmailSettings settings = store.Settings.EmailSettings;
+            EmailSettings settings = Store.Settings.EmailSettings;
             if (settings != null && settings.CancelAssignment != null)
             {
                 subject = settings.CancelAssignment.Subject;
@@ -527,7 +529,7 @@ namespace Microsoft.SharePointLearningKit
         string CancelBodyText()
         {
             string body = null;
-            EmailSettings settings = store.Settings.EmailSettings;
+            EmailSettings settings = Store.Settings.EmailSettings;
             if (settings != null && settings.CancelAssignment != null)
             {
                 body = settings.CancelAssignment.Body;
@@ -543,7 +545,7 @@ namespace Microsoft.SharePointLearningKit
         string NewSubjectText()
         {
             string subject = null;
-            EmailSettings settings = store.Settings.EmailSettings;
+            EmailSettings settings = Store.Settings.EmailSettings;
             if (settings != null && settings.NewAssignment != null)
             {
                 subject = settings.NewAssignment.Subject;
@@ -559,7 +561,7 @@ namespace Microsoft.SharePointLearningKit
         string NewBodyText()
         {
             string body = null;
-            EmailSettings settings = store.Settings.EmailSettings;
+            EmailSettings settings = Store.Settings.EmailSettings;
             if (settings != null && settings.NewAssignment != null)
             {
                 body = settings.NewAssignment.Body;
@@ -622,10 +624,10 @@ namespace Microsoft.SharePointLearningKit
             SPWebGuid = web.ID;
 
             VerifyRole(web, slkRole);
-            Id = store.CreateAssignment(this);
+            Id = Store.CreateAssignment(this);
 
             //Update the MRU list
-            store.AddToUserWebList(web);
+            Store.AddToUserWebList(web);
 
             if (IsNonELearning)
             {
@@ -655,7 +657,7 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
-                store.EnsureInstructor(web);
+                Store.EnsureInstructor(web);
             }
         }
 
@@ -663,7 +665,7 @@ namespace Microsoft.SharePointLearningKit
         {
             // set <currentUserId> to the UserItemIdentifier of the current user; note that this
             // requires a round trip to the database
-            UserItemIdentifier currentUserId = store.CurrentUserId;
+            UserItemIdentifier currentUserId = Store.CurrentUserId;
 
             // verify that <properties> specify no instructors and that the current user is the
             // only learner

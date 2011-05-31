@@ -159,8 +159,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             SlkMemberships memberships = new SlkMemberships(null, null, null);
             memberships.FindAllSlkMembers(SPWeb, SlkStore, true);
 
-            DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
-
             List<AssignmentUpload> uploadedFiles = new List<AssignmentUpload>();
 
             HtmlInputFile[] allPageUploadFiles = new HtmlInputFile[] { uploadFile1, uploadFile2, uploadFile3, uploadFile4, uploadFile5 };
@@ -178,7 +176,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 try
                 {
-                    dropBoxMgr.UploadFiles(LearnerAssignmentProperties, uploadedFiles.ToArray());
+                    LearnerAssignmentProperties.UploadFilesAndSubmit(uploadedFiles.ToArray());
 
                     //Redirect to the SLk ALWP Page
                     HttpContext.Current.Response.Write(

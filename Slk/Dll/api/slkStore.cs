@@ -115,12 +115,7 @@ namespace Microsoft.SharePointLearningKit
             get { return m_learningStore; }
         }
 
-        /// <summary>
-        /// Gets a reference to the <c>SharePointPackageStore</c> associated with this SharePoint
-            /// Learning Kit store.  <c>SharePointPackageStore</c> holds references to e-learning
-            /// packages stored in SharePoint document libraries.
-        /// </summary>
-        ///
+        /// <summary>See <see cref="ISlkStore.PackageStore"/>.</summary>
         public SharePointPackageStore PackageStore
         {
             get
@@ -2133,25 +2128,8 @@ namespace Microsoft.SharePointLearningKit
                     // initialize <properties> if the caller didn't pass it in
                     if (properties == null)
                             properties = new Dictionary<string, object>();
-
-            // perform the state transition
-            if ((oldStatus == LearnerAssignmentState.Completed) &&
-                (newStatus == LearnerAssignmentState.Completed))
-            {
-                if (!isAutoReturn)
-                    // Nothing to do
-                    return;
-
-                // Since it is auto-returned, set it to final
-                makeFinal = true;
-            }
-            else
-            if (oldStatus == newStatus)
-            {
-                // Nothing to do
-                return;
-            }
                     else
+
             if (oldStatus == LearnerAssignmentState.NotStarted)
             {
                 // NotStarted --> Active or Completed or Final
@@ -2319,183 +2297,48 @@ namespace Microsoft.SharePointLearningKit
                     job.UpdateItem(learnerAssignmentId, properties);
         }
 
-        /// <summary>
-        /// Changes the <c>LearnerAssignmentState</c> of a learner assignment.
-        /// </summary>
-            ///
-        /// <param name="learnerAssignmentGuidId">The ID of the learner assignment to change the
-            ///     <c>LearnerAssignmentState</c> of.</param>
-            ///
-        /// <param name="newStatus">The <c>LearnerAssignmentState</c> to transition this learner
-            ///     assignment to.  See Remarks for more information.</param>
-            ///
-            /// <returns>
-            /// <c>true</c> if the state transition succeeded, <c>false</c> if the state transition failed
-            /// because that state transition is not supported.  If any other error occurs while performing
-            /// this operation, an exception is thrown.
-            /// </returns>
-        /// 
-        /// <remarks>
-            /// <para>
-            /// Only the following state transitions are supported by this method:
-            /// </para>
-            /// <list type="bullet">
-            ///     <item><description><c>Active</c> to <c>Completed</c>.  This "submits" (learner gives
-            ///         assignment back to instructor) or "collects" (instructor takes assignment back
-            ///         from learner) or "marks as complete" (learner record a learner-created assignment
-            ///         as complete) a learner assignment.  This transition may be performed by the
-            ///         instructor of the assignment or the learner who owns this learner assignment.
-            ///         Note that if <c>AssignmentProperties.AutoReturn</c> is <c>true</c> for this
-            ///         assignment, this state transition will automatically cause a second transition,
-            ///         from <c>Completed</c> to <c>Final</c>
-            ///         </description>
-            ///     </item>
-            ///     <item><description><c>Completed</c> to <c>Final</c>.  This "returns" the assignment
-            ///            from the instructor to the learner -- in this case the user must be an instructor
-            ///         on the assignment.  This state transition may also be performed in the case where
-            ///         the instructor caused <c>AssignmentProperties.AutoReturn</c> to be set to
-            ///         <c>true</c> <u>after</u> this assignment transitioned from <c>Active</c> to
-            ///         <c>Completed</c> state -- in this case ("auto-return") the user may be either an
-            ///         instructor of the assignment or the learner who owns this learner assignment.
-            ///         </description>
-            ///     </item>
-            ///     <item><description><c>Completed</c> or <c>Final</c> to <c>Active</c>.  This
-        ///         "reactivates" the assignment, so that the learner may once again work on it.
-            ///         </description>
-            ///     </item>
-            ///     <item><description><c>Active</c> to <c>Final</c>, equivalent to <c>Active</c> to
-            ///         <c>Completed</c> followed by <c>Completed</c> to <c>Final</c>.</description>
-            ///     </item>
-            ///     <item><description><c>NotStarted</c> to <c>Active</c>, <c>Completed</c>, or
-            ///         <c>Final</c>, equivalent to beginning the learner assignment and then transitioning
-            ///         states as described above.</description>
-            ///     </item>
-            /// </list>
-        /// </remarks>
-            ///
-            /// <remarks>
-            /// <b>Security:</b>&#160; Fails if the
-            /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> doesn't have the right to switch to
-            /// the requested state.
-            /// </remarks>
-        ///
-        /// <exception cref="InvalidOperationException">
-        /// The requested state transition is not supported.
-        /// </exception>
-            ///
-        /// <exception cref="SafeToDisplayException">
-        /// An error occurred that can be displayed to a browser user.  Possible cause:
-        /// the user doesn't have the right to switch to the requested state.
-        /// </exception>
-            public void ChangeLearnerAssignmentState(Guid learnerAssignmentGuidId, LearnerAssignmentState newStatus)
-            {
-            // Security checks: Fails if the user doesn't have the right to switch to
-            // the requested state (checked by using a rule in the schema)
-
-            // Check parameters
-            if (learnerAssignmentGuidId.Equals(Guid.Empty) == true)
-            {
-                throw new ArgumentNullException("learnerAssignmentGuidId");
-            }
-
-            if ((newStatus != LearnerAssignmentState.Active) && (newStatus != LearnerAssignmentState.Completed) &&
-                (newStatus != LearnerAssignmentState.Final) && (newStatus != LearnerAssignmentState.NotStarted))
-            {
-                throw new ArgumentOutOfRangeException("newStatus");
-            }
-
-            // the other override of ChangeLearnerAssignmentState requires a transaction
+        /// <summary>See <see cref="ISlkStore.ChangeLearnerAssignmentState"/>.</summary>
+        public void ChangeLearnerAssignmentState(LearnerAssignmentItemIdentifier learnerAssignmentId, LearnerAssignmentState newStatus, bool? isFinal,
+                AttemptStatus? nonELearningStatus, float? finalPoints, AttemptItemIdentifier attemptId)
+        {
             TransactionOptions transactionOptions = new TransactionOptions();
             transactionOptions.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
             using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(transactionOptions))
             {
-                LearningStoreJob job = LearningStore.CreateJob();
-
-                // Demand the correct security
-                switch(newStatus)
-                {
-                    case LearnerAssignmentState.Active:
-                        DemandRight(job, Schema.ActivateLearnerAssignmentRight.RightName, learnerAssignmentGuidId);
-                        break;
-                    case LearnerAssignmentState.Completed:
-                        DemandRight(job, Schema.CompleteLearnerAssignmentRight.RightName, learnerAssignmentGuidId);
-                        break;
-                    case LearnerAssignmentState.Final:
-                        DemandRight(job, Schema.FinalizeLearnerAssignmentRight.RightName, learnerAssignmentGuidId);
-                        break;
-                    default:
-                        throw new InvalidOperationException(AppResources.LearnerAssignmentTransitionNotSupported);
-                }
-
-                // We've verified that the user has the correct right, so do everything else
-                // with security checks turned off
                 using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
                 {
-                    // request the current (stored in database) status of the learner assignment
-                    LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentView.ViewName);
-                    query.AddColumn(Schema.LearnerAssignmentView.LearnerAssignmentState);
-                    query.AddColumn(Schema.LearnerAssignmentView.RootActivityId);
-                    query.AddColumn(Schema.LearnerAssignmentView.AttemptId);
-                    query.AddColumn(Schema.LearnerAssignmentView.LearnerId);
-                    query.AddColumn(Schema.LearnerAssignmentView.AssignmentAutoReturn);
-                    query.AddColumn(Schema.LearnerAssignmentView.LearnerAssignmentId);
-                    query.AddCondition(Schema.LearnerAssignmentView.LearnerAssignmentGuidId,
-                    LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
-                    job.PerformQuery(query);
+                    LearningStoreJob job = LearningStore.CreateJob();
+                    IDictionary<String, Object> properties = new Dictionary<string, object>();
 
-                    // execute the LearningStore job; set <oldStatus> to the current
-                    // LearnerAssignmentState; set <packageId> to the ActivityPackageItemIdentifier of the
-                    // organization assigned, if the assigned file was an e-learning package, or null if
-                    // a non-e-learning document was assigned; set <learnerId> to the UserItemIdentifier
-                    // of the learner; set <isAutoReturn> to true if a state transition of Active->Completed
-                    // should trigger a transition from Competed->Final
-                    DataRowCollection dataRows;
-                    try
+                    if (isFinal != null)
                     {
-                        dataRows = job.Execute<DataTable>().Rows;
+                        properties[Schema.LearnerAssignmentItem.IsFinal] = isFinal.Value;
                     }
-                    catch(LearningStoreSecurityException)
+
+                    if (finalPoints != null || newStatus == LearnerAssignmentState.Active)
                     {
-                        throw;
-                        //throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
+                        properties[Schema.LearnerAssignmentItem.FinalPoints] = finalPoints.Value;
                     }
-                    
-                    if (dataRows.Count != 1)
+
+                    if (attemptId != null)
                     {
-                        // this error message includes the learner assignment ID, but that's okay since
-                        // the information we provide does not allow the user to distinguish between the
-                        // learner assignment not existing and the user not having access to it
-                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
-                                                AppResources.LearnerAssignmentNotFoundInDatabase,
-                                                        learnerAssignmentGuidId.ToString()));
-                                }
-                                DataRow dataRow = dataRows[0];
-                    LearnerAssignmentState oldStatus = CastNonNull<LearnerAssignmentState>(dataRow[0]);
-                    ActivityPackageItemIdentifier rootActivityId = CastIdentifier<ActivityPackageItemIdentifier>(dataRow[1]);
-                                AttemptItemIdentifier attemptId;
-                                LearningStoreHelper.Cast(dataRow[2], out attemptId);
-                    UserItemIdentifier learnerId;
-                    learnerId = CastNonNullIdentifier<UserItemIdentifier>(dataRow[3]);
-                    bool isAutoReturn = CastNonNull<bool>(dataRow[4]);
-                    LearnerAssignmentItemIdentifier learnerAssignmentId;
-                    LearningStoreHelper.CastNonNull(dataRow[5], out learnerAssignmentId);
+                        Dictionary<string, object> attemptProperties = new Dictionary<string, object>();
+                        attemptProperties[Schema.AttemptItem.LearnerAssignmentId] = learnerAssignmentId;
+                        job.UpdateItem(attemptId, attemptProperties);
+                    }
 
+                    if (nonELearningStatus != null)
+                    {
+                        properties[Schema.LearnerAssignmentItem.NonELearningStatus] = nonELearningStatus.Value;
+                    }
 
-                                // create another LearningStore job
-                                job = LearningStore.CreateJob();
-
-                                // execute the other override of this method
-                    ChangeLearnerAssignmentState(learnerAssignmentId, job, oldStatus, newStatus,
-                        rootActivityId, learnerId, attemptId, isAutoReturn, null);
-
-                                // execute the LearningStore job
-                                job.Execute();
+                    job.UpdateItem(learnerAssignmentId, properties);
+                    job.Execute();
                 }
-                
-                            // finish the transaction
-                            scope.Complete();
-                    }
+
+                scope.Complete();
             }
+        }
 
         /// <summary>
         /// Finishes the learner assignment.
