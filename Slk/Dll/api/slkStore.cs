@@ -953,7 +953,37 @@ namespace Microsoft.SharePointLearningKit
                 throw new ArgumentOutOfRangeException("slkRole");
             }
 
-            return LoadAssignmentProperties(assignmentId, slkRole, false);
+            // Security checks: Fails if the user isn't an instructor
+            // on the assignment (if SlkRole=Instructor) or if the user isn't
+            // a learner on the assignment (if SlkRole=Learner).  Implemented
+            // by schema rules.
+
+            // create a LearningStore job
+            LearningStoreJob job = LearningStore.CreateJob();
+
+            // add to <job> request(s) to get information about the assignment
+            BeginGetAssignmentProperties(job, assignmentId, slkRole);
+
+            IEnumerator<object> resultEnumerator;
+            try
+            {
+                // execute the job; set <resultEnumerator> to enumerate the results
+                resultEnumerator = job.Execute().GetEnumerator();
+            }
+            catch (LearningStoreSecurityException)
+            {
+                // this error message includes the assignment ID, but that's okay since
+                // the information we provide does not allow the user to distinguish between the
+                // assignment not existing and the user not having access to it
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            // retrieve from <resultEnumerator> information requested by BeginGetAssignmentProperties()
+            return PopulateAssignmentProperties(resultEnumerator, assignmentId, slkRole);
         }
 
         /// <summary>See <see cref="ISlkStore.UpdateAssignment"/>.</summary>
@@ -1561,7 +1591,7 @@ namespace Microsoft.SharePointLearningKit
             LearningStoreJob job = LearningStore.CreateJob();
 
             // add to <job> request(s) to get basic information about the assignment
-            BeginGetAssignmentProperties(job, assignmentId, SlkRole.Instructor, false);
+            BeginGetAssignmentProperties(job, assignmentId, SlkRole.Instructor);
 
             // add to <job> a request to get information about each learner assignment
             LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
@@ -1597,7 +1627,7 @@ namespace Microsoft.SharePointLearningKit
             IEnumerator<object> resultEnumerator = results.GetEnumerator();
 
             // retrieve from <resultEnumerator> information requested by BeginGetAssignmentProperties()
-            AssignmentProperties properties = PopulateAssignmentProperties(resultEnumerator, assignmentId, SlkRole.Instructor, false);
+            AssignmentProperties properties = PopulateAssignmentProperties(resultEnumerator, assignmentId, SlkRole.Instructor);
 
             // retrieve from <resultEnumerator> information about each learner assignment
             if (!resultEnumerator.MoveNext())
@@ -2634,63 +2664,7 @@ namespace Microsoft.SharePointLearningKit
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // Private Methods
         //
-
-        /// <summary>
-        /// Retrieves general information about an assignment.
-        /// </summary>
-        ///
-        /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to
-        ///     retrieve information about.</param>
-        ///
-        /// <param name="slkRole">The <c>SlkRole</c> for which information is to be retrieved.</param>
-        ///
-        /// <param name="basicOnly">If <c>true</c>, the <c>Instructors</c> and <c>Learners</c>
-        ///     properties of the returned <c>AssignmentProperties</c> object are not set.</param>
-        ///
-        /// <returns>
-        /// An <c>AssignmentProperties</c> object containing information about the assignment.
-        /// Note that only the <c>UserId</c> and <c>Name</c> of each <c>SlkUser</c> object within the
-        /// returned <c>AssignmentProperties.Instructors</c> and <c>AssignmentProperties.Learners</c>
-        /// collections is valid, and the <c>Name</c> is a cache of the user's name from the first
-        /// time the user was added to the SLK store (which may not be the user's current name in
-        /// SharePoint).
-        /// </returns>
-        ///
-        private AssignmentProperties LoadAssignmentProperties(AssignmentItemIdentifier assignmentId, SlkRole slkRole, bool basicOnly)
-        {
-            // Security checks: Fails if the user isn't an instructor
-            // on the assignment (if SlkRole=Instructor) or if the user isn't
-            // a learner on the assignment (if SlkRole=Learner).  Implemented
-            // by schema rules.
-
-            // create a LearningStore job
-            LearningStoreJob job = LearningStore.CreateJob();
-
-            // add to <job> request(s) to get information about the assignment
-            BeginGetAssignmentProperties(job, assignmentId, slkRole, basicOnly);
-
-            IEnumerator<object> resultEnumerator;
-            try
-            {
-                // execute the job; set <resultEnumerator> to enumerate the results
-                resultEnumerator = job.Execute().GetEnumerator();
-            }
-            catch (LearningStoreSecurityException)
-            {
-                // this error message includes the assignment ID, but that's okay since
-                // the information we provide does not allow the user to distinguish between the
-                // assignment not existing and the user not having access to it
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            // retrieve from <resultEnumerator> information requested by BeginGetAssignmentProperties()
-            return PopulateAssignmentProperties(resultEnumerator, assignmentId, slkRole, basicOnly);
-        }
-
+        
         /// <summary>
         /// Adds to an existing LearningStore job request(s) to retrieve general information about an
         /// assignment.
@@ -2703,9 +2677,6 @@ namespace Microsoft.SharePointLearningKit
         ///
         /// <param name="slkRole">The <c>SlkRole</c> for which information is to be retrieved.</param>
         ///
-        /// <param name="basicOnly">If <c>true</c>, the <c>Instructors</c> and <c>Learners</c>
-        ///     properties of the returned <c>AssignmentProperties</c> object are not set.</param>
-        ///
         /// <remarks>
         /// <para>
         /// After executing the LearningStore job, call <c>EndGetAssignmentProperties</c> to retrieve
@@ -2713,7 +2684,7 @@ namespace Microsoft.SharePointLearningKit
         /// </para>
         /// </remarks>
         ///
-        private void BeginGetAssignmentProperties(LearningStoreJob job, AssignmentItemIdentifier assignmentId, SlkRole slkRole, bool basicOnly)
+        private void BeginGetAssignmentProperties(LearningStoreJob job, AssignmentItemIdentifier assignmentId, SlkRole slkRole)
         {
             // Security checks: None (since it doesn't call the database or
             // SharePoint)
@@ -2739,38 +2710,29 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentNonELearningLocation);
             job.PerformQuery(query);
 
-            // if specified, request collections
-            if (basicOnly == false)
+            // request the collection of instructors of this assignment
+            query = LearningStore.CreateQuery(Schema.InstructorAssignmentList.ViewName);
+            query.AddColumn(Schema.InstructorAssignmentList.InstructorId);
+            query.AddColumn(Schema.InstructorAssignmentList.InstructorName);
+            query.AddColumn(Schema.InstructorAssignmentList.InstructorKey);
+            query.AddColumn(Schema.InstructorAssignmentList.InstructorAssignmentId);
+            query.AddColumn(Schema.UserItemSite.SPUserId);
+            query.AddCondition(Schema.InstructorAssignmentList.AssignmentId,
+                LearningStoreConditionOperator.Equal, assignmentId);
+            job.PerformQuery(query);
+
+            if (slkRole == SlkRole.Instructor)
             {
-                // request the collection of instructors of this assignment
-                query = LearningStore.CreateQuery(Schema.InstructorAssignmentList.ViewName);
-                query.AddColumn(Schema.InstructorAssignmentList.InstructorId);
-                query.AddColumn(Schema.InstructorAssignmentList.InstructorName);
-                query.AddColumn(Schema.InstructorAssignmentList.InstructorKey);
-                query.AddColumn(Schema.InstructorAssignmentList.InstructorAssignmentId);
+                // request the collection of learners of this assignment
+                query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
+                query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerId);
+                query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerName);
+                query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerKey);
+                query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId);
                 query.AddColumn(Schema.UserItemSite.SPUserId);
-                query.AddCondition(Schema.InstructorAssignmentList.AssignmentId,
-                    LearningStoreConditionOperator.Equal, assignmentId);
+                query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
                 job.PerformQuery(query);
-
-                if (slkRole == SlkRole.Instructor)
-                {
-                    // request the collection of learners of this assignment
-                    query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
-                    query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerId);
-                    query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerName);
-                    query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerKey);
-                    query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId);
-                    query.AddColumn(Schema.UserItemSite.SPUserId);
-                    query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
-                    job.PerformQuery(query);
-                }
             }
-        }
-
-        AssignmentProperties PopulateAssignmentProperties(IEnumerator<object> resultEnumerator, AssignmentItemIdentifier assignmentId, SlkRole slkRole, bool basicOnly)
-        {
-            return PopulateAssignmentProperties(resultEnumerator, assignmentId, slkRole, basicOnly, false);
         }
 
         /// <summary>Populates an AssignmentProperties object.</summary>
@@ -2784,11 +2746,8 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="resultEnumerator">An enumerator that contains the data.</param>
         /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment.</param>
         /// <param name="slkRole">The <c>SlkRole</c> for which information is to be retrieved.</param>
-        /// <param name="basicOnly">If <c>true</c>, the <c>Instructors</c> and <c>Learners</c>
-        ///     properties of the returned <c>AssignmentProperties</c> object are not set.</param>
-        /// <param name="forLearnerAssignment">If <c>true</c> loads the individual learner details.</param>
         /// <returns></returns>
-        AssignmentProperties PopulateAssignmentProperties(IEnumerator<object> resultEnumerator, AssignmentItemIdentifier assignmentId, SlkRole slkRole, bool basicOnly, bool forLearnerAssignment)
+        AssignmentProperties PopulateAssignmentProperties(IEnumerator<object> resultEnumerator, AssignmentItemIdentifier assignmentId, SlkRole slkRole)
         {
             if (!resultEnumerator.MoveNext())
             {
@@ -2848,30 +2807,16 @@ namespace Microsoft.SharePointLearningKit
                 ap.Location = CastNonNull<string>(dataRow[Schema.AssignmentPropertiesView.AssignmentNonELearningLocation]);
             }
 
-            if (!basicOnly)
+            using (SPSite site = new SPSite(SPSiteGuid))
             {
-                using (SPSite site = new SPSite(SPSiteGuid))
+                using (SPWeb web = site.OpenWeb())
                 {
-                    using (SPWeb web = site.OpenWeb())
+                    AddSlkUsers(web, resultEnumerator, ap.Instructors, InstructorAssignmentList.InstructorId, InstructorAssignmentList.InstructorName, InstructorAssignmentList.InstructorKey, 
+                            InstructorAssignmentList.InstructorAssignmentId, "SLK1011");
+                    if (slkRole == SlkRole.Instructor)
                     {
-                        AddSlkUsers(web, resultEnumerator, ap.Instructors, InstructorAssignmentList.InstructorId, InstructorAssignmentList.InstructorName, InstructorAssignmentList.InstructorKey, 
-                                InstructorAssignmentList.InstructorAssignmentId, "SLK1011");
-                        if (slkRole == SlkRole.Instructor)
-                        {
-                            AddSlkUsers(web, resultEnumerator, ap.Learners, LearnerAssignmentListForInstructors.LearnerId, LearnerAssignmentListForInstructors.LearnerName, LearnerAssignmentListForInstructors.LearnerKey, 
-                                    LearnerAssignmentListForInstructors.LearnerAssignmentId, "SLK1011");
-                        }
-                    }
-                }
-            }
-            else if (forLearnerAssignment)
-            {
-                using (SPSite site = new SPSite(SPSiteGuid))
-                {
-                    using (SPWeb web = site.OpenWeb())
-                    {
-                        AddSlkUsers(web, resultEnumerator, ap.Learners, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey, 
-                            LearnerAssignmentList.LearnerAssignmentId, "SLK1011");
+                        AddSlkUsers(web, resultEnumerator, ap.Learners, LearnerAssignmentListForInstructors.LearnerId, LearnerAssignmentListForInstructors.LearnerName, LearnerAssignmentListForInstructors.LearnerKey, 
+                                LearnerAssignmentListForInstructors.LearnerAssignmentId, "SLK1011");
                     }
                 }
             }
@@ -2910,52 +2855,6 @@ namespace Microsoft.SharePointLearningKit
                 // user no longer present. Will be fixed next time assignment properties page is opened
             }
             return new SlkUser(userId, userName, key, spUser);
-        }
-
-
-        /// <summary>
-        /// Retrieves general information about an assignment for the current learner.
-        /// </summary>
-        ///
-        /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to
-        ///     retrieve information about.</param>
-        ///
-        /// <returns>
-        /// An <c>AssignmentProperties</c> object containing information about the assignment.
-        /// Note that only the <c>UserId</c> and <c>Name</c> of each <c>SlkUser</c> object within the
-        /// returned <c>AssignmentProperties.Instructors</c> and <c>AssignmentProperties.Learners</c>
-        /// collections is valid, and the <c>Name</c> is a cache of the user's name from the first
-        /// time the user was added to the SLK store (which may not be the user's current name in
-        /// SharePoint).
-        /// </returns>
-        ///
-        public AssignmentProperties GetAssignmentPropertiesForCurrentLearner(AssignmentItemIdentifier assignmentId)
-        {
-            if (assignmentId == null)
-                throw new ArgumentNullException("assignmentId");
-
-            // create a LearningStore job
-            LearningStoreJob job = LearningStore.CreateJob();
-
-            // add to <job> request(s) to get information about the assignment
-            BeginGetAssignmentPropertiesForCurrentLearner(job, assignmentId);
-
-            IEnumerator<object> resultEnumerator;
-            try
-            {
-                // execute the job; set <resultEnumerator> to enumerate the results
-                resultEnumerator = job.Execute().GetEnumerator();
-            }
-            catch (LearningStoreSecurityException)
-            {
-                // this error message includes the assignment ID, but that's okay since
-                // the information we provide does not allow the user to distinguish between the
-                // assignment not existing and the user not having access to it
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
-            }
-
-            // retrieve from <resultEnumerator> information requested by BeginGetAssignmentProperties()
-            return PopulateAssignmentProperties(resultEnumerator, assignmentId, SlkRole.Learner, true, true);
         }
 
         LearningStoreQuery CreateQueryForLearnerAssignmentProperties(Guid learnerAssignmentGuidId, SlkRole role)
@@ -3007,41 +2906,6 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.LearnerAssignmentList.HasInstructors);
             query.AddCondition(Schema.LearnerAssignmentList.LearnerAssignmentGuidId, LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
             return query;
-        }
-
-        private void BeginGetAssignmentPropertiesForCurrentLearner(LearningStoreJob job, AssignmentItemIdentifier assignmentId)
-        {
-            // request basic information about the specified assignment
-            LearningStoreQuery query = LearningStore.CreateQuery(Schema.AssignmentPropertiesView.ViewName);
-            query.SetParameter(Schema.AssignmentPropertiesView.AssignmentId, assignmentId);
-            query.SetParameter(Schema.AssignmentPropertiesView.IsInstructor, false);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentSPSiteGuid);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentSPWebGuid);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentTitle);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentStartDate);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentDueDate);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentPointsPossible);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentDescription);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentAutoReturn);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentEmailChanges);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentShowAnswersToLearners);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentCreatedById);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentDateCreated);
-            query.AddColumn(Schema.AssignmentPropertiesView.PackageFormat);
-            query.AddColumn(Schema.AssignmentPropertiesView.PackageLocation);
-            query.AddColumn(Schema.AssignmentPropertiesView.AssignmentNonELearningLocation);
-            job.PerformQuery(query);
-
-            // request the collection of learners of this assignment (this returns the current logged
-            //in learner only)
-            query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForLearners.ViewName);
-            query.AddColumn(Schema.LearnerAssignmentListForLearners.LearnerId);
-            query.AddColumn(Schema.LearnerAssignmentListForLearners.LearnerName);
-            query.AddColumn(Schema.LearnerAssignmentListForLearners.LearnerKey);
-            query.AddColumn(Schema.UserItemSite.SPUserId);
-            query.AddCondition(Schema.LearnerAssignmentListForLearners.AssignmentId,
-                LearningStoreConditionOperator.Equal, assignmentId);
-            job.PerformQuery(query);
         }
 
         void DemandRight(LearningStoreJob job, string right, Guid learnerAssignmentGuidId)
