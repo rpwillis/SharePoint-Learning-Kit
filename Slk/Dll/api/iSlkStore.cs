@@ -219,5 +219,10 @@ namespace Microsoft.SharePointLearningKit
         /// the user doesn't have the right to switch to the requested state.</exception>
         void ChangeLearnerAssignmentState(LearnerAssignmentItemIdentifier learnerAssignmentId, LearnerAssignmentState newStatus, bool? isFinal, 
                 AttemptStatus? nonELearningStatus, float? finalPoints, AttemptItemIdentifier attemptId);
+
+        /// <summary>Loads the instructors for an assignment.</summary>
+        /// <param name="id">The id of the assignment.</param>
+        /// <param name="instructors">The collection to add the instructors to.</param>
+        void LoadInstructors(AssignmentItemIdentifier id, SlkUserCollection instructors);
     }
 }

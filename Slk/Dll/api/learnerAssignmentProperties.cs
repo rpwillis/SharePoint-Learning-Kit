@@ -316,6 +316,12 @@ namespace Microsoft.SharePointLearningKit
                 DropBoxManager dropBoxMgr = new DropBoxManager(Assignment);
                 dropBoxMgr.ApplySubmittedPermissions();
             }
+
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("EmailChanges {0} {1}", Assignment.EmailChanges, Assignment.HasInstructors);
+            if (Assignment.EmailChanges)
+            {
+                Assignment.SendSubmitEmail(LearnerName);
+            }
         }
 
         /// <summary>Uploads files and submits the assignment.</summary>

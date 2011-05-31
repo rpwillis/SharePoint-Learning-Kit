@@ -72,7 +72,6 @@ namespace Microsoft.SharePointLearningKit
         /// <returns>The last submitted files.</returns>
         public AssignmentFile[] LastSubmittedFiles(SPUser user, long assignmentKey)
         {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("{0}", user == null);
             if (user == null)
             {
                 throw new ArgumentNullException();
@@ -85,7 +84,6 @@ namespace Microsoft.SharePointLearningKit
                                 </And>
                              </Where>";
             queryXml = string.Format(CultureInfo.InvariantCulture, queryXml, ColumnAssignmentId, assignmentKey, ColumnLearnerId, user.Sid);
-                Microsoft.SharePointLearningKit.WebControls.SlkError.Debug(queryXml);
             SPQuery query = new SPQuery();
             query.ViewAttributes = "Scope=\"Recursive\"";
             query.Query = queryXml;
@@ -93,11 +91,9 @@ namespace Microsoft.SharePointLearningKit
 
             List<AssignmentFile> files = new List<AssignmentFile>();
 
-                Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("query count {0}", items.Count);
 
             foreach (SPListItem item in items)
             {
-                Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("is latest {0}", item[ColumnIsLatest]);
                 if (item[ColumnIsLatest] != null)
                 {
                     if ((bool)item[ColumnIsLatest])
