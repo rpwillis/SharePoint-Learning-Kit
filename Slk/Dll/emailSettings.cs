@@ -26,6 +26,18 @@ namespace Microsoft.SharePointLearningKit
                         case "CancelAssignment":
                             CancelAssignment = new EmailDetails(reader);
                             break;
+                        case "SubmitAssignment":
+                            SubmitAssignment = new EmailDetails(reader);
+                            break;
+                        case "ReactivateAssignment":
+                            ReactivateAssignment = new EmailDetails(reader);
+                            break;
+                        case "CollectAssignment":
+                            CollectAssignment = new EmailDetails(reader);
+                            break;
+                        case "AssignmentReminder":
+                            AssignmentReminder = new EmailDetails(reader);
+                            break;
                         default:
                             reader.Read();
                             break;
@@ -43,6 +55,18 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Email details for a cancelled assignment.</summary>
         public EmailDetails CancelAssignment { get; private set; }
+
+        /// <summary>Email details for a submitted assignment.</summary>
+        public EmailDetails SubmitAssignment { get; private set; }
+
+        /// <summary>Email details for a collected assignment.</summary>
+        public EmailDetails CollectAssignment { get; private set; }
+
+        /// <summary>Email details for a reactivated assignment.</summary>
+        public EmailDetails ReactivateAssignment { get; private set; }
+
+        /// <summary>Email details for a assignment reminder.</summary>
+        public EmailDetails AssignmentReminder { get; private set; }
 #endregion properties
 
 #region public methods

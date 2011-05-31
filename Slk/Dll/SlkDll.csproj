@@ -111,7 +111,6 @@
     </Compile>
     <Compile Include="SlkApi.cs" />
     <Compile Include="api\SlkStore.cs" />
-    <Compile Include="api\gradingProperties.cs" />
     <Compile Include="api\PackageDetails.cs" />
     <Compile Include="api\ISlkStore.cs" />
     <Compile Include="api\slkMemberships.cs" />
@@ -284,13 +283,11 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-      <!--
       <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.SharePoint.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.Storage.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
-      -->
   </Target>
   <PropertyGroup>
     <PostBuildEvent>

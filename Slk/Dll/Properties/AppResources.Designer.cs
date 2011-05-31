@@ -903,11 +903,29 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot change learner assignment because you are not an instructor for the assignment..
+        /// </summary>
+        internal static string ChangeLearnerAssignmentNotInstructor {
+            get {
+                return ResourceManager.GetString("ChangeLearnerAssignmentNotInstructor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email learners on creation or when changed..
         /// </summary>
         internal static string CheckBoxEmailAssignment {
             get {
                 return ResourceManager.GetString("CheckBoxEmailAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment cannot be collected as it is not yet started..
+        /// </summary>
+        internal static string CollectAssignmentNotStarted {
+            get {
+                return ResourceManager.GetString("CollectAssignmentNotStarted", resourceCulture);
             }
         }
         
@@ -3361,6 +3379,42 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assignment cannot be reactivated as it is still active..
+        /// </summary>
+        internal static string ReactivateAssignmentActive {
+            get {
+                return ResourceManager.GetString("ReactivateAssignmentActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment cannot be reactivated as it is not yet started..
+        /// </summary>
+        internal static string ReactivateAssignmentNotStarted {
+            get {
+                return ResourceManager.GetString("ReactivateAssignmentNotStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment cannot be returned as it is still active..
+        /// </summary>
+        internal static string ReturnAssignmentActive {
+            get {
+                return ResourceManager.GetString("ReturnAssignmentActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment cannot be returned as it is not yet started..
+        /// </summary>
+        internal static string ReturnAssignmentNotStarted {
+            get {
+                return ResourceManager.GetString("ReturnAssignmentNotStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a Site Collection.
         /// </summary>
         internal static string SelectSiteCollectionHtml {
@@ -3880,6 +3934,24 @@ namespace Resources.Properties {
         internal static string SubFolderNotFound {
             get {
                 return ResourceManager.GetString("SubFolderNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only the learner can submit the assignment..
+        /// </summary>
+        internal static string SubmitAssignmentNotLearner {
+            get {
+                return ResourceManager.GetString("SubmitAssignmentNotLearner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment cannot be submitted as it is not yet started..
+        /// </summary>
+        internal static string SubmitAssignmentNotStarted {
+            get {
+                return ResourceManager.GetString("SubmitAssignmentNotStarted", resourceCulture);
             }
         }
         

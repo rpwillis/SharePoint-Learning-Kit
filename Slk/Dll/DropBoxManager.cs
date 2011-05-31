@@ -148,9 +148,8 @@ namespace Microsoft.SharePointLearningKit
         }
 
         /// <summary>Uploads files to the learner's drop box.</summary>
-        /// <param name="learnerAssignmentProperties">The learner's assignment properties.</param>
         /// <param name="files">The files to upload.</param>
-        public void UploadFiles(LearnerAssignmentProperties learnerAssignmentProperties, AssignmentUpload[] files)
+        public void UploadFiles(AssignmentUpload[] files)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
@@ -194,22 +193,6 @@ namespace Microsoft.SharePointLearningKit
                     }
                 }
             });
-
-            try
-            {
-                using (SPSite contextSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    contextSite.CatchAccessDeniedException = false;
-                    using (SPWeb contextWeb = contextSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        SlkStore.GetStore(contextWeb).ChangeLearnerAssignmentState(learnerAssignmentProperties.LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
-                    }
-                }
-            }
-            catch (InvalidOperationException)
-            {
-                // state transition isn't supported
-            }
         }
 
         /// <summary>Applys permissions when the document is submitted.</summary>

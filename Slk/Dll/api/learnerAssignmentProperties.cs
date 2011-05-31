@@ -1,6 +1,9 @@
 using System;
+using System.Globalization;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
+using Microsoft.SharePoint;
+using Resources.Properties;
 
 namespace Microsoft.SharePointLearningKit
 {
@@ -121,5 +124,347 @@ namespace Microsoft.SharePointLearningKit
             Assignment = assignment;
         }
 #endregion constructors
+
+#region public methods
+        /// <summary>Starts the assignment.</summary>
+        public void Start()
+        {
+            CheckUserIsLearner();
+
+            // Check the status
+            switch (Status)
+            {
+                case LearnerAssignmentState.NotStarted:
+                    break;
+
+                case LearnerAssignmentState.Active:
+                    return;
+
+                case LearnerAssignmentState.Completed:
+                    throw InvalidTransitionException(LearnerAssignmentState.Completed, LearnerAssignmentState.Active);
+
+                case LearnerAssignmentState.Final:
+                    throw InvalidTransitionException(LearnerAssignmentState.Final, LearnerAssignmentState.Active);
+
+                default:
+                    // New status added
+                    break;
+            }
+
+            StoredLearningSession session = CreateAttemptIfRequired(false);
+
+            LearnerAssignmentState newStatus = LearnerAssignmentState.Active;
+
+            if (session == null)
+            {
+                Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, newStatus, null, NonELearningStatus(AttemptStatus.Active), null, null);
+            }
+            else
+            {
+                Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, newStatus, null, NonELearningStatus(AttemptStatus.Active), null, session.AttemptId);
+            }
+        }
+
+        /// <summary>Returns the assignment.</summary>
+        public void Return()
+        {
+            CheckUserIsInstructor();
+
+            StoredLearningSession session = null;
+
+            // Check the status
+            switch (Status)
+            {
+                case LearnerAssignmentState.NotStarted:
+                    // Force collection & return
+                    session = CreateAttemptIfRequired(false);
+                    break;
+
+                case LearnerAssignmentState.Active:
+                    // Force collection & return
+                    break;
+
+                case LearnerAssignmentState.Completed:
+                    break;
+
+                case LearnerAssignmentState.Final:
+                    // No need to return
+                    return;
+
+                default:
+                    // New status added
+                    break;
+            }
+
+            LearnerAssignmentState newStatus = LearnerAssignmentState.Final;
+
+            if (session == null)
+            {
+                Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, newStatus, true, NonELearningStatus(AttemptStatus.Completed), null, null);
+            }
+            else
+            {
+                Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, newStatus, true, NonELearningStatus(AttemptStatus.Completed), session.TotalPoints, session.AttemptId);
+            }
+        }
+
+        /// <summary>Collects the assignment.</summary>
+        public void Collect()
+        {
+            CheckUserIsInstructor();
+            StoredLearningSession session = null;
+
+            // Check the status
+            switch (Status)
+            {
+                case LearnerAssignmentState.NotStarted:
+                    session = CreateAttemptIfRequired(true);
+                    break;
+
+                case LearnerAssignmentState.Active:
+                    break;
+
+                case LearnerAssignmentState.Completed:
+                    // No need to collect
+                    return;
+
+                case LearnerAssignmentState.Final:
+                    // No need to collect
+                    return;
+
+                default:
+                    // New status added
+                    break;
+            }
+
+            CompleteAssignment(session);
+        }
+
+        /// <summary>reactivates the assignment.</summary>
+        public void Reactivate()
+        {
+            CheckUserIsInstructor();
+
+            // Check the status
+            switch (Status)
+            {
+                case LearnerAssignmentState.NotStarted:
+                    throw InvalidTransitionException(LearnerAssignmentState.NotStarted, LearnerAssignmentState.Active);
+
+                case LearnerAssignmentState.Active:
+                    return; // Already active
+
+                case LearnerAssignmentState.Completed:
+                    break;
+
+                case LearnerAssignmentState.Final:
+                    break;
+
+                default:
+                    // New status added
+                    break;
+            }
+
+            ReactivateSession();
+            LearnerAssignmentState newStatus = LearnerAssignmentState.Active;
+            Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, newStatus, false, NonELearningStatus(AttemptStatus.Active), null, null);
+        }
+
+        /// <summary>Submits the assignment.</summary>
+        public void Submit()
+        {
+            CheckUserIsLearner();
+
+            // Check the status
+            switch (Status)
+            {
+                case LearnerAssignmentState.NotStarted:
+                    throw InvalidTransitionException(LearnerAssignmentState.NotStarted, LearnerAssignmentState.Completed);
+
+                case LearnerAssignmentState.Active:
+                    break;
+
+                case LearnerAssignmentState.Completed:
+                    // Need to transition to Final if auto return assignment
+                    if (Assignment.AutoReturn != true)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                case LearnerAssignmentState.Final:
+                    // Already complete so leave
+                    return;
+
+                default:
+                    // New status added
+                    break;
+            }
+
+            CompleteAssignment(null);
+
+            if (Assignment.IsNonELearning)
+            {
+                DropBoxManager dropBoxMgr = new DropBoxManager(Assignment);
+                dropBoxMgr.ApplySubmittedPermissions();
+            }
+        }
+
+        /// <summary>Uploads files and submits the assignment.</summary>
+        /// <param name="files">The files to upload.</param>
+        public void UploadFilesAndSubmit(AssignmentUpload[] files)
+        {
+            DropBoxManager manager = new DropBoxManager(Assignment);
+            manager.UploadFiles(files);
+            Submit();
+        }
+#endregion public methods
+
+#region private methods
+        void CompleteAssignment(StoredLearningSession newSession)
+        {
+            LearnerAssignmentState newStatus = LearnerAssignmentState.Completed;
+            bool? isFinal = false;
+            if (Assignment.AutoReturn)
+            {
+                newStatus = LearnerAssignmentState.Final;
+                isFinal = true;
+            }
+
+
+            if (newSession == null)
+            {
+                float? finalPoints = null;
+                if (Status == LearnerAssignmentState.Active && Assignment.IsELearning)
+                {
+                    finalPoints = FinishSession();
+                }
+
+                Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, newStatus, isFinal, NonELearningStatus(AttemptStatus.Completed), finalPoints, null);
+            }
+            else
+            {
+                Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, newStatus, isFinal, NonELearningStatus(AttemptStatus.Completed), newSession.TotalPoints, newSession.AttemptId);
+            }
+        }
+
+        void CheckUserIsLearner()
+        {
+            if (Assignment.Store.CurrentUserId != LearnerId)
+            {
+                throw new SafeToDisplayException(AppResources.SubmitAssignmentNotLearner);
+            }
+        }
+
+        void CheckUserIsInstructor()
+        {
+            UserItemIdentifier current = Assignment.Store.CurrentUserId;
+
+            foreach (SlkUser instructor in Assignment.Instructors)
+            {
+                if (instructor.UserId == current)
+                {
+                    return;
+                }
+            }
+
+            throw new SafeToDisplayException(AppResources.ChangeLearnerAssignmentNotInstructor);
+        }
+
+        StoredLearningSession CreateAttemptIfRequired(bool transitionToComplete)
+        {
+            // NotStarted --> Active or Completed or Final
+            if (Assignment.IsELearning)
+            {
+                // create an attempt for this learner assignment
+                StoredLearningSession learningSession = StoredLearningSession.CreateAttempt(Assignment.Store.PackageStore, LearnerId, Assignment.RootActivityId, 
+                        Assignment.Store.Settings.LoggingOptions);
+
+                // start the assignment, forcing selection of a first activity
+                learningSession.Start(true);
+
+                // if NotStarted --> Completed or Final, transition to the Completed state
+                if (transitionToComplete)
+                {
+                    // transition to Completed
+                    learningSession.Exit();
+                }
+
+                // save changes to <learningSession>
+                learningSession.CommitChanges();
+
+                return learningSession;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        float? FinishSession()
+        {
+            if (AttemptId == null)
+            {
+                throw new InternalErrorException("SLK1007");
+            }
+
+            // set <learningSession> to refer to the attempt associated with this learner assignment
+            StoredLearningSession learningSession = new StoredLearningSession(SessionView.Execute, AttemptId, Assignment.Store.PackageStore);
+
+            // transition the attempt to "Completed" state; note that this will initialize the "content score", i.e. the score computed from the content
+            if (learningSession.HasCurrentActivity)
+            {
+                // make sure that if the content wants to suspend itself, it does
+                learningSession.ProcessNavigationRequests();    
+            }
+
+            learningSession.Exit();
+            learningSession.CommitChanges();
+            return learningSession.TotalPoints;
+        }
+
+        void ReactivateSession()
+        {
+            if (AttemptId == null)
+            {
+                throw new InternalErrorException("SLK1010");
+            }
+
+            StoredLearningSession learningSession = new StoredLearningSession(SessionView.RandomAccess, AttemptId, Assignment.Store.PackageStore);
+
+            // reactivate the attempt
+            learningSession.Reactivate(ReactivateSettings.ResetEvaluationPoints);
+            learningSession.CommitChanges();
+
+            // restart the attempt
+            learningSession = new StoredLearningSession(SessionView.Execute, AttemptId, Assignment.Store.PackageStore);
+            learningSession.Start(true);
+            learningSession.CommitChanges();
+            // NOTE: if (learningSession.AttemptStatus != AttemptStatus.Active) then the
+            // restart process failed -- but there's not much we can do about it, and throwing
+            // an exception may make matters worse
+        }
+
+        Exception InvalidTransitionException(LearnerAssignmentState oldStatus, LearnerAssignmentState newStatus)
+        {
+            string message = string.Format(CultureInfo.CurrentUICulture, AppResources.LearnerAssignmentTransitionNotSupported, oldStatus, newStatus);
+            return new InvalidOperationException(message);
+        }
+
+        AttemptStatus? NonELearningStatus(AttemptStatus state)
+        {
+            if (Assignment.IsNonELearning)
+            {
+                return state;
+            }
+            else
+            {
+                return null;
+            }
+        }
+#endregion private methods
     }
 }

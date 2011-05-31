@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.SharePoint;
+using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
+using Microsoft.LearningComponents.SharePoint;
 
 namespace Microsoft.SharePointLearningKit
 {
@@ -30,6 +32,11 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Gets the <c>Guid</c> of the <c>SPSite</c> associated with this <c>SlkStore</c>.</summary>
         Guid SPSiteGuid { get; }
+
+
+        /// <summary>Gets a reference to the <c>SharePointPackageStore</c> associated with this SharePoint
+        /// Learning Kit store.  <c>SharePointPackageStore</c> holds references to e-learning packages stored in SharePoint document libraries.</summary>
+        SharePointPackageStore PackageStore { get; }
 
         /// <summary>Gets the <c>SlkSPSiteMapping</c> of the <c>SPSite</c> associated with this <c>AnonymousSlkStore</c>.</summary>
         SlkSPSiteMapping Mapping { get; }
@@ -155,5 +162,62 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="id">The id of the assignment.</param>
         /// <returns>An <see cref="AssignmentProperties"/>.</returns>
         AssignmentProperties GetGradingProperties(AssignmentItemIdentifier id);
+
+        /// <summary>Changes the <c>LearnerAssignmentState</c> of a learner assignment.</summary>
+        /// <param name="learnerAssignmentId">The ID of the learner assignment to change the
+        ///     <c>LearnerAssignmentState</c> of.</param>
+        /// <param name="newStatus">The <c>LearnerAssignmentState</c> to transition this learner
+        ///     assignment to.  See Remarks for more information.</param>
+        /// <param name="isFinal">Whether the assignment is final or not. Null is do not set.</param>
+        /// <param name="nonELearningStatus">The Non ELearning Status to set. Null is do not set.</param>
+        /// <param name="finalPoints">The final points. Null is do not set.</param>
+        /// <param name="attemptId">The attempt to link to the learner assignment. Null is do not set.</param>
+        /// <remarks>
+        /// <para>
+        /// Only the following state transitions are supported. Enforced by LearnerAssignmentProperties.
+        /// </para>
+        /// <list type="bullet">
+        ///     <item><description><c>Active</c> to <c>Completed</c>.  This "submits" (learner gives
+        ///         assignment back to instructor) or "collects" (instructor takes assignment back
+        ///         from learner) or "marks as complete" (learner record a learner-created assignment
+        ///         as complete) a learner assignment.  This transition may be performed by the
+        ///         instructor of the assignment or the learner who owns this learner assignment.
+        ///         Note that if <c>AssignmentProperties.AutoReturn</c> is <c>true</c> for this
+        ///         assignment, this state transition will automatically cause a second transition,
+        ///         from <c>Completed</c> to <c>Final</c>
+        ///         </description>
+        ///     </item>
+        ///     <item><description><c>Completed</c> to <c>Final</c>.  This "returns" the assignment
+        ///            from the instructor to the learner -- in this case the user must be an instructor
+        ///         on the assignment.  This state transition may also be performed in the case where
+        ///         the instructor caused <c>AssignmentProperties.AutoReturn</c> to be set to
+        ///         <c>true</c> <u>after</u> this assignment transitioned from <c>Active</c> to
+        ///         <c>Completed</c> state -- in this case ("auto-return") the user may be either an
+        ///         instructor of the assignment or the learner who owns this learner assignment.
+        ///         </description>
+        ///     </item>
+        ///     <item><description><c>Completed</c> or <c>Final</c> to <c>Active</c>.  This
+        ///         "reactivates" the assignment, so that the learner may once again work on it.
+        ///         </description>
+        ///     </item>
+        ///     <item><description><c>Active</c> to <c>Final</c>, equivalent to <c>Active</c> to
+        ///         <c>Completed</c> followed by <c>Completed</c> to <c>Final</c>.</description>
+        ///     </item>
+        ///     <item><description><c>NotStarted</c> to <c>Active</c>, <c>Completed</c>, or
+        ///         <c>Final</c>, equivalent to beginning the learner assignment and then transitioning
+        ///         states as described above.</description>
+        ///     </item>
+        /// </list>
+        /// </remarks>
+        /// <remarks>
+        /// <b>Security:</b>&#160; Fails if the
+        /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> doesn't have the right to switch to
+        /// the requested state.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">The requested state transition is not supported.</exception>
+        /// <exception cref="SafeToDisplayException">An error occurred that can be displayed to a browser user.  Possible cause:
+        /// the user doesn't have the right to switch to the requested state.</exception>
+        void ChangeLearnerAssignmentState(LearnerAssignmentItemIdentifier learnerAssignmentId, LearnerAssignmentState newStatus, bool? isFinal, 
+                AttemptStatus? nonELearningStatus, float? finalPoints, AttemptItemIdentifier attemptId);
     }
 }
