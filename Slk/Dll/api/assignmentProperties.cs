@@ -25,6 +25,11 @@ namespace Microsoft.SharePointLearningKit
         bool hasInstructors;
         bool hasInstructorsIsSet;
         SlkUserCollection instructors;
+        List<Email> cachedEmails;
+        List<DropBoxUpdate> cachedDropBoxUpdates;
+        Dictionary<long, LearnerAssignmentProperties> keyedResults = new Dictionary<long, LearnerAssignmentProperties>();
+        DropBoxManager dropBoxManager;
+        SPSite site;
 
 #region properties
         /// <summary>The ISlkStore to use.</summary>
@@ -78,6 +83,12 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>The results of the assignment.</summary>
         public ReadOnlyCollection<LearnerAssignmentProperties> Results { get; private set; }
+
+        /// <summary>Returns the LearnerAssignmentProperties.</summary>
+        public LearnerAssignmentProperties this[long id]
+        {
+            get { return keyedResults[id] ;}
+        }
 
         /// <summary>Gets the <c>Guid</c> of the SPSite that contains the SPWeb that this assignment is associated with.</summary>
         public Guid SPSiteGuid { get; set; }
@@ -232,6 +243,34 @@ namespace Microsoft.SharePointLearningKit
 #endregion constructors
 
 #region public methods
+        /// <summary>Starts the batch for saving the results.</summary>
+        public void StartResultSaving()
+        {
+            cachedEmails = new List<Email>();
+            cachedDropBoxUpdates = new List<DropBoxUpdate>();
+            Store.StartBatchJobs();
+            site = new SPSite(SPSiteGuid);
+            webWhileSaving = site.OpenWeb(SPWebGuid);
+        }
+
+        /// <summary>Completes the batch for saving results.</summary>
+        public void EndResultSaving()
+        {
+            Store.EndBatchJobs();
+            UpdateCachedDropBox();
+            SendCachedEmails();
+            site.Dispose();
+            webWhileSaving.Dispose();
+        }
+
+        /// <summary>Error action on result saving.</summary>
+        public void ErrorOnResultSaving()
+        {
+            Store.CancelBatchJobs();
+            site.Dispose();
+            webWhileSaving.Dispose();
+        }
+
         /// <summary>Sends and email when a learner submits an assignment.</summary>
         /// <param name="name">The name of the learner.</param>
         public void SendSubmitEmail(string name)
@@ -241,11 +280,31 @@ namespace Microsoft.SharePointLearningKit
                 using (SPWeb web = site.OpenWeb(SPWebGuid))
                 {
                     webWhileSaving = web;
-                    Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("SendSubmitEmail {0}", Instructors.Count);
                     SendEmail(Instructors, SubmitSubjectText(name), SubmitBodyText(name));
                     webWhileSaving = null;
                 }
             }
+        }
+
+        /// <summary>Sends an email when an assignment is reactivated.</summary>
+        /// <param name="learner">The learner being reactivated.</param>
+        public void SendReactivateEmail(SlkUser learner)
+        {
+            SendEmail(learner, ReactivateSubjectText(), ReactivateBodyText());
+        }
+
+        /// <summary>Sends an email when an assignment is returned.</summary>
+        /// <param name="learner">The learner being returned.</param>
+        public void SendReturnEmail(SlkUser learner)
+        {
+            SendEmail(learner, ReturnSubjectText(), ReturnBodyText());
+        }
+
+        /// <summary>Sends an email when an assignment is collected.</summary>
+        /// <param name="learner">The learner being collected.</param>
+        public void SendCollectEmail(SlkUser learner)
+        {
+            SendEmail(learner, CollectSubjectText(), CollectBodyText());
         }
 
         /// <summary>Deletes the assignment.</summary>
@@ -472,9 +531,70 @@ namespace Microsoft.SharePointLearningKit
                 }
             }
         }
+
+        /// <summary>Updates the drop box permissions.</summary>
+        /// <param name="state">The state the assignment is moving to.</param>
+        /// <param name="user">The SLK user.</param>
+        public void UpdateDropBoxPermissions(LearnerAssignmentState state, SlkUser user)
+        {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("UpdateDropBoxPermissions {0}", state);
+            if (IsNonELearning)
+            {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("UpdateDropBoxPermissions {0}", IsNonELearning);
+                if (cachedDropBoxUpdates != null)
+                {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("cache {0}", user.SPUser.Name);
+                    cachedDropBoxUpdates.Add(new DropBoxUpdate(state, user.SPUser));
+                }
+                else
+                {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("immediate {0}", user.SPUser.Name);
+                    UpdateDropBoxPermissionsNow(state, user.SPUser);
+                }
+            }
+        }
 #endregion public methods
 
 #region private methods
+        /// <summary>Updates the drop box permissions.</summary>
+        /// <param name="state">The state the assignment is moving to.</param>
+        /// <param name="user">The user.</param>
+        void UpdateDropBoxPermissionsNow(LearnerAssignmentState state, SPUser user)
+        {
+            bool createdManager = false;
+            if (dropBoxManager == null)
+            {
+                dropBoxManager = new DropBoxManager(this);
+                createdManager = true;
+            }
+
+            switch (state)
+            {
+                case LearnerAssignmentState.Active:
+                    // Reactivated
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("update drop box active {0}", user.Name);
+                    dropBoxManager.ApplyReactivateAssignmentPermission(user);
+                    break;
+
+                case LearnerAssignmentState.Completed:
+                    // Collected
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("update drop box Completed {0}", user.Name);
+                    dropBoxManager.ApplyCollectAssignmentPermissions(user);
+                    break;
+
+                case LearnerAssignmentState.Final:
+                    // Return
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("update drop box final {0}", user.Name);
+                    dropBoxManager.ApplyReturnAssignmentPermission(user);
+                    break;
+            }
+
+            if (createdManager)
+            {
+                dropBoxManager = null;
+            }
+        }
+
         void CopyInvariantProperties(AssignmentProperties properties)
         {
             SPSiteGuid = properties.SPSiteGuid;
@@ -549,20 +669,92 @@ namespace Microsoft.SharePointLearningKit
             return EmailText(subject, name);
         }
 
-        string CancelSubjectText()
+        EmailDetails EmailDetails(EmailType type)
         {
-            string subject = null;
             EmailSettings settings = Store.Settings.EmailSettings;
-            if (settings != null && settings.CancelAssignment != null)
+            if (settings != null)
             {
-                subject = settings.CancelAssignment.Subject;
+                return settings[type];
             }
             else
             {
-                subject = AppResources.CancelAssignmentEmailDefaultSubject;
+                return null;
+            }
+        }
+
+        string BodyText(EmailType type, string defaultText)
+        {
+            string body = null;
+
+            EmailDetails details = EmailDetails(type);
+
+            if (details != null)
+            {
+                body = details.Body;
+            }
+            else
+            {
+                body = defaultText;
+            }
+
+            return EmailText(body);
+        }
+
+        string SubjectText(EmailType type, string defaultText)
+        {
+            string subject = null;
+            EmailDetails details = EmailDetails(type);
+
+            if (details != null)
+            {
+                subject = details.Subject;
+            }
+            else
+            {
+                subject = defaultText;
             }
 
             return EmailText(subject);
+        }
+
+        string ReturnSubjectText()
+        {
+            return SubjectText(EmailType.Return, AppResources.ReturnAssignmentEmailDefaultSubject);
+        }
+
+        string ReturnBodyText()
+        {
+            return BodyText(EmailType.Return, AppResources.ReturnAssignmentEmailDefaultBody);
+        }
+
+        string ReactivateSubjectText()
+        {
+            return SubjectText(EmailType.Reactivate, AppResources.ReactivateAssignmentEmailDefaultSubject);
+        }
+
+        string ReactivateBodyText()
+        {
+            return BodyText(EmailType.Reactivate, AppResources.ReactivateAssignmentEmailDefaultBody);
+        }
+
+        string CollectSubjectText()
+        {
+            return SubjectText(EmailType.Collect, AppResources.CollectAssignmentEmailDefaultSubject);
+        }
+
+        string CollectBodyText()
+        {
+            return BodyText(EmailType.Collect, AppResources.CollectAssignmentEmailDefaultBody);
+        }
+
+        string CancelSubjectText()
+        {
+            return SubjectText(EmailType.Cancel, AppResources.CancelAssignmentEmailDefaultSubject);
+        }
+
+        string CancelBodyText()
+        {
+            return BodyText(EmailType.Cancel, AppResources.CancelAssignmentEmailDefaultBody);
         }
 
         string SubmitBodyText(string name)
@@ -579,22 +771,6 @@ namespace Microsoft.SharePointLearningKit
             }
 
             return EmailText(body, name);
-        }
-
-        string CancelBodyText()
-        {
-            string body = null;
-            EmailSettings settings = Store.Settings.EmailSettings;
-            if (settings != null && settings.CancelAssignment != null)
-            {
-                body = settings.CancelAssignment.Body;
-            }
-            else
-            {
-                body = AppResources.CancelAssignmentEmailDefaultBody;
-            }
-
-            return EmailText(body);
         }
 
         string NewSubjectText()
@@ -640,19 +816,47 @@ namespace Microsoft.SharePointLearningKit
         {
             foreach (SlkUser user in toSend)
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("SendEmail {0} {1}", user.Name, user.SPUser == null);
                 SendEmail(user, subject, body);
             }
         }
 
         void SendEmail(SlkUser user, string subject, string body)
         {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("SendEmail {0} {1} {2}", user.SPUser != null, string.IsNullOrEmpty(user.SPUser.Email), user.SPUser.Email);
             if (user.SPUser != null && string.IsNullOrEmpty(user.SPUser.Email) == false)
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("email sent");
-                SPUtility.SendEmail(webWhileSaving, false, false, user.SPUser.Email, subject, UserEmailText(body, user));
+                SendEmail(user.SPUser.Email, subject, UserEmailText(body, user));
             }
+        }
+
+        void SendEmail(string emailAddress, string subject, string body)
+        {
+            if (cachedEmails != null)
+            {
+                cachedEmails.Add(new Email(emailAddress, subject, body));
+            }
+            else
+            {
+                SPUtility.SendEmail(webWhileSaving, false, false, emailAddress, subject, body);
+            }
+        }
+
+        void SendCachedEmails()
+        {
+            foreach (Email email in cachedEmails)
+            {
+                SPUtility.SendEmail(webWhileSaving, false, false, email.Address, email.Subject, email.Body);
+            }
+        }
+
+        void UpdateCachedDropBox()
+        {
+            dropBoxManager = new DropBoxManager(this);
+            foreach (DropBoxUpdate update in cachedDropBoxUpdates)
+            {
+                UpdateDropBoxPermissionsNow(update.State, update.User);
+            }
+
+            dropBoxManager = null;
         }
 
         string UserEmailText(string baseText, SlkUser user)
@@ -771,6 +975,11 @@ namespace Microsoft.SharePointLearningKit
 
         internal void AssignResults(List<LearnerAssignmentProperties> results)
         {
+            foreach (LearnerAssignmentProperties result in results)
+            {
+                keyedResults.Add(result.LearnerAssignmentId.GetKey(), result);
+            }
+
             Results = new ReadOnlyCollection<LearnerAssignmentProperties>(results) ;
         }
 
@@ -877,6 +1086,37 @@ namespace Microsoft.SharePointLearningKit
             return store.GetGradingProperties(assignmentItemIdentifier);
         }
 #endregion public static methods
+
+#region Email
+        class Email
+        {
+            public string Address { get; private set; }
+            public string Subject { get; private set; }
+            public string Body { get; private set; }
+
+            public Email(string address, string subject, string body)
+            {
+                Address = address;
+                Subject = subject;
+                Body = body;
+            }
+        }
+#endregion Email
+
+#region DropBoxUpdate
+        class DropBoxUpdate
+        {
+            public LearnerAssignmentState State { get; private set; }
+            public SPUser User { get; private set; }
+
+            public DropBoxUpdate(LearnerAssignmentState state, SPUser user)
+            {
+                State = state;
+                User = user;
+            }
+        }
+#endregion DropBoxUpdate
     }
+
 }
 

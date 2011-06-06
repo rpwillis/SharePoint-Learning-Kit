@@ -255,10 +255,11 @@ namespace Microsoft.LearningComponents.Storage
         /// <param name="store">A <Typ>LearningStore</Typ> object that references the database to use.</param>
         /// <param name="rootActivityId">The database identifier for the root activity (i.e. organization) of the activity tree to attempt.</param>
         /// <param name="learnerId">The database identifier for the learner information.</param>
+        /// <param name="learnerAssignmentId">The database identifier for the learner assignment information. Only used in SLK.</param>
         /// <param name="loggingFlags">Flags specifying which actions to log.</param>
         /// <returns>A new <Typ>ExecuteNavigator</Typ> object.</returns>
         /// <exception cref="LearningStoreItemNotFoundException">Thrown if the learner ID or root activity ID is invalid, or if the package information cannot be found.</exception>
-        static public ExecuteNavigator CreateExecuteNavigator(LearningStore store, long rootActivityId, long learnerId, LoggingOptions loggingFlags)
+        static public ExecuteNavigator CreateExecuteNavigator(LearningStore store, long rootActivityId, long learnerId, long learnerAssignmentId, LoggingOptions loggingFlags)
         {
             ExecuteNavigator eNav = new ExecuteNavigator();
             
@@ -452,6 +453,10 @@ namespace Microsoft.LearningComponents.Storage
                 Dictionary<string, object> attempt = new Dictionary<string,object>();
                 attempt[Schema.AttemptItem.RootActivityId] = new LearningStoreItemIdentifier(Schema.ActivityPackageItem.ItemTypeName, rootActivityId);
                 attempt[Schema.AttemptItem.LearnerId] = new LearningStoreItemIdentifier(Schema.UserItem.ItemTypeName, learnerId);
+                if (learnerAssignmentId != 0)
+                {
+                    attempt[Schema.AttemptItem.LearnerAssignmentId] = new LearningStoreItemIdentifier("LearnerAssignmentItem", learnerAssignmentId);
+                }
                 attempt[Schema.AttemptItem.PackageId] = new LearningStoreItemIdentifier(Schema.PackageItem.ItemTypeName, eNav.m_packageId);
                 eNav.m_attemptStartTime = DateTime.UtcNow;
                 attempt[Schema.AttemptItem.StartedTimestamp] = eNav.m_attemptStartTime;

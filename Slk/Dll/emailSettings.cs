@@ -17,6 +17,8 @@ namespace Microsoft.SharePointLearningKit
         Reactivate,
         /// <summary>On collecting assignment.</summary>
         Collect,
+        /// <summary>On returning an assignment.</summary>
+        Return,
         /// <summary>A reminder for an assignment.</summary>
         Reminder
     }
@@ -48,6 +50,9 @@ namespace Microsoft.SharePointLearningKit
                         case "ReactivateAssignment":
                             ReactivateAssignment = new EmailDetails(reader);
                             break;
+                        case "ReturnAssignment":
+                            ReturnAssignment = new EmailDetails(reader);
+                            break;
                         case "CollectAssignment":
                             CollectAssignment = new EmailDetails(reader);
                             break;
@@ -74,6 +79,9 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Email details for a submitted assignment.</summary>
         public EmailDetails SubmitAssignment { get; private set; }
+
+        /// <summary>Email details for a returned assignment.</summary>
+        public EmailDetails ReturnAssignment { get; private set; }
 
         /// <summary>Email details for a collected assignment.</summary>
         public EmailDetails CollectAssignment { get; private set; }
@@ -108,8 +116,10 @@ namespace Microsoft.SharePointLearningKit
                         return CollectAssignment;
                     case EmailType.Reminder:
                         return AssignmentReminder;
+                    case EmailType.Return:
+                        return ReturnAssignment;
                     default:
-                        throw new ArgumentOutOfRangeException("type");
+                        return null;
                 }
             }
         }

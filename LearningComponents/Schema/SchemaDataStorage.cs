@@ -1065,6 +1065,7 @@ namespace Microsoft.LearningComponents.Storage.BaseSchema {
     /// <li><Fld>CurrentActivityId</Fld></li>
     /// <li><Fld>FinishedTimestamp</Fld></li>
     /// <li><Fld>LearnerId</Fld></li>
+    /// <li><Fld>LearnerAssignmentId</Fld></li>
     /// <li><Fld>LogDetailSequencing</Fld></li>
     /// <li><Fld>LogFinalSequencing</Fld></li>
     /// <li><Fld>LogRollup</Fld></li>
@@ -1111,6 +1112,20 @@ namespace Microsoft.LearningComponents.Storage.BaseSchema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string LearnerId = "LearnerId";
+        
+        /// <summary>
+        /// Name of the LearnerAssignmentId property on the <Typ>AttemptItem</Typ> item type.
+        /// <para>LearnerAssignmentId is the identifier of the learner assignment.</para>
+        /// </summary>
+        /// <remarks>
+        /// Only used in SLK not plain MLG.
+        /// Property can not contain null.<p/>
+        /// Property does not have a default value.<p/>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string LearnerAssignmentId = "LearnerAssignmentId";
         
         /// <summary>
         /// Name of the RootActivityId property on the <Typ>AttemptItem</Typ> item type.

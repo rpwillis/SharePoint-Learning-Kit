@@ -141,6 +141,48 @@ namespace Microsoft.LearningComponents.Storage
                     ActivityPackageItemIdentifier rootActivityId,
                     LoggingOptions loggingOptions)
         {
+            return CreateAttempt(packageStore, learnerId, new LearningStoreItemIdentifier("LearnerAssignment", 0), rootActivityId, loggingOptions);
+        }
+
+        /// <summary>
+        /// Create an attempt on a specific package. The package must have already been 
+        /// added to LearningStore. Following this method, <Mth>Start</Mth> 
+        /// or <Mth>MoveToActivity</Mth> must be called in order to 
+        /// deliver the first activity.
+        /// </summary>
+        /// <param name="packageStore">The store which contains files from the package associated
+        /// with the attempt.</param>
+        /// <param name="learnerId">The learner who is starting the attempt.</param>
+        /// <param name="learnerId">The learner assignment. Only used in SLK.</param>
+        /// <param name="rootActivityId">The LearningStore id of the organization (ie, root activity) 
+        /// to be attempted.
+        /// </param>
+        /// <param name="loggingOptions">Value to indicate the level of logging requested
+        /// during an attempt.
+        /// </param>
+        /// <returns>Returns a session representing the new attempt. The <c>AttemptStatus</c>
+        /// of the session will be Active. 
+        /// </returns>
+        /// <remarks>
+        /// This method adds attempt information to LearningStore. 
+        /// <p/>After creating the attempt, the caller must call <Mth>Start</Mth> 
+        /// or <Mth>MoveToActivity</Mth> to identify the first
+        /// activity for delivery.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">Thrown when 
+        /// <paramref name="packageStore"/>, <paramref name="learnerId"/> or <paramref name="rootActivityId"/> parameters
+        /// are null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="loggingOptions"/>
+        /// does not contain a valid value.</exception>
+        /// <exception cref="LearningStoreItemNotFoundException">Thrown if the <paramref name="learnerId"/> or 
+        /// <paramref name="rootActivityId"/> do not represent valid objects in LearningStore.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]    // Restricted type is better type-safety
+        public static StoredLearningSession CreateAttempt(PackageStore packageStore,
+                    UserItemIdentifier learnerId,
+                    LearningStoreItemIdentifier learnerAssignmentId,
+                    ActivityPackageItemIdentifier rootActivityId,
+                    LoggingOptions loggingOptions)
+        {
             if (packageStore == null)
                 throw new ArgumentNullException("packageStore");
             if (!ValidateLoggingFlagValue(loggingOptions))
@@ -149,7 +191,7 @@ namespace Microsoft.LearningComponents.Storage
             Utilities.ValidateParameterNonNull("rootActivityId", rootActivityId);
 
             // Create the attempt in LearningStore
-            ExecuteNavigator nav = ExecuteNavigator.CreateExecuteNavigator(packageStore.LearningStore, rootActivityId.GetKey(), learnerId.GetKey(), loggingOptions);
+            ExecuteNavigator nav = ExecuteNavigator.CreateExecuteNavigator(packageStore.LearningStore, rootActivityId.GetKey(), learnerId.GetKey(), learnerAssignmentId.GetKey(), loggingOptions);
             
             // At this point, the attempt information is in the LearningStore. Attempt has not started.
             return new StoredLearningSession(nav, packageStore);

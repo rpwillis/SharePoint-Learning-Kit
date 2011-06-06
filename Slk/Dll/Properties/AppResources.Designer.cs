@@ -921,6 +921,25 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; has been collected in.&lt;/p&gt;
+        ///          &lt;p&gt;&lt;a href=&apos;%url%&apos;&gt;%url%&lt;/a&gt;&lt;/p&gt;.
+        /// </summary>
+        internal static string CollectAssignmentEmailDefaultBody {
+            get {
+                return ResourceManager.GetString("CollectAssignmentEmailDefaultBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment %title% has been collected in.
+        /// </summary>
+        internal static string CollectAssignmentEmailDefaultSubject {
+            get {
+                return ResourceManager.GetString("CollectAssignmentEmailDefaultSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assignment cannot be collected as it is not yet started..
         /// </summary>
         internal static string CollectAssignmentNotStarted {
@@ -3334,6 +3353,24 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Always show the web part even if not an instructor on the site..
+        /// </summary>
+        internal static string QuickAssignmentAlwaysShowDescription {
+            get {
+                return ResourceManager.GetString("QuickAssignmentAlwaysShowDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Always Show.
+        /// </summary>
+        internal static string QuickAssignmentAlwaysShowDisplayName {
+            get {
+                return ResourceManager.GetString("QuickAssignmentAlwaysShowDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assign.
         /// </summary>
         internal static string QuickAssignmentAssignText {
@@ -3370,7 +3407,7 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Display Type..
+        ///   Looks up a localized string similar to Display Mode.
         /// </summary>
         internal static string QuickAssignmentTypeDisplayName {
             get {
@@ -3384,6 +3421,25 @@ namespace Resources.Properties {
         internal static string ReactivateAssignmentActive {
             get {
                 return ResourceManager.GetString("ReactivateAssignmentActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; has been reactivated for you to try again.&lt;/p&gt;
+        ///          &lt;p&gt;&lt;a href=&apos;%url%&apos;&gt;%url%&lt;/a&gt;&lt;/p&gt;.
+        /// </summary>
+        internal static string ReactivateAssignmentEmailDefaultBody {
+            get {
+                return ResourceManager.GetString("ReactivateAssignmentEmailDefaultBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment %title% has been reactivated.
+        /// </summary>
+        internal static string ReactivateAssignmentEmailDefaultSubject {
+            get {
+                return ResourceManager.GetString("ReactivateAssignmentEmailDefaultSubject", resourceCulture);
             }
         }
         
@@ -3402,6 +3458,25 @@ namespace Resources.Properties {
         internal static string ReturnAssignmentActive {
             get {
                 return ResourceManager.GetString("ReturnAssignmentActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; has been returned.&lt;/p&gt;
+        ///          &lt;p&gt;&lt;a href=&apos;%url%&apos;&gt;%url%&lt;/a&gt;&lt;/p&gt;.
+        /// </summary>
+        internal static string ReturnAssignmentEmailDefaultBody {
+            get {
+                return ResourceManager.GetString("ReturnAssignmentEmailDefaultBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment %title% has been returned.
+        /// </summary>
+        internal static string ReturnAssignmentEmailDefaultSubject {
+            get {
+                return ResourceManager.GetString("ReturnAssignmentEmailDefaultSubject", resourceCulture);
             }
         }
         

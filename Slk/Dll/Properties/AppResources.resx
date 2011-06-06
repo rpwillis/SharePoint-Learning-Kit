@@ -737,13 +737,21 @@ saving, click Cancel.</value>
     <value>Edit Assignment</value>
     <comment>Edit Assignment in Title Area</comment>
   </data>
+  <data name="QuickAssignmentAlwaysShowDisplayName" xml:space="preserve">
+    <value>Always Show</value>
+    <comment>Quick Assignment web part Always Show display name Attribute Value</comment>
+  </data>
+  <data name="QuickAssignmentAlwaysShowDescription" xml:space="preserve">
+    <value>Always show the web part even if not an instructor on the site.</value>
+    <comment>Quick Assignment web part Mode description Attribute Value</comment>
+  </data>
   <data name="QuickAssignmentTypeDisplayName" xml:space="preserve">
-    <value>Display Type.</value>
-    <comment>Quick Assignment web part type display name Attribute Value</comment>
+    <value>Display Mode</value>
+    <comment>Quick Assignment web part Mode display name Attribute Value</comment>
   </data>
   <data name="QuickAssignmentTypeDescription" xml:space="preserve">
     <value>Controls how the control is used.</value>
-    <comment>Quick Assignment web part type description Attribute Value</comment>
+    <comment>Quick Assignment web part Mode description Attribute Value</comment>
   </data>
   <data name="AlwpDisplaySummaryDescription" xml:space="preserve">
     <value>Show the control for selecting a query to display in the assignment list.</value>
@@ -1602,6 +1610,27 @@ More information may be available in the server event log.</value>
       <value><![CDATA[<p>You have been assigned a new piece of work: <strong>%title%</strong>.</p>
 <p>%description%</p>
 <p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="ReactivateAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% has been reactivated</value>
+  </data>
+  <data name="ReactivateAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> has been reactivated for you to try again.</p>
+          <p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="CollectAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% has been collected in</value>
+  </data>
+  <data name="CollectAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> has been collected in.</p>
+          <p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="ReturnAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% has been returned</value>
+  </data>
+  <data name="ReturnAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> has been returned.</p>
+          <p><a href='%url%'>%url%</a></p>]]></value>
   </data>
   <data name="SubmitAssignmentEmailDefaultSubject" xml:space="preserve">
     <value>Assignment %title% submitted by %name%</value>
