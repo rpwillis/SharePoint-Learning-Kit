@@ -207,9 +207,13 @@ namespace Microsoft.LearningComponents.Storage
                 // Verify that the passed-in options are compatible
                 if ((transactionOptions.IsolationLevel != System.Transactions.IsolationLevel.Unspecified) &&
                    (transactionOptions.IsolationLevel != m_priorScope.Transaction.IsolationLevel))
+                {
                     throw new InvalidOperationException(LearningStoreStrings.MismatchedIsolationLevel);
+                }
                 if (transactionOptions.Timeout != TimeSpan.Zero)
+                {
                     throw new InvalidOperationException(LearningStoreStrings.TimeoutMustBeZero);
+                }
 
                 m_dependentTransaction = m_priorScope.m_transaction.DependentClone(DependentCloneOption.RollbackIfNotComplete);
                 m_transaction = m_priorScope.m_transaction;

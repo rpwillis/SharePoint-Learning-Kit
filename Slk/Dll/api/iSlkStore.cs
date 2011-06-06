@@ -166,12 +166,10 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Changes the <c>LearnerAssignmentState</c> of a learner assignment.</summary>
         /// <param name="learnerAssignmentId">The ID of the learner assignment to change the
         ///     <c>LearnerAssignmentState</c> of.</param>
-        /// <param name="newStatus">The <c>LearnerAssignmentState</c> to transition this learner
-        ///     assignment to.  See Remarks for more information.</param>
         /// <param name="isFinal">Whether the assignment is final or not. Null is do not set.</param>
         /// <param name="nonELearningStatus">The Non ELearning Status to set. Null is do not set.</param>
-        /// <param name="finalPoints">The final points. Null is do not set.</param>
-        /// <param name="attemptId">The attempt to link to the learner assignment. Null is do not set.</param>
+        /// <param name="saveFinalPoints">Whether to save final points or not.</param>
+        /// <param name="finalPoints">The final points.</param>
         /// <remarks>
         /// <para>
         /// Only the following state transitions are supported. Enforced by LearnerAssignmentProperties.
@@ -217,12 +215,33 @@ namespace Microsoft.SharePointLearningKit
         /// <exception cref="InvalidOperationException">The requested state transition is not supported.</exception>
         /// <exception cref="SafeToDisplayException">An error occurred that can be displayed to a browser user.  Possible cause:
         /// the user doesn't have the right to switch to the requested state.</exception>
-        void ChangeLearnerAssignmentState(LearnerAssignmentItemIdentifier learnerAssignmentId, LearnerAssignmentState newStatus, bool? isFinal, 
-                AttemptStatus? nonELearningStatus, float? finalPoints, AttemptItemIdentifier attemptId);
+        void ChangeLearnerAssignmentState(LearnerAssignmentItemIdentifier learnerAssignmentId, bool? isFinal, 
+                AttemptStatus? nonELearningStatus, bool saveFinalPoints, float? finalPoints);
 
         /// <summary>Loads the instructors for an assignment.</summary>
         /// <param name="id">The id of the assignment.</param>
         /// <param name="instructors">The collection to add the instructors to.</param>
         void LoadInstructors(AssignmentItemIdentifier id, SlkUserCollection instructors);
+
+        /// <summary>Saves changes to the learner assignment.</summary>
+        /// <param name="learnerAssignmentId">The id of the LearnerAssignment.</param>
+        /// <param name="ignoreFinalPoints">Whether to ignore the final points.</param>
+        /// <param name="finalPoints">The final points to save.</param>
+        /// <param name="instructorComments">The instructor comments.</param>
+        /// <param name="grade">The grade.</param>
+        /// <param name="isFinal">Whether the assignment is final or not. Null is do not set.</param>
+        /// <param name="nonELearningStatus">The Non ELearning Status to set. Null is do not set.</param>
+        void SaveLearnerAssignment(LearnerAssignmentItemIdentifier learnerAssignmentId, bool ignoreFinalPoints, float? finalPoints, string instructorComments, 
+                            string grade, bool? isFinal, AttemptStatus? nonELearningStatus);
+
+        /// <summary>Starts a set of batch jobs.</summary>
+        void StartBatchJobs();
+
+        /// <summary>Completes a set of batch jobs.</summary>
+        void EndBatchJobs();
+
+        /// <summary>Cancels the batch jobs.</summary>
+        void CancelBatchJobs();
     }
 }
+

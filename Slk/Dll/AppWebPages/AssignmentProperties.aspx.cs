@@ -971,12 +971,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //Set DateTime Start and Due Date 
             if (AssignmentProperties.DueDate != null)
             {
-                spDateTimeDue.SelectedDate = AssignmentProperties.DueDate.Value;
+                spDateTimeDue.SelectedDate = AssignmentProperties.DueDate.Value.ToLocalTime();
             }
 
             if (AppMode == PageMode.Edit)
             {
-                spDateTimeStart.SelectedDate = AssignmentProperties.StartDate;
+                spDateTimeStart.SelectedDate = AssignmentProperties.StartDate.ToLocalTime();
             }
 
             //Add the Learners Assignment Items 
@@ -1045,11 +1045,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
 
             //Set the selected StartDate/Due Date Value
-            AssignmentProperties.StartDate = spDateTimeStart.SelectedDate;
+            AssignmentProperties.StartDate = spDateTimeStart.SelectedDate.ToUniversalTime();
 
             if (!spDateTimeDue.IsDateEmpty)
             {
-                AssignmentProperties.DueDate = spDateTimeDue.SelectedDate;
+                AssignmentProperties.DueDate = spDateTimeDue.SelectedDate.ToUniversalTime();
             }
 
             AssignmentProperties.AutoReturn = chkAutoReturnLearners.Checked;

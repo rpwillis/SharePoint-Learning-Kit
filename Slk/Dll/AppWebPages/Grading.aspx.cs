@@ -106,8 +106,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Holds Assignment Properties.
         /// </summary>
-        private AssignmentProperties m_assignmentProperties;
-        ReadOnlyCollection<LearnerAssignmentProperties> learnersGradingCollection;
+        private AssignmentProperties assignmentProperties;
         /// <summary>
         /// Keeps track if there was an error during one of the click events.
         /// </summary>
@@ -151,27 +150,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             set
             {
-                m_assignmentProperties = value;
+                assignmentProperties = value;
             }
             get
             {
-                if (m_assignmentProperties == null)
+                if (assignmentProperties == null)
                 {
-                    LoadAssignmentProperties();
+                    assignmentProperties = AssignmentProperties.LoadForGrading(AssignmentItemIdentifier, SlkStore);
                 }
-                return m_assignmentProperties;
-            }
-        }
-
-        ReadOnlyCollection<LearnerAssignmentProperties> LearnersGradingCollection
-        {
-            get
-            {
-                if (learnersGradingCollection == null)
-                {
-                    LoadAssignmentProperties();
-                }
-                return learnersGradingCollection;
+                return assignmentProperties;
             }
         }
 
@@ -188,12 +175,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             try
             {
                 SetResourceText();
+                LoadGradingList();
 
                 if (!pageHasErrors)
                 {
-                    LoadGradingList();
-
-                    DisplayUploadAndDownloadButtons();
 
                     if (SPWeb.ID != AssignmentProperties.SPWebGuid)
                     {
@@ -209,7 +194,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         lblPointsValue.Text = AssignmentProperties.PointsPossible.Value.ToString(Constants.RoundTrip, NumberFormatInfo);
                     }
-                    lblStartValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate);
+                    lblStartValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate.ToLocalTime());
 
                     if (AssignmentProperties.DueDate.HasValue)
                     {
@@ -276,6 +261,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("btnSave_Click");
                 SaveGradingList(SaveAction.SaveOnly);
                 // Make the page safe to refresh
                 Response.Redirect(Request.RawUrl, true);
@@ -288,6 +274,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             catch (Exception ex)
             {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug(ex.ToString());
                 pageHasErrors = true;
                 errorBanner.AddException(ex);
             }
@@ -433,13 +420,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #region DisplayUploadAndDownloadButtons
 
-        void LoadAssignmentProperties()
-        {
-            m_assignmentProperties = AssignmentProperties.LoadForGrading(AssignmentItemIdentifier, SlkStore);
-            learnersGradingCollection = AssignmentProperties.Results;
-        }
-
-
         /// <summary>
         /// This function checks if all learners have completed their assignment in order
         /// to display the "upload commented files" and "Download All Files" buttons for the instructor
@@ -549,7 +529,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             if (action == SaveAction.CollectAll || action == SaveAction.ReturnAll)
             {
-                foreach (GradingItem item in gradingList.Items)
+                foreach (GradingItem item in gradingList.Items.Values)
                 {
                     switch (action)
                     {
@@ -569,109 +549,65 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
             }
 
-            DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("gradingListItems.Count {0}", gradingListItems.Count);
 
-            foreach (GradingItem item in gradingListItems.Values)
+            if (gradingListItems.Count > 0)
             {
-                LearnerAssignmentProperties gradingProperties = new LearnerAssignmentProperties(new LearnerAssignmentItemIdentifier(item.LearnerAssignmentId), AssignmentProperties);
-                gradingProperties.FinalPoints = item.FinalScore;
-                gradingProperties.Grade = item.Grade;
-                gradingProperties.InstructorComments = item.InstructorComments;
+                AssignmentProperties.StartResultSaving();
 
-                // Ignore the FinalScore Update if the Status is NotStarted or Active
-                if (item.Status == LearnerAssignmentState.NotStarted || item.Status == LearnerAssignmentState.Active)
+                try
                 {
-                    gradingProperties.IgnoreFinalPoints = true;
-                }
+                    foreach (GradingItem item in gradingListItems.Values)
+                    {
+                        bool moveStatusForward = false;
+                        bool returnAssignment = false;
+                        LearnerAssignmentProperties gradingProperties = AssignmentProperties[item.LearnerAssignmentId];
+                        gradingProperties.FinalPoints = item.FinalScore;
+                        gradingProperties.Grade = item.Grade;
+                        gradingProperties.InstructorComments = item.InstructorComments;
 
-
-                switch (action)
-                {
-                    case SaveAction.SaveOnly:
-                        // The Save or OK button was clicked
-                        if (item.ActionState)
-                        {
-                            switch (item.Status)
-                            {
-                                case LearnerAssignmentState.NotStarted:
-
-                                    // Update corresponding drop box permissions
-                                    if(AssignmentProperties.IsNonELearning)
-                                    {
-                                        dropBoxMgr.ApplyCollectAssignmentPermissions(item.LearnerId);
-                                    }
-
-                                    gradingProperties.Status = LearnerAssignmentState.Completed;
-                                    break;
-
-                                case LearnerAssignmentState.Active:
-
-                                    // Update corresponding drop box permissions
-                                    if (AssignmentProperties.IsNonELearning)
-                                    {
-                                        dropBoxMgr.ApplyCollectAssignmentPermissions(item.LearnerId);
-                                    }
-                                    
-                                        gradingProperties.Status = LearnerAssignmentState.Completed;
-                                    break;
-                                case LearnerAssignmentState.Completed:
-                                    // Update corresponding drop box permissions
-                                    if (AssignmentProperties.IsNonELearning)
-                                    {
-                                        dropBoxMgr.ApplyReturnAssignmentPermission(item.LearnerId);
-                                    }
-                                    
-                                        gradingProperties.Status = LearnerAssignmentState.Final;
-                                    break;
-                                case LearnerAssignmentState.Final:
-
-                                    // Update corresponding drop box permissions
-                                    if (AssignmentProperties.IsNonELearning)
-                                    {
-                                        dropBoxMgr.ApplyReactivateAssignmentPermission(item.LearnerId);
-                                    }
-
-                                    gradingProperties.Status = LearnerAssignmentState.Active;
-                                    break;
-                            }
-                        }
-                        break;
-                    case SaveAction.CollectAll:
-                        // The Collect All button was clicked
+                        // Ignore the FinalScore Update if the Status is NotStarted or Active
                         if (item.Status == LearnerAssignmentState.NotStarted || item.Status == LearnerAssignmentState.Active)
                         {
-                            // Update corresponding drop box permissions
-                            if (AssignmentProperties.IsNonELearning)
-                            {
-                                dropBoxMgr.ApplyCollectAssignmentPermissions(item.LearnerId);
-                            }
-
-                            gradingProperties.Status = LearnerAssignmentState.Completed;
+                            gradingProperties.IgnoreFinalPoints = true;
                         }
-                        else
-                            gradingProperties.Status = item.Status;
 
-                        break;
-                    case SaveAction.ReturnAll:
-                        // The Return All button was clicked
-                        // Update corresponding drop box permissions
-                        if (AssignmentProperties.IsNonELearning)
+                        switch (action)
                         {
-                            dropBoxMgr.ApplyReturnAssignmentPermission(item.LearnerId);
+                            case SaveAction.SaveOnly:
+                                // The Save or OK button was clicked
+                                moveStatusForward = item.ActionState;
+                                break;
+
+                            case SaveAction.CollectAll:
+                                // The Collect All button was clicked
+                                if (item.Status == LearnerAssignmentState.NotStarted || item.Status == LearnerAssignmentState.Active)
+                                {
+                                    moveStatusForward = true;
+                                }
+                                break;
+
+                            case SaveAction.ReturnAll:
+                                if (item.Status != LearnerAssignmentState.Final)
+                                {
+                                    returnAssignment = true;
+                                }
+                                break;
                         }
 
-                        gradingProperties.Status = LearnerAssignmentState.Final;
-                        break;
-                }
-                gradingPropertiesList.Add(gradingProperties);
-            }
+                        gradingProperties.Save(moveStatusForward, returnAssignment);
+                    }
 
-            string warning = SlkStore.SetGradingProperties(AssignmentItemIdentifier, gradingPropertiesList);
-            if (!string.IsNullOrEmpty(warning))
-            {
-                errorBanner.AddError(ErrorType.Warning, warning);
+                    AssignmentProperties.EndResultSaving();
+                }
+                catch
+                {
+                    AssignmentProperties.ErrorOnResultSaving();
+                    throw;
+                }
             }
         }
+
         #endregion
 
         #region LoadGradingList

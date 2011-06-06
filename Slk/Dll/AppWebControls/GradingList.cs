@@ -38,7 +38,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
     {
 
         #region Private Fields
-        AssignmentProperties assignmentProperties;
         /// <summary>
         ///  Collection of Grading Items.
         /// </summary>
@@ -57,9 +56,9 @@ namespace Microsoft.SharePointLearningKit.WebControls
         public GradingList()
         {
             //Initialize the GradingItem Collection
-            this.m_items = new GradingItemCollection();
+            m_items = new GradingItemCollection();
         }
-        #endregion
+        #endregion Constructor
 
         #region Public and Private Properties
 
@@ -72,79 +71,33 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>The url to the learner report.</summary>
         string LearnerReportUrl { get; set; }
 
-        /// <summary>
-        /// Returns Unique ID to the Control.
-        /// </summary>
-        public override string UniqueID
-        {
-            get
-            {
-                return base.UniqueID;
-            }
-        }
-
         /// <summary>The AssignmentProperties to use.</summary>
-        public AssignmentProperties AssignmentProperties
-        {
-            get { return assignmentProperties ;}
-            set { assignmentProperties = value ;}
-        }
+        public AssignmentProperties AssignmentProperties { get; set; }
 
         /// <summary>
         /// FinalPoints Field TextBox Control ID
         /// </summary>
-        private string FinalScoreId
-        {
-            get { return this.ClientID + ClientIDSeparator + "txtFinalScore" + ClientIDSeparator; }
-        }
+        private string FinalScoreId { get; set; }
 
         /// <summary>Comments Field TextBox Control ID</summary>
-        private string CommentsId
-        {
-            get { return this.ClientID + ClientIDSeparator + "txtComments" + ClientIDSeparator; }
-        }
+        private string CommentsId { get; set; }
 
         /// <summary>Grade Field TextBox Control ID</summary>
-        private string GradeId
-        {
-            get { return this.ClientID + ClientIDSeparator + "txtGrade" + ClientIDSeparator; }
-        }
+        private string GradeId { get; set; }
 
-        /// <summary>
-        /// Action Field CheckBox Control ID
-        /// </summary>
-        private string ActionId
-        {
-            get { return this.ClientID + ClientIDSeparator + "chkAction" + ClientIDSeparator; }
-        }
+        /// <summary>Action Field CheckBox Control ID</summary>
+        private string ActionId { get; set; }
 
-        /// <summary>
-        /// Grading Score Control ID
-        /// </summary>
-        private string GradingScoreId
-        {
-            get { return this.ClientID + ClientIDSeparator + "lblGradedScore" + ClientIDSeparator; }
-        }
+        /// <summary>Grading Score Control ID</summary>
+        private string GradingScoreId { get; set; }
 
-        /// <summary>
-        /// Grading Image Control ID
-        /// </summary>
-        private string GradingImageId
-        {
-            get { return this.ClientID + ClientIDSeparator + "imgGraded" + ClientIDSeparator; }
-        }
+        /// <summary>Grading Image Control ID</summary>
+        private string GradingImageId { get; set; }
 
-        /// <summary>
-        /// Grading Row ID
-        /// </summary>
-        private string GradingRowId
-        {
-            get { return this.ClientID + ClientIDSeparator + "gradingRow" + ClientIDSeparator; }
-        }
+        /// <summary>Grading Row ID</summary>
+        private string GradingRowId { get; set; }
 
-        /// <summary>
-        /// Collection of Grading Items to be listed
-        /// </summary>
+        /// <summary>Collection of Grading Items to be listed</summary>
         [PersistenceMode(PersistenceMode.InnerProperty)]
         internal GradingItemCollection Items
         {
@@ -191,18 +144,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
         #region Add
         /// <summary>
-        /// Adds the GradingItem to the GradingItemCollection             
-        /// </summary>
-        /// <param name="item">GradingItem</param> 
-        private void Add(GradingItem item)
-        {
-            //adds the GradingItem to the GradingItemCollection
-            this.m_items.Add(item);
-        }
-        #endregion
-
-        #region Add
-        /// <summary>
         /// Adds the LearnerAssignmentProperties to the GradingItemCollection             
         /// </summary>
         /// <param name="gradingProperties">Grading Properties</param> 
@@ -220,10 +161,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             item.SuccessStatus = gradingProperties.SuccessStatus;
             item.LearnerAssignmentGuidId = gradingProperties.LearnerAssignmentGuidId;
             item.LearnerId = gradingProperties.LearnerId.GetKey();
-            item.FileSubmissionState = GetFileSubmissionValue(gradingProperties);
-
-            //adds the GradingItem to the GradingItemCollection
-            Add(item);
+            this.m_items.Add(item);
         }
         #endregion
 
@@ -235,15 +173,12 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <returns>File Submission State to be displayed in the File Submission Column</returns>
         public string GetFileSubmissionValue(LearnerAssignmentProperties gradingProperties)
         {
-            SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
-
             //The package is e-learning content
-            if (assignmentProperties.IsELearning)
+            if (AssignmentProperties.IsELearning)
             {
                 return AppResources.GradingFileSubmissionNA;
             }
-            else if ((gradingProperties.Status.ToString() == LearnerAssignmentState.Completed.ToString()) ||
-               (gradingProperties.Status.ToString() == LearnerAssignmentState.Final.ToString()))
+            else if (gradingProperties.Status == LearnerAssignmentState.Completed || gradingProperties.Status == LearnerAssignmentState.Final)
             {
                 return AppResources.GradingFileSubmissionSubmitted;
             }
@@ -268,6 +203,12 @@ namespace Microsoft.SharePointLearningKit.WebControls
             RegisterGradingClientScriptBlock();
         }
         #endregion+
+
+        /// <summary>See <see cref="Control.OnLoad"/>.</summary>
+        protected override void OnLoad(EventArgs e)
+        {
+            SetUpIds();
+        }
 
         #region Render
         /// <summary>
@@ -305,7 +246,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                     // render the Status column headers
                                     RenderColumnHeader(AppResources.GradingStatusHeaderText, writer);
 
-                                    if (assignmentProperties.IsNonELearning)
+                                    if (AssignmentProperties.IsNonELearning)
                                     {
                                         // render the File Submission column headers
                                         RenderColumnHeader(AppResources.GradingFileSubmissionHeaderText, writer);
@@ -325,7 +266,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                     // render the Action column headers
                                     RenderColumnHeader(AppResources.GradingActionHeaderText, writer);
                                 }
-                                foreach (GradingItem item in Items)
+                                foreach (GradingItem item in Items.Values)
                                 {
                                     RenderGradingItem(item, writer);
                                 }
@@ -427,7 +368,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 lnkLearnerItem.ID = "lnkLearner" + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                 lnkLearnerItem.Text = item.LearnerName;
 
-                if (assignmentProperties.IsELearning)
+                if (AssignmentProperties.IsELearning)
                 {
                     string extraQueryString = null;
                     Frameset.AssignmentView view = Frameset.AssignmentView.InstructorReview;
@@ -467,11 +408,11 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 }
                 else
                 {
-                    DropBoxManager dropBox = new DropBoxManager(assignmentProperties);
+                    DropBoxManager dropBox = new DropBoxManager(AssignmentProperties);
                     AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
                     if (files.Length > 0)
                     {
-                        SetUpSubmittedFileHyperLink(lnkLearnerItem, files, item);
+                        SetUpSubmittedFileHyperLink(lnkLearnerItem, files, item.LearnerAssignmentGuidId);
                     }
                 }
 
@@ -488,45 +429,41 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="htmlTextWriter">Text Writer to write to.</param>
         private void RenderFileSubmissionState(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
-            //If the state is "NA" or "Not Submitted", display it as label text
-            if (item.FileSubmissionState.Equals(AppResources.GradingFileSubmissionNA) ||
-                item.FileSubmissionState.Equals(AppResources.GradingFileSubmissionNotSubmitted))
+            WebControl control;
+
+            if (item.Status == LearnerAssignmentState.Completed || item.Status == LearnerAssignmentState.Final)
             {
-                Label lblFileSubmissionState = new Label();
-                lblFileSubmissionState.ID = "lblFileSubmissionState";
-                lblFileSubmissionState.Text = item.FileSubmissionState;
-                lblFileSubmissionState.RenderControl(htmlTextWriter);
-            }
-            else
-            {
-                DropBoxManager dropBox = new DropBoxManager(assignmentProperties);
+                DropBoxManager dropBox = new DropBoxManager(AssignmentProperties);
                 AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
 
                 if (files.Length == 0)
                 {
-                    // Really an error condition as shouldn't be in submitted state
-                    Label lblFileSubmissionState = new Label();
-                    lblFileSubmissionState.ID = "lblFileSubmissionState";
-                    lblFileSubmissionState.Text = item.FileSubmissionState;
-                    lblFileSubmissionState.RenderControl(htmlTextWriter);
+                    control = new Label();
+                    ((Label)control).Text = AppResources.GradingFileSubmissionSubmitted;
                 }
                 else
                 {
-                    HyperLink link = new HyperLink();
-                    link.ID = "lnkFileSubmissionState" + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
-                    link.Text = item.FileSubmissionState;
-                    SetUpSubmittedFileHyperLink(link, files, item);
-                    link.RenderControl(htmlTextWriter);
+                    control = new HyperLink();
+                    ((HyperLink)control).Text = AppResources.GradingFileSubmissionSubmitted;
+                    SetUpSubmittedFileHyperLink((HyperLink)control, files, item.LearnerAssignmentGuidId);
                 }
             }
+            else
+            {
+                control = new Label();
+                ((Label)control).Text = AppResources.GradingFileSubmissionNotSubmitted;
+            }
+
+            control.ID = "lnkFileSubmissionState" + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
+            control.RenderControl(htmlTextWriter);
         }
 
-        void SetUpSubmittedFileHyperLink(HyperLink link, AssignmentFile[] files, GradingItem item)
+        void SetUpSubmittedFileHyperLink(HyperLink link, AssignmentFile[] files, Guid learnerAssignmentGuidId)
         {
             SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
             if (files.Length > 1)
             {
-                string url = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", slkAppBasePage.SPWeb.Url, item.LearnerAssignmentGuidId);
+                string url = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", slkAppBasePage.SPWeb.Url, learnerAssignmentGuidId);
                 string script = string.Format("window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable');return false;", url);
                 link.Attributes.Add("onclick", script);
                 link.NavigateUrl = "#";
@@ -693,8 +630,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="htmlTextWriter">Text Writer to write to.</param>
         private void RenderActionCheckBox(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
-            string uniqueId
-                = ActionId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
+            string uniqueId = ActionId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
             string actionToolTip = String.Empty;
             switch (item.Status)
             {
@@ -764,7 +700,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="htmlTextWriter">htmlTextWriter</param>
         private void RenderGradingItem(GradingItem item, HtmlTextWriter htmlTextWriter)
         {
-
             string focusScript = String.Format(CultureInfo.InvariantCulture, "Slk_GradingHighlightGradingRow({0});", item.LearnerAssignmentId);
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Onclick, focusScript);
 
@@ -788,7 +723,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     htmlTextWriter.Write(SlkUtilities.GetLearnerAssignmentState(item.Status));
                 }
 
-                if (assignmentProperties.IsNonELearning)
+                if (AssignmentProperties.IsNonELearning)
                 {
                     //Render file submission state 
                     htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
@@ -880,20 +815,15 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="controlValue">Value</param>       
         private void SetGradingItems(string controlId, string controlValue)
         {
-
             //Find  the Control and update the corresponding Grading Item   
-
-            GradingItem item = null;
-
             bool isGradingItemChanged = false;
-            string key = string.Empty;
+            string key = controlId.Substring(FinalScoreId.Length); // All control ids are same length
+            long keyValue = long.Parse(key, CultureInfo.InvariantCulture);
+            GradingItem item = Items[keyValue];
 
             //set the Final Score Value
             if (controlId.StartsWith(FinalScoreId, StringComparison.Ordinal))
             {
-                key = controlId.Substring(FinalScoreId.Length);
-
-                GetGradingItem(key, out item);
                 float? finalScore = null;
 
                 if (!String.IsNullOrEmpty(controlValue))
@@ -917,9 +847,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
             }  //set the Grade Value
             else if (controlId.StartsWith(GradeId, StringComparison.Ordinal))
             {
-                key = controlId.Substring(GradeId.Length);
-                GetGradingItem(key, out item);
-
                 if (item.Grade != controlValue)
                 {
                     isGradingItemChanged = true;
@@ -929,9 +856,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
             } //set the Comments Value
             else if (controlId.StartsWith(CommentsId, StringComparison.Ordinal))
             {
-                key = controlId.Substring(CommentsId.Length);
-                GetGradingItem(key, out item);
-
                 if (item.InstructorComments != controlValue)
                 {
                     isGradingItemChanged = true;
@@ -941,12 +865,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             } //set the Action Value
             else if (controlId.StartsWith(ActionId, StringComparison.Ordinal))
             {
-                key = controlId.Substring(ActionId.Length);
-
-                GetGradingItem(key, out item);
-
-                bool actionState = (controlValue == "on") ?
-                    true : false;
+                bool actionState = (controlValue == "on") ?  true : false;
 
                 if (item.ActionState != actionState)
                 {
@@ -989,15 +908,16 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 }
             }
 
+            // Add any items in LearnerItemsChanged which are not included already
             if (Items.LearnerItemsChanged != null && Items.LearnerItemsChanged.Count > 0)
             {
                 foreach (long key in Items.LearnerItemsChanged)
                 {
                     string itemKey = key.ToString(CultureInfo.InvariantCulture);
 
-                    if (!(m_postBackGradingItems.ContainsKey(itemKey)))
+                    if ((m_postBackGradingItems.ContainsKey(itemKey)) == false)
                     {
-                        GradingItem item = Items.FindByValue(key);
+                        GradingItem item = Items[key];
                         m_postBackGradingItems.Add(itemKey, item);
                     }
                 }
@@ -1006,29 +926,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
             return m_postBackGradingItems;
         }
 
-        #endregion
-
-        #region GetGradingItem
-        /// <summary>
-        ///  Outs the Grading Item 
-        /// </summary>
-        /// <param name="key">Key to Identify the Item</param>
-        /// <param name="item">GradingItem</param>
-        private void GetGradingItem(string key, out GradingItem item)
-        {
-
-            if (!m_postBackGradingItems.TryGetValue(key, out item))
-            {
-                long value = long.Parse(key, CultureInfo.CurrentCulture.NumberFormat);
-
-                item = this.Items.FindByValue(value);
-
-                if (item == null)
-                {
-                    throw new ArgumentNullException("item");
-                }
-            }
-        }
         #endregion
 
         #region SaveControlState
@@ -1052,7 +949,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// Removes all the GradingItem in the Grading Item Collection 
         /// </summary>      
-        internal void Clear()
+        void Clear()
         {
             //Clear the Grading Item Collection
             this.Items.Clear();
@@ -1061,6 +958,18 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
         }
         #endregion
+
+        void SetUpIds()
+        {
+            // Important - ensure that all the control id lengths are the same for optimization later
+            FinalScoreId = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{1}", ClientID, ClientIDSeparator, "score_");
+            CommentsId = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{1}", ClientID, ClientIDSeparator, "commnt");
+            GradeId = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{1}", ClientID, ClientIDSeparator, "grade_");
+            ActionId = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{1}", ClientID, ClientIDSeparator, "action");
+            GradingScoreId = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{1}", ClientID, ClientIDSeparator, "gscore");
+            GradingImageId = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{1}", ClientID, ClientIDSeparator, "graded");
+            GradingRowId = string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{1}", ClientID, ClientIDSeparator, "rowId_");
+        }
 
         #region RegisterGradingClientScriptBlock
         /// <summary>
@@ -1091,7 +1000,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 csGradingClientScript.AppendLine("var slk_arrOpenedFrameSets = new Array();");
 
 
-                foreach (GradingItem item in this.Items)
+                foreach (GradingItem item in this.Items.Values)
                 {
                     csGradingClientScript.Append(@"
                      arrActualGradedPoints[");
@@ -1396,12 +1305,12 @@ namespace Microsoft.SharePointLearningKit.WebControls
     /// A collection of GradingItem objects in a GradingListcontrol. 
     /// This class cannot be inherited. 
     /// </summary>
-    internal sealed class GradingItemCollection : List<GradingItem>, IStateManager
+    internal sealed class GradingItemCollection : Dictionary<long, GradingItem>, IStateManager
     {
         /// <summary>
         /// Holds Changed Learners Items
         /// </summary> 
-        private List<long> m_learnerItemsChanged = new List<long>(50);
+        private List<long> m_learnerItemsChanged = new List<long>();
 
         private bool m_isTracked;
 
@@ -1414,27 +1323,14 @@ namespace Microsoft.SharePointLearningKit.WebControls
             get { return m_learnerItemsChanged; }
         }
 
-        /// <summary>
-        /// Searches the collection for a GradingItem with a 
-        /// Learner Assignment Id as Key Value. 
-        /// </summary>
-        /// <param name="value">Learner Assignment Id</param>
-        /// <returns>GradingItem</returns>
-        internal GradingItem FindByValue(long value)
-        {
-            int num = 0;
-            foreach (GradingItem item1 in this)
-            {
-                if (item1.LearnerAssignmentId == value)
-                {
-                    return this[num];
-                }
-                num++;
-            }
-            return null;
-        }
-
         #endregion
+
+        /// <summary>Adds a <see cref="GradingItem"/> to the collection.</summary>
+        /// <param name="item">The <see cref="GradingItem"/> to add.</param>
+        public void Add(GradingItem item)
+        {
+            Add(item.LearnerAssignmentId, item);
+        }
 
         #region IStateManager Members
         /// <summary>
@@ -1464,7 +1360,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 long[] assignmentId = (long[])objState1.First;
                 string[] learnerName = (string[])objState1.Second;
                 long[] learnerId = (long[])objState3.Second;
-                m_learnerItemsChanged.AddRange((long[])objState1.Third);
+                LearnerItemsChanged.AddRange((long[])objState1.Third);
 
                 LearnerAssignmentState[] status = (LearnerAssignmentState[])objState2.First;
                 SuccessStatus[] successStatus = (SuccessStatus[])objState2.Second;
@@ -1519,18 +1415,20 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 string[] grades = new string[numOfItems];
                 bool[] actionState = new bool[numOfItems];
 
-                for (int i = 0; i < numOfItems; i++)
+                int i = 0;
+                foreach (GradingItem item in Values)
                 {
-                    assignmentId[i] = this[i].LearnerAssignmentId;
-                    learnerName[i] = this[i].LearnerName;
-                    learnerId[i] = this[i].LearnerId;
-                    learnerStatus[i] = this[i].Status;
-                    successStatus[i] = this[i].SuccessStatus;
-                    gradedScore[i] = this[i].GradedScore == null ?  String.Empty : this[i].GradedScore.Value.ToString(CultureInfo.CurrentCulture);
-                    finalScore[i] = this[i].FinalScore == null ?  String.Empty : this[i].FinalScore.Value.ToString(CultureInfo.CurrentCulture);
-                    grades[i] = this[i].Grade;
-                    instructorComments[i] = this[i].InstructorComments;
-                    actionState[i] = this[i].ActionState;
+                    assignmentId[i] = item.LearnerAssignmentId;
+                    learnerName[i] = item.LearnerName;
+                    learnerId[i] = item.LearnerId;
+                    learnerStatus[i] = item.Status;
+                    successStatus[i] = item.SuccessStatus;
+                    gradedScore[i] = item.GradedScore == null ?  String.Empty : item.GradedScore.Value.ToString(CultureInfo.CurrentCulture);
+                    finalScore[i] = item.FinalScore == null ?  String.Empty : item.FinalScore.Value.ToString(CultureInfo.CurrentCulture);
+                    grades[i] = item.Grade;
+                    instructorComments[i] = item.InstructorComments;
+                    actionState[i] = item.ActionState;
+                    i++;
                 }
 
                 Triplet objState4 = new Triplet(finalScore, instructorComments, actionState);
@@ -1559,7 +1457,4 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
         #endregion
     }
-
-
-
 }

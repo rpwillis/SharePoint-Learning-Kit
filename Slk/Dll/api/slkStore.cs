@@ -22,6 +22,7 @@ using Microsoft.SharePointLearningKit.Schema;
 
 namespace Microsoft.SharePointLearningKit
 {
+    /// <summary>Starts a job to go over multiple calls.</summary>
     /// <summary>
     /// Represents a connection to a SharePoint Learning Kit store, containing assignments, references
     /// to e-learning packages stored in SharePoint.  Also contains the identity of the user accessing
@@ -31,6 +32,7 @@ namespace Microsoft.SharePointLearningKit
     public class SlkStore : ISlkStore
     {
 #region fields
+        CurrentJob currentJob;
         UserItemIdentifier currentUserId;
 
         /// <summary>
@@ -203,6 +205,28 @@ namespace Microsoft.SharePointLearningKit
         }
 #endregion properties
 
+#region internal methods
+        /// <summary>See <see cref="ISlkStore.StartBatchJobs"/>.</summary>
+        public void StartBatchJobs()
+        {
+            currentJob = new CurrentJob(LearningStore);
+        }
+
+        /// <summary>See <see cref="ISlkStore.EndBatchJobs"/>.</summary>
+        public void EndBatchJobs()
+        {
+            currentJob.Complete();
+            currentJob.Dispose();
+        }
+
+        /// <summary>See <see cref="ISlkStore.EndBatchJobs"/>.</summary>
+        public void CancelBatchJobs()
+        {
+            currentJob.Cancel();
+            currentJob.Dispose();
+        }
+#endregion internal methods
+
             //////////////////////////////////////////////////////////////////////////////////////////////
             // Public Methods
             //
@@ -368,7 +392,7 @@ namespace Microsoft.SharePointLearningKit
                         throw new SlkSettingsException(AppResources.SlkSettingsNotFound, spSiteGuid);
                 DataRow dataRow = dataRows[0];
                 string settingsXml = (string)dataRow[0];
-                DateTime settingsXmlLastModified = ((DateTime)dataRow[1]).ToLocalTime();
+                DateTime settingsXmlLastModified = ((DateTime)dataRow[1]);
                 using (StringReader stringReader = new StringReader(settingsXml))
                 {
                         XmlReaderSettings xmlSettings = new XmlReaderSettings();
@@ -1041,6 +1065,8 @@ namespace Microsoft.SharePointLearningKit
                     {
                         properties[Schema.AssignmentItem.Title] = assignment.Title;
                         properties[Schema.AssignmentItem.StartDate] = assignment.StartDate.ToUniversalTime();
+                        DateTime sd = assignment.StartDate;
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("UpdateAssignment startdate {0},{1},{2}", sd.Kind, sd,sd.ToUniversalTime() );
                         DateTime? dueDate = (assignment.DueDate == null) ? (DateTime?) null : assignment.DueDate.Value.ToUniversalTime();
                         properties[Schema.AssignmentItem.DueDate] = dueDate;
                         properties[Schema.AssignmentItem.PointsPossible] = assignment.PointsPossible;
@@ -1547,8 +1573,8 @@ namespace Microsoft.SharePointLearningKit
             properties.Title = CastNonNull<string>(dataRow[LearnerAssignmentList.AssignmentTitle]);
             properties.Description = CastNonNull<string>(dataRow[LearnerAssignmentList.AssignmentDescription]);
             properties.PointsPossible = Cast<float?>(dataRow[LearnerAssignmentList.AssignmentPointsPossible]);
-            properties.StartDate = ToLocalTime(dataRow[LearnerAssignmentList.AssignmentStartDate]).Value;
-            properties.DueDate = ToLocalTime(dataRow[LearnerAssignmentList.AssignmentDueDate]);
+            properties.StartDate = ToUtcTime(dataRow[LearnerAssignmentList.AssignmentStartDate]);
+            properties.DueDate = ToNullableUtcTime(dataRow[LearnerAssignmentList.AssignmentDueDate]);
             properties.AutoReturn = CastNonNull<bool>(dataRow[LearnerAssignmentList.AssignmentAutoReturn]);
             properties.ShowAnswersToLearners = CastNonNull<bool>(dataRow[LearnerAssignmentList.AssignmentShowAnswersToLearners]);
             properties.CreatedById = CastNonNullIdentifier<UserItemIdentifier>(dataRow[LearnerAssignmentList.AssignmentCreatedById]);
@@ -1627,9 +1653,11 @@ namespace Microsoft.SharePointLearningKit
             // add to <job> a request to get information about each learner assignment
             LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId);
+            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerId);
             query.AddColumn(Schema.UserItemSite.SPUserId);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerName);
+            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerKey);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentState);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptCompletionStatus);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptSuccessStatus);
@@ -1637,7 +1665,8 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.FinalPoints);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.Grade);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.InstructorComments);
-            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
+            query.AddColumn(Schema.LearnerAssignmentListForInstructors.RootActivityId);
+            query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptId);
             query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
             query.AddSort(Schema.LearnerAssignmentListForInstructors.LearnerName, LearningStoreSortDirection.Ascending);
             job.PerformQuery(query);
@@ -1668,252 +1697,50 @@ namespace Microsoft.SharePointLearningKit
 
             DataRowCollection dataRows = ((DataTable) resultEnumerator.Current).Rows;
             List<LearnerAssignmentProperties> gpList = new List<LearnerAssignmentProperties>(dataRows.Count);
-            foreach (DataRow dataRow in dataRows)
+
+            SPSecurity.RunWithElevatedPrivileges(delegate
             {
-                // set <gp> to a new LearnerAssignmentProperties object
-                LearnerAssignmentItemIdentifier learnerAssignmentId;
-                LearningStoreHelper.CastNonNull(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId], out learnerAssignmentId);
-                LearnerAssignmentProperties gp = new LearnerAssignmentProperties(learnerAssignmentId, properties);
-                gp.LearnerId = CastNonNullIdentifier<UserItemIdentifier>( dataRow[Schema.LearnerAssignmentListForInstructors.LearnerId]);
+                using (SPSite site = new SPSite(properties.SPSiteGuid))
+                {
+                    using (SPWeb web = site.OpenWeb(properties.SPWebGuid))
+                    {
 
-                gp.LearnerName = CastNonNull<string>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerName]);
-                gp.Status = CastNonNull<LearnerAssignmentState>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentState]);
-                gp.GradedPoints = Cast<float?>(dataRow[Schema.LearnerAssignmentListForInstructors.AttemptGradedPoints]);
+                        foreach (DataRow dataRow in dataRows)
+                        {
+                            // set <gp> to a new LearnerAssignmentProperties object
+                            LearnerAssignmentItemIdentifier learnerAssignmentId;
+                            LearningStoreHelper.CastNonNull(dataRow[LearnerAssignmentListForInstructors.LearnerAssignmentId], out learnerAssignmentId);
+                            LearnerAssignmentProperties gp = new LearnerAssignmentProperties(learnerAssignmentId, properties);
+                            gp.LearnerId = CastNonNullIdentifier<UserItemIdentifier>( dataRow[LearnerAssignmentListForInstructors.LearnerId]);
 
-                gp.CompletionStatus = Cast<CompletionStatus>(dataRow[Schema.LearnerAssignmentListForInstructors.AttemptCompletionStatus], CompletionStatus.Unknown);
+                            gp.LearnerName = CastNonNull<string>(dataRow[LearnerAssignmentListForInstructors.LearnerName]);
+                            gp.Status = CastNonNull<LearnerAssignmentState>(dataRow[LearnerAssignmentListForInstructors.LearnerAssignmentState]);
+                            gp.GradedPoints = Cast<float?>(dataRow[LearnerAssignmentListForInstructors.AttemptGradedPoints]);
 
-                gp.SuccessStatus = Cast<SuccessStatus>(dataRow[Schema.LearnerAssignmentListForInstructors.AttemptSuccessStatus], SuccessStatus.Unknown);
+                            gp.CompletionStatus = Cast<CompletionStatus>(dataRow[LearnerAssignmentListForInstructors.AttemptCompletionStatus], CompletionStatus.Unknown);
 
-                gp.FinalPoints = Cast<float?>(dataRow[Schema.LearnerAssignmentListForInstructors.FinalPoints]);
-                gp.Grade = Cast<string>(dataRow[Schema.LearnerAssignmentListForInstructors.Grade]);
-                gp.InstructorComments = CastNonNull<string>(dataRow[Schema.LearnerAssignmentListForInstructors.InstructorComments]);
-                gp.LearnerAssignmentGuidId = CastNonNull<Guid>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId]);
+                            gp.SuccessStatus = Cast<SuccessStatus>(dataRow[LearnerAssignmentListForInstructors.AttemptSuccessStatus], SuccessStatus.Unknown);
 
-                gpList.Add(gp);
-            }
+                            gp.FinalPoints = Cast<float?>(dataRow[LearnerAssignmentListForInstructors.FinalPoints]);
+                            gp.Grade = Cast<string>(dataRow[LearnerAssignmentListForInstructors.Grade]);
+                            gp.InstructorComments = CastNonNull<string>(dataRow[LearnerAssignmentListForInstructors.InstructorComments]);
+                            gp.LearnerAssignmentGuidId = CastNonNull<Guid>(dataRow[LearnerAssignmentListForInstructors.LearnerAssignmentGuidId]);
+                            gp.AttemptId = CastIdentifier<AttemptItemIdentifier>( dataRow[LearnerAssignmentListForInstructors.AttemptId]);
+                            gp.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey);
+                            gp.User.AssignmentUserGuidId = gp.LearnerAssignmentGuidId;
+
+                            gpList.Add(gp);
+
+                        }
+                    }
+                }
+            });
 
             properties.AssignResults(gpList);
             return properties;
         }
 
-        /// <summary>
-        /// Stores grading-related information about an assignment into the SLK database.  The user
-        /// must be an instructor on the assignment.
-        /// </summary>
-        ///
-        /// <param name="assignmentId">The <c>AssignmentItemIdentifier</c> of the assignment to
-        ///     store information about.</param>
-        ///
-        /// <param name="gradingPropertiesList">Contains one <c>LearnerAssignmentProperties</c> object for each
-        ///     learner assignment to update.  Note that <c>LearnerAssignmentProperties.LearnerId</c>,
-        ///     <c>LearnerAssignmentProperties.LearnerName</c>, and <c>LearnerAssignmentProperties.GradedPoints</c>
-        ///     are ignored.  Also, see <c>LearnerAssignmentProperties.Status</c> for information about which
-        ///     <c>LearnerAssignmentState</c> changes are permitted.</param>
-        ///
-        /// <returns>
-        /// If the operation is fully successful, <c>null</c> is returned.  Note that data loss caused
-        /// by one instructor overwriting the changes of another is considered normal behavior and is
-        /// therefore treated as fully successful.  If the operation is partially successul, a
-        /// warning string is returned.  In both the fully-successful and partially-successful cases
-        /// the caller should assume that all data that could be saved to the database was saved, and
-        /// if the data is to be redisplayed to the user the caller should reload the data using
-        /// <c>GetGradingProperties</c>.  If the operation fails, an exception is thrown -- in this
-        /// case, the caller should assume no data was stored in the database.
-        /// </returns>
-        ///
-        /// <remarks>
-        /// <b>Security:</b>&#160; Fails if the
-        /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> isn't an instructor on the
-        /// assignment.
-        /// </remarks>
-        ///
-        /// <exception cref="SafeToDisplayException">
-        /// An error occurred that can be displayed to a browser user.  Possible cause: the user isn't
-        /// an instructor on the assignment.
-        /// </exception>
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-        public string SetGradingProperties(AssignmentItemIdentifier assignmentId, IEnumerable<LearnerAssignmentProperties> gradingPropertiesList)
-        {
-            // Security checks: Fails if the user isn't an instructor on the assignment
-            // (since it tries to access the file using AssignmentListForInstructors, and
-            // that returns zero rows if the user isn't an instructor on the assignment)
-
-            // Check parameters
-            if (assignmentId == null)
-            {
-                throw new ArgumentNullException("assignmentId");
-            }
-
-            if (gradingPropertiesList == null)
-            {
-                throw new ArgumentNullException("gradingPropertiesList");
-            }
-
-            // if learner assignments couldn't be saved, the names of the learners of the affected learner assignments are added to <warningLearners>
-            List<string> warningLearners = null;
-
-            // perform the operation within a transaction so that if the operation fails no data is committed to the database
-            TransactionOptions options = new TransactionOptions();
-            options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
-            using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
-            {
-                // create a LearningStore job
-                LearningStoreJob job = LearningStore.CreateJob();
-
-                // request basic information about the specified assignment
-                LearningStoreQuery query = LearningStore.CreateQuery(Schema.AssignmentListForInstructors.ViewName);
-                query.AddColumn(Schema.AssignmentListForInstructors.RootActivityId);
-                query.AddColumn(Schema.AssignmentListForInstructors.AssignmentAutoReturn);
-                query.AddCondition(Schema.AssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
-                job.PerformQuery(query);
-
-                // request current (stored-in-database) information about each learner assignment
-                // in <gradingPropertiesList>; note that not all properties are retrieved
-                query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
-                query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId);
-                query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerId);
-                query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerName);
-                query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentState);
-                query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptId);
-                query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
-                query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
-                job.PerformQuery(query);
-
-                // execute the job; set <resultEnumerator> to enumerate the results
-                IEnumerator<object> resultEnumerator = job.Execute().GetEnumerator();
-
-                if (!resultEnumerator.MoveNext())
-                {
-                    throw new InternalErrorException("SLK1005");
-                }
-
-                DataRowCollection dataRows = ((DataTable) resultEnumerator.Current).Rows;
-                if (dataRows.Count != 1)
-                {
-                    // this error message includes the assignment ID, but that's okay since
-                    // the information we provide does not allow the user to distinguish between the
-                    // assignment not existing and the user not having access to it
-                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
-                }
-
-                ActivityPackageItemIdentifier rootActivityId = CastIdentifier<ActivityPackageItemIdentifier>(dataRows[0][0]);
-                // set <isAutoReturn> if this is an auto-return assignment
-                bool isAutoReturn = CastNonNull<bool>(dataRows[0][1]);
-
-                // store the information about each learner assignment <allOldProperties>
-                if (!resultEnumerator.MoveNext())
-                {
-                    throw new InternalErrorException("SLK1006");
-                }
-
-                DataTable dataTable = (DataTable) resultEnumerator.Current;
-                Dictionary<LearnerAssignmentItemIdentifier, LearnerAssignmentProperties> allOldProperties =
-                    new Dictionary<LearnerAssignmentItemIdentifier, LearnerAssignmentProperties>(
-                                            dataRows.Count);
-                            foreach (DataRow dataRow in dataTable.Rows)
-                            {
-                    LearnerAssignmentItemIdentifier learnerAssignmentId;
-                    LearningStoreHelper.CastNonNull(
-                        dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentId],
-                                            out learnerAssignmentId);
-                                    LearnerAssignmentProperties gp = new LearnerAssignmentProperties(learnerAssignmentId, null);
-
-                    gp.LearnerId = CastNonNullIdentifier<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerId]);
-                    gp.LearnerName = CastNonNull<string>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerName]);
-                    gp.Status = CastNonNull<LearnerAssignmentState>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentState]);
-
-                    AttemptItemIdentifier attemptId;
-                    LearningStoreHelper.Cast(
-                        dataRow[Schema.LearnerAssignmentListForInstructors.AttemptId],
-                        out attemptId);
-                    gp.AttemptId = attemptId;
-
-                    gp.LearnerAssignmentGuidId = CastNonNull<Guid>(dataRow[Schema.LearnerAssignmentListForInstructors.LearnerAssignmentGuidId]);
-
-                    allOldProperties[learnerAssignmentId] = gp;
-                }
-
-                // The above code will throw an exception if the user doesn't have
-                // instructor access to the assignment.  So since we've verified that,
-                // we can turn off security for the rest of the work
-                using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
-                {
-                    // create another LearningStore job
-                    job = LearningStore.CreateJob();
-
-                    // update the status of each learner assignment
-                    foreach (LearnerAssignmentProperties newProperties in gradingPropertiesList)
-                    {
-                        // skip this learner assignment if it doesn't exist in the database (e.g. another
-                        // instructor deleted it while this instructor was viewing the Grading page)
-                        LearnerAssignmentProperties oldProperties;
-                        if (!allOldProperties.TryGetValue(newProperties.LearnerAssignmentId, out oldProperties))
-                        {
-                            continue;
-                        }
-
-                        // set <properties> to properties that need to be changed on this learner assignment
-                        Dictionary<string, object> properties = new Dictionary<string, object>();
-                        if (!newProperties.IgnoreFinalPoints)
-                        {
-                            properties[Schema.LearnerAssignmentItem.FinalPoints] = newProperties.FinalPoints;
-                        }
-
-                        properties[Schema.LearnerAssignmentItem.InstructorComments] = newProperties.InstructorComments;
-                        if (Settings.UseGrades)
-                        {
-                            properties[Schema.LearnerAssignmentItem.Grade] = newProperties.Grade;
-                        }
-
-                        // update the status of this learner assignment, if requested
-                        if (newProperties.Status != null)
-                        {
-                            // status is changing
-                            try
-                            {
-                                ChangeLearnerAssignmentState(oldProperties.LearnerAssignmentId, job, oldProperties.Status.Value, newProperties.Status.Value,
-                                    rootActivityId, oldProperties.LearnerId, oldProperties.AttemptId, isAutoReturn, properties);
-                            }
-                            catch (InvalidOperationException)
-                            {
-                                // disallowed state transition -- log it in <warningLearners>
-                                if (warningLearners == null)
-                                {
-                                    warningLearners = new List<string>();
-                                }
-
-                                warningLearners.Add(oldProperties.LearnerName);
-
-                                // ignore this learner assignment
-                                continue;
-                            }
-                        }
-                        else
-                        {
-                            job.UpdateItem(newProperties.LearnerAssignmentId, properties);
-                        }
-                    }
-
-                    // execute the LearningStore job
-                    job.Execute();
-                }
-                
-                // finish the transaction
-                scope.Complete();
-            }
-
-            // the operation succeeded, with or without warnings
-            if (warningLearners == null)
-            {
-                return null;
-            }
-            else
-            {
-                // tell the caller that some learner assignments could not be saved
-                return String.Format(CultureInfo.CurrentCulture, AppResources.SomeLearnerAssignmentsNotSaved, String.Join(AppResources.CommaSpace, warningLearners.ToArray()));
-            }
-        }
-
+        /// <summary></summary>
         /// <summary>
         /// Sets the final points for a learner assignment.
         /// </summary>
@@ -2123,244 +1950,42 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        /// <summary>
-        /// Changes the <c>LearnerAssignmentState</c> of a learner assignment.  Must be called within
-            /// the scope of a database transaction.
-        /// </summary>
-            ///
-        /// <param name="learnerAssignmentId">The ID of the learner assignment to change the
-            ///     <c>LearnerAssignmentState</c> of.</param>
-            ///
-        /// <param name="job">A <c>LearningStoreJob</c> which will be used to perform any database
-            ///     update operations.  The caller is responsible for subsequently calling
-            ///     <c>LearningStoreJob.Execute</c>, and the caller cannot make any assumptions about what
-            ///     operations were added to the job by this method.</param>
-            ///
-        /// <param name="oldStatus">The current status (stored in the database) of the learner
-            ///     assignment.  This value must have been obtained within the same database transaction
-            ///     scope which encloses this method call.</param>
-            ///
-        /// <param name="newStatus">The <c>LearnerAssignmentState</c> to transition this learner
-            ///     assignment to.  See the Remarks section of the other override of this method for more
-            ///     information.</param>
-            ///
-        /// <param name="rootActivityId">The <c>ActivityPackageItemIdentifier</c> of the organization
-            ///     assigned, if the assigned file was an e-learning package; <c>null</c> for a
-            ///     non-e-learning document.</param>
-            ///
-            /// <param name="learnerId">The <c>UserItemIdentifier</c> of the learner.</param>
-            ///
-            /// <param name="attemptId">The <c>AttemptItemIdentifier</c> of the attempt associated with
-            ///     this learner assignment; <c>null</c> if none.</param>
-            ///
-            /// <param name="isAutoReturn"><c>true</c> if a state transition of <c>Active</c> to
-            ///     <c>Completed</c> should automatically trigger a transition from <c>Completed</c> to
-            ///     <c>Final</c>.</param>
-        /// 
-        /// <param name="properties">Property name/value pairs to set on the learner assignment.
-            ///     May be <c>null</c> if the caller has no property changes to request.</param>
-        /// 
-        /// <remarks>
-            /// See the Remarks section of the other override of this method.
-        /// </remarks>
-        ///
-        /// <exception cref="InvalidOperationException">
-        /// The requested state transition is not supported.
-        /// </exception>
-        ///
-        /// <exception cref="SafeToDisplayException">
-        /// An error occurred that can be displayed to a browser user.  Possible cause:
-        /// the user doesn't have the right to switch to the requested state.
-        /// </exception>
-        ///
-        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
-        private void ChangeLearnerAssignmentState(LearnerAssignmentItemIdentifier learnerAssignmentId,
-                    LearningStoreJob job, LearnerAssignmentState oldStatus, LearnerAssignmentState newStatus,
-                    ActivityPackageItemIdentifier rootActivityId, UserItemIdentifier learnerId,
-            AttemptItemIdentifier attemptId, bool isAutoReturn, IDictionary<String, Object> properties)
+        /// <summary>See <see cref="ISlkStore.SaveLearnerAssignment"/>.</summary>
+        public void SaveLearnerAssignment(LearnerAssignmentItemIdentifier learnerAssignmentId, bool ignoreFinalPoints, float? finalPoints, string instructorComments, 
+                            string grade, bool? isFinal, AttemptStatus? nonELearningStatus)
+        {
+            // Call will be wrapped within a transaction
+            
+            Dictionary<string, object> properties = new Dictionary<string, object>();
+
+            if (ignoreFinalPoints == false)
             {
-                    // set <isNonELearning> to true if this assignment has non-e-learning content
-                    bool isNonELearning = (rootActivityId == null);
-
-                    // <makeFinal> will be set to true below if IsFinal = true needs to be set on the learner
-                    // assignment
-                    bool makeFinal = false;
-
-                    // initialize <properties> if the caller didn't pass it in
-                    if (properties == null)
-                            properties = new Dictionary<string, object>();
-                    else
-
-            if (oldStatus == LearnerAssignmentState.NotStarted)
-            {
-                // NotStarted --> Active or Completed or Final
-                if (!isNonELearning)
-                {
-                    // create an attempt for this learner assignment
-                    StoredLearningSession learningSession =
-                        StoredLearningSession.CreateAttempt(PackageStore, learnerId, rootActivityId,
-                            Settings.LoggingOptions);
-
-                    // start the assignment, forcing selection of a first activity
-                    learningSession.Start(true);
-
-                    // if NotStarted --> Completed or Final, transition to the Completed state
-                    if ((newStatus == LearnerAssignmentState.Completed) ||
-                        (newStatus == LearnerAssignmentState.Final))
-                    {
-                                            // transition to Completed
-                        learningSession.Exit();
-
-                        // initialize LearnerAssignmentItem.FinalPoints to
-                        // LearningSession.TotalPoints, (overwrites the value in
-                        // <properties> if any)
-                        properties[Schema.LearnerAssignmentItem.FinalPoints] = learningSession.TotalPoints;
-                    }
-
-                    // save changes to <learningSession>
-                    learningSession.CommitChanges();
-
-                    // attach the attempt to the learner assignment
-                    Dictionary<string, object> attemptProperties = new Dictionary<string, object>();
-                    attemptProperties[Schema.AttemptItem.LearnerAssignmentId] = learnerAssignmentId;
-                    job.UpdateItem(learningSession.AttemptId, attemptProperties);
-                }
-
-                // if this is an auto-return assignment, and we're transitioning to Completed state,
-                            // and this is an auto-return assignment, transition to Final state next; if we're
-                            // transitioning to Final state directly, do that next
-                if (newStatus == LearnerAssignmentState.Completed)
-                            {
-                                    if (isAutoReturn)
-                                            makeFinal = true;
-                            }
-                            else
-                if (newStatus == LearnerAssignmentState.Final)
-                                    makeFinal = true;
-            }
-                    else
-                    if ((oldStatus == LearnerAssignmentState.Active) &&
-                            ((newStatus == LearnerAssignmentState.Completed) ||
-                             (newStatus == LearnerAssignmentState.Final)))
-                    {
-                            // Active --> Completed or Final
-                            if (!isNonELearning)
-                            {
-                                    // transition to Completed state...
-
-                                    // set <learningSession> to refer to the attempt associated with this
-                                    // learner assignment
-                                    if (attemptId == null)
-                                            throw new InternalErrorException("SLK1007");
-                                    StoredLearningSession learningSession =
-                                            new StoredLearningSession(SessionView.Execute, attemptId, PackageStore);
-
-                                    // transition the attempt to "Completed" state; note that this will initialize
-                    // the "content score", i.e. the score computed from the content
-                    if (learningSession.HasCurrentActivity)
-                    {
-                        // make sure that if the content wants to suspend itself, it does
-                        learningSession.ProcessNavigationRequests();    
-                    }
-                                    learningSession.Exit();
-                                    learningSession.CommitChanges();
-
-                                    // initialize LearnerAssignmentItem.FinalPoints to LearningSession.TotalPoints, 
-                                    // (overwrites the value in <properties> if any)
-                    properties[Schema.LearnerAssignmentItem.FinalPoints] = learningSession.TotalPoints;
-                            }
-
-                            // if this is an auto-return assignment, or if <newStatus> specifies Final, transition
-                            // to Final state next
-                            if (isAutoReturn || (newStatus == LearnerAssignmentState.Final))
-                                    makeFinal = true;
-                    }
-                    else
-                    if ((oldStatus == LearnerAssignmentState.Completed) &&
-                            (newStatus == LearnerAssignmentState.Final))
-                    {
-                            // Completed --> Final
-
-                            // transition the attempt to "Final" state; note that "Final" is an SLK
-                            // concept -- MLC is not involved
-                            makeFinal = true;
-                    }
-                    else
-                    if (((oldStatus == LearnerAssignmentState.Completed) ||
-                 (oldStatus == LearnerAssignmentState.Final))&&
-                            (newStatus == LearnerAssignmentState.Active))
-                    {
-                            // Final --> Active (i.e. reactivate)
-                            if (!isNonELearning)
-                            {
-                    // set <learningSession> to refer to the attempt associated with this
-                    // learner assignment
-                    if (attemptId == null)
-                        throw new InternalErrorException("SLK1010");
-                    StoredLearningSession learningSession =
-                        new StoredLearningSession(SessionView.RandomAccess, attemptId, PackageStore);
-
-                                    // reactivate the attempt
-                    learningSession.Reactivate(ReactivateSettings.ResetEvaluationPoints);
-                                    learningSession.CommitChanges();
-
-                    // restart the attempt
-                    learningSession = new StoredLearningSession(SessionView.Execute, attemptId,
-                        PackageStore);
-                    learningSession.Start(true);
-                    learningSession.CommitChanges();
-                                    // NOTE: if (learningSession.AttemptStatus != AttemptStatus.Active) then the
-                                    // restart process failed -- but there's not much we can do about it, and throwing
-                                    // an exception may make matters worse
-
-                                    // clear FinalPoints
-                    properties[Schema.LearnerAssignmentItem.FinalPoints] = null;
-                }
-
-                            // if the SLK status of the assignment is "Final" change it so that it reflects
-                            // the status of the attempt
-                            properties[Schema.LearnerAssignmentItem.IsFinal] = false;
-                    }
-                    else
-                    {
-                            // state transition not supported
-                throw new InvalidOperationException(AppResources.LearnerAssignmentTransitionNotSupported);
-                    }
-
-                    // set IsFinal = true on the learner assignment if specified above
-                    if (makeFinal)
-                            properties[Schema.LearnerAssignmentItem.IsFinal] = true;
-
-                    // if this is non-e-learning content, update LearnerAssignmentItem.NonELearningStatus
-            if (isNonELearning)
-            {
-                AttemptStatus? newAttemptStatus;
-                switch (newStatus)
-                {
-                case LearnerAssignmentState.NotStarted:
-                default:
-                    newAttemptStatus = null;
-                    break;
-                case LearnerAssignmentState.Active:
-                    newAttemptStatus = AttemptStatus.Active;
-                    break;
-                case LearnerAssignmentState.Completed:
-                    newAttemptStatus = AttemptStatus.Completed;
-                    break;
-                case LearnerAssignmentState.Final:
-                    newAttemptStatus = AttemptStatus.Completed;
-                    break;
-                }
-                properties[Schema.LearnerAssignmentItem.NonELearningStatus] = newAttemptStatus;
+                properties[Schema.LearnerAssignmentItem.FinalPoints] = finalPoints;
             }
 
-                    // specify that the learner assignment be updated
-                    job.UpdateItem(learnerAssignmentId, properties);
+            properties[Schema.LearnerAssignmentItem.InstructorComments] = instructorComments;
+            if (Settings.UseGrades)
+            {
+                properties[Schema.LearnerAssignmentItem.Grade] = grade;
+            }
+
+            if (isFinal != null)
+            {
+                properties[Schema.LearnerAssignmentItem.IsFinal] = isFinal.Value;
+            }
+
+            if (nonELearningStatus != null)
+            {
+                properties[Schema.LearnerAssignmentItem.NonELearningStatus] = nonELearningStatus.Value;
+            }
+
+            currentJob.Job.UpdateItem(learnerAssignmentId, properties);
+            currentJob.Job.Execute();
         }
 
         /// <summary>See <see cref="ISlkStore.ChangeLearnerAssignmentState"/>.</summary>
-        public void ChangeLearnerAssignmentState(LearnerAssignmentItemIdentifier learnerAssignmentId, LearnerAssignmentState newStatus, bool? isFinal,
-                AttemptStatus? nonELearningStatus, float? finalPoints, AttemptItemIdentifier attemptId)
+        public void ChangeLearnerAssignmentState(LearnerAssignmentItemIdentifier learnerAssignmentId, bool? isFinal,
+                AttemptStatus? nonELearningStatus, bool saveFinalPoints, float? finalPoints)
         {
             TransactionOptions transactionOptions = new TransactionOptions();
             transactionOptions.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
@@ -2376,23 +2001,15 @@ namespace Microsoft.SharePointLearningKit
                         properties[Schema.LearnerAssignmentItem.IsFinal] = isFinal.Value;
                     }
 
-                    if (finalPoints != null || newStatus == LearnerAssignmentState.Active)
+                    if (saveFinalPoints)
                     {
                         properties[Schema.LearnerAssignmentItem.FinalPoints] = finalPoints;
-                    }
-
-                    if (attemptId != null)
-                    {
-                        Dictionary<string, object> attemptProperties = new Dictionary<string, object>();
-                        attemptProperties[Schema.AttemptItem.LearnerAssignmentId] = learnerAssignmentId;
-                        job.UpdateItem(attemptId, attemptProperties);
                     }
 
                     if (nonELearningStatus != null)
                     {
                         properties[Schema.LearnerAssignmentItem.NonELearningStatus] = nonELearningStatus.Value;
                     }
-
                     job.UpdateItem(learnerAssignmentId, properties);
                     job.Execute();
                 }
@@ -2739,6 +2356,7 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.AssignmentPropertiesView.PackageFormat);
             query.AddColumn(Schema.AssignmentPropertiesView.PackageLocation);
             query.AddColumn(Schema.AssignmentPropertiesView.AssignmentNonELearningLocation);
+            query.AddColumn(Schema.AssignmentPropertiesView.RootActivityId);
             job.PerformQuery(query);
 
             // request the collection of instructors of this assignment
@@ -2795,14 +2413,11 @@ namespace Microsoft.SharePointLearningKit
 
             ap.Title = CastNonNull<string>(dataRow[Schema.AssignmentPropertiesView.AssignmentTitle]);
 
-            ap.StartDate = CastNonNull<DateTime>(dataRow[Schema.AssignmentPropertiesView.AssignmentStartDate]);
-            ap.StartDate.ToLocalTime();
+            ap.StartDate = ToUtcTime(dataRow[Schema.AssignmentPropertiesView.AssignmentStartDate]);
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("PopulateAssignmentProperties startdate {0},{1},{2}", ap.StartDate.Kind, ap.StartDate,ap.StartDate.ToLocalTime() );
 
-            ap.DueDate = Cast<DateTime?>(dataRow[Schema.AssignmentPropertiesView.AssignmentDueDate]);
-            if (ap.DueDate != null)
-            {
-                ap.DueDate.Value.ToLocalTime();
-            }
+            ap.DueDate = ToNullableUtcTime(dataRow[Schema.AssignmentPropertiesView.AssignmentDueDate]);
+            ap.RootActivityId = CastIdentifier<ActivityPackageItemIdentifier>(dataRow[LearnerAssignmentList.RootActivityId]);
 
             ap.PointsPossible = Cast<float?>(dataRow[Schema.AssignmentPropertiesView.AssignmentPointsPossible]);
 
@@ -2814,8 +2429,7 @@ namespace Microsoft.SharePointLearningKit
             ap.ShowAnswersToLearners = CastNonNull<bool>(dataRow[Schema.AssignmentPropertiesView.AssignmentShowAnswersToLearners]);
 
             ap.CreatedById = CastNonNullIdentifier<UserItemIdentifier>(dataRow[Schema.AssignmentPropertiesView.AssignmentCreatedById]);
-            ap.DateCreated = CastNonNull<DateTime>(dataRow[Schema.AssignmentPropertiesView.AssignmentDateCreated]);
-            ap.DateCreated.ToLocalTime();
+            ap.DateCreated = ToUtcTime(dataRow[Schema.AssignmentPropertiesView.AssignmentDateCreated]);
 
             ap.PackageFormat = CastNullableEnum<PackageFormat>(dataRow[Schema.AssignmentPropertiesView.PackageFormat]);
 
@@ -2957,15 +2571,23 @@ namespace Microsoft.SharePointLearningKit
         }
 
 #region conversion methods
-        static DateTime? ToLocalTime(object value)
+        static DateTime ToUtcTime(object value)
+        {
+            DateTime castValue = Cast<DateTime>(value);
+            return DateTime.SpecifyKind(castValue, DateTimeKind.Utc);
+        }
+
+        static DateTime? ToNullableUtcTime(object value)
         {
             DateTime? castValue = Cast<DateTime?>(value);
-            if (castValue != null)
+            if (castValue == null)
             {
-                castValue.Value.ToLocalTime();
+                return null;
             }
-
-            return castValue;
+            else
+            {
+                return DateTime.SpecifyKind(castValue.Value, DateTimeKind.Utc);
+            }
         }
 
         static T Cast<T>(object value, T defaultValue)
@@ -3062,6 +2684,47 @@ namespace Microsoft.SharePointLearningKit
         }
 #endregion conversion methods
 
-    }
+#region CurrentJob
+        class CurrentJob : IDisposable
+        {
+            LearningStoreTransactionScope currentTransaction;
+            LearningStorePrivilegedScope privilegedScope;
 
+            public LearningStoreJob Job { get; private set; }
+
+            public CurrentJob(LearningStore learningStore)
+            {
+                Job = learningStore.CreateJob();
+                TransactionOptions options = new TransactionOptions();
+                options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
+                currentTransaction = new LearningStoreTransactionScope(options);
+                privilegedScope = new LearningStorePrivilegedScope();
+            }
+
+            public void Complete()
+            {
+                currentTransaction.Complete();
+                Job.Execute();
+            }
+
+            public void Cancel()
+            {
+            }
+
+            public void Dispose()
+            {
+
+                if (privilegedScope != null)
+                {
+                    privilegedScope.Dispose();
+                }
+
+                if (currentTransaction != null)
+                {
+                    currentTransaction.Dispose();
+                }
+            }
+        }
+#endregion CurrentJob
+    }
 }
