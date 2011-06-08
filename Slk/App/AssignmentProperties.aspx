@@ -225,10 +225,10 @@
                                         <slk:TableGridColumn  runat="server" ColumnType="FormBody">                                                                    
                                             <table class="UserGenericText" cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;" width="100%">
                                                 <tr>
-                                                  <td class="ms-formbodysurvey" style="padding: 0" width="50%" >                                                     
+                                                  <td class="ms-formbodysurvey" style="padding: 0" width="50%" valign="top">                                                     
                                                        <slk:CustomCheckBoxList ID="chkListGroups" runat="server"></slk:CustomCheckBoxList>
                                                    </td>
-                                                  <td class="ms-formbodysurvey" style="padding: 0" width="50%">                                                                                                    
+                                                  <td class="ms-formbodysurvey" style="padding: 0" width="50%" valign="top">                                                                                                    
                                                        <slk:CustomCheckBoxList ID="chkListLearners" runat="server"></slk:CustomCheckBoxList>
                                                   </td>
                                                 </tr>
