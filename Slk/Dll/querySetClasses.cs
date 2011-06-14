@@ -19,6 +19,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
+using Microsoft.SharePoint;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using Schema = Microsoft.LearningComponents.Storage.BaseSchema;
@@ -312,33 +313,27 @@ public class QueryDefinition
         // done
         return query;
     }
-
     /// <summary>
     /// Given a <c>DataRow</c> from a <c>DataTable</c> returned from a LearningStore query
     /// created by <c>CreateQuery</c>, this method returns one <c>RenderedCell</c> for each column
     /// in the <c>Columns</c> collection.
     /// </summary>
-    ///
     /// <param name="dataRow">A <c>DataRow</c> from a <c>DataTable</c> returned from a
     ///     LearningStore query created by <c>CreateQuery</c>.</param>
-    /// 
     /// <param name="columnMap">The <c>columnMap</c> returned from
     ///     <c>QueryDefinition.CreateQuery</c>.</param>
-    ///
     /// <param name="spWebResolver">A delegate for resolving columns with
     ///     <c>ColumnDefinition.RenderAs</c> equal to <c>ColumnRenderAs.SPWebName</c> May be
     ///     <c>null</c>.</param>
-    ///
+    /// <param name="timeZone">The TimeZone to render dates in.</param>
     /// <returns>
     /// An array of <c>Columns.Count</c> <c>RenderedCell</c> values, each containing the rendered
     /// text of the corresponding "&lt;Column&gt;" child element of this "&lt;Query&lt;" element.
     /// For a column using <c>ColumnRenderAs.SPWebName</c>, the corresponding element of the array
-    /// will be of type <c>WebNameRenderedCell</c>.
-    /// </returns>
-    ///
+    /// will be of type <c>WebNameRenderedCell</c>.</returns>
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", MessageId = "1#"), SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
-    public RenderedCell[] RenderQueryRowCells(DataRow dataRow, int[,] columnMap,
-        SPWebResolver spWebResolver)
+    public RenderedCell[] RenderQueryRowCells(DataRow dataRow, int[,] columnMap, SPWebResolver spWebResolver, SPTimeZone timeZone)
     {
         if(dataRow == null)
             throw new ArgumentNullException("dataRow");
@@ -409,7 +404,7 @@ public class QueryDefinition
                     DateTime dateTime;
                     try
                     {
-                        dateTime = ((DateTime)cellValue).ToLocalTime();
+                        dateTime = timeZone.UTCToLocalTime((DateTime)cellValue);
                     }
                     catch (InvalidCastException)
                     {

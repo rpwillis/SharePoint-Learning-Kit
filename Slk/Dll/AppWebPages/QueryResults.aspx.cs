@@ -265,8 +265,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // create a job for executing the query specified by <queryDef>
             LearningStoreJob job = SlkStore.LearningStore.CreateJob();
 
-            Guid? spWebScopeMacro
-                   = (SPWebScope == null) ? (Guid?)null : (new Guid(SPWebScope));
+            Guid? spWebScopeMacro = (SPWebScope == null) ? (Guid?)null : (new Guid(SPWebScope));
 
             // create a query based on <queryDef>
             LearningStoreQuery query = null;
@@ -287,17 +286,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             DataTable queryResults = job.Execute<DataTable>();
 
             // render the query results into <renderedRows>
-            List<RenderedCell[]> renderedRows
-                        = new List<RenderedCell[]>(queryResults.Rows.Count);
+            List<RenderedCell[]> renderedRows = new List<RenderedCell[]>(queryResults.Rows.Count);
             foreach (DataRow dataRow in queryResults.Rows)
             {
-                RenderedCell[] renderedCells = queryDef.RenderQueryRowCells(
-                    dataRow, columnMap, ResolveSPWebName);
+                RenderedCell[] renderedCells = queryDef.RenderQueryRowCells(dataRow, columnMap, ResolveSPWebName, SPWeb.RegionalSettings.TimeZone);
                 renderedRows.Add(renderedCells);
             }
 
             return renderedRows;
-
         }
 
         #endregion
@@ -398,9 +394,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //The Site  does not exist : SPWeb not available. 
                 //Add the site to unknown site collection
                 m_unknownSiteCount++; //increment the Site Count by 1;
-                spWebName = String.Format(CultureInfo.CurrentCulture,
-                                          AppResources.AlwpUnknownSite, 
-                                          m_unknownSiteCount);
+                spWebName = String.Format(CultureInfo.CurrentCulture, AppResources.AlwpUnknownSite, m_unknownSiteCount);
                 spWebUrl = null;
             }
             catch (UnauthorizedAccessException)
@@ -779,56 +773,64 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         // render a link to the Instructor Assignment Properties page
                         string url = "Grading.aspx?AssignmentId={0}";
-                        if ((webNameRenderedCell != null) &&
-                            (webNameRenderedCell.SPWebUrl != null))
+                        if ((webNameRenderedCell != null) && (webNameRenderedCell.SPWebUrl != null))
+                        {
                             url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
+                        }
+
                         hw.AddAttribute(HtmlTextWriterAttribute.Target, "_parent");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Href,
-                            String.Format(CultureInfo.InvariantCulture, url,
-                                          renderedCell.Id.GetKey()));
+                        hw.AddAttribute(HtmlTextWriterAttribute.Href, String.Format(CultureInfo.InvariantCulture, url, renderedCell.Id.GetKey()));
                         using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
+                        {
                             hw.WriteEncodedText(renderedCell.ToString());
+                        }
                     }
-                    else
-                    if (renderedCell.Id.ItemTypeName == Schema.LearnerAssignmentItem.ItemTypeName)
+                    else if (renderedCell.Id.ItemTypeName == Schema.LearnerAssignmentItem.ItemTypeName)
                     {
                         Guid learnerAssignmentGuidId = slkStore.GetLearnerAssignmentGuidId(renderedCell.Id);
                         if (IsObserver)
                         {
                             // Display this cell as an url and clicking this url will launch frameset in StudentReview mode
                             string url = "Frameset/Frameset.aspx?SlkView=StudentReview&{0}={1}";
-                            if ((webNameRenderedCell != null) &&
-                                (webNameRenderedCell.SPWebUrl != null))
+                            if ((webNameRenderedCell != null) && (webNameRenderedCell.SPWebUrl != null))
+                            {
                                 url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
+                            }
                             hw.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
                             hw.AddAttribute(HtmlTextWriterAttribute.Href,
                             String.Format(CultureInfo.InvariantCulture, url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString()));
                             using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
+                            {
                                 hw.WriteEncodedText(renderedCell.ToString());
+                            }
 
                         }
                         else
                         {
-
                             // render a link to the Learner Assignment Properties page
                             string url = "Lobby.aspx?{0}={1}";
-                            if ((webNameRenderedCell != null) &&
-                                (webNameRenderedCell.SPWebUrl != null))
+                            if ((webNameRenderedCell != null) && (webNameRenderedCell.SPWebUrl != null))
+                            {
                                 url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
+                            }
                             hw.AddAttribute(HtmlTextWriterAttribute.Target, "_parent");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Href,
-                                String.Format(CultureInfo.InvariantCulture, url,
-                                              FramesetQueryParameter.LearnerAssignmentId,
-                                              learnerAssignmentGuidId.ToString()));
+                            string href = String.Format(CultureInfo.InvariantCulture, url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
+                            hw.AddAttribute(HtmlTextWriterAttribute.Href, href);
                             using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
+                            {
                                 hw.WriteEncodedText(renderedCell.ToString());
+                            }
                         }
                     }
                     else
+                    {
                         hw.WriteEncodedText(renderedCell.ToString());
+                    }
                 }
                 else
+                {
                     hw.WriteEncodedText(renderedCell.ToString());
+                }
             }
         }
         #endregion
