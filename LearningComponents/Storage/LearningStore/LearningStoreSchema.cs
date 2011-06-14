@@ -1071,8 +1071,7 @@ namespace Microsoft.LearningComponents.Storage
         {
             get
             {
-                return (m_valueType.TypeCode != LearningStoreValueTypeCode.Xml) &&
-                       (m_valueType.TypeCode != LearningStoreValueTypeCode.Guid);
+                return (m_valueType.TypeCode != LearningStoreValueTypeCode.Xml);
             }
         }
 

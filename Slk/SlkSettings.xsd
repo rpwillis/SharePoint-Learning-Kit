@@ -26,7 +26,13 @@
                                     <xs:sequence>
                                         <xs:element name="NewAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
                                         <xs:element name="CancelAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="SubmitAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="ReactivateAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="ReturnAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="CollectAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="AssignmentReminder" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
                                     </xs:sequence>
+                                    <xs:attribute name="ReminderDays" type="xs:string" use="optional" />
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="Query" maxOccurs="unbounded" minOccurs="0">

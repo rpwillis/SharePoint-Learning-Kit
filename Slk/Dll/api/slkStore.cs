@@ -227,9 +227,96 @@ namespace Microsoft.SharePointLearningKit
         }
 #endregion internal methods
 
-            //////////////////////////////////////////////////////////////////////////////////////////////
-            // Public Methods
-            //
+#region public methods
+        /// <summary>See <see cref="ISlkStore.LoadAssignmentReminders"/>.</summary>
+        public IEnumerable<AssignmentProperties> LoadAssignmentReminders(DateTime minDueDate, DateTime maxDueDate)
+        {
+            List<AssignmentProperties> collection = new List<AssignmentProperties>();
+
+            using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
+            {
+                LearningStoreJob job = LearningStore.CreateJob();
+                job.PerformQuery(ReminderEmailQuery(minDueDate, maxDueDate));
+                DataRowCollection dataRows = job.Execute<DataTable>().Rows;
+
+                AssignmentProperties properties = null;
+                AssignmentItemIdentifier previousId = null;
+                List<LearnerAssignmentProperties> learnerList = null;
+                SPSite site = null;
+                SPWeb web = null;
+
+                try
+                {
+                    foreach (DataRow dataRow in dataRows)
+                    {
+                        AssignmentItemIdentifier id = CastNonNullIdentifier<AssignmentItemIdentifier>(dataRow[LearnerAssignmentList.AssignmentId]);
+                        Guid siteId = CastNonNull<Guid>(dataRow[LearnerAssignmentList.AssignmentSPSiteGuid]);
+                        Guid webId = CastNonNull<Guid>(dataRow[LearnerAssignmentList.AssignmentSPWebGuid]);
+
+                        // If this row is for a different assignment then set up all the objects
+                        if (id != previousId)
+                        {
+                            if (properties != null)
+                            {
+                                properties.AssignResults(learnerList);
+                            }
+                            properties = PopulateAssignmentProperties(id, dataRow);
+                            collection.Add(properties);
+                            learnerList = new List<LearnerAssignmentProperties>();
+                            previousId = id;
+
+                            if (site == null || siteId != site.ID)
+                            {
+                                if (site != null)
+                                {
+                                    site.Dispose();
+                                }
+
+                                site = new SPSite(siteId);
+                            }
+
+                            if (web == null || webId != web.ID)
+                            {
+                                if (web != null)
+                                {
+                                    web.Dispose();
+                                }
+
+                                web = site.OpenWeb(webId);
+                            }
+
+                        }
+
+                        Guid learnerAssignmentGuid = CastNonNull<Guid>(dataRow[LearnerAssignmentList.LearnerAssignmentGuidId]);
+                        LearnerAssignmentProperties learnerProperties = PopulateLearnerAssignmentProperties(dataRow, properties, learnerAssignmentGuid);
+
+                        learnerProperties.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey);
+                        learnerList.Add(learnerProperties);
+                    }
+
+                    if (properties != null)
+                    {
+                        properties.AssignResults(learnerList);
+                    }
+                }
+                finally
+                {
+                    if (web != null)
+                    {
+                        web.Dispose();
+                    }
+
+                    if (site != null)
+                    {
+                        site.Dispose();
+                    }
+                }
+            }
+
+            return collection;
+        }
+#endregion public methods
+
 
         /// <summary>
         /// Returns the <c>SlkStore</c> object associated the SharePoint <c>SPSite</c> that a given
@@ -1066,7 +1153,6 @@ namespace Microsoft.SharePointLearningKit
                         properties[Schema.AssignmentItem.Title] = assignment.Title;
                         properties[Schema.AssignmentItem.StartDate] = assignment.StartDate.ToUniversalTime();
                         DateTime sd = assignment.StartDate;
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("UpdateAssignment startdate {0},{1},{2}", sd.Kind, sd,sd.ToUniversalTime() );
                         DateTime? dueDate = (assignment.DueDate == null) ? (DateTime?) null : assignment.DueDate.Value.ToUniversalTime();
                         properties[Schema.AssignmentItem.DueDate] = dueDate;
                         properties[Schema.AssignmentItem.PointsPossible] = assignment.PointsPossible;
@@ -1556,45 +1642,8 @@ namespace Microsoft.SharePointLearningKit
             DataRow dataRow = dataRows[0];
 
             AssignmentItemIdentifier id = CastNonNullIdentifier<AssignmentItemIdentifier>(dataRow[LearnerAssignmentList.AssignmentId]);
-            AssignmentProperties properties = new AssignmentProperties(id, this);
-            properties.SPSiteGuid = CastNonNull<Guid>(dataRow[LearnerAssignmentList.AssignmentSPSiteGuid]);
-            properties.SPWebGuid = CastNonNull<Guid>(dataRow[LearnerAssignmentList.AssignmentSPWebGuid]);
-            properties.RootActivityId = CastIdentifier<ActivityPackageItemIdentifier>(dataRow[LearnerAssignmentList.RootActivityId]);
-
-            if (properties.IsNonELearning)
-            {
-                properties.Location = CastNonNull<string>(dataRow[LearnerAssignmentList.AssignmentNonELearningLocation]);
-            }
-            else
-            {
-                properties.Location = CastNonNull<string>(dataRow[LearnerAssignmentList.PackageLocation]);
-            }
-
-            properties.Title = CastNonNull<string>(dataRow[LearnerAssignmentList.AssignmentTitle]);
-            properties.Description = CastNonNull<string>(dataRow[LearnerAssignmentList.AssignmentDescription]);
-            properties.PointsPossible = Cast<float?>(dataRow[LearnerAssignmentList.AssignmentPointsPossible]);
-            properties.StartDate = ToUtcTime(dataRow[LearnerAssignmentList.AssignmentStartDate]);
-            properties.DueDate = ToNullableUtcTime(dataRow[LearnerAssignmentList.AssignmentDueDate]);
-            properties.AutoReturn = CastNonNull<bool>(dataRow[LearnerAssignmentList.AssignmentAutoReturn]);
-            properties.ShowAnswersToLearners = CastNonNull<bool>(dataRow[LearnerAssignmentList.AssignmentShowAnswersToLearners]);
-            properties.CreatedById = CastNonNullIdentifier<UserItemIdentifier>(dataRow[LearnerAssignmentList.AssignmentCreatedById]);
-            properties.CreatedByName = CastNonNull<string>(dataRow[LearnerAssignmentList.AssignmentCreatedByName]);
-            properties.HasInstructors = CastNonNull<bool>(dataRow[LearnerAssignmentList.HasInstructors]);
-            properties.EmailChanges = CastNonNull<bool>(dataRow[LearnerAssignmentList.AssignmentEmailChanges]);
-
-            LearnerAssignmentItemIdentifier learnerId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[LearnerAssignmentList.LearnerAssignmentId]);
-            LearnerAssignmentProperties learnerProperties = new LearnerAssignmentProperties(learnerId, properties);
-            learnerProperties.LearnerAssignmentGuidId = learnerAssignmentGuidId;
-            learnerProperties.LearnerId = CastNonNullIdentifier<UserItemIdentifier>(dataRow[LearnerAssignmentList.LearnerId]);
-            learnerProperties.LearnerName = CastNonNull<string>(dataRow[LearnerAssignmentList.LearnerName]);
-            learnerProperties.Status = CastNonNull<LearnerAssignmentState>(dataRow[LearnerAssignmentList.LearnerAssignmentState]);
-            learnerProperties.AttemptId = CastIdentifier<AttemptItemIdentifier>(dataRow[LearnerAssignmentList.AttemptId]);
-            learnerProperties.CompletionStatus = Cast<CompletionStatus>(dataRow[LearnerAssignmentList.AttemptCompletionStatus]);
-            learnerProperties.SuccessStatus = Cast<SuccessStatus>(dataRow[LearnerAssignmentList.AttemptSuccessStatus]);
-            learnerProperties.GradedPoints = Cast<float?>(dataRow[LearnerAssignmentList.AttemptGradedPoints]);
-            learnerProperties.FinalPoints = Cast<float?>(dataRow[LearnerAssignmentList.FinalPoints]);
-            learnerProperties.Grade = Cast<string>(dataRow[LearnerAssignmentList.Grade]);
-            learnerProperties.InstructorComments = CastNonNull<string>(dataRow[LearnerAssignmentList.InstructorComments]);
+            AssignmentProperties properties = PopulateAssignmentProperties(id, dataRow);
+            LearnerAssignmentProperties learnerProperties = PopulateLearnerAssignmentProperties(dataRow, properties, learnerAssignmentGuidId);
 
             if (properties.IsNonELearning)
             {
@@ -2414,7 +2463,6 @@ namespace Microsoft.SharePointLearningKit
             ap.Title = CastNonNull<string>(dataRow[Schema.AssignmentPropertiesView.AssignmentTitle]);
 
             ap.StartDate = ToUtcTime(dataRow[Schema.AssignmentPropertiesView.AssignmentStartDate]);
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("PopulateAssignmentProperties startdate {0},{1},{2}", ap.StartDate.Kind, ap.StartDate,ap.StartDate.ToLocalTime() );
 
             ap.DueDate = ToNullableUtcTime(dataRow[Schema.AssignmentPropertiesView.AssignmentDueDate]);
             ap.RootActivityId = CastIdentifier<ActivityPackageItemIdentifier>(dataRow[LearnerAssignmentList.RootActivityId]);
@@ -2683,6 +2731,107 @@ namespace Microsoft.SharePointLearningKit
             return result;
         }
 #endregion conversion methods
+
+#region private methods
+        AssignmentProperties PopulateAssignmentProperties(AssignmentItemIdentifier id, DataRow dataRow)
+        {
+            AssignmentProperties properties = new AssignmentProperties(id, this);
+            properties.SPSiteGuid = CastNonNull<Guid>(dataRow[LearnerAssignmentList.AssignmentSPSiteGuid]);
+            properties.SPWebGuid = CastNonNull<Guid>(dataRow[LearnerAssignmentList.AssignmentSPWebGuid]);
+            properties.RootActivityId = CastIdentifier<ActivityPackageItemIdentifier>(dataRow[LearnerAssignmentList.RootActivityId]);
+
+            if (properties.IsNonELearning)
+            {
+                properties.Location = CastNonNull<string>(dataRow[LearnerAssignmentList.AssignmentNonELearningLocation]);
+            }
+            else
+            {
+                properties.Location = CastNonNull<string>(dataRow[LearnerAssignmentList.PackageLocation]);
+            }
+
+            properties.Title = CastNonNull<string>(dataRow[LearnerAssignmentList.AssignmentTitle]);
+            properties.Description = CastNonNull<string>(dataRow[LearnerAssignmentList.AssignmentDescription]);
+            properties.PointsPossible = Cast<float?>(dataRow[LearnerAssignmentList.AssignmentPointsPossible]);
+            properties.StartDate = ToUtcTime(dataRow[LearnerAssignmentList.AssignmentStartDate]);
+            properties.DueDate = ToNullableUtcTime(dataRow[LearnerAssignmentList.AssignmentDueDate]);
+            properties.AutoReturn = CastNonNull<bool>(dataRow[LearnerAssignmentList.AssignmentAutoReturn]);
+            properties.ShowAnswersToLearners = CastNonNull<bool>(dataRow[LearnerAssignmentList.AssignmentShowAnswersToLearners]);
+            properties.CreatedById = CastNonNullIdentifier<UserItemIdentifier>(dataRow[LearnerAssignmentList.AssignmentCreatedById]);
+            properties.CreatedByName = CastNonNull<string>(dataRow[LearnerAssignmentList.AssignmentCreatedByName]);
+            properties.HasInstructors = CastNonNull<bool>(dataRow[LearnerAssignmentList.HasInstructors]);
+            properties.EmailChanges = CastNonNull<bool>(dataRow[LearnerAssignmentList.AssignmentEmailChanges]);
+            return properties;
+        }
+
+        static LearnerAssignmentProperties PopulateLearnerAssignmentProperties(DataRow dataRow, AssignmentProperties properties, Guid learnerAssignmentGuidId)
+        {
+            LearnerAssignmentItemIdentifier learnerId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[LearnerAssignmentList.LearnerAssignmentId]);
+            LearnerAssignmentProperties learnerProperties = new LearnerAssignmentProperties(learnerId, properties);
+            learnerProperties.LearnerAssignmentGuidId = learnerAssignmentGuidId;
+            learnerProperties.LearnerId = CastNonNullIdentifier<UserItemIdentifier>(dataRow[LearnerAssignmentList.LearnerId]);
+            learnerProperties.LearnerName = CastNonNull<string>(dataRow[LearnerAssignmentList.LearnerName]);
+            learnerProperties.Status = CastNonNull<LearnerAssignmentState>(dataRow[LearnerAssignmentList.LearnerAssignmentState]);
+            learnerProperties.AttemptId = CastIdentifier<AttemptItemIdentifier>(dataRow[LearnerAssignmentList.AttemptId]);
+            learnerProperties.CompletionStatus = Cast<CompletionStatus>(dataRow[LearnerAssignmentList.AttemptCompletionStatus]);
+            learnerProperties.SuccessStatus = Cast<SuccessStatus>(dataRow[LearnerAssignmentList.AttemptSuccessStatus]);
+            learnerProperties.GradedPoints = Cast<float?>(dataRow[LearnerAssignmentList.AttemptGradedPoints]);
+            learnerProperties.FinalPoints = Cast<float?>(dataRow[LearnerAssignmentList.FinalPoints]);
+            learnerProperties.Grade = Cast<string>(dataRow[LearnerAssignmentList.Grade]);
+            learnerProperties.InstructorComments = CastNonNull<string>(dataRow[LearnerAssignmentList.InstructorComments]);
+            return learnerProperties;
+        }
+
+        LearningStoreQuery ReminderEmailQuery(DateTime minDueDate, DateTime maxDueDate)
+        {
+            LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
+
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentId);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentSPSiteGuid);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentSPWebGuid);
+            query.AddColumn(Schema.LearnerAssignmentList.RootActivityId);
+            query.AddColumn(Schema.LearnerAssignmentList.PackageLocation);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentNonELearningLocation);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentTitle);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentDescription);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentPointsPossible);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentStartDate);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentDueDate);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentAutoReturn);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentEmailChanges);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentShowAnswersToLearners);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentCreatedById);
+            query.AddColumn(Schema.LearnerAssignmentList.AssignmentCreatedByName);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerId);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerKey);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerName);
+            query.AddColumn(Schema.UserItemSite.SPUserId);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerAssignmentId);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerAssignmentGuidId);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerAssignmentState);
+            query.AddColumn(Schema.LearnerAssignmentList.AttemptId);
+            query.AddColumn(Schema.LearnerAssignmentList.AttemptCompletionStatus);
+            query.AddColumn(Schema.LearnerAssignmentList.AttemptSuccessStatus);
+            query.AddColumn(Schema.LearnerAssignmentList.AttemptGradedPoints);
+            query.AddColumn(Schema.LearnerAssignmentList.FinalPoints);
+            query.AddColumn(Schema.LearnerAssignmentList.Grade);
+            query.AddColumn(Schema.LearnerAssignmentList.InstructorComments);
+            query.AddColumn(Schema.LearnerAssignmentList.HasInstructors);
+
+            query.AddCondition(Schema.LearnerAssignmentList.AssignmentEmailChanges, LearningStoreConditionOperator.Equal, 1);
+            query.AddCondition(Schema.LearnerAssignmentList.IsFinal, LearningStoreConditionOperator.NotEqual, 1);
+            query.AddCondition(Schema.LearnerAssignmentList.LearnerAssignmentState, LearningStoreConditionOperator.LessThan, 2);
+            query.AddCondition(Schema.LearnerAssignmentList.AssignmentDueDate, LearningStoreConditionOperator.NotEqual, null);
+            //query.AddCondition(Schema.LearnerAssignmentList.AssignmentDueDate, LearningStoreConditionOperator.LessThan, maxDueDate);
+            query.AddCondition(Schema.LearnerAssignmentList.AssignmentDueDate, LearningStoreConditionOperator.GreaterThan, minDueDate);
+            query.AddCondition(Schema.LearnerAssignmentList.AssignmentSPSiteGuid, LearningStoreConditionOperator.Equal, SPSiteGuid);
+
+            query.AddSort(LearnerAssignmentList.AssignmentSPSiteGuid, LearningStoreSortDirection.Ascending);
+            query.AddSort(LearnerAssignmentList.AssignmentSPWebGuid, LearningStoreSortDirection.Ascending);
+            query.AddSort(LearnerAssignmentList.AssignmentId, LearningStoreSortDirection.Ascending);
+
+            return query;
+        }
+#endregion private methods
 
 #region CurrentJob
         class CurrentJob : IDisposable

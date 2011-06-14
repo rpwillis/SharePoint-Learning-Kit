@@ -194,11 +194,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         lblPointsValue.Text = AssignmentProperties.PointsPossible.Value.ToString(Constants.RoundTrip, NumberFormatInfo);
                     }
-                    lblStartValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate.ToLocalTime());
+                    //lblStartValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate.ToLocalTime());
+                    SPTimeZone timeZone = SPWeb.RegionalSettings.TimeZone;
+                    lblStartValue.Text = timeZone.UTCToLocalTime(AssignmentProperties.StartDate).ToString("f", SPWeb.Locale);
 
                     if (AssignmentProperties.DueDate.HasValue)
                     {
-                        lblDueValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.DueDate.Value);
+                        //lblDueValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.DueDate.Value);
+                        lblDueValue.Text = timeZone.UTCToLocalTime(AssignmentProperties.DueDate.Value).ToString("f", SPWeb.Locale);
                     }
                     tblAutoReturn.Visible = AssignmentProperties.AutoReturn;
                     tblAnswers.Visible = AssignmentProperties.ShowAnswersToLearners;

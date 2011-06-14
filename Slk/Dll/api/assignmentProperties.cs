@@ -243,6 +243,39 @@ namespace Microsoft.SharePointLearningKit
 #endregion constructors
 
 #region public methods
+        /// <summary>Sends a reminder email.</summary>
+        public void SendReminderEmail()
+        {
+            if (EmailChanges)
+            {
+                using (SPSite site = new SPSite(SPSiteGuid))
+                {
+                    using (SPWeb web = site.OpenWeb(SPWebGuid))
+                    {
+                        webWhileSaving = web;
+                        List<SlkUser> users = new List<SlkUser>();
+
+                        foreach (LearnerAssignmentProperties learnerAssignment in keyedResults.Values)
+                        {
+                            if (learnerAssignment.Status != null)
+                            {
+                                switch (learnerAssignment.Status.Value)
+                                {
+                                    case LearnerAssignmentState.NotStarted:
+                                    case LearnerAssignmentState.Active:
+                                        users.Add(learnerAssignment.User);
+                                        break;
+                                }
+                            }
+                        }
+
+                        SendEmail(users, ReminderSubjectText(), ReminderBodyText());
+                        webWhileSaving = null;
+                    }
+                }
+            }
+        }
+
         /// <summary>Starts the batch for saving the results.</summary>
         public void StartResultSaving()
         {
@@ -746,6 +779,23 @@ namespace Microsoft.SharePointLearningKit
         {
             return BodyText(EmailType.Collect, AppResources.CollectAssignmentEmailDefaultBody);
         }
+
+        string ReminderSubjectText()
+        {
+            return SubjectText(EmailType.Reminder, AppResources.AssignmentReminderEmailDefaultSubject);
+        }
+
+        string ReminderBodyText()
+        {
+            string body = BodyText(EmailType.Reminder, AppResources.AssignmentReminderEmailDefaultBody);
+            if (DueDate != null)
+            {
+                body = body.Replace("%due%", DueDate.Value.ToString("f", webWhileSaving.Locale));
+            }
+
+            return body;
+        }
+
 
         string CancelSubjectText()
         {

@@ -47,7 +47,7 @@
   <MimeTypeMapping Extension=".xltx" MimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.template" />
   <MimeTypeMapping Extension=".xml" MimeType="text/xml" />
 
-  <EmailSettings>
+  <EmailSettings ReminderDays="1,7">
       <NewAssignment Subject="New Assignment: %title%">
           <slk:Body xmlns=""><p>You have been assigned a new piece of work: <strong>%title%</strong>.</p>
 <p>%description%</p>

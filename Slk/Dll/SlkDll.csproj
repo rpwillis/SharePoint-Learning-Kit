@@ -93,6 +93,7 @@
     <Compile Include="AssignmentDownloader.cs" />
     <Compile Include="DropBoxManager.cs" />
     <Compile Include="DropBox.cs" />
+    <Compile Include="ReminderEmails.cs" />
     <Compile Include="AssignmentFolder.cs" />
     <Compile Include="EnumerateDomainGroups.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -283,11 +284,13 @@
   </Target>
   -->
   <Target Name="AfterBuild">
+      <!--
       <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.SharePoint.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.Storage.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
+      -->
   </Target>
   <PropertyGroup>
     <PostBuildEvent>
