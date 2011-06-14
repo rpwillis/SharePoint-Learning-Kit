@@ -885,6 +885,25 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; is due on %due%.&lt;/p&gt;
+        ///&lt;p&gt;&lt;a href=&apos;%url%&apos;&gt;%url%&lt;/a&gt;&lt;/p&gt;.
+        /// </summary>
+        internal static string AssignmentReminderEmailDefaultBody {
+            get {
+                return ResourceManager.GetString("AssignmentReminderEmailDefaultBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment Reminder : %title%.
+        /// </summary>
+        internal static string AssignmentReminderEmailDefaultSubject {
+            get {
+                return ResourceManager.GetString("AssignmentReminderEmailDefaultSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; had been collected.&lt;/p&gt;.
         /// </summary>
         internal static string CancelAssignmentEmailDefaultBody {

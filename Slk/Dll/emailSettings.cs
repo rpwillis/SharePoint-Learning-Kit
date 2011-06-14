@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Xml;
 
@@ -25,6 +26,9 @@ namespace Microsoft.SharePointLearningKit
     /// <summary>The Email settings</summary>
     public class EmailSettings
     {
+        List<int> reminderDays = null;
+        string reminderDaysInput;
+
 #region constructors
         /// <summary>Initializes a new instance of <see cref="EmailSettings"/>.</summary>
         /// <param name="reader">The XmlReader containing the setting details.</param>
@@ -32,6 +36,7 @@ namespace Microsoft.SharePointLearningKit
         {
             if (reader.IsEmptyElement == false)
             {
+                reminderDaysInput = reader.GetAttribute("ReminderDays");
                 reader.Read();
 
                 while (reader.Name != "EmailSettings")
@@ -71,6 +76,42 @@ namespace Microsoft.SharePointLearningKit
 #endregion constructors
 
 #region properties
+        /// <summary>The days to send a reminder on.</summary>
+        public List<int> ReminderDays 
+        { 
+            get
+            {
+                if (reminderDays == null)
+                {
+                    reminderDays = new List<int>();
+
+                    if (reminderDaysInput != null)
+                    {
+                        string[] input = reminderDaysInput.Split(',');
+
+                        foreach (string item in input)
+                        {
+                            if (string.IsNullOrEmpty(item) == false)
+                            {
+                                try
+                                {
+                                    reminderDays.Add(int.Parse(item.Trim()));
+                                }
+                                catch (OverflowException)
+                                {
+                                }
+                                catch (FormatException)
+                                {
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return reminderDays;
+            }
+        }
+
         /// <summary>Email details for a new assignment.</summary>
         public EmailDetails NewAssignment { get; private set; }
 

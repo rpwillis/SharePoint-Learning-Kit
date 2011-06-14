@@ -414,6 +414,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             spDateTimeDue.FirstWeekOfYear = SPWeb.RegionalSettings.FirstWeekOfYear;
             spDateTimeStart.LocaleId = SPWeb.Locale.LCID;
             spDateTimeDue.LocaleId = SPWeb.Locale.LCID;
+            spDateTimeStart.TimeZoneID = SPWeb.RegionalSettings.TimeZone.ID;
+            spDateTimeDue.TimeZoneID = SPWeb.RegionalSettings.TimeZone.ID;
         }
 
         #region OnPreRender
@@ -969,14 +971,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
 
             //Set DateTime Start and Due Date 
+            SPTimeZone timeZone = SPWeb.RegionalSettings.TimeZone;
             if (AssignmentProperties.DueDate != null)
             {
-                spDateTimeDue.SelectedDate = AssignmentProperties.DueDate.Value.ToLocalTime();
+                spDateTimeDue.SelectedDate = timeZone.UTCToLocalTime(AssignmentProperties.DueDate.Value);
             }
 
             if (AppMode == PageMode.Edit)
             {
-                spDateTimeStart.SelectedDate = AssignmentProperties.StartDate.ToLocalTime();
+                spDateTimeStart.SelectedDate = timeZone.UTCToLocalTime(AssignmentProperties.StartDate);
             }
 
             //Add the Learners Assignment Items 
@@ -1045,11 +1048,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
 
             //Set the selected StartDate/Due Date Value
-            AssignmentProperties.StartDate = spDateTimeStart.SelectedDate.ToUniversalTime();
+            SPTimeZone timeZone = SPWeb.RegionalSettings.TimeZone;
+            AssignmentProperties.StartDate = timeZone.LocalTimeToUTC(spDateTimeStart.SelectedDate);
 
             if (!spDateTimeDue.IsDateEmpty)
             {
-                AssignmentProperties.DueDate = spDateTimeDue.SelectedDate.ToUniversalTime();
+                AssignmentProperties.DueDate = timeZone.LocalTimeToUTC(spDateTimeDue.SelectedDate);
             }
 
             AssignmentProperties.AutoReturn = chkAutoReturnLearners.Checked;

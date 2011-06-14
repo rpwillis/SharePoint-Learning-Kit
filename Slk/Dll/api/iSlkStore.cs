@@ -242,6 +242,11 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Cancels the batch jobs.</summary>
         void CancelBatchJobs();
+
+        /// <summary>Loads all possible assignment reminders.</summary>
+        /// <param name="minDueDate">The minimum due date to return.</param>
+        /// <param name="maxDueDate">The maximum due date to return.</param>
+        IEnumerable<AssignmentProperties> LoadAssignmentReminders(DateTime minDueDate, DateTime maxDueDate);
     }
 }
 
