@@ -141,7 +141,7 @@ namespace Microsoft.LearningComponents.Storage
                     ActivityPackageItemIdentifier rootActivityId,
                     LoggingOptions loggingOptions)
         {
-            return CreateAttempt(packageStore, learnerId, new LearningStoreItemIdentifier("LearnerAssignment", 0), rootActivityId, loggingOptions);
+            return CreateAttempt(packageStore, learnerId, null, rootActivityId, loggingOptions);
         }
 
         /// <summary>
@@ -191,7 +191,8 @@ namespace Microsoft.LearningComponents.Storage
             Utilities.ValidateParameterNonNull("rootActivityId", rootActivityId);
 
             // Create the attempt in LearningStore
-            ExecuteNavigator nav = ExecuteNavigator.CreateExecuteNavigator(packageStore.LearningStore, rootActivityId.GetKey(), learnerId.GetKey(), learnerAssignmentId.GetKey(), loggingOptions);
+            long learnerAssignmentKey = learnerAssignmentId == null ? 0 : learnerAssignmentId.GetKey();
+            ExecuteNavigator nav = ExecuteNavigator.CreateExecuteNavigator(packageStore.LearningStore, rootActivityId.GetKey(), learnerId.GetKey(), learnerAssignmentKey, loggingOptions);
             
             // At this point, the attempt information is in the LearningStore. Attempt has not started.
             return new StoredLearningSession(nav, packageStore);

@@ -63,7 +63,7 @@ namespace Microsoft.LearningComponents.Storage
         /// </summary>
         /// <remarks>
         /// If this value is positive, it contains a value created from
-        /// the database.  If this value is negative, it contains a value
+        /// the database.  If the value is 0 it is a 'null' object. If this value is negative, it contains a value
         /// created by a particular job, and is only "understood" by that
         /// particular job.  See the documentation for LearningStoreJob.AddItem
         /// for more details on where this is useful.  A value of zero is
@@ -78,7 +78,7 @@ namespace Microsoft.LearningComponents.Storage
         /// </summary>
         /// <param name="itemTypeName">Name of the item type to which the identifier refers.</param>
         /// <param name="key">The unique integer value assigned to the item.  This
-        ///     must be a positive integer.</param>
+        ///     must be a positive integer or zero for a 'null' item.</param>
         /// <exception cref="ArgumentNullException"><paramref name="itemTypeName"/> is a null reference.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="key"/> is not a valid positive integer.</exception>
         /// <example>
@@ -93,7 +93,7 @@ namespace Microsoft.LearningComponents.Storage
             // Check parameters
             if (itemTypeName == null)
                 throw new ArgumentNullException("itemTypeName");
-            if (key <= 0)
+            if (key < 0)
                 throw new ArgumentOutOfRangeException("key",
                     LearningStoreStrings.PositiveValueExpected);
 

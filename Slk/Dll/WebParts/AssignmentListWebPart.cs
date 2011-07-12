@@ -577,7 +577,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 try
                 {
-                    SPUser inputSPUser = SPWeb.SiteUsers[learnerLogin];
+                    SPUser inputSPUser = SPWeb.EnsureUser(learnerLogin);
                     string observerRoleLearnerKey = String.IsNullOrEmpty(inputSPUser.Sid) ? inputSPUser.LoginName : inputSPUser.Sid;
                     try
                     {
