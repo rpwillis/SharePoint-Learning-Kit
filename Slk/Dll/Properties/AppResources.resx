@@ -1676,4 +1676,10 @@ More information may be available in the server event log.</value>
   <data name="ChangeLearnerAssignmentNotInstructor" xml:space="preserve">
     <value>Cannot change learner assignment because you are not an instructor for the assignment.</value>
   </data>
+  <data name="ReminderEmailsJobTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit Reminder Emails</value>
+  </data>
+  <data name="GroupEnumerationFail" xml:space="preserve">
+    <value>Could not get the members of group {0}.</value>
+  </data>
 </root>

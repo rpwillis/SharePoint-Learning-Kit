@@ -2067,7 +2067,7 @@ CREATE TABLE UserItemSite (
     SPUserId BIGINT NOT NULL,
     CONSTRAINT PK_UserItemSite PRIMARY KEY  CLUSTERED  (UserId, SPSiteGuid)
 )
-GRANT SELECT, INSERT, DELETE, UPDATE ON [UserItem] TO LearningStore
+GRANT SELECT, INSERT, DELETE, UPDATE ON [UserItemSite] TO LearningStore
 
 
 -- Create SiteSettingsItem table
