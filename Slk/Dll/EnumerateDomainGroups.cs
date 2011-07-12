@@ -338,9 +338,10 @@ namespace Microsoft.SharePointLearningKit
                     ProcessSearchResults(searcher, users);
                 }
             }
-            catch (DirectoryServicesCOMException)
+            catch (COMException e)
             {
-                errors.Add(string.Format(CultureInfo.CurrentUICulture, "Could not get the members of group {0}.", group.Name));
+                errors.Add(string.Format(CultureInfo.CurrentUICulture, AppResources.GroupEnumerationFail, group.Name));
+                Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(e);
             }
 
             return users;
@@ -398,18 +399,10 @@ namespace Microsoft.SharePointLearningKit
 
                 info.Email = ResultValue(result, "mail");
 
-                string accountName = ResultValue(result, "sAMAccountName");
-
-                string namingContext = FindNamingContext(distinguishedName);
-                string dnsName = FindDnsName(namingContext);
-                string domain = FindDomain(dnsName, namingContext);
-
-                if (string.IsNullOrEmpty(domain))
-                {
-                    domain = dnsName;
-                }
-
-                info.LoginName = string.Format("{0}\\{1}", domain, accountName);
+                byte[] sid = (byte[])result.Properties["objectSid"][0];
+                SecurityIdentifier identifier = new SecurityIdentifier(sid, 0);
+                NTAccount account = (NTAccount)identifier.Translate(typeof(NTAccount));
+                info.LoginName = account.ToString();
                 processed.Add(distinguishedName, info);
             }
 
