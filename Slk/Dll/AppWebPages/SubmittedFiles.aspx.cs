@@ -198,14 +198,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected void BuildPageContent()
         {
             DropBoxManager dropBox = new DropBoxManager(AssignmentProperties);
-                Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("LearnerId {0}", LearnerAssignmentProperties.LearnerId.GetKey());
             AssignmentFile[] files = dropBox.LastSubmittedFiles(LearnerAssignmentProperties.User.SPUser);
 
             int fileIndex = 0;
-                Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("files.Length {0}", files.Length);
             foreach (AssignmentFile file in files)
             {
-                Microsoft.SharePointLearningKit.WebControls.SlkError.Debug(file.Name);
                 if (fileIndex == 0)
                 {
                     this.DisplayFileLink(this.file1, file);

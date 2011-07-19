@@ -43,21 +43,25 @@ namespace Microsoft.SharePointLearningKit
             {
                 reminderDays = store.Settings.EmailSettings.ReminderDays;
 
+                Console.WriteLine("ReminderDays count {0}", reminderDays.Count);
+
                 if (reminderDays.Count > 0)
                 {
                     DetermineMaxAndMinDates();
                     DateTime today = DateTime.Now.Date;
 
+                    Console.WriteLine("Min and Max date {0} {1}", minDueDate, maxDueDate);
+
                     IEnumerable<AssignmentProperties> collection = store.LoadAssignmentReminders(minDueDate, maxDueDate);
 
                     foreach (AssignmentProperties assignment in collection)
                     {
+                    Console.WriteLine("assignment {0} due date {1}", assignment.Title, assignment.DueDate);
                         if (assignment.DueDate != null)
                         {
                             int daysTo = assignment.DueDate.Value.ToLocalTime().Date.Subtract(today).Days;
 
-                            DateTime date = assignment.DueDate.Value.ToLocalTime().Date;
-                            TimeSpan span = date.ToLocalTime().Subtract(today);
+                            Console.WriteLine("daysTo {0} due date {1}", daysTo, assignment.DueDate.Value.ToLocalTime().Date);
 
                             if (reminderDays.Contains(daysTo))
                             {

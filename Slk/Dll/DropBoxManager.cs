@@ -678,6 +678,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Dumps debug messages.</summary>
         public static void Debug(string message, params object[] arguments)
         {
+            /*
             try
             {
                 using (System.Web.Hosting.HostingEnvironment.Impersonate())
@@ -693,6 +694,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(e);
             }
+            */
         }
 
     }

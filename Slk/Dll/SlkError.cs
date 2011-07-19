@@ -216,10 +216,12 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
 
         public static void Debug (string message, params object[] arguments)
         {
+            /*
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter("c:\\temp\\slkDebug.txt", true))
             {
                 writer.WriteLine(message, arguments);
             }
+            */
         }
 
         #region WriteToEventLog

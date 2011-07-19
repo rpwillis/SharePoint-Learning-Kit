@@ -8978,6 +8978,9 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// </remarks>
     public abstract class LearnerAssignmentList{
         
+        /// <summary>The name of the view without security.</summary>
+        public const string BaseViewName = "LearnerAssignmentList";
+
         /// <summary>
         /// Name of the LearnerAssignmentId column on the Learner Assignment List views.
         /// <para>
