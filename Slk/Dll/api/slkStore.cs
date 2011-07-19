@@ -290,7 +290,7 @@ namespace Microsoft.SharePointLearningKit
                         Guid learnerAssignmentGuid = CastNonNull<Guid>(dataRow[LearnerAssignmentList.LearnerAssignmentGuidId]);
                         LearnerAssignmentProperties learnerProperties = PopulateLearnerAssignmentProperties(dataRow, properties, learnerAssignmentGuid);
 
-                        learnerProperties.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey);
+                        learnerProperties.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey, learnerAssignmentGuid);
                         learnerList.Add(learnerProperties);
                     }
 
@@ -2526,6 +2526,11 @@ namespace Microsoft.SharePointLearningKit
 
         SlkUser LoadUser(SPWeb web, DataRow dataRow, string idColumn, string nameColumn, string keyColumn)
         {
+            return LoadUser(web, dataRow, idColumn, nameColumn, keyColumn, Guid.Empty);
+        }
+
+        SlkUser LoadUser(SPWeb web, DataRow dataRow, string idColumn, string nameColumn, string keyColumn, Guid learnerAssignmentId)
+        {
             UserItemIdentifier userId = CastNonNullIdentifier<UserItemIdentifier>(dataRow[idColumn]);
             string userName = CastNonNull<string>(dataRow[nameColumn]);
             string key = CastNonNull<string>(dataRow[keyColumn]);
@@ -2539,7 +2544,10 @@ namespace Microsoft.SharePointLearningKit
             {
                 // user no longer present. Will be fixed next time assignment properties page is opened
             }
-            return new SlkUser(userId, userName, key, spUser);
+
+            SlkUser user = new SlkUser(userId, userName, key, spUser);
+            user.AssignmentUserGuidId = learnerAssignmentId;
+            return user;
         }
 
         LearningStoreQuery CreateQueryForLearnerAssignmentProperties(Guid learnerAssignmentGuidId, SlkRole role)
@@ -2783,7 +2791,7 @@ namespace Microsoft.SharePointLearningKit
 
         LearningStoreQuery ReminderEmailQuery(DateTime minDueDate, DateTime maxDueDate)
         {
-            LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
+            LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentList.BaseViewName);
 
             query.AddColumn(Schema.LearnerAssignmentList.AssignmentId);
             query.AddColumn(Schema.LearnerAssignmentList.AssignmentSPSiteGuid);

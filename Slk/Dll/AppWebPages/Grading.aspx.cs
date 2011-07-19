@@ -264,7 +264,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("btnSave_Click");
                 SaveGradingList(SaveAction.SaveOnly);
                 // Make the page safe to refresh
                 Response.Redirect(Request.RawUrl, true);
@@ -277,7 +276,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             catch (Exception ex)
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug(ex.ToString());
                 pageHasErrors = true;
                 errorBanner.AddException(ex);
             }
@@ -551,8 +549,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                 }
             }
-
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("gradingListItems.Count {0}", gradingListItems.Count);
 
             if (gradingListItems.Count > 0)
             {

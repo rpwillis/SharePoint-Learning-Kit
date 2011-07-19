@@ -804,6 +804,55 @@ SET @schema = @schema +
         '<Column Name="PackageManifest" TypeCode="7" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
+    '<View Name="LearnerAssignmentList" Function="LearnerAssignmentList" SecurityFunction="LearnerAssignmentList$Security">' + 
+        '<Column Name="LearnerAssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="LearnerAssignmentItem"/>' +
+        '<Column Name="LearnerAssignmentGuidId" TypeCode="11" Nullable="true"/>' +
+        '<Column Name="LearnerId" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
+        '<Column Name="LearnerName" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="LearnerKey" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="SPUserId" TypeCode="9" Nullable="true"/>' +
+        '<Column Name="IsFinal" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="NonELearningStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
+        '<Column Name="FinalPoints" TypeCode="5" Nullable="true"/>' +
+        '<Column Name="Grade" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="InstructorComments" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AssignmentItem"/>' +
+        '<Column Name="AssignmentSPSiteGuid" TypeCode="11" Nullable="true"/>' +
+        '<Column Name="AssignmentSPWebGuid" TypeCode="11" Nullable="true"/>' +
+        '<Column Name="AssignmentNonELearningLocation" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AssignmentTitle" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AssignmentStartDate" TypeCode="4" Nullable="true"/>' +
+        '<Column Name="AssignmentDueDate" TypeCode="4" Nullable="true"/>' +
+        '<Column Name="AssignmentPointsPossible" TypeCode="5" Nullable="true"/>' +
+        '<Column Name="AssignmentDescription" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AssignmentAutoReturn" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentEmailChanges" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentShowAnswersToLearners" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AssignmentCreatedById" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
+        '<Column Name="AssignmentCreatedByName" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AssignmentCreatedByKey" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AssignmentDateCreated" TypeCode="4" Nullable="true"/>' +
+        '<Column Name="RootActivityId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityPackageItem"/>' +
+        '<Column Name="PackageId" TypeCode="1" Nullable="true" ReferencedItemTypeName="PackageItem"/>' +
+        '<Column Name="PackageFormat" TypeCode="8" Nullable="true" EnumName="PackageFormat"/>' +
+        '<Column Name="PackageLocation" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="AttemptId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
+        '<Column Name="AttemptCurrentActivityId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityPackageItem"/>' +
+        '<Column Name="AttemptSuspendedActivityId" TypeCode="1" Nullable="true" ReferencedItemTypeName="ActivityPackageItem"/>' +
+        '<Column Name="AttemptStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
+        '<Column Name="AttemptFinishedTimestamp" TypeCode="4" Nullable="true"/>' +
+        '<Column Name="AttemptLogDetailSequencing" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AttemptLogFinalSequencing" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AttemptLogRollup" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="AttemptStartedTimestamp" TypeCode="4" Nullable="true"/>' +
+        '<Column Name="AttemptCompletionStatus" TypeCode="8" Nullable="true" EnumName="CompletionStatus"/>' +
+        '<Column Name="AttemptSuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
+        '<Column Name="AttemptGradedPoints" TypeCode="5" Nullable="true"/>' +
+        '<Column Name="LearnerAssignmentState" TypeCode="8" Nullable="true" EnumName="LearnerAssignmentState"/>' +
+        '<Column Name="HasInstructors" TypeCode="3" Nullable="true"/>' +
+        '<Column Name="FileSubmissionState" TypeCode="2" Nullable="true"/>' +
+    '</View>'
+SET @schema = @schema +
     '<View Name="LearnerAssignmentListForLearners" Function="LearnerAssignmentListForLearners" SecurityFunction="LearnerAssignmentListForLearners$Security">' + 
         '<Column Name="LearnerAssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="LearnerAssignmentItem"/>' +
         '<Column Name="LearnerAssignmentGuidId" TypeCode="11" Nullable="true"/>' +
@@ -1305,6 +1354,96 @@ RETURN (
     LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
     LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
 )
+GO
+
+-- Create a function that implements the LearnerAssignmentList view
+CREATE FUNCTION [LearnerAssignmentList](@UserKey nvarchar(250))
+RETURNS TABLE
+AS
+RETURN (
+    SELECT
+    ----- from LearnerAssignmentItem -----
+    lai.Id                          LearnerAssignmentId,
+    lai.GuidId			LearnerAssignmentGuidId,
+    lai.LearnerId                   LearnerId,
+    lui.[Name]                      LearnerName,
+    lui.[Key]                       LearnerKey,
+    luis.SPUserId                   SPUserId,
+    lai.IsFinal                     IsFinal,
+    lai.NonELearningStatus          NonELearningStatus,
+    CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END FinalPoints,
+    CASE WHEN lai.IsFinal = 1 THEN lai.Grade ELSE NULL END Grade,
+    lai.InstructorComments          InstructorComments,
+    ----- from AssignmentItem -----
+    asi.Id                          AssignmentId,
+    asi.SPSiteGuid                  AssignmentSPSiteGuid,
+    asi.SPWebGuid                   AssignmentSPWebGuid,
+    asi.NonELearningLocation        AssignmentNonELearningLocation,
+    asi.Title                       AssignmentTitle,
+    asi.StartDate                   AssignmentStartDate,
+    asi.DueDate                     AssignmentDueDate,
+    asi.PointsPossible              AssignmentPointsPossible,
+    asi.Description                 AssignmentDescription,
+    asi.AutoReturn                  AssignmentAutoReturn,
+    asi.EmailChanges                AssignmentEmailChanges,
+    asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+    asi.CreatedBy                   AssignmentCreatedById,
+    cbui.[Name]                     AssignmentCreatedByName,
+    cbui.[Key]                      AssignmentCreatedByKey,
+    asi.DateCreated                 AssignmentDateCreated,
+    asi.RootActivityId              RootActivityId,
+    ----- from PackageItem -----
+    pki.Id                          PackageId,
+    pki.PackageFormat               PackageFormat,
+    pki.Location                    PackageLocation,
+    ----- from AttemptItem -----
+    ati.Id AttemptId,
+    ati.CurrentActivityId           AttemptCurrentActivityId,
+    ati.SuspendedActivityId         AttemptSuspendedActivityId,
+    ati.AttemptStatus               AttemptStatus,
+    ati.FinishedTimestamp           AttemptFinishedTimestamp,
+    ati.LogDetailSequencing         AttemptLogDetailSequencing,
+    ati.LogFinalSequencing          AttemptLogFinalSequencing,
+    ati.LogRollup                   AttemptLogRollup,
+    ati.StartedTimestamp            AttemptStartedTimestamp,
+    ati.CompletionStatus            AttemptCompletionStatus,
+    ati.SuccessStatus               AttemptSuccessStatus,
+    ati.TotalPoints                 AttemptGradedPoints,
+    ----- computed FileSubmissionState -----
+    dbo.GetLearnerFileSubmissionState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus) FileSubmissionState,
+    ----- computed LearnerAssignmentState -----
+    dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) LearnerAssignmentState,
+    ----- computed HasInstructors -----
+    CASE WHEN EXISTS
+    (
+    SELECT *
+    FROM InstructorAssignmentItem iaiH
+    WHERE iaiH.AssignmentId = asi.Id
+    ) THEN 1 ELSE 0 END             HasInstructors
+    -----
+    FROM LearnerAssignmentItem lai
+    INNER JOIN AssignmentItem asi ON lai.AssignmentId = asi.Id
+    INNER JOIN UserItem lui ON lui.Id = lai.LearnerId
+    LEFT JOIN UserItemSite luis ON lui.Id = luis.UserId AND
+                                    asi.SPSiteGuid = luis.SPSiteGuid
+    INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+    LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+    LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
+    LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
+)
+GO
+GRANT SELECT ON [LearnerAssignmentList] TO LearningStore
+GO
+
+-- Create function for the security on the LearnerAssignmentList view
+CREATE FUNCTION [LearnerAssignmentList$Security](@UserKey nvarchar(250))
+RETURNS bit
+AS
+BEGIN
+    RETURN (1)
+END
+GO
+GRANT EXECUTE ON [LearnerAssignmentList$Security] TO LearningStore
 GO
 
 ALTER FUNCTION [LearnerAssignmentListForLearners](@UserKey nvarchar(250))
