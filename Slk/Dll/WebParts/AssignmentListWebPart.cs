@@ -42,6 +42,29 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// <summary>The event raised then the cell is consumed.</summary>
         public event CellConsumerInitEventHandler CellConsumerInit;
 
+        /// <summary>See <see cref="Microsoft.SharePoint.WebPartPages.WebPart.GetInitEventArgs"/>.</summary>
+        [Obsolete]
+        public override InitEventArgs GetInitEventArgs(string interfaceName)
+        {
+            // Check if this is my particular cell interface.
+            if (interfaceName == "MyCellConsumerInterface" || interfaceName == "Observer_WebPart_Listener")
+            {
+                // Create the object that will return the initialization arguments.
+                CellConsumerInitEventArgs cellConsumerInitArgs = new CellConsumerInitEventArgs();
+
+                // Set the FieldName and FieldDisplay name values.
+                cellConsumerInitArgs.FieldName = "AccountName";
+                cellConsumerInitArgs.FieldDisplayName = "Account Name";
+
+                // Return the CellConsumerInitEventArgs object.
+                return(cellConsumerInitArgs);
+            }
+            else
+            {
+                return(null);
+            }
+        }
+
         /// <summary>See <see cref="Microsoft.SharePoint.WebPartPages.WebPart.EnsureInterfaces"/>.</summary>
         [Obsolete]
         public override void EnsureInterfaces()
@@ -120,6 +143,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             InitializeLearnerKey();
             // On CellReady, validate and set the learner's login id
+            InitializeLearnerKey();
             if (cellReadyArgs.Cell != null)
             {
                 observerRoleLearnerLogin = cellReadyArgs.Cell.ToString();
