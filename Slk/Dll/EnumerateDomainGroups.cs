@@ -399,18 +399,10 @@ namespace Microsoft.SharePointLearningKit
 
                 info.Email = ResultValue(result, "mail");
 
-                string accountName = ResultValue(result, "sAMAccountName");
-
-                string namingContext = FindNamingContext(distinguishedName);
-                string dnsName = FindDnsName(namingContext);
-                string domain = FindDomain(dnsName, namingContext);
-
-                if (string.IsNullOrEmpty(domain))
-                {
-                    domain = dnsName;
-                }
-
-                info.LoginName = string.Format("{0}\\{1}", domain, accountName);
+                byte[] sid = (byte[])result.Properties["objectSid"][0];
+                SecurityIdentifier identifier = new SecurityIdentifier(sid, 0);
+                NTAccount account = (NTAccount)identifier.Translate(typeof(NTAccount));
+                info.LoginName = account.ToString();
                 processed.Add(distinguishedName, info);
             }
 
