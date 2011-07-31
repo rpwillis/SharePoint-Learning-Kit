@@ -13,7 +13,6 @@ using System.Web.UI.HtmlControls;
 using Microsoft.LearningComponents.Frameset;
 using Resources;
 using Resources.Properties;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.Frameset
 {
@@ -25,7 +24,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             get  
             {
-                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
                 return ResHelper.GetMessage(FramesetResources.CON_PleaseWait);   
             }
         }
@@ -35,7 +33,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             get 
             {
-                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
                 return HttpUtility.HtmlEncode(FramesetResources.FRM_UnknownExceptionTitle); 
             }
         }
@@ -45,7 +42,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             get 
             {
-                SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
                 return HttpUtility.HtmlEncode(ResHelper.GetMessage(SlkFrameset.FRM_UnexpectedErrorNoException));  
             }
         }

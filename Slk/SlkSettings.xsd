@@ -21,6 +21,20 @@
 					<xs:attribute name="MimeType" type="xs:string" use="required" />
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="EmailSettings" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+                                    <xs:all>
+                                        <xs:element name="NewAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="CancelAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="SubmitAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="ReactivateAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="ReturnAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="CollectAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="AssignmentReminder" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                    </xs:all>
+                                    <xs:attribute name="ReminderDays" type="xs:string" use="optional" />
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="Query" maxOccurs="unbounded" minOccurs="0">
 				<xs:complexType>
 					<xs:sequence>
@@ -103,6 +117,8 @@
 			<xs:attribute name="ApprovedAttachmentTypes" type="xs:string" use="required" />
 			<xs:attribute name="ELearningIisCompatibilityModeExtensions" type="xs:string" use="optional" />
 			<xs:attribute name="HideDisabledUsers" type="xs:boolean" use="optional" />
+			<xs:attribute name="UseGrades" type="xs:boolean" use="optional" />
+			<xs:attribute name="LearnerReportUrl" type="xs:string" use="optional" />
 			<xs:attribute name="LoggingOptions" type="LoggingOptions" use="required" />
 			<xs:attribute name="MaxAttachmentKilobytes" type="xs:int" use="required" />
 			<xs:attribute name="NonELearningIisCompatibilityModeExtensions" type="xs:string" use="optional" />
@@ -111,6 +127,18 @@
 			<xs:attribute name="UserWebListMruSize" type="xs:int" use="required" />
 		</xs:complexType>
 	</xs:element>
+        <xs:complexType name="EmailDetails">
+                <xs:sequence>
+                    <xs:element name="Body" minOccurs="1" maxOccurs="1">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="Subject" type="xs:string" use="required" />
+        </xs:complexType>
 	<xs:simpleType name="RenderAsType">
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="Default" />

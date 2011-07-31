@@ -12,7 +12,6 @@ using Microsoft.LearningComponents.Frameset;
 using Resources.Properties;
 using Resources;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.SharePointLearningKit.Localization;
 using Microsoft.SharePointLearningKit.WebControls;
 
 
@@ -30,9 +29,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             try
             {
-                SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
-                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
-
                 SlkUtilities.RetryOnDeadlock(delegate()
                 {
                     // Clear data that may need to be reset on retry

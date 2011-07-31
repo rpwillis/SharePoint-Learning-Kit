@@ -14,7 +14,6 @@ using Microsoft.SharePoint;
 using Microsoft.SharePointLearningKit;
 using Resources.Properties;
 using Microsoft.SharePointLearningKit.WebControls;
-using Microsoft.SharePointLearningKit.Localization;
 using System.Globalization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
@@ -54,8 +53,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private string m_sourceUrl;
 
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
-        private LearnerAssignmentProperties m_currentLearnerAssignmentProperties = null;
-        private AssignmentProperties m_currentAssignmentProperties = null;
+        private LearnerAssignmentProperties learnerAssignmentProperties;
+        private AssignmentProperties assignmentProperties;
 
         #endregion
 
@@ -96,34 +95,30 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         // <summary>
         // Gets current Learner Assignment Properties 
         // </summary>
-        private LearnerAssignmentProperties CurrentLearnerAssignmentProperties
+        private LearnerAssignmentProperties LearnerAssignmentProperties
         {
             get
             {
-                if (m_currentLearnerAssignmentProperties == null)
+                if (learnerAssignmentProperties == null)
                 {
-                    m_currentLearnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentGuid, SlkRole.Learner);
+                    LoadAssignmentProperties();
                 }
-                return m_currentLearnerAssignmentProperties;
-            }
-            set
-            {
-                m_currentLearnerAssignmentProperties = value;
+                return learnerAssignmentProperties;
             }
         }
 
         // <summary>
         // Gets current Assignment Properties 
         // </summary>
-        private AssignmentProperties CurrentAssignmentProperties
+        private AssignmentProperties AssignmentProperties
         {
             get
             {
-                if (m_currentAssignmentProperties == null)
+                if (assignmentProperties == null)
                 {
-                    m_currentAssignmentProperties = SlkStore.GetAssignmentProperties(CurrentLearnerAssignmentProperties.AssignmentId, SlkRole.Learner);
+                    LoadAssignmentProperties();
                 }
-                return m_currentAssignmentProperties;
+                return assignmentProperties;
             }
         }
 
@@ -134,8 +129,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             if (!Page.IsPostBack)
             {
-                AppResources.Culture = LocalizationManager.GetCurrentCulture();
-
                 pageTitle.Text = AppResources.FilesUploadPageTitle;
                 pageTitleInTitlePage.Text = AppResources.FilesUploadPageTitleInTitle;
                 documentUpload.Text = AppResources.FilesUploadDocumentUpload;
@@ -146,7 +139,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 contentPanel.Visible = false;
                 errorBanner.Clear();
 
-                if (CurrentLearnerAssignmentProperties.Status == LearnerAssignmentState.Completed || CurrentLearnerAssignmentProperties.Status == LearnerAssignmentState.Final)
+                if (LearnerAssignmentProperties.Status == LearnerAssignmentState.Completed || LearnerAssignmentProperties.Status == LearnerAssignmentState.Final)
                 {
                     contentPanel.Visible = false;
                     errorBanner.AddError(ErrorType.Error, AppResources.FilesUploadAssIsInaccessible);
@@ -163,11 +156,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>The OK button event handler.</summary>
         protected void btnOK_Click(object sender, EventArgs e)
         {
-            SlkMemberships members = SlkStore.GetInstructorMemberships(SPWeb);
-            CurrentAssignmentProperties.PopulateSPUsers(members);
-            DropBoxManager dropBoxMgr = new DropBoxManager(CurrentAssignmentProperties);
-
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
+            SlkMemberships memberships = new SlkMemberships(null, null, null);
+            memberships.FindAllSlkMembers(SPWeb, SlkStore, true);
 
             List<AssignmentUpload> uploadedFiles = new List<AssignmentUpload>();
 
@@ -186,7 +176,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 try
                 {
-                    dropBoxMgr.UploadFiles(CurrentLearnerAssignmentProperties, uploadedFiles.ToArray());
+                    LearnerAssignmentProperties.UploadFilesAndSubmit(uploadedFiles.ToArray());
 
                     //Redirect to the SLk ALWP Page
                     HttpContext.Current.Response.Write(
@@ -224,9 +214,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             Response.Redirect(SPWeb.ServerRelativeUrl, true);
         }
 
+#region private methods
         private void DisplayLastAssignmentAttempt()
         {
-            DropBoxManager dropBoxManager = new DropBoxManager(CurrentAssignmentProperties);
+            DropBoxManager dropBoxManager = new DropBoxManager(AssignmentProperties);
             AssignmentFile[] files = dropBoxManager.LastSubmittedFiles();
 
             foreach (AssignmentFile file in files)
@@ -238,6 +229,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 pnlOldFiles.Controls.Add(new LiteralControl("<br/>"));
             }
         }
+
+        void LoadAssignmentProperties()
+        {
+            assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuid, SlkRole.Learner);
+            learnerAssignmentProperties = assignmentProperties.Results[0];
+        }
+#endregion private methods
     }
 }
 

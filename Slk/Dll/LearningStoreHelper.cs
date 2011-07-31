@@ -31,66 +31,6 @@ public static class LearningStoreHelper
 {
     //----- MLC Data Conversion -----
 
-    /// <summary>
-    /// Converts a value returned from a LearningStore query to a given type, or <c>null</c>
-    /// if the value is <c>DBNull</c>.
-    /// </summary>
-    ///
-    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
-    ///     returned from a LearningStore query.</param>
-    ///
-    /// <param name="result">Where to store the result.  <paramref name="value"/> is cast to
-    ///     the type of <paramref name="result"/>, or is set to <c>null</c> if
-    ///     <paramref name="value"/> is <c>DBNull</c>.</param>
-    /// 
-    /// <typeparam name="T">The type to convert to.</typeparam>
-    ///
-    /// <remarks>
-    /// This version of <c>Cast</c> is used to retrieve a <i>value type</i> from LearningStore,
-    /// i.e. <c>bool</c>, <c>DateTime</c>, <c>float</c>, <c>double</c>, <c>Guid</c>,
-    /// <c>int</c>, or an enumerated type.  The output parameter must be a nullable type;
-    /// if the input value is the database "NULL" value, then <c>null</c> is stored in the
-    /// output parameter.
-    /// </remarks>
-    ///
-    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void Cast<T>(object value, out T? result) where T : struct
-    {
-        if (value is DBNull)
-            result = null;
-        else
-            result = (T) value;
-    }
-
-    /// <summary>
-    /// Converts a value returned from a LearningStore query to a given type.  Throws an
-    /// exception if the value is <c>DBNull</c>.
-    /// </summary>
-    ///
-    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
-    ///     returned from a LearningStore query.</param>
-    ///
-    /// <param name="result">Where to store the result.  <paramref name="value"/> is cast to
-    ///     the type of <paramref name="result"/>, or is set to <c>null</c> if
-    ///     <paramref name="value"/> is <c>DBNull</c>.</param>
-    /// 
-    /// <typeparam name="T">The type to convert to.</typeparam>
-    ///
-    /// <remarks>
-    /// This version of <c>Cast</c> is used to retrieve a <i>value type</i> from LearningStore,
-    /// i.e. <c>bool</c>, <c>DateTime</c>, <c>float</c>, <c>double</c>, <c>Guid</c>,
-    /// <c>int</c>, or an enumerated type, when you know that the input value will not be the
-    /// database "NULL" value.  (If it is, an exception is thrown.)
-    /// </remarks>
-    ///
-    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void CastNonNull<T>(object value, out T result) where T : struct
-    {
-        if (value is DBNull)
-            throw new ArgumentException(AppResources.UnexpectedDBNull);
-        else
-            result = (T) value;
-    }
 
     /// <summary>
     /// Converts a value returned from a LearningStore query to a given type, or <c>null</c>
@@ -120,29 +60,6 @@ public static class LearningStoreHelper
             result = null;
         else
             result = (T) value;
-    }
-
-    /// <summary>
-    /// Converts a value returned from a LearningStore query to a given type, or throws an ArgumentException
-    /// if the value is <c>DBNull</c>.
-    /// </summary>
-    ///
-    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
-    ///     returned from a LearningStore query.</param>
-    ///
-    /// <param name="type">The type to convert to.</param>
-    ///
-    /// <exception cref="ArgumentException">Throws an ArgumentException if the value is DBNull.</exception>
-    public static T CastNonNull<T>(object value, T type) where T : class
-    {
-        if (value is DBNull)
-        {
-            throw new ArgumentException(AppResources.UnexpectedDBNull);
-        }
-        else
-        {
-            return (T) value;
-        }
     }
 
     /// <summary>
@@ -278,43 +195,6 @@ public static class LearningStoreHelper
 
     /// <summary>
     /// Converts a value returned from a LearningStore query to a
-    /// <c>ActivityPackageItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
-    /// </summary>
-    ///
-    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
-    ///     returned from a LearningStore query.</param>
-    ///
-    /// <param name="result">Where to store the result.</param>
-    ///
-    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void Cast(object value, out ActivityPackageItemIdentifier result)
-    {
-        LearningStoreItemIdentifier id;
-        Cast(value, out id);
-        result = (id == null) ? null : new ActivityPackageItemIdentifier(id);
-    }
-
-    /// <summary>
-    /// Converts a value returned from a LearningStore query to a
-    /// <c>ActivityPackageItemIdentifier</c>.  Throws an exception if the value is
-    /// <c>DBNull</c>.
-    /// </summary>
-    ///
-    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
-    ///     returned from a LearningStore query.</param>
-    ///
-    /// <param name="result">Where to store the result.</param>
-    ///
-    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void CastNonNull(object value, out ActivityPackageItemIdentifier result)
-    {
-        LearningStoreItemIdentifier id;
-        CastNonNull(value, out id);
-        result = new ActivityPackageItemIdentifier(id);
-    }
-
-    /// <summary>
-    /// Converts a value returned from a LearningStore query to a
     /// <c>PackageGlobalObjectiveItemIdentifier</c>, or <c>null</c> if the value is
     /// <c>DBNull</c>.
     /// </summary>
@@ -344,8 +224,7 @@ public static class LearningStoreHelper
     /// <param name="result">Where to store the result.</param>
     ///
     [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void CastNonNull(object value,
-        out PackageGlobalObjectiveItemIdentifier result)
+    public static void CastNonNull(object value, out PackageGlobalObjectiveItemIdentifier result)
     {
         LearningStoreItemIdentifier id;
         CastNonNull(value, out id);
@@ -732,8 +611,7 @@ public static class LearningStoreHelper
     /// <param name="result">Where to store the result.</param>
     ///
     [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void Cast(object value,
-        out MapActivityObjectiveToGlobalObjectiveItemIdentifier result)
+    public static void Cast(object value, out MapActivityObjectiveToGlobalObjectiveItemIdentifier result)
     {
         LearningStoreItemIdentifier id;
         Cast(value, out id);
@@ -867,42 +745,6 @@ public static class LearningStoreHelper
         LearningStoreItemIdentifier id;
         CastNonNull(value, out id);
         result = new SequencingLogEntryItemIdentifier(id);
-    }
-
-    /// <summary>
-    /// Converts a value returned from a LearningStore query to a <c>UserItemIdentifier</c>,
-    /// or <c>null</c> if the value is <c>DBNull</c>.
-    /// </summary>
-    ///
-    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
-    ///     returned from a LearningStore query.</param>
-    ///
-    /// <param name="result">Where to store the result.</param>
-    ///
-    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void Cast(object value, out UserItemIdentifier result)
-    {
-        LearningStoreItemIdentifier id;
-        Cast(value, out id);
-        result = (id == null) ? null : new UserItemIdentifier(id);
-    }
-
-    /// <summary>
-    /// Converts a value returned from a LearningStore query to a
-    /// <c>UserItemIdentifier</c>.  Throws an exception if the value is <c>DBNull</c>.
-    /// </summary>
-    ///
-    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
-    ///     returned from a LearningStore query.</param>
-    ///
-    /// <param name="result">Where to store the result.</param>
-    ///
-    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-    public static void CastNonNull(object value, out UserItemIdentifier result)
-    {
-        LearningStoreItemIdentifier id;
-        CastNonNull(value, out id);
-        result = new UserItemIdentifier(id);
     }
 
     //----- SLK Data Conversion -----

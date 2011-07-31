@@ -3581,6 +3581,59 @@ namespace Microsoft.SharePointLearningKit.Schema {
     }
     
     /// <summary>
+    /// Contains constants related to the UserItemSite item type.
+    /// <para>Each item contains information about the SPUser of one user in a particular site collection.</para>
+    /// <para>This <a href="SlkSchema.htm">LearningStore item type</a> is only available in <a href="Default.htm">SLK</a>.</para>
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <b><a href="SlkSchema.htm">Default operation-level security</a>:</b> In SLK, query access only is granted to all users.</para>
+    /// Properties on the item type:
+    /// <ul>
+    /// <li><Fld>UserId</Fld></li>
+    /// <li><Fld>SPSiteGuid</Fld></li>
+    /// <li><Fld>SPUserId</Fld></li>
+    /// </ul>
+    /// </remarks>
+    public abstract class UserItemSite {
+        
+        /// <summary>
+        /// Name of the <Typ>UserItemSite</Typ> item type.
+        /// </summary>
+        public const string ItemTypeName = "UserItemSite";
+        
+        /// <summary>Name of the UserId property on the <Typ>UserItemSite</Typ> item type.</summary>
+        /// <remarks>
+        /// Property type: Reference to a <Typ>UserItem</Typ> item type.<p/>
+        /// Property can not contain null.<p/>
+        /// </remarks>
+        public const string UserId = "UserId";
+
+        /// <summary>
+        /// Name of the SPSiteGuid property on the <Typ>UserItemSite</Typ> item type.
+        /// <para>
+        /// SPSiteGuid is the GUID of the SharePoint site collection (SPSite) that this
+        /// user is associated with.
+        /// Corresponds to <a href="Microsoft.SharePointLearningKit.UserItemSite.SPSiteGuid.Property.htm">UserItemSite.SPSiteGuid</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Property type: Guid<p/>
+        /// Property can not contain null.<p/>
+        /// Property does not have a default value.<p/>
+        /// </remarks>
+        public const string SPSiteGuid = "SPSiteGuid";
+
+        /// <summary>Name of the SPUserId property on the <Typ>UserItemSite</Typ> item type.</summary>
+        /// <remarks>
+        /// Property type: Reference to an id of an SPUser in a particular site collection.<p/>
+        /// Property can not contain null.<p/>
+        /// </remarks>
+        public const string SPUserId = "SPUserId";
+
+    }
+    
+    /// <summary>
     /// Contains constants related to the SiteSettingsItem item type.
     /// <para>
     /// Each item of this <a href="SlkSchema.htm">LearningStore item type</a> contains the
@@ -3731,6 +3784,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// <ul>
     /// <li><Fld>Id</Fld></li>
     /// <li><Fld>AutoReturn</Fld></li>
+    /// <li><Fld>EmailChanges</Fld></li>
     /// <li><Fld>CreatedBy</Fld></li>
     /// <li><Fld>DateCreated</Fld></li>
     /// <li><Fld>Description</Fld></li>
@@ -3957,6 +4011,20 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const int MaxDescriptionLength = 1073741822;
         
         /// <summary>
+        /// Name of the EmailChanges property on the <Typ>AssignmentItem</Typ> item type.
+        /// <para>
+        /// EmailChanges is <b>true</b> if emails should be sent to the learners on creation and modification of assignments.
+        /// Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.EmailChanges.Property.htm">AssignmentProperties.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Property type: Boolean<p/>
+        /// Property can not contain null.<p/>
+        /// Property does not have a default value.<p/>
+        /// </remarks>
+        public const string EmailChanges = "EmailChanges";
+        
+        /// <summary>
         /// Name of the AutoReturn property on the <Typ>AssignmentItem</Typ> item type.
         /// <para>
         /// AutoReturn is <b>true</b> if the assignment should be automatically returned to
@@ -4153,6 +4221,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// <li><Fld>Id</Fld></li>
     /// <li><Fld>AssignmentId</Fld></li>
     /// <li><Fld>FinalPoints</Fld></li>
+    /// <li><Fld>Grade</Fld></li>
     /// <li><Fld>GuidId</Fld></li>
     /// <li><Fld>InstructorComments</Fld></li>
     /// <li><Fld>IsFinal</Fld></li>
@@ -4300,6 +4369,20 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string FinalPoints = "FinalPoints";
+        
+        /// <summary>
+        /// Name of the Grade property on the <Typ>LearnerAssignmentItem</Typ> item type.
+        /// <para>
+        /// Grade is a manually marked grade on this <a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+        /// Corresponds to <a href="Microsoft.SharePointLearningKit.GradingProperties.Grade.Property.htm">GradingProperties.Grade</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Property type: String[20]<p/>
+        /// Property can contain null.<p/>
+        /// Property does not have a default value.<p/>
+        /// </remarks>
+        public const string Grade = "Grade";
         
         /// <summary>
         /// Name of the InstructorComments property on the <Typ>LearnerAssignmentItem</Typ> item type.
@@ -6912,6 +6995,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AttemptGradedPoints</Fld></li>
     /// <li><Fld>AttemptId</Fld></li>
     /// <li><Fld>LearnerAssignmentGuidId</Fld></li>
@@ -6988,6 +7072,15 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
+        
+        /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>LearnerAssignmentView</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
         
         /// <summary>
         /// Name of the RootActivityId column on the <Typ>LearnerAssignmentView</Typ> view.
@@ -7072,6 +7165,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -7231,6 +7325,16 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
+
+        /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>AssignmentPropertiesView</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
+        
         
         /// <summary>
         /// Name of the AssignmentShowAnswersToLearners column on the <Typ>AssignmentPropertiesView</Typ> view.
@@ -7406,6 +7510,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -7592,6 +7697,15 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
+        
+        /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>AssignmentListForInstructors</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
         
         /// <summary>
         /// Name of the AssignmentShowAnswersToLearners column on the <Typ>AssignmentListForInstructors</Typ> view.
@@ -7978,6 +8092,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -8210,6 +8325,15 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
         
         /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>InstructorAssignmentListForInstructors</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
+        
+        /// <summary>
         /// Name of the AssignmentShowAnswersToLearners column on the <Typ>InstructorAssignmentListForInstructors</Typ> view.
         /// <para>
         /// AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
@@ -8348,6 +8472,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Columns in the view:
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -8578,6 +8703,16 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
+
+        /// <summary>
+        /// Name of the AssignmentEmailChanges column on the <Typ>InstructorAssignmentList</Typ> view.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
+        
         
         /// <summary>
         /// Name of the AssignmentShowAnswersToLearners column on the <Typ>InstructorAssignmentList</Typ> view.
@@ -8713,668 +8848,15 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// </b>
     /// Access is granted to all users.
     /// </para><p/>
-    /// Columns in the view:
-    /// <ul>
-    /// <li><Fld>AssignmentAutoReturn</Fld></li>
-    /// <li><Fld>AssignmentCreatedById</Fld></li>
-    /// <li><Fld>AssignmentCreatedByKey</Fld></li>
-    /// <li><Fld>AssignmentCreatedByName</Fld></li>
-    /// <li><Fld>AssignmentDateCreated</Fld></li>
-    /// <li><Fld>AssignmentDescription</Fld></li>
-    /// <li><Fld>AssignmentDueDate</Fld></li>
-    /// <li><Fld>AssignmentId</Fld></li>
-    /// <li><Fld>AssignmentNonELearningLocation</Fld></li>
-    /// <li><Fld>AssignmentPointsPossible</Fld></li>
-    /// <li><Fld>AssignmentShowAnswersToLearners</Fld></li>
-    /// <li><Fld>AssignmentSPSiteGuid</Fld></li>
-    /// <li><Fld>AssignmentSPWebGuid</Fld></li>
-    /// <li><Fld>AssignmentStartDate</Fld></li>
-    /// <li><Fld>AssignmentTitle</Fld></li>
-    /// <li><Fld>AttemptCompletionStatus</Fld></li>
-    /// <li><Fld>AttemptCurrentActivityId</Fld></li>
-    /// <li><Fld>AttemptFinishedTimestamp</Fld></li>
-    /// <li><Fld>AttemptGradedPoints</Fld></li>
-    /// <li><Fld>AttemptId</Fld></li>
-    /// <li><Fld>AttemptLogDetailSequencing</Fld></li>
-    /// <li><Fld>AttemptLogFinalSequencing</Fld></li>
-    /// <li><Fld>AttemptLogRollup</Fld></li>
-    /// <li><Fld>AttemptStartedTimestamp</Fld></li>
-    /// <li><Fld>AttemptStatus</Fld></li>
-    /// <li><Fld>AttemptSuccessStatus</Fld></li>
-    /// <li><Fld>AttemptSuspendedActivityId</Fld></li>
-    /// <li><Fld>FileSubmissionState</Fld></li>
-    /// <li><Fld>FinalPoints</Fld></li>
-    /// <li><Fld>HasInstructors</Fld></li>
-    /// <li><Fld>InstructorComments</Fld></li>
-    /// <li><Fld>IsFinal</Fld></li>
-    /// <li><Fld>LearnerAssignmentGuidId</Fld></li>
-    /// <li><Fld>LearnerAssignmentId</Fld></li>
-    /// <li><Fld>LearnerAssignmentState</Fld></li>
-    /// <li><Fld>LearnerId</Fld></li>
-    /// <li><Fld>LearnerKey</Fld></li>
-    /// <li><Fld>LearnerName</Fld></li>
-    /// <li><Fld>NonELearningStatus</Fld></li>
-    /// <li><Fld>PackageFormat</Fld></li>
-    /// <li><Fld>PackageId</Fld></li>
-    /// <li><Fld>PackageLocation</Fld></li>
-    /// <li><Fld>RootActivityId</Fld></li>
-    /// </ul>
-    /// Parameters in the view:
-    /// None
+    /// Columns in the view: See LearnerAssignmentList
     /// </remarks>
     [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
     [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
     [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-    public abstract class LearnerAssignmentListForLearners {
-        
-        /// <summary>
-        /// Name of the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// </summary>
+    public abstract class LearnerAssignmentListForLearners : LearnerAssignmentList
+    {
+        /// <summary>Name of the <Typ>LearnerAssignmentListForLearners</Typ> view. </summary>
         public const string ViewName = "LearnerAssignmentListForLearners";
-        
-        /// <summary>
-        /// Name of the LearnerAssignmentId column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// LearnerAssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Id.Field.htm">LearnerAssignmentItem.Id</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>LearnerAssignmentItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerAssignmentId = "LearnerAssignmentId";
-        
-        /// <summary>
-        /// Name of the LearnerAssignmentGuidId column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// Holds the value of the GuidId column of the LearnerAssignmentItem
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Guid
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerAssignmentGuidId = "LearnerAssignmentGuidId";
-        
-        /// <summary>
-        /// Name of the LearnerId column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// LearnerId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.LearnerId.Field.htm">LearnerAssignmentItem.LearnerId</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>UserItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerId = "LearnerId";
-        
-        /// <summary>
-        /// Name of the LearnerName column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// LearnerName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the learner.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerName = "LearnerName";
-        
-        /// <summary>
-        /// Name of the LearnerKey column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// LearnerKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the learner.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerKey = "LearnerKey";
-        
-        /// <summary>
-        /// Name of the IsFinal column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// IsFinal holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.IsFinal.Field.htm">LearnerAssignmentItem.IsFinal</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string IsFinal = "IsFinal";
-        
-        /// <summary>
-        /// Name of the NonELearningStatus column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// NonELearningStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.NonELearningStatus.Field.htm">LearnerAssignmentItem.NonELearningStatus</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.AttemptStatus</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string NonELearningStatus = "NonELearningStatus";
-        
-        /// <summary>
-        /// Name of the FinalPoints column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// FinalPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Single
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string FinalPoints = "FinalPoints";
-        
-        /// <summary>
-        /// Name of the InstructorComments column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// InstructorComments holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.InstructorComments.Field.htm">LearnerAssignmentItem.InstructorComments</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string InstructorComments = "InstructorComments";
-        
-        /// <summary>
-        /// Name of the AssignmentId column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Id.Field.htm">AssignmentItem.Id</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>AssignmentItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentId = "AssignmentId";
-        
-        /// <summary>
-        /// Name of the AssignmentSPSiteGuid column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentSPSiteGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPSiteGuid.Field.htm">AssignmentItem.SPSiteGuid</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Guid
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentSPSiteGuid = "AssignmentSPSiteGuid";
-        
-        /// <summary>
-        /// Name of the AssignmentSPWebGuid column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentSPWebGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPWebGuid.Field.htm">AssignmentItem.SPWebGuid</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Guid
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentSPWebGuid = "AssignmentSPWebGuid";
-        
-        /// <summary>
-        /// Name of the AssignmentNonELearningLocation column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentNonELearningLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">AssignmentItem.NonELearningLocation</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentNonELearningLocation = "AssignmentNonELearningLocation";
-        
-        /// <summary>
-        /// Name of the AssignmentTitle column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentTitle holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Title.Field.htm">AssignmentItem.Title</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentTitle = "AssignmentTitle";
-        
-        /// <summary>
-        /// Name of the AssignmentStartDate column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentStartDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.StartDate.Field.htm">AssignmentItem.StartDate</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentStartDate = "AssignmentStartDate";
-        
-        /// <summary>
-        /// Name of the AssignmentDueDate column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentDueDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DueDate.Field.htm">AssignmentItem.DueDate</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentDueDate = "AssignmentDueDate";
-        
-        /// <summary>
-        /// Name of the AssignmentPointsPossible column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentPointsPossible holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.PointsPossible.Field.htm">AssignmentItem.PointsPossible</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Single
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentPointsPossible = "AssignmentPointsPossible";
-        
-        /// <summary>
-        /// Name of the AssignmentDescription column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentDescription holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Description.Field.htm">AssignmentItem.Description</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentDescription = "AssignmentDescription";
-        
-        /// <summary>
-        /// Name of the AssignmentAutoReturn column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentAutoReturn holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentAutoReturn = "AssignmentAutoReturn";
-        
-        /// <summary>
-        /// Name of the AssignmentShowAnswersToLearners column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentShowAnswersToLearners = "AssignmentShowAnswersToLearners";
-        
-        /// <summary>
-        /// Name of the AssignmentCreatedById column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentCreatedById holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.CreatedBy.Field.htm">AssignmentItem.CreatedBy</a>.  Refers to the user who created the assignment.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>UserItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentCreatedById = "AssignmentCreatedById";
-        
-        /// <summary>
-        /// Name of the AssignmentCreatedByName column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentCreatedByName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the user who created the assignment.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentCreatedByName = "AssignmentCreatedByName";
-        
-        /// <summary>
-        /// Name of the AssignmentCreatedByKey column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentCreatedByKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the user who created the assignment.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentCreatedByKey = "AssignmentCreatedByKey";
-        
-        /// <summary>
-        /// Name of the AssignmentDateCreated column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AssignmentDateCreated holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DateCreated.Field.htm">AssignmentItem.DateCreated</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentDateCreated = "AssignmentDateCreated";
-        
-        /// <summary>
-        /// Name of the RootActivityId column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// RootActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.RootActivityId.Field.htm">AssignmentItem.RootActivityId</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>ActivityPackageItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string RootActivityId = "RootActivityId";
-        
-        /// <summary>
-        /// Name of the PackageId column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>PackageItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string PackageId = "PackageId";
-        
-        /// <summary>
-        /// Name of the PackageFormat column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.PackageFormat</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string PackageFormat = "PackageFormat";
-        
-        /// <summary>
-        /// Name of the PackageLocation column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string PackageLocation = "PackageLocation";
-        
-        /// <summary>
-        /// Name of the AttemptId column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.Id.Field.htm">AttemptItem.Id</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>AttemptItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptId = "AttemptId";
-        
-        /// <summary>
-        /// Name of the AttemptCurrentActivityId column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptCurrentActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CurrentActivityId.Field.htm">AttemptItem.CurrentActivityId</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>ActivityPackageItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptCurrentActivityId = "AttemptCurrentActivityId";
-        
-        /// <summary>
-        /// Name of the AttemptSuspendedActivityId column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptSuspendedActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuspendedActivityId.Field.htm">AttemptItem.SuspendedActivityId</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>ActivityPackageItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptSuspendedActivityId = "AttemptSuspendedActivityId";
-        
-        /// <summary>
-        /// Name of the AttemptStatus column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.AttemptStatus.Field.htm">AttemptItem.AttemptStatus</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.AttemptStatus</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptStatus = "AttemptStatus";
-        
-        /// <summary>
-        /// Name of the AttemptFinishedTimestamp column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptFinishedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.FinishedTimestamp.Field.htm">AttemptItem.FinishedTimestamp</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptFinishedTimestamp = "AttemptFinishedTimestamp";
-        
-        /// <summary>
-        /// Name of the AttemptLogDetailSequencing column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptLogDetailSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogDetailSequencing.Field.htm">AttemptItem.LogDetailSequencing</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptLogDetailSequencing = "AttemptLogDetailSequencing";
-        
-        /// <summary>
-        /// Name of the AttemptLogFinalSequencing column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptLogFinalSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogFinalSequencing.Field.htm">AttemptItem.LogFinalSequencing</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptLogFinalSequencing = "AttemptLogFinalSequencing";
-        
-        /// <summary>
-        /// Name of the AttemptLogRollup column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptLogRollup holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogRollup.Field.htm">AttemptItem.LogRollup</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptLogRollup = "AttemptLogRollup";
-        
-        /// <summary>
-        /// Name of the AttemptStartedTimestamp column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptStartedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.StartedTimestamp.Field.htm">AttemptItem.StartedTimestamp</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptStartedTimestamp = "AttemptStartedTimestamp";
-        
-        /// <summary>
-        /// Name of the AttemptCompletionStatus column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptCompletionStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CompletionStatus.Field.htm">AttemptItem.CompletionStatus</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.CompletionStatus</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptCompletionStatus = "AttemptCompletionStatus";
-        
-        /// <summary>
-        /// Name of the AttemptSuccessStatus column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptSuccessStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuccessStatus.Field.htm">AttemptItem.SuccessStatus</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.SuccessStatus</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptSuccessStatus = "AttemptSuccessStatus";
-        
-        /// <summary>
-        /// Name of the AttemptGradedPoints column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// AttemptGradedPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Single
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptGradedPoints = "AttemptGradedPoints";
-        
-        /// <summary>
-        /// Name of the LearnerAssignmentState column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// LearnerAssignmentState is the state of this <a href="SlkConcepts.htm#Assignments">learner assignment</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.SharePointLearningKit.LearnerAssignmentState</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerAssignmentState = "LearnerAssignmentState";
-        
-        /// <summary>
-        /// Name of the HasInstructors column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// HasInstructors is <b>true</b> if the assignment has instructors, <b>false</b> if not.  Note that self-assigned assignments have no instructors.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string HasInstructors = "HasInstructors";
-        
-        /// <summary>
-        /// Name of the FileSubmissionState column on the <Typ>LearnerAssignmentListForLearners</Typ> view.
-        /// <para>
-        /// FileSubmissionState is set to <b>NA</b> if the assignment is e-learning content. In case the assignment is non e-learning
-        /// content, FileSubmissionState has one of three values: <b>Submit File(s)</b> in case the assignment is active or not started,
-        /// <b>Submitted LINK</b> in case the assignment is final, and <b>Submitted</b> otherwise (in case the assignment is completed).
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string FileSubmissionState = "FileSubmissionState";
     }
     
     /// <summary>
@@ -9399,9 +8881,39 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// </b>
     /// Access is granted to all users.
     /// </para><p/>
-    /// Columns in the view:
+    /// Columns in the view: See LearnerAssignmentList
+    /// </remarks>
+    public abstract class LearnerAssignmentListForObservers : LearnerAssignmentList
+    {
+        /// <summary>Name of the <Typ>LearnerAssignmentListForObservers</Typ> view.</summary>
+        public const string ViewName = "LearnerAssignmentListForObservers";
+    }
+
+    /// <summary>
+    /// Contains constants related to the LearnerAssignmentList views.
+    /// <para>
+    /// Each row of this <a href="SlkSchema.htm">LearningStore view</a> contains
+    /// information about one <a href="SlkConcepts.htm#Assignments">learner assignment</a>,
+    /// as well as information about the e-learning package (if any) associated with the
+    /// assignment. It also holds aggregated information about each assignment.
+    /// This view returns one row for each assignment for which the input
+    /// user is a learner, including assignments which have not yet started.
+    /// </para>
+    /// <para>
+    /// This view is available only in <a href="Default.htm">SLK</a> (not in
+    /// <a href="Mlc.htm">MLC</a>).
+    /// </para>
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <b>
+    /// <a href="SlkSchema.htm">Default operation-level security</a>:
+    /// </b>
+    /// </para><p/>
+    /// Columns in the view: See LearnerAssignmentList
     /// <ul>
     /// <li><Fld>AssignmentAutoReturn</Fld></li>
+    /// <li><Fld>AssignmentEmailChanges</Fld></li>
     /// <li><Fld>AssignmentCreatedById</Fld></li>
     /// <li><Fld>AssignmentCreatedByKey</Fld></li>
     /// <li><Fld>AssignmentCreatedByName</Fld></li>
@@ -9441,6 +8953,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// <li><Fld>CountTotal</Fld></li>
     /// <li><Fld>FileSubmissionState</Fld></li>
     /// <li><Fld>FinalPoints</Fld></li>
+    /// <li><Fld>Grade</Fld></li>
     /// <li><Fld>HasInstructors</Fld></li>
     /// <li><Fld>InstructorComments</Fld></li>
     /// <li><Fld>IsFinal</Fld></li>
@@ -9463,18 +8976,13 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// Parameters in the view:
     /// None
     /// </remarks>
-    [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-    [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-    [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-    public abstract class LearnerAssignmentListForObservers {
+    public abstract class LearnerAssignmentList{
         
+        /// <summary>The name of the view without security.</summary>
+        public const string BaseViewName = "LearnerAssignmentList";
+
         /// <summary>
-        /// Name of the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// </summary>
-        public const string ViewName = "LearnerAssignmentListForObservers";
-        
-        /// <summary>
-        /// Name of the LearnerAssignmentId column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the LearnerAssignmentId column on the Learner Assignment List views.
         /// <para>
         /// LearnerAssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Id.Field.htm">LearnerAssignmentItem.Id</a>.
         /// </para>
@@ -9488,7 +8996,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string LearnerAssignmentId = "LearnerAssignmentId";
         
         /// <summary>
-        /// Name of the LearnerAssignmentGuidId column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the LearnerAssignmentGuidId column on the Learner Assignment List views.
         /// <para>
         /// Holds the value of the GuidId column of the LearnerAssignmentItem
         /// </para>
@@ -9502,7 +9010,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string LearnerAssignmentGuidId = "LearnerAssignmentGuidId";
         
         /// <summary>
-        /// Name of the LearnerId column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the LearnerId column on the Learner Assignment List views.
         /// <para>
         /// LearnerId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.LearnerId.Field.htm">LearnerAssignmentItem.LearnerId</a>.
         /// </para>
@@ -9516,7 +9024,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string LearnerId = "LearnerId";
         
         /// <summary>
-        /// Name of the LearnerName column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the LearnerName column on the Learner Assignment List views.
         /// <para>
         /// LearnerName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the learner.
         /// </para>
@@ -9530,7 +9038,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string LearnerName = "LearnerName";
         
         /// <summary>
-        /// Name of the LearnerKey column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the LearnerKey column on the Learner Assignment List views.
         /// <para>
         /// LearnerKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the learner.
         /// </para>
@@ -9544,7 +9052,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string LearnerKey = "LearnerKey";
         
         /// <summary>
-        /// Name of the IsFinal column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the IsFinal column on the Learner Assignment List views.
         /// <para>
         /// IsFinal holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.IsFinal.Field.htm">LearnerAssignmentItem.IsFinal</a>.
         /// </para>
@@ -9558,7 +9066,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string IsFinal = "IsFinal";
         
         /// <summary>
-        /// Name of the NonELearningStatus column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the NonELearningStatus column on the Learner Assignment List views.
         /// <para>
         /// NonELearningStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.NonELearningStatus.Field.htm">LearnerAssignmentItem.NonELearningStatus</a>.
         /// </para>
@@ -9572,7 +9080,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string NonELearningStatus = "NonELearningStatus";
         
         /// <summary>
-        /// Name of the FinalPoints column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the FinalPoints column on the Learner Assignment List views.
         /// <para>
         /// FinalPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>.
         /// </para>
@@ -9586,7 +9094,18 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string FinalPoints = "FinalPoints";
         
         /// <summary>
-        /// Name of the InstructorComments column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the Grade column on the Learner Assignment List views.
+        /// <para>
+        /// Grade holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Grade.Field.htm">LearnerAssignmentItem.Grade</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Column type: String[20]
+        /// </remarks>
+        public const string Grade = "Grade";
+        
+        /// <summary>
+        /// Name of the InstructorComments column on the Learner Assignment List views.
         /// <para>
         /// InstructorComments holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.InstructorComments.Field.htm">LearnerAssignmentItem.InstructorComments</a>.
         /// </para>
@@ -9600,7 +9119,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string InstructorComments = "InstructorComments";
         
         /// <summary>
-        /// Name of the AssignmentId column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentId column on the Learner Assignment List views.
         /// <para>
         /// AssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Id.Field.htm">AssignmentItem.Id</a>.
         /// </para>
@@ -9614,7 +9133,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentId = "AssignmentId";
         
         /// <summary>
-        /// Name of the AssignmentSPSiteGuid column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentSPSiteGuid column on the Learner Assignment List views.
         /// <para>
         /// AssignmentSPSiteGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPSiteGuid.Field.htm">AssignmentItem.SPSiteGuid</a>.
         /// </para>
@@ -9628,7 +9147,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentSPSiteGuid = "AssignmentSPSiteGuid";
         
         /// <summary>
-        /// Name of the AssignmentSPWebGuid column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentSPWebGuid column on the Learner Assignment List views.
         /// <para>
         /// AssignmentSPWebGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPWebGuid.Field.htm">AssignmentItem.SPWebGuid</a>.
         /// </para>
@@ -9642,7 +9161,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentSPWebGuid = "AssignmentSPWebGuid";
         
         /// <summary>
-        /// Name of the AssignmentNonELearningLocation column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentNonELearningLocation column on the Learner Assignment List views.
         /// <para>
         /// AssignmentNonELearningLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">AssignmentItem.NonELearningLocation</a>.
         /// </para>
@@ -9656,7 +9175,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentNonELearningLocation = "AssignmentNonELearningLocation";
         
         /// <summary>
-        /// Name of the AssignmentTitle column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentTitle column on the Learner Assignment List views.
         /// <para>
         /// AssignmentTitle holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Title.Field.htm">AssignmentItem.Title</a>.
         /// </para>
@@ -9670,7 +9189,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentTitle = "AssignmentTitle";
         
         /// <summary>
-        /// Name of the AssignmentStartDate column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentStartDate column on the Learner Assignment List views.
         /// <para>
         /// AssignmentStartDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.StartDate.Field.htm">AssignmentItem.StartDate</a>.
         /// </para>
@@ -9684,7 +9203,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentStartDate = "AssignmentStartDate";
         
         /// <summary>
-        /// Name of the AssignmentDueDate column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentDueDate column on the Learner Assignment List views.
         /// <para>
         /// AssignmentDueDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DueDate.Field.htm">AssignmentItem.DueDate</a>.
         /// </para>
@@ -9698,7 +9217,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentDueDate = "AssignmentDueDate";
         
         /// <summary>
-        /// Name of the AssignmentPointsPossible column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentPointsPossible column on the Learner Assignment List views.
         /// <para>
         /// AssignmentPointsPossible holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.PointsPossible.Field.htm">AssignmentItem.PointsPossible</a>.
         /// </para>
@@ -9712,7 +9231,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentPointsPossible = "AssignmentPointsPossible";
         
         /// <summary>
-        /// Name of the AssignmentDescription column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentDescription column on the Learner Assignment List views.
         /// <para>
         /// AssignmentDescription holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Description.Field.htm">AssignmentItem.Description</a>.
         /// </para>
@@ -9726,7 +9245,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentDescription = "AssignmentDescription";
         
         /// <summary>
-        /// Name of the AssignmentAutoReturn column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentAutoReturn column on the Learner Assignment List views.
         /// <para>
         /// AssignmentAutoReturn holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
         /// </para>
@@ -9740,7 +9259,16 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentAutoReturn = "AssignmentAutoReturn";
         
         /// <summary>
-        /// Name of the AssignmentShowAnswersToLearners column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentEmailChanges column on the Learner Assignment List views.
+        /// <para>
+        /// AssignmentEmailChanges corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.EmailChanges.Field.htm">AssignmentItem.EmailChanges</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>Column type: Boolean</remarks>
+        public const string AssignmentEmailChanges = "AssignmentEmailChanges";
+        
+        /// <summary>
+        /// Name of the AssignmentShowAnswersToLearners column on the Learner Assignment List views.
         /// <para>
         /// AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
         /// </para>
@@ -9754,7 +9282,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentShowAnswersToLearners = "AssignmentShowAnswersToLearners";
         
         /// <summary>
-        /// Name of the AssignmentCreatedById column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentCreatedById column on the Learner Assignment List views.
         /// <para>
         /// AssignmentCreatedById holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.CreatedBy.Field.htm">AssignmentItem.CreatedBy</a>.  Refers to the user who created the assignment.
         /// </para>
@@ -9768,7 +9296,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentCreatedById = "AssignmentCreatedById";
         
         /// <summary>
-        /// Name of the AssignmentCreatedByName column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentCreatedByName column on the Learner Assignment List views.
         /// <para>
         /// AssignmentCreatedByName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the user who created the assignment.
         /// </para>
@@ -9782,7 +9310,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentCreatedByName = "AssignmentCreatedByName";
         
         /// <summary>
-        /// Name of the AssignmentCreatedByKey column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AssignmentCreatedByKey column on the Learner Assignment List views.
         /// <para>
         /// AssignmentCreatedByKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the user who created the assignment.
         /// </para>
@@ -9796,21 +9324,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AssignmentCreatedByKey = "AssignmentCreatedByKey";
         
         /// <summary>
-        /// Name of the AssignmentDateCreated column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// AssignmentDateCreated holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DateCreated.Field.htm">AssignmentItem.DateCreated</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentDateCreated = "AssignmentDateCreated";
-        
-        /// <summary>
-        /// Name of the RootActivityId column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the RootActivityId column on the Learner Assignment List views.
         /// <para>
         /// RootActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.RootActivityId.Field.htm">AssignmentItem.RootActivityId</a>.
         /// </para>
@@ -9824,7 +9338,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string RootActivityId = "RootActivityId";
         
         /// <summary>
-        /// Name of the PackageId column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the PackageId column on the Learner Assignment List views.
         /// <para>
         /// PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
         /// </para>
@@ -9838,7 +9352,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string PackageId = "PackageId";
         
         /// <summary>
-        /// Name of the PackageFormat column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the PackageFormat column on the Learner Assignment List views.
         /// <para>
         /// PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
         /// </para>
@@ -9852,7 +9366,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string PackageFormat = "PackageFormat";
         
         /// <summary>
-        /// Name of the PackageLocation column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the PackageLocation column on the Learner Assignment List views.
         /// <para>
         /// PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
         /// </para>
@@ -9866,239 +9380,21 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string PackageLocation = "PackageLocation";
         
         /// <summary>
-        /// Name of the CountTotal column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the PackageManifest column on the Learner Assignment List views.
         /// <para>
-        /// CountTotal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+        /// PackageManifest holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Manifest.Field.htm">PackageItem.Manifest</a>.
         /// </para>
         /// </summary>
         /// <remarks>
-        /// Column type: Int32
+        /// Column type: Xml
         /// </remarks>
         [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CountTotal = "CountTotal";
+        public const string PackageManifest = "PackageManifest";
         
         /// <summary>
-        /// Name of the CountNotStarted column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// CountNotStarted is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
-        /// <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.NotStarted</a> state.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CountNotStarted = "CountNotStarted";
-        
-        /// <summary>
-        /// Name of the CountActive column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// CountActive is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
-        /// <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Active</a> state.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CountActive = "CountActive";
-        
-        /// <summary>
-        /// Name of the CountCompleted column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// CountCompleted is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
-        /// <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Completed</a> state.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CountCompleted = "CountCompleted";
-        
-        /// <summary>
-        /// Name of the CountFinal column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// CountFinal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
-        /// <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Final</a> state.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CountFinal = "CountFinal";
-        
-        /// <summary>
-        /// Name of the CountStarted column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// CountStarted is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are not in the
-        /// <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.NotStarted</a> state.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CountStarted = "CountStarted";
-        
-        /// <summary>
-        /// Name of the CountNotStartedOrActive column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// CountNotStartedOrActive is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
-        /// <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.NotStarted</a> or
-        /// <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Active</a> state.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CountNotStartedOrActive = "CountNotStartedOrActive";
-        
-        /// <summary>
-        /// Name of the CountCompletedOrFinal column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// CountCompletedOrFinal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
-        /// <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Completed</a> or
-        /// <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Final</a> state.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CountCompletedOrFinal = "CountCompletedOrFinal";
-        
-        /// <summary>
-        /// Name of the CountNotFinal column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// CountNotFinal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are not in the
-        /// <a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Final</a> state.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Int32
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string CountNotFinal = "CountNotFinal";
-        
-        /// <summary>
-        /// Name of the MinGradedPoints column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// MinGradedPoints is the minimum value of
-        /// <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>
-        /// among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Double
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string MinGradedPoints = "MinGradedPoints";
-        
-        /// <summary>
-        /// Name of the MaxGradedPoints column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// MaxGradedPoints is the maximum value of
-        /// <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>
-        /// among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Double
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string MaxGradedPoints = "MaxGradedPoints";
-        
-        /// <summary>
-        /// Name of the AvgGradedPoints column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// AvgGradedPoints is the average value of
-        /// <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>
-        /// among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Double
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AvgGradedPoints = "AvgGradedPoints";
-        
-        /// <summary>
-        /// Name of the MinFinalPoints column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// MinFinalPoints is the minimum value of
-        /// <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>
-        /// among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Double
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string MinFinalPoints = "MinFinalPoints";
-        
-        /// <summary>
-        /// Name of the MaxFinalPoints column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// MaxFinalPoints is the maximum value of
-        /// <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>
-        /// among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Double
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string MaxFinalPoints = "MaxFinalPoints";
-        
-        /// <summary>
-        /// Name of the AvgFinalPoints column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// AvgFinalPoints is the average value of
-        /// <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>
-        /// among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Double
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AvgFinalPoints = "AvgFinalPoints";
-        
-        /// <summary>
-        /// Name of the AttemptId column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptId column on the Learner Assignment List views.
         /// <para>
         /// AttemptId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.Id.Field.htm">AttemptItem.Id</a>.
         /// </para>
@@ -10112,7 +9408,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptId = "AttemptId";
         
         /// <summary>
-        /// Name of the AttemptCurrentActivityId column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptCurrentActivityId column on the Learner Assignment List views.
         /// <para>
         /// AttemptCurrentActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CurrentActivityId.Field.htm">AttemptItem.CurrentActivityId</a>.
         /// </para>
@@ -10126,7 +9422,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptCurrentActivityId = "AttemptCurrentActivityId";
         
         /// <summary>
-        /// Name of the AttemptSuspendedActivityId column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptSuspendedActivityId column on the Learner Assignment List views.
         /// <para>
         /// AttemptSuspendedActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuspendedActivityId.Field.htm">AttemptItem.SuspendedActivityId</a>.
         /// </para>
@@ -10140,7 +9436,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptSuspendedActivityId = "AttemptSuspendedActivityId";
         
         /// <summary>
-        /// Name of the AttemptStatus column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptStatus column on the Learner Assignment List views.
         /// <para>
         /// AttemptStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.AttemptStatus.Field.htm">AttemptItem.AttemptStatus</a>.
         /// </para>
@@ -10154,7 +9450,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptStatus = "AttemptStatus";
         
         /// <summary>
-        /// Name of the AttemptFinishedTimestamp column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptFinishedTimestamp column on the Learner Assignment List views.
         /// <para>
         /// AttemptFinishedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.FinishedTimestamp.Field.htm">AttemptItem.FinishedTimestamp</a>.
         /// </para>
@@ -10168,7 +9464,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptFinishedTimestamp = "AttemptFinishedTimestamp";
         
         /// <summary>
-        /// Name of the AttemptLogDetailSequencing column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptLogDetailSequencing column on the Learner Assignment List views.
         /// <para>
         /// AttemptLogDetailSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogDetailSequencing.Field.htm">AttemptItem.LogDetailSequencing</a>.
         /// </para>
@@ -10182,7 +9478,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptLogDetailSequencing = "AttemptLogDetailSequencing";
         
         /// <summary>
-        /// Name of the AttemptLogFinalSequencing column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptLogFinalSequencing column on the Learner Assignment List views.
         /// <para>
         /// AttemptLogFinalSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogFinalSequencing.Field.htm">AttemptItem.LogFinalSequencing</a>.
         /// </para>
@@ -10196,7 +9492,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptLogFinalSequencing = "AttemptLogFinalSequencing";
         
         /// <summary>
-        /// Name of the AttemptLogRollup column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptLogRollup column on the Learner Assignment List views.
         /// <para>
         /// AttemptLogRollup holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogRollup.Field.htm">AttemptItem.LogRollup</a>.
         /// </para>
@@ -10210,7 +9506,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptLogRollup = "AttemptLogRollup";
         
         /// <summary>
-        /// Name of the AttemptStartedTimestamp column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptStartedTimestamp column on the Learner Assignment List views.
         /// <para>
         /// AttemptStartedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.StartedTimestamp.Field.htm">AttemptItem.StartedTimestamp</a>.
         /// </para>
@@ -10224,7 +9520,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptStartedTimestamp = "AttemptStartedTimestamp";
         
         /// <summary>
-        /// Name of the AttemptCompletionStatus column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptCompletionStatus column on the Learner Assignment List views.
         /// <para>
         /// AttemptCompletionStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CompletionStatus.Field.htm">AttemptItem.CompletionStatus</a>.
         /// </para>
@@ -10238,7 +9534,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptCompletionStatus = "AttemptCompletionStatus";
         
         /// <summary>
-        /// Name of the AttemptSuccessStatus column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptSuccessStatus column on the Learner Assignment List views.
         /// <para>
         /// AttemptSuccessStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuccessStatus.Field.htm">AttemptItem.SuccessStatus</a>.
         /// </para>
@@ -10252,7 +9548,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptSuccessStatus = "AttemptSuccessStatus";
         
         /// <summary>
-        /// Name of the AttemptGradedPoints column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the AttemptGradedPoints column on the Learner Assignment List views.
         /// <para>
         /// AttemptGradedPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>.
         /// </para>
@@ -10266,7 +9562,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string AttemptGradedPoints = "AttemptGradedPoints";
         
         /// <summary>
-        /// Name of the LearnerAssignmentState column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the LearnerAssignmentState column on the Learner Assignment List views.
         /// <para>
         /// LearnerAssignmentState is the state of this <a href="SlkConcepts.htm#Assignments">learner assignment</a>.
         /// </para>
@@ -10280,7 +9576,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
         public const string LearnerAssignmentState = "LearnerAssignmentState";
         
         /// <summary>
-        /// Name of the HasInstructors column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
+        /// Name of the HasInstructors column on the Learner Assignment List views.
         /// <para>
         /// HasInstructors is <b>true</b> if the assignment has instructors, <b>false</b> if not.  Note that self-assigned assignments have no instructors.
         /// </para>
@@ -10292,22 +9588,6 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string HasInstructors = "HasInstructors";
-        
-        /// <summary>
-        /// Name of the FileSubmissionState column on the <Typ>LearnerAssignmentListForObservers</Typ> view.
-        /// <para>
-        /// FileSubmissionState is set to <b>NA</b> if the assignment is e-learning content. In case the assignment is non e-learning
-        /// content, FileSubmissionState has one of three values: <b>Not Submitted</b> in case the assignment is active or not started,
-        /// <b>Submitted LINK</b> in case the assignment is final, and <b>Submitted</b> otherwise (in case the assignment is completed).
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string FileSubmissionState = "FileSubmissionState";
     }
     
     /// <summary>
@@ -10331,651 +9611,12 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// </b>
     /// Access is granted to all users.
     /// </para><p/>
-    /// Columns in the view:
-    /// <ul>
-    /// <li><Fld>AssignmentAutoReturn</Fld></li>
-    /// <li><Fld>AssignmentCreatedById</Fld></li>
-    /// <li><Fld>AssignmentCreatedByKey</Fld></li>
-    /// <li><Fld>AssignmentCreatedByName</Fld></li>
-    /// <li><Fld>AssignmentDescription</Fld></li>
-    /// <li><Fld>AssignmentDueDate</Fld></li>
-    /// <li><Fld>AssignmentId</Fld></li>
-    /// <li><Fld>AssignmentNonELearningLocation</Fld></li>
-    /// <li><Fld>AssignmentPointsPossible</Fld></li>
-    /// <li><Fld>AssignmentShowAnswersToLearners</Fld></li>
-    /// <li><Fld>AssignmentSPSiteGuid</Fld></li>
-    /// <li><Fld>AssignmentSPWebGuid</Fld></li>
-    /// <li><Fld>AssignmentStartDate</Fld></li>
-    /// <li><Fld>AssignmentTitle</Fld></li>
-    /// <li><Fld>AttemptCompletionStatus</Fld></li>
-    /// <li><Fld>AttemptCurrentActivityId</Fld></li>
-    /// <li><Fld>AttemptFinishedTimestamp</Fld></li>
-    /// <li><Fld>AttemptGradedPoints</Fld></li>
-    /// <li><Fld>AttemptId</Fld></li>
-    /// <li><Fld>AttemptLogDetailSequencing</Fld></li>
-    /// <li><Fld>AttemptLogFinalSequencing</Fld></li>
-    /// <li><Fld>AttemptLogRollup</Fld></li>
-    /// <li><Fld>AttemptStartedTimestamp</Fld></li>
-    /// <li><Fld>AttemptStatus</Fld></li>
-    /// <li><Fld>AttemptSuccessStatus</Fld></li>
-    /// <li><Fld>AttemptSuspendedActivityId</Fld></li>
-    /// <li><Fld>FinalPoints</Fld></li>
-    /// <li><Fld>HasInstructors</Fld></li>
-    /// <li><Fld>InstructorComments</Fld></li>
-    /// <li><Fld>IsFinal</Fld></li>
-    /// <li><Fld>LearnerAssignmentGuidId</Fld></li>
-    /// <li><Fld>LearnerAssignmentId</Fld></li>
-    /// <li><Fld>LearnerAssignmentState</Fld></li>
-    /// <li><Fld>LearnerId</Fld></li>
-    /// <li><Fld>LearnerKey</Fld></li>
-    /// <li><Fld>LearnerName</Fld></li>
-    /// <li><Fld>NonELearningStatus</Fld></li>
-    /// <li><Fld>PackageFormat</Fld></li>
-    /// <li><Fld>PackageId</Fld></li>
-    /// <li><Fld>PackageLocation</Fld></li>
-    /// <li><Fld>PackageManifest</Fld></li>
-    /// <li><Fld>RootActivityId</Fld></li>
-    /// </ul>
-    /// Parameters in the view:
-    /// None
+    /// Columns in the view: See LearnerAssignmentList
     /// </remarks>
-    [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-    [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-    [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-    public abstract class LearnerAssignmentListForInstructors {
-        
-        /// <summary>
-        /// Name of the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// </summary>
+    public abstract class LearnerAssignmentListForInstructors : LearnerAssignmentList
+    {
+        /// <summary>Name of the <Typ>LearnerAssignmentListForInstructors</Typ> view.</summary>
         public const string ViewName = "LearnerAssignmentListForInstructors";
-        
-        /// <summary>
-        /// Name of the LearnerAssignmentId column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// LearnerAssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Id.Field.htm">LearnerAssignmentItem.Id</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>LearnerAssignmentItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerAssignmentId = "LearnerAssignmentId";
-        
-        /// <summary>
-        /// Name of the LearnerAssignmentGuidId column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// Holds the value of the GuidId column of the LearnerAssignmentItem
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Guid
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerAssignmentGuidId = "LearnerAssignmentGuidId";
-        
-        /// <summary>
-        /// Name of the LearnerId column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// LearnerId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.LearnerId.Field.htm">LearnerAssignmentItem.LearnerId</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>UserItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerId = "LearnerId";
-        
-        /// <summary>
-        /// Name of the LearnerName column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// LearnerName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the learner.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerName = "LearnerName";
-        
-        /// <summary>
-        /// Name of the LearnerKey column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// LearnerKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the learner.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerKey = "LearnerKey";
-        
-        /// <summary>
-        /// Name of the IsFinal column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// IsFinal holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.IsFinal.Field.htm">LearnerAssignmentItem.IsFinal</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string IsFinal = "IsFinal";
-        
-        /// <summary>
-        /// Name of the NonELearningStatus column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// NonELearningStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.NonELearningStatus.Field.htm">LearnerAssignmentItem.NonELearningStatus</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.AttemptStatus</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string NonELearningStatus = "NonELearningStatus";
-        
-        /// <summary>
-        /// Name of the FinalPoints column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// FinalPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Single
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string FinalPoints = "FinalPoints";
-        
-        /// <summary>
-        /// Name of the InstructorComments column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// InstructorComments holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.InstructorComments.Field.htm">LearnerAssignmentItem.InstructorComments</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string InstructorComments = "InstructorComments";
-        
-        /// <summary>
-        /// Name of the AssignmentId column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Id.Field.htm">AssignmentItem.Id</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>AssignmentItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentId = "AssignmentId";
-        
-        /// <summary>
-        /// Name of the AssignmentSPSiteGuid column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentSPSiteGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPSiteGuid.Field.htm">AssignmentItem.SPSiteGuid</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Guid
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentSPSiteGuid = "AssignmentSPSiteGuid";
-        
-        /// <summary>
-        /// Name of the AssignmentSPWebGuid column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentSPWebGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPWebGuid.Field.htm">AssignmentItem.SPWebGuid</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Guid
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentSPWebGuid = "AssignmentSPWebGuid";
-        
-        /// <summary>
-        /// Name of the AssignmentNonELearningLocation column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentNonELearningLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">AssignmentItem.NonELearningLocation</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentNonELearningLocation = "AssignmentNonELearningLocation";
-        
-        /// <summary>
-        /// Name of the AssignmentTitle column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentTitle holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Title.Field.htm">AssignmentItem.Title</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentTitle = "AssignmentTitle";
-        
-        /// <summary>
-        /// Name of the AssignmentStartDate column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentStartDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.StartDate.Field.htm">AssignmentItem.StartDate</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentStartDate = "AssignmentStartDate";
-        
-        /// <summary>
-        /// Name of the AssignmentDueDate column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentDueDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DueDate.Field.htm">AssignmentItem.DueDate</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentDueDate = "AssignmentDueDate";
-        
-        /// <summary>
-        /// Name of the AssignmentPointsPossible column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentPointsPossible holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.PointsPossible.Field.htm">AssignmentItem.PointsPossible</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Single
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentPointsPossible = "AssignmentPointsPossible";
-        
-        /// <summary>
-        /// Name of the AssignmentDescription column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentDescription holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Description.Field.htm">AssignmentItem.Description</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentDescription = "AssignmentDescription";
-        
-        /// <summary>
-        /// Name of the AssignmentAutoReturn column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentAutoReturn holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentAutoReturn = "AssignmentAutoReturn";
-        
-        /// <summary>
-        /// Name of the AssignmentShowAnswersToLearners column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentShowAnswersToLearners = "AssignmentShowAnswersToLearners";
-        
-        /// <summary>
-        /// Name of the AssignmentCreatedById column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentCreatedById holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.CreatedBy.Field.htm">AssignmentItem.CreatedBy</a>.  Refers to the user who created the assignment.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>UserItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentCreatedById = "AssignmentCreatedById";
-        
-        /// <summary>
-        /// Name of the AssignmentCreatedByName column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentCreatedByName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the user who created the assignment.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentCreatedByName = "AssignmentCreatedByName";
-        
-        /// <summary>
-        /// Name of the AssignmentCreatedByKey column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AssignmentCreatedByKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the user who created the assignment.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AssignmentCreatedByKey = "AssignmentCreatedByKey";
-        
-        /// <summary>
-        /// Name of the RootActivityId column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// RootActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.RootActivityId.Field.htm">AssignmentItem.RootActivityId</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>ActivityPackageItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string RootActivityId = "RootActivityId";
-        
-        /// <summary>
-        /// Name of the PackageId column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>PackageItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string PackageId = "PackageId";
-        
-        /// <summary>
-        /// Name of the PackageFormat column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.PackageFormat</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string PackageFormat = "PackageFormat";
-        
-        /// <summary>
-        /// Name of the PackageLocation column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: String[]
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string PackageLocation = "PackageLocation";
-        
-        /// <summary>
-        /// Name of the PackageManifest column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// PackageManifest holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Manifest.Field.htm">PackageItem.Manifest</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Xml
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string PackageManifest = "PackageManifest";
-        
-        /// <summary>
-        /// Name of the AttemptId column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.Id.Field.htm">AttemptItem.Id</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>AttemptItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptId = "AttemptId";
-        
-        /// <summary>
-        /// Name of the AttemptCurrentActivityId column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptCurrentActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CurrentActivityId.Field.htm">AttemptItem.CurrentActivityId</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>ActivityPackageItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptCurrentActivityId = "AttemptCurrentActivityId";
-        
-        /// <summary>
-        /// Name of the AttemptSuspendedActivityId column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptSuspendedActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuspendedActivityId.Field.htm">AttemptItem.SuspendedActivityId</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Reference to a <Typ>ActivityPackageItem</Typ> item type.
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptSuspendedActivityId = "AttemptSuspendedActivityId";
-        
-        /// <summary>
-        /// Name of the AttemptStatus column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.AttemptStatus.Field.htm">AttemptItem.AttemptStatus</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.AttemptStatus</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptStatus = "AttemptStatus";
-        
-        /// <summary>
-        /// Name of the AttemptFinishedTimestamp column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptFinishedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.FinishedTimestamp.Field.htm">AttemptItem.FinishedTimestamp</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptFinishedTimestamp = "AttemptFinishedTimestamp";
-        
-        /// <summary>
-        /// Name of the AttemptLogDetailSequencing column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptLogDetailSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogDetailSequencing.Field.htm">AttemptItem.LogDetailSequencing</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptLogDetailSequencing = "AttemptLogDetailSequencing";
-        
-        /// <summary>
-        /// Name of the AttemptLogFinalSequencing column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptLogFinalSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogFinalSequencing.Field.htm">AttemptItem.LogFinalSequencing</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptLogFinalSequencing = "AttemptLogFinalSequencing";
-        
-        /// <summary>
-        /// Name of the AttemptLogRollup column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptLogRollup holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogRollup.Field.htm">AttemptItem.LogRollup</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptLogRollup = "AttemptLogRollup";
-        
-        /// <summary>
-        /// Name of the AttemptStartedTimestamp column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptStartedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.StartedTimestamp.Field.htm">AttemptItem.StartedTimestamp</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: DateTime
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptStartedTimestamp = "AttemptStartedTimestamp";
-        
-        /// <summary>
-        /// Name of the AttemptCompletionStatus column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptCompletionStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CompletionStatus.Field.htm">AttemptItem.CompletionStatus</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.CompletionStatus</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptCompletionStatus = "AttemptCompletionStatus";
-        
-        /// <summary>
-        /// Name of the AttemptSuccessStatus column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptSuccessStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuccessStatus.Field.htm">AttemptItem.SuccessStatus</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.LearningComponents.SuccessStatus</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptSuccessStatus = "AttemptSuccessStatus";
-        
-        /// <summary>
-        /// Name of the AttemptGradedPoints column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// AttemptGradedPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Single
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string AttemptGradedPoints = "AttemptGradedPoints";
-        
-        /// <summary>
-        /// Name of the LearnerAssignmentState column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// LearnerAssignmentState is the state of this <a href="SlkConcepts.htm#Assignments">learner assignment</a>.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: <Typ>/Microsoft.SharePointLearningKit.LearnerAssignmentState</Typ>
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string LearnerAssignmentState = "LearnerAssignmentState";
-        
-        /// <summary>
-        /// Name of the HasInstructors column on the <Typ>LearnerAssignmentListForInstructors</Typ> view.
-        /// <para>
-        /// HasInstructors is <b>true</b> if the assignment has instructors, <b>false</b> if not.  Note that self-assigned assignments have no instructors.
-        /// </para>
-        /// </summary>
-        /// <remarks>
-        /// Column type: Boolean
-        /// </remarks>
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
-        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
-        public const string HasInstructors = "HasInstructors";
     }
     
     /// <summary>
@@ -11927,6 +10568,11 @@ namespace Microsoft.SharePointLearningKit {
     /// </summary>
     public class AssignmentItemIdentifier : LearningStoreItemIdentifier {
         
+        /// <summary>Initializes a new instance of <see cref="AssignmentItemIdentifier"/>.</summary>
+        public AssignmentItemIdentifier()
+        {
+        }
+
         /// <summary>
         /// Create a new instance of the AssignmentItemIdentifier class.
         /// </summary>
@@ -12015,6 +10661,11 @@ namespace Microsoft.SharePointLearningKit {
             if ((id.ItemTypeName != Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.ItemTypeName)) {
                 throw new ArgumentOutOfRangeException("id");
             }
+        }
+
+        /// <summary>Initializes a new instance of <see cref="LearnerAssignmentItemIdentifier"/>.</summary>
+        public LearnerAssignmentItemIdentifier()
+        {
         }
     }
     

@@ -48,8 +48,8 @@ namespace Microsoft.SharePointLearningKit
 
 #region public methods
         /// <summary>Sets the correct permissions when the item is collected.</summary>
-        /// <param name="learnerId">The id of the learner.</param>
-        public void ApplyCollectAssignmentPermissions(long learnerId)
+        /// <param name="user">The user to update the folder for.</param>
+        public void ApplyCollectAssignmentPermissions(SPUser user)
         {
             // If the assignment is auto return, the learner will still be able to view the drop box assignment files
             // otherwise, learner permissions will be removed from the drop box library & learner's subfolder in the Drop Box document library
@@ -59,21 +59,21 @@ namespace Microsoft.SharePointLearningKit
                 learnerPermissions = SPRoleType.None;
             }
 
-            ApplyAssignmentPermission(learnerId, learnerPermissions, SPRoleType.Contributor, true);
+            ApplyAssignmentPermission(user, learnerPermissions, SPRoleType.Contributor, true);
         }
 
         /// <summary>Sets the correct permissions when the item is returned to the learner.</summary>
-        /// <param name="learnerId">The id of the learner.</param>
-        public void ApplyReturnAssignmentPermission(long learnerId)
+        /// <param name="user">The user to update the folder for.</param>
+        public void ApplyReturnAssignmentPermission(SPUser user)
         {
-            ApplyAssignmentPermission(learnerId, SPRoleType.Reader, SPRoleType.Reader, false);
+            ApplyAssignmentPermission(user, SPRoleType.Reader, SPRoleType.Reader, false);
         }
 
         /// <summary>Sets the correct permissions when the item is reactivated.</summary>
-        /// <param name="learnerId">The id of the learner.</param>
-        public void ApplyReactivateAssignmentPermission(long learnerId)
+        /// <param name="user">The user to update the folder for.</param>
+        public void ApplyReactivateAssignmentPermission(SPUser user)
         {
-            ApplyAssignmentPermission(learnerId, SPRoleType.Contributor, SPRoleType.Reader, true);
+            ApplyAssignmentPermission(user, SPRoleType.Contributor, SPRoleType.Reader, true);
         }
 
         /// <summary>Copies the original file to the student's drop box.</summary>
@@ -148,9 +148,8 @@ namespace Microsoft.SharePointLearningKit
         }
 
         /// <summary>Uploads files to the learner's drop box.</summary>
-        /// <param name="learnerAssignmentProperties">The learner's assignment properties.</param>
         /// <param name="files">The files to upload.</param>
-        public void UploadFiles(LearnerAssignmentProperties learnerAssignmentProperties, AssignmentUpload[] files)
+        public void UploadFiles(AssignmentUpload[] files)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
@@ -194,22 +193,6 @@ namespace Microsoft.SharePointLearningKit
                     }
                 }
             });
-
-            try
-            {
-                using (SPSite contextSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    contextSite.CatchAccessDeniedException = false;
-                    using (SPWeb contextWeb = contextSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        SlkStore.GetStore(contextWeb).ChangeLearnerAssignmentState(learnerAssignmentProperties.LearnerAssignmentGuidId, LearnerAssignmentState.Completed);
-                    }
-                }
-            }
-            catch (InvalidOperationException)
-            {
-                // state transition isn't supported
-            }
         }
 
         /// <summary>Applys permissions when the document is submitted.</summary>
@@ -240,11 +223,9 @@ namespace Microsoft.SharePointLearningKit
             
         }
 
-        /// <summary>
-        /// Function to update the DropBox document library after the current assignment being edited
-        /// </summary>
-        /// <param name="newAssignmentProperties">The new assignment properties</param>
-        public void UpdateAssignment(AssignmentProperties newAssignmentProperties)
+        /// <summary>Function to update the DropBox document library after the current assignment being edited</summary>
+        /// <param name="oldAssignmentProperties">The old assignment properties</param>
+        public void UpdateAssignment(AssignmentProperties oldAssignmentProperties)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
@@ -254,18 +235,18 @@ namespace Microsoft.SharePointLearningKit
                     {
                         DropBox dropBox = new DropBox(spWeb);
 
-                        string oldAssignmentFolderName = FolderName;
-                        string newAssignmentFolderName = GenerateFolderName(newAssignmentProperties);
+                        string oldAssignmentFolderName = GenerateFolderName(oldAssignmentProperties);
+                        string newAssignmentFolderName = FolderName;
 
                         // If assignment title has been changed, create a new assignment folder and move old assignment folder contents to it
                         if (string.Compare(oldAssignmentFolderName,  newAssignmentFolderName, true, CultureInfo.CurrentUICulture) != 0)
                         {
-                            dropBox.ChangeFolderName(assignmentProperties, newAssignmentProperties);
+                            dropBox.ChangeFolderName(oldAssignmentFolderName, newAssignmentFolderName);
                         }
 
                         // Get new assignment folder, or the old one if the title has not been changed
                         // in both cases, the value of the current assignment folder name will be stored in newAssignmentFolderName
-                        AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(newAssignmentProperties);
+                        AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
 
                         if (assignmentFolder != null)
                         {
@@ -276,9 +257,9 @@ namespace Microsoft.SharePointLearningKit
                             ApplyInstructorsReadAccessPermissions(assignmentFolder);
 
                             // Delete subfolders of the learners who have been removed from the assignment
-                            DeleteRemovedLearnerFolders(assignmentFolder, newAssignmentProperties);
+                            DeleteRemovedLearnerFolders(assignmentFolder, oldAssignmentProperties);
 
-                            foreach (SlkUser learner in newAssignmentProperties.Learners)
+                            foreach (SlkUser learner in assignmentProperties.Learners)
                             {
                                 // Grant assignment learners Read permission on the assignment folder
                                 assignmentFolder.ApplyPermission(learner.SPUser, SPRoleType.Reader);
@@ -321,6 +302,30 @@ namespace Microsoft.SharePointLearningKit
             }
             return new AssignmentFile[0];
         }
+
+        /// <summary>Returns the last submitted files for the given learner.</summary>
+        public AssignmentFile[] LastSubmittedFiles(SPUser user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            AssignmentFile[] toReturn = null;
+            SPSecurity.RunWithElevatedPrivileges(delegate
+            {
+                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
+                {
+                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
+                    {
+                        DropBox dropBox = new DropBox(spWeb);
+                        toReturn = dropBox.LastSubmittedFiles(user, assignmentProperties.Id.GetKey());
+                    }
+                }
+            });
+            return toReturn;
+        }
+
 
         /// <summary>Returns the last submitted files for the current user.</summary>
         public AssignmentFile[] LastSubmittedFiles()
@@ -511,11 +516,11 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        void DeleteRemovedLearnerFolders(AssignmentFolder assignmentFolder, AssignmentProperties newAssignmentProperties)
+        void DeleteRemovedLearnerFolders(AssignmentFolder assignmentFolder, AssignmentProperties oldAssignmentProperties)
         {
-            foreach (SlkUser oldLearner in assignmentProperties.Learners)
+            foreach (SlkUser oldLearner in oldAssignmentProperties.Learners)
             {
-                if (!newAssignmentProperties.Learners.Contains(oldLearner.UserId))
+                if (!assignmentProperties.Learners.Contains(oldLearner.UserId))
                 {
                     // Get learner subfolder, and delete it if exists
                     AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(oldLearner.SPUser);
@@ -535,7 +540,7 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        void ApplyAssignmentPermission(long learnerId, SPRoleType learnerPermissions, SPRoleType instructorPermissions, bool removeObserverPermissions)
+        void ApplyAssignmentPermission(SPUser user, SPRoleType learnerPermissions, SPRoleType instructorPermissions, bool removeObserverPermissions)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
@@ -546,76 +551,49 @@ namespace Microsoft.SharePointLearningKit
                         DropBox dropBox = new DropBox(spWeb);
                         AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
 
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("ApplyAssignmentPermission {0}", assignmentFolder == null);
                         if (assignmentFolder != null)
                         {
-                            foreach (SlkUser learner in assignmentProperties.Learners)
+                            // Get the learner sub folder
+                            AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(user);
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("ApplyAssignmentPermission learnerSubFolder {0}", learnerSubFolder == null);
+
+                            //For Course Manager assignments, if the folder is not created yet
+                            if (learnerSubFolder == null)
                             {
-                                if (learner.UserId.GetKey() == learnerId)
-                                {
-                                    SPUser currentLearner = learner.SPUser;
+                                learnerSubFolder = assignmentFolder.CreateLearnerAssignmentFolder(user);
+                            }
+                            
+                            // Apply learner permissions
+                            assignmentFolder.RemovePermissions(user);
+                            if (learnerPermissions == SPRoleType.None)
+                            {
+                                learnerSubFolder.RemovePermissions(user);
+                            }
+                            else
+                            {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("ApplyAssignmentPermission apply permission {0}", learnerPermissions);
+                                assignmentFolder.ApplyPermission(user, SPRoleType.Reader);
+                                learnerSubFolder.ApplyPermission(user, learnerPermissions);
+                            }
 
-                                    // Get the learner sub folder
-                                    AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(currentLearner);
+                            // Apply instructor permissions
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("ApplyAssignmentPermission iterate instructors");
+                            foreach (SlkUser instructor in assignmentProperties.Instructors)
+                            {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("ApplyAssignmentPermission apply instructor permission {0} {1}", instructorPermissions, instructor.SPUser.Name);
+                                learnerSubFolder.RemovePermissions(instructor.SPUser);
+                                learnerSubFolder.ApplyPermission(instructor.SPUser, instructorPermissions);
+                            }
 
-                                    //For Course Manager assignments, if the folder is not created yet
-                                    if (learnerSubFolder == null)
-                                    {
-                                        learnerSubFolder = assignmentFolder.CreateLearnerAssignmentFolder(currentLearner);
-                                    }
-                                    
-                                    // Apply learner permissions
-                                    assignmentFolder.RemovePermissions(currentLearner);
-                                    if (learnerPermissions == SPRoleType.None)
-                                    {
-                                        learnerSubFolder.RemovePermissions(currentLearner);
-                                    }
-                                    else
-                                    {
-                                        assignmentFolder.ApplyPermission(currentLearner, SPRoleType.Reader);
-                                        learnerSubFolder.ApplyPermission(currentLearner, learnerPermissions);
-                                    }
-
-                                    // Apply instructor permissions
-                                    foreach (SlkUser instructor in assignmentProperties.Instructors)
-                                    {
-                                        learnerSubFolder.RemovePermissions(instructor.SPUser);
-                                        learnerSubFolder.ApplyPermission(instructor.SPUser, instructorPermissions);
-                                    }
-
-                                    if (removeObserverPermissions)
-                                    {
-                                        learnerSubFolder.RemoveObserverPermission();
-                                    }
-
-                                    break;
-                                }
+                            if (removeObserverPermissions)
+                            {
+                                learnerSubFolder.RemoveObserverPermission();
                             }
                         }
                     }
                 }
             });
-        }
-
-        AssignmentFile[] LastSubmittedFiles(SPUser user)
-        {
-            if (user == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            AssignmentFile[] toReturn = null;
-            SPSecurity.RunWithElevatedPrivileges(delegate
-            {
-                using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
-                    {
-                        DropBox dropBox = new DropBox(spWeb);
-                        toReturn = dropBox.LastSubmittedFiles(user, assignmentProperties.Id.GetKey());
-                    }
-                }
-            });
-            return toReturn;
         }
 
         void ApplySubmittedPermissions(AssignmentFolder assignmentFolder, AssignmentFolder learnerSubFolder)
