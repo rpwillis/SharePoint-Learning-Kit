@@ -17,7 +17,6 @@ using System.Diagnostics.CodeAnalysis;
 using Resources.Properties;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
-using Microsoft.SharePointLearningKit.Localization;
 using Microsoft.SharePointLearningKit.WebControls;
 
 namespace Microsoft.SharePointLearningKit.Frameset
@@ -53,8 +52,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
             catch (Exception e2)
             {
-                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
-                SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
                 // Unexpected exceptions are not shown to user
                 SlkError.WriteToEventLog(FramesetResources.FRM_UnknownExceptionMsg, e2.ToString());
                 RegisterError(ResHelper.GetMessage(FramesetResources.FRM_UnknownExceptionTitle),
@@ -79,8 +76,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             try
             {
-                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
-
                 // Get the view enum value
                 view = (SessionView)Enum.Parse(typeof(SessionView), viewParam, true);
                 if ((view < SessionView.Execute) || (view > SessionView.Review))
@@ -115,7 +110,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
             bool isValid = true;
 
             activityId = -1;
-            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
             if (!TryGetRequiredParameter(FramesetQueryParameter.ActivityId, out activityIdParam))
                 return false;
 
@@ -152,7 +146,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             // make compiler happy
             attemptId = null;
-            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
             if (!TryGetRequiredParameter(FramesetQueryParameter.AttemptId, out attemptIdParam))
                 return false;
 

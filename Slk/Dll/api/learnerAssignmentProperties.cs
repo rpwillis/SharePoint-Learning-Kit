@@ -1,551 +1,71 @@
 using System;
 using System.Globalization;
-using System.Diagnostics;
 using Microsoft.LearningComponents;
-using Microsoft.LearningComponents.Manifest;
 using Microsoft.LearningComponents.Storage;
-using Microsoft.LearningComponents.SharePoint;
+using Microsoft.SharePoint;
+using Resources.Properties;
 
 namespace Microsoft.SharePointLearningKit
 {
     /// <summary>
     /// Represents properties of a SharePoint Learning Kit learner assignment (i.e. the information
-    /// about an assignment related to one of the learners of the assignment).  These are properties
-    /// generally accessible to the learner.
+    /// about an assignment related to one of the learners of the assignment) that's used by an
+    /// instructor during grading.
     /// </summary>
     ///
     public class LearnerAssignmentProperties
     {
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // Private Fields
-        //
+        bool fullSave;
 
-        /// <summary>
-        /// Holds the value of the <c>LearnerAssignmentId</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        LearnerAssignmentItemIdentifier m_learnerAssignmentId;
+#region properties
+        /// <summary>The SlkUser the result is for.</summary>
+        public SlkUser User { get; internal set; }
 
-        /// <summary>
-        /// Holds the value of the <c>GuidId</c> property. The GuidId like the LearnerAssignmentId 
-        /// represents the LearnerAssignment uniquely
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        Guid m_learnerAssignmentGuidId = Guid.Empty;
-        /// <summary>
-        /// Holds the value of the <c>AssignmentId</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        AssignmentItemIdentifier m_assignmentId;
+        /// <summary>The assignment the properties are for.</summary>
+        public AssignmentProperties Assignment { get; private set; }
 
-        /// <summary>
-        /// Holds the value of the <c>SPSiteGuid</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        Guid m_spSiteGuid = Guid.Empty;
+        /// <summary>Gets the identifier of the learner assignment represented by this object.</summary>
+        public LearnerAssignmentItemIdentifier LearnerAssignmentId { get; private set; }
 
-        /// <summary>
-        /// Holds the value of the <c>SPWebGuid</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        Guid m_spWebGuid = Guid.Empty;
+        /// <summary>Gets the GUID identifier of the learner assignment represented by this object.</summary>
+        public Guid LearnerAssignmentGuidId { get; internal set; }
 
-        /// <summary>
-        /// Holds the value of the <c>RootActivityId</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        ActivityPackageItemIdentifier m_rootActivityId;
+        /// <summary>Gets the <c>UserItemIdentifier</c> of the user that this learner assignment is assigned to.</summary>
+        public UserItemIdentifier LearnerId { get; internal set; }
 
-        /// <summary>
-        /// Holds the value of the <c>Location</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        string m_location;
+        /// <summary>Gets the name of the user that this learner assignment is assigned to.</summary>
+        public string LearnerName { get; internal set; }
 
-        /// <summary>
-        /// Holds the value of the <c>Title</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        string m_title;
-
-        /// <summary>
-        /// Holds the value of the <c>Description</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        string m_description;
-
-        /// <summary>
-        /// Holds the value of the <c>PointsPossible</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        float? m_pointsPossible;
-
-        /// <summary>
-        /// Holds the value of the <c>StartDate</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        DateTime m_startDate;
-
-        /// <summary>
-        /// Holds the value of the <c>DueDate</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        DateTime? m_dueDate;
-
-        /// <summary>
-        /// Holds the value of the <c>AutoReturn</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        bool m_autoReturn;
-
-        /// <summary>
-        /// Holds the value of the <c>HasInstructors</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        bool m_hasInstructors;
-
-        /// <summary>
-        /// Holds the value of the <c>ShowAnswersToLearners</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        bool m_showAnswersToLearners;
-
-        /// <summary>
-        /// Holds the value of the <c>CreatedById</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        UserItemIdentifier m_createdById;
-
-        /// <summary>
-        /// Holds the value of the <c>CreatedByName</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        string m_createdByName;
-
-        /// <summary>
-        /// Holds the value of the <c>LearnerId</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        UserItemIdentifier m_learnerId;
-
-        /// <summary>
-        /// Holds the value of the <c>LearnerName</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        string m_learnerName;
-
-        /// <summary>
-        /// Holds the value of the <c>Status</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        LearnerAssignmentState m_status;
-
-        /// <summary>
-        /// Holds the value of the <c>AttemptId</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        AttemptItemIdentifier m_attemptId;
-
-        /// <summary>
-        /// Holds the value of the <c>CompletionStatus</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        CompletionStatus m_completionStatus;
-
-        /// <summary>
-        /// Holds the value of the <c>SuccessStatus</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        SuccessStatus m_successStatus;
-
-        /// <summary>
-        /// Holds the value of the <c>GradedPoints</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        float? m_gradedPoints;
-
-        /// <summary>
-        /// Holds the value of the <c>FinalPoints</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        float? m_finalPoints;
-
-        /// <summary>
-        /// Holds the value of the <c>InstructorComments</c> property.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        string m_instructorComments;
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // Public Properties
-        //
-
-        /// <summary>
-        /// Gets the identifier of the learner assignment represented by this object.
-        /// </summary>
-        public LearnerAssignmentItemIdentifier LearnerAssignmentId
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_learnerAssignmentId;
-            }
-            internal set
-            {
-                m_learnerAssignmentId = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the GUID identifier of the learner assignment represented by this object.
-        /// </summary>
-        public Guid LearnerAssignmentGuidId
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_learnerAssignmentGuidId;
-            }
-        }
-
-        /// <summary>
-        /// Gets the identifier of the assignment that this learner assignment is associated with.
-        /// </summary>
-        public AssignmentItemIdentifier AssignmentId
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_assignmentId;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_assignmentId = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the <c>Guid</c> of the SPSite that contains the SPWeb that the assignment is
-        /// associated with.
-        /// </summary>
-        public Guid SPSiteGuid
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_spSiteGuid;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_spSiteGuid = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the <c>Guid</c> of the SPWeb that the assignment is associated with.
-        /// </summary>
-        public Guid SPWebGuid
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_spWebGuid;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_spWebGuid = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the identifier of the root activity of the e-learning package (SCORM or LRM) that this
-        /// assignment is associated with.  <c>null</c> if a non-e-learning document is associated
-        /// with the assignment.
-        /// </summary>
-        public ActivityPackageItemIdentifier RootActivityId
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_rootActivityId;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_rootActivityId = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the MLC SharePoint location string of the e-learning package or non-e-learning
-        /// document associated with the assignment.
-        /// </summary>
-        public string Location
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_location;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_location = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the title of the assignment.
-        /// </summary>
-        public string Title
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_title;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_title = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the description of the assignment.
-        /// </summary>
-        public string Description
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_description;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_description = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the nominal maximum number of points possible for the assignment.  <c>null</c> if
-        /// points possible is not specified.
-        /// </summary>
-        public Nullable<Single> PointsPossible
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_pointsPossible;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_pointsPossible = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the date/time that the assignment starts.  Unlike the related value stored in the
-        /// SharePoint Learning Kit database, this value is a local date/time, not a UTC value.
-        /// </summary>
-        public DateTime StartDate
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_startDate;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_startDate = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the due date/time of the assignment.  <c>null</c> if there is no due date.  Unlike
-        /// the related value stored in the SharePoint Learning Kit database, this value is a local
-        /// date/time, not a UTC value.
-        /// </summary>
-        public Nullable<DateTime> DueDate
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_dueDate;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_dueDate = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether each learner assignment associated with this assignment
-        /// should automatically be returned to the learner when the learner marks it as complete
-        /// (after auto-grading), rather than requiring an instructor to manually return the assignment
-        /// to the student.
-        /// </summary>
-        public bool AutoReturn
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_autoReturn;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_autoReturn = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value that indicates whether the assignment associated with this learner assignment
-        /// has instructors.  This value is <c>false</c> in the case of a self-assigned assignment.
-        /// </summary>
-        public bool HasInstructors
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_hasInstructors;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_hasInstructors = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value that indicates whether answers will be shown to the learner when a learner
-        /// assignment associated with the assignment is returned to the learner.  This only applies to
-        /// certain types of e-learning content.
-        /// </summary>
-        public bool ShowAnswersToLearners
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_showAnswersToLearners;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_showAnswersToLearners = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the <c>UserItemIdentifier</c> of the user who created the assignment.
-        /// </summary>
-        public UserItemIdentifier CreatedById
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_createdById;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_createdById = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the name of the user who created the assignment.
-        /// </summary>
-        public string CreatedByName
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_createdByName;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_createdByName = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the <c>UserItemIdentifier</c> of the user that this learner assignment is assigned to.
-        /// </summary>
-        public UserItemIdentifier LearnerId
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_learnerId;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_learnerId = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the name of the user that this learner assignment is assigned to.
-        /// </summary>
-        public string LearnerName
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_learnerName;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_learnerName = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the <c>LearnerAssignmentState</c> of this learner assignment.
-        /// </summary>
-        public LearnerAssignmentState Status
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_status;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_status = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the <c>AttemptId</c> of this learner assignment.  <c>null</c> if the assignment is a
-        /// non-e-learning assignment, or if it's an e-learning assignment which the learner hasn't
-        /// yet launched for the first time.
-        /// </summary>
-        public AttemptItemIdentifier AttemptId
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_attemptId;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_attemptId = value;
-            }
-        }
+        /// <summary>Gets or sets the <c>LearnerAssignmentState</c> of this learner assignment.</summary>
+        /// <remarks>
+        /// <para>
+        /// Changing the value of <c>Status</c>, and then calling
+        /// <c>SlkStore.SetGradingProperties</c>, will transition this learner assignment to another
+        /// <c>LearnerAssignmentState</c> value.  Only the following state transitions are supported
+        /// by <c>SlkStore.SetGradingProperties</c>:
+        /// </para>
+        /// <list type="bullet">
+        ///     <item><description><c>NotStarted</c> to <c>Completed</c>.
+        ///         </description>
+        ///     </item>
+        ///     <item><description><c>Active</c> to <c>Completed</c>.
+        ///         </description>
+        ///     </item>
+        ///     <item><description><c>Completed</c> to <c>Final</c>.
+        ///         </description>
+        ///     </item>
+        ///     <item><description><c>Final</c> to <c>Active</c>.
+        ///         </description>
+        ///     </item>
+        /// </list>
+        /// <para>
+        /// When setting <c>Status</c>, use the value <c>null</c> to indicate that you don't want to
+        /// change the status of the assignment.  If you use the current value, the status also won't
+        /// be changed, but you run the risk of another user changing the status between your calls
+        /// to <c>SlkStore.GetGradingProperties</c> and <c>SlkStore.SetGradingProperties</c>.
+        /// </para>
+        /// </remarks>
+        public Nullable<LearnerAssignmentState> Status { get; set; }
 
         /// <summary>
         /// Gets a <c>CompletionStatus</c> value indicating whether the SCORM 2005 package associated
@@ -553,19 +73,7 @@ namespace Microsoft.SharePointLearningKit
         /// only used for assignments of SCORM 2004 packages; <c>CompletionStatus.Unknown</c> is
         /// returned for SCORM 1.2 and Class Server LRM assignments.
         /// </summary>
-        public CompletionStatus CompletionStatus
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_completionStatus;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_completionStatus = value;
-            }
-        }
+        public CompletionStatus CompletionStatus { get; internal set; }
 
         /// <summary>
         /// Gets a <c>SuccessStatus</c> value indicating whether the SCORM package associated with
@@ -573,95 +81,507 @@ namespace Microsoft.SharePointLearningKit
         /// property is only used for assignments of SCORM 2004 packages; <c>SuccessStatus.Unknown</c>
         /// is returned for SCORM 1.2 and Class Server LRM assignments.
         /// </summary>
-        public SuccessStatus SuccessStatus
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_successStatus;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_successStatus = value;
-            }
-        }
+        public SuccessStatus SuccessStatus { get; internal set; }
 
         /// <summary>
         /// Gets the number of points the learner received from automatic and manual grading of the
         /// learner assignment.  If the content type does not support grading, or if the grade is
         /// "blank", <c>GradedPoints</c> will be <c>null</c>.
         /// </summary>
-        public Nullable<Single> GradedPoints
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return m_gradedPoints;
-            }
-            [DebuggerStepThrough]
-            internal set
-            {
-                m_gradedPoints = value;
-            }
-        }
+        public Nullable<Single> GradedPoints { get; internal set; }
+
+        /// <summary>Gets or sets the number of points the learner received on this learner assignment.</summary>
+        public Nullable<Single> FinalPoints { get; set; }
+
+        /// <summary>The Grade the learner is marked as.</summary>
+        public string Grade { get; set; }
 
         /// <summary>
-        /// Gets the number of points the learner received on this learner assignment.  When the
-        /// learner submits the assignment, <c>FinalPoints</c> is initially the same as
-        /// <c>GradedPoints</c>, but the instructor may manually change the value of <c>FinalPoint</c>.
-        /// For example, the instructor may award bonus points to the learner.
+        /// Gets or sets a value indicating whether <c>FinalPoints</c> will be ignore in subsequent
+        /// calls to <c>SlkStore.SetGradingProperties</c>.  In that case, the current value of
+        /// <c>FinalPoints</c> in the database is not changed to the value of
+        /// <c>LearnerAssignmentProperties.FinalPoints</c>.
         /// </summary>
-        public Nullable<Single> FinalPoints
+        public bool IgnoreFinalPoints { get; set; }
+
+        /// <summary>Gets or sets comments from the instructor (if any) on this learner assignment;<c>String.Empty</c> if none.</summary>
+        public string InstructorComments { get; internal set; }
+
+        /// <summary>Gets or sets the <c>AttemptItemIdentifier</c> of the attempt associated with this learnerssignment, or <c>null</c> if none.</summary>
+        internal AttemptItemIdentifier AttemptId { get; set; }
+#endregion properties
+
+#region constructors
+        /// <summary>Initializes an instance of this class.</summary>
+        /// <param name="learnerAssignmentId">The identifier of the learner assignment represented by this object.</param>
+        /// <param name="assignment">The assignment the result is for.</param>
+        public LearnerAssignmentProperties(LearnerAssignmentItemIdentifier learnerAssignmentId, AssignmentProperties assignment)
         {
-            [DebuggerStepThrough]
-            get
+            if(learnerAssignmentId == null)
             {
-                return m_finalPoints;
+                throw new ArgumentNullException("learnerAssignmentId");
             }
-            [DebuggerStepThrough]
-            internal set
+                
+            LearnerAssignmentId = learnerAssignmentId;
+            Assignment = assignment;
+        }
+#endregion constructors
+
+#region public methods
+        /// <summary>Saves changes to the assignment.</summary>
+        /// <param name="moveStatusForward">True if move the status forward from an instructor's point of view.</param>
+        /// <param name="returnAssignment">True if assignment should be returned.</param>
+        public void Save(bool moveStatusForward, bool returnAssignment)
+        {
+            if (returnAssignment)
             {
-                m_finalPoints = value;
+                fullSave = true;
+                Return();
+            }
+            else if (moveStatusForward)
+            {
+                fullSave = true;
+
+                try
+                {
+                    switch (Status)
+                    {
+                        case LearnerAssignmentState.NotStarted:
+                            // Collect as instructor is calling
+                            Collect();
+                            break;
+
+                        case LearnerAssignmentState.Active:
+                            // Collect
+                            Collect();
+                            break;
+
+                        case LearnerAssignmentState.Completed:
+                            // Make Final
+                            Return();
+                            break;
+
+                        case LearnerAssignmentState.Final:
+                            // Reactivate
+                            Reactivate();
+                            break;
+                    }
+                }
+                finally
+                {
+                    fullSave = false;
+                }
+            }
+            else
+            {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("LearnerAssignmentProperties.Save just save");
+                // Just save
+                Assignment.Store.SaveLearnerAssignment(LearnerAssignmentId, IgnoreFinalPoints, FinalPoints, InstructorComments, Grade, null, null);
             }
         }
 
-        /// <summary>
-        /// Gets comments from the instructor (if any) on this learner assignment; <c>String.Empty</c>
-        /// if none. 
-        /// </summary>
-        public string InstructorComments
+        /// <summary>Starts the assignment.</summary>
+        public void Start()
         {
-            [DebuggerStepThrough]
-            get
+            CheckUserIsLearner();
+
+            // Check the status
+            switch (Status)
             {
-                return m_instructorComments;
+                case LearnerAssignmentState.NotStarted:
+                    break;
+
+                case LearnerAssignmentState.Active:
+                    return;
+
+                case LearnerAssignmentState.Completed:
+                    throw InvalidTransitionException(LearnerAssignmentState.Completed, LearnerAssignmentState.Active);
+
+                case LearnerAssignmentState.Final:
+                    throw InvalidTransitionException(LearnerAssignmentState.Final, LearnerAssignmentState.Active);
+
+                default:
+                    // New status added
+                    break;
             }
-            [DebuggerStepThrough]
-            internal set
+
+            StoredLearningSession session = CreateAttemptIfRequired(false);
+
+            LearnerAssignmentState newStatus = LearnerAssignmentState.Active;
+
+            if (session == null)
             {
-                m_instructorComments = value;
+                Save(newStatus, null, NonELearningStatus(AttemptStatus.Active), null);
+            }
+            else
+            {
+                Save(newStatus, null, NonELearningStatus(AttemptStatus.Active), null);
+            }
+
+            Status = newStatus;
+        }
+
+        /// <summary>Returns the assignment.</summary>
+        public void Return()
+        {
+            CheckUserIsInstructor();
+
+            StoredLearningSession session = null;
+
+            // Check the status
+            switch (Status)
+            {
+                case LearnerAssignmentState.NotStarted:
+                    // Force collection & return
+                    session = CreateAttemptIfRequired(false);
+                    break;
+
+                case LearnerAssignmentState.Active:
+                    // Force collection & return
+                    break;
+
+                case LearnerAssignmentState.Completed:
+                    break;
+
+                case LearnerAssignmentState.Final:
+                    // No need to return
+                    return;
+
+                default:
+                    // New status added
+                    break;
+            }
+
+            LearnerAssignmentState newStatus = LearnerAssignmentState.Final;
+
+            if (session == null)
+            {
+                Save(newStatus, true, NonELearningStatus(AttemptStatus.Completed), null);
+            }
+            else
+            {
+                Save(newStatus, true, NonELearningStatus(AttemptStatus.Completed), session.TotalPoints);
+            }
+
+            Status = newStatus;
+
+            if (Assignment.EmailChanges)
+            {
+                Assignment.SendReturnEmail(User);
+            }
+
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Return pre check {0}", Assignment.IsNonELearning);
+            if (Assignment.IsNonELearning)
+            {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Return updating {0}", Assignment.IsNonELearning);
+                Assignment.UpdateDropBoxPermissions(newStatus, User);
             }
         }
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // Internal Methods
-        //
+        /// <summary>Collects the assignment.</summary>
+        public void Collect()
+        {
+            CheckUserIsInstructor();
+            StoredLearningSession session = null;
 
-        /// <summary>
-        /// Initializes an instance of this class.
-        /// </summary>
-        ///
-        /// <param name="learnerAssignmentId">The identifier of the learner assignment represented by
-        ///     this object.</param>
-        ///
-        internal LearnerAssignmentProperties(LearnerAssignmentItemIdentifier learnerAssignmentId)
-        {
-            m_learnerAssignmentId = learnerAssignmentId;
+            // Check the status
+            switch (Status)
+            {
+                case LearnerAssignmentState.NotStarted:
+                    session = CreateAttemptIfRequired(true);
+                    break;
+
+                case LearnerAssignmentState.Active:
+                    break;
+
+                case LearnerAssignmentState.Completed:
+                    // No need to collect
+                    return;
+
+                case LearnerAssignmentState.Final:
+                    // No need to collect
+                    return;
+
+                default:
+                    // New status added
+                    break;
+            }
+
+            CompleteAssignment(session);
+
+            if (Assignment.EmailChanges)
+            {
+                Assignment.SendCollectEmail(User);
+            }
+
+            if (Assignment.IsNonELearning)
+            {
+                Assignment.UpdateDropBoxPermissions(LearnerAssignmentState.Completed, User);
+            }
         }
-        internal LearnerAssignmentProperties(Guid learnerAssignmentGuidId)
+
+        /// <summary>reactivates the assignment.</summary>
+        public void Reactivate()
         {
-            m_learnerAssignmentGuidId = learnerAssignmentGuidId;
+            CheckUserIsInstructor();
+
+            // Check the status
+            switch (Status)
+            {
+                case LearnerAssignmentState.NotStarted:
+                    throw InvalidTransitionException(LearnerAssignmentState.NotStarted, LearnerAssignmentState.Active);
+
+                case LearnerAssignmentState.Active:
+                    return; // Already active
+
+                case LearnerAssignmentState.Completed:
+                    break;
+
+                case LearnerAssignmentState.Final:
+                    break;
+
+                default:
+                    // New status added
+                    break;
+            }
+
+            LearnerAssignmentState newStatus = LearnerAssignmentState.Active;
+
+            if (Assignment.IsELearning)
+            {
+                ReactivateSession();
+            }
+            else
+            {
+                Assignment.UpdateDropBoxPermissions(newStatus, User);
+            }
+
+            Save(newStatus, false, NonELearningStatus(AttemptStatus.Active), null);
+            Status = newStatus;
+
+            if (Assignment.EmailChanges)
+            {
+                Assignment.SendReactivateEmail(User);
+            }
         }
+
+        /// <summary>Submits the assignment.</summary>
+        public void Submit()
+        {
+            CheckUserIsLearner();
+
+            // Check the status
+            switch (Status)
+            {
+                case LearnerAssignmentState.NotStarted:
+                    throw InvalidTransitionException(LearnerAssignmentState.NotStarted, LearnerAssignmentState.Completed);
+
+                case LearnerAssignmentState.Active:
+                    break;
+
+                case LearnerAssignmentState.Completed:
+                    // Need to transition to Final if auto return assignment
+                    if (Assignment.AutoReturn != true)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                case LearnerAssignmentState.Final:
+                    // Already complete so leave
+                    return;
+
+                default:
+                    // New status added
+                    break;
+            }
+
+            CompleteAssignment(null);
+
+            if (Assignment.IsNonELearning)
+            {
+                DropBoxManager dropBoxMgr = new DropBoxManager(Assignment);
+                dropBoxMgr.ApplySubmittedPermissions();
+            }
+
+            if (Assignment.EmailChanges)
+            {
+                Assignment.SendSubmitEmail(LearnerName);
+            }
+        }
+
+        /// <summary>Uploads files and submits the assignment.</summary>
+        /// <param name="files">The files to upload.</param>
+        public void UploadFilesAndSubmit(AssignmentUpload[] files)
+        {
+            DropBoxManager manager = new DropBoxManager(Assignment);
+            manager.UploadFiles(files);
+            Submit();
+        }
+#endregion public methods
+
+#region private methods
+        void CompleteAssignment(StoredLearningSession newSession)
+        {
+            LearnerAssignmentState newStatus = LearnerAssignmentState.Completed;
+            bool? isFinal = false;
+            if (Assignment.AutoReturn)
+            {
+                newStatus = LearnerAssignmentState.Final;
+                isFinal = true;
+            }
+
+
+            if (newSession == null)
+            {
+                float? finalPoints = null;
+                if (Status == LearnerAssignmentState.Active && Assignment.IsELearning)
+                {
+                    finalPoints = FinishSession();
+                }
+
+                Save(newStatus, isFinal, NonELearningStatus(AttemptStatus.Completed), finalPoints);
+            }
+            else
+            {
+                Save(newStatus, isFinal, NonELearningStatus(AttemptStatus.Completed), newSession.TotalPoints);
+            }
+
+            Status = newStatus;
+        }
+
+        void CheckUserIsLearner()
+        {
+            if (Assignment.Store.CurrentUserId != LearnerId)
+            {
+                throw new SafeToDisplayException(AppResources.SubmitAssignmentNotLearner);
+            }
+        }
+
+        void CheckUserIsInstructor()
+        {
+            UserItemIdentifier current = Assignment.Store.CurrentUserId;
+
+            foreach (SlkUser instructor in Assignment.Instructors)
+            {
+                if (instructor.UserId == current)
+                {
+                    return;
+                }
+            }
+
+            throw new SafeToDisplayException(AppResources.ChangeLearnerAssignmentNotInstructor);
+        }
+
+        StoredLearningSession CreateAttemptIfRequired(bool transitionToComplete)
+        {
+            // NotStarted --> Active or Completed or Final
+            if (Assignment.IsELearning)
+            {
+                // create an attempt for this learner assignment
+                StoredLearningSession learningSession = StoredLearningSession.CreateAttempt(Assignment.Store.PackageStore, LearnerId, LearnerAssignmentId, Assignment.RootActivityId, 
+                        Assignment.Store.Settings.LoggingOptions);
+
+                // start the assignment, forcing selection of a first activity
+                learningSession.Start(true);
+
+                // if NotStarted --> Completed or Final, transition to the Completed state
+                if (transitionToComplete)
+                {
+                    // transition to Completed
+                    learningSession.Exit();
+                }
+
+                // save changes to <learningSession>
+                learningSession.CommitChanges();
+
+                return learningSession;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        float? FinishSession()
+        {
+            if (AttemptId == null)
+            {
+                throw new InternalErrorException("SLK1007");
+            }
+
+            // set <learningSession> to refer to the attempt associated with this learner assignment
+            StoredLearningSession learningSession = new StoredLearningSession(SessionView.Execute, AttemptId, Assignment.Store.PackageStore);
+
+            // transition the attempt to "Completed" state; note that this will initialize the "content score", i.e. the score computed from the content
+            if (learningSession.HasCurrentActivity)
+            {
+                // make sure that if the content wants to suspend itself, it does
+                learningSession.ProcessNavigationRequests();    
+            }
+
+            learningSession.Exit();
+            learningSession.CommitChanges();
+            return learningSession.TotalPoints;
+        }
+
+        void ReactivateSession()
+        {
+            if (AttemptId == null)
+            {
+                throw new InternalErrorException("SLK1010");
+            }
+
+            StoredLearningSession learningSession = new StoredLearningSession(SessionView.RandomAccess, AttemptId, Assignment.Store.PackageStore);
+
+            // reactivate the attempt
+            learningSession.Reactivate(ReactivateSettings.ResetEvaluationPoints);
+            learningSession.CommitChanges();
+
+            // restart the attempt
+            learningSession = new StoredLearningSession(SessionView.Execute, AttemptId, Assignment.Store.PackageStore);
+            learningSession.Start(true);
+            learningSession.CommitChanges();
+            // NOTE: if (learningSession.AttemptStatus != AttemptStatus.Active) then the
+            // restart process failed -- but there's not much we can do about it, and throwing
+            // an exception may make matters worse
+        }
+
+        Exception InvalidTransitionException(LearnerAssignmentState oldStatus, LearnerAssignmentState newStatus)
+        {
+            string message = string.Format(CultureInfo.CurrentUICulture, AppResources.LearnerAssignmentTransitionNotSupported, oldStatus, newStatus);
+            return new InvalidOperationException(message);
+        }
+
+        AttemptStatus? NonELearningStatus(AttemptStatus state)
+        {
+            if (Assignment.IsNonELearning)
+            {
+                return state;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        void Save(LearnerAssignmentState newStatus, bool? isFinal, AttemptStatus? nonELearningStatus, float? finalPoints)
+        {
+            if (fullSave)
+            {
+                bool ignoreFinalPoints = finalPoints != null ? false : IgnoreFinalPoints;
+                float? pointsToSend = IgnoreFinalPoints == false ? FinalPoints : finalPoints;
+                Assignment.Store.SaveLearnerAssignment(LearnerAssignmentId, ignoreFinalPoints, pointsToSend, InstructorComments, Grade, isFinal, nonELearningStatus);
+            }
+            else
+            {
+                bool saveFinalPoints = (finalPoints != null || newStatus == LearnerAssignmentState.Active);
+                Assignment.Store.ChangeLearnerAssignmentState(LearnerAssignmentId, isFinal, nonELearningStatus, saveFinalPoints, finalPoints);
+            }
+        }
+#endregion private methods
     }
 }

@@ -122,7 +122,7 @@
     <value>..\..\SlkSettings.xsd;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="SlkSchemaSql" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\SlkSchema.sql;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\..\Sql\SlkSchema.sql;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="InvalidDatabaseName" xml:space="preserve">
     <value>Invalid database name "{0}".  Database names may only contain letters, digits, and underscores.</value>
@@ -274,6 +274,10 @@ More information has been written to the server event log.</value>
     <value>Show learners the correct answers to autograded questions when the assignment is final (Class Server learning resources only)</value>
     <comment>Check Box Label Text for Show Answers to Learners.</comment>
   </data>
+  <data name="CheckBoxEmailAssignment" xml:space="preserve">
+    <value>Email learners on creation or when changed.</value>
+    <comment>Check Box Label Text for Email Learners.</comment>
+  </data>
   <data name="CtrlChkBoxTextAutoReturnAssignments" xml:space="preserve">
     <value>Automatically return learner assignments when they are submitted.</value>
     <comment>Check Box Label Text for Auto Return Learners Assignments</comment>
@@ -382,6 +386,19 @@ More information has been written to the server event log.</value>
     <value>The assignment must have a title.</value>
     <comment>The assignment Blank Error Message.</comment>
   </data>
+  <data name="WebPartCategory" xml:space="preserve">
+    <value>SharePoint Learning Kit</value>
+    <comment>The category for web part properties.</comment>
+  </data>
+  <data name="QuickAssignmentLabelTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="QuickAssignmentLabelSite" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="QuickAssignmentAssignText" xml:space="preserve">
+    <value>Assign</value>
+  </data>
   <data name="ActionsItemNotFound" xml:space="preserve">
     <value>The learning resource does not exist or you may not have permission to access it.</value>
   </data>
@@ -400,11 +417,17 @@ More information has been written to the server event log.</value>
   <data name="ActionslblOrganization" xml:space="preserve">
     <value>Organization</value>
   </data>
+  <data name="ActionslblSelfAssignAssignNoFile" xml:space="preserve">
+    <value>Assign it</value>
+  </data>
   <data name="ActionslblSelfAssignAssign" xml:space="preserve">
     <value>Assign it to someone else</value>
   </data>
   <data name="ActionslblSelfAssignHeader" xml:space="preserve">
     <value>Use it myself</value>
+  </data>
+  <data name="ActionslblWhatHeaderNoFile" xml:space="preserve">
+    <value>Assign work</value>
   </data>
   <data name="ActionslblWhatHeader" xml:space="preserve">
     <value>What would you like to do with this document?</value>
@@ -412,8 +435,14 @@ More information has been written to the server event log.</value>
   <data name="ActionslnkAssignSelf" xml:space="preserve">
     <value>Assign this learning resource to yourself.</value>
   </data>
+  <data name="ActionsDocLibLinkNoFile" xml:space="preserve">
+    <value>Assignment</value>
+  </data>
   <data name="ActionslnkMRUAddSite" xml:space="preserve">
     <value>Add a site to this list...</value>
+  </data>
+  <data name="ActionsPageDescriptionNoFile" xml:space="preserve">
+    <value>This page allows you to choose which site to assign a piece of work to.</value>
   </data>
   <data name="ActionsPageDescription" xml:space="preserve">
     <value>This page allows you to use a document for e-learning. You can assign
@@ -451,6 +480,9 @@ More information has been written to the server event log.</value>
   </data>
   <data name="LobbylblDue" xml:space="preserve">
     <value>Due</value>
+  </data>
+  <data name="LobbyLabelGrade" xml:space="preserve">
+    <value>Grade</value>
   </data>
   <data name="LobbylblScore" xml:space="preserve">
     <value>Score</value>
@@ -705,6 +737,22 @@ saving, click Cancel.</value>
     <value>Edit Assignment</value>
     <comment>Edit Assignment in Title Area</comment>
   </data>
+  <data name="QuickAssignmentAlwaysShowDisplayName" xml:space="preserve">
+    <value>Always Show</value>
+    <comment>Quick Assignment web part Always Show display name Attribute Value</comment>
+  </data>
+  <data name="QuickAssignmentAlwaysShowDescription" xml:space="preserve">
+    <value>Always show the web part even if not an instructor on the site.</value>
+    <comment>Quick Assignment web part Mode description Attribute Value</comment>
+  </data>
+  <data name="QuickAssignmentTypeDisplayName" xml:space="preserve">
+    <value>Display Mode</value>
+    <comment>Quick Assignment web part Mode display name Attribute Value</comment>
+  </data>
+  <data name="QuickAssignmentTypeDescription" xml:space="preserve">
+    <value>Controls how the control is used.</value>
+    <comment>Quick Assignment web part Mode description Attribute Value</comment>
+  </data>
   <data name="AlwpDisplaySummaryDescription" xml:space="preserve">
     <value>Show the control for selecting a query to display in the assignment list.</value>
     <comment>Alwp DisplaySummary WebDescription  Attribute Value</comment>
@@ -903,6 +951,10 @@ saving, click Cancel.</value>
     <value>Action</value>
     <comment>Action Header Text in the Grading List.</comment>
   </data>
+  <data name="GradingGradeHeaderText" xml:space="preserve">
+    <value>Grade</value>
+    <comment>Grade Header Text in the Grading List.</comment>
+  </data>
   <data name="GradingCommentsHeaderText" xml:space="preserve">
     <value>Comments</value>
     <comment>Comments Header Text in the Grading List.</comment>
@@ -953,7 +1005,7 @@ saving, click Cancel.</value>
     <value>X</value>
   </data>
   <data name="LobbyInvalidLearnerAssignmentId" xml:space="preserve">
-    <value>The assignment (ID {0}) does not exist or you may not have permission to access it.</value>
+    <value>The learner assignment (ID {0}) does not exist or you may not have permission to access it.</value>
   </data>
   <data name="LobbySubmitAccessKey" xml:space="preserve">
     <value>S</value>
@@ -1120,6 +1172,14 @@ saving, click Cancel.</value>
     <value>Domain group "{0}" has no backslash (\)</value>
     <comment>{0} = domain group name</comment>
   </data>
+  <data name="LobbyDeleteException" xml:space="preserve">
+    <value>Failed to delete the assignment. More information may be available in the server event log.</value>
+    <comment>Message shown when an exception happens on delete.</comment>
+  </data>
+  <data name="LobbySubmitException" xml:space="preserve">
+    <value>Failed to submit the assignment. More information may be available in the server event log.</value>
+    <comment>Message shown when an exception happens on submit.</comment>
+  </data>
   <data name="AppEnumerationWarning" xml:space="preserve">
     <value>The list of instructors or learners may be incomplete because the following groups could not be read:
 {0}
@@ -1283,16 +1343,10 @@ More information may be available in the server event log.</value>
     <value>Submitted File(s)</value>
   </data>
   <data name="SubmittedFilesHeader" xml:space="preserve">
-    <value> files</value>
+      <value>{0} : {1} Files</value>
   </data>
-  <data name="SubmittedFilesInstructorMssage1" xml:space="preserve">
-    <value>To view all files submitted by </value>
-  </data>
-  <data name="SubmittedFilesInstructorMessage2" xml:space="preserve">
-    <value> for this assignment </value>
-  </data>
-  <data name="SubmittedFilesInstructorMessage3" xml:space="preserve">
-    <value>click here</value>
+  <data name="SubmittedFilesInstructorMessage" xml:space="preserve">
+      <value>Click here to view all files submitted by {0} for this assignment.</value>
   </data>
   <data name="SubmittedFilesLearnerNoAccessException" xml:space="preserve">
     <value>You don't have access to this page because the assignment is still not returned by the instructor.</value>
@@ -1486,9 +1540,6 @@ More information may be available in the server event log.</value>
   <data name="FilesUploadOrCancel" xml:space="preserve">
     <value>At least one file should be uploaded to submit the assignment.If you are not ready yet to submit the assignment click Cancel.</value>
   </data>
-  <data name="SLKFeatureNotActivated" xml:space="preserve">
-    <value>SharePoint Learning Kit feature might not be activated on the site.</value>
-  </data>
   <data name="DefaultDropBoxFilesExtensions" xml:space="preserve">
     <value>doc;pdf</value>
   </data>
@@ -1519,18 +1570,6 @@ More information may be available in the server event log.</value>
   <data name="DropBoxDefaultViewTitle" xml:space="preserve">
       <value>My Assignments</value>
   </data>
-  <data name="AssignmentTitleInvalid" xml:space="preserve">
-    <value>The file or folder name contains characters that are not permitted.  Please use a different name.</value>
-  </data>
-  <data name="AssignmentTitleInvalidErrMsg" xml:space="preserve">
-    <value>The file or folder name contains characters that are not permitted.  Please use a different name.</value>
-  </data>
-  <data name="AssignmentTitleTooLong" xml:space="preserve">
-    <value>The specified file or folder name is too long. The URL path for all files and folders must be 260 characters or less (and no more than 128 characters for any single file or folder name in the URL). Please type a shorter file or folder name.</value>
-  </data>
-  <data name="AssignmentTitleTooLongErrMsg" xml:space="preserve">
-    <value>The specified file or folder name is too long. The URL path for all files and folders must be 260 characters or less (and no more than 128 characters for any single file or folder name in the URL). Please type a shorter file or folder name.</value>
-  </data>
   <data name="DropBoxTitle" xml:space="preserve">
     <value>Drop Box</value>
   </data>
@@ -1557,6 +1596,88 @@ More information may be available in the server event log.</value>
   </data>
   <data name="NoAccessToSite" xml:space="preserve">
     <value>Cannot access site.</value>
+  </data>
+  <data name="InvalidNewAssignment" xml:space="preserve">
+    <value>You must set the location of an assignment before creating one.</value>
+  </data>
+  <data name="NoPackageTitle" xml:space="preserve">
+    <value>Quick Assignment.</value>
+  </data>
+  <data name="NewAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>New Assignment: %title%</value>
+  </data>
+  <data name="NewAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>You have been assigned a new piece of work: <strong>%title%</strong>.</p>
+<p>%description%</p>
+<p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="ReactivateAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% has been reactivated</value>
+  </data>
+  <data name="ReactivateAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> has been reactivated for you to try again.</p>
+          <p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="CollectAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% has been collected in</value>
+  </data>
+  <data name="CollectAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> has been collected in.</p>
+          <p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="ReturnAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% has been returned</value>
+  </data>
+  <data name="ReturnAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> has been returned.</p>
+          <p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="SubmitAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% submitted by %name%</value>
+  </data>
+  <data name="SubmitAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> had been submitted by %name%.</p>
+          <p><a href='%gradingUrl%'>%gradingUrl%</a></p>]]></value>
+  </data>
+  <data name="AssignmentReminderEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment Reminder : %title%</value>
+  </data>
+  <data name="AssignmentReminderEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> is due on %due%.</p>
+<p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="CancelAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment Cancelled : %title%</value>
+  </data>
+  <data name="CancelAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> had been collected.</p>]]></value>
+  </data>
+  <data name="SubmitAssignmentNotLearner" xml:space="preserve">
+    <value>Only the learner can submit the assignment.</value>
+  </data>
+  <data name="SubmitAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be submitted as it is not yet started.</value>
+  </data>
+  <data name="ReactivateAssignmentActive" xml:space="preserve">
+    <value>Assignment cannot be reactivated as it is still active.</value>
+  </data>
+  <data name="CollectAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be collected as it is not yet started.</value>
+  </data>
+  <data name="ReactivateAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be reactivated as it is not yet started.</value>
+  </data>
+  <data name="ReturnAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be returned as it is not yet started.</value>
+  </data>
+  <data name="ReturnAssignmentActive" xml:space="preserve">
+    <value>Assignment cannot be returned as it is still active.</value>
+  </data>
+  <data name="ChangeLearnerAssignmentNotInstructor" xml:space="preserve">
+    <value>Cannot change learner assignment because you are not an instructor for the assignment.</value>
+  </data>
+  <data name="ReminderEmailsJobTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit Reminder Emails</value>
   </data>
   <data name="GroupEnumerationFail" xml:space="preserve">
     <value>Could not get the members of group {0}.</value>

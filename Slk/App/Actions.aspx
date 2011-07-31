@@ -93,7 +93,7 @@
 </slk:TableGrid>
 
 <slk:TableGrid runat="server" Width="100%" CellPadding="0" CellSpacing="0">
-<slk:TableGridRow>
+<slk:TableGridRow ID="selfAssignRow" runat="server">
 	<slk:TableGridColumn ColumnType="FormLabel">
 		<asp:Label ID="lblSelfAssignHeader" runat="server" EnableViewState="false" />
 	</slk:TableGridColumn>

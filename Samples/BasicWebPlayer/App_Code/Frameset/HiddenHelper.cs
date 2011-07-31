@@ -547,7 +547,7 @@ namespace Microsoft.LearningComponents.Frameset
                 // In Execute view, ProcessSessionEnd may write to the database and change state of data related to the attempt.
                 // Therefore, session changes must be written in the same transation as the session end changes.
                 TransactionOptions transactionOptions = new TransactionOptions();
-                transactionOptions.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
+                transactionOptions.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
                 using (LearningStoreTransactionScope scope =
                     new LearningStoreTransactionScope(transactionOptions))
                 {

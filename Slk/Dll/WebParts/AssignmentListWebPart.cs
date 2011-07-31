@@ -42,6 +42,29 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// <summary>The event raised then the cell is consumed.</summary>
         public event CellConsumerInitEventHandler CellConsumerInit;
 
+        /// <summary>See <see cref="Microsoft.SharePoint.WebPartPages.WebPart.GetInitEventArgs"/>.</summary>
+        [Obsolete]
+        public override InitEventArgs GetInitEventArgs(string interfaceName)
+        {
+            // Check if this is my particular cell interface.
+            if (interfaceName == "MyCellConsumerInterface" || interfaceName == "Observer_WebPart_Listener")
+            {
+                // Create the object that will return the initialization arguments.
+                CellConsumerInitEventArgs cellConsumerInitArgs = new CellConsumerInitEventArgs();
+
+                // Set the FieldName and FieldDisplay name values.
+                cellConsumerInitArgs.FieldName = "AccountName";
+                cellConsumerInitArgs.FieldDisplayName = "Account Name";
+
+                // Return the CellConsumerInitEventArgs object.
+                return(cellConsumerInitArgs);
+            }
+            else
+            {
+                return(null);
+            }
+        }
+
         /// <summary>See <see cref="Microsoft.SharePoint.WebPartPages.WebPart.EnsureInterfaces"/>.</summary>
         [Obsolete]
         public override void EnsureInterfaces()
@@ -120,6 +143,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             InitializeLearnerKey();
             // On CellReady, validate and set the learner's login id
+            InitializeLearnerKey();
             if (cellReadyArgs.Cell != null)
             {
                 observerRoleLearnerLogin = cellReadyArgs.Cell.ToString();
@@ -316,12 +340,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 // set <querySetDef> to the QuerySetDefinition named <querySetName>
 
-                QuerySetDefinition querySetDef
-                        = SlkStore.Settings.FindQuerySetDefinition(QuerySetOverride, true);
+                QuerySetDefinition querySetDef = SlkStore.Settings.FindQuerySetDefinition(QuerySetOverride, true);
                 if (querySetDef == null)
                 {
-                    throw new SafeToDisplayException
-                                    (AppResources.AlwpQuerySetNotFound, QuerySetOverride);
+                    throw new SafeToDisplayException (AppResources.AlwpQuerySetNotFound, QuerySetOverride);
                 }
                 else
                 {
@@ -579,7 +601,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 try
                 {
-                    SPUser inputSPUser = SPWeb.AllUsers[learnerLogin];
+                    SPUser inputSPUser = SPWeb.EnsureUser(learnerLogin);
                     string observerRoleLearnerKey = String.IsNullOrEmpty(inputSPUser.Sid) ? inputSPUser.LoginName : inputSPUser.Sid;
                     try
                     {
@@ -792,6 +814,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
         }
     }
+
     /// <summary>
     /// Defines the friendly name for a property of a ALWP.
     /// This allows the labels in ALWP's tool pane to be localized string resources.
@@ -818,6 +841,29 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 }
                 return base.DisplayName;
             }
+        }
+    }
+
+    /// <summary>
+    /// Defines the friendly name for a property of a SLK web part.
+    /// This allows the labels in web part's tool pane to be localized string resources.
+    /// </summary>
+    internal sealed class SlkCategoryAttribute : CategoryAttribute
+    {
+        /// <summary>Initializes a new instance of <see cref="SlkCategoryAttribute"/>.</summary>
+        public SlkCategoryAttribute() : base ("WebPartCategory")
+        {
+        }
+
+        /// <summary>Initializes a new instance of <see cref="SlkCategoryAttribute"/>.</summary>
+        public SlkCategoryAttribute(string category) : base (category)
+        {
+        }
+
+        /// <summary>Gets the name of a property to display.</summary>
+        protected override string GetLocalizedString(string value)
+        {
+            return AppResources.ResourceManager.GetString(value);
         }
     }
 }

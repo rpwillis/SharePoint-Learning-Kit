@@ -37,19 +37,19 @@
   <ItemGroup>
     <Reference Include="Microsoft.LearningComponents, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\src\learningcomponents\bin\debug\Microsoft.LearningComponents.dll</HintPath>
+      <HintPath>..\..\..\LearningComponents\learningcomponents\bin\debug\Microsoft.LearningComponents.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.LearningComponents.Compression, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\src\compression\bin\debug\Microsoft.LearningComponents.Compression.dll</HintPath>
+      <HintPath>..\..\..\LearningComponents\compression\bin\debug\Microsoft.LearningComponents.Compression.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.LearningComponents.SharePoint, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\src\sharepoint\bin\debug\Microsoft.LearningComponents.SharePoint.dll</HintPath>
+      <HintPath>..\..\..\LearningComponents\sharepoint\bin\debug\Microsoft.LearningComponents.SharePoint.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.LearningComponents.Storage, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\src\storage\bin\debug\Microsoft.LearningComponents.Storage.dll</HintPath>
+      <HintPath>..\..\..\LearningComponents\storage\bin\debug\Microsoft.LearningComponents.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -18,7 +18,6 @@ using System.Text;
 using Resources.Properties;
 using Microsoft.SharePoint;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.SharePointLearningKit.Localization;
 using Microsoft.SharePointLearningKit.WebControls;
 
 namespace Microsoft.SharePointLearningKit.Frameset
@@ -57,7 +56,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         // The Session.TotalPoints value prior to processing any posted data.
         float? m_initialTotalPoints;
 
-        LearnerAssignmentProperties m_learnerAssignment;    // cached version of learner assignment to display
+        LearnerAssignmentProperties learnerAssignment;    // cached version of learner assignment to display
 
         /// <summary>The page load event.</summary>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // all exceptions caught and written to event log rather than getting aspx error page
@@ -65,9 +64,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             try
             {
-                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
-                SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
-
                 bool isPosted = false;
                 if (String.CompareOrdinal(Request.HttpMethod, "POST") == 0)
                     isPosted = true;
@@ -85,7 +81,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     // Initialize data that may get set on a first try, but must be reset for retry
                     Response.Clear();
                     ClearError();
-                    m_learnerAssignment = null;
+                    learnerAssignment = null;
 
                     m_contentHelper = new ContentHelper(Request, Response, SlkEmbeddedUIPath);
                     m_contentHelper.ProcessPageLoad(SlkStore.PackageStore,
@@ -139,7 +135,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // need to catch it to provide correct SLK message
         public bool TryGetViewInfo(bool showErrorPage, out SessionView view)
         {
-            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
             // make compiler happy
             view = SessionView.Execute;
             AssignmentView assignmentView;
@@ -197,8 +192,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // catch general exception so that message can be SLK-specific
         public bool TryGetAttemptInfo(bool showErrorPage, out AttemptItemIdentifier attemptId)
         {
-            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
-
             // Initialize out parameter
             attemptId = null;
 
@@ -218,8 +211,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             try
             {
-                m_learnerAssignment = GetLearnerAssignment();
-                attemptId = m_learnerAssignment.AttemptId;
+                learnerAssignment = GetLearnerAssignment();
+                attemptId = learnerAssignment.AttemptId;
                 isValid = true;
             }
             catch (HttpException)
@@ -252,8 +245,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <returns>True if the activity details are retrieved.</returns>
         public bool TryGetActivityInfo(bool showErrorPage, out long activityId)
         {
-            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
-
             // This will only be called in Review & RandomAccess views, in which case, m_contentPathParts is...
 
             // m_contentPathParts[1] = assignment view, m_contentPathParts[2] = learnerAssignmentId, m_contentPathParts[3] = activityId to display, m_contentPathParts[4] and beyond is resource path
@@ -329,7 +320,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     break;
                 case AssignmentView.StudentReview:
                     {
-                        context.ShowCorrectAnswers = la.ShowAnswersToLearners;
+                        context.ShowCorrectAnswers = la.Assignment.ShowAnswersToLearners;
                         context.ShowReviewerInformation = false;
                     }
                     break;
@@ -405,8 +396,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// </summary>
         public bool ProcessPostedData(LearningSession session, HttpRequest request, Dictionary<string, HttpPostedFile> files)
         {
-            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
-            SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
             // Save initial value of FinalPoints
             m_initialTotalPoints = session.TotalPoints;
 
