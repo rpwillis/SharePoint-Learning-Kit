@@ -91,12 +91,6 @@ namespace Microsoft.SharePointLearningKit.WebParts
         protected override void RenderContents(HtmlTextWriter writer)
         {
 
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("ClientId {0}", ClientID);
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Parent.ClientId {0}", Parent.ClientID);
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Parent.Type {0}", Parent.GetType());
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Parent.ClientId {0}", Parent.Parent.ClientID);
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Parent.Type {0}", Parent.Parent.GetType());
-
             if (Show())
             {
                 writer.Write("<table class='ms-formtable' width='100%' cellspacing='0' cellpadding='0' border='0' style='margin-top: 8px;'>");

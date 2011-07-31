@@ -551,12 +551,10 @@ namespace Microsoft.SharePointLearningKit
                         DropBox dropBox = new DropBox(spWeb);
                         AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
 
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("ApplyAssignmentPermission {0}", assignmentFolder == null);
                         if (assignmentFolder != null)
                         {
                             // Get the learner sub folder
                             AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(user);
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("ApplyAssignmentPermission learnerSubFolder {0}", learnerSubFolder == null);
 
                             //For Course Manager assignments, if the folder is not created yet
                             if (learnerSubFolder == null)
@@ -572,16 +570,13 @@ namespace Microsoft.SharePointLearningKit
                             }
                             else
                             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("ApplyAssignmentPermission apply permission {0}", learnerPermissions);
                                 assignmentFolder.ApplyPermission(user, SPRoleType.Reader);
                                 learnerSubFolder.ApplyPermission(user, learnerPermissions);
                             }
 
                             // Apply instructor permissions
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("ApplyAssignmentPermission iterate instructors");
                             foreach (SlkUser instructor in assignmentProperties.Instructors)
                             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("ApplyAssignmentPermission apply instructor permission {0} {1}", instructorPermissions, instructor.SPUser.Name);
                                 learnerSubFolder.RemovePermissions(instructor.SPUser);
                                 learnerSubFolder.ApplyPermission(instructor.SPUser, instructorPermissions);
                             }

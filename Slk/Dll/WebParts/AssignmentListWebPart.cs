@@ -38,6 +38,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
     {
         #region WebPartCommunication
 
+        bool forObserver;
         private int _cellConnectedCount=0;
         /// <summary>The event raised then the cell is consumed.</summary>
         public event CellConsumerInitEventHandler CellConsumerInit;
@@ -474,6 +475,11 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 queryResultsUrl += queryString.ToString();
             }
 
+            if (forObserver)
+            {
+                queryResultsUrl = string.Format("{0}&{1}=true", queryResultsUrl, QueryStringKeys.ForObserver);
+            }
+
             WriteQueryResults(htmlTextWriter, queryResultsUrl);
 
             htmlTextWriter.Write("</tr>");
@@ -501,6 +507,11 @@ namespace Microsoft.SharePointLearningKit.WebParts
             StringBuilder url = new StringBuilder(1000);
 
             url.AppendFormat("?{0}={1}", QueryStringKeys.FrameId, frameId);
+
+            if (forObserver)
+            {
+                url.AppendFormat("&{0}={1}", QueryStringKeys.ForObserver, "true");
+            }
 
             if (ListScope)
             {
@@ -571,7 +582,11 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 QuerySetOverride = Constants.DefaultLearnerQuerySet;               
                
                 //// check for the role and assign the query set
-                if (SlkStore.IsInstructor(SPWeb))
+                if (SlkStore.IsObserver(SPWeb))
+                {
+                    QuerySetOverride = Constants.DefaultObserverQuerySet;
+                }
+                else if (SlkStore.IsInstructor(SPWeb))
                 {
                     QuerySetOverride = Constants.DefaultInstructorQuerySet;
                 }
@@ -579,11 +594,6 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 {
                     QuerySetOverride = Constants.DefaultLearnerQuerySet;
                 }
-                else if (SlkStore.IsObserver(SPWeb))
-                {
-                    QuerySetOverride = Constants.DefaultObserverQuerySet;
-                }
-
             }
         }
 
@@ -607,6 +617,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                     {
                         // Set the obtained LearnerKey as a session variable available across other pages
                         Page.Session["LearnerKey"] = observerRoleLearnerKey;
+                        forObserver = true;
                     }
                     catch (HttpException)
                     {

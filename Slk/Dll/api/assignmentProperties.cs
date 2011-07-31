@@ -573,18 +573,14 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="user">The SLK user.</param>
         public void UpdateDropBoxPermissions(LearnerAssignmentState state, SlkUser user)
         {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("UpdateDropBoxPermissions {0}", state);
             if (IsNonELearning)
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("UpdateDropBoxPermissions {0}", IsNonELearning);
                 if (cachedDropBoxUpdates != null)
                 {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("cache {0}", user.SPUser.Name);
                     cachedDropBoxUpdates.Add(new DropBoxUpdate(state, user.SPUser));
                 }
                 else
                 {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("immediate {0}", user.SPUser.Name);
                     UpdateDropBoxPermissionsNow(state, user.SPUser);
                 }
             }
@@ -608,19 +604,16 @@ namespace Microsoft.SharePointLearningKit
             {
                 case LearnerAssignmentState.Active:
                     // Reactivated
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("update drop box active {0}", user.Name);
                     dropBoxManager.ApplyReactivateAssignmentPermission(user);
                     break;
 
                 case LearnerAssignmentState.Completed:
                     // Collected
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("update drop box Completed {0}", user.Name);
                     dropBoxManager.ApplyCollectAssignmentPermissions(user);
                     break;
 
                 case LearnerAssignmentState.Final:
                     // Return
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("update drop box final {0}", user.Name);
                     dropBoxManager.ApplyReturnAssignmentPermission(user);
                     break;
             }
