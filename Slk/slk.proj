@@ -40,7 +40,7 @@
         </MSBuild>
     </Target>
 
-    <Target Name="Clean" DependsOnTargets="CleanSamples" >
+    <Target Name="Clean" DependsOnTargets="" >
         <MSBuild Projects="@(Samples);@(Projects)" Targets="Clean" StopOnFirstFailure="true" Properties="Configuration=Debug;Platform=AnyCPU">
         </MSBuild>
         <MSBuild Projects="@(Samples);@(Projects)" Targets="Clean" StopOnFirstFailure="true" Properties="Configuration=Release;Platform=AnyCPU">
