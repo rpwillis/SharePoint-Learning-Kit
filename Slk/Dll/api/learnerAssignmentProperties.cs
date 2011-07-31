@@ -174,7 +174,6 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("LearnerAssignmentProperties.Save just save");
                 // Just save
                 Assignment.Store.SaveLearnerAssignment(LearnerAssignmentId, IgnoreFinalPoints, FinalPoints, InstructorComments, Grade, null, null);
             }
@@ -270,10 +269,8 @@ namespace Microsoft.SharePointLearningKit
                 Assignment.SendReturnEmail(User);
             }
 
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Return pre check {0}", Assignment.IsNonELearning);
             if (Assignment.IsNonELearning)
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Return updating {0}", Assignment.IsNonELearning);
                 Assignment.UpdateDropBoxPermissions(newStatus, User);
             }
         }
