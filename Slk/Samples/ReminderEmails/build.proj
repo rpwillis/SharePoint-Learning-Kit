@@ -1,0 +1,11 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <Target Name="Build">
+        <Csc Sources="*.cs" OutputAssembly="ReminderEmails.exe" TargetType="exe"
+            References="../../Dll/bin/debug/Microsoft.SharePointLearningKit.dll"
+            TreatWarningsAsErrors="true"
+            DebugType="full"
+            />
+    </Target>
+</Project>
+

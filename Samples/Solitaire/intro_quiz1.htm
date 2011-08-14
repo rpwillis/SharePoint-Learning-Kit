@@ -1,0 +1,233 @@
+﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<html>
+<!-- MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
+     MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
+     LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
+     NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
+<head>
+<title>Basics of Solitaire - Introduction Quick Check</title>
+<link type="text/css" rel="stylesheet" href="./style.css" />
+<script type="text/javascript" src="APIWrapper.js"></script>
+<script type="text/javascript" src="Common.js"></script>
+<script language="javascript" type="text/javascript">
+// <!CDATA[
+// Set the global variables
+var rawScore=0; // Raw score in points. Each question is worth 1 point.
+var passingScore=2; // Number of points required to pass this page. Corresponds to the 0.6 minNormalizedMeasure used in the manifest.
+var scorePossible=3; // Number of points possible for this page.
+var displayMode="unknown"; // Set to cmi.mode during load.
+
+// Read answers from the interactions in the data model and fill out the exam from with those answers.
+function readAnswers()
+{
+	var interactionCount=retrieveDataValue("cmi.interactions._count") //Get the count of interactions in the data model.
+	
+	// For all the interactions, get the answers and set them in the form
+	for (n=0;n<interactionCount;n++) {
+		var interaction = "cmi.interactions."+n;
+		var id = retrieveDataValue(interaction+".id");
+		var learnerResponse = retrieveDataValue(interaction+".learner_response");
+		
+                var quizForm = document.getElementById("examForm");
+		// SCORM requires interactions and objectives to be referenced by ID and the content
+		// cannot assume an order of the interactions array.
+		// Switch on the interaction id to fill out the form with the appropriate information.
+		switch (id) {
+		case "Q1":
+			quizForm.Q1String.value = learnerResponse;
+		break;
+		case "Q2":
+			if (learnerResponse == "true"){
+				quizForm.Q2[0].checked = 1;
+			} 
+			if (learnerResponse == "false"){
+				quizForm.Q2[1].checked = 1;
+			}
+		break;
+		case "Q3":
+			var responses = learnerResponse.split("[,]");
+			quizForm.Q3String1.value = responses[0];
+			quizForm.Q3String2.value = responses[1];
+		break;
+		default: alert("Unknown interaction ID")	
+		}
+	}
+}
+
+// Store answers in the SCORM data model.
+function storeAnswers()
+{
+	// Q1, fill out the fill-in response
+	storeDataValue("cmi.interactions.0.id","Q1");
+	storeDataValue("cmi.interactions.0.type","fill-in");
+	storeDataValue("cmi.interactions.0.learner_response",document.getElementById("Q1String").value);
+
+	// Q2, set the true_false depending on what is checked.
+	storeDataValue("cmi.interactions.1.id","Q2");
+	storeDataValue("cmi.interactions.1.type","true-false"); 
+    if (document.getElementById("Q2t").checked)
+		storeDataValue("cmi.interactions.1.learner_response","true");
+	if (document.getElementById("Q2f").checked)	
+		storeDataValue("cmi.interactions.1.learner_response","false");
+	
+	// Q3 set the values from fill-in response (two values)
+	storeDataValue("cmi.interactions.2.id","Q3");
+	storeDataValue("cmi.interactions.2.type","fill-in");
+	storeDataValue("cmi.interactions.2.learner_response",document.getElementById("Q3String1").value+"[,]"+document.getElementById("Q3String2").value);
+}
+
+// Initialize communication with the SCORM API and set-up the page with previously stored answers.
+function LoadAPI()
+{
+    initializeCommunication();
+    storeDataValue( "cmi.completion_status", "incomplete");
+
+	// If there are interactions stored in the data model, then read the response data into the form by calling readAnswers.
+    if (retrieveDataValue("cmi.interactions._count") > 0){readAnswers();}
+    
+    // Retrieve the display mode from the LMS. The page will disable inputs during "review" or "browse" modes.
+    displayMode = retrieveDataValue("cmi.mode");
+    if (displayMode == "review" | "browse") {disableInputs();}
+}
+
+// Setup to leave the page and terminate communication with the SCORM API.
+function UnloadAPI()
+{
+    //  Set the SCO to completed and suspend the attempt so when the user revisits the page they get their previous state.
+    storeDataValue( "cmi.exit", "suspend" );
+    storeDataValue( "cmi.completion_status", "completed" );
+    terminateCommunication();
+}
+
+// Disable all user inputs on the page. Function is called in "review" and "browse" modes.
+function disableInputs()
+{
+	document.getElementById("Q1String").disabled = true;
+	document.getElementById("Q2t").disabled = true;
+	document.getElementById("Q2f").disabled = true;
+	document.getElementById("Q3String1").disabled = true;
+	document.getElementById("Q3String2").disabled = true;
+	document.getElementById("submitButton").disabled = true;
+	
+	if (displayMode == "review") {checkAnswers();} //Call check answers to display the user's results if in the review mode.
+}
+
+// Check the answers in the exam form. If they are correct, then display "correct" next to the question. 
+// Display "incorrect" if an answer is wrong. Update the rawScore value while checking the answers.
+function checkAnswers()
+{
+	rawScore=0; //reset the rawScore to 0.
+	
+	// Question 1: 
+	var displayResult = document.getElementById("Q1Result");
+	if (document.getElementById("Q1String").value == "Patience" || document.getElementById("Q1String").value == "patience") //Check learner answers
+	   { 
+	      rawScore++;
+		  displayResult.innerHTML = correctAns();
+ 	   } else {displayResult.innerHTML = incorrectAns();}
+ 	   
+	// Question 2: 
+	displayResult = document.getElementById("Q2Result");
+ 	if (document.getElementById("Q2f").checked)
+	   { 
+	      rawScore++;
+		  displayResult.innerHTML = correctAns();
+ 	   } else {displayResult.innerHTML = incorrectAns();}
+ 	
+ 	// Question 3: 
+	displayResult = document.getElementById("Q3Result");   
+ 	if (document.getElementById("Q3String1").value == "red" && document.getElementById("Q3String2").value == "black")
+	   { 
+	      rawScore++;
+		  displayResult.innerHTML = correctAns();
+ 	   } else {displayResult.innerHTML = incorrectAns();}
+}
+
+// Calculate the scaled score and set it in the data model. Also update the page
+// text according to the passing status.
+function calcScore()
+
+{
+  storeAnswers(); //save the current answers to the data model.
+  checkAnswers(); //Check the answers and set rawScore global variable
+   
+  storeDataValue("cmi.score.scaled", rawScore/scorePossible);   // Set the scaled score for the rollup process.
+  storeDataValue("cmi.score.raw", rawScore); // Set the raw score for reference. 
+  
+  //  Inform the user that they were successful or not
+  if (rawScore < passingScore)
+  {
+  	document.getElementById("directions").className = "incorrect";
+	document.getElementById("dirText").innerHTML = '<p>Try again. You must get 2 of 3 correct to pass this unit.</p>';
+  }
+  else 
+  {
+        document.getElementById("directions").className = "correct";
+	document.getElementById("dirText").innerHTML = '<p>Congratulations!<br><br> Continue to the summary to review what you learned in this unit.</p>';
+  }
+
+  //Commit the updated data model elements to the server.
+  persistData();
+}
+// ]]>
+</script>
+</head>
+
+<body onload="LoadAPI()" onunload="UnloadAPI()">
+<table style="height:100%">
+<tr style="height:100%;vertical-align:top"><td >
+
+<h2>Quick Check Quiz</h2>
+<table id="directions" class="generalDirections">
+	<tr>
+		<td id="dirText">Complete the following quick check questions.&nbsp; When 
+		you are finished, click Check Answers at the bottom of the page to see how 
+		you have done.&nbsp;
+		<p>You must get two of the three questions correct to continue to the next 
+		section. </p>
+		</td>
+	</tr>
+</table>
+<form id="examForm">
+	<table width="650">
+		<tr id="questions">
+			<td>1.&nbsp; The British term for solitaire is
+			<input type="text" id="Q1String" value size="12" tabindex="1" />. <i>&nbsp;(Patience)</i>
+			<p>&nbsp;</p>
+			</td>
+			<td width="150" valign="top" id="Q1Result"></td>
+		</tr>
+		<tr>
+			<td><i>2.&nbsp;
+			<img border="0" src="images/DiamondSpade.gif" width="100" height="116" align="right"></i>True/False: 
+			Spades rank higher in solitaire than diamonds? <i>(False)</i><p>
+			<input type="radio" name="Q2" id="Q2t" value="true" tabindex="2" />True
+			<input type="radio" name="Q2" id="Q2f" value="false" tabindex="3" /> False
+			</p>
+			</td>
+			<td width="150" valign="top" id="Q2Result"></td>
+		</tr>
+		<tr>
+			<td>3.&nbsp; Hearts and diamonds are called
+			<input type="text" id="Q3String1" value size="12" tabindex="4" />cards 
+			and spades and clubs are called
+			<input type="text" id="Q3String2" value size="12" tabindex="5" />cards.
+			<i>(red/black)</i><p align="center">
+			<img border="0" src="images/RedBlack.gif" width="194" height="90">
+			</p>
+			</td>
+			<td width="150" valign="top" id="Q3Result"></td>
+		</tr>
+	</table>
+	<input type="button" id="submitButton" value="Check Answers" onclick="calcScore()" tabindex="6">
+</form>
+
+</td></tr>
+<tr><td>
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div></td></tr>
+</table>
+</body>
+
+</html>

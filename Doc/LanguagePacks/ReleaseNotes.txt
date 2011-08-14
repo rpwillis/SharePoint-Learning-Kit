@@ -1,0 +1,72 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+
+SharePoint Learning Kit LanguagePacks Version 1.1 Release Notes
+Last Updated:	05/13/2008
+
+
+1. Introduction
+2. Versioning Information
+3. Quality of the language packs
+4. Known Issues
+
+
+INTRODUCTION
+
+	About the language packs
+
+	This drop contains language packs which when added-on to an SLK installation will enable its use in the local language. The language packs are packaged as SharePoint solutions and can be deployed in the same way as SLK. Refer to InstallInstructions.txt for detailed installation instructions.
+	This release contains a total of 29 language packs that have been developed by the community. The release has been built out of the changeset numbered 33316 (http://www.codeplex.com/SLK/SourceControl/DirectoryView.aspx?SourcePath=&changeSetId=33316). 
+
+
+VERSIONING INFORMATION
+
+	The 1.1 language packs should be installed with SLK 1.3.1 and any SLK versions that follow until the release of the next version of language packs. They infact work with all SLK binaries that are built out of change sets following the 29530 change set. Please note that 1.1 language packs will not function with any SLK versions prior to 1.3.1.
+
+		|   SLK Version    | Compatible Language Pack Version |
+ 		|   -----------	   | -------------------------------- |
+		|  1.0, 1.1, 1.2   |            1.0		      |
+		|       1.3.0      |             -		      |
+		|  1.3.1,.......   |		1.1		      |
+
+
+QUALITY OF THE LANGUAGE PACKS
+
+ 	The percentage of messages (or strings) that are translated into the local language is a good indicator (though, not the best) of the quality of the language pack. Below is a list compiled using the PercentageCalculator tool available here, http://www.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=SLK&DownloadId=16342. 
+
+|Language	| Percentage
+|--------       | ----------
+|bg-BG		| 93%
+|cs-CZ		| 94%
+|da-DK		| 64%
+|de-DE		| 83%
+|fi-FI		| 54%
+|fr-FR		| 93%
+|hu-HU		| 93%
+|it-IT		| 92%
+|ja-JP		| 94%
+|nl-NL		| 93%
+|nb-NO		| 38%
+|pl-PL		| 94%
+|ro-RO		| 92%
+|ru-RU		| 95%
+|hr-HR		| 92%
+|sk-SK		| 94%
+|sv-SE		| 89%
+|tr-TR		| 98%
+|uk-UA		| 93%
+|sl-SL		| 93%
+|lv-LV		| 37%
+|lt-LT		| 39%
+|fa-IR		| 37%
+|en-GB*		| 5%
+|pt-PT		| 33%
+|sr-latn-cs	| 36%
+|ar-EG		| 38%
+|es-ES		| 93%
+
+*en-GB being an english translation, only 5% of the original strings needed translation. This does not indicate that the translation is bad.
+	
+
+KNOWN ISSUES
+
+	Please refer to the Issue Tracker on Codeplex for latest information on issues related to localization (typically filed under the 'Localization' component) and their current status.

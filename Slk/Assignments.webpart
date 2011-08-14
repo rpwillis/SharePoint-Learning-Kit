@@ -1,0 +1,32 @@
+﻿<webParts>
+  <webPart xmlns="http://schemas.microsoft.com/WebPart/v3">
+    <metaData>
+      <type name="Microsoft.SharePointLearningKit.WebParts.AssignmentListWebPart, Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" />
+      <importErrorMessage>Cannot import this Web Part.</importErrorMessage>
+    </metaData>
+    <data>
+      <properties>
+        <property name="AllowClose" type="bool">True</property>
+        <property name="Width" type="unit" />
+        <property name="AllowMinimize" type="bool">True</property>
+        <property name="AllowConnect" type="bool">True</property>
+        <property name="ChromeType" type="chrometype">Default</property>
+        <property name="TitleIconImageUrl" type="string" />
+        <property name="Description" type="string">Use this web part to keep track of your SharePoint Learning Kit assignments.</property>
+        <property name="Hidden" type="bool">False</property>
+        <property name="TitleUrl" type="string" />
+        <property name="AllowEdit" type="bool">True</property>
+        <property name="Height" type="unit" />
+        <property name="HelpUrl" type="string" />
+        <property name="Title" type="string">Assignments</property>
+        <property name="CatalogIconImageUrl" type="string" />
+        <property name="Direction" type="direction">NotSet</property>
+        <property name="ChromeState" type="chromestate">Normal</property>
+        <property name="AllowZoneChange" type="bool">True</property>
+        <property name="AllowHide" type="bool">True</property>
+        <property name="HelpMode" type="helpmode">Navigate</property>
+        <property name="ExportMode" type="exportmode">All</property>
+      </properties>
+    </data>
+  </webPart>
+</webParts>

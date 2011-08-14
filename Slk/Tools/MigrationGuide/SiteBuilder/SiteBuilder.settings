@@ -1,0 +1,61 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SiteBuilder" GeneratedClassName="SiteBuilder">
+  <Profiles />
+  <Settings>
+    <Setting Name="ClassServerDBConnectionString" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ActiveDirectoryPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ClassServerDBServerName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ClassServerDBUserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ClassServerDBPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ClassServerDBName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ADCheckLogFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ADCheck.log</Value>
+    </Setting>
+    <Setting Name="SLKSchoolWeb" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://</Value>
+    </Setting>
+    <Setting Name="ClassStructureXML" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Classes.xml</Value>
+    </Setting>
+    <Setting Name="SLKSiteLogFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SLKSiteCreate.log</Value>
+    </Setting>
+    <Setting Name="SLKDocLibraryName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserDataTransferLogFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">UserDataTransfer.log</Value>
+    </Setting>
+    <Setting Name="SLKWebFeatureName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SharePointLearningKit
+</Value>
+    </Setting>
+    <Setting Name="SLKInstructorSharePointRole" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SLK Instructor</Value>
+    </Setting>
+    <Setting Name="SLKLearnerSharePointRole" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SLK Learner</Value>
+    </Setting>
+    <Setting Name="ContributeSharePointRole" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Contribute</Value>
+    </Setting>
+    <Setting Name="ReadSharePointRole" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Read</Value>
+    </Setting>
+    <Setting Name="SLKDocLibraryWeb" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

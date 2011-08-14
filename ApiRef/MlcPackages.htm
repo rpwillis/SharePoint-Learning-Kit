@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>
+	E-Learning Packages
+</title>
+
+<link rel="stylesheet" href="Doc.css" />
+
+<style type="text/css">
+TABLE.PackageTable COL.Column1_
+{
+	width: 150pt;
+}
+</style>
+
+</head>
+
+<body id="DocTopic">
+
+<div class="TopicHeader">
+	<div class="Supertitle_">
+		Microsoft Learning Components
+	</div>
+	E-Learning Packages
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="Summary">
+
+<p>Fundamentally, Microsoft Learning Components implements a runtime for e-learning packages.
+This section explains what e-learning package are, and describes the basic operations that MLC
+performs on them.  See <a href="MlcSessions.htm">StoredLearningSession</a> to learn how to execute
+learning packages.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="Packages"></a>
+<div class="SectionHeader">E-Learning Packages</div>
+<div class="Section">
+
+<p>In the context of Microsoft Learning Components, a <i>package</i> is a file containing
+e-learning content, in one of the following formats:</p>
+
+<ul>
+	<li>SCORM&reg; 2004, packaged in a .zip file</li>
+	<li>SCORM 1.2, packaged in a .zip file</li>
+	<li>Microsoft Class Server LRM or IMS+</li>
+</ul>
+
+<p><a href="http://www.adlnet.gov/scorm">SCORM</a> (Sharable Content Object Reference Model), is an
+e-learning content standard published by <a href="http://www.adlnet.gov">Advanced Distributed
+Learning</a>.</p>
+
+<p>These e-learning formats are interpreted by SLK at run-time, i.e. when a user "execute"
+e-learning content.  Examples:</p>
+
+<ul>
+	<li>In the case of SCORM 2004 content, sequencing and navigation rules are honored.</li>
+	<li>In the case of SCORM 2004 or 1.2 content, a table of contents is displayed.</li>
+	<li>In the case of Class Server content, learner responses are automatically graded (if
+		specified in the content).</li>
+</ul>
+
+<p>Unlike <a href="Default.htm">SharePoint Learning Kit</a>, MLC does not support
+<a href="SlkConcepts.htm#Packages">non-e-learning documents</a>.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="PackageReaders"></a>
+<div class="SectionHeader">Package Readers</div>
+<div class="Section">
+
+<p>Microsoft Learning Components includes several classes, called <i>package readers</i>, that
+all derive from the same base class (<a href="Microsoft.LearningComponents.PackageReader.Class.htm">PackageReader</a>) and all
+provide the following common functionality for operating on an e-learning package:</p>
+
+<table class="Grid PackageTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<tr class="Header_">
+		<td class="Header1_">Method Name</td>
+		<td class="Header2_">Description</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.PackageReader.CreateManifestNavigator.Method.htm">CreateManifestNavigator</a></td>
+		<td>Loads the package manifest into memory and returns an <b>XPathNavigator</b> that
+			refers to the root &lt;manifest&gt; node.  (In the case of a Class Server LRM file,
+			the file is internally converted to SCORM 1.2 format.)</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.PackageReader.FileExists.Method.htm">FileExists</a></td>
+		<td>Determines if a given file exists in the package.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.PackageReader.GetFileStream.Method.htm">GetFileStream</a></td>
+		<td>Returns a read-only <b>Stream</b> onto a specified file within the package.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.PackageReader.GetFilePaths.Method.htm">GetFilePaths</a></td>
+		<td>Enumerates the files in the package.</td>
+	</tr>
+</table>
+
+<p>MLC implements these package readers:</p>
+
+<table class="Grid PackageTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<tr class="Header_">
+		<td class="Header1_">Package Reader</td>
+		<td class="Header2_">Constructor Parameter(s)</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.FileSystemPackageReader.Class.htm">FileSystemPackageReader</a></td>
+		<td>The path to a directory containing the contents of an unzipped package.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.ZipPackageReader.Class.htm">ZipPackageReader</a></td>
+		<td>The path to a .zip file containing SCORM or Class Server IMS+ content, or a
+			<b>Stream</b> open onto such a .zip file.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.LrmPackageReader.Class.htm">LrmPackageReader</a></td>
+		<td>The path to a Class Server .lrm file, or a <b>Stream</b> open onto a .lrm file.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.SharePoint.SharePointPackageReader.Class.htm">SharePointPackageReader</a></td>
+		<td>The location of a .zip (SCORM or Class Server IMS+) or Class Server .lrm file stored
+			in a SharePoint document library.</td>
+	</tr>
+</table>
+
+<p>All these package readers except SharePointPackageReader are implemented in
+Microsoft.LearningComponents.dll, which does not depend on SQL Server or SharePoint.
+SharePointPackageReader, implemented in Microsoft.LearningComponents.SharePoint.dll, depends
+(of course) on SharePoint.</p>
+
+<p>As an alternative to using the constructor of a package reader class, if you have a
+<b>Stream</b> containing a .zip or .lrm file you can use the static method
+<a href="Microsoft.LearningComponents.PackageReader.Create.Method.htm">PackageReader.Create</a>, which automatically detects the type
+of package and creates and returns a
+<a href="Microsoft.LearningComponents.ZipPackageReader.Class.htm">ZipPackageReader</a> or
+<a href="Microsoft.LearningComponents.LrmPackageReader.Class.htm">LrmPackageReader</a>.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="ManifestReader"></a>
+<div class="SectionHeader">ManifestReader</div>
+<div class="Section">
+
+<p>The MLC <a href="Microsoft.LearningComponents.Manifest.ManifestReader.Class.htm">ManifestReader</a> class helps an application
+navigate the manifest of an e-learning package.  For SCORM packages, the manifest is a file
+named <tt>imsmanifest.xml</tt> in the root of the package.  For Class Server LRM and IMS+
+packages, the manifest is a dynamically-generated <tt>imsmanifest.xml</tt>, in SCORM 1.2 format,
+that contains information from the <tt>Index.xml</tt> file at the root of the package.</p>
+
+<p>When ManifestReader encounters an error in the manifest, it provides the application with the
+following options for handling the error:</p>
+
+<ol>
+
+	<li>If the error is due to a violation of MLC requirements (for example, a string's length is
+		greater than the maximum allowed by MLC), the application can choose to either have
+		ManifestReader fix the error (e.g. truncate the string) or throw an exception.</li>
+
+	<li>If the error is due to a violation of SCORM requirements, the application can choose to
+		either have ManifestReader fix the error (e.g. substitute a default value for an invalid
+		XML attribute) or throw an exception.</li>
+
+</ol>
+
+<p><b>Programming tasks:</b></p>
+
+<ul>
+
+	<li>To create a ManifestReader that will read a given e-learning package:
+		<ol>
+			<li>Use any of the methods listed in the <a href="#PackageReaders">Package Readers</a>
+				section above to obtain a <a href="Microsoft.LearningComponents.PackageReader.Class.htm">PackageReader</a>
+				onto the e-learning package.</li>
+			<li>Call <a href="Microsoft.LearningComponents.PackageReader.CreateManifestNavigator.Method.htm">PackageReader.CreateManifestNavigator</a>
+				on the PackageReader.  This returns an <b>XPathNavigator</b>.</li>
+			<li>Create an instance of the
+				<a href="Microsoft.LearningComponents.Manifest.ManifestReaderSettings.Class.htm">ManifestReaderSettings</a> class.  Set
+				properties on that object to indicate how you would like ManifestReader to handle
+				errors in the manifest, as described above.</li>
+			<li>Create an instance of the <a href="Microsoft.LearningComponents.Manifest.ManifestReader.Class.htm">ManifestReader</a>
+				class, passing the <b>XPathNavigator</b> and ManifestReaderSettings objects to the
+				<a href="Microsoft.LearningComponents.Manifest.ManifestReader.ManifestReader.Method.htm">ManifestReader constructor</a>.</li>
+		</ol>
+	</li>
+
+	<li>To access information about the SCORM organizations in the package, or activities within
+		an organization, use the
+		<a href="Microsoft.LearningComponents.Manifest.ManifestReader.Organizations.Property.htm">ManifestReader.Organizations</a> property.</li>
+
+	<li>To access information about the SCORM resoruces in the package, use the
+		<a href="Microsoft.LearningComponents.Manifest.ManifestReader.Resources.Property.htm">ManifestReader.Resources</a> property.</li>
+
+	<li>To access package-level metadata, use the
+		<a href="Microsoft.LearningComponents.Manifest.ManifestReader.Metadata.Property.htm">ManifestReader.Metadata</a> property.</li>
+
+</ul>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="PackageValidator"></a>
+<div class="SectionHeader">PackageValidator</div>
+<div class="Section">
+
+<p>Given a SCORM package, PackageValidator verifies that the manifest is correct and verifies that
+the files referenced in the manifest are actually present in the package.
+(<a href="#ManifestReader">ManifestReader</a>, described above, implicitly performs a certain
+level of manifest validation, but only on the parts of the manifest that the caller chooses to
+access.)</p>
+
+<p>PackageValidator does not perform any validation of files other than the manifest file.
+For example, PackageValidator does not verify that images are correct, SCORM RTE JavaScript calls
+are present and correct, etc.  The only validation performed on files other than the manifest file
+is whether or not files listed in the manifest are in fact present in the manifest.</p>
+
+<p>PackageValidator can also validate a Class Server LRM or IMS+ package, but the validation is
+much more limited because the manifest that drives the validation process is the manifest that's
+automatically converted from the Class Server <tt>Index.xml</tt> file.</p>
+
+<p>PackageValidator categorizes problems encountered in a package as follows:</p>
+
+<ul>
+
+	<li>SCORM requirement violation: The package fails to satisfy a requirement of the SCORM
+		specification.</li>
+
+	<li>SCORM recommendation violation: The package fails to satisfy a recommendation of the SCORM
+		specification.</li>
+
+	<li>LRM requirement violation: The package fails to satisfy a requirement of Class Server LRM
+		files.  Applies only to LRM files.</li>
+
+	<li>MLC requirement violation: The package violates a requirement of Microsoft Learning
+		Components; for example, an XML attribute is longer than the maximum length permitted by
+		MLC for that attribute.</li>
+</ul>
+
+<p>For each category of problem listed above, PackageValidator allows the caller to decide what
+to do.  The options are:</p>
+
+<ul>
+	<li>Throw an exception.</li>
+	<li>Log an error in the returned
+		<a href="Microsoft.LearningComponents.ValidationResults.Class.htm">ValidationResults</a>.</li>
+	<li>Log a warning in the returned
+		<a href="Microsoft.LearningComponents.ValidationResults.Class.htm">ValidationResults</a>.</li>
+	<li>Do nothing&mdash;ignore the problem.</li>
+</ul>
+
+<p><b>Programming tasks:</b></p>
+
+<ul>
+
+	<li>To validate a given e-learning package:
+		<ol>
+			<li>Use any of the methods listed in the <a href="#PackageReaders">Package Readers</a>
+				section above to obtain a <a href="Microsoft.LearningComponents.PackageReader.Class.htm">PackageReader</a>
+				onto the e-learning package.</li>
+			<li>Create an instance of the
+				<a href="Microsoft.LearningComponents.PackageValidatorSettings.Class.htm">PackageValidatorSettings</a> class.  Set
+				properties on that object to indicate how you would like PackageValidator to handle
+				problems in the package, as described above.</li>
+			<li>Call <a href="Microsoft.LearningComponents.PackageValidator.Validate.Method.htm">PackageValidator.Validate</a> passing the
+				PackageReader and ManifestReaderSettings objects as arguments.</li>
+		</ol>
+	</li>
+
+	<li>To interpret <a href="Microsoft.LearningComponents.ValidationResults.Class.htm">ValidationResults</a> returned from
+		<a href="Microsoft.LearningComponents.PackageValidator.Validate.Method.htm">PackageValidator.Validate</a>:
+		<ul>
+			<li>Read the <a href="Microsoft.LearningComponents.ValidationResults.HasErrors.Property.htm">ValidationResults.HasErrors</a> and
+				<a href="Microsoft.LearningComponents.ValidationResults.HasWarnings.Property.htm">ValidationResults.HasWarnings</a> to determine
+				if errors or warnings were generated.</li>
+			<li>Enumerate the <a href="Microsoft.LearningComponents.ValidationResults.Class.htm">ValidationResult</a> objects
+				within the <a href="Microsoft.LearningComponents.ValidationResults.Results.Property.htm">ValidationResults.Results</a>
+				collection.  Each ValidationResult includes a text message, an indication of
+				whether the problem is an error or a warning, and other information.</li>
+		</ul>
+	</li>
+</ul>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">For More Information</div>
+<div class="Section">
+
+<div><a href="Microsoft.LearningComponents.Manifest.ManifestReader.Class.htm">ManifestReader Class (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.PackageValidator.Class.htm">PackageValidator Class (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.Namespace.htm">Microsoft.LearningComponents Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.Manifest.Namespace.htm">Microsoft.LearningComponents.Manifest Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.SharePoint.Namespace.htm">Microsoft.LearningComponents.SharePoint Namespace (API Reference)</a></div>
+<div><a href="SlkSchema.htm">SLK+MLC Schema Overview</a></div>
+<div><a href="Microsoft.SharePointLearningKit.Schema.Namespace.htm">SLK+MLC Schema Reference</a></div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader"></div>
+<div class="Section">
+<b><a href="MlcSessions.htm">Next Topic: Learning Sessions</a></b>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="TopicFooter">
+</div>
+
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div>
+
+</body>
+
+</html>
+

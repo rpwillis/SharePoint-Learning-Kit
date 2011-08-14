@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppUsage" xml:space="preserve">
+    <value>Usage:
+           slkadm.exe -o &lt;operation&gt; [&lt;parameters&gt;]
+           slkadm.exe -help &lt;operation&gt;
+
+Operations:
+           configuresite
+           getsiteconfiguration
+           enummappings
+           deletemapping
+
+Examples:
+slkadm.exe -o configuresite
+           -url http://server/site
+           -databaseserver mydbserver
+           -databasename slkdb
+           -createdatabase
+slkadm.exe -o getsiteconfiguration
+           -url http://server/site
+slkadm.exe -o enummappings
+slkadm.exe -o deletemapping -guid 1234abcd-1234-abcd-1234-abcd1234abcd
+
+For information about other operations and parameters,
+use "slkadm.exe -help" or "slkadm.exe -help &lt;operation&gt;"
+</value>
+  </data>
+  <data name="CommandLineError" xml:space="preserve">
+    <value>
+Command line error.
+</value>
+  </data>
+  <data name="ConfigureSiteHelp" xml:space="preserve">
+    <value>
+slkadm.exe -o configuresite
+           -url &lt;url&gt;
+           [-databaseserver &lt;database server name*&gt;]
+           [-databasename &lt;database name&gt;]
+           [-createdatabase]
+           [-instructorpermission &lt;instructor permission name&gt;]
+           [-learnerpermission &lt;learner permission name&gt;]
+           [-createpermissions]
+           [-uploadslksettings &lt;SLK Settings XML file name&gt; | -defaultslksettings]
+
+* By default, integrated authentication is used to connect to the database.
+To use a SQL Server user ID and password instead, append the appropriate
+connection string information to the database server name -- for example,
+instead of "MyServer", use "MyServer;user id=myacct;password=mypassword".
+For security reasons, integrated authentication is strongly recommended.
+</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Error: {0}</value>
+    <comment>{0} = error message text</comment>
+  </data>
+  <data name="GetSiteConfigurationHelp" xml:space="preserve">
+    <value>
+slkadm.exe -o getsiteconfiguration
+           -url &lt;url&gt;
+</value>
+  </data>
+  <data name="EnumMappingsHelp" xml:space="preserve">
+    <value>
+slkadm.exe -o enummappings
+</value>
+  </data>
+  <data name="DeleteMappingHelp" xml:space="preserve">
+    <value>
+slkadm.exe -o deletemapping
+           -guid &lt;site-guid&gt;
+</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Press any key...</value>
+  </data>
+  <data name="MappingDeleted" xml:space="preserve">
+    <value>SLK mapping deleted for SPSite GUID {0}</value>
+    <comment>{0} = GUID</comment>
+  </data>
+  <data name="MappingNotFound" xml:space="preserve">
+    <value>SLK mapping not found for SPSite GUID {0}</value>
+    <comment>{0} = GUID</comment>
+  </data>
+  <data name="SiteNotFoundLabel" xml:space="preserve">
+    <value>&lt;site not found&gt;</value>
+  </data>
+  <data name="SiteConfig_ConfigNotFound" xml:space="preserve">
+    <value>No SLK configuration found for {0} ({1}); default settings are:</value>
+    <comment>{0} = SPSite URL; {1} = SPSite GUID</comment>
+  </data>
+  <data name="SiteConfig_CreateDatabase" xml:space="preserve">
+    <value>  Database needs to be created: {0}</value>
+    <comment>{0} = "True" if the database needs to be created, "False" if not</comment>
+  </data>
+  <data name="SiteConfig_CreatePermissions" xml:space="preserve">
+    <value>  Permissions need to be created: {0}</value>
+    <comment>{0} = "True" if either the learner or instructor permission needs to be created, "False" if not</comment>
+  </data>
+  <data name="SiteConfig_DatabaseName" xml:space="preserve">
+    <value>  Database name: {0}</value>
+    <comment>{0} = SLK database name</comment>
+  </data>
+  <data name="SiteConfig_DatabaseServer" xml:space="preserve">
+    <value>  Database server: {0}</value>
+    <comment>{0} = SLK database server name or connection string fragment</comment>
+  </data>
+  <data name="SiteConfig_FoundConfig" xml:space="preserve">
+    <value>Found SLK configuration for {0} ({1}):</value>
+    <comment>{0} = SPSite URL; {1} = SPSite GUID</comment>
+  </data>
+  <data name="SiteConfig_InstructorPermission" xml:space="preserve">
+    <value>  Instructor permission: {0}</value>
+    <comment>{0} = instructor permission name</comment>
+  </data>
+  <data name="SiteConfig_LearnerPermission" xml:space="preserve">
+    <value>  Learner permission: {0}</value>
+    <comment>{0} = learner permission name</comment>
+  </data>
+  <data name="ConfiguringSlk" xml:space="preserve">
+    <value>Configuring SLK for site: {0} ({1})</value>
+    <comment>{0} = SPSite URL; {1} = SPSite GUID</comment>
+  </data>
+</root>

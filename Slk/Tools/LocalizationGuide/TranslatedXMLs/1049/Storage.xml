@@ -1,0 +1,521 @@
+<root>
+  <assembly culture="ru" name="Microsoft.LearningComponents.Storage.resources" version="1.1.0.0">
+  </assembly>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.SessionResources.resources" type="StringTable">
+    <NewDataSet>
+	<MetaData>
+		<Name>Microsoft.LearningComponents.Storage.Properties.SessionResources.resources</Name> 
+		<Type>StringTable</Type>
+	</MetaData>
+      <Resources>
+        <ID>SLS_MoveToActivityNotValid</ID>
+        <Source>The session is not in a state where a new activity may be selected. In Execute view, only Active sessions may navigate to a selected activity.</Source>
+        <Translation>Состояние сеанса отлично от состояния, в котором может быть выбрано новое действие. В представлении Execute только активные сеансы могут переходить к выбранному действию.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ExitCurrentActivityNotValid</ID>
+        <Source>The current activity cannot be exited. There must be a current activity in an active session in order to exit it. </Source>
+        <Translation>Невозможно выйти из текущего действия. Для выхода текущего действия оно должно иметься в активном сеансе. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_LoggingFlagsSetNotValid</ID>
+        <Source>The LoggingOptions property may not be set when reviewing a session.</Source>
+        <Translation>Свойство LoggingOptions нельзя задать при проверке сеанса.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_MoveToPreviousNotValid</ID>
+        <Source>Moving to the previous activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
+        <Translation>Перемещение к предыдущему действию недопустимо. В представлении Execute только активные сеансы с текущим действие могут переходить к следующему действию.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ReactivateNotValid</ID>
+        <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
+        <Translation>Невозможно реактивировать текущий сеанс. Реактивация возможна только для завершенного или отмененного саенса, и только в представлении RandomAccess.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ExitNotValid</ID>
+        <Source>The session cannot be exited in its current state. In Execute view, only Active sessions which have been started may be exited. Sessions may not be exited in other views.</Source>
+        <Translation>Невозможно выйти из сеанса, если он находится в своем текущем состоянии. В представлении Execute выход возможен только из активных сеансов, которые были запущены. Выход из сеансов в других представлениях невозможен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AbandonCurrentActivityNotValid</ID>
+        <Source>The current activity cannot be abandoned. There must be a current activity in an active session in order to abandon it. </Source>
+        <Translation>Невозможно оставить текущее действие. Чтобы оставить текущее действие, оно должно иметься в активном сеансе. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CouldNotFindFirstActivity</ID>
+        <Source>An initial activity could not be identified in the session.</Source>
+        <Translation>Не удалось идентифицировать начальное действие в сеансе.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AttemptEndTimeNotValid</ID>
+        <Source>The attempt associated with this session has not ended.</Source>
+        <Translation>Попытка, связанная с этим сеансом, не завершена.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_SuspendNotValid</ID>
+        <Source>The session cannot be suspended in its current state. In Execute view, only Active sessions may be suspended. Sessions may not be suspended in other views.</Source>
+        <Translation>Невозможно отложить сеанс, если он находится в своем текущем состоянии. В представлении Execute только активные сеансы могут быть отложены. Отложить сеанс в других представлениях невозможно.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_InvalidateSessionCacheNotValid</ID>
+        <Source>The session cache cannot be cleared because the current session contains an active attempt. </Source>
+        <Translation>Кэш сеансов невозможно очистить, поскольку текущий сеанс содержит активную попытку. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ProcessNavigationRequestsNotValid</ID>
+        <Source>Navigation requests cannot be processed. In an ExecuteView, the AttemptStatus must be Active. This call is not valid in RandomAccess and Review views.</Source>
+        <Translation>Невозможно обработать запросы переходов. В представлении Execute состояние попытки должно быть активным. Это вызов недопустим в представлениях RandomAccess и Review.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_StartNotValid</ID>
+        <Source>A session may only be started on an active attempt in ExecuteView. The session may not be in Review or RandomAccess view when calling this method.</Source>
+        <Translation>Сеанс может быть запущен по активной попытке в представлении Execute. При вызове этого метода сеанс не может находиться в представлении Review или RandomAccess.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AbandonNotValid</ID>
+        <Source>The session cannot be abandoned in its current state. In Execute view, only Active sessions may be abandoned. Sessions may not be abandoned in other views.</Source>
+        <Translation>Невозможно оставить сеанс, если он находится в своем текущем состоянии. В представлении Execute только активные сеансы могут быть оставлены. Оставить сеанс в других представлениях невозможно.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ResourceNotFound</ID>
+        <Source>The current activity in the session does not have an associated resource. The content cannot be displayed.</Source>
+        <Translation>Текущее действие в сеансе не имеет связанного материала. Невозможно вывести содержимое.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_MoveToNextNotValid</ID>
+        <Source>Moving to the next activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
+        <Translation>Перемещение к следующему действию недопустимо. В представлении Execute только активные сеансы с текущим действие могут переходить к следующему действию.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_RenderNotValid</ID>
+        <Source>The content cannot be rendered. In Execute view, the session must have an AttemptStatus of Active.</Source>
+        <Translation>Невозможно представить содержимое. В представлении Execute сеанс должен иметь состояние попытки активным.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CommitChangesNotValid</ID>
+        <Source>The changes to the current session cannot be committed. The session may not be in Review view when calling this method. </Source>
+        <Translation>Невозможно передать изменения в текущее состояние. При вызове этого метода сеанс не может находиться в представлении Review. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AttemptHasStarted</ID>
+        <Source>The attempt has already started. You may not call Start more than once.</Source>
+        <Translation>Попытка уже запущена. Нельзя вызывать метод Start более одного раза.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ResumeNotValid</ID>
+        <Source>The session cannot be resumed in its current state. In Execute view, only Suspended sessions may be resumed. Sessions may not be resumed in other views.</Source>
+        <Translation>Невозможно продолжить сеанс, если он находится в своем текущем состоянии. В представлении Execute только отложенные сеансы могут быть продолжены. Продолжение сеансов в других представлениях невозможно.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.PackageResources.resources" type="StringTable">
+    <NewDataSet>
+	<MetaData>
+		<Name>Microsoft.LearningComponents.Storage.Properties.PackageResources.resources</Name>
+		<Type>StringTable</Type>
+	</MetaData>
+      <Resources>
+        <ID>FSPS_BasePathDirNotFound</ID>
+        <Source>The folder '{0}' must exist prior to calling this method.</Source>
+        <Translation>Папка ''{0}'' должна существовать до вызова этого метода.</Translation>
+      </Resources>
+      <Resources>
+        <ID>FSPS_InvalidPackageId</ID>
+        <Source>The LearningStoreItemIdentifier {0} does not represent a package in LearningStore.</Source>
+        <Translation>LearningStoreItemIdentifier {0} не обозначает пакет в LearningStore.</Translation>
+      </Resources>
+      <Resources>
+        <ID>FSPS_CouldNotFindDirectory</ID>
+        <Source>Could not find a unique directory name to use for the files.</Source>
+        <Translation>Не удалось найти уникальное имя каталога для использования с файлами.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_ValidationFailed</ID>
+        <Source>The package cannot be added to the store because it contains at least one error.</Source>
+        <Translation>Невозможно добавить пакет в хранилище, поскольку он содержит по крайней мере одну ошибку.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_InvalidManifest</ID>
+        <Source>The package cannot be added to LearningStore because the manifest in the package cannot be read.</Source>
+        <Translation>Невозможно добавить пакет в LearningStore, поскольку нельзя прочитать манифест пакета.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_NoOrganization</ID>
+        <Source>The package must contain at least one organization and one item in order to be added to LearningStore.</Source>
+        <Translation>Для добавления в LearningStore пакет должен содержать по крайней мере одну организацию и один элемент.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.Resources.resources" type="StringTable">
+      <NewDataSet>
+	<MetaData>
+		<Name>Microsoft.LearningComponents.Storage.Properties.Resources.resources</Name>
+		<Type>StringTable</Type>
+	</MetaData>
+      <Resources>
+        <ID>NotAllowedInExecuteMode</ID>
+        <Source>This operation cannot be performed in Execute view.</Source>
+        <Translation>Эту операцию невозможно выполнить в представлении Execute.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NotAllowedWhileInAutoGradingMode</ID>
+        <Source>This operation cannot be performed during the auto-grading process.</Source>
+        <Translation>Эту операцию невозможно выполнить в ходе процесса автоматической проверки.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptComplete</ID>
+        <Source>The requested operation cannot be performed because the session has been completed.</Source>
+        <Translation>Запрошенную операцию невозможно выполнить, поскольку сеанс завершен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptAbandoned</ID>
+        <Source>The requested operation cannot be performed because the session has been abandoned.</Source>
+        <Translation>Запрошенную операцию невозможно выполнить, поскольку сеанс оставлен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttachmentTooLarge</ID>
+        <Source>Attachment exceeds maximum size of {0} bytes.</Source>
+        <Translation>Размер вложения превышает максимальное значение {0} байт.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AutoGradingModeNotBegun</ID>
+        <Source>This operation is only valid during auto-grading.</Source>
+        <Translation>Эта операция допустима только в ходе автоматической проверки.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidAttemptId</ID>
+        <Source>The attempt could not be accessed. You may not have access to it, the attempt may have been deleted or does not exist.</Source>
+        <Translation>Не удалось осуществить доступ к попытке. Возможно, у вас нет доступа к ней, либо попытка удалена или не существует.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NotAllowedInReviewMode</ID>
+        <Source>This operation cannot be performed in Review view.</Source>
+        <Translation>Эту операцию невозможно выполнить в представлении Review.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptHasNotEnded</ID>
+        <Source>The requested operation cannot be performed because the session is not complete.</Source>
+        <Translation>Запрошенную операцию невозможно выполнить, поскольку сеанс не завершен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidRootActivityId</ID>
+        <Source>The root activity id could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
+        <Translation>Не удалось осуществить доступ к идентификатору корневого действия. Либо он не существует, либо у вас нет разрешения на доступ к нему.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NoCurrentActivity</ID>
+        <Source>A current activity is required for this operation.</Source>
+        <Translation>Текущее действие обязательно для этой операции.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_SessionCannotBeActive</ID>
+        <Source>This operation cannot be performed on a session with an AttemptStatus of Active.</Source>
+        <Translation>Эту операцию невозможно выполнить в сеансе, если попытка находится в активном состоянии.</Translation>
+      </Resources>
+      <Resources>
+        <ID>GlobalObjectiveDatabaseStateNotValid</ID>
+        <Source>Global Objective database contains non-unique entries.</Source>
+        <Translation>База данных глобальных показателей содержить не уникальные записи.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidLearnerId</ID>
+        <Source>The LearnerId could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
+        <Translation>Не удалось осуществить доступ к LearnerId. Либо он не существует, либо у вас нет разрешения на доступ к нему.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidActivity</ID>
+        <Source>The requested activity cannot be found within the session.</Source>
+        <Translation>Запрошенное действие невозможно найти в пределах сеанса.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.LearningStore.LearningStoreStrings.resources" type="StringTable">
+    <NewDataSet>
+	<MetaData>
+		<Name>Microsoft.LearningComponents.Storage.LearningStore.LearningStoreStrings.resources</Name> 
+		<Type>StringTable</Type>
+	</MetaData>
+      <Resources>
+        <ID>ColumnNotFound</ID>
+        <Source>Column '{0}' not found in the view.</Source>
+        <Translation>Столбец ''{0}'' не найден в представлении.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AtLeastOneValueMustBeProvided</ID>
+        <Source>At least one value must be provided.</Source>
+        <Translation>По крайней мере одно значение должно быть указано.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicatePropertyValue</ID>
+        <Source>More than one value has been provided for property '{0}'.</Source>
+        <Translation>Для свойства ''{0}'' указано несколько значений.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CannotChangeIdProperty</ID>
+        <Source>Property 'Id' can not be changed.</Source>
+        <Translation>Невозможно изменить свойство ''Id''.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdConditionValue</ID>
+        <Source>Invalid condition value: only item identifiers with unique keys can be compared against.</Source>
+        <Translation>Недопустимое значение условия: можно сравнивать только идентификаторы элементов с уникальными ключами.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResultsOfJobCanNotBeCast</ID>
+        <Source>The results of the job can not be cast to the specified return value.</Source>
+        <Translation>Результаты задания невозможно разместить в указанное возвращаемое значение.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RightNotFoundInSchema</ID>
+        <Source>Right '{0}' not found in the schema.</Source>
+        <Translation>Привилегия ''{0}'' не найдена в схеме.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TimeoutMustBeZero</ID>
+        <Source>Timeout value specified for the transaction must be zero.</Source>
+        <Translation>Значение интервала ожидания для транзакции должно быть нулевым.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionValueForXmlColumn</ID>
+        <Source>Invalid condition value: an Xml column can only be compared against null.</Source>
+        <Translation>Недопустимое значение условия: столбец Xml можно стравнить только со значением null.</Translation>
+      </Resources>
+      <Resources>
+        <ID>UniqueKeyNotAvailable</ID>
+        <Source>Unique key not available.</Source>
+        <Translation>Уникальный ключ недоступен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionOperatorForGuidColumn</ID>
+        <Source>Invalid condition operator: a Guid column can only be compared with an equality or inequality operator.</Source>
+        <Translation>Недопустимый оператор условия: столбец Guid можно сравнивать только с помощью оператора равенства или оператора неравенства.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TransactionAlreadyExists</ID>
+        <Source>A transaction already exists in this scope.</Source>
+        <Translation>Транзакция уже существует в этой области.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCausesInvalidCast</ID>
+        <Source>Invalid cast.</Source>
+        <Translation>Недопустимый прогноз.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidPropertyValueWithDescription</ID>
+        <Source>Invalid value for property '{0}': {1}</Source>
+        <Translation>Недопустимое значение для свойства ''{0}'': {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>QueryNotCompatibleWithStore</ID>
+        <Source>The query is not compatible with this LearningStore instance.</Source>
+        <Translation>Запрос несовместим с этим экземпляром LearningStore.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemNotFound</ID>
+        <Source>Item not found</Source>
+        <Translation>Элемент не найден.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PropertyNotFound</ID>
+        <Source>Property '{0}' not found</Source>
+        <Translation>Свойство ''{0}'' не найдено.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MoreThanOneItemFoundInAddOrUpdate</ID>
+        <Source>More than one item matches the properties in the AddOrUpdateItem command.</Source>
+        <Translation>Свойствам в команде AddOrUpdateItem соответствуют несколько элементов.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemTypeNotFoundInSchema</ID>
+        <Source>Item type '{0}' not found in the schema.</Source>
+        <Translation>Тип элементов ''{0}'' не найден в схеме.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeGuid</ID>
+        <Source>Must be a Guid.</Source>
+        <Translation>Должен быть типа Guid.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ParameterNotFound</ID>
+        <Source>Parameter '{0}' not found in the view.</Source>
+        <Translation>Параметр ''{0}'' не найден в представлении.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IncompatibleEngineVersion</ID>
+        <Source>The database was created by a different version of this product.</Source>
+        <Translation>База данных создана другой версией этого продукта.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ScopeDisposedInInvalidThread</ID>
+        <Source>Transaction scope disposed in invalid thread.</Source>
+        <Translation>Область транзакции расположена в недопустимом потоке.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MismatchedIsolationLevel</ID>
+        <Source>Isolation level specified for the transaction doesn't match the isolation level for the currently-existing transaction.</Source>
+        <Translation>Уровень изоляции, указанный для транзакции, не совпадает с уровнем изоляции для текущей транзакции.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DebugLogAlreadyEnabled</ID>
+        <Source>The debug log has already been enabled.</Source>
+        <Translation>Журнал отладки уже включен.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnAlreadySortedOn</ID>
+        <Source>A sort order for the specified column already exists in the query.</Source>
+        <Translation>Порядок сортировки для указанного столбца уже существует в запросе.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnAlreadyExistsInQuery</ID>
+        <Source>Column '{0}' has already been added to the query</Source>
+        <Translation>Столбец ''{0}'' уже добавлен в запрос</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueHasInvalidFormat</ID>
+        <Source>Invalid format.</Source>
+        <Translation>Недостимый формат.</Translation>
+      </Resources>
+      <Resources>
+        <ID>XmlPropertyCannotBeSearchedOn</ID>
+        <Source>Cannot search on XML property '{0}'.</Source>
+        <Translation>Невозможно искать по свойству XML ''{0}''.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SecurityCheckFailed</ID>
+        <Source>Security check failed.</Source>
+        <Translation>Сбой при проверке безопасности.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValueWithDescription</ID>
+        <Source>Invalid parameter value: {0}</Source>
+        <Translation>Недопустимое значение параметра: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdParameterValue</ID>
+        <Source>Invalid parameter value: only item identifiers with unique keys can be used as parameters.</Source>
+        <Translation>Недопустимое значение параметра: в качестве можно использовать только идентификаторы элементов с уникальными ключами.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ParameterNotFoundInRight</ID>
+        <Source>Parameter '{0}' not found in the right.</Source>
+        <Translation>Параметр ''{0}'' не найден в привилегии.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AtLeastOneOutputColumnMustBeSpecified</ID>
+        <Source>At least one output column must be specified in the query.</Source>
+        <Translation>В запросе должен быть указан по крайней мере один выходной столбец.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidPropertyValue</ID>
+        <Source>Invalid value for property '{0}'</Source>
+        <Translation>Недопустимое значение для свойства ''{0}''</Translation>
+      </Resources>
+      <Resources>
+        <ID>EnumTypeNotFoundInSchema</ID>
+        <Source>Enum type '{0}' not found in the schema.</Source>
+        <Translation>Перечисляемый тип ''{0}'' не найден в схеме.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionValueWithDescription</ID>
+        <Source>Invalid condition value: {0}</Source>
+        <Translation>Недопустимое значение условия: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidSchemaDefinition</ID>
+        <Source>Invalid schema definition</Source>
+        <Translation>Недопустимое определение схемы</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidOperatorForNullConditionValue</ID>
+        <Source>Invalid condition operator: null can only be compared with an equality or inequality operator.</Source>
+        <Translation>Недопустимый оператор условия: значение null можно сравнивать только с помощью оператора равенства или оператора неравенства.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NullReferenceWhenAccessingDatabase</ID>
+        <Source>Object reference not set to an instance of an object when attempting to access database.  Database connection may have been lost.</Source>
+        <Translation>Ссылка на объект не указывает на экземпляр объекта при попытке доступа в базу данных.  Возможно, утрачено подключение к базе данных.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidScopeNesting</ID>
+        <Source>Invalid transaction scope nesting.</Source>
+        <Translation>Недопустимое вложение областей транзации.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OperationFailedBecauseOfConstraintViolation</ID>
+        <Source>The operation failed because of a constraint violation.</Source>
+        <Translation>Сбой операции из-за нарушения ограничения.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCannotBeNull</ID>
+        <Source>Cannot be null.</Source>
+        <Translation>Не может быть null.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnCannotBeSorted</ID>
+        <Source>Column can not be sorted on.</Source>
+        <Translation>Невозможно так отсортировать столбец.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeItemIdentifier</ID>
+        <Source>Must be a LearningStoreItemIdentifier with ItemType '{0}'.</Source>
+        <Translation>Должен быть типа LearningStoreItemIdentifier с ItemType ''{0}''.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CompleteAlreadyCalled</ID>
+        <Source>Method has already been called.</Source>
+        <Translation>Метод уже вызван.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeXml</ID>
+        <Source>Must be a LearningStoreXml.</Source>
+        <Translation>Должен быть типа LearningStoreXml.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeValidEnumValue</ID>
+        <Source>Must be a valid value from '{0}'.</Source>
+        <Translation>Должно быть допустимым значением из ''{0}''.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValueWithDescriptionAndName</ID>
+        <Source>Invalid value for parameter '{0}': {1}</Source>
+        <Translation>Недопустимое значение для параметра ''{0}'': {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>PositiveValueExpected</ID>
+        <Source>Positive value expected</Source>
+        <Translation>Требуется положительное значение</Translation>
+      </Resources>
+      <Resources>
+        <ID>PropertyValueNotFound</ID>
+        <Source>Value for property '{0}' not found</Source>
+        <Translation>Значение для свойства ''{0}'' не найдено.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeByteArray</ID>
+        <Source>Must be a System.Byte array.</Source>
+        <Translation>Должен быть массивом System.Byte.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeWithinSqlDateTimeRange</ID>
+        <Source>Must be between SqlDateTime.MinValue and SqlDateTime.MaxValue.</Source>
+        <Translation>Должно находится между SqlDateTime.MinValue и SqlDateTime.MaxValue.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ViewNotFoundInSchema</ID>
+        <Source>View '{0}' not found in the schema.</Source>
+        <Translation>Представление ''{0}'' не найдено в схеме.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValue</ID>
+        <Source>Invalid value for parameter '{0}'</Source>
+        <Translation>Недопустимое значение для параметра ''{0}''</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCausesOverflow</ID>
+        <Source>Overflow.</Source>
+        <Translation>Переполнение.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>

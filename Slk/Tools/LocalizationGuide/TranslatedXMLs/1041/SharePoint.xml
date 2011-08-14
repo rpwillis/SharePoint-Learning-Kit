@@ -1,0 +1,62 @@
+<root>
+  <assembly culture="ja-JP" name="Microsoft.LearningComponents.SharePoint.resources" version="1.1.0.0">
+  </assembly>
+  <resources name="Microsoft.LearningComponents.SharePoint.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.SharePoint.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CacheCreateDirCleanupFailed</ID>
+        <Source>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>キャッシュ ディレクトリの作成に失敗したため、無効なキャッシュ フォルダやロック ファイルを削除できませんでした。</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPLockTriesExceeded</ID>
+        <Source>Could not get a lock on the file within the allowed tries.</Source>
+        <Translation>試行回数の許容範囲内でファイルのロックを取得できませんでした。</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPCannotWriteToLockFile</ID>
+        <Source>Could not write to lock file of cache directory.</Source>
+        <Translation>キャッシュ ディレクトリのロック ファイルに書き込みできませんでした。</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFoundNoName</ID>
+        <Source>The requested file was not found.</Source>
+        <Translation>要求されたファイルが見つかりませんでした。</Translation>
+      </Resources>
+      <Resources>
+        <ID>CacheLockDirCleanupFailed</ID>
+        <Source>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>キャッシュ ディレクトリのロックに失敗したため、無効なキャッシュ フォルダやロック ファイルを削除できませんでした。</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileVersionNotFound</ID>
+        <Source>The version {0} of file {1} does not exist.</Source>
+        <Translation>バージョン {0} のファイル {1} は存在しません。</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFound</ID>
+        <Source>The file {0} was not found.</Source>
+        <Translation>ファイル {0} が見つかりませんでした。</Translation>
+      </Resources>
+      <Resources>
+        <ID>CacheCachePathNotAccessible</ID>
+        <Source>The package cache directory is not accessible. It may not exist or you may not have access to it.</Source>
+        <Translation>パッケージのキャッシュ ディレクトリにアクセスできません。キャッシュ ディレクトリが存在しないか、キャッシュ ディレクトリへのアクセス権がない可能性があります。</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFormatInvalid</ID>
+        <Source>'{0}' does not have the correct format.</Source>
+        <Translation>'{0}' の形式が正しくありません。</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPInvalidPackage</ID>
+        <Source>The package is not valid and cannot be read. More information: {0}</Source>
+        <Translation>パッケージが有効でないため、読み取りできません。詳細情報: {0}</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>

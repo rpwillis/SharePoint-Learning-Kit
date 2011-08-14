@@ -1,0 +1,65 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<html>
+<!-- MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
+     MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
+     LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
+     NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
+<head>
+<title>Basics of Solitaire - Introduction Summary</title>
+<link type="text/css" rel="stylesheet" href="./style.css">
+<script type="text/javascript" src="APIWrapper.js"></script>
+<script type="text/javascript" src="Common.js"></script>
+<script language="javascript" type="text/javascript">
+// <!CDATA[
+// Initialize communication with the SCORM API and check the status of the unit objective.
+function LoadAPI()
+{
+    initializeCommunication();
+    document.getElementById("passed").style.display = 'none';
+	if(checkObjectiveStatus("IntroQuizSatisfied")=="passed") {
+		document.getElementById("failed").style.display = 'none';
+		document.getElementById("passed").style.display = 'block';
+	}
+}
+
+// Terminate communication with the SCORM API.
+function UnloadAPI()
+{
+    storeDataValue( "cmi.exit", "normal" );
+    terminateCommunication();
+}
+// ]]>
+</script>
+</head>
+
+<body onload="LoadAPI()" onunload="UnloadAPI()">
+<table style="height:100%">
+<tr style="height:100%;vertical-align:top"><td >
+
+<h1>Summary</h1>
+<div id="failed">
+<p>You have not successfully completed the introduction unit. </p>
+<p>Review the lesson and successfully complete the quick check to proceed to the 
+next section.</p>
+</div>
+<div id="passed">
+<p>Congratulations! You have successfully completed the introduction unit.</p>
+<p>In this unit you learned:</p>
+<ol>
+	<li>Solitaire refers to any game of cards that can be played by one person.</li>
+	<li>The objective of most solitaire games is to build sequences of cards in 
+	ascending or descending order.</li>
+	<li>The rules of play may require that sequences be built up in one color, in 
+	alternating colors, or in a single suit.</li>
+</ol>
+<p>Continue to the next section to learn about Canfield Solitaire.</p>
+</div>
+</td></tr>
+<tr><td>
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div></td></tr>
+</table>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/"
+		 Id="00057002-c978-11da-ba52-00042350e42e"
+		 Scope="Web"
+		 Title="$Resources:ELearningFeatureTitle"
+                 Description="$Resources:ELearningFeatureDescription" 
+                 DefaultResourceFile="SLK"
+                 > 
+		 
+	<ElementManifests>
+		<ElementManifest Location="elements.xml"/>
+	</ElementManifests>
+</Feature>

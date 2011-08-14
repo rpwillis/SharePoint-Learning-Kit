@@ -1,0 +1,225 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+
+/******** General ********/
+
+body
+{
+	scrollbar-face-color:;
+}
+
+/*** Error/Info ***/
+
+.ErrorBody
+{
+	background-color: #f9faf3; 
+	color: #42507e;
+	font-size: 11px;
+	font-family: Tahoma, Arial, Helvetica, sans-serif; 
+}
+
+.ErrorTitle
+{
+    font-size: 16px;
+    font-family: Tahoma, Arial, Helvetica, sans-serif 
+}
+
+.ErrorMessage
+{
+	font-size: 12px;
+    font-family: Tahoma, Arial, Helvetica, sans-serif 
+}
+
+/******** Toc.htm ********/
+    
+.NavBody A:link			
+{
+	color: black;
+	font-size: 11px;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	background-color : transparent;
+}
+    
+.NavBody A:visited		
+{
+	color: black;
+	font-size: 11px;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	background-color : transparent;
+}
+    
+.NavBody A:active		
+{
+	color: black;
+	font-size: 11px;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	background-color: #edf0d9;
+	border: #c2cd81 1px solid;
+}
+    
+.NavBody A:hover			
+{
+	color: black;
+	font-size: 11px;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	background-color: #dbe1b4;
+	border: #9ba467 1px solid;
+}
+    
+.NavBody
+{
+	background-color: #f9faf3;
+	color: #42507e;
+	font-size: 11px;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+}
+    
+.NavShadedLink
+{
+	color:black;
+	background-color: rgb(225,235,251);
+}
+    
+.NodeParent
+{
+	margin-bottom: 5px;
+	cursor:hand;
+}
+    
+/******** Title.htm ********/
+    
+.ShellTitleText		
+{
+	color: #232d50;
+	font-size: 16pt;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	margin-left: 7px;
+	background-color : transparent;
+}
+
+.ShellSaveText		
+{
+	color: #232d50;
+	font-size: 8pt;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	background-color : transparent;
+	text-align: left;
+	line-height: 11pt;
+}
+    
+.ShellTitleServices A:link			
+{
+	color: #232d50;
+	font-size: 10pt;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+.ShellTitleServices A:hover
+{
+	color: #232d50;
+	font-size: 10pt;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	cursor:hand;
+}
+
+.ShellTitleServices A:visited			
+{
+	color: #232d50;
+	font-size: 10pt;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	text-decoration: none; 
+}
+
+.ShellTitleServices	
+{
+	background-color: #edf5ff;
+}
+    
+.ShellTitleServicesArea
+{
+	margin-top: 8px;
+}
+
+/******** NavClosed.htm ********/
+
+.NavClosedShowTOCGrphic
+{
+	position: absolute; 
+	top:3px;
+	left:155px;
+}
+
+.NavClosedNextBtnGrphic
+{
+	position: absolute;
+	top: 2px;
+	left: 23px;
+}
+
+.NavClosedPreviousBtnGrphic
+{
+	position: absolute;
+	top: 2px;
+	left: 7px;
+}
+
+.NavClosedSaveBtnGrphic
+{
+	position: absolute;
+	top: 2px;
+	left: 45px;
+}
+
+/******** Bottom.htm ********/
+    
+.BottomBody		
+{
+	background-color: #edf5ff;
+}
+  
+.BottomFrame
+{
+	border-top: #edf5ff 1px solid;
+}
+    
+/******** MainFrames.htm ********/
+    
+.ContentFrameLeftBorder
+{
+	border-left: 2px solid #d3e6ff;
+	cursor: w-resize;
+}
+ 
+.NavOpenFrame
+{
+	border-top: #6f9dd9 1px solid; 
+	border-bottom: #6f9dd9 1px solid;
+}
+	
+/******** NavOpen.htm ********/
+
+.NavOpenBody
+{
+	background-color: #d3e6ff;
+}
+    
+.NavOpenNav
+{
+	margin-top: 2px;
+}
+ 
+.NavOpenCloseToc
+{
+	margin-top: 2px;
+}
+
+/******** NoScroll.htm ********/
+
+.NoScrollbar	
+{
+	background-color: #edf5ff;
+}

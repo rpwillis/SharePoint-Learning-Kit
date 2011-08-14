@@ -1,0 +1,62 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{475727A3-CC9B-48B9-BF4A-0BE44F5F7323}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>SimulateClass</AssemblyName>
+    <RootNamespace>SimulateClass</RootNamespace>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.LearningComponents.Storage">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LearningComponents\storage\bin\debug\Microsoft.LearningComponents.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents.SharePoint">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LearningComponents\sharepoint\bin\debug\Microsoft.LearningComponents.SharePoint.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LearningComponents\learningcomponents\bin\debug\Microsoft.LearningComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\References\Microsoft.SharePoint.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePointLearningKit">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dll\bin\debug\Microsoft.SharePointLearningKit.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SimulateClass.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+</Project>

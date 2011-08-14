@@ -1,0 +1,6 @@
+<siteMap enableLocalization="true">
+    <siteMapNode title="E-Learning Actions" url="/_layouts/SharePointLearningKit/Actions.aspx" />
+    <siteMapNode title="Assignment Properties" url="/_layouts/SharePointLearningKit/AssignmentProperties.aspx" />
+    <siteMapNode title="Grading" url="/_layouts/SharePointLearningKit/Grading.aspx" />
+    <siteMapNode title="Assignment" url="/_layouts/SharePointLearningKit/Lobby.aspx" />
+</siteMap>
