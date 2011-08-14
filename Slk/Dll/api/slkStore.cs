@@ -592,7 +592,7 @@ namespace Microsoft.SharePointLearningKit
         /// <pr>location</pr> refers to a file that the user does not have access to.
         /// </exception>
         ///
-        public LearningStoreXml ValidatePackage(string location)
+        public LearningStoreXml ValidatePackage(SharePointFileLocation location)
         {
             // Security checks: Fails if user doesn't have access to the package (implemented
             // by RegisterAndValidatePackage)
@@ -608,12 +608,12 @@ namespace Microsoft.SharePointLearningKit
         }
 
         /// <summary>See <see cref="ISlkStore.RegisterAndValidatePackage"/>.</summary>
-        public PackageDetails RegisterAndValidatePackage(string location)
+        public PackageDetails RegisterAndValidatePackage(SharePointFileLocation location)
         {
             return RegisterAndValidatePackage(location, false);
         }
 
-        PackageDetails RegisterAndValidatePackage(string location, bool validateOnly)
+        PackageDetails RegisterAndValidatePackage(SharePointFileLocation location, bool validateOnly)
         {
             PackageDetails package = new PackageDetails();
             
@@ -658,7 +658,7 @@ namespace Microsoft.SharePointLearningKit
                         }
                         else
                         {
-                            package = RegisterAndValidatePackage(fileLocation.Location);
+                            package = RegisterAndValidatePackageLocal(fileLocation.Location);
                         }
                     }
                 }
@@ -717,7 +717,7 @@ namespace Microsoft.SharePointLearningKit
         }
 
         /// <summary>Register the package in the SharePointPackageStore.</summary>
-        PackageDetails RegisterAndValidatePackage(SharePointFileLocation location)
+        PackageDetails RegisterAndValidatePackageLocal(SharePointFileLocation location)
         {
             PackageDetails package = new PackageDetails();
 
@@ -1017,27 +1017,21 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Retrieves an <n>SPFile</n> given an MLC SharePoint location string. </summary>
         /// <param name="location">The MLC SharePoint location string.</param>
         /// <exception cref="UnauthorizedAccessException"><pr>location</pr> refers to a file that the user does not have access to.</exception>
-        private static FileAndLocation GetFileFromSharePointLocation(string location)
+        private static FileAndLocation GetFileFromSharePointLocation(SharePointFileLocation location)
         {
             // Security checks: Fails if user doesn't have access to the package (implemented
             // by accessing the assignment properties)
 
             FileAndLocation fileAndLocation;
-            SharePointFileLocation fileLocation;
 
-            if (SharePointFileLocation.TryParse(location, out fileLocation) == false)
-            {
-                throw new ArgumentException(AppResources.IncorrectLocationStringSyntax, "location");
-            }
-
-            fileAndLocation.Location = fileLocation;
+            fileAndLocation.Location = location;
 
             // Access the file to check user has access to it.
-            using (SPSite spSite = new SPSite(fileLocation.SiteId))
+            using (SPSite spSite = new SPSite(location.SiteId))
             {
-                using (SPWeb spWeb = spSite.OpenWeb(fileLocation.WebId))
+                using (SPWeb spWeb = spSite.OpenWeb(location.WebId))
                 {
-                    fileAndLocation.File = spWeb.GetFile(fileLocation.FileId);
+                    fileAndLocation.File = spWeb.GetFile(location.FileId);
                     Hashtable fileProperties = fileAndLocation.File.Properties;
                 }
             }
@@ -1408,7 +1402,7 @@ namespace Microsoft.SharePointLearningKit
             /// </remarks>
             ///
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-        public Guid GetCurrentUserLearnerAssignment(AssignmentItemIdentifier assignmentId)
+        public Guid xGetCurrentUserLearnerAssignment(AssignmentItemIdentifier assignmentId)
         {
             // Security checks: Returns null if not an learner on the assignment
             // (because of rules in the schema XML)
@@ -2257,7 +2251,7 @@ namespace Microsoft.SharePointLearningKit
         /// <pr>location</pr> refers to a file that the user does not have access to.
         /// </exception>
         ///
-        public PackageInformation GetPackageInformation(string location)
+        public PackageInformation GetPackageInformation(SharePointFileLocation location)
         {
             // Check parameters
             if (location == null)

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
 using Microsoft.LearningComponents.Manifest;
+using Microsoft.LearningComponents.SharePoint;
 using Microsoft.SharePoint;
 using Microsoft.SharePoint.Utilities;
 using Resources.Properties;
@@ -20,7 +21,6 @@ namespace Microsoft.SharePointLearningKit
     ///
     public class AssignmentProperties
     {
-        internal const string noPackageLocation = "{00000}";
         SPWeb webWhileSaving;
         bool hasInstructors;
         bool hasInstructorsIsSet;
@@ -196,7 +196,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Indicates if the assignment is a no package assignment.</summary>
         public bool IsNoPackageAssignment
         {
-            get { return Location == noPackageLocation ;}
+            get { return Location == NoPackageLocation.ToString() ;}
         }
 
         /// <summary>The root activity for SCORM packages.</summary>
@@ -425,7 +425,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Makes the assignment be a no package assignemnt.</summary>
         public void MakeNoPackageAssignment(string title)
         {
-            Location = noPackageLocation;
+            Location = NoPackageLocation.ToString();
             if (String.IsNullOrEmpty(Title))
             {
                 if (string.IsNullOrEmpty(title))
@@ -454,7 +454,7 @@ namespace Microsoft.SharePointLearningKit
         ///     e-learning content to assign; this is the value that's used as an index to
         ///     <c>ManifestReader.Organizations</c>.  If the content being assigned is a non-e-learning
         ///     document, use <c>null</c> for <paramref name="organizationIndex"/>.</param>
-        public void SetLocation(string location, Nullable<int> organizationIndex)
+        public void SetLocation(SharePointFileLocation location, Nullable<int> organizationIndex)
         {
             SetLocation(location, organizationIndex, null);
         }
@@ -469,21 +469,21 @@ namespace Microsoft.SharePointLearningKit
         ///     <c>ManifestReader.Organizations</c>.  If the content being assigned is a non-e-learning
         ///     document, use <c>null</c> for <paramref name="organizationIndex"/>.</param>
         /// <param name="title">Any title that has been passed in.</param>
-        public void SetLocation(string location, Nullable<int> organizationIndex, string title)
+        public void SetLocation(SharePointFileLocation location, Nullable<int> organizationIndex, string title)
         {
             if (location == null)
             {
                 throw new ArgumentNullException("location");
             }
 
-            if (location == noPackageLocation)
+            if (location == NoPackageLocation)
             {
                 MakeNoPackageAssignment(title);
                 return;
             }
 
             // Access the properties of the file to verify that the user has access to the file
-            SPFile file = SlkUtilities.GetSPFileFromPackageLocation(location);
+            SPFile file = location.LoadFile();
             System.Collections.Hashtable fileProperties = file.Properties;
 
             // set <rootActivityId> to the ID of the organization, or null if a non-e-learning document is being assigned
@@ -544,7 +544,7 @@ namespace Microsoft.SharePointLearningKit
             else  // Non-elearning content
             {
                 RootActivityId = null;
-                Location = location;
+                Location = location.ToString();
                 if (string.IsNullOrEmpty(Title))
                 {
                     Title = file.Title;
@@ -1132,6 +1132,27 @@ namespace Microsoft.SharePointLearningKit
         {
             return store.GetGradingProperties(assignmentItemIdentifier);
         }
+
+        /// <summary>Creates a self assingment.</summary>
+        /// <returns>The ID of the learner assignment.</returns>
+        public static Guid CreateSelfAssignment(SlkStore store, SPWeb web, SharePointFileLocation location, Nullable<int> organizationIndex)
+        {
+            AssignmentProperties properties = AssignmentProperties.CreateNewAssignmentObject(store, web, SlkRole.Learner);
+            properties.SetLocation(location, organizationIndex);
+            // Have to allow unsafe updates or self assignment fails
+            bool allowUnsafeUpdates = web.AllowUnsafeUpdates;
+            web.AllowUnsafeUpdates = true;
+            try
+            {
+                properties.Save(web, SlkRole.Learner, null);
+            }
+            finally
+            {
+                web.AllowUnsafeUpdates = allowUnsafeUpdates;
+            }
+
+            return properties.Learners[0].AssignmentUserGuidId ;
+        }
 #endregion public static methods
 
 #region Email
@@ -1163,6 +1184,12 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 #endregion DropBoxUpdate
+
+#region NoPackageLocation
+        /// <summary>Represents a non-location.</summary>
+        public static readonly SharePointFileLocation NoPackageLocation = new SharePointFileLocation(Guid.Empty, Guid.Empty, Guid.Empty, 0, DateTime.MinValue);
+#endregion NoPackageLocation
+
     }
 
 }

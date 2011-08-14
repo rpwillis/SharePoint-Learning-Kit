@@ -22,6 +22,7 @@ namespace Microsoft.LearningComponents.SharePoint
         private int m_versionId;
         private DateTime m_timestamp;
 
+#region constructors
         /// <summary>
         /// Create a SharePointFileLocation with optional timestamp.
         /// </summary>
@@ -84,6 +85,22 @@ namespace Microsoft.LearningComponents.SharePoint
             m_timestamp = GetTimeStamp(m_siteId, m_webId, m_fileId, m_versionId);
         }
 
+        public SharePointFileLocation(string location)
+        {
+            string[] parts = location.Split('_');
+            if (parts.Length != 5)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            m_siteId = new Guid(parts[0]);
+            m_webId = new Guid(parts[1]);
+            m_fileId = new Guid(parts[2]);
+            m_versionId = Int32.Parse(parts[3], NumberFormatInfo.InvariantInfo);
+            long ticks = long.Parse(parts[4], NumberFormatInfo.InvariantInfo);
+            m_timestamp = new DateTime(ticks);
+        }
+
         /// <summary>
         /// Internal copy constructor.
         /// </summary>
@@ -98,7 +115,9 @@ namespace Microsoft.LearningComponents.SharePoint
             m_versionId = copyFrom.VersionId;
             m_timestamp = copyFrom.Timestamp;
         }
+#endregion constructors
 
+#region properties
         /// <summary>
         /// Gets the site id of the location.
         /// </summary>
@@ -123,7 +142,9 @@ namespace Microsoft.LearningComponents.SharePoint
         /// Gets the timestamp associated with the location.
         /// </summary>
         public DateTime Timestamp { get { return m_timestamp; } }
+#endregion properties
 
+#region public methods
         /// <summary>
         /// Attempts to parse a location string into a SharePointFileLocation object. 
         /// </summary>
@@ -144,17 +165,7 @@ namespace Microsoft.LearningComponents.SharePoint
             // if the location was valid, set all out parameter values and return true
             try
             {
-                string[] parts = locationValue.Split('_');
-                if (parts.Length != 5)
-                    return false;
-
-                Guid siteId = new Guid(parts[0]);
-                Guid webId = new Guid(parts[1]);
-                Guid fileId = new Guid(parts[2]);
-                int versionId = Int32.Parse(parts[3], NumberFormatInfo.InvariantInfo);
-                long ticks = long.Parse(parts[4], NumberFormatInfo.InvariantInfo);
-                DateTime timestamp = new DateTime(ticks);
-                location = new SharePointFileLocation(siteId, webId, fileId, versionId, timestamp);
+                location = new SharePointFileLocation(locationValue);
             }
             catch
             {
@@ -175,6 +186,66 @@ namespace Microsoft.LearningComponents.SharePoint
                                     Convert.ToString(m_versionId, CultureInfo.InvariantCulture),
                                     Convert.ToString(m_timestamp.Ticks, CultureInfo.InvariantCulture));
         }
+
+        /// <summary>Returns an <c>SPFile</c> represented by the <see cref="SharePointFileLocation"/>>.</summary>
+        /// <remarks>
+        /// Note that the returned <c>SPFile</c> represents the entire collection of versions
+        /// associated with that location -- it is not version-specific.
+        /// </remarks>
+        public SPFile LoadFile()
+        {
+            bool isContextSite = false;
+            bool isContextWeb = false;
+            SPSite site = null;
+            SPWeb web = null;
+
+            if (SPContext.Current != null)
+            {
+                site = SPContext.Current.Site;
+                web = SPContext.Current.Web;
+            }
+
+            if (site != null && site.ID == m_siteId)
+            {
+                isContextSite = true;
+            }
+            else
+            {
+                site =  new SPSite(m_siteId,SPContext.Current.Site.Zone);
+            }
+
+            try
+            {
+                try
+                {
+                    if (site != null && isContextSite && web.ID == m_webId)
+                    {
+                        isContextWeb = true;
+                    }
+                    else
+                    {
+                        web = site.OpenWeb(m_webId);
+                    }
+
+                    return web.GetFile(m_fileId);
+                }
+                finally
+                {
+                    if (isContextWeb == false)
+                    {
+                        web.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (isContextSite == false)
+                {
+                    site.Dispose();
+                }
+            }
+        }
+#endregion public methods
 
         /// <summary>
         /// Static helper function to get the timestamp

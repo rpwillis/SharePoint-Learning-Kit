@@ -183,7 +183,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// document library.  Example:
         /// 696119ae-dd2f-42fb-b1c2-f57cef818553_671ff432-662d-4bb2-8a79-44eea19bf948_04da6346-aca8-453a-bcbf-             /// dc59877b911e_512_632872855930000000
         /// </summary>
-        private string m_locationString;
+        private SharePointFileLocation location;
         /// <summary>
         /// Holds OrgIndex Query String value.  OrgIndex is only used in PageMode.Create -- in that case, it's
         /// null for non-e-learning content.  OrgIndex is the zero-based index of the organization (i.e. root
@@ -206,7 +206,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>Holds Current SPWeb User's SlkUser Key </summary>
         private string m_currentSlkUserKey;
 
-        #endregion
+        #endregion Private Variables
 
         #region Private Properties
         /// <summary>
@@ -225,19 +225,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        /// <summary>
-        /// Gets the Location Query String value.
-        /// Throws Exception if empty or null.
-        /// </summary>
-        private string Location
+        /// <summary>Gets the file location.</summary>
+        private SharePointFileLocation Location
         {
             get
             {
-                if (m_locationString == null)
+                if (location == null)
                 {
-                    m_locationString = QueryString.ParseString(QueryStringKeys.Location);
+                    string locationString = QueryString.ParseString(QueryStringKeys.Location);
+
+                    if (string.IsNullOrEmpty(locationString) == false)
+                    {
+                        location = new SharePointFileLocation(locationString);
+                    }
                 }
-                return m_locationString;
+                return location;
             }
         }
 
@@ -1346,7 +1348,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             if (AssignmentProperties.IsNoPackageAssignment == false)
             {
                 //Add Doclib Url
-                SPFile spFile = SlkUtilities.GetSPFileFromPackageLocation(Location);
+                SPFile spFile = Location.LoadFile();
                 string message = String.Format(CultureInfo.CurrentCulture, AppResources.AppNavigateToDocLib, spFile.ParentFolder.Name);
                 lstNavigateBulletedList.Items.Add(new ListItem(message, spFile.ParentFolder.ServerRelativeUrl));
             }
