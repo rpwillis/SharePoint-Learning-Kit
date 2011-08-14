@@ -135,7 +135,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                     page = "actions";
                 }
 
-                string url = String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, page, AssignmentProperties.noPackageLocation, encodedTitle);
+                string url = String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, page, AssignmentProperties.NoPackageLocation.ToString(), encodedTitle);
 
                 Page.Response.Redirect(url, true);
             }

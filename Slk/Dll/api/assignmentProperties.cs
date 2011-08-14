@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Diagnostics;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
+using Microsoft.LearningComponents.SharePoint;
 using Microsoft.LearningComponents.Manifest;
 using Microsoft.SharePoint;
 using Microsoft.SharePoint.Utilities;
@@ -20,7 +21,6 @@ namespace Microsoft.SharePointLearningKit
     ///
     public class AssignmentProperties
     {
-        internal const string noPackageLocation = "{00000}";
         SPWeb webWhileSaving;
         bool hasInstructors;
         bool hasInstructorsIsSet;
@@ -196,7 +196,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Indicates if the assignment is a no package assignment.</summary>
         public bool IsNoPackageAssignment
         {
-            get { return Location == noPackageLocation ;}
+            get { return Location == NoPackageLocation.ToString() ;}
         }
 
         /// <summary>The root activity for SCORM packages.</summary>
@@ -425,7 +425,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Makes the assignment be a no package assignemnt.</summary>
         public void MakeNoPackageAssignment(string title)
         {
-            Location = noPackageLocation;
+            Location = NoPackageLocation.ToString();
             if (String.IsNullOrEmpty(Title))
             {
                 if (string.IsNullOrEmpty(title))
@@ -476,7 +476,7 @@ namespace Microsoft.SharePointLearningKit
                 throw new ArgumentNullException("location");
             }
 
-            if (location == noPackageLocation)
+            if (location == NoPackageLocation.ToString())
             {
                 MakeNoPackageAssignment(title);
                 return;
@@ -1163,6 +1163,12 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 #endregion DropBoxUpdate
+
+#region NoPackageLocation
+        /// <summary>Represents a non-location.</summary>
+        public static readonly SharePointFileLocation NoPackageLocation = new SharePointFileLocation(Guid.Empty, Guid.Empty, Guid.Empty, 0, DateTime.MinValue);
+#endregion NoPackageLocation
+
     }
 
 }

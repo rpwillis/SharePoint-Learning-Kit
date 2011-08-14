@@ -95,7 +95,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #region Private Properties
         bool NoFileAssignment
         {
-            get { return Request.QueryString["Location"] == AssignmentProperties.noPackageLocation ;}
+            get { return Request.QueryString["Location"] == AssignmentProperties.NoPackageLocation.ToString() ;}
         }
 
         /// <summary>
@@ -526,7 +526,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             if (NoFileAssignment)
             {
                 title = Request.QueryString["title"];;
-                location = AssignmentProperties.noPackageLocation;
+                location = AssignmentProperties.NoPackageLocation.ToString();
             }
             else
             {
