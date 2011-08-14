@@ -142,7 +142,7 @@ namespace Microsoft.SharePointLearningKit
         /// <exception cref="UnauthorizedAccessException">
         /// The user is not authorized to access the package.
         /// </exception>
-        PackageDetails RegisterAndValidatePackage(string location);
+        PackageDetails RegisterAndValidatePackage(SharePointFileLocation location);
 
         /// <summary>Gets information about the package.</summary>
         /// <param name="packageId">The id of the package.</param>
