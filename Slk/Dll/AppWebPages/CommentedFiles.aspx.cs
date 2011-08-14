@@ -479,6 +479,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnPreRender(EventArgs e)
         {
+            base.OnPreRender(e);
+
             string exceptionMessage = string.Empty;
 
             try

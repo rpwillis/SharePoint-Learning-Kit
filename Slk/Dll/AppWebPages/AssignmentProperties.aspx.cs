@@ -416,6 +416,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             spDateTimeDue.LocaleId = SPWeb.Locale.LCID;
             spDateTimeStart.TimeZoneID = SPWeb.RegionalSettings.TimeZone.ID;
             spDateTimeDue.TimeZoneID = SPWeb.RegionalSettings.TimeZone.ID;
+            base.OnInit(e);
         }
 
         #region OnPreRender
@@ -424,6 +425,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected override void OnPreRender(EventArgs e)
         {
+            base.OnPreRender(e);
             try
             {
                 if (this.IsPostBack == false)

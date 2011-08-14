@@ -47,6 +47,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
         [Obsolete]
         public override InitEventArgs GetInitEventArgs(string interfaceName)
         {
+            return null;
+            /*
             // Check if this is my particular cell interface.
             if (interfaceName == "MyCellConsumerInterface" || interfaceName == "Observer_WebPart_Listener")
             {
@@ -64,6 +66,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 return(null);
             }
+            */
         }
 
         /// <summary>See <see cref="Microsoft.SharePoint.WebPartPages.WebPart.EnsureInterfaces"/>.</summary>
@@ -142,7 +145,6 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             observerRoleLearnerLogin = "";
 
-            InitializeLearnerKey();
             // On CellReady, validate and set the learner's login id
             InitializeLearnerKey();
             if (cellReadyArgs.Cell != null)
