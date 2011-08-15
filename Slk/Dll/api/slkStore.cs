@@ -437,7 +437,7 @@ namespace Microsoft.SharePointLearningKit
 
             // set <mapping> to the SlkSPSiteMapping corresponding to <spSiteGuid>; if no such
             // mapping, exists, a SafeToDisplayException is thrown
-            SlkSPSiteMapping mapping = SlkSPSiteMapping.GetRequiredMapping(spSiteGuid);
+            SlkSPSiteMapping mapping = SlkSPSiteMapping.GetRequiredMapping(spWeb.Site);
 
             // load "SlkSettings.xsd" from a resource into <xmlSchema>
             XmlSchema xmlSchema;
