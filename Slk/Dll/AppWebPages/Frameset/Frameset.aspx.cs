@@ -18,6 +18,7 @@ using System.Threading;
 using System.Web;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.SharePointLearningKit.WebControls;
+using Microsoft.SharePointLearningKit.ApplicationPages;
 
 namespace Microsoft.SharePointLearningKit.Frameset
 {
@@ -38,6 +39,56 @@ namespace Microsoft.SharePointLearningKit.Frameset
         private FramesetHelper m_framesetHelper;
         // If true, the content being displayed is e-learning (i.e., scorm or lrm) content
         private bool m_isELearning;
+        bool learnerAssignmentGuidIdHasBeenSet;
+
+#region protected methods
+        /// <summary>
+        /// Based on the filename of the content to be displayed, this method gets the frameset url
+        /// that should be redirected to in order to display that content.
+        /// </summary>
+        /// <returns>The url, in Ascii format, for the frameset window to redirect.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1055:UriReturnValuesShouldNotBeStrings"),   // the caller is going to write this to the response, so no point in creating another object
+        SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")] // Elearning is ok
+        protected string GetNonElearningFrameUrl(string fileName)
+        {
+            StringBuilder sb = new StringBuilder(4096);
+
+            // The url to the frameset page is appended with the filename. This allows the browser to interpret the file 
+            // type based on the URL, ending in, for instance, .doc.
+            sb.Append(UrlCombine(SPWeb.Url, "_layouts/SharePointLearningKit/Frameset/Frameset.aspx", HttpUtility.UrlPathEncode(fileName)));
+
+            // Append query parameters
+            sb.AppendFormat(CultureInfo.CurrentCulture, "?{0}={1}&{2}={3}", 
+                    FramesetQueryParameter.LearnerAssignmentId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId), 
+                    FramesetQueryParameter.SlkView, FramesetQueryParameter.GetValueAsParameter(AssignmentView));
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Given a SharePoint File, find the URL location of the File
+        /// </summary>
+        /// <returns>The url in Ascii format</returns>
+        protected string GetNonElearningDocumentUrl(SharePointFileLocation spFileLocation)
+        {
+            string documentUrl = null;
+
+            SPSecurity.RunWithElevatedPrivileges(delegate()
+            {
+                // If the site does not exist, this throws FileNotFound
+                using (SPSite spSite = new SPSite(spFileLocation.SiteId,SPContext.Current.Site.Zone))
+                {
+                    // If the web does not exist, this throws FileNotFound
+                    using (SPWeb spWeb = spSite.OpenWeb(spFileLocation.WebId))
+                    {
+                        SPFile spFile = spWeb.GetFile(spFileLocation.FileId);
+                        documentUrl = UrlCombine(spSite.Url, HttpUtility.UrlPathEncode(spFile.ServerRelativeUrl));
+                    }
+                }
+            });
+
+            return documentUrl;
+        }
 
         /// <summary>The page load event.</summary>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // all exceptions caught and written to server event log
@@ -45,6 +96,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             try
             {
+                CheckPlayAssignment();
                 SlkUtilities.RetryOnDeadlock(delegate()
                 {
                     Response.Clear();
@@ -97,6 +149,23 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle, SlkFrameset.FRM_AssignmentNotAvailableMsgHtml, false);
             }
         }
+#endregion protected methods
+
+#region public methods
+        /// <summary>
+        /// Called by FramesetHelper. Delegate to return session view.
+        /// </summary>
+        public override bool TryGetSessionView(bool showErrorPage, out SessionView view)
+        {
+            view = SessionView.Execute; // must be initialized
+
+            AssignmentView assignmentView;
+            if (!TryProcessAssignmentViewParameter(showErrorPage, out assignmentView))
+                return false;
+            AssignmentView = assignmentView;
+
+            return base.TryGetSessionView(showErrorPage, out view);
+        }
 
         /// <summary>
         /// Gets the attempt id of the requested attempt. If the page is provided a learner assignment id and 
@@ -112,14 +181,17 @@ namespace Microsoft.SharePointLearningKit.Frameset
             // Initialize out parameter
             attemptId = null;
 
-            Guid learnerAssignmentGuidId;
+            if (learnerAssignmentGuidIdHasBeenSet == false)
+            {
+                Guid learnerAssignmentGuidId;
 
-            if (!TryProcessLearnerAssignmentIdParameter(showErrorPage, out learnerAssignmentGuidId))
-                // In this case, if the parameter was not valid (eg, it's not a number), the error is already registered. 
-                // So just return.
-                return false;
-                    
-            LearnerAssignmentGuidId = learnerAssignmentGuidId;
+                if (!TryProcessLearnerAssignmentIdParameter(showErrorPage, out learnerAssignmentGuidId))
+                    // In this case, if the parameter was not valid (eg, it's not a number), the error is already registered. 
+                    // So just return.
+                    return false;
+                        
+                LearnerAssignmentGuidId = learnerAssignmentGuidId;
+            }
 
             // Put this operation in a transaction because if the attempt has not been started, we'll start the attempt 
             // and update the assignment. Both should succeed or both should fail.
@@ -157,7 +229,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                                 return false;
                             }
 
-                            SlkStore.StartAttemptOnLearnerAssignment(learnerAssignmentGuidId);
+                            SlkStore.StartAttemptOnLearnerAssignment(LearnerAssignmentGuidId);
 
                             // Force a reset of internal data regarding the current learner assignment
                             la = GetLearnerAssignment(true);
@@ -236,193 +308,30 @@ namespace Microsoft.SharePointLearningKit.Frameset
             
             return (attemptId != null);
         }
+#endregion public methods
 
-        /// Returns true if the correct version of the file exists in SharePoint.
-        /// NOTE: This method checks file availability using elevated privileges. Be 
-        /// cautious when using this information in messages displayed to the user.
-        private static bool FileExistsInSharePoint(string location)
-        {            
-            SharePointFileLocation spFileLocation;
-            bool fileExists = true;    // assume it exists
-            if (SharePointFileLocation.TryParse(location, out spFileLocation))
+#region private methods
+        void CheckPlayAssignment()
+        {
+            string play = Request.QueryString[FramesetQueryParameter.PlayAssignment];
+
+            if (play == "true")
             {
-                SPSecurity.RunWithElevatedPrivileges(delegate()
-                {
-                    // If the site does not exist, this throws FileNotFound
-                    using (SPSite spSite = new SPSite(spFileLocation.SiteId, SPContext.Current.Site.Zone))
-                    {
-                        // If the web does not exist, this throws FileNotFound
-                        using (SPWeb spWeb = spSite.OpenWeb(spFileLocation.WebId))
-                        {
-                            SPFile spFile = spWeb.GetFile(spFileLocation.FileId);
-                            if (!spFile.Exists)
-                            {
-                                fileExists = false;
-                                return;
-                            }
-                            // The file exists. Now check if the right version exists.
-                            DateTime lastModified;
-                            if ((spFile.Versions.Count == 0) || spFile.UIVersion == spFileLocation.VersionId)
-                            {
-                                // The requested version is the currect one
-                                if (spFile.UIVersion != spFileLocation.VersionId)
-                                {
-                                    fileExists = false;
-                                    return;
-                                }
-                                // It exists: check its timestamp
-                                lastModified = spFile.TimeLastModified;
-                            }
-                            else
-                            {
-                                // The specified version isn't the current one
-                                SPFileVersion spFileVersion = spFile.Versions.GetVersionFromID(spFileLocation.VersionId);
+                // Create the self assignment so Frameset can load
+                int organizationIndex = 0;  // Assume only one organization
+                AssignmentObjectsFromQueryString objects = new AssignmentObjectsFromQueryString();
+                objects.LoadObjects(SPWeb);
+                SharePointFileLocation fileLocation = new SharePointFileLocation(SPWeb, objects.File.UniqueId, objects.VersionId);
+                LearnerAssignmentGuidId = AssignmentProperties.CreateSelfAssignment(SlkStore, SPWeb, fileLocation, organizationIndex);
+                learnerAssignmentGuidIdHasBeenSet = true;
+                /*
+                string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
+                url = String.Format(CultureInfo.InvariantCulture, 
+                        "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
 
-                                if (spFileVersion == null)
-                                {
-                                    fileExists = false;
-                                    return;
-                                }
-
-                                // There is no 'last modified' of a version, so use the time the version was created.
-                                lastModified = spFileVersion.Created;
-                            }
-
-                            // If the timestamps are not the same, the file has been modified, so return false
-                            if (lastModified.CompareTo(spFileLocation.Timestamp) != 0)
-                            {
-                                fileExists = false;
-                                return;
-                            }
-                        }
-                    }
-                });
+                Redirect(url);
+                */
             }
-            return fileExists;
-        }
-
-        /// <summary>
-        /// Returns the path in the URL after the Frameset.aspx reference.
-        /// </summary>
-        /// <returns>The information about what content to display. It will return 
-        /// null if there was no information. This indicates the frameset is initializing.</returns>
-        private string GetFramesetPath()
-        {
-            string framesetPath = null;
-
-            // See if there is information after the Frameset.aspx string in the raw URL
-            string originalUrl = Request.Url.OriginalString;
-            int beginContext = originalUrl.IndexOf("Frameset/Frameset.aspx/", StringComparison.OrdinalIgnoreCase);
-            if (beginContext > 0)
-            {
-                int endContent = beginContext + "Frameset/Frameset.aspx".Length;
-                // It's a request with information following the page name.
-                framesetPath = originalUrl.Substring(endContent);
-            }
-
-            return framesetPath;
-        }
-
-        /// <summary>
-        /// Based on the filename of the content to be displayed, this method gets the frameset url
-        /// that should be redirected to in order to display that content.
-        /// </summary>
-        /// <returns>The url, in Ascii format, for the frameset window to redirect.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1055:UriReturnValuesShouldNotBeStrings"),   // the caller is going to write this to the response, so no point in creating another object
-        SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")] // Elearning is ok
-        protected string GetNonElearningFrameUrl(string fileName)
-        {
-            StringBuilder sb = new StringBuilder(4096);
-
-            // The url to the frameset page is appended with the filename. This allows the browser to interpret the file 
-            // type based on the URL, ending in, for instance, .doc.
-            sb.Append(UrlCombine(SPWeb.Url, "_layouts/SharePointLearningKit/Frameset/Frameset.aspx", HttpUtility.UrlPathEncode(fileName)));
-
-            // Append query parameters
-            sb.AppendFormat(CultureInfo.CurrentCulture, "?{0}={1}&{2}={3}", 
-                    FramesetQueryParameter.LearnerAssignmentId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId), 
-                    FramesetQueryParameter.SlkView, FramesetQueryParameter.GetValueAsParameter(AssignmentView));
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Given a SharePoint File, find the URL location of the File
-        /// </summary>
-        /// <returns>The url in Ascii format</returns>
-        protected string GetNonElearningDocumentUrl(SharePointFileLocation spFileLocation)
-        {
-            string documentUrl = null;
-
-            SPSecurity.RunWithElevatedPrivileges(delegate()
-            {
-                // If the site does not exist, this throws FileNotFound
-                using (SPSite spSite = new SPSite(spFileLocation.SiteId,SPContext.Current.Site.Zone))
-                {
-                    // If the web does not exist, this throws FileNotFound
-                    using (SPWeb spWeb = spSite.OpenWeb(spFileLocation.WebId))
-                    {
-                        SPFile spFile = spWeb.GetFile(spFileLocation.FileId);
-                        documentUrl = UrlCombine(spSite.Url, HttpUtility.UrlPathEncode(spFile.ServerRelativeUrl));
-                    }
-                }
-            });
-
-            return documentUrl;
-        }
-
-        /// <summary>
-        /// Combines url paths in a similar way to Path.Combine for file paths.
-        /// Beginning and trailing slashes are not needed but will be accounted for
-        /// if they are present.
-        /// </summary>
-        /// <param name="basePath">The start of the url. Beginning slashes will not be removed.</param>
-        /// <param name="args">All other url segments to be added. Beginning and ending slashes will be
-        /// removed and ending slashes will be added.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1055:UriReturnValuesShouldNotBeStrings")]
-        private static string UrlCombine(string basePath, params string[] args)
-        {
-            if (basePath == null)
-                throw new ArgumentNullException("basePath");
-            if (args == null)
-                throw new ArgumentNullException("args");
-
-            if (basePath.EndsWith("/", StringComparison.Ordinal))
-                basePath = basePath.Remove(basePath.Length - 1);
-
-            StringBuilder sb = new StringBuilder(basePath);
-            foreach (string path in args)
-            {
-                string tempPath = path;
-                if (tempPath.EndsWith("/", StringComparison.Ordinal))
-                {
-                    tempPath = tempPath.Remove(tempPath.Length - 1);
-                }
-                if (tempPath.StartsWith("/", StringComparison.Ordinal))
-                {
-                    sb.AppendFormat("{0}", tempPath);
-                }
-                else
-                {
-                    sb.AppendFormat("/{0}", tempPath);
-                }
-            }
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Called by FramesetHelper. Delegate to return session view.
-        /// </summary>
-        public override bool TryGetSessionView(bool showErrorPage, out SessionView view)
-        {
-            view = SessionView.Execute; // must be initialized
-
-            AssignmentView assignmentView;
-            if (!TryProcessAssignmentViewParameter(showErrorPage, out assignmentView))
-                return false;
-            AssignmentView = assignmentView;
-
-            return base.TryGetSessionView(showErrorPage, out view);
         }
 
         /// <summary>
@@ -588,6 +497,131 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             Response.ContentType = mimeType;
         }
+        /// Returns true if the correct version of the file exists in SharePoint.
+        /// NOTE: This method checks file availability using elevated privileges. Be 
+        /// cautious when using this information in messages displayed to the user.
+        private static bool FileExistsInSharePoint(string location)
+        {            
+            SharePointFileLocation spFileLocation;
+            bool fileExists = true;    // assume it exists
+            if (SharePointFileLocation.TryParse(location, out spFileLocation))
+            {
+                SPSecurity.RunWithElevatedPrivileges(delegate()
+                {
+                    // If the site does not exist, this throws FileNotFound
+                    using (SPSite spSite = new SPSite(spFileLocation.SiteId, SPContext.Current.Site.Zone))
+                    {
+                        // If the web does not exist, this throws FileNotFound
+                        using (SPWeb spWeb = spSite.OpenWeb(spFileLocation.WebId))
+                        {
+                            SPFile spFile = spWeb.GetFile(spFileLocation.FileId);
+                            if (!spFile.Exists)
+                            {
+                                fileExists = false;
+                                return;
+                            }
+                            // The file exists. Now check if the right version exists.
+                            DateTime lastModified;
+                            if ((spFile.Versions.Count == 0) || spFile.UIVersion == spFileLocation.VersionId)
+                            {
+                                // The requested version is the currect one
+                                if (spFile.UIVersion != spFileLocation.VersionId)
+                                {
+                                    fileExists = false;
+                                    return;
+                                }
+                                // It exists: check its timestamp
+                                lastModified = spFile.TimeLastModified;
+                            }
+                            else
+                            {
+                                // The specified version isn't the current one
+                                SPFileVersion spFileVersion = spFile.Versions.GetVersionFromID(spFileLocation.VersionId);
+
+                                if (spFileVersion == null)
+                                {
+                                    fileExists = false;
+                                    return;
+                                }
+
+                                // There is no 'last modified' of a version, so use the time the version was created.
+                                lastModified = spFileVersion.Created;
+                            }
+
+                            // If the timestamps are not the same, the file has been modified, so return false
+                            if (lastModified.CompareTo(spFileLocation.Timestamp) != 0)
+                            {
+                                fileExists = false;
+                                return;
+                            }
+                        }
+                    }
+                });
+            }
+            return fileExists;
+        }
+
+        /// <summary>
+        /// Returns the path in the URL after the Frameset.aspx reference.
+        /// </summary>
+        /// <returns>The information about what content to display. It will return 
+        /// null if there was no information. This indicates the frameset is initializing.</returns>
+        private string GetFramesetPath()
+        {
+            string framesetPath = null;
+
+            // See if there is information after the Frameset.aspx string in the raw URL
+            string originalUrl = Request.Url.OriginalString;
+            int beginContext = originalUrl.IndexOf("Frameset/Frameset.aspx/", StringComparison.OrdinalIgnoreCase);
+            if (beginContext > 0)
+            {
+                int endContent = beginContext + "Frameset/Frameset.aspx".Length;
+                // It's a request with information following the page name.
+                framesetPath = originalUrl.Substring(endContent);
+            }
+
+            return framesetPath;
+        }
+
+        /// <summary>
+        /// Combines url paths in a similar way to Path.Combine for file paths.
+        /// Beginning and trailing slashes are not needed but will be accounted for
+        /// if they are present.
+        /// </summary>
+        /// <param name="basePath">The start of the url. Beginning slashes will not be removed.</param>
+        /// <param name="args">All other url segments to be added. Beginning and ending slashes will be
+        /// removed and ending slashes will be added.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1055:UriReturnValuesShouldNotBeStrings")]
+        private static string UrlCombine(string basePath, params string[] args)
+        {
+            if (basePath == null)
+                throw new ArgumentNullException("basePath");
+            if (args == null)
+                throw new ArgumentNullException("args");
+
+            if (basePath.EndsWith("/", StringComparison.Ordinal))
+                basePath = basePath.Remove(basePath.Length - 1);
+
+            StringBuilder sb = new StringBuilder(basePath);
+            foreach (string path in args)
+            {
+                string tempPath = path;
+                if (tempPath.EndsWith("/", StringComparison.Ordinal))
+                {
+                    tempPath = tempPath.Remove(tempPath.Length - 1);
+                }
+                if (tempPath.StartsWith("/", StringComparison.Ordinal))
+                {
+                    sb.AppendFormat("{0}", tempPath);
+                }
+                else
+                {
+                    sb.AppendFormat("/{0}", tempPath);
+                }
+            }
+            return sb.ToString();
+        }
+#endregion private methods
 
         #region Called From Aspx    // the following methods are called from in-place aspx code
 

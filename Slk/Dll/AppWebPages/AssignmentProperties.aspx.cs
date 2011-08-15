@@ -1295,7 +1295,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             try
             {
                 AssignmentProperties.SetLocation(Location, OrgIndex);
-                AssignmentProperties.Save(SPWeb, SlkRole.Instructor, SlkMembers);
+                AssignmentProperties.Save(SPWeb, SlkRole.Instructor);
                 SetConfirmationPage(AssignmentProperties.Id.GetKey());
             }
             catch (SafeToDisplayException ex)
@@ -1772,7 +1772,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             try
             {
-                AssignmentProperties.Save(SPWeb, SlkRole.Instructor, SlkMembers);
+                AssignmentProperties.Save(SPWeb, SlkRole.Instructor);
                 // Redirect to Grading Page
                 Response.Redirect(urlString, false);
 

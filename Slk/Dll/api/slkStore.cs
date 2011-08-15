@@ -1239,7 +1239,8 @@ namespace Microsoft.SharePointLearningKit
         void PopulateLearnerAssignmentIds(SlkUserCollection learners, AssignmentItemIdentifier assignmentId)
         {
             LearningStoreJob job = LearningStore.CreateJob();
-            LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
+            // Use LearnerAssignmentList not LearnerAssignmentListForInstructors as a self-assigned one isn't an instructor
+            LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentList.BaseViewName);
             query.AddColumn(LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
             query.AddColumn(LearnerAssignmentListForInstructors.LearnerAssignmentId);
             query.AddColumn(LearnerAssignmentListForInstructors.LearnerId);
@@ -1337,16 +1338,6 @@ namespace Microsoft.SharePointLearningKit
                     LearningStoreHelper.CastNonNull(results[0], out assignmentId);
 
                     PopulateLearnerAssignmentIds(properties.Learners, assignmentId);
-                    /*
-                    int learnerPosition = 0;
-                    foreach (SlkUser learner in properties.Learners)
-                    {
-                        learnerPosition++;
-                        LearningStoreItemIdentifier learnerId;
-                        LearningStoreHelper.CastNonNull(results[learnerPosition], out learnerId);
-                        learner.AssignmentUserId = learnerId;
-                    }
-                    */
 
                     // finish the transaction
                     scope.Complete();

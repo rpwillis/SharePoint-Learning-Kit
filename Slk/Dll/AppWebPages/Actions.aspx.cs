@@ -82,11 +82,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #region Private Variables
         // property values
+        AssignmentObjectsFromQueryString objects;
         private Guid? newSite;
         private SPFile m_spFile;
-        private SPListItem m_spListItem;
-        private SPList m_spList;
-        private int? m_versionId;
         private bool? m_nonELearning;
         SharePointFileLocation fileLocation;
         #endregion
@@ -105,15 +103,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             get
             {
-                if (!m_versionId.HasValue)
+                if (objects == null)
                 {
                     LoadObjects();
-                    if (!m_versionId.HasValue)
-                    {
-                        throw new InternalErrorException("SLKActions1002");
-                    }
                 }
-                return m_versionId.Value;
+
+                return objects.VersionId;
             }
         }
 
@@ -181,13 +176,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             get
             {
-                if (m_spListItem == null)
+                if (objects == null)
                 {
                     LoadObjects();
-                    if (m_spListItem == null)
+                    if (objects.ListItem == null)
                         throw new InternalErrorException("SLKActions1005");
                 }
-                return m_spListItem;
+
+                return objects.ListItem;
             }
         }
 
@@ -198,13 +194,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             get
             {
-                if (m_spList == null)
+                if (objects == null)
                 {
                     LoadObjects();
-                    if (m_spList == null)
+                    if (objects.List == null)
                         throw new InternalErrorException("SLKActions1006");
                 }
-                return m_spList;
+                return objects.List;
             }
         }
 
@@ -586,39 +582,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void LoadObjects()
         {
-            try
-            {
-                Guid listId = QueryString.ParseGuid(QueryStringKeys.ListId);
-                m_spList = SPWeb.Lists[listId];
-                int itemId = QueryString.Parse(QueryStringKeys.ItemId);
-                m_spListItem = m_spList.GetItemById(itemId);
-
-                // reject folders
-                if (m_spListItem.FileSystemObjectType.Equals(SPFileSystemObjectType.Folder))
-                {
-                    throw new SafeToDisplayException(AppResources.ActionsItemIsFolder);
-                }
-
-                // reject anything but a file
-                if (!m_spListItem.FileSystemObjectType.Equals(SPFileSystemObjectType.File))
-                {
-                    throw new SafeToDisplayException(AppResources.ActionsItemNotFound);
-                }
-
-                m_spFile = m_spListItem.File;
-            }
-            catch (SPException)
-            {
-                // The list isn't found
-                throw new SafeToDisplayException(AppResources.ActionsItemNotFound);
-            }
-            catch (ArgumentException)
-            {
-                // The file isn't found
-                throw new SafeToDisplayException(AppResources.ActionsItemNotFound);
-            }
-
-            m_versionId = m_spFile.UIVersion;
+            objects = new AssignmentObjectsFromQueryString();
+            objects.LoadObjects(SPWeb);
+            m_spFile = objects.File;
         }
 
         /// <summary>
