@@ -1156,6 +1156,15 @@ namespace Microsoft.SharePointLearningKit
 
             return properties.Learners[0].AssignmentUserGuidId ;
         }
+
+        /// <summary>Loads a self assignment for a particular location if one exists.</summary>
+        /// <param name="location">The location of the assignment.</param>
+        /// <param name="store">The <see cref="ISlkStore"/> to use.</param>
+        /// <returns>An <see cref="AssignmentProperties"/>.</returns>
+        public static AssignmentProperties LoadSelfAssignmentForLocation(SharePointFileLocation location, ISlkStore store)
+        {
+            return store.LoadSelfAssignmentForLocation(location);
+        }
 #endregion public static methods
 
 #region Email
