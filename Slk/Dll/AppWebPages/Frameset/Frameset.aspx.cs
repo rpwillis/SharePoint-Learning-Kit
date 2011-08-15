@@ -317,20 +317,24 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             if (play == "true")
             {
-                // Create the self assignment so Frameset can load
-                int organizationIndex = 0;  // Assume only one organization
                 AssignmentObjectsFromQueryString objects = new AssignmentObjectsFromQueryString();
                 objects.LoadObjects(SPWeb);
                 SharePointFileLocation fileLocation = new SharePointFileLocation(SPWeb, objects.File.UniqueId, objects.VersionId);
-                LearnerAssignmentGuidId = AssignmentProperties.CreateSelfAssignment(SlkStore, SPWeb, fileLocation, organizationIndex);
-                learnerAssignmentGuidIdHasBeenSet = true;
-                /*
-                string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
-                url = String.Format(CultureInfo.InvariantCulture, 
-                        "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
 
-                Redirect(url);
-                */
+                AssignmentProperties assignment = AssignmentProperties.LoadSelfAssignmentForLocation(fileLocation, SlkStore);
+
+                if (assignment != null)
+                {
+                    LearnerAssignmentGuidId = assignment.Results[0].LearnerAssignmentGuidId;
+                    learnerAssignmentGuidIdHasBeenSet = true;
+                }
+                else
+                {
+                    // Create the self assignment so Frameset can load
+                    int organizationIndex = 0;  // Assume only one organization
+                    LearnerAssignmentGuidId = AssignmentProperties.CreateSelfAssignment(SlkStore, SPWeb, fileLocation, organizationIndex);
+                    learnerAssignmentGuidIdHasBeenSet = true;
+                }
             }
         }
 
