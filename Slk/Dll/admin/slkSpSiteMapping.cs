@@ -330,21 +330,22 @@ namespace Microsoft.SharePointLearningKit
         /// such mapping exists, an exception is thrown.
         /// </summary>
         ///
-        /// <param name="spSiteGuid">The GUID of the SPSite to retrieve a mapping for.</param>
+        /// <param name="site">The SPSite to retrieve a mapping for.</param>
         ///
         /// <exception cref="SlkNotConfiguredException">
         /// SLK is not configured for SharePoint site collection <paramref name="spSiteGuid"/>.
         /// (This configuration is performed in SharePoint Central Administration.)
         /// </exception>
         ///
-        public static SlkSPSiteMapping GetRequiredMapping(Guid spSiteGuid)
+        public static SlkSPSiteMapping GetRequiredMapping(SPSite site)
         {
-            return GetMapping(spSiteGuid, true);
-        }
+            SlkSPSiteMapping mapping = GetMapping(site.ID);
 
-        static SlkSPSiteMapping GetMapping(Guid spSiteGuid, bool throwIfNotPresent)
-        {
-            SlkSPSiteMapping mapping = GetMapping(spSiteGuid);
+            if (mapping == null)
+            {
+                mapping = GetMapping(site.WebApplication.Id);
+            }
+
             if (mapping == null)
             {
                 throw new SlkNotConfiguredException(AppResources.SlkNotEnabled);
