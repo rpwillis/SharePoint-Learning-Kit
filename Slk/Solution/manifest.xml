@@ -124,6 +124,7 @@
         <FeatureManifest Location="SharePointLearningKitAdmin\feature.xml"/>
     </FeatureManifests>
     <RootFiles>
+        <RootFile Location="Config\stsadmcommands.sharepointlearningkit.xml" />
         <RootFile Location="Resources\SLK.resx"/>
     </RootFiles>
 </Solution>

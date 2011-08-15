@@ -125,4 +125,5 @@ Build\Microsoft.SharePointLearningKit.dll                                   Micr
 SiteMaps\layouts.sitemap.SharePointLearningKit.xml                          Layouts\layouts.sitemap.SharePointLearningKit.xml
 Resources\SLK.resx                                                          Resources\SLK.resx
 manifest.xml                                                                manifest.xml
+stsadmcommands.sharepointlearningkit.xml                                    Config\stsadmcommands.sharepointlearningkit.xml
 ;*** <the end>
