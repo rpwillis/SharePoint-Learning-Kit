@@ -3536,6 +3536,96 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The List Name property is set to an invalid list..
+        /// </summary>
+        internal static string SelfAssignInvalidList {
+            get {
+                return ResourceManager.GetString("SelfAssignInvalidList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The View Name property is set to an invalid view..
+        /// </summary>
+        internal static string SelfAssignInvalidView {
+            get {
+                return ResourceManager.GetString("SelfAssignInvalidView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the list hosting the documents..
+        /// </summary>
+        internal static string SelfAssignListNameDescription {
+            get {
+                return ResourceManager.GetString("SelfAssignListNameDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List Name.
+        /// </summary>
+        internal static string SelfAssignListNameDisplayName {
+            get {
+                return ResourceManager.GetString("SelfAssignListNameDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The List Name property is required..
+        /// </summary>
+        internal static string SelfAssignListNameRequired {
+            get {
+                return ResourceManager.GetString("SelfAssignListNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No packages to show..
+        /// </summary>
+        internal static string SelfAssignPartNoItems {
+            get {
+                return ResourceManager.GetString("SelfAssignPartNoItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The url of the site hosting the list to get the documents from. Leave blank for current site..
+        /// </summary>
+        internal static string SelfAssignSiteUrlDescription {
+            get {
+                return ResourceManager.GetString("SelfAssignSiteUrlDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site Url.
+        /// </summary>
+        internal static string SelfAssignSiteUrlDisplayName {
+            get {
+                return ResourceManager.GetString("SelfAssignSiteUrlDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the view hosting the documents. Leave blank to use the default view..
+        /// </summary>
+        internal static string SelfAssignViewNameDescription {
+            get {
+                return ResourceManager.GetString("SelfAssignViewNameDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Name.
+        /// </summary>
+        internal static string SelfAssignViewNameDisplayName {
+            get {
+                return ResourceManager.GetString("SelfAssignViewNameDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A serious error occurred.  Please contact your system administrator.  More information has been written to the server event log..
         /// </summary>
         internal static string SeriousErrorInEventLog {

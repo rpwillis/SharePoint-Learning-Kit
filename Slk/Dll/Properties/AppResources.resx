@@ -1685,6 +1685,36 @@ More information may be available in the server event log.</value>
   <data name="GroupEnumerationFail" xml:space="preserve">
     <value>Could not get the members of group {0}.</value>
   </data>
+  <data name="SelfAssignSiteUrlDisplayName" xml:space="preserve">
+    <value>Site Url</value>
+  </data>
+  <data name="SelfAssignSiteUrlDescription" xml:space="preserve">
+    <value>The url of the site hosting the list to get the documents from. Leave blank for current site.</value>
+  </data>
+  <data name="SelfAssignListNameDisplayName" xml:space="preserve">
+    <value>List Name</value>
+  </data>
+  <data name="SelfAssignListNameDescription" xml:space="preserve">
+    <value>The name of the list hosting the documents.</value>
+  </data>
+  <data name="SelfAssignViewNameDisplayName" xml:space="preserve">
+    <value>View Name</value>
+  </data>
+  <data name="SelfAssignViewNameDescription" xml:space="preserve">
+    <value>The name of the view hosting the documents. Leave blank to use the default view.</value>
+  </data>
+  <data name="SelfAssignPartNoItems" xml:space="preserve">
+    <value>No packages to show.</value>
+  </data>
+  <data name="SelfAssignInvalidView" xml:space="preserve">
+    <value>The View Name property is set to an invalid view.</value>
+  </data>
+  <data name="SelfAssignInvalidList" xml:space="preserve">
+    <value>The List Name property is set to an invalid list.</value>
+  </data>
+  <data name="SelfAssignListNameRequired" xml:space="preserve">
+    <value>The List Name property is required.</value>
+  </data>
   <data name="StsMissingParameter" xml:space="preserve">
       <value>{0} is a required parameter.</value>
   </data>

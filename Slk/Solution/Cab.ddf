@@ -113,6 +113,9 @@ Features\WebParts\AssignmentList.webpart                                    Shar
 Features\WebParts\quickAssignmentElements.xml                               SharePointLearningKitQuickAssignment\elements.xml
 Features\WebParts\quickAssignmentFeature.xml                                SharePointLearningKitQuickAssignment\feature.xml
 Features\WebParts\QuickAssignment.webpart                                   SharePointLearningKitQuickAssignment\QuickAssignment.webpart
+Features\SelfAssign\elements.xml                                            SharePointLearningKitSelfAssign\elements.xml
+Features\SelfAssign\feature.xml                                             SharePointLearningKitSelfAssign\feature.xml
+Features\SelfAssign\selfassign.webpart                                      SharePointLearningKitSelfAssign\selfassign.webpart
 ..\Sql\SlkSchema.sql                                                        Admin\SharePointLearningKit\SlkSchema.sql
 ..\SlkSettings.xml                                                          Admin\SharePointLearningKit\SlkSettings.xml.dat
 SiteMaps\admin.sitemap.SharePointLearningKit.xml                            Admin\admin.sitemap.SharePointLearningKit.xml

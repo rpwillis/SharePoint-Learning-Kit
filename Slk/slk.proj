@@ -10,7 +10,6 @@
         <WebSamples Include="Samples/ReportPages/"/>
         <WebSamples Include="Samples/WebService/"/>
         <Projects Include="dll/slkdll.csproj"/>
-        <Projects Include="slkadm/slkadm.csproj"/>
         <Projects Include="solution/solution.proj"/>
     </ItemGroup>
 

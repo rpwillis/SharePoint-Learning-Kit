@@ -176,7 +176,7 @@
     <value>Display the assignments for an instructor or learner.</value>
   </data>
 
-  <!-- AssignmentList web part -->
+  <!-- Quick Assign web part -->
   <data name="QuickAssignmentWebPartFeatureTitle" xml:space="preserve">
     <value>SharePoint Learning Kit - Quick Assignment Web Part</value>
   </data>
@@ -188,6 +188,20 @@
   </data>
   <data name="QuickAssignmentWebPartDescription" xml:space="preserve">
     <value>Allows an instructor to quickly assign a piece of work.</value>
+  </data>
+
+  <!-- Self Assign web part -->
+  <data name="SelfAssignWebPartFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit - Enhanced Self Assign Functionality</value>
+  </data>
+  <data name="SelfAssignWebPartFeatureDescription" xml:space="preserve">
+    <value>Functionality to allow learners to easily self assign packages.</value>
+  </data>
+  <data name="SelfAssignWebPartTitle" xml:space="preserve">
+    <value>Self Assign</value>
+  </data>
+  <data name="SelfAssignWebPartDescription" xml:space="preserve">
+    <value>Exposes a document library's contents as a set of links to allow self-assigning.</value>
   </data>
 
   <data name="SharePointLearningKitWebPartsGroup" xml:space="preserve">

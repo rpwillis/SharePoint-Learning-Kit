@@ -11,7 +11,6 @@
         <Projects Include="LearningComponents\storage\storage.csproj"/>
         <Projects Include="LearningComponents\sharepoint\sharepoint.csproj"/>
         <Projects Include="slk\slk.proj"/>
-        <InstallFiles Include="slk\slkadm\bin\release\slkadm.exe"/>
         <InstallFiles Include="slk\slkschema.xml"/>
         <InstallFiles Include="slk\Sql\slkschema.sql"/>
         <InstallFiles Include="slk\SlkSettings.xml"/>
