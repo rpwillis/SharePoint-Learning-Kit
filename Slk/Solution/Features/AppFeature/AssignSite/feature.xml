@@ -5,6 +5,7 @@
 		Title="$Resources:AssignSiteFeatureTitle"
 		Description="$Resources:AssignSiteFeatureDescription"
                 DefaultResourceFile="SLK"
+                ImageUrl="featureIcon.gif"
                 >
 		 
 	<ElementManifests>

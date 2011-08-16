@@ -3,6 +3,7 @@
         Title="$Resources:QuickAssignmentWebPartFeatureTitle" 
         Description="$Resources:QuickAssignmentWebPartFeatureDescription" 
         DefaultResourceFile="SLK"
+        ImageUrl="featureIcon.gif"
         Scope="Site">
     <ElementManifests>
         <ElementManifest Location="elements.xml"/>

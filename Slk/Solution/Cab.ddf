@@ -10,6 +10,7 @@ Build\%SPVersion%\Configure.aspx                                            Admi
 ..\Admin\Info.gif                                                           Admin\SharePointLearningKit\Info.gif
 ..\Admin\Wait.gif                                                           Admin\SharePointLearningKit\Wait.gif
 ..\Admin\icon.png                                                           Admin\SharePointLearningKit\icon.png
+images\featureIcon.gif                                                      Template\IMAGES\featureIcon.gif
 Build\%SPVersion%\elements.xml                                              SharePointLearningKitAdmin\elements.xml
 Features\AdminFeature\feature.xml                                           SharePointLearningKitAdmin\feature.xml
 ..\App\Actions.aspx                                                         Layouts\SharePointLearningKit\Actions.aspx
