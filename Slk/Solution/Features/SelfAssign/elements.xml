@@ -4,4 +4,10 @@
             <Property Name="Group" Value="$Resources:SLK,SharePointLearningKitWebPartsGroup"/>
         </File>
     </Module>
+
+    <ContentType ID="0x010100CF3A5A3D3C324CF5876663C33D4EE8AA02" Name="$Resources:SLK,SelfAssignContentTypeName" Group="$Resources:SLK,ContentTypesGroup" Description="$Resources:SLK,SelfAssignContentTypeDescription" >
+        <FieldRefs>
+        </FieldRefs>
+    </ContentType>
+
 </Elements>

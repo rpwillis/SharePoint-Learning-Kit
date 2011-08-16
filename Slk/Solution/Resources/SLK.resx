@@ -118,6 +118,35 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 
+  <!-- Content Types  -->
+  <data name="ContentTypesFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit Content Types</value>
+  </data>
+  <data name="ContentTypesFeatureDescription" xml:space="preserve">
+    <value>The base content types for SharePoint Learning Kit.</value>
+  </data>
+  <data name="SharePointLearningKitWebPartsGroup" xml:space="preserve">
+    <value>SharePoint Learning Kit</value>
+  </data>
+  <data name="BaseContentTypeName" xml:space="preserve">
+    <value>Learning Object</value>
+  </data>
+  <data name="BaseContentTypeDescription" xml:space="preserve">
+    <value>The SharePoint Learning Kit Base Content Type. Represents a learning object which can be assigned.</value>
+  </data>
+  <data name="AssignmentContentTypeName" xml:space="preserve">
+    <value>Assignment</value>
+  </data>
+  <data name="AssignmentContentTypeDescription" xml:space="preserve">
+    <value>A learning object which a custom action so it can be assigned.</value>
+  </data>
+  <data name="AssignmentActionTitle" xml:space="preserve">
+    <value>Assign Work</value>
+  </data>
+  <data name="SelfAssignActionTitle" xml:space="preserve">
+    <value>Start Assignment</value>
+  </data>
+
   <!-- ELearning Actions Feature -->
   <data name="ELearningFeatureTitle" xml:space="preserve">
     <value>SharePoint Learning Kit</value>
@@ -204,8 +233,9 @@
     <value>Exposes a document library's contents as a set of links to allow self-assigning.</value>
   </data>
 
-  <data name="SharePointLearningKitWebPartsGroup" xml:space="preserve">
+  <data name="ContentTypesGroup" xml:space="preserve">
     <value>SharePoint Learning Kit</value>
   </data>
+
 
 </root>
