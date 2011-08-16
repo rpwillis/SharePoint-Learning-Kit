@@ -122,6 +122,7 @@
         <FeatureManifest Location="SharePointLearningKitAssignSelf\feature.xml"/>
         <FeatureManifest Location="SharePointLearningKitAssignSite\feature.xml"/>
         <FeatureManifest Location="SharePointLearningKitAdmin\feature.xml"/>
+        <FeatureManifest Location="SharePointLearningKitContentTypes\feature.xml"/>
         <FeatureManifest Location="SharePointLearningKitSelfAssign\feature.xml"/>
     </FeatureManifests>
     <RootFiles>
