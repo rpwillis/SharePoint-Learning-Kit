@@ -10,4 +10,20 @@
         </FieldRefs>
     </ContentType>
 
+    <CustomAction Id="{f2b73c73-6504-446f-a07e-4d786fe25efd}"
+                       Title="$Resources:SLK,SelfAssignActionTitle"
+                       Location="EditControlBlock"
+                       ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+                       RegistrationType="ContentType"
+                       RegistrationId="0x010100CF3A5A3D3C324CF5876663C33D4EE8AA02">
+                       <UrlAction Url="javascript:window.open('{SiteUrl}/_layouts/SharePointLearningKit/frameset/frameset.aspx?ListId={ListId}&amp;ItemId={ItemId}&amp;SlkView=Execute&amp;play=true', '_blank');"/>
+    </CustomAction>
+    <CustomAction Id="{1d6b2e75-acf9-4247-80b9-b5d3b4a6ad9e}"
+                       Title="$Resources:SLK,SelfAssignActionTitle"
+                       Location="DisplayFormToolbar"
+                       ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+                       RegistrationType="ContentType"
+                       RegistrationId="0x010100CF3A5A3D3C324CF5876663C33D4EE8AA02">
+                       <UrlAction Url="javascript:window.open('{SiteUrl}/_layouts/SharePointLearningKit/frameset/frameset.aspx?ListId={ListId}&amp;ItemId={ItemId}&amp;SlkView=Execute&amp;play=true', '_blank');"/>
+    </CustomAction>
 </Elements>

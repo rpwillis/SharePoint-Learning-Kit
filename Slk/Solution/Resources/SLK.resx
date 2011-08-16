@@ -140,6 +140,12 @@
   <data name="AssignmentContentTypeDescription" xml:space="preserve">
     <value>A learning object which a custom action so it can be assigned.</value>
   </data>
+  <data name="SelfAssignContentTypeName" xml:space="preserve">
+    <value>Self Assignment</value>
+  </data>
+  <data name="SelfAssignContentTypeDescription" xml:space="preserve">
+    <value>A learning object which a custom action so it can be self assigned.</value>
+  </data>
   <data name="AssignmentActionTitle" xml:space="preserve">
     <value>Assign Work</value>
   </data>
