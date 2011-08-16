@@ -1,0 +1,11 @@
+<Feature  xmlns="http://schemas.microsoft.com/sharepoint/"
+    Id="ca5261b0-82a4-45dc-97d0-1f0bce7d206e" 
+        Title="$Resources:SelfAssignWebPartFeatureTitle" 
+        Description="$Resources:SelfAssignWebPartFeatureDescription" 
+        DefaultResourceFile="SLK"
+        Scope="Site">
+    <ElementManifests>
+        <ElementManifest Location="elements.xml"/>
+        <ElementFile Location="SelfAssign.webpart"/>
+    </ElementManifests>
+</Feature>

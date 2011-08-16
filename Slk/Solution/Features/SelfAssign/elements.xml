@@ -1,0 +1,7 @@
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <Module Name="SharePointLearingKitWebParts" List="113" Url="_catalogs/wp">
+        <File Url="SelfAssign.webpart" Type="GhostableInLibrary">
+            <Property Name="Group" Value="$Resources:SLK,SharePointLearningKitWebPartsGroup"/>
+        </File>
+    </Module>
+</Elements>
