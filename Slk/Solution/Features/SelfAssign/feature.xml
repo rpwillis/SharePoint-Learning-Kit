@@ -5,8 +5,14 @@
         DefaultResourceFile="SLK"
         ImageUrl="featureIcon.gif"
         Scope="Site">
+
+    <ActivationDependencies>
+        <ActivationDependency FeatureId="63c11133-4373-4318-934e-a4448ac522f2" />
+    </ActivationDependencies>
+
     <ElementManifests>
         <ElementManifest Location="elements.xml"/>
         <ElementFile Location="SelfAssign.webpart"/>
     </ElementManifests>
+
 </Feature>
