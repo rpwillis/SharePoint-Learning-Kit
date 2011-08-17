@@ -107,7 +107,7 @@ namespace Microsoft.SharePointLearningKit
                 }
             }
 
-            return GetSiteConfiguration(new Guid(guidValue), out output);
+            return GetSiteConfiguration(id, out output);
         }
 
         int GetSiteConfiguration(Guid guid, out string output)
