@@ -2536,13 +2536,17 @@ namespace Microsoft.SharePointLearningKit
             string key = CastNonNull<string>(dataRow[keyColumn]);
             int spUserId = Cast<int>(dataRow[UserItemSite.SPUserId]);
             SPUser spUser = null;
-            try
+
+            if (spUserId != 0)
             {
-                spUser = web.SiteUsers.GetByID(spUserId);
-            }
-            catch (SPException)
-            {
-                // user no longer present. Will be fixed next time assignment properties page is opened
+                try
+                {
+                    spUser = web.SiteUsers.GetByID(spUserId);
+                }
+                catch (SPException)
+                {
+                    // user no longer present. Will be fixed next time assignment properties page is opened
+                }
             }
 
             SlkUser user = new SlkUser(userId, userName, key, spUser);
