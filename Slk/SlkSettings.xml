@@ -58,6 +58,8 @@
       </CancelAssignment>
   </EmailSettings>
 
+  <DropBoxSettings UseOfficeWebApps="false" Location="Subsite"/>
+
   <Query Name="OverdueLearner" Title="Overdue" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
     <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
     <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
