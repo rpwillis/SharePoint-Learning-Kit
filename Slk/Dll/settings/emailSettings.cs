@@ -23,6 +23,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>A reminder for an assignment.</summary>
         Reminder
     }
+
     /// <summary>The Email settings</summary>
     public class EmailSettings
     {

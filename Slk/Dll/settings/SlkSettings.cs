@@ -41,6 +41,9 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>The settings for email.</summary>
         public EmailSettings EmailSettings { get; private set; }
 
+        /// <summary>The settings for Drop Box.</summary>
+        public DropBoxSettings DropBoxSettings { get; private set; }
+
         /// <summary>
         /// Gets the collection of approved attachment file name extensions from the
         /// "ApprovedAttachmentTypes" attribute of the "&lt;Settings&gt;" element within the SLK
@@ -241,6 +244,10 @@ namespace Microsoft.SharePointLearningKit
                     else if (xmlReader.Name == "MimeTypeMapping")
                     {
                         MimeTypeMappings[xmlReader.GetAttribute("Extension")] = xmlReader.GetAttribute("MimeType");
+                    }
+                    else if (xmlReader.Name == "DropBoxSettings")
+                    {
+                        DropBoxSettings = new DropBoxSettings(xmlReader);
                     }
                     else if (xmlReader.Name == "EmailSettings")
                     {
