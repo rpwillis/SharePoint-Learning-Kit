@@ -366,38 +366,15 @@ namespace Microsoft.SharePointLearningKit
             }
 
             // convert <spUserInfos> to <spUsers> (a collection of SPUser); add users to the site collection as needed
-            List<SPUserInfo> usersToAddToSPSite = null;
             List<SPUser> spUsers = new List<SPUser>(spUserInfos.Count);
             foreach (SPUserInfo spUserInfo in spUserInfos)
             {
                 try
                 {
-                    SPUser spUserInGroup = spWeb.AllUsers[spUserInfo.LoginName];
+                    SPUser spUserInGroup = spWeb.EnsureUser(spUserInfo.LoginName);
                     spUsers.Add(spUserInGroup);
                 }
                 catch (SPException)
-                {
-                    // need to add user to site collection (below)
-                    if (usersToAddToSPSite == null)
-                    {
-                        usersToAddToSPSite = new List<SPUserInfo>();
-                    }
-                    usersToAddToSPSite.Add(spUserInfo);
-                }
-            }
-
-            if (usersToAddToSPSite != null)
-            {
-                try
-                {
-                    spWeb.SiteUsers.AddCollection(usersToAddToSPSite.ToArray());
-                    foreach (SPUserInfo spUserInfo in usersToAddToSPSite)
-                    {
-                        SPUser spUserInGroup = spWeb.AllUsers[spUserInfo.LoginName];
-                        spUsers.Add(spUserInGroup);
-                    }
-                }
-                catch (SPException ex)
                 {
                     groupFailuresList.Add(domainGroup.Name);
                     groupFailureDetailsBuilder.AppendFormat(AppResources.ErrorCreatingSPSiteUser, spWeb.Site.Url, ex);
