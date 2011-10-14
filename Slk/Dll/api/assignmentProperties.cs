@@ -36,6 +36,12 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>The ISlkStore to use.</summary>
         public ISlkStore Store { get; private set; }
 
+        /// <summary>Indicates if it is a self-assignment.</summary>
+        public bool IsSelfAssignment
+        {
+            get { return !HasInstructors ;}
+        }
+
         /// <summary>Indicates if the assignment has any instructors.</summary>
         public bool HasInstructors
         {

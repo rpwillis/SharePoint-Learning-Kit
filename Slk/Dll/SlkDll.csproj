@@ -96,6 +96,7 @@
     <Compile Include="DropBox.cs" />
     <Compile Include="ReminderEmails.cs" />
     <Compile Include="AssignmentFolder.cs" />
+    <Compile Include="AssignmentFile.cs" />
     <Compile Include="EnumerateDomainGroups.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LearningStoreHelper.cs" />
@@ -105,12 +106,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    -->
     <Compile Include="Properties\SlkFrameset.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SlkFrameset.resx</DependentUpon>
     </Compile>
+    -->
     <Compile Include="SlkApi.cs" />
     <Compile Include="api\SlkStore.cs" />
     <Compile Include="api\PackageDetails.cs" />
@@ -255,7 +256,14 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SlkFrameset.Designer.cs</LastGenOutput>
+      <StronglyTypedClassName>SlkFrameset</StronglyTypedClassName>
+      <StronglyTypedFilename>properties\SlkFrameset.Designer.cs</StronglyTypedFilename>
+      <StronglyTypedLanguage>C#</StronglyTypedLanguage>
+      <StronglyTypedNamespace>Resources.Properties</StronglyTypedNamespace>
     </EmbeddedResource>
+    <None Include="Resources\SlkFrameset.resx">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\AppResources.resx">
       <SubType>Designer</SubType>
     </None>
