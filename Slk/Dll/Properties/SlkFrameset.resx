@@ -268,6 +268,12 @@
         If you are not ready to submit the assignment, click &lt;b&gt;Cancel&lt;/b&gt; to return to the previous page.
         </value>
   </data>
+  <data name="HID_SubmitPageMessageHtmlSelfAssignment" xml:space="preserve">
+    <value>You cannot make any further changes after you submit this assignment, however you can start again.&lt;br&gt;&lt;br&gt;
+        If you have completed the assignment, click &lt;b&gt;Submit&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
+        If you are not ready to submit the assignment, click &lt;b&gt;Cancel&lt;/b&gt; to return to the previous page.
+        </value>
+  </data>
   <data name="HID_SubmitPageMessageNoCurrentActivityHtml" xml:space="preserve">
     <value>You cannot make any further changes after you submit this assignment.&lt;br&gt;&lt;br&gt;
         If you have completed the assignment, click &lt;b&gt;Submit&lt;/b&gt;.&lt;br&gt;&lt;br&gt;

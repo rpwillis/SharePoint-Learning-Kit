@@ -287,10 +287,9 @@ namespace Microsoft.SharePointLearningKit
 
                         }
 
-                        Guid learnerAssignmentGuid = CastNonNull<Guid>(dataRow[LearnerAssignmentList.LearnerAssignmentGuidId]);
-                        LearnerAssignmentProperties learnerProperties = PopulateLearnerAssignmentProperties(dataRow, properties, learnerAssignmentGuid);
+                        LearnerAssignmentProperties learnerProperties = PopulateLearnerAssignmentProperties(dataRow, properties);
 
-                        learnerProperties.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey, learnerAssignmentGuid);
+                        learnerProperties.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey, learnerProperties.LearnerAssignmentGuidId);
                         learnerList.Add(learnerProperties);
                     }
 
@@ -438,7 +437,7 @@ namespace Microsoft.SharePointLearningKit
 
             // set <mapping> to the SlkSPSiteMapping corresponding to <spSiteGuid>; if no such
             // mapping, exists, a SafeToDisplayException is thrown
-            SlkSPSiteMapping mapping = SlkSPSiteMapping.GetRequiredMapping(spSiteGuid);
+            SlkSPSiteMapping mapping = SlkSPSiteMapping.GetRequiredMapping(spWeb.Site);
 
             // load "SlkSettings.xsd" from a resource into <xmlSchema>
             XmlSchema xmlSchema;
@@ -592,7 +591,7 @@ namespace Microsoft.SharePointLearningKit
         /// <pr>location</pr> refers to a file that the user does not have access to.
         /// </exception>
         ///
-        public LearningStoreXml ValidatePackage(string location)
+        public LearningStoreXml ValidatePackage(SharePointFileLocation location)
         {
             // Security checks: Fails if user doesn't have access to the package (implemented
             // by RegisterAndValidatePackage)
@@ -608,12 +607,12 @@ namespace Microsoft.SharePointLearningKit
         }
 
         /// <summary>See <see cref="ISlkStore.RegisterAndValidatePackage"/>.</summary>
-        public PackageDetails RegisterAndValidatePackage(string location)
+        public PackageDetails RegisterAndValidatePackage(SharePointFileLocation location)
         {
             return RegisterAndValidatePackage(location, false);
         }
 
-        PackageDetails RegisterAndValidatePackage(string location, bool validateOnly)
+        PackageDetails RegisterAndValidatePackage(SharePointFileLocation location, bool validateOnly)
         {
             PackageDetails package = new PackageDetails();
             
@@ -658,7 +657,7 @@ namespace Microsoft.SharePointLearningKit
                         }
                         else
                         {
-                            package = RegisterAndValidatePackage(fileLocation.Location);
+                            package = RegisterAndValidatePackageLocal(fileLocation.Location);
                         }
                     }
                 }
@@ -717,7 +716,7 @@ namespace Microsoft.SharePointLearningKit
         }
 
         /// <summary>Register the package in the SharePointPackageStore.</summary>
-        PackageDetails RegisterAndValidatePackage(SharePointFileLocation location)
+        PackageDetails RegisterAndValidatePackageLocal(SharePointFileLocation location)
         {
             PackageDetails package = new PackageDetails();
 
@@ -1017,27 +1016,21 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Retrieves an <n>SPFile</n> given an MLC SharePoint location string. </summary>
         /// <param name="location">The MLC SharePoint location string.</param>
         /// <exception cref="UnauthorizedAccessException"><pr>location</pr> refers to a file that the user does not have access to.</exception>
-        private static FileAndLocation GetFileFromSharePointLocation(string location)
+        private static FileAndLocation GetFileFromSharePointLocation(SharePointFileLocation location)
         {
             // Security checks: Fails if user doesn't have access to the package (implemented
             // by accessing the assignment properties)
 
             FileAndLocation fileAndLocation;
-            SharePointFileLocation fileLocation;
 
-            if (SharePointFileLocation.TryParse(location, out fileLocation) == false)
-            {
-                throw new ArgumentException(AppResources.IncorrectLocationStringSyntax, "location");
-            }
-
-            fileAndLocation.Location = fileLocation;
+            fileAndLocation.Location = location;
 
             // Access the file to check user has access to it.
-            using (SPSite spSite = new SPSite(fileLocation.SiteId))
+            using (SPSite spSite = new SPSite(location.SiteId))
             {
-                using (SPWeb spWeb = spSite.OpenWeb(fileLocation.WebId))
+                using (SPWeb spWeb = spSite.OpenWeb(location.WebId))
                 {
-                    fileAndLocation.File = spWeb.GetFile(fileLocation.FileId);
+                    fileAndLocation.File = spWeb.GetFile(location.FileId);
                     Hashtable fileProperties = fileAndLocation.File.Properties;
                 }
             }
@@ -1245,7 +1238,8 @@ namespace Microsoft.SharePointLearningKit
         void PopulateLearnerAssignmentIds(SlkUserCollection learners, AssignmentItemIdentifier assignmentId)
         {
             LearningStoreJob job = LearningStore.CreateJob();
-            LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForInstructors.ViewName);
+            // Use LearnerAssignmentList not LearnerAssignmentListForInstructors as a self-assigned one isn't an instructor
+            LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentList.BaseViewName);
             query.AddColumn(LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
             query.AddColumn(LearnerAssignmentListForInstructors.LearnerAssignmentId);
             query.AddColumn(LearnerAssignmentListForInstructors.LearnerId);
@@ -1343,16 +1337,6 @@ namespace Microsoft.SharePointLearningKit
                     LearningStoreHelper.CastNonNull(results[0], out assignmentId);
 
                     PopulateLearnerAssignmentIds(properties.Learners, assignmentId);
-                    /*
-                    int learnerPosition = 0;
-                    foreach (SlkUser learner in properties.Learners)
-                    {
-                        learnerPosition++;
-                        LearningStoreItemIdentifier learnerId;
-                        LearningStoreHelper.CastNonNull(results[learnerPosition], out learnerId);
-                        learner.AssignmentUserId = learnerId;
-                    }
-                    */
 
                     // finish the transaction
                     scope.Complete();
@@ -1408,7 +1392,7 @@ namespace Microsoft.SharePointLearningKit
             /// </remarks>
             ///
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-        public Guid GetCurrentUserLearnerAssignment(AssignmentItemIdentifier assignmentId)
+        public Guid xGetCurrentUserLearnerAssignment(AssignmentItemIdentifier assignmentId)
         {
             // Security checks: Returns null if not an learner on the assignment
             // (because of rules in the schema XML)
@@ -1599,10 +1583,10 @@ namespace Microsoft.SharePointLearningKit
             }
         }
         
-        /// <summary></summary>
-        /// <param name="learnerAssignmentGuidId"></param>
-        /// <param name="slkRole"></param>
-        /// <returns></returns>
+        /// <summary>Loads an assignment properties for a learner.</summary>
+        /// <param name="learnerAssignmentGuidId">The id of the learner assignment.</param>
+        /// <param name="slkRole">The role.</param>
+        /// <returns>An <see cref="AssignmentProperties"/>.</returns>
         public AssignmentProperties LoadAssignmentPropertiesForLearner(Guid learnerAssignmentGuidId, SlkRole slkRole)
         {
             // Security checks: Fails if the user doesn't have access to the learner assignment (since
@@ -1615,55 +1599,23 @@ namespace Microsoft.SharePointLearningKit
                 throw new ArgumentNullException("learnerAssignmentId");
             }
 
-            // create a LearningStore job
-            LearningStoreJob job = LearningStore.CreateJob();
-
-            // request information about the specified learner assignment
             LearningStoreQuery query = CreateQueryForLearnerAssignmentProperties(learnerAssignmentGuidId, slkRole);
-            job.PerformQuery(query);
-            ReadOnlyCollection<object> results = job.Execute();
-            IEnumerator<object> resultEnumerator = results.GetEnumerator();
+            return LoadLearnerAssignment(query, true);
+        }
 
-            // retrieve from <resultEnumerator> information about the learner assignment
-            if (!resultEnumerator.MoveNext())
+        /// <summary>Load the current AssignmentProperties for a self-assignment.</summary>
+        /// <param name="location">The location the assignment is at.</param>
+        /// <returns>An <see cref="AssignmentProperties"/>.</returns>
+        public AssignmentProperties LoadSelfAssignmentForLocation(SharePointFileLocation location)
+        {
+            // Check parameters
+            if (location == null)
             {
-                throw new InternalErrorException("SLK1012");
+                throw new ArgumentNullException("location");
             }
 
-            DataRowCollection dataRows = ((DataTable) resultEnumerator.Current).Rows;
-            if (dataRows.Count != 1)
-            {
-                // this error message includes the learner assignment ID, but that's okay since
-                // the information we provide does not allow the user to distinguish between the
-                // learner assignment not existing and the user not having access to it
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
-            }
-
-            DataRow dataRow = dataRows[0];
-
-            AssignmentItemIdentifier id = CastNonNullIdentifier<AssignmentItemIdentifier>(dataRow[LearnerAssignmentList.AssignmentId]);
-            AssignmentProperties properties = PopulateAssignmentProperties(id, dataRow);
-            LearnerAssignmentProperties learnerProperties = PopulateLearnerAssignmentProperties(dataRow, properties, learnerAssignmentGuidId);
-
-            if (properties.IsNonELearning)
-            {
-                SPSecurity.RunWithElevatedPrivileges(delegate
-                {
-                    using (SPSite site = new SPSite(properties.SPSiteGuid))
-                    {
-                        using (SPWeb web = site.OpenWeb(properties.SPWebGuid))
-                        {
-                            learnerProperties.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey);
-                        }
-                    }
-                });
-            }
-
-            List<LearnerAssignmentProperties> list = new List<LearnerAssignmentProperties>();
-            list.Add(learnerProperties);
-            properties.AssignResults(list);
-
-            return properties;
+            LearningStoreQuery query = CreateQueryForLoadSelfAssignment(location);
+            return LoadLearnerAssignment(query, false);
         }
 
         /// <summary>Retrieves grading-related information about an assignment from the SLK database.</summary>
@@ -2257,7 +2209,7 @@ namespace Microsoft.SharePointLearningKit
         /// <pr>location</pr> refers to a file that the user does not have access to.
         /// </exception>
         ///
-        public PackageInformation GetPackageInformation(string location)
+        public PackageInformation GetPackageInformation(SharePointFileLocation location)
         {
             // Check parameters
             if (location == null)
@@ -2554,6 +2506,17 @@ namespace Microsoft.SharePointLearningKit
             return user;
         }
 
+        LearningStoreQuery CreateQueryForLoadSelfAssignment(SharePointFileLocation location)
+        {
+            LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentListForLearners.ViewName);
+            AddCoreColumnsForLearnerAssignment(query);
+            query.AddCondition(LearnerAssignmentList.PackageLocation, LearningStoreConditionOperator.Equal, location.ToString());
+            query.AddCondition(LearnerAssignmentList.LearnerAssignmentState, LearningStoreConditionOperator.LessThan, 3);
+            query.AddCondition(LearnerAssignmentList.HasInstructors, LearningStoreConditionOperator.Equal, 0);
+            query.AddSort(AssignmentPropertiesView.AssignmentDateCreated, LearningStoreSortDirection.Ascending);
+            return query;
+        }
+
         LearningStoreQuery CreateQueryForLearnerAssignmentProperties(Guid learnerAssignmentGuidId, SlkRole role)
         {
             LearningStoreQuery query;
@@ -2571,7 +2534,15 @@ namespace Microsoft.SharePointLearningKit
                     break;
             }
 
+            AddCoreColumnsForLearnerAssignment(query);
+            query.AddCondition(Schema.LearnerAssignmentList.LearnerAssignmentGuidId, LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
+            return query;
+        }
+
+        void AddCoreColumnsForLearnerAssignment(LearningStoreQuery query)
+        {
             query.AddColumn(Schema.LearnerAssignmentList.LearnerAssignmentId);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerAssignmentGuidId);
             query.AddColumn(Schema.LearnerAssignmentList.AssignmentId);
             query.AddColumn(Schema.LearnerAssignmentList.AssignmentSPSiteGuid);
             query.AddColumn(Schema.LearnerAssignmentList.AssignmentSPWebGuid);
@@ -2601,8 +2572,6 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.LearnerAssignmentList.Grade);
             query.AddColumn(Schema.LearnerAssignmentList.InstructorComments);
             query.AddColumn(Schema.LearnerAssignmentList.HasInstructors);
-            query.AddCondition(Schema.LearnerAssignmentList.LearnerAssignmentGuidId, LearningStoreConditionOperator.Equal, learnerAssignmentGuidId);
-            return query;
         }
 
         void DemandRight(LearningStoreJob job, string right, Guid learnerAssignmentGuidId)
@@ -2745,6 +2714,73 @@ namespace Microsoft.SharePointLearningKit
 #endregion conversion methods
 
 #region private methods
+        AssignmentProperties LoadLearnerAssignment(LearningStoreQuery query, bool checkSingular)
+        {
+            // Security checks: Fails if the user doesn't have access to the learner assignment (since
+            // the query is limited to only the information the user has access to, and an exception
+            // is thrown if zero rows are returned)
+
+            // create a LearningStore job
+            LearningStoreJob job = LearningStore.CreateJob();
+
+            // request information about the specified learner assignment
+            job.PerformQuery(query);
+            ReadOnlyCollection<object> results = job.Execute();
+            IEnumerator<object> resultEnumerator = results.GetEnumerator();
+
+            // retrieve from <resultEnumerator> information about the learner assignment
+            if (!resultEnumerator.MoveNext())
+            {
+                throw new InternalErrorException("SLK1012");
+            }
+
+            DataRowCollection dataRows = ((DataTable) resultEnumerator.Current).Rows;
+
+            if (checkSingular)
+            {
+                if (dataRows.Count != 1)
+                {
+                    // this error message includes the learner assignment ID, but that's okay since
+                    // the information we provide does not allow the user to distinguish between the
+                    // learner assignment not existing and the user not having access to it
+                    throw new SafeToDisplayException(AppResources.LearnerAssignmentNotFoundInDatabase);
+                }
+            }
+            else
+            {
+                if (dataRows.Count == 0)
+                {
+                    return null;
+                }
+            }
+
+            DataRow dataRow = dataRows[0];
+
+            AssignmentItemIdentifier id = CastNonNullIdentifier<AssignmentItemIdentifier>(dataRow[LearnerAssignmentList.AssignmentId]);
+            AssignmentProperties properties = PopulateAssignmentProperties(id, dataRow);
+            LearnerAssignmentProperties learnerProperties = PopulateLearnerAssignmentProperties(dataRow, properties);
+
+            if (properties.IsNonELearning)
+            {
+                SPSecurity.RunWithElevatedPrivileges(delegate
+                {
+                    using (SPSite site = new SPSite(properties.SPSiteGuid))
+                    {
+                        using (SPWeb web = site.OpenWeb(properties.SPWebGuid))
+                        {
+                            learnerProperties.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey);
+                        }
+                    }
+                });
+            }
+
+            List<LearnerAssignmentProperties> list = new List<LearnerAssignmentProperties>();
+            list.Add(learnerProperties);
+            properties.AssignResults(list);
+
+            return properties;
+        }
+
         AssignmentProperties PopulateAssignmentProperties(AssignmentItemIdentifier id, DataRow dataRow)
         {
             AssignmentProperties properties = new AssignmentProperties(id, this);
@@ -2775,11 +2811,11 @@ namespace Microsoft.SharePointLearningKit
             return properties;
         }
 
-        static LearnerAssignmentProperties PopulateLearnerAssignmentProperties(DataRow dataRow, AssignmentProperties properties, Guid learnerAssignmentGuidId)
+        static LearnerAssignmentProperties PopulateLearnerAssignmentProperties(DataRow dataRow, AssignmentProperties properties)
         {
             LearnerAssignmentItemIdentifier learnerId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[LearnerAssignmentList.LearnerAssignmentId]);
             LearnerAssignmentProperties learnerProperties = new LearnerAssignmentProperties(learnerId, properties);
-            learnerProperties.LearnerAssignmentGuidId = learnerAssignmentGuidId;
+            learnerProperties.LearnerAssignmentGuidId = CastNonNull<Guid>(dataRow[LearnerAssignmentList.LearnerAssignmentGuidId]);
             learnerProperties.LearnerId = CastNonNullIdentifier<UserItemIdentifier>(dataRow[LearnerAssignmentList.LearnerId]);
             learnerProperties.LearnerName = CastNonNull<string>(dataRow[LearnerAssignmentList.LearnerName]);
             learnerProperties.Status = CastNonNull<LearnerAssignmentState>(dataRow[LearnerAssignmentList.LearnerAssignmentState]);
