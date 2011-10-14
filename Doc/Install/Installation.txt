@@ -7,7 +7,7 @@ This document contains the installation and configuration instructions for SLK v
 3.  Contents of the installation package
 4.  Installing SLK
 5.  Configuring SLK
-6.  Upgrading from 1.4
+6.  Upgrading SLK
 
 1.  Introduction - About SharePoint Learning Kit
 
@@ -17,7 +17,7 @@ SharePoint Learning Kit (SLK) is a SCORM 2004-conformant e-learning delivery and
     b. Supports a learner-centric or instructor-led (assigned) workflow.
     c. Allows assignment, tracking and grading of both e-learning and non-e-learning content.
 
-The current version is 1.5.
+The current version is 1.7.
 
 SharePoint Learning Kit is a community source project. This means that it is made available to you for free, and that you can use it as-is or modify it to suit your needs as long as you comply with the conditions that are described in the accompanying License.txt file. You are responsible for reading and complying with this license. SharePoint Learning Kit is supported by a community of users and developers through discussion forums at http://www.codeplex.com/slk. You are invited to participate in this community, to help others, to report issues, and to contribute your ideas to carry SLK forward. For the most up to date information about SLK, please refer to http://www.codeplex.com/slk.
 
@@ -32,12 +32,11 @@ SharePoint Learning Kit is a community source project. This means that it is mad
 
     a.  SharePointLearningKit.wsp:  The solution package
     b.  Installation.txt: This help file
-    c.  slkadm.exe: Command line configuration tool
-    d.  AddSolution.ps1 or AddSolution.cmd (depending on whether for SharePoint 2007 or SharePoint 2010)
-    e.  UpdateSolutionNavigation.cmd (if for SharePoint 2007)
-    f.  license.txt: The license for use of SLK
-    g.  SlkSchema.sql: The database creation script. Used by slkadm.
-    h.  SlkSettings.xml : The default settings file. Used by slkadm.
+    c.  AddSolution.ps1 or AddSolution.cmd (depending on whether for SharePoint 2007 or SharePoint 2010)
+    d.  UpdateSolutionNavigation.cmd (if for SharePoint 2007)
+    e.  license.txt: The license for use of SLK
+    f.  ReleaseNotes.txt: Version specific release notes
+    g.  upgrading.txt: Upgrade instructions
 
 4.  Installing SLK
 
@@ -73,11 +72,15 @@ SharePoint Learning Kit is a community source project. This means that it is mad
 5.  Configuring SLK
     Once SLK is installed and deployed in SharePoint you need to configure it .
 
-    SLK is configured on a site collection basis and so you must configure SLK for each site collection in which you wish to use SLK for e-learning. Multiple site collections can share the same database. When viewing all assignments in SLK it will show them across the SLK database configured for that site collection. So if you have multiple site collections sharing an SLK database, it will show all assignments across those site collections. When you use multiple site collections in your SharePoint set up, you will need to decide if each site collection should have its own siloed SLK database or share the database depending on how you want to partition the views of assignments. There is no right or wrong way, it depends on how you have set your SharePoint portal up and your business processes.
+    SLK is configured on a site collection or web application basis. You must configure SLK for each site collection in which you wish to use SLK for e-learning either for that particular site collection or for its web application. Multiple site collections can share the same database. When viewing all assignments in SLK it will show them across the SLK database configured for that site collection. So if you have multiple site collections sharing an SLK database, it will show all assignments across those site collections. When you use multiple site collections in your SharePoint set up, you will need to decide if each site collection should have its own siloed SLK database or share the database depending on how you want to partition the views of assignments. There is no right or wrong way, it depends on how you have set your SharePoint portal up and your business processes.
 
-    The same page is used to initially set the configuration for a site collection and to update it later. The process is exactly the same.
+    You can configure SLK either through a configuration page in central administration or through a STSADM extension. You can only configure SLK or a web application bases through STSADM.
 
-    When configuring SLK through central administration, the identity the application pool is running as must have appropriate permissions on the SQL Server instance being used.
+    To get help on how to use the STSADM extension run 
+        STSADM -help slk-configure
+    Other STSADM commands are slk-enummappings, slk-deletemapping and slk-getConfiguration.
+
+    When configuring SLK through central administration, the identity the application pool is running as must have appropriate permissions on the SQL Server instance being used. The same page is used to initially set the configuration for a site collection and to update it later. The process is exactly the same.
 
     a.  Open SharePoint Central Adminstation.
     b.  Open the SharePoint Learning Kit Configuration page which is under Application Management | SharePoint Learning Kit Configuration | Configure SharePoint Learning Kit
@@ -85,7 +88,7 @@ SharePoint Learning Kit is a community source project. This means that it is mad
     c.  Choose the site collection to configure.
     d.  Choose the SQL server to use and the database name. If you are using a named instance of SQL Server remember to include the the instance name as part of the server name. You can either create a new SLK database or use an existing one.
     e.  Choose the names of the permissions used by SLK. You can use names of existing permissions, but it is likely to be easier and less confusing to use new ones. Check the Create Permissions check box if these permissions need creating in the site collection.
-    f.  If you want to use non-standard setting then choose the SLK Settings file to use. It's safe to say that if you don't know what the SLK Settings file is, then you should be using the standard onw.
+    f.  If you want to use non-standard setting then choose the SLK Settings file to use. It's safe to say that if you don't know what the SLK Settings file is, then you should be using the standard one.
     h.  Click OK. SharePoint will then configure SLK for the chosen site collection and report back any errors.
     i.  Navigate to the root of the site collection you have just configured.
     j.  Activate the "SharePoint Learning Kit - Assignment List Web Part". This will add the Assignment List Web Part to the web part gallery.
@@ -99,9 +102,5 @@ SharePoint Learning Kit is a community source project. This means that it is mad
 
 6.  Upgrading SLK
 
-To upgrade from 1.4 you need to: 
-    a.  Retract the SharePoint Learning Kit solution
-    b.  Once retraction has finished then remove the solution
-    c.  Then add solution as in installing SLK and then deploy it to the appropriate web applications
+See upgrading.txt.
 
-There are no database changes required.
