@@ -273,9 +273,7 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-      <!--
-      <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\moss\transfer\slk" SkipUnchangedFiles="true"/>
-      -->
+      <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
   </Target>
   <PropertyGroup>
     <PostBuildEvent>
