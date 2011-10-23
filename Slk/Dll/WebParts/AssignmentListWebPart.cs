@@ -611,26 +611,43 @@ namespace Microsoft.SharePointLearningKit.WebParts
             // If logged-in user is an observer, return the corresponding key, return empty string otherwise
             if (String.IsNullOrEmpty(learnerLogin) == false && SlkStore.IsObserver(SPWeb) == true)
             {
+                SPUser inputSPUser;
+                bool allowUnsafeUpdates = SPWeb.AllowUnsafeUpdates;
                 try
                 {
-                    SPUser inputSPUser = SPWeb.EnsureUser(learnerLogin);
-                    string observerRoleLearnerKey = String.IsNullOrEmpty(inputSPUser.Sid) ? inputSPUser.LoginName : inputSPUser.Sid;
+                    SPWeb.AllowUnsafeUpdates = true;
+                    inputSPUser = SPWeb.EnsureUser(learnerLogin);
+                }
+                catch (SPException)
+                {
+                    // Try again with claims based login name
                     try
                     {
-                        // Set the obtained LearnerKey as a session variable available across other pages
-                        Page.Session["LearnerKey"] = observerRoleLearnerKey;
-                        forObserver = true;
+                        inputSPUser = SPWeb.EnsureUser("i:0#.w|" + learnerLogin);
                     }
-                    catch (HttpException)
+                    catch (SPException e)
                     {
-                        throw new SafeToDisplayException(AppResources.SessionNotConfigured);
+                        throw new UserNotFoundException(e.Message);
                     }
-                    return observerRoleLearnerKey;
                 }
-                catch (SPException spe)
+                finally
                 {
-                    throw new UserNotFoundException(spe.Message);
+                    SPWeb.AllowUnsafeUpdates = allowUnsafeUpdates;
                 }
+
+                SlkUser slkUser = new SlkUser(inputSPUser);
+                string observerRoleLearnerKey = slkUser.Key;
+                try
+                {
+                    // Set the obtained LearnerKey as a session variable available across other pages
+                    Page.Session["LearnerKey"] = observerRoleLearnerKey;
+                    forObserver = true;
+                }
+                catch (HttpException)
+                {
+                    throw new SafeToDisplayException(AppResources.SessionNotConfigured);
+                }
+                return observerRoleLearnerKey;
             }
             else
             {

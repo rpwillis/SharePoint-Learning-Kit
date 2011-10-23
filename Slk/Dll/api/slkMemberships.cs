@@ -374,7 +374,7 @@ namespace Microsoft.SharePointLearningKit
                     SPUser spUserInGroup = spWeb.EnsureUser(spUserInfo.LoginName);
                     spUsers.Add(spUserInGroup);
                 }
-                catch (SPException)
+                catch (SPException ex)
                 {
                     groupFailuresList.Add(domainGroup.Name);
                     groupFailureDetailsBuilder.AppendFormat(AppResources.ErrorCreatingSPSiteUser, spWeb.Site.Url, ex);

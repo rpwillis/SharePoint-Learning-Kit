@@ -284,13 +284,8 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-      <!--
-      <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\sims\transfer\slk" SkipUnchangedFiles="true"/>
-      <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\sims\transfer\slk" SkipUnchangedFiles="true"/>
-      <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.SharePoint.dll" DestinationFolder="\\sims\transfer\slk" SkipUnchangedFiles="true"/>
-      <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.Storage.dll" DestinationFolder="\\sims\transfer\slk" SkipUnchangedFiles="true"/>
-      <Copy SourceFiles="bin/debug/Microsoft.LearningComponents.dll" DestinationFolder="\\sims\transfer\slk" SkipUnchangedFiles="true"/>
-      -->
+      <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+      <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
   </Target>
   <PropertyGroup>
     <PostBuildEvent>
