@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActivityResourceBadAttribute" xml:space="preserve">
+    <value>A resource that belongs to an activity must have a type attribute set to "webcontent", an adlcp:scormType attribute set to "sco" or "asset", and a valid href attribute.  {0}</value>
+    <comment>Manifest reader log message. {0} is NodeXml</comment>
+  </data>
+  <data name="BadAttributeValue" xml:space="preserve">
+    <value>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  Extra information: {3}</value>
+    <comment>Manifest reader log message. {0} is the attribute value, {1} is the attribute name, {2} is the element name.</comment>
+  </data>
+  <data name="BadAttributeValueReplacement" xml:space="preserve">
+    <value>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  It has been replaced by the default value "{3}".  Extra information: {4}</value>
+    <comment>Manifest reader log message. {0} is the attribute value, {1} is the attribute name, {2} is the element name, {3} is the attribute value that will be used.</comment>
+  </data>
+  <data name="BadUri" xml:space="preserve">
+    <value>The value is an invalid URI.</value>
+    <comment>Manifest reader log message. Used for extra info in BadAttributeValue*</comment>
+  </data>
+  <data name="BadValue" xml:space="preserve">
+    <value>The value "{0}" of element &lt;{1}&gt; is an invalid value.  Extra information: {2}</value>
+    <comment>Manifest reader log message. {0} is the element value, {1} is the element name.</comment>
+  </data>
+  <data name="BadXmlInManifest" xml:space="preserve">
+    <value>The package contains a manifest that contains badly formed XML.</value>
+    <comment>Package reader exception message.</comment>
+  </data>
+  <data name="BadXmlBase" xml:space="preserve">
+    <value>The value is an invalid xml:base. xml:base must be a valid URI that does not begin with a "/" but does end with a "/".</value>
+    <comment>Manifest reader log message. Used for extra info in BadAttributeValue*</comment>
+  </data>
+  <data name="BadValueReplacement" xml:space="preserve">
+    <value>The value "{0}" of element &lt;{1}&gt; is an invalid value.  It has been replaced by the default value "{2}".  Extra information: {3}</value>
+    <comment>Manifest reader log message. {0} is the element value, {1} is the element name, {2} is the element value that will be used.</comment>
+  </data>
+  <data name="ConvertedUriReplacement" xml:space="preserve">
+    <value>The "{0}" portion of attribute, {1}, on element &lt;{2}&gt; contains invalid URI characters.  These have been converted into valid characters automatically.  The new value is "{3}".  Extra information: {4}.</value>
+    <comment>Manifest reader log message. {0} is the attribute value, {1} is the attribute name, {2} is the element name, {3} is the attribute value that will be used.</comment>
+  </data>
+  <data name="ConvertedUriSpaces" xml:space="preserve">
+    <value>The "{0}" value of attribute, {1}, on element &lt;{2}&gt; contains spaces, which are invalid URI characters.  This URI is still being allowed, but the package may not work as expected.</value>
+    <comment>Manifest reader log message. {0} is the attribute value, {1} is the attribute name, {2} is the element name.</comment>
+  </data>
+  <data name="DuplicateMinNormalizedMeasure" xml:space="preserve">
+    <value>The &lt;minNormalizedMeasure&gt; node can only appear once in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</value>
+    <comment>Manifest reader log message. Used for extra info in InvalidDuplicateNode*. {0} is the name of the element, {1} is the objectiveID attribute value.</comment>
+  </data>
+  <data name="DuplicateRollupAction" xml:space="preserve">
+    <value>The &lt;rollupAction&gt; node can only appear once in the &lt;rollupRule&gt;node.  See SCORM 1.3 CAM 5.1.6.1.3.</value>
+    <comment>Manifest reader log message. Used for extra info in InvalidDuplicateNode*</comment>
+  </data>
+  <data name="DuplicateRollupConditions" xml:space="preserve">
+    <value>The &lt;rollupCondition&gt; node can only appear once in the &lt;rollupRule&gt; node.  See SCORM 1.3 CAM 5.1.6.1.1.</value>
+    <comment>Manifest reader log message. Used for extra info in InvalidDuplicateNode*</comment>
+  </data>
+  <data name="DuplicateRuleAction" xml:space="preserve">
+    <value>The &lt;ruleAction&gt; node may occur 1 and only 1 time within a &lt;preConditionRule&gt;, &lt;postConditionRule&gt;, or &lt;exitConditionRule&gt;.  See SCORM 1.3 CAM 5.1.3.1.2.</value>
+    <comment>Manifest reader log message.</comment>
+  </data>
+  <data name="DuplicateRuleConditions" xml:space="preserve">
+    <value>The &lt;ruleConditions&gt; node can only appear once in the &lt;{0}&gt; node.  See SCORM 1.3 CAM 5.1.3.1.1.</value>
+    <comment>Manifest reader log message. Used for extra info in InvalidDuplicateNode*</comment>
+  </data>
+  <data name="ElementRemoved" xml:space="preserve">
+    <value>(element has been removed)</value>
+    <comment>Manifest reader log message. Used as the element or attribute value in messages requiring such when the element is removed rather than the value replaced.</comment>
+  </data>
+  <data name="EmptyReferencedObjective" xml:space="preserve">
+    <value>The referencedObjective attribute on the {0} node is whitespace only, which is invalid.  See SCORM 1.3 CAM 5.1.3.1.1.1.</value>
+    <comment>Manifest reader log message. {0} is the element name.</comment>
+  </data>
+  <data name="EmptyString" xml:space="preserve">
+    <value>(empty string)</value>
+    <comment>Manifest reader log message. Used as the element or attribute value in messages requiring such when the value is replaced by an empty string.</comment>
+  </data>
+  <data name="FileHrefMissing" xml:space="preserve">
+    <value>The &lt;file&gt; node must have an href attribute.  See SCORM 1.3 CAM 3.4.1.23, or SCORM 1.2 CAM 2.3.5.4.3.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredAttributeMissing*</comment>
+  </data>
+  <data name="FileMissing" xml:space="preserve">
+    <value>The file {0} does not exist.</value>
+    <comment>Used for PackageValidator.Validate. {0} is the name of the file that was requested.</comment>
+  </data>
+  <data name="GenericDuplicate" xml:space="preserve">
+    <value>The parent node is {0}.</value>
+    <comment>Manifest reader log message. Used for extra info in InvalidDuplicateNode*. {0} is the name of the parent element.</comment>
+  </data>
+  <data name="IdenticalKeyValues" xml:space="preserve">
+    <value>The duplicate nodes share the same {0} value, "{1}".  The values must be different.</value>
+    <comment>Manifest reader log message. Used in InvalidDuplicateNode*. {0} may be a node name or attribute name, and {1} is its value.</comment>
+  </data>
+  <data name="IllegalAttributeInResourcePackage" xml:space="preserve">
+    <value>The attribute, {1}, containing the value "{0}" on node &lt;{2}&gt; is illegal in Resource packages.</value>
+    <comment>Manifest reader log message. {0} is the attribute value, {1} is the attribute name, {2} is the element name.</comment>
+  </data>
+  <data name="IllegalNegativeInteger" xml:space="preserve">
+    <value>The value must be 0 or a positive integer.</value>
+    <comment>Manifest reader log message. Used for extra info in BadAttributeValue*</comment>
+  </data>
+  <data name="IllegalPercentage" xml:space="preserve">
+    <value>The value must be a decimal value from 0 to 1, inclusive.</value>
+    <comment>Manifest reader log message. Used for extra info in BadAttributeValue*</comment>
+  </data>
+  <data name="InvalidDuplicateNodes" xml:space="preserve">
+    <value>UA !There are multiple instances of element, &lt;{0}&gt;. Extra information:{1}</value>
+    <comment>Manifest reader log message. Note that a unit test depends that the '.' character occurs at the end of the first sentence, so always leave a period at the end of a single sentence for this resource.</comment>
+  </data>
+  <data name="InvalidDuplicateNodesIgnored" xml:space="preserve">
+    <value>There are multiple instances of element, &lt;{0}&gt;. All but the first are ignored. Extra information:{1}</value>
+    <comment>Manifest reader log message. {0} is the element name.</comment>
+  </data>
+  <data name="InvalidFileType" xml:space="preserve">
+    <value>The file {0} is not a valid file type.</value>
+    <comment>Used by the SharePoint Package Reader in an exception message.</comment>
+  </data>
+  <data name="InvalidIdentifier" xml:space="preserve">
+    <value>The identifier is not a valid xs:ID.</value>
+    <comment>Manifest reader log message. Used for extra info in BadAttributeValue*</comment>
+  </data>
+  <data name="InvalidNode" xml:space="preserve">
+    <value>An element, &lt;{0}&gt;, is invalid because it is illegal or has illegal attribute values. Extra information: {1}</value>
+    <comment>Manifest reader log message. {0} is the name of the element.</comment>
+  </data>
+  <data name="InvalidPresentationNode" xml:space="preserve">
+    <value>A &lt;presentation&gt; node may only appear, if needed, as a child of a leaf &lt;item&gt;element that references a resource.</value>
+    <comment>Manifest reader log message.</comment>
+  </data>
+  <data name="InvalidTrueValuesInMapInfo" xml:space="preserve">
+    <value>In multiple &lt;mapInfo&gt; nodes, true values are restricted.  See SCORM 1.3 CAM 5.1.7.1.2.</value>
+    <comment>Manifest reader log message. Used for extra info in InvalidNode.</comment>
+  </data>
+  <data name="ItemIdentifierMissing" xml:space="preserve">
+    <value>The &lt;item&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.9, or SCORM 1.2 CAM 2.3.5.3.1.2.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredAttributeMissing*</comment>
+  </data>
+  <data name="ItemMustRepresentSco" xml:space="preserve">
+    <value>The parent node, {0}, must represent a SCO.</value>
+    <comment>Manifest reader log message. Used for extra info in InvalidNode*</comment>
+  </data>
+  <data name="ItemTitleMissing" xml:space="preserve">
+    <value>The &lt;title&gt; node is required on the {0} node in Content Aggregation manifests.  See SCORM 1.3 CAM 3.4.1.10, or SCORM 1.2 CAM 2.3.5.3.1.2.1.</value>
+    <comment>Manifest reader log message. {0} is the name of the parent element of the missing title element. Used for extra info in RequiredElementMissing*</comment>
+  </data>
+  <data name="LrAttributeLengthException" xml:space="preserve">
+    <value>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long for the "{2}" attribute.</value>
+    <comment>ManifestConverter log message. {0} is the element name, {1} is the attribute value, {2} is the attribute name.</comment>
+  </data>
+  <data name="LrAttributeLengthViolation" xml:space="preserve">
+    <value>The node &lt;{0}&gt; has a value that is too long for the "{1}" attribute.  It has been truncated to "{2}".</value>
+    <comment>ManifestConverter log message. {0} is the element name, {1} is the attribute value, {2} is the attribute name.</comment>
+  </data>
+  <data name="LrAttributeValueException" xml:space="preserve">
+    <value>The value of the &lt;{0}&gt; element's "{1}" attribute is missing or erroneous.</value>
+    <comment>ManifestConverter log message. {0} is the element name, {1} is the attribute name.</comment>
+  </data>
+  <data name="LrDefaultAttributeUsed" xml:space="preserve">
+    <value>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element's "{2}" attribute.</value>
+    <comment>ManifestConverter log message. {0} is the new attribute value, {1} is the element name, {2} is the attribute name.</comment>
+  </data>
+  <data name="LrDefaultValueUsed" xml:space="preserve">
+    <value>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element.</value>
+    <comment>ManifestConverter log message. {0} is the new value, {1} is the element name.</comment>
+  </data>
+  <data name="LrFixLmsViolationsNotSet" xml:space="preserve">
+    <value>Unable to substitute a default value for the missing value of node &lt;{0}&gt; because the conversion process is not allowed to substitute default values for missing or erroneous values in the index.xml.</value>
+    <comment>ManifestConverter log message. {0} is the element name.</comment>
+  </data>
+  <data name="LrLicensedContentNotSupported" xml:space="preserve">
+    <value>This learning resource requires a license and licensed Learning Resources are not supported.</value>
+    <comment>ManifestConverter log message.</comment>
+  </data>
+  <data name="LrLogCannotBeNullWhenRequired" xml:space="preserve">
+    <value>The log parameter can not be null when the ValidationBehavior requires a log.</value>
+    <comment>ManifestConverter exception message.</comment>
+  </data>
+  <data name="LrMultiLRNotSupported" xml:space="preserve">
+    <value>The package is a multiple learning resource package, which is not supported.</value>
+    <comment>ManifestConverter log message.</comment>
+  </data>
+  <data name="LrMustHaveCorrectRoot" xml:space="preserve">
+    <value>A valid index.xml begins with a &lt;LearningResource&gt; node in the "urn:schemas-microsoft-com:learning-resource" namespace.</value>
+    <comment>ManifestConverter log message.</comment>
+  </data>
+  <data name="LrChildInLrmNamespaceNotFound" xml:space="preserve">
+    <value>The node &lt;{0}&gt; can not be found in the correct namespace. Extra information:{1}</value>
+    <comment>ManifestConverter log message. {0} is the element name, {1} is the parent node.</comment>
+  </data>
+  <data name="LrChildInLrmNamespaceNotFoundTryOther" xml:space="preserve">
+    <value>The node &lt;{0}&gt; can not be found in the correct namespace  An attempt will be made to find a child node with that name in other namespaces. Extra information:{1}</value>
+    <comment>ManifestConverter log message. {0} is the element name, {1} is the parent node.</comment>
+  </data>
+  <data name="LrNodeLengthException" xml:space="preserve">
+    <value>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long.</value>
+    <comment>ManifestConverter log message. {0} is the element name, {1} is the element value.</comment>
+  </data>
+  <data name="LrNodeLengthViolation" xml:space="preserve">
+    <value>The node &lt;{0}&gt; has a value that is too long.  It has been truncated to "{1}".</value>
+    <comment>ManifestConverter log message. {0} is the element name, {1} is the new element value.</comment>
+  </data>
+  <data name="LrNodeValueException" xml:space="preserve">
+    <value>The value of the &lt;{0}&gt; element is missing or erroneous.</value>
+    <comment>ManifestConverter log message. {0} is the element name.</comment>
+  </data>
+  <data name="LrPageIdDuplicate" xml:space="preserve">
+    <value>The value of the PageID attribute, {0}, on a &lt;Page&gt; element is used more than once.  PageID's must be unique for each &lt;Page&gt; element.</value>
+    <comment>ManifestConverter log message. {0} is the value of the PageID attribute.</comment>
+  </data>
+  <data name="LrPageNodeSkipped" xml:space="preserve">
+    <value>The value of the PageID attribute of the {0} element is invalid. The element has been omitted from the conversion.</value>
+    <comment>ManifestConverter log message. {0} is the entire element XML, including the &lt; and &gt;.</comment>
+  </data>
+  <data name="LrRemoteContentNotSupported" xml:space="preserve">
+    <value>Remote content is not supported.</value>
+    <comment>ManifestConverter exception message.</comment>
+  </data>
+  <data name="ManifestMetaDataMissing" xml:space="preserve">
+    <value>The &lt;metadata&gt; node is missing or in the wrong namespace on the &lt;manifest&gt;.  See SCORM 1.3 CAM 3.4.1.2.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredElementMissing*</comment>
+  </data>
+  <data name="ManifestNodeMissing" xml:space="preserve">
+    <value>A &lt;manifest&gt; node in the correct namespace is required.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredElementMissing*</comment>
+  </data>
+  <data name="MetadataLocationNotFound" xml:space="preserve">
+    <value>The file, {0}, referenced by the location element inside of metadata in the manifest can not be found in the package.</value>
+    <comment>Used as an exception message from MetadataNodeReader.</comment>
+  </data>
+  <data name="MetadataLocationBadXml" xml:space="preserve">
+    <value>The file, {0}, referenced by the location element inside of metadata in the manifest contains invalid metadata.</value>
+    <comment>Used as an exception message from MetadataNodeReader.</comment>
+  </data>
+  <data name="MinNormalizedMeasureOutOfRange" xml:space="preserve">
+    <value>The value is out of range [-1 to 1] on the &lt;minNormalizedMeasure&gt; node in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</value>
+    <comment>Manifest reader log message. Used for extra info in BadValue*</comment>
+  </data>
+  <data name="MlcNodeViolation" xml:space="preserve">
+    <value>The value that begins with "{0}" of the node, {1}, is longer than that supported by Microsoft Learning Components.</value>
+    <comment>Manifest reader log message. {0} is part of the element value, {1} is the element name.</comment>
+  </data>
+  <data name="MlcNodeViolationTruncated" xml:space="preserve">
+    <value>The value that begins with "{0}" of the node, {1}, is longer than that supported by MLC.  It has been truncated to {2} characters.</value>
+    <comment>Manifest reader log message. {0} is part of the element value, {1} is the element name, {2} is the new element value.</comment>
+  </data>
+  <data name="MlcViolation" xml:space="preserve">
+    <value>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by Microsoft Learning Components.  Extra information: {2}</value>
+    <comment>Manifest reader log message. {0} is part of the attribute value, {1} is the attribute name.</comment>
+  </data>
+  <data name="MlcViolationActivityMissing" xml:space="preserve">
+    <value>An Activity node is required for content used in Microsoft Learning Components.</value>
+    <comment>Manifest reader log message.</comment>
+  </data>
+  <data name="MlcViolationOrganizationMissing" xml:space="preserve">
+    <value>An Organization node is required for content used in Microsoft Learning Components.</value>
+    <comment>Manifest reader log message.</comment>
+  </data>
+  <data name="MlcViolationTruncated" xml:space="preserve">
+    <value>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by for content used in Microsoft Learning Components.  It has been truncated to {2} characters.  Extra information: {3}</value>
+    <comment>Manifest reader log message. {0} is the beginning of the attribute value, {1} is the attribute name, {2} is the new value.</comment>
+  </data>
+  <data name="NodeName" xml:space="preserve">
+    <value>The name of the erroneous node is: {0}</value>
+    <comment>Manifest reader log message. Used for the extra info in MlcNodeViolation</comment>
+  </data>
+  <data name="NodeXml" xml:space="preserve">
+    <value>The full XML of the erroneous node is: {0}</value>
+    <comment>Manifest reader log message. {0} is the full XML of the node, including the &lt; and &gt;. Used for extra info in BadAttributeValue*</comment>
+  </data>
+  <data name="ObjectiveIdMissing" xml:space="preserve">
+    <value>The objective must have an objectiveID attribute.  Extra information: {0}</value>
+    <comment>Manifest reader log message.</comment>
+  </data>
+  <data name="OrganizationIdentifierMissing" xml:space="preserve">
+    <value>The &lt;organization&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.7, or SCORM 1.2 CAM 2.3.5.3.1.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredAttributeMissing*</comment>
+  </data>
+  <data name="OrganiztionTitleMissing" xml:space="preserve">
+    <value>The &lt;title&gt; node is missing on the &lt;organization&gt; node with identifier="{0}".  See SCORM 1.3 CAM 3.4.1.8, or SCORM 1.2 CAM 2.3.5.3.1.1.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredElementMissing*</comment>
+  </data>
+  <data name="OrphanedFile" xml:space="preserve">
+    <value>The file {0} is not referenced in the manifest.</value>
+    <comment>Used for PackageValidator.Validate</comment>
+  </data>
+  <data name="OutOfRangeNegOneToOne" xml:space="preserve">
+    <value>The value is outside the valid range [-1 to 1].</value>
+    <comment>Manifest reader log message. Used for extra info in BadAttributeValue*</comment>
+  </data>
+  <data name="PackageCouldNotBeOpened" xml:space="preserve">
+    <value>This package could not be opened. More information: {0}</value>
+    <comment>PackageReader message used when a package could not be uncompressed.</comment>
+  </data>
+  <data name="ParentXml" xml:space="preserve">
+    <value>The full XML of the parent node is: {0}</value>
+    <comment>Manifest reader log message. Used for extra info in several other messages.</comment>
+  </data>
+  <data name="PrerequisitesScriptInvalid" xml:space="preserve">
+    <value>There are problems with the syntax of the prerequisite script, or a referenced identifier can not be found in the manifest.</value>
+    <comment>Manifest reader log message. Used for extra info in InvalidNode.</comment>
+  </data>
+  <data name="PrerequisitesTypeWrong" xml:space="preserve">
+    <value>The value of the &lt;prerequisites&gt; type attribute must be "aicc_script".</value>
+    <comment>Manifest reader log message. Used for extra info in BadAttributeValue.</comment>
+  </data>
+  <data name="PrimaryObjectiveMissingOrDuplicate" xml:space="preserve">
+    <value>In a list of &lt;objectives&gt;, there must be one and only one &lt;primaryObjective&gt; node.</value>
+    <comment>Manifest reader log message.</comment>
+  </data>
+  <data name="ReferenceNotFound" xml:space="preserve">
+    <value>The referenced node can not be found.</value>
+    <comment>Manifest reader log message. Used for extra info in BadAttributeValue*</comment>
+  </data>
+  <data name="RequiredAttributeMissing" xml:space="preserve">
+    <value>The required attribute, {0}, is missing on element &lt;{1}&gt;. Extra information:{2}</value>
+    <comment>Manifest reader log message. {0} is the attribute name, {1} is the element name.</comment>
+  </data>
+  <data name="RequiredElementMissing" xml:space="preserve">
+    <value>The required element, &lt;{0}&gt;, is missing. Extra information:{1}</value>
+    <comment>Manifest reader log message. {0} is the element name.</comment>
+  </data>
+  <data name="RequiredElementMissingDefault" xml:space="preserve">
+    <value>The required element, &lt;{0}&gt;, is missing.  Default values will be used. Extra information:{1}</value>
+    <comment>Manifest reader log message. {0} is the element name.</comment>
+  </data>
+  <data name="ResourceIdentifierMissing" xml:space="preserve">
+    <value>The &lt;resource&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.21, or SCORM 1.2 CAM 2.3.5.4.1.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredAttributeMissing*</comment>
+  </data>
+  <data name="ResourceNotAllowedOnActivity" xml:space="preserve">
+    <value>If an &lt;item&gt; element is a parent element, the &lt;item&gt; may not reference a &lt;resource&gt;.  See SCORM 1.3 CAM 3.4.1.9.  The full XML of the node is: {0}</value>
+    <comment>Manifest reader log message. Used for extra info in InvalidNode.</comment>
+  </data>
+  <data name="ResourceOrOrganizationNotFound" xml:space="preserve">
+    <value>The referenced resource or organization can not be found.</value>
+    <comment>Manifest reader log message. Used for extra info in BadAttributeValue*</comment>
+  </data>
+  <data name="RollupActionMissing" xml:space="preserve">
+    <value>The &lt;rollupAction&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.3.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredElementMissing*</comment>
+  </data>
+  <data name="RollupConditionConditionMissing" xml:space="preserve">
+    <value>The &lt;rollupCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.6.1.2.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredAttributeMissing*</comment>
+  </data>
+  <data name="RollupConditionsMissing" xml:space="preserve">
+    <value>The &lt;rollupConditions&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.1.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredElementMissing*</comment>
+  </data>
+  <data name="RuleConditionConditionMissing" xml:space="preserve">
+    <value>The &lt;ruleCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.3.1.1.1.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredAttributeMissing*</comment>
+  </data>
+  <data name="SequencingCollectionInResource" xml:space="preserve">
+    <value>&lt;sequencingCollection&gt; nodes are not permitted in resource packages. This manifest is considered a resource package because it has no &lt;organization&gt; nodes.  See SCORM CAM 3.5.3.</value>
+    <comment>Used for extra info in InvalidNode.</comment>
+  </data>
+  <data name="SequencingIdMissing" xml:space="preserve">
+    <value>The &lt;sequencing&gt; node in a &lt;sequencingCollection&gt; must have an ID attribute.  See SCORM 1.3 CAM 5.1.1.</value>
+    <comment>Manifest reader log message. Used for extra info in RequiredAttributeMissing*</comment>
+  </data>
+  <data name="SpmNodeViolation" xml:space="preserve">
+    <value>The value that begins with "{0}" of the node, &lt;{1}&gt;, is longer than the smallest permitted maximum (SPM), {2}.</value>
+    <comment>Manifest reader log message. {0} is the start of the element value, {1} is the element name, {2} is the SPM value.</comment>
+  </data>
+  <data name="SpmViolation" xml:space="preserve">
+    <value>The value that begins with "{0}" of the attribute, {1}, is longer than the smallest permitted maximum (SPM), {2}.  Extra information: {3}</value>
+    <comment>Manifest reader log message. {0} is the start of the attribute value, {1} is the attribute name, {2} is the SPM value.</comment>
+  </data>
+  <data name="ValueIncorrectType" xml:space="preserve">
+    <value>The value is not the expected type.</value>
+    <comment>Manifest reader log message. Used for extra info in BadValue*</comment>
+  </data>
+  <data name="ValueOutOfRange" xml:space="preserve">
+    <value>The value is out of range.</value>
+    <comment>Manifest reader log message.</comment>
+  </data>
+  <data name="ValueOutOfRangeToken" xml:space="preserve">
+    <value>The value is not one of the permitted token values.</value>
+    <comment>Manifest reader log message. Used for extra info in BadValue*</comment>
+  </data>
+  <data name="ManifestMissing" xml:space="preserve">
+    <value>A manifest is required and is not present in the package.</value>
+    <comment>Used for PackageValidator.Validate method</comment>
+  </data>
+  <data name="ResourceHrefMissing" xml:space="preserve">
+    <value>The resource node is missing the required attribute, 'href'</value>
+    <comment>Manifest reader log message. When 'href' is missing on resource node in Scorm 1.2</comment>
+  </data>
+</root>

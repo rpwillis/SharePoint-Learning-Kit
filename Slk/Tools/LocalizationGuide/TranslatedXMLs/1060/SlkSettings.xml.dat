@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Settings xmlns="urn:schemas-microsoft-com:sharepoint-learning-kit:settings" ApprovedAttachmentTypes="bmp, doc, docx, gif, htm, html, jpeg, jnt, jpg, lit, mdi, mix, pdf, png, ppt, pptx, pub, rtf, txt, wdb, wks, xlr, xls, xlsx, zip" ELearningIisCompatibilityModeExtensions="mp3, swf" LoggingOptions="None" MaxAttachmentKilobytes="10240" NonELearningIisCompatibilityModeExtensions="" PackageCacheExpirationMinutes="4320" PackageCacheLocation="%TEMP%\SLK_PC" UserWebListMruSize="6">
+
+  <MimeTypeMapping Extension=".css" MimeType="text/css"/> <MimeTypeMapping Extension=".doc" MimeType="application/msword"/> <MimeTypeMapping Extension=".docm" MimeType="application/vnd.ms-word.document.macroEnabled.12"/> <MimeTypeMapping Extension=".docx" MimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"/> <MimeTypeMapping Extension=".dotm" MimeType="application/vnd.ms-word.template.macroEnabled.12"/> <MimeTypeMapping Extension=".dotx" MimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.template"/> <MimeTypeMapping Extension=".htm" MimeType="text/html"/> <MimeTypeMapping Extension=".html" MimeType="text/html"/> <MimeTypeMapping Extension=".jpe" MimeType="image/jpeg"/> <MimeTypeMapping Extension=".jpeg" MimeType="image/jpeg"/> <MimeTypeMapping Extension=".jpg" MimeType="image/jpeg"/> <MimeTypeMapping Extension=".js" MimeType="application/x-javascript"/> <MimeTypeMapping Extension=".pdf" MimeType="application/pdf"/> <MimeTypeMapping Extension=".png" MimeType="image/x-png"/> <MimeTypeMapping Extension=".potm" MimeType="application/vnd.ms-powerpoint.template.macroEnabled.12"/> <MimeTypeMapping Extension=".potx" MimeType="application/vnd.openxmlformats-officedocument.presentationml.template"/> <MimeTypeMapping Extension=".ppam" MimeType="application/vnd.ms-powerpoint.addin.macroEnabled.12"/> <MimeTypeMapping Extension=".ppsm" MimeType="application/vnd.ms-powerpoint.slideshow.macroEnabled.12"/> <MimeTypeMapping Extension=".ppsx" MimeType="application/vnd.openxmlformats-officedocument.presentationml.slideshow"/> <MimeTypeMapping Extension=".ppt" MimeType="application/vnd.ms-powerpoint"/> <MimeTypeMapping Extension=".pptm" MimeType="application/vnd.ms-powerpoint.presentation.macroEnabled.12"/> <MimeTypeMapping Extension=".pptx" MimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation"/> <MimeTypeMapping Extension=".pub" MimeType="application/x-mspublisher"/> <MimeTypeMapping Extension=".swf" MimeType="application/x-shockwave-flash"/> <MimeTypeMapping Extension=".tif" MimeType="image/tiff"/> <MimeTypeMapping Extension=".tiff" MimeType="image/tiff"/> <MimeTypeMapping Extension=".txt" MimeType="text/plain"/> <MimeTypeMapping Extension=".vsd" MimeType="application/vnd.visio"/> <MimeTypeMapping Extension=".xbm" MimeType="image/image/x-xbitmap"/> <MimeTypeMapping Extension=".xlam" MimeType="application/vnd.ms-excel.addin.macroEnabled.12"/> <MimeTypeMapping Extension=".xls" MimeType="application/vnd.ms-excel"/> <MimeTypeMapping Extension=".xlsb" MimeType="application/vnd.ms-excel.sheet.binary.macroEnabled.12"/> <MimeTypeMapping Extension=".xlsm" MimeType="application/vnd.ms-excel.sheet.macroEnabled.12"/> <MimeTypeMapping Extension=".xlsx" MimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/> <MimeTypeMapping Extension=".xltm" MimeType="application/vnd.ms-excel.template.macroEnabled.12"/> <MimeTypeMapping Extension=".xltx" MimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.template"/> <MimeTypeMapping Extension=".xml" MimeType="text/xml"/>
+
+  <Query Name="OverdueLearner" Title="Zapadlo" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Stanje" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false"/>
+    <Column Title="Rezultat" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Rezultat: {0}" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="Now"/>
+    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1"/><!-- helps SQL perf? -->
+    <Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2"/><!-- i.e. unsubmitted -->
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <Query Name="DueTodayLearner" Title="Rok danes" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Stanje" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false"/>
+    <Column Title="Rezultat" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Rezultat: {0}" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfToday"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfTomorrow"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <Query Name="DueThisWeekLearner" Title="Rok ta teden" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Stanje" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false"/>
+    <Column Title="Rezultat" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Rezultat: {0}" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfThisWeek"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfNextWeek"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <Query Name="DueNextWeekLearner" Title="Rok naslednji teden" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Stanje" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false"/>
+    <Column Title="Rezultat" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Rezultat: {0}" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfNextWeek"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfWeekAfterNext"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <Query Name="ToDoLearner" Title="Nedokončano" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Stanje" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false"/>
+    <Column Title="Rezultat" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Rezultat: {0}" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1"/><!-- helps SQL perf? -->
+    <Condition ViewColumnName="LearnerAssignmentState" Operator="LessThan" Value="2"/><!-- i.e. unsubmitted -->
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <Query Name="ReturnedLearner" Title="Vrnjeno" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Stanje" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false"/>
+    <Column Title="Rezultat" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Rezultat: {0}" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Condition ViewColumnName="IsFinal" Operator="Equal" Value="1"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+  </Query>
+
+  <Query Name="AllAssignmentsLearner" Title="Vse naloge" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Stanje" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false"/>
+    <Column Title="Rezultat" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Rezultat: {0}" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
+    <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
+  </Query>
+
+  <Query Name="ActiveInstructor" Title="Aktivno" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Oddano" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="CountNotFinal" Operator="GreaterThan" Value="0"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+  </Query>
+
+  <Query Name="OverdueInstructor" Title="Zapadlo" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Oddano" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="Now"/>
+    <Condition ViewColumnName="CountNotStartedOrActive" Operator="GreaterThan" Value="0"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+  </Query>
+
+  <Query Name="ReadyToGradeInstructor" Title="Pripravljeno za ocenjevanje" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Oddano" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="CountCompleted" Operator="GreaterThan" Value="0"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+  </Query>
+
+  <Query Name="DueTodayInstructor" Title="Rok danes" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Oddano" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfToday"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfTomorrow"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+  </Query>
+
+  <Query Name="DueThisWeekInstructor" Title="Rok ta teden" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Oddano" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfThisWeek"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfNextWeek"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+  </Query>
+
+  <Query Name="DueNextWeekInstructor" Title="Rok naslednji teden" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Oddano" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfNextWeek"/>
+    <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="StartOfWeekAfterNext"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+  </Query>
+
+  <Query Name="ReturnedInstructor" Title="Vrnjeno" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Oddano" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Condition ViewColumnName="CountNotFinal" Operator="Equal" Value="0"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+  </Query>
+
+  <Query Name="AllAssignmentsInstructor" Title="Vse naloge" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="Mesto" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid"/>
+    <Column Title="Naloga" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Brez naslova"/>
+    <Column Title="Rok" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Rok: {0:D}, {0:t}" Wrap="false"/>
+    <Column Title="Oddano" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false"/>
+    <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true"/>
+    <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
+    <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
+  </Query>
+
+  <QuerySet Name="LearnerQuerySet" Title="Nabor poizvedb slušatelja" DefaultQueryName="ToDoLearner">
+    <IncludeQuery QueryName="ToDoLearner"/>
+    <IncludeQuery QueryName="OverdueLearner"/>
+    <IncludeQuery QueryName="DueTodayLearner"/>
+    <IncludeQuery QueryName="DueThisWeekLearner"/>
+    <IncludeQuery QueryName="DueNextWeekLearner"/>
+    <IncludeQuery QueryName="ReturnedLearner"/>
+    <IncludeQuery QueryName="AllAssignmentsLearner"/>
+  </QuerySet>
+
+  <QuerySet Name="InstructorQuerySet" Title="Nabor poizvedb predavatelja" DefaultQueryName="ActiveInstructor">
+    <IncludeQuery QueryName="ActiveInstructor"/>
+    <IncludeQuery QueryName="ReadyToGradeInstructor"/>
+    <IncludeQuery QueryName="OverdueInstructor"/>
+    <IncludeQuery QueryName="DueTodayInstructor"/>
+    <IncludeQuery QueryName="DueThisWeekInstructor"/>
+    <IncludeQuery QueryName="DueNextWeekInstructor"/>
+    <IncludeQuery QueryName="ReturnedInstructor"/>
+    <IncludeQuery QueryName="AllAssignmentsInstructor"/>
+  </QuerySet>
+  
+</Settings>
+

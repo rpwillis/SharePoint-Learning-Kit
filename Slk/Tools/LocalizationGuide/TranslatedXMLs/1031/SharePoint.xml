@@ -1,0 +1,62 @@
+﻿<root>
+  <assembly culture="de" name="Microsoft.LearningComponents.SharePoint.resources" version="1.1.0.0">
+  </assembly>
+  <resources name="Microsoft.LearningComponents.SharePoint.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.SharePoint.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CacheCreateDirCleanupFailed</ID>
+        <Source>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+      </Resources>
+      <Resources>
+        <ID>SPLockTriesExceeded</ID>
+        <Source>Could not get a lock on the file within the allowed tries.</Source>
+        <Translation>Ein Sperren auf die Datei war innerhalb der erlaubten Versuche nicht möglich.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPCannotWriteToLockFile</ID>
+        <Source>
+        </Source>
+        <Translation>Die Erstellung des Cache Verzeichnisses ist fehlgeschlagen und das ungültige Cache-Verzeichnis und/oder Lock Datei konnte nicht entfernt werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFoundNoName</ID>
+        <Source>The requested file was not found.</Source>
+        <Translation>Die angegebene Datei wurde nicht gefunden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CacheLockDirCleanupFailed</ID>
+        <Source>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>Das Sperren des Paket-Pufferspeicherverzeichnisses ist fehlgeschlagen und das ungültige Pufferspeicherverzeichnis und/oder Lock-Datei konnte nicht entfernt werden. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileVersionNotFound</ID>
+        <Source>The version {0} of file {1} does not exist.</Source>
+        <Translation>Die Version {0} von Datei {1} existiert nicht.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFound</ID>
+        <Source>The file {0} was not found.</Source>
+        <Translation>Die Datei {0} wurde nicht gefunden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CacheCachePathNotAccessible</ID>
+        <Source>The package cache directory is not accessible. It may not exist or you may not have access to it.</Source>
+        <Translation>Das Paket-Pufferspeicherverzeichnis ist nicht zugänglich. Es kann möglicherweise nicht bestehen, oder Sie können nicht Zugang zu ihm haben.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFormatInvalid</ID>
+        <Source>'{0}' does not have the correct format.</Source>
+        <Translation>'{0}' hat nicht das korrekte Format.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPInvalidPackage</ID>
+        <Source>The package is not valid and cannot be read. More information: {0}</Source>
+        <Translation>Das Paket ist unzulässig und kann nicht gelesen werden. Mehr Informationen: {0}</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>

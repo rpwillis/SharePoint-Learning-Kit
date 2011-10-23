@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>
+	MLC Samples
+</title>
+
+<link rel="stylesheet" href="Doc.css" />
+
+<style type="text/css">
+TABLE.SamplesTable COL.Column1_
+{
+	width: 150pt;
+}
+</style>
+
+</head>
+
+<body id="DocTopic">
+
+<div class="TopicHeader">
+	<div class="Supertitle_">
+		Microsoft Learning Components
+	</div>
+	MLC Samples
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="Summary">
+
+<p>The following samples demonstrate how to call the <a href="Mlc.htm">MLC API</a> from
+applications.</p>
+
+<p><b>Note</b>&nbsp; Although you can access the MLC API using any programming language compatible
+with the .NET common language runtime (CLR), the code samples in this documentation are all
+written in C#.</p>
+
+<table class="Grid SamplesTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<tr class="Header_">
+		<td class="Header1_">Sample Name</td>
+		<td class="Header1_">Sample Type</td>
+		<td class="Header2_">Description</td>
+	</tr>
+	<tr>
+		<td><a href="ValidatePackage.cs.htm">ValidatePackage.cs</a></td>
+		<td>Windows Forms Application</td>
+		<td>Demonstrates how to use the MLC API to validate the contents of a SCORM 1.2, SCORM
+			2004 or Class Server LRM/IMS+ package.</td>
+	</tr>
+	<tr>
+		<td><a href="BasicWebPlayer_ReadMe.txt.htm">BasicWebPlayer</a></td>
+		<td>Web Application</td>
+		<td>Sample Web application that executes e-learning content (in SCORM 1.2, SCORM 2004,
+			or Class Server LRM/IMS+ format).  Does not use or require SharePoint.</td>
+	</tr>
+	<tr>
+		<td colspan="3">BasicWebPlayer includes the following files (among others):</td>
+	</tr>
+	<tr>
+		<td><a href="BasicWebPlayerBase.aspx.cs.htm">BasicWebPlayerBase.aspx.cs</a></td>
+		<td>Web Page</td>
+		<td>Shows how to query LearningStore and convert the query results to HTML.</td>
+	</tr>
+	<tr>
+		<td><a href="CreateAttempt.aspx.cs.htm">CreateAttempt.aspx.cs</a></td>
+		<td>Web Page</td>
+		<td>Demonstrates how to create an attempt on an e-learning package.</td>
+	</tr>
+	<tr>
+		<td><a href="DeletePackages.aspx.cs.htm">DeletePackages.aspx.cs</a></td>
+		<td>Web Page</td>
+		<td>Shows how to delete e-learning packages from a
+			<a href="MlcPackageStores.htm">FileSystemPackageStore</a>.  Also shows how
+			BasicWebPlayer finds and deletes all attempts on a package.</td>
+	</tr>
+	<tr>
+		<td><a href="LStoreHelper.cs.htm">LStoreHelper.cs</a></td>
+		<td>Web Page</td>
+		<td>Helper methods for casting an object returned from LearningStore queries to the
+			correct type.</td>
+	</tr>
+	<tr>
+		<td><a href="PageHelper.cs.htm">PageHelper.cs</a></td>
+		<td>Web Page</td>
+		<td>Shows how to add users to the
+			<a href="Microsoft.SharePointLearningKit.Schema.UserItem.Class.htm">UserItem</a>
+			table in the MLC database, and how to obtain the current user's
+			<a href="Microsoft.LearningComponents.Storage.UserItemIdentifier.Class.htm">UserItemIdentifier</a>
+			and other information from UserItem.</td>
+	</tr>
+	<tr>
+		<td><a href="SequencingLog.aspx.cs.htm">SequencingLog.aspx.cs</a></td>
+		<td>Web Page</td>
+		<td>Demonstrates how to read the sequencing log for an attempt.  This log can help
+			content authors understand how MLC is interpreting SCORM sequencing and navigation
+			rules in their content.</td>
+	</tr>
+	<tr>
+		<td><a href="UploadPackage.aspx.cs.htm">UploadPackage.aspx.cs</a></td>
+		<td>Web Page</td>
+		<td>Shows how to add a package to a
+			<a href="MlcPackageStores.htm">FileSystemPackageStore</a>.  Also shows how
+			BasicWebPlayer maintains additional information about packages in extra columns
+			in the
+			<a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Class.htm">PackageItem</a> database table.  These extra columns are defined in BasicWebPlayer's
+			<a href="BasicWebPlayer_Schema.xml.htm">Schema.xml</a> file.</td>
+			</td>
+	</tr>
+	<tr>
+		<td><a href="BasicWebPlayer_Schema.xml.htm">Schema.xml</a></td>
+		<td>LearningStore Schema XML</td>
+		<td>Extends the MLC base schema with database extensions specific to BasicWebPlayer.</td>
+	</tr>
+</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">For More Information</div>
+<div class="Section">
+
+<div><a href="Mlc.htm">Microsoft Learning Components Overview</a></div>
+<div><a href="Microsoft.LearningComponents.Namespace.htm">Microsoft.LearningComponents Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.DataModel.Namespace.htm">Microsoft.LearningComponents.DataModel Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.Manifest.Namespace.htm">Microsoft.LearningComponents.Manifest Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.SharePoint.Namespace.htm">Microsoft.LearningComponents.SharePoint Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.Storage.Namespace.htm">Microsoft.LearningComponents.Storage Namespace (API Reference)</a></div>
+<div><a href="SlkSchema.htm">SLK+MLC Schema Overview</a></div>
+<div><a href="Microsoft.SharePointLearningKit.Schema.Namespace.htm">SLK+MLC Schema Reference</a></div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader"></div>
+<div class="Section">
+<b><a href="ApiRef.htm">Next Topic: SLK &amp; MLC API Reference</a></b>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="TopicFooter">
+</div>
+
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div>
+
+</body>
+
+</html>
+

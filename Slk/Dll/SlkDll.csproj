@@ -1,0 +1,282 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D4ECA47D-2E5D-4ACF-B713-37BC4BB585B7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Resources</RootNamespace>
+    <AssemblyName>Microsoft.SharePointLearningKit</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Src\Shared\SlkKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
+    <DelaySign>false</DelaySign>
+    <GenerateFullPaths>true</GenerateFullPaths>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Microsoft.SharePointLearningKit.XML</DocumentationFile>
+    <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.MSInternal#CA905;-Microsoft.MSInternal#CA908;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703</CodeAnalysisRules>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Microsoft.SharePointLearningKit.XML</DocumentationFile>
+    <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.MSInternal#CA905;-Microsoft.MSInternal#CA908;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703</CodeAnalysisRules>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Microsoft.SharePoint.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+      <Compile Include="Admin\slkAdministration.cs" />
+      <Compile Include="Admin\slkSpSiteMapping.cs" />
+      <Compile Include="Admin\administrationConfiguration.cs" />
+    <Compile Include="AppWebControls\ButtonToolbar.cs" />
+    <Compile Include="AppWebControls\CustomCheckBoxList.cs" />
+    <Compile Include="AppWebControls\ErrorBanner.cs" />
+    <Compile Include="AppWebControls\GradingList.cs" />
+    <Compile Include="AppWebControls\SimpleButtonToolbar.cs" />
+    <Compile Include="AppWebControls\SlkButton.cs"/>
+    <Compile Include="AppWebControls\GradingItem.cs"/>
+    <Compile Include="AppWebPages\CommentedFiles.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\DownloadDialog.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\FilesUploadPage.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Frameset\ChangeActivity.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\SubmittedFiles.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssignmentDownloader.cs" />
+    <Compile Include="DropBoxManager.cs" />
+    <Compile Include="DropBox.cs" />
+    <Compile Include="AssignmentFolder.cs" />
+    <Compile Include="EnumerateDomainGroups.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="LearningStoreHelper.cs" />
+    <!--
+    <Compile Include="Properties\AppResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppResources.resx</DependentUpon>
+    </Compile>
+    -->
+    <Compile Include="Properties\SlkFrameset.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SlkFrameset.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SlkApi.cs" />
+    <Compile Include="api\SlkStore.cs" />
+    <Compile Include="api\LearnerAssignmentProperties.cs" />
+    <Compile Include="api\assignmentProperties.cs" />
+    <Compile Include="api\slkUser.cs" />
+    <Compile Include="FramesetResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FramesetResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SlkError.cs" />
+    <Compile Include="AppWebControls\TableGrid.cs" />
+    <Compile Include="AppWebPages\Actions.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\AssignmentProperties.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Frameset\ClearContent.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Frameset\Content.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Frameset\Frameset.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Frameset\Hidden.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Frameset\MainFrames.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Frameset\NavClosed.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Frameset\NavOpen.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Frameset\TOC.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Grading.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Lobby.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\QueryResults.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\QuerySet.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\QuerySummary.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebParts\AssignmentListWebPart.cs" />
+    <Compile Include="AdminWebPages\Configure.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminWebPages\DownloadSettingsPage.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Constants.cs" />
+    <Compile Include="AppWebPages\Frameset\SlkFramesetPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\ChangeActivityHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\ContentHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\Encoding.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\FramesetHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\FramesetQueryParam.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\FrmPageHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\HiddenHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\Log.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\PostableFrameHelper.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\RteDataModelConverter.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\Rte2004DataModelConverter.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\Rte1p2DataModelConverter.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\HttpModule.cs" />
+    <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\TocHelper.cs"/>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SlkAppBasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SlkFramesetQueryParam.cs" />
+    <Compile Include="SlkQueryString.cs" />
+    <Compile Include="SlkSchema.cs" />
+    <Compile Include="SlkSettings.cs" />
+    <Compile Include="SlkUtilities.cs">
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Src\LearningComponents\LearningComponents.csproj">
+      <Project>{AE610073-6C2F-4789-BAF9-8CF1769EC6D7}</Project>
+      <Name>LearningComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Src\SharePoint\SharePoint.csproj">
+      <Project>{FACFE4F7-FDF5-46A6-8FB7-76811932C2C8}</Project>
+      <Name>SharePoint</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Src\Storage\Storage.csproj">
+      <Project>{7E83613A-27E0-49D5-B1B7-9E0DB2942A67}</Project>
+      <Name>Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Src\Compression\Compression.csproj">
+      <Project>{561657B4-176B-4112-A692-D18521C6BA11}</Project>
+      <Name>Compression</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\samples\basicwebplayer\app_globalresources\FramesetResources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FramesetResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\AppResources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      <StronglyTypedClassName>AppResources</StronglyTypedClassName>
+      <StronglyTypedFilename>properties\AppResources.Designer.cs</StronglyTypedFilename>
+      <StronglyTypedLanguage>C#</StronglyTypedLanguage>
+      <StronglyTypedNamespace>Resources.Properties</StronglyTypedNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\SlkFrameset.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SlkFrameset.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Resources\AppResources.resx">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\SlkSettings.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="..\SlkSettings.xsx">
+      <DependentUpon>SlkSettings.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\SlkSchema.xml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RteApiSite.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rte2004Api.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  -->
+  <Target Name="AfterBuild">
+      <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,290 @@
+﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<html>
+
+<!-- MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
+     MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
+     LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
+     NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
+<head>
+<title>Klondike Quick Check</title>
+<link type="text/css" rel="stylesheet" href="./style.css">
+<script type="text/javascript" src="APIWrapper.js"></script>
+<script language="javascript" type="text/javascript">
+// <!CDATA[
+// set global variables
+var rawScore=0;
+var passingScore=2;
+var scorePossible=2;
+var g_state = "begin_Move"; // current state of simulation
+var g_card = "Move1";
+var displayMode="unknown"; // Set to cmi.mode during load.
+var origX = 0;
+var origY = 0;
+var origEventX = 0;
+var origEventY = 0;
+
+//Function: Reads Answers from the interactions in the data model and fills out the exam from with those answers.
+//Function is designed to work with multiple interactions. In this case there is only one interaction.
+function readAnswers()
+{
+	var interactionCount=retrieveDataValue("cmi.interactions._count")
+	
+	//For all the interactions, get the asnwers and set them in the form
+	for (n=0;n<interactionCount;n++) {
+		var interaction = "cmi.interactions."+n;
+		var id = retrieveDataValue(interaction+".id");
+		var learnerResponse = retrieveDataValue(interaction+".learner_response");
+		
+		//Switch on the interaction id to fill out the form with the appropriate information.
+		switch (id) {
+		case "SimState":
+			CompleteSimulationStep(parseInt(learnerResponse));
+		break;
+		default: alert("Unknown interaction ID")	
+		}
+	}
+}
+
+function LoadAPI()
+{
+    initializeCommunication();
+    storeDataValue( "cmi.completion_status", "incomplete");
+
+	//If there are interactions stored in the data model, then read the response data into the form by calling readAnswers.
+    if (retrieveDataValue("cmi.interactions._count") > 0){readAnswers();}
+    
+    // Retrieve the display mode from the LMS. The page will disable inputs during "review" or "browse" modes.
+    displayMode = retrieveDataValue("cmi.mode");
+    if (displayMode == "review" | "browse") {disableInputs();}
+    var move1 = document.getElementById("Move1");
+    move1.onmousedown = CardOnMouseDown;
+    move1.onmousemove = CardOnMouseMove;
+    move1.onmouseup = CardOnMouseUp;
+    var move2 = document.getElementById("Move2");
+    move2.onmousedown = CardOnMouseDown;
+    move2.onmousemove = CardOnMouseMove;
+    move2.onmouseup = CardOnMouseUp;
+
+}
+
+function UnloadAPI()
+{
+    //  Set the SCO to completed and suspend the attempt so when they revisit they get their previous state.
+    storeDataValue( "cmi.exit", "suspend" );
+    storeDataValue( "cmi.completion_status", "completed" );
+    terminateCommunication();
+}
+
+// Disable all user inputs on the page. Function is called in "review" and "browse" modes.
+function disableInputs()
+{
+	document.getElementById("Move1").disabled = "true";
+	document.getElementById("Move2").disabled = "true";
+}
+
+
+function calcScore()
+{ 
+  //  Set the scaled score that will be used in the 
+  //  Sequencing Tracking Model
+  storeDataValue("cmi.score.scaled", rawScore/scorePossible);
+  storeDataValue("cmi.score.raw", rawScore);
+
+  //Call commit to commit the updated data model elements.
+  persistData();
+}
+
+function CompleteSimulationStep(stepNumber)
+{
+	// sets the state of the simulation so that step <stepNumber> is complete; if <stepNumber> is
+	// zero, the simulation is started from the beginning...
+
+	// reset global variables
+	g_state = "begin_Move"; // current state of simulation
+        g_card = "Move1";
+
+	// restore the UI state to step 1 or 2 if so specified by <stepNumber>
+	if (stepNumber >= 1)
+	{
+		document.getElementById("Move1").style.left = "93px";
+		document.getElementById("Move1").style.top = "122px";
+		g_state = "begin_Move";
+                g_card = "Move2";
+		document.getElementById("Instructions").innerHTML = "<p>Correct, you can play the 8 of clubs on the 9 of hearts.</p><p>What's the next move you can make?</p>";
+		document.getElementById("InstructionsTable").style.backgroundColor = "#98FB98"; // green
+	}
+	if (stepNumber == 2)
+	{
+		document.getElementById("Move2").style.left = "93px";
+		document.getElementById("Move2").style.top = "137px";
+		g_state = "done";
+		document.getElementById("Instructions").innerHTML = "<p>That's correct.</p><p>You've now completed this simulation. Continue to the summary to review what you learned in this unit.</p>";
+		document.getElementById("InstructionsTable").style.backgroundColor = "#98FB98"; // green
+	}
+}
+
+function OnSimulationStepComplete(stepNumber)
+{
+	// <stepNumber> is 1 if the user completed step 1, 2 if they completed step 2
+	
+	// Store the current state in the data model.
+	storeDataValue("cmi.interactions.0.id","SimState");
+	storeDataValue("cmi.interactions.0.type","choice");
+	storeDataValue("cmi.interactions.0.learner_response",stepNumber);
+
+	// This simulation is worth 2 points, one for each step completed.
+	rawScore = stepNumber;
+	calcScore();
+}
+
+function CardOnMouseDown(e)
+{
+    var e = e || window.event;
+    var card = e.target || e.srcElement;
+    if (g_card == "Move")
+    {alert("2")}
+    if (g_state == "begin_Move" && g_card == card.id)
+    {
+        origX = card.offsetLeft;
+        origY = card.offsetTop;
+        origEventX = e.clientX;
+        origEventY = e.clientY;
+        card.style.zIndex = 1;
+        card.style.left = card.offsetLeft;
+        card.style.top = card.offsetTop;
+        g_state = "dragging_Move";
+    }
+    return false;
+}
+
+function CardOnMouseMove(e)
+{
+    var e = e || window.event;
+    var card = e.target || e.srcElement;
+    if (g_state == "dragging_Move" && g_card == card.id)
+    {
+        card.style.left = origX + (e.clientX - origEventX);
+        card.style.top = origY + (e.clientY - origEventY);
+    }
+    status = card.offsetLeft + "," + card.offsetTop;
+    return false;
+}
+
+function CardOnMouseUp(e)
+{
+    var e = e || window.event;
+    var card = e.target || e.srcElement;
+    if (g_state == "dragging_Move" && g_card == card.id)
+    {
+        if (g_card == "Move1" && (card.offsetLeft >= 58) && (card.offsetLeft <= 128) &&
+            (card.offsetTop >= 62) && (card.offsetTop <= 205))
+        {
+            CompleteSimulationStep(1)
+            OnSimulationStepComplete(1);
+        }
+        else if (g_card == "Move2" && (card.offsetLeft >= 58) && (card.offsetLeft <= 128) &&
+            (card.offsetTop >= 77) && (card.offsetTop <= 220))
+        {
+			CompleteSimulationStep(2)
+			OnSimulationStepComplete(2);
+        }
+        else
+        {
+            document.getElementById("Instructions").innerHTML = "<p>Sorry, that's not correct.  Remember, a black card must be placed on a red card that's one higher.</p><p>Please try again.</p>";
+            document.getElementById("InstructionsTable").style.backgroundColor = "#FA8072"; // red
+            g_state = "begin_Move";
+        }
+    }
+}
+
+// ]]>
+</script>
+<style>
+#InstructionsDiv
+{
+	width: 585px;
+	border: outset 1px;
+	margin: 24px 0px 4px 26px;
+}
+#InstructionsTable
+{
+	width: 585px;
+	height: 90px;
+	background-color: white;
+}
+#Instructions P
+{
+	margin-top: 3pt;
+	margin-bottom: 3pt;
+}
+#CardTable
+{
+	position: relative;
+	width: 585px;
+	height: 367px;
+	border: outset 1px;
+	background-image: url(images/Simulation_Table.gif);
+	margin-left: 26px;
+}
+#Move1
+{
+	position: absolute;
+	width: 71px;
+	height: 96px;
+	left: 121px;
+	top: 7px;
+}
+#Move2
+{
+	position: absolute;
+	width: 71px;
+	height: 126px;
+	left: 257px;
+	top: 116px;
+}
+.Correct
+{
+	color: Green;
+}
+.Incorrect
+{
+	color: Red;
+}
+</style>
+</head>
+
+<body onload="LoadAPI()" onunload="UnloadAPI()">
+
+<table style="height:100%">
+<tr style="height:100%;vertical-align:top"><td >
+
+
+<h2>Quick Check Quiz - Page 2 of 2</h2>
+<table id="directions" class="generalDirections">
+	<tr>
+		<td>The following is a typical configuration of cards in a Klondike solitaire 
+		game. Your goal is to perform two legal moves, without uncovering a new 
+		card from the top-left deck. </td>
+	</tr>
+</table>
+<div id="InstructionsDiv">
+	<table id="InstructionsTable">
+		<tr>
+			<td id="Instructions">To begin, drag the 8 of Clubs to the correct location.</td>
+		</tr>
+	</table>
+</div>
+<div id="CardTable">
+	<img id="Move1" src="images/Simulation_8c.gif" alt=""/>
+	<img id="Move2" src="images/Simulation_567.gif" alt=""/>&nbsp;
+	<!--double-click selects this-->&nbsp;</div>
+
+</td></tr>
+<tr><td>
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div></td></tr>
+</table>
+</body>
+
+</html>

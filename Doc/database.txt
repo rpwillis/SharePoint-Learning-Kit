@@ -1,0 +1,62 @@
+ActivityAttemptItem
+    Details of a learner's attempt at an activity. Includes their answers if the package supports saving them.
+ActivityObjectiveItem
+    The objective of an activity
+ActivityPackageItem
+    An activity in a package
+AssignmentItem
+    An assignment
+AttemptItem
+    Represents an attempt at an assignment by a learner. It is possible for a learner to take an assignment more than once.
+AttemptObjectiveItem
+    The result of an objective.
+AttemptStatus
+    Look up table
+AudioCaptioning
+    Look up table.
+CommentFromLearnerItem
+CommentFromLmsItem
+CompletionStatus
+    Look up table
+Configuration
+    The SLK configuration information
+CorrectResponseItem
+DisplayMode
+    Look up table
+EvaluationCommentItem
+ExitMode
+    Look up table
+ExtensionDataItem
+GlobalObjectiveItem
+    Global objectives for a package
+InstructorAssignmentItem
+InteractionItem
+InteractionObjectiveItem
+InteractionResultState
+InteractionType
+LearnerAssignmentItem
+    Links a learner to an assignment
+LearnerAssignmentState
+LearnerGlobalObjectiveItem
+LessonStatus
+    Look up table
+MapActivityObjectiveToGlobalObjectiveItem
+NavigationCommand
+PackageFormat
+    Look up table describing the types of package.
+PackageGlobalObjectiveItem
+PackageItem
+    An e-learning package which can be assigned.
+ResourceItem
+RubricItem
+SequencingEventType
+SequencingLogEntryItem
+SiteSettingsItem
+SuccessStatus
+    Look up table
+TimeLimitAction
+UserItem
+    Represents a user of SLK. Needed as SLK can be cross-site collection.
+UserWebListItem
+    Links an instructor to sites that they have previously assigned to
+
