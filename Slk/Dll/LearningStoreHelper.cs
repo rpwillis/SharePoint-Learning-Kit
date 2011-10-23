@@ -1,0 +1,849 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+
+// LearningStoreHelper.cs
+//
+// Implements LearningStoreHelper, a class containing static helper methods to assist with
+// LearningStore-related operations.
+//
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.LearningComponents;
+using Microsoft.LearningComponents.Storage;
+using Schema = Microsoft.LearningComponents.Storage.BaseSchema;
+using Resources.Properties;
+
+namespace Microsoft.SharePointLearningKit
+{
+
+/// <summary>
+/// Static helper methods to assist with LearningStore-related operations.
+/// </summary>
+///
+/// <remarks>
+/// This class is defined using the "partial" keyword so that additional application-specific
+/// helper methods (leveraging, for example, application-specific LearningStore schema extensions)
+/// can be added.  (Inheritance is not used here because static classes cannot derive from other
+/// static classes.)  For example, see SlkLStoreHelper.cs.
+/// </remarks>
+///
+public static class LearningStoreHelper
+{
+    //----- MLC Data Conversion -----
+
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a given type, or <c>null</c>
+    /// if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.  <paramref name="value"/> is cast to
+    ///     the type of <paramref name="result"/>, or is set to <c>null</c> if
+    ///     <paramref name="value"/> is <c>DBNull</c>.</param>
+    /// 
+    /// <typeparam name="T">The type to convert to.</typeparam>
+    ///
+    /// <remarks>
+    /// This version of <c>Cast</c> is used to retrieve a <i>reference type</i> from
+    /// LearningStore, i.e. <c>string</c>, <c>LearningStoreXml</c>, <c>IStreamable</c>, or
+    /// <c>LearningStoreItemIdentifier</c>.  If the input value is the database "NULL" value,
+    /// then <c>null</c> is stored in the output parameter.
+    /// </remarks>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast<T>(object value, out T result) where T : class
+    {
+        if (value is DBNull)
+            result = null;
+        else
+            result = (T) value;
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a <c>LearningStoreXml</c>.
+    /// Throws an exception if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out LearningStoreXml result)
+    {
+        if (value is DBNull)
+            throw new ArgumentException(AppResources.UnexpectedDBNull);
+        else
+            result = (LearningStoreXml) value;
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to an <c>IStreamable</c>.  Throws
+    /// an exception if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out byte[] result)
+    {
+        if (value is DBNull)
+            throw new ArgumentException(AppResources.UnexpectedDBNull);
+        else
+            result = (byte[]) value;
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>LearningStoreItemIdentifier</c>.  Throws an exception if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out LearningStoreItemIdentifier result)
+    {
+        if (value is DBNull)
+            throw new ArgumentException(AppResources.UnexpectedDBNull);
+        else
+            result = (LearningStoreItemIdentifier) value;
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>ActivityAttemptItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out ActivityAttemptItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new ActivityAttemptItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>ActivityAttemptItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out ActivityAttemptItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new ActivityAttemptItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>ActivityObjectiveItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out ActivityObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new ActivityObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>ActivityObjectiveItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out ActivityObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new ActivityObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>PackageGlobalObjectiveItemIdentifier</c>, or <c>null</c> if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out PackageGlobalObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new PackageGlobalObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>PackageGlobalObjectiveItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out PackageGlobalObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new PackageGlobalObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a <c>AttemptItemIdentifier</c>,
+    /// or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out AttemptItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new AttemptItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>AttemptItemIdentifier</c>.  Throws an exception if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out AttemptItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new AttemptItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>AttemptObjectiveItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out AttemptObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new AttemptObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>AttemptObjectiveItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out AttemptObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new AttemptObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>CommentFromLearnerItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out CommentFromLearnerItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new CommentFromLearnerItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>CommentFromLearnerItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out CommentFromLearnerItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new CommentFromLearnerItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>CommentFromLmsItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out CommentFromLmsItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new CommentFromLmsItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>CommentFromLmsItemIdentifier</c>.  Throws an exception if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out CommentFromLmsItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new CommentFromLmsItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>CorrectResponseItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out CorrectResponseItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new CorrectResponseItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>CorrectResponseItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out CorrectResponseItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new CorrectResponseItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>ExtensionDataItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out ExtensionDataItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new ExtensionDataItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>ExtensionDataItemIdentifier</c>.  Throws an exception if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out ExtensionDataItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new ExtensionDataItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>GlobalObjectiveItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out GlobalObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new GlobalObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>GlobalObjectiveItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out GlobalObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new GlobalObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>InteractionItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out InteractionItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new InteractionItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>InteractionItemIdentifier</c>.  Throws an exception if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out InteractionItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new InteractionItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>InteractionObjectiveItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out InteractionObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new InteractionObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>InteractionObjectiveItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out InteractionObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new InteractionObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>LearnerGlobalObjectiveItemIdentifier</c>, or <c>null</c> if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out LearnerGlobalObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new LearnerGlobalObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>LearnerGlobalObjectiveItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value,
+        out LearnerGlobalObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new LearnerGlobalObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>MapActivityObjectiveToGlobalObjectiveItemIdentifier</c>, or <c>null</c> if the value
+    /// is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out MapActivityObjectiveToGlobalObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new MapActivityObjectiveToGlobalObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>MapActivityObjectiveToGlobalObjectiveItemIdentifier</c>.  Throws an exception if the
+    /// value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value,
+        out MapActivityObjectiveToGlobalObjectiveItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new MapActivityObjectiveToGlobalObjectiveItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a <c>PackageItemIdentifier</c>,
+    /// or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out PackageItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new PackageItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>PackageItemIdentifier</c>.  Throws an exception if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out PackageItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new PackageItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a <c>ResourceItemIdentifier</c>,
+    /// or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out ResourceItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new ResourceItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>ResourceItemIdentifier</c>.  Throws an exception if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out ResourceItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new ResourceItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>SequencingLogEntryItemIdentifier</c>, or <c>null</c> if the value is <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void Cast(object value, out SequencingLogEntryItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        Cast(value, out id);
+        result = (id == null) ? null : new SequencingLogEntryItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>SequencingLogEntryItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out SequencingLogEntryItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new SequencingLogEntryItemIdentifier(id);
+    }
+
+    //----- SLK Data Conversion -----
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>SiteSettingsItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out SiteSettingsItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new SiteSettingsItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to an
+    /// <c>AssignmentItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out AssignmentItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new AssignmentItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to an
+    /// <c>InstructorAssignmentItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out InstructorAssignmentItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new InstructorAssignmentItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>LearnerAssignmentItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out LearnerAssignmentItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new LearnerAssignmentItemIdentifier(id);
+    }
+
+    /// <summary>
+    /// Converts a value returned from a LearningStore query to a
+    /// <c>UserWebListItemIdentifier</c>.  Throws an exception if the value is
+    /// <c>DBNull</c>.
+    /// </summary>
+    ///
+    /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
+    ///     returned from a LearningStore query.</param>
+    ///
+    /// <param name="result">Where to store the result.</param>
+    ///
+    [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
+    public static void CastNonNull(object value, out UserWebListItemIdentifier result)
+    {
+        LearningStoreItemIdentifier id;
+        CastNonNull(value, out id);
+        result = new UserWebListItemIdentifier(id);
+    }
+}
+
+}
+

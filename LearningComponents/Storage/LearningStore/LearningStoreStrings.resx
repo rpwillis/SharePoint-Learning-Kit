@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+	
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>1.3</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+    <data name="IncompatibleEngineVersion">
+        <value xml:space="preserve">The database was created by a different version of this product.</value>
+    </data>
+    <data name="MismatchedIsolationLevel">
+        <value xml:space="preserve">Isolation level specified for the transaction doesn't match the isolation level for the currently-existing transaction.</value>
+    </data>
+    <data name="TimeoutMustBeZero">
+        <value xml:space="preserve">Timeout value specified for the transaction must be zero.</value>
+    </data>
+    <data name="TransactionAlreadyExists">
+        <value xml:space="preserve">A transaction already exists in this scope.</value>
+    </data>
+    <data name="CompleteAlreadyCalled">
+        <value xml:space="preserve">Method has already been called.</value>
+    </data>
+    <data name="ScopeDisposedInInvalidThread">
+        <value xml:space="preserve">Transaction scope disposed in invalid thread.</value>
+    </data>
+    <data name="InvalidScopeNesting">
+        <value xml:space="preserve">Invalid transaction scope nesting.</value>
+    </data>
+    <data name="InvalidSchemaDefinition">
+        <value xml:space="preserve">Invalid schema definition</value>
+    </data>
+    <data name="InvalidSchemaDefinitionType">
+        <value xml:space="preserve">Invalid schema definition. Invalid type.</value>
+    </data>
+    <data name="InvalidSchemaDefinitionNoReference">
+        <value xml:space="preserve">Invalid schema definition. No ReferencedItemTypeName value.</value>
+    </data>
+    <data name="InvalidSchemaDefinitionEnum">
+        <value xml:space="preserve">Invalid schema definition, Invalid enum.</value>
+    </data>
+    <data name="ItemTypeNotFoundInSchema">
+        <value xml:space="preserve">Item type '{0}' not found in the schema.</value>
+    </data>
+    <data name="ViewNotFoundInSchema">
+        <value xml:space="preserve">View '{0}' not found in the schema.</value>
+    </data>
+    <data name="EnumTypeNotFoundInSchema">
+        <value xml:space="preserve">Enum type '{0}' not found in the schema.</value>
+    </data>
+    <data name="RightNotFoundInSchema">
+        <value xml:space="preserve">Right '{0}' not found in the schema.</value>
+    </data>
+    <data name="ItemNotFound">
+        <value xml:space="preserve">Item not found</value>
+    </data>
+    <data name="OperationFailedBecauseOfConstraintViolation">
+        <value xml:space="preserve">The operation failed because of a constraint violation.</value>
+    </data>
+    <data name="ColumnAlreadyExistsInQuery">
+        <value xml:space="preserve">Column '{0}' has already been added to the query</value>
+    </data>
+    <data name="InvalidConditionValueWithDescription">
+        <value xml:space="preserve">Invalid condition value: {0}</value>
+    </data>
+    <data name="InvalidParameterValue">
+        <value xml:space="preserve">Invalid value for parameter '{0}'</value>
+    </data>
+    <data name="InvalidParameterValueWithDescription">
+        <value xml:space="preserve">Invalid parameter value: {0}</value>
+    </data>
+    <data name="InvalidParameterValueWithDescriptionAndName">
+        <value xml:space="preserve">Invalid value for parameter '{0}': {1}</value>
+    </data>
+    <data name="ColumnCannotBeSorted">
+        <value xml:space="preserve">Column can not be sorted on.</value>
+    </data>
+    <data name="ColumnAlreadySortedOn">
+        <value xml:space="preserve">A sort order for the specified column already exists in the query.</value>
+    </data>
+    <data name="QueryNotCompatibleWithStore">
+        <value xml:space="preserve">The query is not compatible with this LearningStore instance.</value>
+    </data>
+    <data name="AtLeastOneOutputColumnMustBeSpecified">
+        <value xml:space="preserve">At least one output column must be specified in the query.</value>
+    </data>
+    <data name="PropertyNotFound">
+        <value xml:space="preserve">Property '{0}' not found</value>
+    </data>
+    <data name="ColumnNotFound">
+        <value xml:space="preserve">Column '{0}' not found in the view.</value>
+    </data>
+    <data name="ParameterNotFound">
+        <value xml:space="preserve">Parameter '{0}' not found in the view.</value>
+    </data>
+    <data name="ParameterNotFoundInRight">
+        <value xml:space="preserve">Parameter '{0}' not found in the right.</value>
+    </data>
+    <data name="ResultsOfJobCanNotBeCast">
+        <value xml:space="preserve">The results of the job can not be cast to the specified return value.</value>
+    </data>
+    <data name="PositiveValueExpected">
+        <value xml:space="preserve">Positive value expected</value>
+    </data>
+    <data name="CannotChangeIdProperty">
+        <value xml:space="preserve">Property 'Id' can not be changed.</value>
+    </data>
+    <data name="InvalidPropertyValue">
+        <value xml:space="preserve">Invalid value for property '{0}'</value>
+    </data>
+    <data name="InvalidPropertyValueWithDescription">
+        <value xml:space="preserve">Invalid value for property '{0}': {1}</value>
+    </data>
+    <data name="UniqueKeyNotAvailable">
+        <value xml:space="preserve">Unique key not available.</value>
+    </data>
+    <data name="PropertyValueNotFound">
+        <value xml:space="preserve">Value for property '{0}' not found</value>
+    </data>
+    <data name="InvalidConditionOperatorForGuidColumn">
+        <value xml:space="preserve">Invalid condition operator: a Guid column can only be compared with an equality or inequality operator.</value>
+    </data>
+    <data name="InvalidConditionValueForXmlColumn">
+        <value xml:space="preserve">Invalid condition value: an Xml column can only be compared against null.</value>
+    </data>
+    <data name="InvalidIdConditionValue">
+        <value xml:space="preserve">Invalid condition value: only item identifiers with unique keys can be compared against.</value>
+    </data>
+    <data name="InvalidIdParameterValue">
+        <value xml:space="preserve">Invalid parameter value: only item identifiers with unique keys can be used as parameters.</value>
+    </data>
+    <data name="InvalidOperatorForNullConditionValue">
+        <value xml:space="preserve">Invalid condition operator: null can only be compared with an equality or inequality operator.</value>
+    </data>
+    <data name="ValueCannotBeNull">
+        <value xml:space="preserve">Cannot be null.</value>
+    </data>
+    <data name="ValueMustBeByteArray">
+        <value xml:space="preserve">Must be a System.Byte array.</value>
+    </data>
+    <data name="ValueMustBeGuid">
+        <value xml:space="preserve">Must be a Guid.</value>
+    </data>
+    <data name="ValueMustBeItemIdentifier">
+        <value xml:space="preserve">Must be a LearningStoreItemIdentifier with ItemType '{0}'.</value>
+    </data>
+    <data name="ValueMustBeXml">
+        <value xml:space="preserve">Must be a LearningStoreXml.</value>
+    </data>
+    <data name="ValueMustBeValidEnumValue">
+        <value xml:space="preserve">Must be a valid value from '{0}'.</value>
+    </data>
+    <data name="ValueMustBeWithinSqlDateTimeRange">
+        <value xml:space="preserve">Must be between SqlDateTime.MinValue and SqlDateTime.MaxValue.</value>
+    </data>
+    <data name="ValueHasInvalidFormat">
+        <value xml:space="preserve">Invalid format.</value>
+    </data>
+    <data name="ValueCausesOverflow">
+        <value xml:space="preserve">Overflow.</value>
+    </data>
+    <data name="ValueCausesInvalidCast">
+        <value xml:space="preserve">Invalid cast.</value>
+    </data>
+    <data name="DebugLogAlreadyEnabled">
+        <value xml:space="preserve">The debug log has already been enabled.</value>
+    </data>
+    <data name="MoreThanOneItemFoundInAddOrUpdate">
+        <value xml:space="preserve">More than one item matches the properties in the AddOrUpdateItem command.</value>
+    </data>
+    <data name="XmlPropertyCannotBeSearchedOn">
+        <value xml:space="preserve">Cannot search on XML property '{0}'.</value>
+    </data>
+    <data name="DuplicatePropertyValue">
+        <value xml:space="preserve">More than one value has been provided for property '{0}'.</value>
+    </data>
+    <data name="AtLeastOneValueMustBeProvided">
+        <value xml:space="preserve">At least one value must be provided.</value>
+    </data>
+    <data name="SecurityCheckFailed">
+        <value xml:space="preserve">Security check failed.</value>
+    </data>
+    <data name="NullReferenceWhenAccessingDatabase">
+        <value xml:space="preserve">Object reference not set to an instance of an object when attempting to access database.  Database connection may have been lost.</value>
+    </data>
+</root>

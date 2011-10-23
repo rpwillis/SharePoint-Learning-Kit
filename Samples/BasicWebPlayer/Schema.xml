@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Schema.xml - BasicWebPlayer extensions to the Microsoft Learning Components (MLC) base schema -->
+<StoreSchema xmlns="urn:schemas-microsoft-com:learning-components:learning-store-schema">
+    <ExtendItemType Name="PackageItem">
+        <Properties>
+            <Property Name="Owner" Type="ItemIdentifier" ReferencedItemTypeName="UserItem" Nullable="true">
+                <Default Null="true" />
+            </Property>
+            <Property Name="FileName" Type="String" Length="260">
+                <Default />
+            </Property>
+            <Property Name="UploadDateTime" Type="DateTime" Nullable="true">
+                <Default Null="true"/>
+            </Property>
+        </Properties>
+        <GrantUpdateRight>
+            <Expression>CASE WHEN @PackageFormat$Changed=0 AND @Location$Changed=0 AND @Manifest$Changed=0 AND
+                EXISTS(SELECT * FROM PackageItem WHERE Id=@Id AND Owner IS NULL) AND @Owner$Changed=1 AND
+                EXISTS(SELECT * FROM UserItem WHERE Id=@Owner AND [Key]=@UserKey) THEN 1 ELSE 0 END</Expression>
+        </GrantUpdateRight>
+    </ExtendItemType>
+    <ExtendItemType Name="UserItem">
+        <GrantAddRight>
+            <Expression>CASE WHEN @Key=@UserKey THEN 1 ELSE 0 END</Expression>
+        </GrantAddRight>
+    </ExtendItemType>
+    <ExtendRight Name="AddPackageReferenceRight">
+        <Grant>
+            <Expression>1</Expression>
+        </Grant>
+    </ExtendRight>
+    <ExtendRight Name="RemovePackageReferenceRight">
+        <Grant>
+            <Expression>CASE WHEN EXISTS(SELECT * FROM PackageItem INNER JOIN UserItem ON PackageItem.Owner=UserItem.Id WHERE PackageItem.Id=@PackageId AND UserItem.[Key]=@UserKey) THEN 1 ELSE 0 END</Expression>
+        </Grant>
+    </ExtendRight>
+    <ExtendRight Name="CreateAttemptRight">
+        <Grant>
+            <Expression>CASE WHEN
+                (EXISTS(SELECT * FROM ActivityPackageItem INNER JOIN PackageItem ON ActivityPackageItem.PackageId=PackageItem.Id INNER JOIN UserItem ON PackageItem.Owner=UserItem.Id WHERE ActivityPackageItem.Id=@RootActivityId AND UserItem.[Key]=@UserKey)) AND
+                (EXISTS(SELECT * FROM UserItem WHERE UserItem.[Key]=@UserKey AND Id=@LearnerId)) THEN 1 ELSE 0 END</Expression>
+        </Grant>
+    </ExtendRight>
+    <ExtendRight Name="DeleteAttemptRight">
+        <Grant>
+            <Expression>CASE WHEN EXISTS(SELECT * FROM AttemptItem INNER JOIN UserItem ON AttemptItem.LearnerId=UserItem.Id WHERE AttemptItem.Id=@AttemptId AND UserItem.[Key]=@UserKey) THEN 1 ELSE 0 END</Expression>
+        </Grant>
+    </ExtendRight>
+    <ExtendRight Name="ExecuteSessionRight">
+        <Grant>
+            <Expression>CASE WHEN EXISTS(SELECT * FROM AttemptItem INNER JOIN UserItem ON AttemptItem.LearnerId=UserItem.Id WHERE AttemptItem.Id=@AttemptId AND UserItem.[Key]=@UserKey) THEN 1 ELSE 0 END</Expression>
+        </Grant>
+    </ExtendRight>
+    <View Name="Me">
+        <Columns>
+            <Column Name="UserId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem"/>
+            <Column Name="UserName" Type="String" />
+        </Columns>
+        <Implementation>
+            SELECT Id AS UserId,
+                   Name AS UserName
+            FROM UserItem
+            WHERE [Key]=@UserKey
+        </Implementation>
+        <GrantQueryRight>
+            <Expression>1</Expression>
+        </GrantQueryRight>
+    </View>
+    <View Name="MyAttemptsAndPackages">
+        <Columns>
+            <Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem"/>
+            <Column Name="PackageFileName" Type="String"/>
+            <Column Name="OrganizationId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem"/>
+            <Column Name="OrganizationTitle" Type="String"/>
+            <Column Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
+            <Column Name="UploadDateTime" Type="DateTime"/>
+            <Column Name="AttemptStatus" Type="Enum" EnumName="AttemptStatus"/>
+            <Column Name="TotalPoints" Type="Single"/>
+        </Columns>
+        <Implementation>
+			SELECT PackageItem.Id AS PackageId,
+				   PackageItem.FileName AS PackageFileName,
+				   ActivityPackageItem.Id AS OrganizationId,
+				   ActivityPackageItem.Title AS OrganizationTitle,
+				   AttemptItem.Id AS AttemptId,
+				   PackageItem.UploadDateTime,
+				   AttemptItem.AttemptStatus,
+				   AttemptItem.TotalPoints
+			FROM ActivityPackageItem
+			INNER JOIN PackageItem ON ActivityPackageItem.PackageId = PackageItem.Id
+			LEFT OUTER JOIN ActivityAttemptItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
+			LEFT OUTER JOIN AttemptItem ON ActivityAttemptItem.AttemptId = AttemptItem.Id
+			INNER JOIN UserItem ON PackageItem.Owner = UserItem.Id
+			WHERE (ActivityPackageItem.ParentActivityId IS NULL)
+			AND (UserItem.[Key] = @UserKey)
+		</Implementation>
+        <GrantQueryRight>
+            <Expression>1</Expression>
+        </GrantQueryRight>
+	</View>
+	<View Name="SequencingLog">
+	    <Parameters>
+	        <Parameter Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
+	    </Parameters>
+	    <Columns>
+	        <Column Name="Id" Type="ItemIdentifier" ReferencedItemTypeName="SequencingLogEntryItem"/>
+	        <Column Name="Timestamp" Type="DateTime"/>
+	        <Column Name="EventType" Type="Enum" EnumName="SequencingEventType"/>
+	        <Column Name="NavigationCommand" Type="Enum" EnumName="NavigationCommand"/>
+	        <Column Name="Message" Type="String"/>	        
+	    </Columns>
+	    <Implementation>
+	        SELECT Id,
+	               Timestamp,
+	               EventType,
+	               NavigationCommand,
+	               Message
+	        FROM SequencingLogEntryItem
+	        WHERE AttemptId=@AttemptId
+	    </Implementation>
+	    <GrantQueryRight>
+            <Expression>CASE WHEN EXISTS(SELECT * FROM AttemptItem INNER JOIN UserItem ON AttemptItem.LearnerId=UserItem.Id WHERE AttemptItem.Id=@AttemptId AND UserItem.[Key]=@UserKey) THEN 1 ELSE 0 END</Expression>
+	    </GrantQueryRight>
+	</View>
+</StoreSchema>

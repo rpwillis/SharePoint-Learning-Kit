@@ -1,0 +1,9 @@
+<Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="00057001-c978-11da-ba52-00042350e42e">
+	<Assemblies>
+		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.LearningComponents.resources.dll" />
+		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.LearningComponents.SharePoint.resources.dll" />
+		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.LearningComponents.Storage.resources.dll" />
+		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.SharePointLearningKit.resources.dll">
+		</Assembly>
+	</Assemblies>
+</Solution>

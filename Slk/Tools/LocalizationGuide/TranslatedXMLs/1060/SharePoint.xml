@@ -1,0 +1,61 @@
+﻿<root>
+  <assembly culture="sl" name="Microsoft.LearningComponents.SharePoint.resources" version="1.1.0.0">
+  </assembly> <resources name="Microsoft.LearningComponents.SharePoint.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.SharePoint.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CacheCreateDirCleanupFailed</ID>
+        <Source>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>Ustvarjanje imenika predpomnilnika ni uspelo in neveljavne mape predpomnilnika in / ali datoteke zaklepanja ni bilo možno odstraniti.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPLockTriesExceeded</ID>
+        <Source>Could not get a lock on the file within the allowed tries.</Source>
+        <Translation>V dovoljenih poskusih datoteke ni bilo možno zakleniti.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPCannotWriteToLockFile</ID>
+        <Source>Could not write to lock file of cache directory.</Source>
+        <Translation>Ni možno pisati v datoteko zaklepanja imenika predpomnilnika.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFoundNoName</ID>
+        <Source>The requested file was not found.</Source>
+        <Translation>Zahtevane datoteke ni bilo mogoče najti.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CacheLockDirCleanupFailed</ID>
+        <Source>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>Zaklepanje imenika predpomnilnika ni uspelo in neveljavne mape predpomnilnika in / ali datoteke zaklepanja ni bilo možno odstraniti.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileVersionNotFound</ID>
+        <Source>The version {0} of file {1} does not exist.</Source>
+        <Translation>Različica {0} datoteke {1} ne obstaja.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFound</ID>
+        <Source>The file {0} was not found.</Source>
+        <Translation>Datoteke {0} ni bilo mogoče najti.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CacheCachePathNotAccessible</ID>
+        <Source>The package cache directory is not accessible. It may not exist or you may not have access to it.</Source>
+        <Translation>Imenik predpomnilnika paketa ni dostopen. Morda ne obstaja ali nimate dostopa do njega.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPFormatInvalid</ID>
+        <Source>'{0}' does not have the correct format.</Source>
+        <Translation>&apos;{0}&apos; nima pravilne oblike zapisa.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SPInvalidPackage</ID>
+        <Source>The package is not valid and cannot be read. More information: {0}</Source>
+        <Translation>Paket ni veljaven in ga ni možno prebrati. Več informacij: {0}</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>

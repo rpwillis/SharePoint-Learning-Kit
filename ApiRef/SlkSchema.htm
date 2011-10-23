@@ -1,0 +1,626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>
+	SLK+MLC Schema
+</title>
+
+<link rel="stylesheet" href="Doc.css" />
+
+<style type="text/css">
+TABLE.SlkViews COL.Column1_
+{
+	width: 150pt;
+}
+</style>
+
+</head>
+
+<body id="DocTopic">
+
+<div class="TopicHeader">
+	<div class="Supertitle_">
+		SharePoint Learning Kit Customization
+	</div>
+	SLK+MLC Schema
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="Summary">
+
+<p>This section introduces the concept of <b>LearningStore schema</b>, and describes the
+schema used by SharePoint Learning Kit and the underlying Microsoft Learning Components.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="SchemaConcepts"></a>
+<div class="SectionHeader">LearningStore Schemas, Item Types, Views</div>
+<div class="Section">
+
+<p>The <a href="SlkQueriesAndQuerySets.htm">SLK Queries and Query Sets</a> section introduced the
+concept of <b>LearningStore view</b>&mdash;a "virtual table" of data with built-in security rules.
+LearningStore views are part of a larger concept, <b>LearningStore schema</b>, which is a
+definition of the kind of data that can be managed by <a href="Mlc.htm">Microsoft Learning
+Components</a> for an e-learning application such as SLK.  
+
+<p>In addition to views, a LearningStore schema can contain <b>LearningStore item types</b>, which
+correspond directly to tables in the database&mdash;"real" tables, as opposed to views which are
+"virtual" tables.</p>
+
+<p>MLC defines a <b>base schema</b>, containing basic item types and views required for executing
+e-learning content.  The base schema is defined by an XML file,
+<a href="BaseSchema.xml.htm">BaseSchema.xml</a>.  Applications based on MLC have the option of
+extending the base schema using another XML file which can extend item types, add new item types,
+and add new views, among other things.  SLK, which is an application based on MLC, extends the base
+schema to add concepts such as "assignment" and "learner assignment".  SLK's extensions to the MLC
+base schema are defined in <a href="SlkSchema.xml.htm">SlkSchema.xml</a>.</p>
+
+<p>Item types and views can define database <b>operation-level security rules</b>, implemented as
+SQL expressions which evaluate to 1 if the operation is allowed to execute and 0 if it isn't.
+(Items support the operations "query", "add", "delete", and "update"; views only support "query".)
+Since views are implemented as SQL queries, views can also define <b>row-level security rules</b>
+that determine which rows get returned, based in part on the role(s) of the current user.</p>
+
+<p><b>Note</b>&nbsp; The term "row-level security" is sometimes used in other technologies to
+refer to a broader authorization concept.  In LearningStore, "row-level security" simply means a set
+of conditions that are added to the SQL query of a view&mdash;in effect, reducing the set of rows
+returned from a query to those that the current user is permitted to see.  Note that LearningStore
+also provides mechanisms for securing adds, updates, and deletes of rows, but those fall under the
+category of "operation-level security".  Also, note that operation-level security rules typically
+make use of information within rows of the table&mdash;unless the rule is simply "grant access to
+all users" or "grant access to no users".</p>
+
+<p>Consider the following examples of a SLK item type compared to a SLK view.</p>
+
+<ul>
+
+	<li><p><a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.Class.htm">InstructorAssignmentItem</a>**
+		is a LearningStore item type&mdash;in other words, there is a table in the SLK database
+		named "InstructorAssignmentItem".  This table contains one row for each instructor on each
+		assignment, so if you have 10 assignments with two instructors on each assignment you'll
+		have 20 rows in the InstructorAssignmentItem table.</p>
+		
+		<p>The security rules for this item type&mdash;and for all item types in SLK, in
+		fact&mdash;specify that no user can access items of this type.  That may seem
+		counterproductive, but the reason is that SLK has chosen to define security rules on views
+		instead of on item types.  (Each MLC-based application can decide whether to apply security
+		rules to item types, views, or both.  The <a href="BaseSchema.xml.htm">MLC base schema</a>
+		takes a "secure by default" approach, choosing to disallow access by default.  MLC-based
+		applications can override those rules.)  Note that an application can turn off security
+		checking for a block of code using <a href="Microsoft.LearningComponents.Storage.LearningStorePrivilegedScope.Class.htm">LearningStorePrivilegedScope</a>.</p>
+		</li>
+
+	<li><p><a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentListForInstructors.Class.htm">InstructorAssignmentListForInstructors</a>
+		is a LearningStore view.  Like InstructorAssignmentItem above, this view contains one row
+		for each instructor on each assignment&mdash;except that you'll only get rows corresponding
+		to assignments for which the current user is an instructor.  (By the way, that last part,
+		"for which the current user is an instructor", is the reason for the "ForInstructors" part
+		of the view name.)</p>
+
+		<p>In addition to the row-level security rule described above,
+		InstructorAssignmentListForInstructors specifies the following operation-level security
+		rule: any user can access this view.  This view doesn't need more restrictive
+		operation-level security rules because the row-level security rule already sufficiently
+		restricts the query results.  For example, consider what happens if the current user is a
+		learner.  In that case, the row-level security rule above will cause
+		InstructorAssignmentListForInstructors to return zero rows, indicating that that user is an
+		instructor on zero assignments, which is correct.  (Note that a user can be both an
+		instructor and a learner on a given assignment.  This view relates to a user's role as an
+		instructor.)</p>
+		</li>
+
+</ul>
+
+<p>**By the way, If you clicked on links above, such as
+<a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.Class.htm">InstructorAssignmentItem</a> and
+<a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentListForInstructors.Class.htm">InstructorAssignmentListForInstructors</a>,
+you may notice that there are classes, accessible from C# or other programming languages,
+corresponding to LearningStore item types and views.  These classes are generated automatically by
+the MLC schema compiler (the tool that converts schema XML such as
+<a href="SlkSchema.xml.htm">SlkSchema.xml</a>, into .sql and .cs files), and
+they exist primarily for programming convenience.  For example, rather than referring to a
+column named "AssignmentStartDate", you can use the string constant
+<a href="Microsoft.SharePointLearningKit.Schema.AssignmentListForInstructors.AssignmentStartDate.Field.htm">InstructorAssignmentListForInstructors.AssignmentStartDate</a>,
+which is longer but is type-checked by the compiler, so you'll catch typing mistakes at compile
+time.  The documentation for these classes also provides further information about these item
+types and views.</p>
+
+<p>In addition to helper classes such as
+<a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.Class.htm">InstructorAssignmentItem</a>,
+the schema compiler generates a <b>LearningStore item identifier</b> class for each item type.
+For example, the item identifier class corresponding to InstructorAssignmentItem is
+<a href="Microsoft.SharePointLearningKit.InstructorAssignmentItemIdentifier.Class.htm">InstructorAssignmentItemIdentifier</a>.  This is a class which represents, in a type-safe way, a numeric
+identifier for a row in the InstructorAssignmentItem table.</p>
+
+<p>Both item types and views can be queried.  You can use an item type name (e.g.  "UserItem", or,
+for better compile-time type checking,
+<a href="Microsoft.SharePointLearningKit.Schema.UserItem.ItemTypeName.Field.htm">UserItem.ItemTypeName</a>)
+in a query displayed in <a href="SlkQueriesAndQuerySets.htm">Assignment List Web Part</a> or in
+a <a href="MlcLearningStore.htm">LearningStore query</a>,
+just like you can use a view name (e.g. "UserWebList" or
+<a href="Microsoft.SharePointLearningKit.Schema.UserWebList.ViewName.Field.htm">UserWebList.ViewName</a>)&mdash;provided
+that sufficient <a href="#SchemaConcepts">operation-level security</a> permissions have been
+granted (see <a href="SlkQueriesAndQuerySets.htm#Security">example</a>).</p>
+
+<p>The next few subsections below describe the MLC and SLK schemas.  The
+<a href="#CustomViews">last subsection below</a> explains how to customize SLK views and create new
+views, which allow you to add to the functionality of the SLK Assignment List Web Part and to
+perform additional querying operations within applications that access SLK programmatically.</p>
+
+<p><b>Note</b>&nbsp; The <b>Schema</b> column below indicates which schema (MLC base schema or SLK
+extensions to MLC) define the item type or view.  When the Schema column contains <b>MLC+</b>,
+that's an indication of an item type which is defined in the MLC base schema and extended (with
+additional columns, in this case) in the SLK schema.</p>
+
+<p><b>Note</b>&nbsp; The <b>Access Granted To</b> column below defines the conditions under which
+the current user (i.e. the browser user logged into SharePoint) can access the item type or view
+using Assignment List Web Part or LearningStore queries.  When applications access these items and
+views using the <a href="Mlc.htm">MLC API</a> or <a href="SlkApi.htm">SLK API</a>, or using
+<a href="Microsoft.LearningComponents.Storage.LearningStorePrivilegedScope.Class.htm">LearningStorePrivilegedScope</a>,
+different rules sometimes apply (as described in the API documentation, e.g.
+<a href="Microsoft.SharePointLearningKit.SlkStore.Class.htm">SlkStore</a>).
+For example, by default the current user cannot access
+the AttemptItem table, but of course MLC can access the AttemptItem table on the user's behalf when
+MLC executes e-learning content.  Also, note that <b>Access Granted To</b> column specifies
+<a href="#SchemaConcepts">operation-level security rules</a>, but views may specify
+additional <a href="#SchemaConcepts">row-level security rules</a>.  For example, even if "Access
+Granted To" specifies "All users", for views it's possible that the row-level security rules mean
+you'll get zero rows returned from a query.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Item Types &amp; Views Related To Users</div>
+<div class="Section">
+
+<table class="Grid SlkViews">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<col class="Column3_" />
+	<tr class="Header_">
+		<td class="Header1_">Name</td>
+		<td class="Header1_">Type</td>
+		<td class="Header2_">Schema</td>
+		<td class="Header2_">Each Row Contains</td>
+		<td class="Header3_">Access Granted To</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.UserItem.Class.htm">UserItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a><span style="cursor: default" title="SLK extends this item type by granting access to all users">+</span></td>
+		<td>Information about one user, including a numeric identifier
+			(<a href="Microsoft.LearningComponents.Storage.UserItemIdentifier.Class.htm">UserItemIdentifier</a>)
+			used elsewhere in the database to refer to the user.  UserItem items contain a
+			<a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">Key</a>
+			property (database column) which, for SLK, contains either the security ID (SID) of the
+			user or the user's login name.  (The login name is used for authentication mechanisms
+			such as forms-based authentication which don't use security IDs.)</td>
+		<td>MLC: no users; SLK: query access for all users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.UserWebListItem.Class.htm">UserWebListItem</a></td>
+		<td>Item</td>
+		<td><a href="SlkSchema.xml.htm">SLK</a></td>
+		<td>One entry in one user's <b>user Web list</b>, for one site collection.  A
+			user Web list is the list of Web sites that appears on the E-Learning Actions page for
+			all document libraries within a given site collection.  Each user has at most one user
+			Web list for each site collection (SPSite).</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.UserWebList.Class.htm">UserWebList</a></td>
+		<td>View</td>
+		<td><a href="SlkSchema.xml.htm">SLK</a></td>
+		<td>One entry in one user's <b>user Web list</b>, for one site collection.
+			Like 
+			<a href="Microsoft.SharePointLearningKit.Schema.UserWebListItem.Class.htm">UserWebListItem</a>,
+			but the UserWebList view is restricted to user Web lists owened by the current user.
+			</td>
+		<td>All users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.LearnerGlobalObjectiveItem.Class.htm">LearnerGlobalObjectiveItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Information about the progress of one learner against a particular
+			global objective, across all <a href="SlkConcepts.htm#Packages">activities</a> in all
+			e-learning packages.  These objectives may be global to a single package or global to
+			the system&mdash;the data in this table does not distinguish between these two
+			cases.</td>
+		<td>No users.</td>
+	</tr>
+</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Item Types Related To E-Learning Packages</div>
+<div class="Section">
+
+<p>These item types (tables) contain information about e-learning packages.  This information is
+not specific to any <a href="SlkConcepts.htm#Assignments">assignment or attempt</a>
+on the package.  These tables are not involved in assignments of non-e-learning documents.</p>
+
+<table class="Grid SlkViews">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<col class="Column3_" />
+	<tr class="Header_">
+		<td class="Header1_">Name</td>
+		<td class="Header1_">Type</td>
+		<td class="Header2_">Schema</td>
+		<td class="Header2_">Each Row Contains</td>
+		<td class="Header3_">Access Granted To</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Class.htm">PackageItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a><span style="cursor: default" title="SLK extends this item type by adding the Warnings property/column">+</span></td>
+		<td>Information about one <a href="SlkConcepts.htm#Packages">e-learning
+			package</a>.  Before a package can be
+			<a href="SlkConcepts.htm#Assignments">attempted</a>, a row referring to it must be
+			added to this table.  When that happens, detailed information about the package is
+			added to other tables in the schema; for example, information about each
+			<a href="SlkConcepts.htm#Packages">activity</a> is added to the ActivityPackageItem
+			table.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.Class.htm">ActivityPackageItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#Packages">activity</a>
+			within one e-learning package.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.ResourceItem.Class.htm">ResourceItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Information about <a href="SlkConcepts.htm#ScormConcepts">resources</a> used in
+			activities, including the XML of each <tt>&lt;resource&gt;</tt> element in the
+			package.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.ActivityObjectiveItem.Class.htm">ActivityObjectiveItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#ScormConcepts">local objective</a> of
+			one <a href="SlkConcepts.htm#Packages">activity</a> within one e-learning package.
+			Objectives that are added to a package by a
+			<a href="SlkConcepts.htm#Packages">SCO</a> via the
+			<a href="SlkConcepts.htm#ScormConcepts">RTE</a> are not included in this table.
+			</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.CommentFromLmsItem.Class.htm">CommentFromLmsItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>A <a href="SlkConcepts.htm#ScormConcepts">"comments from LMS"</a> string related to a
+			specific <a href="SlkConcepts.htm#Packages">activity</a> within an e-learning package.
+			These are read-only by <a href="SlkConcepts.htm#Packages">SCOs</a>.  SLK does not add
+			rows to the CommentsFromLmsItem table.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.GlobalObjectiveItem.Class.htm">GlobalObjectiveItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Information about one 
+			<a href="SlkConcepts.htm#ScormConcepts">global objective</a> related to one
+			<a href="SlkConcepts.htm#Packages">organization</a> of one e-learning package, or one
+			global objective that's not constrained to any one organization of any package.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.MapActivityObjectiveToGlobalObjectiveItem.Class.htm">MapActivityObjectiveTo&shy;GlobalObjectiveItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>A mapping between an
+			<a href="Microsoft.SharePointLearningKit.Schema.ActivityObjectiveItem.Class.htm">ActivityObjectiveItem</a> and a
+			<a href="Microsoft.SharePointLearningKit.Schema.GlobalObjectiveItem.Class.htm">GlobalObjectiveItem</a>.</td>
+		<td>No users.</td>
+	</tr>
+</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Item Types &amp; Views Related to Assignments</div>
+<div class="Section">
+
+<p>SLK's LearningStore schema adds the concept of
+<a href="SlkConcepts.htm#Assignments">assignments</a> to MLC's base schema.  The following item
+types and views help implement this and related concepts.</p>
+
+<table class="Grid SlkViews">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<col class="Column3_" />
+	<tr class="Header_">
+		<td class="Header1_">Name</td>
+		<td class="Header1_">Type</td>
+		<td class="Header2_">Schema</td>
+		<td class="Header2_">Each Row Contains</td>
+		<td class="Header3_">Access Granted To</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Class.htm">AssignmentItem</a></td>
+		<td>Item</td>
+		<td><a href="SlkSchema.xml.htm">SLK</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#Assignments">assignment</a>.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.AssignmentPropertiesView.Class.htm">AssignmentPropertiesView</a></td>
+		<td>View</td>
+		<td><a href="SlkSchema.xml.htm">SLK</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#Assignments">assignment</a>, as well
+			as information about the e-learning package (if any) associated with the assignment.
+			This view returns information about a single assignment, specified as a
+			<a href="Microsoft.LearningComponents.Storage.LearningStoreQuery.SetParameter.Method.htm">view parameter</a>.
+			</td>
+		<td>Instructors and learners of the assignment.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.AssignmentListForInstructors.Class.htm">AssignmentListForInstructors</a></td>
+		<td>View</td>
+		<td><a href="SlkSchema.xml.htm">SLK</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#Assignments">assignment</a>, as well
+			as information about the e-learning package (if any) associated with the assignment.
+			This view returns one row for each assignment for which the current user is an
+			instructor.
+			</td>
+		<td>All users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.Class.htm">InstructorAssignmentItem</a></td>
+		<td>Item</td>
+		<td><a href="SlkSchema.xml.htm">SLK</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#Assignments">instructor assignment</a>,
+			i.e. the mapping of one instructor to one
+			<a href="SlkConcepts.htm#Assignments">assignment</a>.
+			For example, if an assignment has three instructors, there will be three
+			InstructorAssignmentItem table rows associated with that assignment.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentListForInstructors.Class.htm">InstructorAssignmentListForInstructors</a></td>
+		<td>View</td>
+		<td><a href="SlkSchema.xml.htm">SLK</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#Assignments">instructor assignment</a>,
+			as well as information about the e-learning package (if any) associated with the
+			assignment.  This view returns one row for each instructor on each assignment for which
+			the current user is an instructor.
+		<td>All users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Class.htm">LearnerAssignmentItem</a></td>
+		<td>Item</td>
+		<td><a href="SlkSchema.xml.htm">SLK</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#Assignments">learner assignment</a>,
+			i.e. the mapping of one learner to one
+			<a href="SlkConcepts.htm#Assignments">assignment</a>.  For example, if an assignment
+			has 30 learners, there will be 30 LearnerAssignmentItem table rows associated with that
+			assignment.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentListForInstructors.Class.htm">LearnerAssignmentListForInstructors</a></td>
+		<td>View</td>
+		<td><a href="SlkSchema.xml.htm">SLK</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#Assignments">learner assignment</a>,
+			as well as information about the e-learning package (if any) associated with the
+			assignment.  This view returns one row for each learner on each assignment for which
+			the current user is an instructor.
+		<td>All users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentListForLearners.Class.htm">LearnerAssignmentListForLearners</a></td>
+		<td>View</td>
+		<td><a href="SlkSchema.xml.htm">SLK</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#Assignments">learner assignment</a>,
+			as well as information about the e-learning package (if any) associated with the
+			assignment.  This view returns one row for each assignment for which the current user
+			is a learner.
+		<td>All users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentView.Class.htm">LearnerAssignmentView</a></td>
+		<td>View</td>
+		<td><a href="SlkSchema.xml.htm">SLK</a></td>
+		<td>Specific information about a
+			<a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+		</td>
+		<td>No users.</td>
+	</tr>
+</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Items Types Related to Attempts</div>
+<div class="Section">
+
+<p>The following item types help implement <a href="SlkConcepts.htm#Assignments">attempts</a> on
+e-learning packages.  These tables are not involved in assignments of non-e-learning documents.</p>
+
+<table class="Grid SlkViews">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<col class="Column3_" />
+	<tr class="Header_">
+		<td class="Header1_">Name</td>
+		<td class="Header1_">Type</td>
+		<td class="Header2_">Schema</td>
+		<td class="Header2_">Each Row Contains</td>
+		<td class="Header3_">Access Granted To</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.Class.htm">AttemptItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a><span style="cursor: default" title="SLK extends this item type by adding the LearnerAssignmentId property/column">+</span></td>
+		<td>Information about one <a href="SlkConcepts.htm#Assignments">attempt</a>, i.e. one
+			instance of one learner executing one
+			<a href="SlkConcepts.htm#Packages">organization</a> of one e-learning package.
+			If the same learner attempts the same organization twice, two AttemptItem items
+			(table rows) are created.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.PackageGlobalObjectiveItem.Class.htm">PackageGlobalObjectiveItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Information about progress on one
+			<a href="SlkConcepts.htm#ScormConcepts">global objective</a> related to one
+			<a href="SlkConcepts.htm#Assignments">attempt</a>.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.ActivityAttemptItem.Class.htm">ActivityAttemptItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#Packages">activity</a> in the context of
+			one <a href="SlkConcepts.htm#Assignments">attempt</a>.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.AttemptObjectiveItem.Class.htm">AttemptObjectiveItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Information about the learner's progress on one
+		<a href="SlkConcepts.htm#ScormConcepts">local objective</a> for one
+			<a href="SlkConcepts.htm#Packages">activity</a> of one
+			<a href="SlkConcepts.htm#Assignments">attempt</a>.
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.CommentFromLearnerItem.Class.htm">CommentFromLearnerItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>One comment from the learner related to one
+			<a href="SlkConcepts.htm#Packages">activity</a> of one
+			<a href="SlkConcepts.htm#Assignments">attempt</a>.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.SequencingLogEntryItem.Class.htm">SequencingLogEntryItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>One sequencing log entry, related to one 
+			<a href="SlkConcepts.htm#Packages">activity</a> of one
+			<a href="SlkConcepts.htm#Assignments">attempt</a>, or related to an entire
+			<a href="SlkConcepts.htm#Assignments">attempt</a>.
+			See <a href="Microsoft.LearningComponents.Storage.StoredLearningSession.LoggingOptions.Property.htm">StoredLearningSession.LoggingOptions</a>.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.ExtensionDataItem.Class.htm">ExtensionDataItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>One "extension" <a href="MlcDataModel.htm">data model element</a>.  An "extension" data
+			model element is a data model element whose name does not begin with "cmi." or "adl.".
+			</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.InteractionItem.Class.htm">InteractionItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Information about one <a href="SlkConcepts.htm#ScormConcepts">interaction</a> within
+			one <a href="SlkConcepts.htm#Packages">activity</a> of one
+			<a href="SlkConcepts.htm#Assignments">attempt</a>.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.RubricItem.Class.htm">RubricItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Information about a rubric that is attached to an
+			<a href="SlkConcepts.htm#ScormConcepts">interaction</a>.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.EvaluationCommentItem.Class.htm">EvaluationCommentItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>A comment from an evaluator (i.e. an instructor grading a
+			<a href="SlkConcepts.htm#Assignments">learner assignment</a>) related to one
+			<a href="Microsoft.SharePointLearningKit.Schema.InteractionItem.Class.htm">InteractionItem</a>.  Only used for e-learning packages in Class Server format.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.CorrectResponseItem.Class.htm">CorrectResponseItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Information about one SCORM <a href="SlkConcepts.htm#ScormConcepts">correct response string</a>
+			for one <a href="Microsoft.SharePointLearningKit.Schema.InteractionItem.Class.htm">InteractionItem</a>.
+			The CorrectResponseItem table contains one row in this table per correct response per
+			interaction.</td>
+		<td>No users.</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.SharePointLearningKit.Schema.InteractionObjectiveItem.Class.htm">InteractionObjectiveItem</a></td>
+		<td>Item</td>
+		<td><a href="BaseSchema.xml.htm">MLC</a></td>
+		<td>Relates one
+			<a href="Microsoft.SharePointLearningKit.Schema.InteractionItem.Class.htm">InteractionItem</a> with one
+			<a href="Microsoft.SharePointLearningKit.Schema.AttemptObjectiveItem.Class.htm">AttemptObjectiveItem</a>.</td>
+		<td>No users.</td>
+	</tr>
+</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="CustomViews"></a>
+<div class="SectionHeader">Customing and Creating New Views and Security Rules</div>
+<div class="Section">
+
+<p>The <a href="SlkQueriesAndQuerySets.htm">SLK Queries and Query Sets</a> section gave a brief
+example (the "Users" query) of how the LearningStore schema of a SLK database can be upgraded
+to add a security rule.  Here, we explain in more detail how to add and update views and security
+rules.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">For More Information</div>
+<div class="Section">
+
+<div><a href="SlkConcepts.htm">SLK Concepts</a></div>
+<div><a href="SlkSettings.htm">SLK Settings</a></div>
+<div><a href="SlkSettings.xml.htm">Default SLK Settings XML</a></div>
+<div><a href="SlkQueriesAndQuerySets.htm">SLK Queries and Query Sets</a></div>
+<div><a href="SlkApi.htm">SLK API Overview</a></div>
+<div><a href="MlcLearningStore.htm">LearningStore Overview (MLC)</a></div>
+<div><a href="MlcSchemaReference.htm">LearningStore Schema Reference (MLC)</a></div>
+<div><a href="Microsoft.SharePointLearningKit.SlkSettings.Class.htm">SlkSettings Class (SLK API)</a></div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader"></div>
+<div class="Section">
+<b><a href="SlkSettings.htm">Next Topic: SLK Settings</a></b>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="TopicFooter">
+</div>
+
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div>
+
+</body>
+
+</html>
+

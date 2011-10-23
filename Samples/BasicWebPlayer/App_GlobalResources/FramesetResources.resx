@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="FRM_Title" xml:space="preserve">
+    <value>Basic Web Player Training</value>
+    <comment>BWP only</comment>
+  </data>
+  <data name="FRM_ParameterRequiredTitle" xml:space="preserve">
+    <value>{0} Parameter is Required</value>
+    <comment>0=name of parameter (not localized)</comment>
+  </data>
+  <data name="FRM_ParameterRequiredMsg" xml:space="preserve">
+    <value>The {0} parameter is required in order to display the training.</value>
+    <comment>0=name of parameter (not localized)</comment>
+  </data>
+  <data name="FRM_InvalidParameterTitle" xml:space="preserve">
+    <value>Invalid Parameter Value</value>
+  </data>
+  <data name="FRM_InvalidParameterMsg" xml:space="preserve">
+    <value>The value ({1}) is not valid for the {0} parameter.</value>
+    <comment>0 = name of parameter (not localized); 1 = the value provided for the parameter</comment>
+  </data>
+  <data name="FRM_UnknownExceptionTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="FRM_UnknownExceptionMsg" xml:space="preserve">
+    <value>An error occurred. More information: {0}</value>
+    <comment>0=message from exception</comment>
+  </data>
+  <data name="FRM_InvalidAttemptStatusForViewTitle" xml:space="preserve">
+    <value>Training Not Available</value>
+  </data>
+    <data name="HID_SelectActivityTitleHtml" xml:space="preserve">
+        <value>Select an activity</value>
+        <comment></comment>
+    </data>
+    <data name="HID_SelectActivityMsgHtml" xml:space="preserve">
+        <value>Please select an activity to continue with the training.</value>
+    </data>
+    <data name="HID_SessionCompletedTitle" xml:space="preserve">
+        <value>Training Completed</value>
+    </data>
+    <data name="HID_SessionAbandonedTitle" xml:space="preserve">
+        <value>Training Abandoned</value>
+    </data>
+    <data name="HID_SessionSuspendedTitle" xml:space="preserve">
+        <value>Training Suspended</value>
+    </data>
+  <data name="FRM_ExecuteViewAbandonedSessionMsg" xml:space="preserve">
+    <value>This training has been abandoned. You cannot make any further changes.</value>
+  </data>
+  <data name="FRM_ExecuteViewCompletedSessionMsg" xml:space="preserve">
+    <value>This training has been completed. You cannot make any further changes.</value>
+  </data>
+  <data name="FRM_ExecuteViewSuspendedSessionMsg" xml:space="preserve">
+    <value>This training has been suspended. You can return later to resume the training.</value>
+  </data>
+  <data name="FRM_CannotDisplayContentTitle" xml:space="preserve">
+    <value>Training Not Available</value>
+  </data>
+  <data name="FRM_SessionIsNotActiveMsg" xml:space="preserve">
+    <value>This training has been completed. You cannot make any further changes.</value>
+  </data>
+  <data name="FRM_ActivityIsNotActiveMsg" xml:space="preserve">
+    <value>The page cannot be displayed. Select a different page.</value>
+  </data>
+  <data name="FRM_UnexpectedError" xml:space="preserve">
+    <value>An error occurred. More information: {0}</value>
+    <comment>0= exception message. BWP only. SLK filters errors so that unknown exceptions are not displayed.</comment>
+  </data>
+    <data name="FRM_UnexpectedErrorNoException" xml:space="preserve">
+        <value>The training cannot be displayed. Try refreshing your browser.</value>
+    </data>
+  <data name="FRM_UnexpectedErrorTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="FRM_ViewNotSupportedTitle" xml:space="preserve">
+    <value>View Not Supported</value>
+  </data>
+  <data name="FRM_RAViewNotSupportedMsg" xml:space="preserve">
+    <value>Random access view is not supported in this application.</value>
+  </data>
+  <data name="FRM_ReviewViewNotSupportedMsg" xml:space="preserve">
+    <value>Review view is not supported in this application.</value>
+  </data>
+  <data name="FRM_ViewNotSupportedMsg" xml:space="preserve">
+    <value>The requested view is not supported in this application.</value>
+      <comment>This message only occurs if the view parameter on one of the interior frames is invalid.</comment>
+  </data>
+  <data name="FRM_NotAvailableTitleHtml">
+        <value>Training Not Available</value>
+        <comment>BWP only</comment>
+    </data>
+    <data name="FRM_ResourceNotFound" xml:space="preserve">
+        <value>The requested resource could not be loaded.</value>
+        <comment>An internal error happened: could not load the requested resource.</comment>
+    </data>
+    <data name="FRM_NotAvailableHtml">
+        <value>This training is not available. This may be because the training does not exist, or 
+        you do not have permission to view it. 
+    </value>
+        <comment>BWP only</comment>
+    </data>
+  <data name="NAV_NextTitle" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="NAV_PrevTitle" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="NAV_SaveTitle" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="NAV_MinimizeTitle" xml:space="preserve">
+    <value>Hide Contents</value>
+  </data>
+  <data name="NAV_MaximizeTitle" xml:space="preserve">
+    <value>Show Contents</value>
+  </data>
+  <data name="HID_ReloadCurrentContent" xml:space="preserve">
+        <value>Continue</value>
+    </data>
+  <data name="HID_SubmitAttemptTitleHtml" xml:space="preserve">
+        <value>Submit this Assignment?
+        </value>
+    </data>
+  <data name="HID_SubmitAttemptMessageHtml" xml:space="preserve">
+        <value>After you submit this assignment, you will not be able to make any further changes.&lt;br&gt;&lt;br&gt;
+        If you have completed the assignment, click &lt;b&gt;Submit&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
+        If you are not ready to submit the assignment, you can finish the assignment or close this window. Your work is already saved.
+        </value>
+    </data>
+  <data name="HID_SubmitLink" xml:space="preserve">
+    <value>Submit</value>
+  </data>  
+  <data name="HID_MoveNextFailedHtml" xml:space="preserve">
+    <value>You cannot navigate to the next page at this time. Click Continue to return to the current page.</value>
+  </data>
+  <data name="HID_MovePreviousFailedHtml" xml:space="preserve">
+    <value>You cannot navigate to the previous page at this time. Click Continue to return to the current page.</value>
+  </data>
+  <data name="HID_MoveToActivityFailedHtml" xml:space="preserve">
+    <value>You cannot navigate to the selected page at this time. Click Continue to return to the current page.</value>
+  </data>
+  <data name="HID_SetValueMappingFailedHtml" xml:space="preserve">
+    <value>Could not set one or more values as requested. &lt;br&gt;&lt;br&gt;
+    More information: </value>
+    <comment>Following this message, one or more messages from exceptions are displayed.</comment>
+  </data>
+  <data name="HID_SetValuePostedDataInvalid" xml:space="preserve">
+    <value>Data posted about the data model was invalid.</value>
+    <comment>This message is displayed as the "More information" part of HID_SetValueFailed or HID_SetValueMappingFailed</comment>
+  </data>
+  <data name="HID_InvalidActivityId" xml:space="preserve">
+    <value>The activity id {0} is not valid.</value>
+    <comment>0=activity id sent to request as the target activity</comment>
+  </data>
+  <data name="HID_TerminateFailed" xml:space="preserve">
+    <value>There was a problem processing a request from this page. Try selecting a different page.
+    More information: {0}</value>
+    <comment>0=message from exception</comment>
+  </data>
+  <data name="HID_ServerErrorTitle" xml:space="preserve">
+    <value>Processing Error</value>
+  </data>
+    <data name="POST_SubmitHtml" xml:space="preserve">
+        <value>Submit</value>
+    </data>
+    <data name="HID_SubmitPageTitleHtml" xml:space="preserve">
+        <value>Submit this Training?</value>
+    </data>
+    <data name="HID_SubmitPageMessageHtml" xml:space="preserve">
+        <value>You cannot make any further changes after you submit this training.&lt;br&gt;&lt;br&gt;
+        If you have completed the training, click &lt;b&gt;Submit&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
+        If you are not ready to submit the training, click &lt;b&gt;Cancel&lt;/b&gt; to return to the previous page.
+        </value>
+    </data>
+    <data name="HID_SubmitPageMessageNoCurrentActivityHtml" xml:space="preserve">
+        <value>You cannot make any further changes after you submit this training.&lt;br&gt;&lt;br&gt;
+        If you have completed the training, click &lt;b&gt;Submit&lt;/b&gt;.&lt;br&gt;&lt;br&gt;
+        If you are not ready to submit the training, select an activity to continue the training.
+        </value>
+    </data>
+    <data name="POST_ContinueHtml" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
+  <data name="CONV_MappingRequired" xml:space="preserve">
+    <value>Interaction and objective information has not been properly initialized.</value>
+  </data>
+  <data name="CONV_SetValueComment" xml:space="preserve">
+    <value>There was a problem adding or updating comment data associated with this page.
+    More information: {0}</value>
+    <comment>0=information from exception</comment>
+  </data>
+  <data name="CONV_SetValueInteraction" xml:space="preserve">
+    <value>There was a problem adding or updating interaction data associated with this page.
+    More information: {0}</value>
+  </data>
+  <data name="CONV_SetValueInvalidName" xml:space="preserve">
+    <value>The element named '{0}' could not be recognized. The data was not updated.
+    </value>
+    <comment>0=the invalid name.</comment>
+  </data>
+  <data name="CONV_SetValueInvalidValue" xml:space="preserve">
+    <value>The value ({0}) is not a valid value for the {1} element. The data was not updated.</value>
+    <comment>0=value, 1=element name (eg, cmi.score.raw)</comment>
+  </data>
+  <data name="CONV_SetValueObjective" xml:space="preserve">
+    <value>There was a problem adding or updating objective data associated with this page.
+    More information: {0}</value>
+    <comment>0=information from exception</comment>
+  </data>
+  <data name="CONV_SetValueReadOnly" xml:space="preserve">
+    <value>The {0} element cannot be modified. The data was not updated.</value>
+    <comment>0=name of the element</comment>
+  </data>
+  <data name="CONV_SetValueException" xml:space="preserve">
+    <value>The value ({1}) is not a valid value for the {0} element. The data was not updated. More information: {2}</value>
+    <comment>0 = element name, 1 = attempted element value, 2 = exception message</comment>
+  </data>
+  <data name="CONV_InvalidViewOnSetValue" xml:space="preserve">
+    <value>The data on this page cannot be updated while reviewing the training.</value>
+  </data>
+  <data name="CON_PleaseWait" xml:space="preserve">
+    <value>Please wait...</value>
+    <comment>Message to wait for other frames to load.</comment>
+  </data>
+  <data name="CON_ContentCannotBeDisplayedTitle" xml:space="preserve">
+    <value>Cannot Access Content</value>
+    <comment>Title for CON_ContentCannotBeDisplayedMsg.</comment>
+  </data>
+  <data name="CON_ContentCannotBeDisplayedMsg" xml:space="preserve">
+    <value>There is a problem accessing the content. It cannot be displayed.</value>
+    <comment>This is a generic error message that happens when the content URL is not valid. It should not contain much information because it 
+      basically means either there is a bug in the frameset or this is a hack attempt.</comment>
+  </data>
+  <data name="CON_ResourceNotFoundTitle" xml:space="preserve">
+    <value>File Not Found</value>
+    <comment>Title for ResourceNotFoundMsg.</comment>
+  </data>
+  <data name="CON_ResourceNotFoundMsg" xml:space="preserve">
+    <value>The page you requested cannot be found. Please select or move to a different page.</value>
+  </data>
+    <data name="CON_AttachedFileDoesNotExistHtml" xml:space="preserve">
+        <value>The attached files listed below are empty or do not exist: 
+        &lt;br&gt;&lt;br&gt; 
+        Invalid files:</value>
+    </data>
+    <data name="CON_FileAttachmentErrorEndHtml" xml:space="preserve">
+        <value>Click Continue to return to the current page.</value>
+    </data>
+     <data name="CON_FileAttachmentErrorTitleHtml" xml:space="preserve">
+        <value>File Attachment Error</value>
+    </data>
+  <data name="TOC_InvalidJsVersion" xml:space="preserve">
+    <value>The browser has cached an old version of files required for this page. Please refresh your browser.</value>
+  </data>
+    <data name="TOC_SubmitAttempt" xml:space="preserve">
+        <value>Submit Training</value>
+    </data>
+</root>

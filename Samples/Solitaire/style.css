@@ -1,0 +1,74 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+
+a {
+	color: #0A18C9;
+	text-decoration : underline;
+}
+
+a:hover {
+	color: #703F3F;
+	text-decoration : underline;
+	border-width: 1px 1px 1px 1px;
+}
+
+body {
+	font-size: 100%;
+	color: #000000;
+	font-family: "Trebuchet MS", "Lucida Grande", Helvetica, Arial, sans-serif;
+	background-color: #FFFFF3;
+	margin-left: 20px;
+}
+
+p {
+	font-size: 100%;
+	line-height: 120%;
+	margin-top: 10pt;
+	margin-bottom: 6pt;
+}
+
+h1 {
+	font-size: 150%;
+	margin-top: 14pt;
+	margin-bottom: 6pt;
+}
+
+h2 {
+	font-size: 125%;
+}
+
+DIV.PageFooter
+{
+    padding-top: 12pt;
+    text-align: center;
+	padding-bottom: 12pt;
+	color: black;
+	font-size: 75%;
+}
+
+.generalDirections {
+	background-color: #FFFFCC;
+	border-width: 1px 1px 1px 1px;
+	border-style: solid;
+	border-color: #808000;
+	width: 650px;
+}
+
+.questions {
+	width: 650px;
+}
+
+.correct {
+	background-color: #98FB98;
+	border-width: 1px 1px 1px 1px;
+	border-style: solid;
+	border-color: #808000;
+	width: 500px;
+}
+
+.incorrect {
+	background-color: #FA8072;
+	border-width: 1px 1px 1px 1px;
+	border-style: solid;
+	border-color: #808000;
+	width: 500px;
+}

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="urn:schemas-microsoft-com:sharepoint-learning-kit:settings" elementFormDefault="qualified" xmlns="urn:schemas-microsoft-com:sharepoint-learning-kit:settings" xmlns:mstns="urn:schemas-microsoft-com:sharepoint-learning-kit:settings" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="ConditionOperator">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Equal" />
+			<xs:enumeration value="GreaterThan" />
+			<xs:enumeration value="GreaterThanEqual" />
+			<xs:enumeration value="LessThan" />
+			<xs:enumeration value="LessThanEqual" />
+			<xs:enumeration value="NotEqual" />
+			<xs:enumeration value="IsNull" />
+			<xs:enumeration value="IsNotNull" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:group name="SettingsGroup">
+		<xs:sequence>
+			<xs:element name="MimeTypeMapping" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence />
+					<xs:attribute name="Extension" type="xs:string" use="required" />
+					<xs:attribute name="MimeType" type="xs:string" use="required" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="EmailSettings" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+                                    <xs:all>
+                                        <xs:element name="NewAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="CancelAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="SubmitAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="ReactivateAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="ReturnAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="CollectAssignment" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                        <xs:element name="AssignmentReminder" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
+                                    </xs:all>
+                                    <xs:attribute name="ReminderDays" type="xs:string" use="optional" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Query" maxOccurs="unbounded" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice maxOccurs="unbounded" minOccurs="0">
+							<xs:element name="Column" maxOccurs="unbounded" minOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+									</xs:sequence>
+									<xs:attribute name="Title" type="xs:string" use="optional" />
+									<xs:attribute name="RenderAs" type="RenderAsType" default="Default" />
+									<xs:attribute name="ViewColumnName" type="SchemaIdType" use="required" />
+									<xs:attribute name="ViewColumnName2" type="SchemaIdType" use="optional" />
+									<xs:attribute name="ViewColumnName3" type="SchemaIdType" use="optional" />
+									<xs:attribute name="CellFormat" type="xs:string" />
+									<xs:attribute name="AllowUserSort" type="xs:boolean" default="true" />
+									<xs:attribute name="NullDisplayString" type="xs:string" />
+									<xs:attribute name="ToolTipFormat" type="xs:string" />
+									<xs:attribute name="Wrap" type="xs:boolean" default="true" use="optional" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Sort" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence />
+									<xs:attribute name="ViewColumnName" type="SchemaIdType" use="required" />
+									<xs:attribute name="Ascending" type="xs:boolean" default="true" use="optional" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Condition" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence />
+									<xs:attribute name="ViewColumnName" type="SchemaIdType" use="required" />
+									<xs:attribute name="Operator" type="ConditionOperator" use="required" />
+									<xs:attribute name="Value" type="xs:string" use="optional" />
+									<xs:attribute name="MacroName" type="MacroNameType" use="optional" />
+									<xs:attribute name="NoConditionOnNull" type="xs:boolean" use="optional" default="false" />
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:sequence>
+					<xs:attribute name="Name" type="NameType" use="required" />
+					<xs:attribute name="Title" type="xs:string" use="optional" />
+					<xs:attribute name="ViewName" type="SchemaIdType" use="required" />
+					<xs:attribute name="CountViewColumnName" type="SchemaIdType" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="QuerySet" maxOccurs="unbounded" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="IncludeQuery" minOccurs="1" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence />
+								<xs:attribute name="QueryName" type="NameType" use="required" />
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="Name" type="NameType" use="required" />
+					<xs:attribute name="DefaultQueryName" type="NameType" use="optional" />
+					<xs:attribute name="Title" type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:simpleType name="NameType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z]+[a-zA-Z0-9]*" />
+			<xs:maxLength value="63" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SchemaIdType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z]+[a-zA-Z0-9]*" />
+			<xs:maxLength value="63" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Settings">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="SettingsGroup" maxOccurs="1" minOccurs="1" />
+			</xs:sequence>
+			<xs:attribute name="ApprovedAttachmentTypes" type="xs:string" use="required" />
+			<xs:attribute name="ELearningIisCompatibilityModeExtensions" type="xs:string" use="optional" />
+			<xs:attribute name="HideDisabledUsers" type="xs:boolean" use="optional" />
+			<xs:attribute name="UseGrades" type="xs:boolean" use="optional" />
+			<xs:attribute name="LearnerReportUrl" type="xs:string" use="optional" />
+			<xs:attribute name="LoggingOptions" type="LoggingOptions" use="required" />
+			<xs:attribute name="MaxAttachmentKilobytes" type="xs:int" use="required" />
+			<xs:attribute name="NonELearningIisCompatibilityModeExtensions" type="xs:string" use="optional" />
+			<xs:attribute name="PackageCacheExpirationMinutes" type="xs:int" use="optional" />
+			<xs:attribute name="PackageCacheLocation" type="xs:string" use="required" />
+			<xs:attribute name="UserWebListMruSize" type="xs:int" use="required" />
+		</xs:complexType>
+	</xs:element>
+        <xs:complexType name="EmailDetails">
+                <xs:sequence>
+                    <xs:element name="Body" minOccurs="1" maxOccurs="1">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="Subject" type="xs:string" use="required" />
+        </xs:complexType>
+	<xs:simpleType name="RenderAsType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Default" />
+			<xs:enumeration value="UtcAsLocalDateTime" />
+			<xs:enumeration value="SPWebName" />
+			<xs:enumeration value="Link" />
+			<xs:enumeration value="LearnerAssignmentStatus" />
+			<xs:enumeration value="Due" />
+			<xs:enumeration value="ScoreAndPossible" />
+			<xs:enumeration value="Submitted" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MacroNameType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SPWebScope" />
+			<xs:enumeration value="CurrentUserKey" />
+			<xs:enumeration value="Now" />
+			<xs:enumeration value="StartOfToday" />
+			<xs:enumeration value="StartOfTomorrow" />
+			<xs:enumeration value="StartOfThisWeek" />
+			<xs:enumeration value="StartOfNextWeek" />
+			<xs:enumeration value="StartOfWeekAfterNext" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LoggingOptions">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="None" />
+			<xs:enumeration value="LogDetailSequencing" />
+			<xs:enumeration value="LogFinalSequencing" />
+			<xs:enumeration value="LogRollup" />
+			<xs:enumeration value="LogAllSequencing" />
+			<xs:enumeration value="LogAll" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

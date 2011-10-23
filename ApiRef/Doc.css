@@ -1,0 +1,656 @@
+/* Common Styles */
+BODY, TABLE
+{
+	font: 8.5pt Verdana;
+}
+BODY
+{
+	margin: 0;
+}
+A, A:VISITED
+{
+	color: #0000FF;
+	text-decoration: none;
+}
+A:HOVER
+{
+	color: #3366FF;
+	text-decoration: underline;
+}
+P
+{
+	margin-top: 6pt;
+	margin-bottom: 6pt;
+}
+UL, OL, LI
+{
+	margin-top: 6pt;
+	margin-bottom: 6pt;
+}
+TT
+{
+	font: 9pt 'Courier New';
+	color: #000066;
+}
+
+/* Common to Documentation Topics and Formatted Source Code */
+A.r
+{
+}
+SPAN.pr
+{
+	font-style: italic;
+}
+SPAN.n
+{
+	font-weight: bold;
+}
+DIV.TopicHeader
+{
+	font-size: 10pt;
+	font-weight: bold;
+	color: #003399;
+	background-color: #D4DFFF;
+	padding: 4pt 12pt 4pt 12pt;
+	border-bottom: 1px solid #C8CDDE;
+}
+DIV.TopicHeader DIV.Supertitle_
+{
+	font-size: 7.5pt;
+	font-weight: normal;
+	margin-bottom: 2pt;
+}
+DIV.TopicFooter
+{
+	height: 24pt;
+}
+DIV.PageFooter
+{
+	margin-left: 12pt;
+	padding-bottom: 12pt;
+	color: black;
+	background-color: white;
+}
+DIV.Summary
+{
+	padding: 6pt 12pt 0pt 12pt;
+}
+DIV.SectionHeader
+{
+	font-size: 11pt;
+	font-weight: bold;
+	color: #003399;
+	margin: 18pt 12pt 6pt 12pt;
+}
+DIV.Section
+{
+	padding: 0pt 24pt 0pt 24pt;
+}
+DIV.SubsectionHeader
+{
+	font-size: 9.5pt;
+	font-weight: bold;
+	margin: 12pt 0pt 8pt 0pt;
+}
+DIV.Subsection
+{
+	padding: 0pt;
+}
+P.LabeledParagraph
+{
+	margin-top: 0pt;
+	margin-bottom: 0pt;
+}
+P.LabeledParagraph SPAN.Label_
+{
+	font-weight: bold;
+}
+TABLE.Grid
+{
+	width: 100%;
+	border-collapse: collapse;
+}
+TABLE.Grid TR.Header_ TD
+{
+	font-weight: bold;
+	color: #000066;
+	background-color: #EFEFF7;
+	border-bottom: solid 1px #C8CDDE;
+}
+TABLE.Grid TR
+{
+	vertical-align: top;
+}
+TABLE.Grid TD
+{
+	background-color: #F7F7FF;
+	padding: 3pt;
+	border-top: solid 1px White;
+	border-right: solid 2px White;
+	border-bottom: solid 1px #D5D5D3;
+}
+TABLE.Grid P
+{
+	margin-top: 0pt;
+	margin-bottom: 0pt;
+}
+TABLE.Overloads COL.Column1_
+{
+	width: 40%;
+}
+TABLE.Overloads COL.Column2_
+{
+	width: 60%;
+}
+TABLE.Code, TABLE.Members, TABLE.Exceptions, TABLE.List, TABLE.Members
+{
+	margin-top: 10pt;
+	margin-bottom: 10pt;
+}
+TABLE.Code TD.Content_
+{
+	padding-top: 6pt;
+	padding-bottom: 6pt;
+	font: 9pt 'Courier New';
+	color: #000066;
+}
+TABLE.Code TD.Content_ P
+{
+	margin: 0pt 0pt 0pt 47pt;
+	text-indent: -47pt;
+}
+TABLE.Code TD.Content_ PRE
+{
+	margin: 0pt 0pt 0pt 0pt;
+}
+TABLE.Code TD.Indent_
+{
+	padding-left: 21pt;
+	text-indent: -21pt;
+}
+TABLE.Code TD.Indent_ DIV
+{
+	margin-left: 21pt;
+	text-indent: -21pt;
+}
+.ParameterName, .TypeParameterName
+{
+	font-style: italic;
+}
+P.ParameterName, P.TypeParameterName
+{
+	margin-top: 6pt;
+	margin-bottom: 0pt;
+}
+P.ParameterDescription, P.TypeParameterDescription
+{
+	margin-top: 0pt;
+}
+P.AttributeName
+{
+	margin-top: 6pt;
+	margin-bottom: 0pt;
+	font: 9pt 'Courier New';
+	font-weight: bold;
+	color: #000066;
+}
+P.AttributeDescription
+{
+	margin-top: 0pt;
+}
+TABLE.Members TD.Header1_
+{
+	width: 32pt;
+}
+TABLE.Members TD.Header2_
+{
+	width: 160pt;
+}
+TABLE.Members TD.Header3_
+{
+}
+P.SeeAlso
+{
+	margin-top: 0pt;
+	margin-bottom: 0pt;
+}
+SPAN.PublicIcon, SPAN.ProtectedIcon, SPAN.InternalIcon, SPAN.PrivateIcon
+{
+	font: 12pt Webdings;
+	cursor: default;
+	line-height: 9pt;
+	padding-left: 4pt;
+	padding-right: 4pt;
+}
+SPAN.PublicIcon
+{
+	color: green;
+}
+SPAN.ProtectedIcon
+{
+	color: purple;
+}
+SPAN.InternalIcon, SPAN.PrivateIcon
+{
+	color: red;
+}
+SPAN.ConstIcon, SPAN.StaticIcon
+{
+	font-size: 8pt;
+	color: black;
+	background-color: Yellow;
+	border: solid 1px #808080;
+	cursor: default;
+	line-height: 9pt;
+}
+
+/* DocBrowser *_Tabs.htm */
+#DocBrowserTabs
+{
+	overflow-x: auto;
+	overflow-y: hidden;
+	color: windowtext;
+}
+#DocBrowserTabs .Outer_
+{
+	width: 100%;
+	height: 100%;
+	background-color: #A9A9A9;
+	cursor: default;
+}
+#DocBrowserTabs TR.AboveTabs_
+{
+	height: 3pt;
+}
+#DocBrowserTabs TABLE.Tabs_
+{
+	width: 100%;
+}
+#DocBrowserTabs TABLE.Tabs_ TR
+{
+	vertical-align: top;
+}
+#DocBrowserTabs TABLE.Tabs_ TD
+{
+}
+#DocBrowserTabs TABLE.Tabs_ SPAN
+{
+	position: relative;
+	top: 1px;
+}
+#DocBrowserTabs TABLE.Tabs_ TD.Spacer_
+{
+	border-bottom: 1px solid windowframe;
+}
+#DocBrowserTabs TABLE.Tabs_ TD.Spacer_ IMG
+{
+	width: 8px;
+	height: 1px;
+}
+#DocBrowserTabs TABLE.Tabs_ TD.SyncToc_
+{
+	border-bottom: 1px solid windowframe;
+}
+#DocBrowserTabs TABLE.Tabs_ TD.SyncToc_ IMG
+{
+	width: 17px;
+	height: 17px;
+}
+#DocBrowserTabs TABLE.Tabs_ TD.Edge_
+{
+	width: 6px;
+	background-color: threedface;
+	border-bottom: 1px solid windowframe;
+}
+#DocBrowserTabs TABLE.Tabs_ TD.Edge_ IMG
+{
+	width: 6px;
+	height: 17px;
+}
+#DocBrowserTabs TABLE.Tabs_ TD.Tab_
+{
+	padding-left: 4pt;
+	padding-right: 4pt;
+	border-top: 1px solid windowframe;
+	border-bottom: 1px solid windowframe;
+	background-color: threedface;
+}
+#DocBrowserTabs TR.BelowTabs_
+{
+	height: 3pt;
+	background-color: window;
+}
+
+#DocBrowserTabs TR.FindLabel_
+{
+	font: 8pt Tahoma;
+	background-color: window;
+	padding-left: 2px;
+	padding-bottom: 2px;
+}
+#DocBrowserTabs TR.Find_
+{
+	background-color: window;
+}
+#DocBrowserTabs TR.Find_ TD
+{
+	padding-left: 1px;
+	padding-right: 1px;
+}
+#DocBrowserTabs TR.Find_ INPUT
+{
+	width: 100%;
+	font: 8pt Tahoma;
+}
+
+/* DocBrowser *_Contents.htm */
+#DocBrowserContents
+{
+	font: 8pt Tahoma;
+	color: windowtext;
+	cursor: default;
+	background-color: window;
+	margin-top: 3px;
+	margin-bottom: 2px;
+}
+#DocBrowserContents DIV.Subtree
+{
+	display: none;
+}
+#DocBrowserContents IMG
+{
+	vertical-align: middle;
+	width: 9px;
+	height: 9px;
+	margin-right: 3px;
+}
+#DocBrowserContents DIV.L1_,
+#DocBrowserContents DIV.L2_,
+#DocBrowserContents DIV.L3_,
+#DocBrowserContents DIV.L4_,
+#DocBrowserContents DIV.L5_
+{
+	white-space: nowrap;
+}
+#DocBrowserContents DIV.L1_ IMG,
+#DocBrowserContents DIV.L2_ IMG,
+#DocBrowserContents DIV.L3_ IMG,
+#DocBrowserContents DIV.L4_ IMG,
+#DocBrowserContents DIV.L5_ IMG
+{
+	margin-right: 4px;
+}
+#DocBrowserContents DIV.L1_
+{
+	padding-left: 2px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#DocBrowserContents DIV.L2_
+{
+	padding-left: 18px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#DocBrowserContents DIV.L3_
+{
+	padding-left: 34px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#DocBrowserContents DIV.L4_
+{
+	padding-left: 50px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#DocBrowserContents DIV.L5_
+{
+	padding-left: 66px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#DocBrowserContents SPAN
+{
+	border: solid 1px window;
+}
+
+/* DocBrowser *_Index.htm */
+#DocBrowserIndex
+{
+	font: 8pt Tahoma;
+	color: windowtext;
+	cursor: default;
+	background-color: window;
+	margin-bottom: 2px;
+	margin-left: 3px;
+	width: 1000px; /* workaround for various display bugs */
+}
+#DocBrowserIndex DIV
+{
+	white-space: nowrap;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+#DocBrowserIndex SPAN
+{
+	border: solid 1px window;
+}
+
+/* DocBrowser Basic*_Contents.htm */
+#BasicDocBrowserContents
+{
+	font: 8pt Tahoma;
+	cursor: default;
+	margin-top: 3px;
+	margin-bottom: 2px;
+}
+#BasicDocBrowserContents TABLE.Header_
+{
+	width: 90%;
+	margin-top: 4pt;
+	margin-bottom: 4pt;
+}
+#BasicDocBrowserContents TABLE.Header_ TD.Left_
+{
+	font-size: 12pt;
+	font-weight: bold;
+	color: graytext;
+}
+#BasicDocBrowserContents TABLE.Header_ TD.Right_
+{
+	font-size: 7pt;
+	font-style: italic;
+	text-align: right;
+}
+#BasicDocBrowserContents DIV.L1_,
+#BasicDocBrowserContents DIV.L2_,
+#BasicDocBrowserContents DIV.L3_,
+#BasicDocBrowserContents DIV.L4_,
+#BasicDocBrowserContents DIV.L5_
+{
+	white-space: nowrap;
+}
+#BasicDocBrowserContents DIV.L1_ IMG,
+#BasicDocBrowserContents DIV.L2_ IMG,
+#BasicDocBrowserContents DIV.L3_ IMG,
+#BasicDocBrowserContents DIV.L4_ IMG,
+#BasicDocBrowserContents DIV.L5_ IMG
+{
+	margin-right: 4px;
+}
+#BasicDocBrowserContents DIV.L1_
+{
+	padding-left: 2px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#BasicDocBrowserContents DIV.L2_
+{
+	padding-left: 18px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#BasicDocBrowserContents DIV.L3_
+{
+	padding-left: 34px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#BasicDocBrowserContents DIV.L4_
+{
+	padding-left: 50px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#BasicDocBrowserContents DIV.L5_
+{
+	padding-left: 66px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+/* DocBrowser Basic*_Index.htm */
+#BasicDocBrowserIndex
+{
+	font: 8pt Tahoma;
+	cursor: default;
+	margin-bottom: 2px;
+	margin-left: 3px;
+}
+#BasicDocBrowserIndex TABLE.Header_
+{
+	width: 90%;
+	margin-top: 4pt;
+	margin-bottom: 4pt;
+}
+#BasicDocBrowserIndex TABLE.Header_ TD.Left_
+{
+	font-size: 12pt;
+	font-weight: bold;
+	color: graytext;
+}
+#BasicDocBrowserIndex DIV
+{
+	white-space: nowrap;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+/* Documentation Topics */
+BODY#DocBrowserTopic
+{
+	width: 95%; /* avoid horizontal scrollbar in standards-compliant mode */
+}
+#DocBrowserTopic .ViewToc
+{
+	padding: 4pt 12pt 0pt 12pt;
+	margin-top: 2pt;
+	margin-bottom: 0pt;
+}
+#DocBrowserTopic .ViewToc A
+{
+	background-color: yellow;
+	padding: 2px 4px 2px 4px;
+	border: 1px solid outset;
+}
+
+/* Formatted Source Code */
+BODY#CSharpCodeDoc
+{
+	margin: 2pt;
+	width: 95%; /* avoid horizontal scrollbar in standards-compliant mode */
+}
+#CSharpCodeDoc .ViewToc
+{
+	font: 8.5pt Verdana;
+	padding: 0pt 0pt 4pt 0pt;
+}
+#CSharpCodeDoc .ViewToc A
+{
+	background-color: yellow;
+	padding: 2px 4px 2px 4px;
+	border: 1px solid outset;
+}
+#CSharpCodeDoc, #CSharpCodeDoc .TopicTable_
+{
+	font: 9pt 'Courier New';
+}
+#CSharpCodeDoc PRE
+{
+	margin-top: 0;
+	margin-bottom: 0;
+}
+#CSharpCodeDoc .String_
+{
+	color: #A31515;
+}
+#CSharpCodeDoc .Comment_
+{
+	color: #008000;
+}
+#CSharpCodeDoc .Reserved_
+{
+	color: #0000FF;
+}
+#CSharpCodeDoc .Excluded_
+{
+	color: #808080;
+}
+#CSharpCodeDoc .TopicTable_
+{
+	width: 100%;
+}
+#CSharpCodeDoc .EmbeddedTopic_
+{
+	font: 8.5pt Verdana;
+	border: 1px solid #C8CDDE;
+	/*width: 700px;*/
+}
+#CSharpCodeDoc .TopicHeader
+{
+	padding: 0pt 3pt 0pt 3pt;
+}
+#CSharpCodeDoc .Summary
+{
+	padding: 0pt 12pt 0pt 12pt;
+}
+#CSharpCodeDoc .SectionHeader
+{
+	font-size: 8.5pt;
+	font-weight: bold;
+	color: black;
+	margin: 6pt 0pt 0pt 12pt;
+}
+#CSharpCodeDoc .SubsectionHeader
+{
+	font-size: 8.5pt;
+	margin: 6pt -12pt 0pt -12pt;
+}
+
+/* Documentation Topics */
+BODY#DocTopic
+{
+	width: 95%; /* avoid horizontal scrollbar in standards-compliant mode */
+}
+#DocTopic .ViewToc
+{
+	padding: 4pt 12pt 0pt 12pt;
+	margin-top: 2pt;
+	margin-bottom: 0pt;
+}
+#DocTopic .ViewToc A
+{
+	background-color: yellow;
+	padding: 2px 4px 2px 4px;
+	border: 1px solid outset;
+}
+#DocTopic DIV.Section
+{
+	padding: 0pt 12pt 0pt 12pt;
+}
+#DocTopic DIV.PageFooter
+{
+	margin-left: 12pt;
+}
+

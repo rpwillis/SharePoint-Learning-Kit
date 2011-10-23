@@ -1,0 +1,18 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+
+SharePoint Learning Kit LanguagePacks Version 1.1 Install Instructions
+Last Updated:	05/13/2008
+
+The language packs are packaged as SharePoint solutions and should be installed after deploying SLK in order to use SLK in your favourite language. The language pack comes with several command files to assist you in adding and deploying this solution. These command files assume that your install location for SharePoint is the c: drive, and that http://localhost is accessible for the stsadm command. If this is not the case, edit the language pack command files to change the install drive, and replace 'localhost' with the fully-qualified domain name of your server or server farm.
+
+Add and deploy the language pack as follows:
+1. The language packs are packaged based on their culture codes. Copy the contents from the specific language pack that you wish to use from the SLK language pack drop to your install drive. The rest of this example assumes you've copied it to c:\Install
+2. Click Start->Run
+3. Type 'cmd', and then click OK
+4. Type 'cd \Install', Enter
+5. Type 'AddSolution', Enter
+6. Type 'DeploySolution', Enter. Note that SharePoint solution deployment is asynchronous, so the solution may not be deployed immediately.
+7. To verify that the solution deployed successfully, type 'EnumSolutions', Enter. You should see a block of XML <LanguagePack Locale="<your locale>"> within <Solution Name=”sharepointlearningkit.wsp”> containing <LastOperationResult>DeploymentSucceeded</LastOperationResult>. If deployment is still pending, wait a minute or so and try EnumSolutions again.
+Note: If deployment fails, you can often determine the cause by reviewing the latest .log file in the WSS LOGS directory (typically "C:\Program Files\Common Files\Microsoft Shared\web server extensions\12\LOGS"). Regardless of the reason, you must cancel the deployment job before you can try again. To cancel a deployment job, go to SharePoint Central Administration, Operations, Timer Job Definitions, click on the deployment job, and click "Delete".
+8. To update the current SlkSetting.xml with the translated SlkSetting.xml run 'UpdateSlkSettings'. Note that this step will overwrite the current SlkSettings. If your deployment uses a customized copy of SlkSettings.xml, the customizations will be lost if the packaged copy is used as-is. In such a case, apply your customizations to the packaged copy before running this file.
+9. Navigate to Site Settings -> Regional Settings and change the locale settings to that of the installed language pack

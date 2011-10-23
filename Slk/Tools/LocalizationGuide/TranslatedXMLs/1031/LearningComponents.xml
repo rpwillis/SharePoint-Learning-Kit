@@ -1,0 +1,1453 @@
+<root>
+  <assembly culture="de" name="Microsoft.LearningComponents.resources" version="1.1.0.0">
+  </assembly>
+  <resources name="Microsoft.LearningComponents.Properties.ValidatorResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.ValidatorResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>LrLogCannotBeNullWhenRequired</ID>
+        <Source>The log parameter can not be null when the ValidationBehavior requires a log.</Source>
+        <Translation>Die LOG Parameter können nicht Null sein, wenn der ValidationBehavior einen LOG verlangt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ElementRemoved</ID>
+        <Source>(element has been removed)</Source>
+        <Translation>(Element ist entfernt worden)</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResourceOrOrganizationNotFound</ID>
+        <Source>The referenced resource or organization can not be found.</Source>
+        <Translation>Die Referenz Ressource oder die Organisation kann nicht gefunden werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RuleConditionConditionMissing</ID>
+        <Source>The &lt;ruleCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
+        <Translation>Der &lt;ruleCondition&gt; Knoten muss eine Bedingungsattribute haben. Siehe hierzu SCORM 1.3 CAM 5.1.3.1.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcNodeViolationTruncated</ID>
+        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by MLC.  It has been truncated to {2} characters.</Source>
+        <Translation>Der Wert, der mit "{0}" vom Knoten beginnt, {1}, ist länger als das, das von MLC unterstützt wird. Es ist um {2} Zeichen gekürzt worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueOutOfRange</ID>
+        <Source>The value is out of range.</Source>
+        <Translation>Der Wert ligt außerhalb des Bereiches.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidPresentationNode</ID>
+        <Source>A &lt;presentation&gt; node may only appear, if needed, as a child of a leaf &lt;item&gt;element that references a resource.</Source>
+        <Translation>Ein &lt;presentation&gt; Knoten kann nur erscheint, wenn es gebraucht wird, als ein "child of a leaf" &lt;item&gt;Element das eine Referenz auf eine Ressource beinhaltet.</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadValue</ID>
+        <Source>The value "{0}" of element &lt;{1}&gt; is an invalid value.  Extra information: {2}</Source>
+        <Translation>Der Wert" {0}" von Element &lt; {1} &gt; ist ein ungültiger Wert. Weiter Informationen: {2}</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrMustHaveCorrectRoot</ID>
+        <Source>A valid index.xml begins with a &lt;LearningResource&gt; node in the "urn:schemas-microsoft-com:learning-resource" namespace.</Source>
+        <Translation>Ein gültiges index.xml beginnt mit ein &lt; LearningResource &gt; Knoten im "urn:schemas-microsoft-com:learning-Ausweg" namespace.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResourceHrefMissing</ID>
+        <Source>The resource node is missing the required attribute, 'href'</Source>
+        <Translation>Die erforderliche Atribute  'href,' in dem Rescoursen Knoten fehlt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ManifestMetaDataMissing</ID>
+        <Source>The &lt;metadata&gt; node is missing or in the wrong namespace on the &lt;manifest&gt;.  See SCORM 1.3 CAM 3.4.1.2.</Source>
+        <Translation>Der &lt; metadata &gt; Knoten fehlt oder steht im falschen namespace auf das &lt;manifest&gt;. Siehe hierzu SCORM 1.3 CAM 3.4.1.2.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RequiredAttributeMissing</ID>
+        <Source>The required attribute, {0}, is missing on element &lt;{1}&gt;. Extra information:{2}</Source>
+        <Translation>Die erforderliche Attribute, {0}, fehlt auf dem Element &lt; {1} &gt;. Besondere Hinwiese: {2}</Translation>
+      </Resources>
+      <Resources>
+        <ID>OutOfRangeNegOneToOne</ID>
+        <Source>The value is outside the valid range [-1 to 1].</Source>
+        <Translation>Der Wert liegt außerhalb der gültigen Auswahl [-1 to 1].</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcNodeViolation</ID>
+        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by Microsoft Learning Components.</Source>
+        <Translation>Der Wert, der vom Knoten mit "{0}" anfängt, {1}, ist länger als das, das was von Microsoft Learning Components unterstützt wird.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NodeName</ID>
+        <Source>The name of the erroneous node is: {0}</Source>
+        <Translation>Der Name des falschen Knotens ist: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadValueReplacement</ID>
+        <Source>The value "{0}" of element &lt;{1}&gt;is an invalid value.  It has been replaced by the default value "{2}".  Extra information: {3}</Source>
+        <Translation>Der Wert "{0}" von Element &lt;{1}&gt; ist ein ungültiger Wert. Es wurde mit dem Standardwert "{2}"ersetzt. Besondere Hinweise: {3}</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrChildInLrmNamespaceNotFound</ID>
+        <Source>The node &lt;{0}&gt; can not be found in the correct namespace. Extra information:{1}</Source>
+        <Translation>Der Knoten &lt;{0}&gt; kann im korrekten namespace nicht gefunden werden. Besondere Hinweise: {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadUri</ID>
+        <Source>The value is an invalid URI.</Source>
+        <Translation>Der Wert ist ein ungültiger URI.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrDefaultAttributeUsed</ID>
+        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element's "{2}" attribute.</Source>
+        <Translation>Der Standardwert von "{0}" ist anstelle von dem fehlenden oder falschen Wert für &lt;{1}&gt; Elements "{2}" Attribute setzt worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadXmlBase</ID>
+        <Source>The value is an invalid xml:base. xml:base must be a valid URI that does not begin with a "/" but does end with a "/".</Source>
+        <Translation>Der Wert ist ein ungültiger xml:base. xml:base muss ein gültiger URI sein, der nicht mit ein "/", beginnt aber mit ein "/" endet.</Translation>
+      </Resources>
+      <Resources>
+        <ID>EmptyReferencedObjective</ID>
+        <Source>The referencedObjective attribute on the {0} node is whitespace only, which is invalid.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
+        <Translation>Der referencedObjective Attribute auf dem {0} Knoten ist nur Whitespace, der ist ungültig. Siehe hierzu SCORM 1.3 CAM 5.1.3.1.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrNodeLengthException</ID>
+        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long.</Source>
+        <Translation>Der Knoten &lt;{0}&gt; hat einen Wert der mit "{1}" beginnt - das ist zu lang.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ParentXml</ID>
+        <sand>The full XML of the parent node is: {0}</sand>
+        <Translation>Die ganz XML des Parent-Knotens ist: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeValueException</ID>
+        <Source>The value of the &lt;{0}&gt; element's "{1}" attribute is missing or erroneous.</Source>
+        <Translation>Der Wert von dem &lt;{0}&gt; Element "{1}" Attribute fehlt oder ist falsch.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRuleAction</ID>
+        <Source>The &lt;ruleAction&gt; node may occur 1 and only 1 time within a &lt;preConditionRule&gt;, &lt;postConditionRule&gt;, or &lt;exitConditionRule&gt;.  See SCORM 1.3 CAM 5.1.3.1.2.</Source>
+        <Translation>Der &lt;ruleAction&gt; Knoten kommt vielleicht 1x und nur 1x innerhalb eines &lt;preConditionRule&gt;, &lt;postConditionRule&gt; oder &lt;exitConditionRule&gt; vor. Sehen Sie hierzu SCORM 1.3 CAM 5.1.3.1.2.</Translation>
+      </Resources>
+      <Resources>
+        <ID>GenericDuplicate</ID>
+        <Source>The parent node is {0}.</Source>
+        <Translation>Der Parent Knoten ist {0}.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRollupConditions</ID>
+        <Source>The &lt;rollupCondition&gt; node can only appear once in the &lt;rollupRule&gt; node.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
+        <Translation>Der &lt;rollupCondition&gt; Knoten kann nur 1x in &lt;rollupRule&gt; Knoten erscheinen. Siehe SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrNodeLengthViolation</ID>
+        <Source>The node &lt;{0}&gt; has a value that is too long.  It has been truncated to "{1}".</Source>
+        <Translation>Der Knotenwert &lt;{0}&gt; ist zu lang. Es wurde auf "{1}" gekürzt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemMustRepresentSco</ID>
+        <Source>The parent node, {0}, must represent a SCO.</Source>
+        <Translation>Der Parent Knoten {0}, muss ein SCO darstellen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueOutOfRangeToken</ID>
+        <Source>The value is not one of the permitted token values.</Source>
+        <Translation>Der Wert ist kein erlaubtes Tokenwert.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NodeXml</ID>
+        <Source>The full XML of the erroneous node is: {0}</Source>
+        <Translation>Die komplete XML des falschen Knotens ist: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>MetadataLocationNotFound</ID>
+        <Source>The file, {0}, referenced by the location element inside of metadata in the manifest can not be found in the package.</Source>
+        <Translation>Die Datei {0}, das vom Location Element innerhalb der metadata in der Manifest wird nicht im Paket gefunden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrMultiLRNotSupported</ID>
+        <Source>The package is a multiple learning resource package, which is not supported.</Source>
+        <Translation>Das Paket ist ein Multiple Learning Resource Package, das nicht unterstützt wird.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrChildInLrmNamespaceNotFoundTryOther</ID>
+        <Source>The node &lt;{0}&gt; can not be found in the correct namespace  An attempt will be made to find a child node with that name in other namespaces. Extra information:{1}</Source>
+        <Translation>Der Knoten &lt;{0}&gt; kann nicht im korrekten Namespace gefunden werden. Ein Versuch wird gestartet um einen Child-Knoten mit diesem Namen in anderen Namespaces zu finden. Besondere Hinwiese: {1} </Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRollupAction</ID>
+        <Source>The &lt;rollupAction&gt; node can only appear once in the &lt;rollupRule&gt;node.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
+        <Translation>Das &lt;rollupAction&gt; Knoten kann nur einmal in dem &lt;rollupRule&gt; Knoten erscheinen. Siehe hierzu SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueIncorrectType</ID>
+        <Source>The value is not the expected type.</Source>
+        <Translation>Der Wert entspricht nicht den erwarteten Typ.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrNodeValueException</ID>
+        <Source>The value of the &lt;{0}&gt; element is missing or erroneous.</Source>
+        <Translation>Der Wert von &lt;{0}&gt; Element fehlt oder ist falsch.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrPageNodeSkipped</ID>
+        <Source>The value of the PageID attribute of the {0} element is invalid. The element has been omitted from the conversion.</Source>
+        <Translation>Der Wert von dem PageID-Attribute von dem {0} Element ist ungültig. Das Element ist von der Unterhaltung ausgeschlossen worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidFileType</ID>
+        <Source>The file {0} is not a valid file type.</Source>
+        <Translation>Die Datei {0} entspricht nicht einem gültigen Typ.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidNode</ID>
+        <Source>An element, &lt;{0}&gt;, is invalid because it is illegal or has illegal attribute values. Extra information: {1}</Source>
+        <Translation>Das Element &lt;{0}&gt; ist ungültig, weil es illegal ist oder beinhaltet illegale Attributewerte. Besondere Hinwiese: {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>ConvertedUriReplacement</ID>
+        <Source>The "{0}" portion of attribute, {1}, on element &lt;{2}&gt; contains invalid URI characters.  These have been converted into valid characters automatically.  The new value is "{3}".  Extra information: {4}.</Source>
+        <Translation>Das "{0}" Teil vom Attribute {1}, im Element &lt;{2}&gt; enthält ungültige URI Zeichen. Diese sind automatisch in gültige Zeichen konvertiert worden. Der neue Wert ist "{3}". Besondere Informationen: {4}.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemTitleMissing</ID>
+        <Source>The &lt;title&gt; node is required on the {0} node in Content Aggregation manifests.  See SCORM 1.3 CAM 3.4.1.10, or SCORM 1.2 CAM 2.3.5.3.1.2.1.</Source>
+        <Translation>Der &lt;Titel&gt; Knoten wird auf dem Content Aggregation Manifests {0} Knoten verlangt. Siehe hierzu SCORM 1.3 CAM 3.4.1.10 oder SCORM 1.2 CAM 2.3.5.3.1.2.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrRemoteContentNotSupported</ID>
+        <Source>Remote content is not supported.</Source>
+        <Translation>Remote Inhalte werden nicht unterstützt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrLicensedContentNotSupported</ID>
+        <Source>This learning resource requires a license and licensed Learning Resources are not supported.</Source>
+        <Translation>Dieses Learning Resource erfordert eine Lizenz und lizenziere Learning Resourcen werden nicht unterstützt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PrerequisitesTypeWrong</ID>
+        <Source>The value of the &lt;prerequisites&gt; type attribute must be "aicc_script".</Source>
+        <Translation>Der Wert von dem &lt;prerequisites&gt; Attribute Type muss "aicc_script" sein.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrDefaultValueUsed</ID>
+        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element.</Source>
+        <Translation>Der Standardwert von "{0}" ist anstellt von dem fehlenden oder falschen Wert für das &lt;{1}&gt; Element benutzt worden. </Translation>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeLengthException</ID>
+        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long for the "{2}" attribute.</Source>
+        <Translation>Der Netzknoten &lt; {0} &gt; hat einen Wert, der mit "{1}" beginnt, das ist dafür zu lang das" {2}" Eigenschaft.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemIdentifierMissing</ID>
+        <Source>The &lt;item&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.9, or SCORM 1.2 CAM 2.3.5.3.1.2.</Source>
+        <Translation>Der &lt;item&gt; Knoten muss eine Identifier Attribute haben. Siehe herzu SCORM 1.3 CAM 3.4.1.9 oder SCORM 1.2 CAM 2.3.5.3.1.2.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationActivityMissing</ID>
+        <Source>An Activity node is required for content used in Microsoft Learning Components.</Source>
+        <Translation>Ein Aktivitätsknoten ist erforderlich für die Inhaltsnutzung in dem Microsoft Lernen Components.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SpmNodeViolation</ID>
+        <Source>The value that begins with "{0}" of the node, &lt;{1}&gt;, is longer than the smallest permitted maximum (SPM), {2}.</Source>
+        <Translation>Der Wert, dass mit "{0}" von dem Knoten &lt;{1}&gt; beginnt, ist größer als die kleinste erlaubter Wert (SPM) {2}.</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadAttributeValue</ID>
+        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  Extra information: {3}</Source>
+        <Translation>Der Attributwert "{0}" , {1}, in Element &lt;{2}&gt;, ist ein ungültiger Wert. Besondere Informationen: {3}</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadAttributeValueReplacement</ID>
+        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  It has been replaced by the default value "{3}".  Extra information: {4}</Source>
+        <Translation>Der Attributwert" {0}", {1}, in Element &lt; {2} &gt;, ist ein ungültiger Wert. Es ist von einem Standardwert ersetzt worden "{3}". Besondere Informationen: {4}</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcViolation</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by Microsoft Learning Components.  Extra information: {2}</Source>
+        <Translation>Der Wert der mit "{0}" beginnt von dem Attribute {1}, ist länger als das, dass von dem Microsoft Lernen Components unterstützt wird. Besondere Informationen: {2}</Translation>
+      </Resources>
+      <Resources>
+        <ID>ManifestNodeMissing</ID>
+        <Source>A &lt;manifest&gt; node in the correct namespace is required.</Source>
+        <Translation>Ein &lt;manifest&gt; Knoten in the correct namespace is required.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ManifestMissing</ID>
+        <Source>A manifest is required and is not present in the package.</Source>
+        <Translation>Ein Manifest wird verlangt und ist nicht im Paket enthalten.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrPageIdDuplicate</ID>
+        <Source>The value of the PageID attribute, {0}, on a &lt;Page&gt; element is used more than once.  PageID's must be unique for each &lt;Page&gt; element.</Source>
+        <Translation>Der PageID-Attributewert {0}, auf ein &lt;Page&gt; Element wird mehr als einmal benutzt. Die PageID's müssen für jede &lt;Page&gt; Element einmalig sein.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResourceIdentifierMissing</ID>
+        <Source>The &lt;resource&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.21, or SCORM 1.2 CAM 2.3.5.4.1.</Source>
+        <Translation>Der &lt;resource&gt; Knoten muss eine Identifier Attribute haben. Siehe hierzu SCORM 1.3 CAM 3.4.1.21 oder SCORM 1.2 CAM 2.3.5.4.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeLengthViolation</ID>
+        <Source>The node &lt;{0}&gt; has a value that is too long for the "{1}" attribute.  It has been truncated to "{2}".</Source>
+        <Translation>Der Knotenwert &lt;{0}&gt; ist zu lang für das "{1}" Attribute. Es ist gekürzt worden "{2}".</Translation>
+      </Resources>
+      <Resources>
+        <ID>EmptyString</ID>
+        <Source>(empty string)</Source>
+        <Translation>(empty string)</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidTrueValuesInMapInfo</ID>
+        <Source>In multiple &lt;mapInfo&gt; nodes, true values are restricted.  See SCORM 1.3 CAM 5.1.7.1.2.</Source>
+        <Translation>In multiple &lt;mapInfo&gt; Knoten werden wahre Werte beschränkt. Siehe hierzu SCORM 1.3 CAM 5.1.7.1.2.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ReferenceNotFound</ID>
+        <Source>The referenced node can not be found.</Source>
+        <Translation>Der Bezugsknoten kann nicht gefunden werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IllegalNegativeInteger</ID>
+        <Source>The value must be 0 or a positive integer.</Source>
+        <Translation>Der Wert muss 0 oder eine positive ganze Zahl sein.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ActivityResourceBadAttribute</ID>
+        <Source>A resource that belongs to an activity must have a type attribute set to "webcontent", an adlcp:scormType attribute set to "sco" or "asset", and a valid href attribute.  {0}</Source>
+        <Translation>Eine Ressource das zu einer Aktivität gehört, muss ein Attribute Typ zu "Webcontent" gesetzen haben, 
+ein adlcp:scormType Attribute auf "sco" oder "asset", und ein gültiges href Attribute. {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResourceNotAllowedOnActivity</ID>
+        <Source>If an &lt;item&gt; element is a parent element, the &lt;item&gt; may not reference a &lt;resource&gt;.  See SCORM 1.3 CAM 3.4.1.9.  The full XML of the node is: {0}</Source>
+        <Translation>Wenn ein &lt;item&gt; Element ein Parent Element ist, dann darf das &lt;item&gt; nicht auf &lt;resource&gt; hinweisen. Siehe hierzu SCORM 1.3 CAM 3.4.1.9. Der komplette XML des Knotes ist: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupConditionConditionMissing</ID>
+        <Source>The &lt;rollupCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.6.1.2.</Source>
+        <Translation>Der &lt;rollupCondition&gt; Knoten muss ein Condition Attribute haben. Siehe hierzu SCORM 1.3 CAM 5.1.6.1.2.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRuleConditions</ID>
+        <Source>The &lt;ruleConditions&gt; node can only appear once in the &lt;{0}&gt; node.  See SCORM 1.3 CAM 5.1.3.1.1.</Source>
+        <Translation>Der &lt;ruleConditions&gt; Knoten darf nur einmal in dem &lt;{0}&gt; Knoten erscheinen. Siehe hierzu SCORM 1.3 CAM 5.1.3.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PrimaryObjectiveMissingOrDuplicate</ID>
+        <Source>In a list of &lt;objectives&gt;, there must be one and only one &lt;primaryObjective&gt; node.</Source>
+        <Translation>In der Liste von &lt;Objektive&gt;, darf nur eine und nur eine &lt;primaryObjective&gt; Knoten geben.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidDuplicateNodesIgnored</ID>
+        <Source>There are multiple instances of element, &lt;{0}&gt;. All but the first are ignored. Extra information:{1}</Source>
+        <Translation>Es gibt mehrfache Instanzen von dem Element &lt;{0}&gt;. Es wurden alle bis auf den ersten ignoriert. Besondere Informationen: {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdentifier</ID>
+        <Source>The identifier is not a valid xs:ID.</Source>
+        <Translation>Der Identifier ist kein gültiger xs:ID.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicateMinNormalizedMeasure</ID>
+        <Source>The &lt;minNormalizedMeasure&gt; node can only appear once in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>Der &lt;minNormalizedMeasure&gt; Knoten daruf nur einmal in dem &lt;{0} objectiveID =" {1}"&gt; Knoten erscheinen. Siehe hierzu SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationOrganizationMissing</ID>
+        <Source>An Organization node is required for content used in Microsoft Learning Components.</Source>
+        <Translation>Für den Inhalt der in dem Microsoft Learning Components benutzt wird, wurd ein Organisationsknoten verlangt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IdenticalKeyValues</ID>
+        <Source>The duplicate nodes share the same {0} value, "{1}".  The values must be different.</Source>
+        <Translation>Die duplizierte Knoten teilen den gleichen {0} Wert "{1}". Die Werte müssen unterschiedlich sein.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PackageCouldNotBeOpened</ID>
+        <Source>This package could not be opened. More information: {0}</Source>
+        <Translation>Dieses Paket konnte nicht geöffnet werden. Mehr Informationen: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>BadXmlInManifest</ID>
+        <Source>The package contains a manifest that contains badly formed XML.</Source>
+        <Translation>Das Paket enthält ein Manifest, das fehlerhafte XML enthält.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ObjectiveIdMissing</ID>
+        <Source>The objective must have an objectiveID attribute.  Extra information: {0}</Source>
+        <Translation>Das Objektive muss ein objectiveID-Attriebute haben. Besondere Informationen: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationTruncated</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by for content used in Microsoft Learning Components.  It has been truncated to {2} characters.  Extra information: {3}</Source>
+        <Translation>Der Wert, der mit "{0}" anfängt, von dem Attribute {1}, ist länger als das, was unterstützt wird für den Inhalt in dem Microsoft Learning Components. Es ist gekürzt auf {2} Zeichen gekürzt worden. Besondere Informationen: {3}</Translation>
+      </Resources>
+      <Resources>
+        <ID>PrerequisitesScriptInvalid</ID>
+        <Source>There are problems with the syntax of the prerequisite script, or a referenced identifier can not be found in the manifest.</Source>
+        <Translation>Es gibt Probleme mit der Syntax der erforderlichen Script oder ein Referenced Identifier konnte nicht im Manifest gefunden werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OrganizationIdentifierMissing</ID>
+        <Source>The &lt;organization&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.7, or SCORM 1.2 CAM 2.3.5.3.1.</Source>
+        <Translation>Der &lt;organization&gt; Knoten muss ein Identifier Attribute haben. Siehe herzu SCORM 1.3 CAM 3.4.1.7 oder SCORM 1.2 CAM 2.3.5.3.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MetadataLocationBadXml</ID>
+        <Source>The file, {0}, referenced by the location element inside of metadata in the manifest contains invalid metadata.</Source>
+        <Translation>Die Datei {0} lokaliziert vom Location Element innerhalb der Metadata im Manifest enthält ungültige Metadaten.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MinNormalizedMeasureOutOfRange</ID>
+        <Source>The value is out of range [-1 to 1] on the &lt;minNormalizedMeasure&gt; node in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>Der Wert ist ausserhalb des Bereiches [-1 bis 1] in dem &lt;minNormalizedMeasure&gt; Knoten in dem &lt;{0} objectiveID="{1}"&gt; Knoten. Siehe hierzu SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupActionMissing</ID>
+        <Source>The &lt;rollupAction&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
+        <Translation>Der &lt;rollupAction&gt; Knoten fehlt auf dem &lt;rollupRule&gt;. Siehe hierzu SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingIdMissing</ID>
+        <Source>The &lt;sequencing&gt; node in a &lt;sequencingCollection&gt; must have an ID attribute.  See SCORM 1.3 CAM 5.1.1.</Source>
+        <Translation>Der &lt;sequencing&gt; Knoten in dem &lt;sequencingCollection&gt; muss ein ID Attribute haben. Siehe hierzu SCORM 1.3 CAM 5.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrFixLmsViolationsNotSet</ID>
+        <Source>Unable to substitute a default value for the missing value of node &lt;{0}&gt; because the conversion process is not allowed to substitute default values for missing or erroneous values in the index.xml.</Source>
+        <Translation>Das Ersetzen durch ein Standardwert für den fehlenden Wert des Knotens &lt;{0}&gt; ist fehlgeschlagen. Der Umwandlungsprozess ist nicht berechtigt fehlende oder fehlehafte Werte im Register vom an.xml mit Standardwerte zu ersetzen. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SpmViolation</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than the smallest permitted maximum (SPM), {2}.  Extra information: {3}</Source>
+        <Translation>Der Wert, der mit "{0}" beginnt von dem Attribute {1}, ist länger als das kleinste erlaubte Maximum (SPM), {2}. Besondere Informationen: {3}</Translation>
+      </Resources>
+      <Resources>
+        <ID>RequiredElementMissingDefault</ID>
+        <Source>The required element, &lt;{0}&gt;, is missing.  Default values will be used. Extra information:{1}</Source>
+        <Translation>Das erforderliche Element &lt;{0}&gt; fehlt. Standardwerte werden benutzt. Besondere Informationen: {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>FileMissing</ID>
+        <Source>The file {0} does not exist.</Source>
+        <Translation>Die Datei {0} existiert nicht.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IllegalAttributeInResourcePackage</ID>
+        <Source>The attribute, {1}, containing the value "{0}" on node &lt;{2}&gt; is illegal in Resource packages.</Source>
+        <Translation>Das Attribute {1} beinhaltet den Wert "{0}" auf dem Knoten &lt;{2}&gt; und ist ungültig in dem Ressource Packet.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IllegalPercentage</ID>
+        <Source>The value must be a decimal value from 0 to 1, inclusive.</Source>
+        <Translation>Der Wert muss ein dezimaler Wert von 0 bis 1 sein.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupConditionsMissing</ID>
+        <Source>The &lt;rollupConditions&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
+        <Translation>Der &lt;rollupConditions&gt; Knoten fehlt in einem &lt;rollupRule&gt;. Siehe hierzu SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingCollectionInResource</ID>
+        <Source>&lt;sequencingCollection&gt; nodes are not permitted in resource packages. This manifest is considered a resource package because it has no &lt;organization&gt; nodes.  See SCORM CAM 3.5.3.</Source>
+        <Translation>&lt;sequencingCollection&gt; Knoten sind in Resorce Packages nicht erlaubt. Dieses Manifest wird als ein Resource Package behandelt, weil es kein &lt;Organization&gt; Knoten hat. Siehe hierzu SCORM CAM 3.5.3.</Translation>
+      </Resources>
+      <Resources>
+        <ID>FileHrefMissing</ID>
+        <Source>The &lt;file&gt; node must have an href attribute.  See SCORM 1.3 CAM 3.4.1.23, or SCORM 1.2 CAM 2.3.5.4.3.</Source>
+        <Translation>Die &lt;file&gt; Knoten muss eine href Attribute haben. Siehe hierzu SCORM 1.3 CAM 3.4.1.23 oder SCORM 1.2 CAM 2.3.5.4.3.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OrganiztionTitleMissing</ID>
+        <Source>The &lt;title&gt; node is missing on the &lt;organization&gt; node with identifier="{0}".  See SCORM 1.3 CAM 3.4.1.8, or SCORM 1.2 CAM 2.3.5.3.1.1.</Source>
+        <Translation>Der &lt;titel&gt; Knoten fehlt auf dem &lt;Organization&gt; Knoten mit identifier="{0}". Siehe hierzu SCORM 1.3 CAM 3.4.1.8 oder SCORM 1.2 CAM 2.3.5.3.1.1.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidDuplicateNodes</ID>
+        <Source>UA !There are multiple instances of element, &lt;{0}&gt;. Extra information:{1}</Source>
+        <Translation>UA ! Es gibt mulitiple Instanzen auf dem Element &lt;{0}&gt;. Besondere Informationen: {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>ConvertedUriSpaces</ID>
+        <Source>The "{0}" value of attribute, {1}, on element &lt;{2}&gt; contains spaces, which are invalid URI characters.  This URI is still being allowed, but the package may not work as expected.</Source>
+        <Translation>Der Attributewert "{0}" von {1}, auf em Element &lt;{2}&gt; enthält Spaces die ungültige URI Zeichen sind. Dieser URI wird zugelassen, aber es ist möglich, dass das Paket nicht wie erwartet funktioniert.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OrphanedFile</ID>
+        <Source>The file {0} is not referenced in the manifest.</Source>
+        <Translation>Die Datei {0} hat keinen Bezug im Manifest.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RequiredElementMissing</ID>
+        <Source>The required element, &lt;{0}&gt;, is missing. Extra information:{1}</Source>
+        <Translation>Das erforderliche Element &lt;{0}&gt; ist nicht vorhanden. Besondere Informationen: {1}</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>DataModelElementTooLong</ID>
+        <Source>Data model element '{0}' was passed a value that exceeded the supported length.</Source>
+        <Translation>Das Datenmodell Element '{0}' wurde übergangen, ein Wert übersteigt die unterstützte Länge.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionBadZipFile</ID>
+        <Source>The package compression format is not supported.</Source>
+        <Translation>Das Komprimierungsformat wird nicht unterstützt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingFlowingTo</ID>
+        <Source>Sequencing is flowing to activity '{0}'.</Source>
+        <Translation>Die Reihenfolge geht zu Aktivität über '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionNoFile</ID>
+        <Source>The .zip file cannot be found.</Source>
+        <Translation>Die .zip Datei kann nicht gefunden werden. </Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_PropertyCannotBeNull</ID>
+        <Source>The value cannot be set to null.</Source>
+        <Translation>Der Wert darf nicht Null sein.</Translation>
+      </Resources>
+      <Resources>
+        <ID>UTIL_ParamIsEmptyString</ID>
+        <Source>A parameter contains an empty string, which is not allowed. </Source>
+        <Translation>Ein Parameter beinhaltet einen leeren String, das ist nicht zuläßig.</Translation>
+      </Resources>
+      <Resources>
+        <ID>UnauthorizedAccess</ID>
+        <Source>The requested item, {0}, can not be accessed.</Source>
+        <Translation>Auf das abgefrage Element, {0}, kann nicht zugegriffen werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>UniqueIdNotSupported</ID>
+        <Source>No unique identifiers are defined for items in this list.</Source>
+        <Translation>Es sind keine einmaligen Identifizierer für Elemente in dieser Liste definiert worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__8</ID>
+        <Source>Choice Exit Sequencing Control Mode violation.</Source>
+        <Translation>Auswahl Exit Sequencing Control Mode Übertretung.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__9</ID>
+        <Source>No activities to consider.</Source>
+        <Translation>Keine Aktivitäten um in betracht zuziehen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__2</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Eine aktuelle Aktivität ist nicht definiert. Die sequencing-Sitzung hat nicht begonnen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__3</ID>
+        <Source>A suspended activity is not defined.</Source>
+        <Translation>Eine ausgeschlossene Aktivität wird nicht definiert.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__1</ID>
+        <Source>A current activity is already defined. The sequencing session has already begun.</Source>
+        <Translation>Eine aktuelle Aktivität ist schon definiert. Die sequencing-Sitzung hat schon begonnen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__6</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Eine Aktivität kann zur Root nicht "vorherig" sein.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__7</ID>
+        <Source>Unsupported navigation request.</Source>
+        <Translation>Navigationsanfrage nicht unterstützt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__4</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Flow Sequencing Control Mode violation.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__5</ID>
+        <Source>Flow or Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Flow or Forward Only Sequencing Control Mode violation.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupChildMissingPrimaryObjective</ID>
+        <Source>Rollup aborted because child activity '{0}' does not have a primary objective.</Source>
+        <Translation>Rollup abgebrochen, weil Child Aktivitäten '{0}' keine primären Objektiv haben.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestRetryAll</ID>
+        <Source>RetryAll</Source>
+        <Translation>RetryAll</Translation>
+      </Resources>
+      <Resources>
+        <ID>DB_2__1</ID>
+        <Source>Identified activity is already active.</Source>
+        <Translation>Identifizierte Aktivität ist schon aktiv.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ReadError</ID>
+        <Source>Read error.</Source>
+        <Translation>Lesefehler.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPreConditionSkipped</ID>
+        <Source>Activity '{0}' skipped because its pre-condition Skip rules evaluated as true.</Source>
+        <Translation>Aktivität '{0}' wurde übersprungen, da die Prüfregel für "überspringen" als wahr zutraf.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageReaderErrorState</ID>
+        <Source>The ZipPackageReader has encountered an error and cannot continue.</Source>
+        <Translation>Der ZipPackageReader hat einen Fehler gefunden und kann nicht fortgesetzt werden. </Translation>
+      </Resources>
+      <Resources>
+        <ID>AlreadyInList</ID>
+        <Source>The item specified is already added to this or another list belonging to this data model.</Source>
+        <Translation>Das spezifierte Element ist existiert bereits in dieser oder anderen Liste, dass diesem Datenmodell zugehörig ist.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupInitiated</ID>
+        <Source>Rollup initiated for activity '{0}'.</Source>
+        <Translation>Rollup ist für die Aktivität '{0}' initiierte.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DRLO_CurrentActivityEntryPointIsAbsolute</ID>
+        <Source>The entry point of the current activity is not contained within this package.</Source>
+        <Translation>Der Eintrittspunkt der aktuellen Aktivität ist nicht innerhalb dieses Paketes enthalten.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestRetry</ID>
+        <Source>Retry</Source>
+        <Translation>Wiederholen</Translation>
+      </Resources>
+      <Resources>
+        <ID>EndOfStream</ID>
+        <Source>End of stream reached.</Source>
+        <Translation>Das Ende von dem "Steam" ist erreicht.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NoIdentifier</ID>
+        <Source>A required identifier was not provided for this element.</Source>
+        <Translation>Diesem Element wurde das erforderlicher Identifizierer nicht gegeben.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestExitAll</ID>
+        <Source>ExitAll</Source>
+        <Translation>ExitAll</Translation>
+      </Resources>
+      <Resources>
+        <ID>StreamMustReadAndSeek</ID>
+        <Source>Stream must have read and seek capability.</Source>
+        <Translation>"Stream" muss Lesen und Suchen Fähig sein.</Translation>
+      </Resources>
+      <Resources>
+        <ID>KeyDoesNotMatchItem</ID>
+        <Source>The key specified '{0}' does not match the identifier within the item to be added to the dictionary '{1}'.</Source>
+        <Translation>Der spezifizierte Schlüssel '{0}' passt nicht zum Identifizierer innerhalb des Elements, dass in das Wörterbuch '{1}' hinzugefügt werden soll.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleResult</ID>
+        <Source>Sequencing Post Condition rule on activity '{0}' resulted in a {1} request.</Source>
+        <Translation>Sequencing Post Condition rule on activity '{0}' resulted in a {1} request.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_StringCannotBeEmpty</ID>
+        <Source>The value cannot be set to an empty or null string.</Source>
+        <Translation>Der Wert kann nicht auf einem leeren oder genullten String gesetzt werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_ReactivateNotValid</ID>
+        <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
+        <Translation>Es ist nicht erlaubt, die aktuelle Sitzung zu reaktivieren. Nur ein vervollständigte, oder verlassene Sitzung wird vielleicht reaktiviert, und nur in RandomAccess-Sicht.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_ExitNotValid</ID>
+        <Source>It is not valid to exit the current session. Only a session that has started may be exited, and only in Execute view.</Source>
+        <Translation>Es ist nicht erlaubt die aktuelle Sitzung zu beenden. Nur eine bereits begonne Sitzung kann beendet werden, aber nur in der Execute Sicht. </Translation>
+      </Resources>
+      <Resources>
+        <ID>CannotDeletePrimaryObjective</ID>
+        <Source>Cannot remove or replace the primary objective.</Source>
+        <Translation>Das primäre Objektiv kann nicht ersetzen oder gelöscht werden..</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CurrentActiveActivityRequired</ID>
+        <Source>A CurrentActivity that is active is required to exist before requesting this operation.</Source>
+        <Translation>Um diese Funktion auszuführen, muss ein aktiver CurrentActivity existieren.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CannotChangeId</ID>
+        <Source>Cannot change the identifier if an item in a dictionary.  Try removing the item, changing the identifier, then re-adding it.</Source>
+        <Translation>Der Identifizierer kann nicht verändern wenn ein Element bereits in einem Wörterbuch ist. Entfernen Sie zuerst das Element und dann können Sie den Identifizierer verändert und dann wieder dem Wörterbuch hinzufügen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OnlyValidForSCORMV1p3</ID>
+        <Source>The '{0}' data model element is only valid in SCORM 2004 packages.</Source>
+        <Translation>Das Datenmodell-Element '{0}' ist nur in SCORM 2004 Packete gültig.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OnlyValidForSCORMV1p2</ID>
+        <Source>The '{0}' data model element is only valid in SCORM 1.2 packages.</Source>
+        <Translation>Das Datenmodell-Element '{0}' ist nur in SCORM 1.2 Packete gültig.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IndexOutOfRange</ID>
+        <Source>The index is out of range.</Source>
+        <Translation>Das Verzeichnis ist außerhalb der Auswahl.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestExitParent</ID>
+        <Source>ExitParent</Source>
+        <Translation>ExitParent</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_ResourceNotInPackage</ID>
+        <Source>The current activity in the session defines an entry point that does not exist in the package. The content cannot be read.</Source>
+        <Translation>Die in der Sitzung aktuelle Aktivität definiert einen Eintrittspunkt, der nicht im Paket existiert. Der Inhalt kann nicht gelesen werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>WrongDataModel</ID>
+        <Source>An object created for use by a different data model cannot be added to this data model.</Source>
+        <Translation>Ein Objekt das für die Benutzung in einem andeem Datenmodell kann nicht zu diesem Datenmodell hinzugefügt weren. </Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_ResumeNotValid</ID>
+        <Source>It is not valid to resume the current session. Only a suspended session may be resumed, and only in Execute view.</Source>
+        <Translation>Es ist ungültig, die aktuelle Sitzung wiederaufzunehmen. Nur eine abgebrochene Sitzung kann in der Execute-Sicht wiederaufgenommen werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_SuspendNotValid</ID>
+        <Source>It is not valid to suspend the current session. Only an active session may be suspended, and only in Execute view.</Source>
+        <Translation>Es ist ungültig, die aktuelle Sitzung abzubrechen. Nur eine aktive Sitzung kann in der Execute-Sicht abgebrochen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ImsManifestXmlMissing</ID>
+        <Source>The package is missing the required file, imsmanifest.xml.</Source>
+        <Translation>In dem Paket fehlt die erforderliche Datei: imsmanifest.xml.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DirectoryNotFound</ID>
+        <Source>The requested directory, {0}, can not be found.</Source>
+        <Translation>Das angeforderte Verzeichnis, {0}, konnte nicht gefunden werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ListCannotBeModified</ID>
+        <Source>The list cannot be modified.</Source>
+        <Translation>Die Liste kann nicht verändert werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__13</ID>
+        <Source>Undefined navigation request.</Source>
+        <Translation>Navigationsanforderung ist undefinierbar.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__12</ID>
+        <Source>The current activty is already terminated.</Source>
+        <Translation>Die aktuelle Aktivität ist bereits beendet worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__11</ID>
+        <Source>Target activity does not exist.</Source>
+        <Translation>Ziel Aktivität existiert nicht.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__10</ID>
+        <Source>Choice Sequencing Control Mode violation.</Source>
+        <Translation>Ausgewählte Sequencing Control Mode Übertretung.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_RelativePathRequired</ID>
+        <Source>The RenderContext.RelativePath must have a value.</Source>
+        <Translation>Der RenderContext.RelativePath muss ein Wert haben.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrmNoManifest</ID>
+        <Source>An error occurred while unbundling the file. The Index.xml or imsmanifest.xml file cannot be found.</Source>
+        <Translation>Ein Dateifehler ist während des Entpackens aufgetreten. Die Datei The Index.xml or imsmanifest.xml kann nicht gefunden werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NonUniqueId</ID>
+        <Source>An item with the identifier '{0}' already exists in this list.</Source>
+        <Translation>Ein Elemnet mit dem Identifizierer '{0}' existiert schon in dieser Liste.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PackageFileNotFound</ID>
+        <Source>The requested file was not found in the package.</Source>
+        <Translation>Die aufgerufene Datei wurde nicht im Paket gefunden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidScormV1p3Value</ID>
+        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 2004 specifications.</Source>
+        <Translation>Das Datenmodell-Element '{0}' hat einen Wert erhalten, dass außerhalb der Auswahl liegt - gemäß der Spezifikationen SCORM 2004.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestContinue</ID>
+        <Source>Continue</Source>
+        <Translation>Fortfahren</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrmUnknownFormat</ID>
+        <Source>An error occurred while unbundling the file. Unable to determine the file format.</Source>
+        <Translation>Ein Dateifehler ist während des Entpackens aufgetreten. Dateiformat konnte nicht erkannt werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NavigationFinishedNewActivity</ID>
+        <Source>Navigation resulted in making '{0}' the current active activity.</Source>
+        <Translation>Navigation resulted in making '{0}' the current active activity.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LrmMultiNotSupported</ID>
+        <Source>An error occurred while unbundling the file. A file with multiple Learning Resources is not supported.</Source>
+        <Translation>Ein Dateifehler ist während des Entpackens aufgetreten. Eine Datei mit mehreren Resourcen wird nicht unterstützt. </Translation>
+      </Resources>
+      <Resources>
+        <ID>RequredObjectiveNotFound</ID>
+        <Source>Sequencing cannot proceed because the required objective '{0}' was not found.</Source>
+        <Translation>Sequencing kann nicht fortgesetzt werden, weil das erforderliche Objektiv '{0}' wurde nicht gefunden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidScormV1p2Value</ID>
+        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 1.2 specifications.</Source>
+        <Translation>Das Datenmodell-Element '{0}' hat einen Wert erhalten, dass außerhalb der Auswahl liegt - gemäß der Spezifikationen SCORM 1.2.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CantWriteToDataModel</ID>
+        <Source>This LearningDataModel object may not be written to.</Source>
+        <Translation>Das Schreiben in dem LearningDataModel ist nicht möglich.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidExtensionType</ID>
+        <Source>Unsupported type '{0}' added to extension data.</Source>
+        <Translation>Das nicht unterstützte Type '{0}' wurde Extension-Daten hinzugefügt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RollupSettingNormalizedMeasure</ID>
+        <Source>Rollup setting normalized measure to {0} for activity '{1}'.</Source>
+        <Translation>Rollup-Einstellung normalisierten Maßnahme zu {0} für die Aktivität '{1}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DRLO_InvalidRelativePath</ID>
+        <Source>The relativePath value '{0}' does not represent a valid, package-relative path.</Source>
+        <Translation>Der RelativePath Wert '{0}' stellt keinen gültigen Paket-Relativen-Pfad dar.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PackageDirectoryAlreadyExists</ID>
+        <Source>Cannot copy to '{0}' because a file or directory with the same name already exists. This operation can only copy to a destination that does not yet exist.  It will create the destination directory.</Source>
+        <Translation>Kann nicht zu '{0}' kopieren, weil eine Datei oder ein Verzeichnis mit dem gleichen Namen schon existiert. Diese Bedienung kann nur zu einem Bestimmungsort kopieren, der noch nicht existiert. Es wird das Bestimmungsortverzeichnis schaffen.This operation can only copy to a destination that does not yet exist.  It will create the destination directory.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NavigationFinishedDone</ID>
+        <Source>Navigation complete.  No current activity.</Source>
+        <Translation>Navigation erledigt. Keine aktuellen Aktivitäten.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingExitRuleExecuted</ID>
+        <Source>Sequencing Exit rule requires that activity '{0}' terminate.</Source>
+        <Translation>Sequencing Exit Regel verlangt, dass die Aktivität '{0}' beendet wird.</Translation>
+      </Resources>
+      <Resources>
+        <ID>UniqueIdNotFound</ID>
+        <Source>No item with the identifier '{0}' was found in this list.</Source>
+        <Translation>In dieser Liste wurden keine Elemente mit dem Identifizierer '{0}' gefunden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionDefault</ID>
+        <Source>Error code: {0}</Source>
+        <Translation>Fehlercode: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CurrentActivityRequired</ID>
+        <Source>A CurrentActivity is required to exist before requesting this operation.</Source>
+        <Translation>Ein CurrentActivity muss vorher existieren bevor diese Funktion aufgerufen werden kann.</Translation>
+      </Resources>
+      <Resources>
+        <ID>WrongNameTable</ID>
+        <Source>The object is not in the correct NameTable.</Source>
+        <Translation>Das Objekt ist nicht in der aktuellen NameTable vorhanden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__3</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Flow Sequencing Control Mode violation.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__2</ID>
+        <Source>The current activity is active or suspended.</Source>
+        <Translation>Die aktuelle Aktivität ist aktiv oder beendet.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Eine aktuelle Aktivität ist nicht definiert. Die Sequencing Sitzung wurde nicht begonnen. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_12__1</ID>
+        <Source>Undefined sequencing request.</Source>
+        <Translation>Undefinierter Sequencing-Anforderung.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_11__2</ID>
+        <Source>The current activity has not been terminated.</Source>
+        <Translation>Die aktuelle Aktivität wurde nicht abgebrochen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_11__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Eine aktuelle Aktivität ist nicht definiert. Die Sequencing Sitzung wurde nicht begonnen. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestPrevious</ID>
+        <Source>Previous</Source>
+        <Translation>vorherige</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__2</ID>
+        <Source>The Current activity already terminated.</Source>
+        <Translation>Die aktuelle Aktivität bereits abgebrochen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__3</ID>
+        <Source>Cannot suspend an inactive root.</Source>
+        <Translation>Cannot suspend an inactive root.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__1</ID>
+        <Source>A Current Activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Eine aktuelle Aktivität ist nicht definiert. Die Sequencing-Sitzung wurde nicht begonnen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__6</ID>
+        <Source>Nothing to abandon; no active activities.</Source>
+        <Translation>Nichts abzubrechen - keine aktiven Aktivitäten.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__7</ID>
+        <Source>Undefined termination request.</Source>
+        <Translation>Undefinierte Beendungsanfrage.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__4</ID>
+        <Source>Activity tree root has no parent.</Source>
+        <Translation>Aktivitätsbaum-Root hat keinen Parent.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__5</ID>
+        <Source>Nothing to suspend; no active activities.</Source>
+        <Translation>Nichts zubeenden- keine aktiven Aktivitäten.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_6__1</ID>
+        <Source>A current activity is defined. The sequencing session already begun.</Source>
+        <Translation>Eine aktuelle Aktivität ist definiert. Die Sequencing-Sitzung ist bereits begonnen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_6__2</ID>
+        <Source>No Suspended Activity defined.</Source>
+        <Translation>Keine beendete Aktivität definiert.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_5__1</ID>
+        <Source>A current activity is defined. The sequencing session already begun.</Source>
+        <Translation>Eine aktuelle Aktivität ist definiert. Die Sequencing-Sitzung ist bereits begonnen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_2__1</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Flow Sequencing Control Mode violation.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_2__2</ID>
+        <Source>Activity unavailable.</Source>
+        <Translation>Aktivität nicht verfügbar.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_7__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Eine aktuelle Aktivität ist nicht definiert. Die Sequencing-Sitzung wurde nicht begonnen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_7__2</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Flow Sequencing Control Mode violation.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__2</ID>
+        <Source>Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Weiterleitung nur von Sequencing Control Mode Übertretung.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__3</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Keine Aktivität ist "vorherig" zur Root.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__1</ID>
+        <Source>Forward Traversal Blocked.</Source>
+        <Translation>Weiterleitung Traversal blockiert.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__4</ID>
+        <Source>Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Weiterleitung nur von Sequencing Control Mode Übertretung.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__3</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Keine Aktivität ist "vorherig" zur Root.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__2</ID>
+        <Source>Cluster has no available children.</Source>
+        <Translation>Cluster has no available children.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__1</ID>
+        <Source>Last activity in the tree.</Source>
+        <Translation>Letzte Aktivität in dem Baum.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__9</ID>
+        <Source>Choice request prevented by Flow-only activity.</Source>
+        <Translation>Ausgewählte Anfrage wurde verhinderte durch Flow-only Aktivität.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__8</ID>
+        <Source>Unable to choose target activity - constrained choice.</Source>
+        <Translation>Auswahl der Zielaktivität war unmöglich - gezwungene Auswahl.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__7</ID>
+        <Source>Choice Exit Sequencing Control Mode violation.</Source>
+        <Translation>Ausgewählte Exit Sequencing Control Mode Übertretung.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__6</ID>
+        <Source>Unable to activate target; target is not a child of the Current Activity.</Source>
+        <Translation>Aktivierung vom Ziel war unmöglich - Ziel ist kein Child von der aktuellen Aktivität.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__5</ID>
+        <Source>No activities to consider.</Source>
+        <Translation>Keine Aktivitäten die zu betrachten sind.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__4</ID>
+        <Source>Choice Sequencing Control Mode violation.</Source>
+        <Translation>Choice Sequencing Control Mode violation.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__3</ID>
+        <Source>Target activity hidden from choice.</Source>
+        <Translation>Zielaktivität ist von der Auswahl ausgeblendet. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__2</ID>
+        <Source>Target activity does not exist or is unavailable.</Source>
+        <Translation>Zielaktivität existiert nicht oder steht nicht zur Verfügug.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__1</ID>
+        <Source>No target for Choice.</Source>
+        <Translation>Keine Ziele zur Auswahl.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_8__2</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Flow Sequencing Control Mode violation.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SB_2_8__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Eine aktuelle Aktivität ist nicht definiert. Die Sequencing-Sitzung wurde nicht begonnen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__3</ID>
+        <Source>Activity unavailable.</Source>
+        <Translation>Aktivtiät nicht verfügbar.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__2</ID>
+        <Source>Nothing to deliver.</Source>
+        <Translation>Nichts zu liefern.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__1</ID>
+        <Source>Cannot deliver a non-leaf activity.</Source>
+        <Translation>Cann ein "Non-Leaf" Aktivität nicht liefern.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_AbandonNotValid</ID>
+        <Source>It is not valid to abandon the current session. Only an active or suspended session may be abandoned, and only in Execute view.</Source>
+        <Translation>Es ist ungültig die aktuelle Sitzung zuverlassen. Nur eine aktive oder beendete Sitzung kann in der Execute-Sicht verlassen werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>LS_CantRenderManifest</ID>
+        <Source>The requested manifest file cannot be rendered.</Source>
+        <Translation>Die angeforderte Manifest Datei kann nicht gemacht werden.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Properties.AIResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.AIResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CorrectAnswerSeparatorHtml</ID>
+        <Source> or </Source>
+        <Translation>oder</Translation>
+      </Resources>
+      <Resources>
+        <ID>HeadExecuteViewScript</ID>
+        <Source>&lt;script language="javascript"&gt;
+var ECS_ViewType=2;
+
+ //=============================================================================
+ //  Handles calls to detach an attached file.  The id of this question will
+ //  be sent in the hidDetach field.   At the server end, if this value is
+ //  non-zero, then there is a file to be detached..
+
+function OnDetach( attachmentId )
+{
+	// attachmentId is of the form &lt;interactionId&gt;*A*&lt;attachmentOrdinal&gt;
+
+	var oForm = document.forms["frmPage"];
+	oForm.elements["hidDetach"].value = attachmentId;
+	oForm.submit();
+}
+&lt;/script&gt;</Source>
+        <Translation>&lt;script language="javascript"&gt;
+var ECS_ViewType=2;
+
+ //=============================================================================
+ //  Handles calls to detach an attached file.  The id of this question will
+ //  be sent in the hidDetach field.   At the server end, if this value is
+ //  non-zero, then there is a file to be detached..
+
+function OnDetach( attachmentId )
+{
+	// attachmentId is of the form &lt;interactionId&gt;*A*&lt;attachmentOrdinal&gt;
+
+	var oForm = document.forms["frmPage"];
+	oForm.elements["hidDetach"].value = attachmentId;
+	oForm.submit();
+}
+&lt;/script&gt;</Translation>
+      </Resources>
+      <Resources>
+        <ID>StudentNotSelectedHtml</ID>
+        <Source>Not selected</Source>
+        <Translation>Nicht ausgewählt</Translation>
+      </Resources>
+      <Resources>
+        <ID>ChooseFileToAttachHtml</ID>
+        <Source>Choose a file to attach:</Source>
+        <Translation>Datei für den Anhang auswählen:</Translation>
+      </Resources>
+      <Resources>
+        <ID>MissingFormField</ID>
+        <Source>The form field, {0}, is missing.</Source>
+        <Translation>Das Form Feld {0} fehlt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedCorrectHtml</ID>
+        <Source>Correct answer</Source>
+        <Translation>Richtige Antwort</Translation>
+      </Resources>
+      <Resources>
+        <ID>FileNotFound</ID>
+        <Source>A requested file could not be found.</Source>
+        <Translation>Die gewünschte Datei konnte nicht gefunden werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NoFileAttachedHtml</ID>
+        <Source>No file attached.</Source>
+        <Translation>Keine Datei beigefügt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IncorrectAnswerHtml</ID>
+        <Source>Incorrect answer</Source>
+        <Translation>Falsche Antwort</Translation>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedIncorrectHtml</ID>
+        <Source>Incorrect answer</Source>
+        <Translation>Falsche Antowort</Translation>
+      </Resources>
+      <Resources>
+        <ID>DetachFileHtml</ID>
+        <Source>Detach File</Source>
+        <Translation>Anhängende Datei entfernen</Translation>
+      </Resources>
+      <Resources>
+        <ID>FileAttachmentNotFound</ID>
+        <Source>A requested file attachment could not be found.</Source>
+        <Translation>Ein angeforderter Dateianhang konnte nicht gefunden werden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ViewFileHtml</ID>
+        <Source>View File</Source>
+        <Translation>Datei ansehen</Translation>
+      </Resources>
+      <Resources>
+        <ID>HeadGradingViewScript</ID>
+        <Source>&lt;script language="javascript" type="text/javascript"&gt;
+var ECS_ViewType=6;
+
+function mlc_RoundTwoDecimalPlaces(val)
+{
+	return (Math.round( val * 100 ) / 100);
+}
+
+function mlc_CultureStringToDouble(score)
+{
+	var re = new RegExp( "^[\\+\\-]?[0-9]*(\\x&lt;%=DecimalSeparatorHex%&gt;)?[0-9]*$" );
+	var check = score.match(re);
+	if( check == null ) return NaN;
+	else return parseFloat(score.replace( "&lt;%=DecimalSeparator%&gt;", "." ));
+}
+
+function mlc_DoubleToCultureString(dbl)
+{
+	// convert a double into a string, using the supplied decimal separator.
+	return dbl.toString(10).replace( ".", "&lt;%=DecimalSeparator%&gt;" );
+}
+
+function mlc_ValidateScore(itemscore)
+{
+	var score = itemscore.value.replace(/^\s+|\s+$/g, "");
+	var scoreAsFloat = mlc_CultureStringToDouble(score);
+	if( isNaN(scoreAsFloat) || scoreAsFloat &lt; -1000 || scoreAsFloat &gt; 1000 )
+	{
+		if( score != "" )
+		{
+			alert(&lt;%=ScoreOutOfRange%&gt;); 
+			setTimeout( "document.forms[\"&lt;%=FormId%&gt;\"].elements[\"" + itemscore.id + "\"].select()", 1 );
+			return false;
+		}
+	}
+	else
+	{
+		itemscore.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces( scoreAsFloat ));
+		return true;
+	}
+}
+
+function mlc_ValidateComment(commentField)
+{
+    if( commentField.innerText.length &gt; &lt;%=MaxCommentLength%&gt; )
+    {
+        alert(&lt;%=CommentTooLong%&gt;);
+        setTimeout( "document.forms[\"&lt;%=FormId%&gt;\"].elements[\"" + commentField.id + "\"].select()", 1 );
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+function mlc_RubricClick(checkbox, itemscoreName)
+{
+	// increment or decrement the corresponding ITEMSCORE.  Note that a blank ITEMSCORE is the same as 0.
+	var scoreTextBox = document.forms["&lt;%=FormId%&gt;"].elements[itemscoreName];
+	var scoreAsFloat = mlc_CultureStringToDouble(scoreTextBox.value);
+	var deltaScoreAsFloat = mlc_CultureStringToDouble(checkbox.value);
+	if( isNaN(scoreAsFloat) ) scoreAsFloat = 0;
+	if( isNaN(deltaScoreAsFloat) ) deltaScoreAsFloat = 0;
+	if( checkbox.checked )
+	{
+		scoreTextBox.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces(scoreAsFloat + deltaScoreAsFloat));
+	}
+	else
+	{
+		scoreTextBox.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces(scoreAsFloat - deltaScoreAsFloat));
+	}
+	scoreTextBox.select();
+}
+&lt;/script&gt;</Source>
+        <Translation>&lt;script language="javascript" type="text/javascript"&gt;
+var ECS_ViewType=6;
+
+function mlc_RoundTwoDecimalPlaces(val)
+{
+	return (Math.round( val * 100 ) / 100);
+}
+
+function mlc_CultureStringToDouble(score)
+{
+	var re = new RegExp( "^[\\+\\-]?[0-9]*(\\x&lt;%=DecimalSeparatorHex%&gt;)?[0-9]*$" );
+	var check = score.match(re);
+	if( check == null ) return NaN;
+	else return parseFloat(score.replace( "&lt;%=DecimalSeparator%&gt;", "." ));
+}
+
+function mlc_DoubleToCultureString(dbl)
+{
+	// convert a double into a string, using the supplied decimal separator.
+	return dbl.toString(10).replace( ".", "&lt;%=DecimalSeparator%&gt;" );
+}
+
+function mlc_ValidateScore(itemscore)
+{
+	var score = itemscore.value.replace(/^\s+|\s+$/g, "");
+	var scoreAsFloat = mlc_CultureStringToDouble(score);
+	if( isNaN(scoreAsFloat) || scoreAsFloat &lt; -1000 || scoreAsFloat &gt; 1000 )
+	{
+		if( score != "" )
+		{
+			alert(&lt;%=ScoreOutOfRange%&gt;); 
+			setTimeout( "document.forms[\"&lt;%=FormId%&gt;\"].elements[\"" + itemscore.id + "\"].select()", 1 );
+			return false;
+		}
+	}
+	else
+	{
+		itemscore.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces( scoreAsFloat ));
+		return true;
+	}
+}
+
+function mlc_ValidateComment(commentField)
+{
+    if( commentField.innerText.length &gt; &lt;%=MaxCommentLength%&gt; )
+    {
+        alert(&lt;%=CommentTooLong%&gt;);
+        setTimeout( "document.forms[\"&lt;%=FormId%&gt;\"].elements[\"" + commentField.id + "\"].select()", 1 );
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+function mlc_RubricClick(checkbox, itemscoreName)
+{
+	// increment or decrement the corresponding ITEMSCORE.  Note that a blank ITEMSCORE is the same as 0.
+	var scoreTextBox = document.forms["&lt;%=FormId%&gt;"].elements[itemscoreName];
+	var scoreAsFloat = mlc_CultureStringToDouble(scoreTextBox.value);
+	var deltaScoreAsFloat = mlc_CultureStringToDouble(checkbox.value);
+	if( isNaN(scoreAsFloat) ) scoreAsFloat = 0;
+	if( isNaN(deltaScoreAsFloat) ) deltaScoreAsFloat = 0;
+	if( checkbox.checked )
+	{
+		scoreTextBox.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces(scoreAsFloat + deltaScoreAsFloat));
+	}
+	else
+	{
+		scoreTextBox.value = mlc_DoubleToCultureString(mlc_RoundTwoDecimalPlaces(scoreAsFloat - deltaScoreAsFloat));
+	}
+	scoreTextBox.select();
+}
+&lt;/script&gt;</Translation>
+      </Resources>
+      <Resources>
+        <ID>BrowseHtml</ID>
+        <Source>Browse...</Source>
+        <Translation>Browse...</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidType</ID>
+        <Source>The type attribute has an invalid value in the assessment markup: {0}</Source>
+        <Translation>Das Typ-Attribute hat einen ungültigen Wert im Assessment Markup: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InstructorCommentsColonHtml</ID>
+        <Source>Instructor comments:</Source>
+        <Translation>Lehrer Bemerkungen:</Translation>
+      </Resources>
+      <Resources>
+        <ID>Unanswered</ID>
+        <Source>&lt;Unanswered&gt;</Source>
+        <Translation>&lt;Unanswered&gt;</Translation>
+      </Resources>
+      <Resources>
+        <ID>InstructorCommentTooLong</ID>
+        <Source>"The text entered is formatted incorrectly or greater than the maximum {0} characters."</Source>
+        <Translation>"Der eingegebene Text ist falsch formatiert oder länger als das Maximum {0} Zeichen."</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidOptionValue</ID>
+        <Source>The posted &lt;option&gt; value, {0}, is out of range for the &lt;select&gt; tag with name="{1}".</Source>
+        <Translation>Der angegebene &lt;option&gt; Wert {0} ist ausserhalb des Bereiches für das &lt;selct&gt; Tag mit dem Namen="{1}".</Translation>
+      </Resources>
+      <Resources>
+        <ID>ReviewViewScript</ID>
+        <Source>&lt;script language="javascript"&gt;
+var ECS_ViewType=4;
+&lt;/script&gt;</Source>
+        <Translation>&lt;script language="javascript"&gt;
+var ECS_ViewType=4;
+&lt;/script&gt;</Translation>
+      </Resources>
+      <Resources>
+        <ID>NoScoreHtml</ID>
+        <Source>--</Source>
+        <Translation>--</Translation>
+      </Resources>
+      <Resources>
+        <ID>CorrectAnswerHtml</ID>
+        <Source>Correct answer</Source>
+        <Translation>Richtige Antwort</Translation>
+      </Resources>
+      <Resources>
+        <ID>ViewTheAttachedFileHtml</ID>
+        <Source>View the attached file.</Source>
+        <Translation>Ausgewählte Datei ansehen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidFormFieldValue</ID>
+        <Source>The value, {0}, of the form field, {1}, is invalid.</Source>
+        <Translation>Der Wert {0} von dem Form Field {1} ist falsch.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ScoreOutOfRange</ID>
+        <Source>"The score entered is formatted incorrectly or outside the allowable range of -1000 to 1000."</Source>
+        <Translation>"Das eingegebene Ergebnis ist falsch formatiert oder außerhalb der zulässigen Auswahl von -1000 bis 1000."</Translation>
+      </Resources>
+      <Resources>
+        <ID>CorrectAnswerColonHtml</ID>
+        <Source>Correct answer:</Source>
+        <Translation>Richtige Antwort:</Translation>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedHtml</ID>
+        <Source>Selected</Source>
+        <Translation>Ausgewählt</Translation>
+      </Resources>
+      <Resources>
+        <ID>StudentNotSelectedIncorrectHtml</ID>
+        <Source>This is the correct answer but it was not selected</Source>
+        <Translation>Dies ist die korrekte Antwort, aber es wurde nicht ausgewählt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttachedFileHtml</ID>
+        <Source>There is an attached {0} file.</Source>
+        <Translation>There is an attached {0} file.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ReplaceFileHtml</ID>
+        <Source>Replace the attached file with another file:</Source>
+        <Translation>Die anhängende Datei mit einer anderen ersetzen:</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidId</ID>
+        <Source>The value of the id is invalid in the assessment markup: {0}</Source>
+        <Translation>Der ID Wert ist ungültig in dem Assessment Markup: {0}</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>

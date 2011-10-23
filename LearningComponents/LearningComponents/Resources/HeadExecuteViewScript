@@ -1,0 +1,17 @@
+<script language="javascript">
+var ECS_ViewType=2;
+
+ //=============================================================================
+ //  Handles calls to detach an attached file.  The id of this question will
+ //  be sent in the hidDetach field.   At the server end, if this value is
+ //  non-zero, then there is a file to be detached..
+
+function OnDetach( attachmentId )
+{
+	// attachmentId is of the form <interactionId>*A*<attachmentOrdinal>
+
+	var oForm = document.forms["frmPage"];
+	oForm.elements["hidDetach"].value = attachmentId;
+	oForm.submit();
+}
+</script>
