@@ -40,9 +40,9 @@
 			<xs:element name="DropBoxSettings" minOccurs="0" maxOccurs="1">
 				<xs:complexType>
 					<xs:sequence />
-					<xs:attribute name="Location" type="xs:string" use="required" />
-					<xs:attribute name="UseOfficeWebApps" type="xs:boolean" use="required" />
-					<xs:attribute name="Url" type="xs:string" use="required" />
+					<xs:attribute name="Location" type="xs:string" use="optional" />
+					<xs:attribute name="UseOfficeWebApps" type="xs:boolean" use="optional" />
+					<xs:attribute name="Url" type="xs:string" use="optional" />
 				</xs:complexType>
 			</xs:element>
 

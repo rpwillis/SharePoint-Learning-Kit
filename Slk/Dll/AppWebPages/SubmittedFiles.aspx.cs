@@ -23,6 +23,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     /// </summary>
     public class SubmittedFiles : SlkAppBasePage
     {
+        DropBoxManager dropBox;
+
         #region Control Declarations
 
         /// <summary>The title of the page.</summary>
@@ -138,6 +140,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
+        LearnerAssignmentState Status 
+        {
+            get
+            {
+                return LearnerAssignmentProperties.Status == null ? LearnerAssignmentState.NotStarted : LearnerAssignmentProperties.Status.Value;
+            }
+        }
+
         #endregion
 
         #region OnPreRender
@@ -156,12 +166,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     this.SetResourceText();
 
-                    LearnerAssignmentState status = LearnerAssignmentProperties.Status == null ? LearnerAssignmentState.NotStarted : LearnerAssignmentProperties.Status.Value;
 
                     if (
-                            (SlkStore.IsInstructor(SPWeb) && (status == LearnerAssignmentState.Completed || status == LearnerAssignmentState.Final))
+                            (SlkStore.IsInstructor(SPWeb) && (Status == LearnerAssignmentState.Completed || Status == LearnerAssignmentState.Final))
                             || SlkStore.IsLearner(SPWeb) ||
-                            (SlkStore.IsObserver(SPWeb) && status == LearnerAssignmentState.Final)
+                            (SlkStore.IsObserver(SPWeb) && Status == LearnerAssignmentState.Final)
                         )
                     {
                         BuildPageContent();
@@ -199,8 +208,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         protected void BuildPageContent()
         {
-            DropBoxManager dropBox = new DropBoxManager(AssignmentProperties);
+            dropBox = new DropBoxManager(AssignmentProperties);
             AssignmentFile[] files = dropBox.LastSubmittedFiles(LearnerAssignmentProperties.User.SPUser);
+
 
             int fileIndex = 0;
             foreach (AssignmentFile file in files)
@@ -260,8 +270,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             linkName.Target = "_blank";
             linkName.Style.Add("display", string.Empty);
 
-            linkName.Attributes.Add("onclick", DropBoxManager.EditJavascript(file.Url, SPWeb) + "return false;");
-            linkName.NavigateUrl = file.Url;
+            DropBoxEditMode editMode = Status == LearnerAssignmentState.Completed ? DropBoxEditMode.Edit : DropBoxEditMode.View;
+            DropBoxEditDetails editDetails = dropBox.GenerateDropBoxEditDetails(file, SPWeb, editMode, Page.Request.RawUrl);
+            linkName.NavigateUrl = editDetails.Url;
+            if (string.IsNullOrEmpty(editDetails.OnClick) == false)
+            {
+                linkName.Attributes.Add("onclick", editDetails.OnClick + "return false;");
+            }
         }
 
        #endregion
