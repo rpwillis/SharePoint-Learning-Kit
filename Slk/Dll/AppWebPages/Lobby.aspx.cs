@@ -100,9 +100,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region Private Variables
+        string currentUrl;
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
         private LearnerAssignmentProperties learnerAssignmentProperties;
-        string initialFileUrl;
+        AssignmentFile assignmentFile;
         const string startQueryStringName = "start";
 
         /// <summary>
@@ -117,6 +118,19 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region Private Properties
+
+        string CurrentUrl
+        {
+            get
+            {
+                if (currentUrl == null)
+                {
+                    currentUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
+                    currentUrl = String.Format(CultureInfo.InvariantCulture, "{0}?{1}", currentUrl, Request.QueryString);
+                }
+                return currentUrl;
+            }
+        }
 
         /// <summary>
         /// Gets the value of the "LearnerAssignmentId" query parameter.
@@ -219,6 +233,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     else
                     {
                         CopyDocumentToDropBox();
+
+                        if (assignmentFile != null && assignmentFile.IsOffice2010File && SlkStore.Settings.DropBoxSettings.UseOfficeWebApps)
+                        {
+                            startAssignment = true;
+                        }
                     }
                 }
                 else if (AssignmentProperties.IsNonELearning)
@@ -343,21 +362,29 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 switch (learnerAssignmentStatus)
                 {
                     case LearnerAssignmentState.NotStarted:
-                                            SetUpForNotStarted();
-                                            break;
+                        SetUpForNotStarted();
+                        break;
 
                     case LearnerAssignmentState.Active:
-                                            SetUpForActive();
-                                            break;
+                        if (startAssignment)
+                        {
+                            // Office 2010 document which we have force started
+                            SetUpForNotStarted();
+                        }
+                        else
+                        {
+                            SetUpForActive();
+                        }
+                        break;
 
                     case LearnerAssignmentState.Completed:
-                                            SetUpForCompleted();
-                                            break;
+                        SetUpForCompleted();
+                        break;
 
                     case LearnerAssignmentState.Final:
-                                            SetUpForFinal();
-                                            view = AssignmentView.StudentReview;
-                                            break;
+                        SetUpForFinal();
+                        view = AssignmentView.StudentReview;
+                        break;
 
                     default:
                         break;
@@ -434,26 +461,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                                     FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId);
                 if (AssignmentProperties.IsNonELearning)
                 {
-                    string thisUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
-                    thisUrl = String.Format(CultureInfo.InvariantCulture, "{0}?{1}", thisUrl, Request.QueryString);
 
-                    if (string.IsNullOrEmpty(initialFileUrl))
+                    if (assignmentFile == null)
                     {
-                        slkButtonBegin.NavigateUrl = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';", openFrameset, thisUrl, startQueryStringName);
+                        slkButtonBegin.NavigateUrl = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';", openFrameset, CurrentUrl, startQueryStringName);
                     }
                     else
                     {
-                        string script = DropBoxManager.EditJavascript(initialFileUrl, SPWeb);
-                        if (LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted)
-                        {
-                            script = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';return false;", script, thisUrl, startQueryStringName);
-                        }
-                        else
-                        {
-                            script = script + "return false;";
-                        }
-                        slkButtonBegin.OnClientClick = script;
-                        slkButtonBegin.NavigateUrl = initialFileUrl;
+                        SetupFileAction(assignmentFile, slkButtonBegin, true);
                     }
                 }
                 else
@@ -463,6 +478,47 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
                 slkButtonBegin.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
             }
+        }
+
+        void SetupFileAction(AssignmentFile file, SlkButton button, bool includeReload)
+        {
+            
+            DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
+
+            DropBoxEditMode editMode = DropBoxEditMode.Edit;
+            switch (LearnerAssignmentProperties.Status)
+            {
+                case LearnerAssignmentState.Completed:
+                case LearnerAssignmentState.Final:
+                    editMode = DropBoxEditMode.View;
+                    break;
+            }
+
+            DropBoxEditDetails editDetails = dropBoxMgr.GenerateDropBoxEditDetails(file, SPWeb, editMode, Page.Request.RawUrl);
+
+            string script = editDetails.OnClick;
+            if (string.IsNullOrEmpty(script))
+            {
+                if (includeReload)
+                {
+                    script = string.Format(CultureInfo.InvariantCulture, "window.location='{0}&{1}=true';", CurrentUrl, startQueryStringName);
+                }
+            }
+            else
+            {
+                if (LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted && includeReload)
+                {
+                    script = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';return false;", script, CurrentUrl, startQueryStringName);
+                }
+                else
+                {
+                    script = script + "return false;";
+                }
+
+            }
+
+            button.OnClientClick = script;
+            button.NavigateUrl = editDetails.Url;
         }
 
         void SetUpForActive()
@@ -518,12 +574,25 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //Check if non-elearning content
             if (AssignmentProperties.RootActivityId == null)
             {
-                string url = GenerateUrlForAssignmentReview();
                 slkButtonReviewSubmitted.Text = AppResources.LobbyReviewSubmittedText;
-                slkButtonReviewSubmitted.OnClientClick = String.Format(CultureInfo.CurrentCulture, "window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable'); ", url);
                 slkButtonReviewSubmitted.ToolTip = AppResources.LobbyReviewSubmittedToolTip;
                 slkButtonReviewSubmitted.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
                 slkButtonReviewSubmitted.Visible = true;
+
+                DropBoxManager manager = new DropBoxManager(AssignmentProperties);
+
+                AssignmentFile[] assignmentFiles = manager.LastSubmittedFiles();
+
+                if (assignmentFiles.Length != 1)
+                {
+                    string onClickUrl = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", SPWeb.Url, LearnerAssignmentGuidId.ToString());
+                    slkButtonReviewSubmitted.OnClientClick = String.Format(CultureInfo.CurrentCulture, "window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable'); ", onClickUrl);
+                }
+                else
+                {
+                    SetupFileAction(assignmentFiles[0], slkButtonReviewSubmitted, false);
+                }
+
             }
 
             SetUpSubmitButtons(false);
@@ -667,7 +736,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         void CopyDocumentToDropBox()
         {
            DropBoxManager manager = new DropBoxManager(AssignmentProperties);
-           initialFileUrl = manager.CopyFileToDropBox(); 
+           assignmentFile = manager.CopyFileToDropBox(); 
         }
 
         void FindDocumentUrl()
@@ -676,7 +745,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
            AssignmentFile[] files = manager.LastSubmittedFiles();
            if (files.Length > 0)
            {
-               initialFileUrl = files[0].Url;
+               assignmentFile = files[0];
            }
         }
 #endregion private methods

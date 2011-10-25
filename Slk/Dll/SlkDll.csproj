@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="AssignmentDownloader.cs" />
     <Compile Include="DropBoxManager.cs" />
+    <Compile Include="DropBoxEditDetails.cs" />
     <Compile Include="DropBox.cs" />
     <Compile Include="ReminderEmails.cs" />
     <Compile Include="AssignmentFolder.cs" />

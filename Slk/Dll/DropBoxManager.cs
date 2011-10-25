@@ -20,13 +20,14 @@ namespace Microsoft.SharePointLearningKit
     public class DropBoxManager
     {
         AssignmentProperties assignmentProperties;
+        DropBoxSettings settings;
 
 #region constructors
         /// <summary>Initializes a new instance of <see cref="DropBoxManager"/>.</summary>
-        /// <param name="assignmentProperties">The assignment properties.</param>
         public DropBoxManager(AssignmentProperties assignmentProperties)
         {
             this.assignmentProperties = assignmentProperties;
+            this.settings = assignmentProperties.Store.Settings.DropBoxSettings;
         }
 #endregion constructors
 
@@ -78,9 +79,10 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Copies the original file to the student's drop box.</summary>
         /// <returns>The url of the file.</returns>
-        public string CopyFileToDropBox()
+        public AssignmentFile CopyFileToDropBox()
         {
             string url = null;
+            string name = null;
             SPSecurity.RunWithElevatedPrivileges(delegate()
             {
                 SharePointFileLocation fileLocation;
@@ -97,6 +99,7 @@ namespace Microsoft.SharePointLearningKit
 
                         if (MustCopyFileToDropBox(file.Name))
                         {
+                            name = file.Name;
                             using (SPSite destinationSite = new SPSite(assignmentProperties.SPSiteGuid))
                             {
                                 destinationSite.CatchAccessDeniedException = false;
@@ -144,7 +147,7 @@ namespace Microsoft.SharePointLearningKit
                 }
             });
 
-            return url;
+            return new AssignmentFile(name, url);
         }
 
         /// <summary>Uploads files to the learner's drop box.</summary>
@@ -461,6 +464,45 @@ namespace Microsoft.SharePointLearningKit
                 ApplySubmittedPermissions(assignmentFolder, learnerSubFolder);
             }
         }
+
+        /// <summary>Generate the drop box edit details.</summary>
+        /// <param name="file">The file to edit.</param>
+        /// <param name="web">The web the file is in.</param>
+        /// <param name="mode">The open mode.</param>
+        /// <param name="sourceUrl">The source page.</param>
+        /// <returns></returns>
+        public DropBoxEditDetails GenerateDropBoxEditDetails(AssignmentFile file, SPWeb web, DropBoxEditMode mode, string sourceUrl)
+        {
+            DropBoxEditDetails details = new DropBoxEditDetails();
+
+            // Set default details
+            details.Url = file.Url;
+            details.OnClick = EditJavascript(file.Url, web);
+
+            if (settings.UseOfficeWebApps)
+            {
+                if (file.IsOfficeFile)
+                {
+                    if (mode == DropBoxEditMode.Edit)
+                    {
+                        // Document must be 2010 format to be edited in office web apps
+                        if (file.IsOffice2010File)
+                        {
+                            details.OnClick = null;
+                            details.Url = file.GenerateOfficeAppsEditUrl(web, sourceUrl);
+                        }
+                    }
+                    else
+                    {
+                        details.OnClick = null;
+                        details.Url = file.GenerateOfficeAppsViewUrl(web, sourceUrl);
+                    }
+                }
+            }
+
+            return details;
+        }
+
 #endregion public methods
 
 #region private methods
@@ -624,7 +666,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="fileUrl">The url of the file.</param>
         /// <param name="web">The web the file is in.</param>
         /// <returns>The script.</returns>
-        public static string EditJavascript(string fileUrl, SPWeb web)
+        static string EditJavascript(string fileUrl, SPWeb web)
         {
             //string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff');return false;";
             string script = "editDocumentWithProgID2('{0}', '', 'SharePoint.OpenDocuments','0','{1}','0');";
@@ -648,25 +690,7 @@ namespace Microsoft.SharePointLearningKit
 
         static bool MustCopyFileToDropBox(string fileName)
         {
-            string extension = Path.GetExtension(fileName);
-
-            switch (extension)
-            {
-                case ".doc":
-                    return true;
-                case ".docx":
-                    return true;
-                case ".xls":
-                    return true;
-                case ".xlsx":
-                    return true;
-                case ".ppt":
-                    return true;
-                case ".pptx":
-                    return true;
-                default:
-                    return false;
-            }
+            return AssignmentFile.IsOfficeFileByExtension(Path.GetExtension(fileName));
         }
 #endregion static methods
 
