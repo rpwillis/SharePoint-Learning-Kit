@@ -4,6 +4,7 @@
 		 Scope="Farm"
                  Hidden="FALSE"
                  Title="$Resources:SLK,AdminFeatureTitle"
+                 ImageUrl="featureIcon.gif"
                  >
 	<ElementManifests>
 		<ElementManifest Location="elements.xml"/>

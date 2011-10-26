@@ -1,0 +1,18 @@
+<Feature  xmlns="http://schemas.microsoft.com/sharepoint/"
+    Id="ca5261b0-82a4-45dc-97d0-1f0bce7d206e" 
+        Title="$Resources:SelfAssignWebPartFeatureTitle" 
+        Description="$Resources:SelfAssignWebPartFeatureDescription" 
+        DefaultResourceFile="SLK"
+        ImageUrl="featureIcon.gif"
+        Scope="Site">
+
+    <ActivationDependencies>
+        <ActivationDependency FeatureId="63c11133-4373-4318-934e-a4448ac522f2" />
+    </ActivationDependencies>
+
+    <ElementManifests>
+        <ElementManifest Location="elements.xml"/>
+        <ElementFile Location="SelfAssign.webpart"/>
+    </ElementManifests>
+
+</Feature>
