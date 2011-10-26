@@ -122,8 +122,12 @@
         <FeatureManifest Location="SharePointLearningKitAssignSelf\feature.xml"/>
         <FeatureManifest Location="SharePointLearningKitAssignSite\feature.xml"/>
         <FeatureManifest Location="SharePointLearningKitAdmin\feature.xml"/>
+        <FeatureManifest Location="SharePointLearningKitContentTypes\feature.xml"/>
+        <FeatureManifest Location="SharePointLearningKitSelfAssign\feature.xml"/>
     </FeatureManifests>
     <RootFiles>
+        <RootFile Location="Config\stsadmcommands.sharepointlearningkit.xml" />
+        <RootFile Location="Template\IMAGES\featureIcon.gif"/>
         <RootFile Location="Resources\SLK.resx"/>
     </RootFiles>
 </Solution>

@@ -5,8 +5,8 @@ using System.Globalization;
 using System.Diagnostics;
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
-using Microsoft.LearningComponents.SharePoint;
 using Microsoft.LearningComponents.Manifest;
+using Microsoft.LearningComponents.SharePoint;
 using Microsoft.SharePoint;
 using Microsoft.SharePoint.Utilities;
 using Resources.Properties;
@@ -24,6 +24,7 @@ namespace Microsoft.SharePointLearningKit
         SPWeb webWhileSaving;
         bool hasInstructors;
         bool hasInstructorsIsSet;
+        bool isSelfAssigned;
         SlkUserCollection instructors;
         List<Email> cachedEmails;
         List<DropBoxUpdate> cachedDropBoxUpdates;
@@ -34,6 +35,12 @@ namespace Microsoft.SharePointLearningKit
 #region properties
         /// <summary>The ISlkStore to use.</summary>
         public ISlkStore Store { get; private set; }
+
+        /// <summary>Indicates if it is a self-assignment.</summary>
+        public bool IsSelfAssignment
+        {
+            get { return !HasInstructors ;}
+        }
 
         /// <summary>Indicates if the assignment has any instructors.</summary>
         public bool HasInstructors
@@ -394,8 +401,7 @@ namespace Microsoft.SharePointLearningKit
         ///     <c>SlkRole.Learner</c> to create a self-assigned assignment, i.e. an assignment with
         ///     no instructors for which the current learner is the only learner.  Otherwise, use
         ///     <c>SlkRole.Instructor</c>.</param>
-        /// <param name="slkMembers">The Slk membership of the web. Needs refactoring to remove.</param>
-        public void Save(SPWeb web, SlkRole slkRole, SlkMemberships slkMembers)
+        public void Save(SPWeb web, SlkRole slkRole)
         {
             // Verify that the web is in the site
             if (web.Site.ID != Store.SPSiteGuid)
@@ -409,11 +415,11 @@ namespace Microsoft.SharePointLearningKit
             {
                 if (Id == null)
                 {
-                    SaveNewAssignment(web, slkRole, slkMembers);
+                    SaveNewAssignment(web, slkRole);
                 }
                 else
                 {
-                    UpdateAssignment(slkMembers);
+                    UpdateAssignment();
                 }
             }
             finally
@@ -454,7 +460,7 @@ namespace Microsoft.SharePointLearningKit
         ///     e-learning content to assign; this is the value that's used as an index to
         ///     <c>ManifestReader.Organizations</c>.  If the content being assigned is a non-e-learning
         ///     document, use <c>null</c> for <paramref name="organizationIndex"/>.</param>
-        public void SetLocation(string location, Nullable<int> organizationIndex)
+        public void SetLocation(SharePointFileLocation location, Nullable<int> organizationIndex)
         {
             SetLocation(location, organizationIndex, null);
         }
@@ -469,21 +475,21 @@ namespace Microsoft.SharePointLearningKit
         ///     <c>ManifestReader.Organizations</c>.  If the content being assigned is a non-e-learning
         ///     document, use <c>null</c> for <paramref name="organizationIndex"/>.</param>
         /// <param name="title">Any title that has been passed in.</param>
-        public void SetLocation(string location, Nullable<int> organizationIndex, string title)
+        public void SetLocation(SharePointFileLocation location, Nullable<int> organizationIndex, string title)
         {
             if (location == null)
             {
                 throw new ArgumentNullException("location");
             }
 
-            if (location == NoPackageLocation.ToString())
+            if (location == NoPackageLocation)
             {
                 MakeNoPackageAssignment(title);
                 return;
             }
 
             // Access the properties of the file to verify that the user has access to the file
-            SPFile file = SlkUtilities.GetSPFileFromPackageLocation(location);
+            SPFile file = location.LoadFile();
             System.Collections.Hashtable fileProperties = file.Properties;
 
             // set <rootActivityId> to the ID of the organization, or null if a non-e-learning document is being assigned
@@ -544,7 +550,7 @@ namespace Microsoft.SharePointLearningKit
             else  // Non-elearning content
             {
                 RootActivityId = null;
-                Location = location;
+                Location = location.ToString();
                 if (string.IsNullOrEmpty(Title))
                 {
                     Title = file.Title;
@@ -636,7 +642,7 @@ namespace Microsoft.SharePointLearningKit
             Location = properties.Location;
         }
 
-        void UpdateAssignment(SlkMemberships slkMembers)
+        void UpdateAssignment()
         {
             AssignmentProperties oldProperties = Store.LoadAssignmentProperties(Id, SlkRole.Instructor);
             CopyInvariantProperties(oldProperties);
@@ -945,7 +951,7 @@ namespace Microsoft.SharePointLearningKit
             return toReturn;
         }
 
-        void SaveNewAssignment(SPWeb web, SlkRole slkRole, SlkMemberships slkMembers)
+        void SaveNewAssignment(SPWeb web, SlkRole slkRole)
         {
             // Security checks: If assigning as an instructor, fails if user isn't an instructor on
             // the web (implemented by calling EnsureInstructor).  Fails if the user doesn't have access to the package/file
@@ -965,8 +971,11 @@ namespace Microsoft.SharePointLearningKit
             VerifyRole(web, slkRole);
             Id = Store.CreateAssignment(this);
 
-            //Update the MRU list
-            Store.AddToUserWebList(web);
+            if (isSelfAssigned == false)
+            {
+                //Update the MRU list
+                Store.AddToUserWebList(web);
+            }
 
             if (IsNonELearning)
             {
@@ -988,7 +997,7 @@ namespace Microsoft.SharePointLearningKit
                 throw new ArgumentOutOfRangeException("slkRole");
             }
 
-            bool isSelfAssigned = (slkRole == SlkRole.Learner) ? true : false;
+            isSelfAssigned = (slkRole == SlkRole.Learner) ? true : false;
 
             if (isSelfAssigned)
             {
@@ -1131,6 +1140,36 @@ namespace Microsoft.SharePointLearningKit
         public static AssignmentProperties LoadForGrading(AssignmentItemIdentifier assignmentItemIdentifier, ISlkStore store)
         {
             return store.GetGradingProperties(assignmentItemIdentifier);
+        }
+
+        /// <summary>Creates a self assingment.</summary>
+        /// <returns>The ID of the learner assignment.</returns>
+        public static Guid CreateSelfAssignment(SlkStore store, SPWeb web, SharePointFileLocation location, Nullable<int> organizationIndex)
+        {
+            AssignmentProperties properties = CreateNewAssignmentObject(store, web, SlkRole.Learner);
+            properties.SetLocation(location, organizationIndex);
+            // Have to allow unsafe updates or self assignment fails
+            bool allowUnsafeUpdates = web.AllowUnsafeUpdates;
+            web.AllowUnsafeUpdates = true;
+            try
+            {
+                properties.Save(web, SlkRole.Learner);
+            }
+            finally
+            {
+                web.AllowUnsafeUpdates = allowUnsafeUpdates;
+            }
+
+            return properties.Learners[0].AssignmentUserGuidId ;
+        }
+
+        /// <summary>Loads a self assignment for a particular location if one exists.</summary>
+        /// <param name="location">The location of the assignment.</param>
+        /// <param name="store">The <see cref="ISlkStore"/> to use.</param>
+        /// <returns>An <see cref="AssignmentProperties"/>.</returns>
+        public static AssignmentProperties LoadSelfAssignmentForLocation(SharePointFileLocation location, ISlkStore store)
+        {
+            return store.LoadSelfAssignmentForLocation(location);
         }
 #endregion public static methods
 
