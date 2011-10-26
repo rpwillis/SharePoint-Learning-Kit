@@ -156,6 +156,9 @@
   <data name="Done" xml:space="preserve">
     <value>Done</value>
   </data>
+  <data name="PopulateLearnerAssignmentIdsInvalidException" xml:space="preserve">
+    <value>Failed to retrieve learner ids.</value>
+  </data>
   <data name="SeriousErrorInEventLog" xml:space="preserve">
     <value>A serious error occurred.  Please contact your system administrator.  More information has been written to the server event log.</value>
   </data>

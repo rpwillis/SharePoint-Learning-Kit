@@ -479,25 +479,35 @@ namespace Microsoft.SharePointLearningKit
             details.Url = file.Url;
             details.OnClick = EditJavascript(file.Url, web);
 
-            if (settings.UseOfficeWebApps)
+            try
             {
-                if (file.IsOfficeFile)
+                if (settings.UseOfficeWebApps)
                 {
-                    if (mode == DropBoxEditMode.Edit)
+                    if (file.IsOfficeFile)
                     {
-                        // Document must be 2010 format to be edited in office web apps
-                        if (file.IsOffice2010File)
+                        if (mode == DropBoxEditMode.Edit)
                         {
+                            // Document must be 2010 format to be edited in office web apps
+                            if (file.IsOffice2010File)
+                            {
+                                details.Url = file.GenerateOfficeAppsEditUrl(web, sourceUrl);
+                                details.OnClick = null;
+                            }
+                        }
+                        // Use Office Web Apps viewer for office files except for Excel which does not support it for pre 2010 worksheets
+                        else if (file.Extension.ToUpperInvariant() != "XLS")
+                        {
+                            details.Url = file.GenerateOfficeAppsViewUrl(web, sourceUrl);
                             details.OnClick = null;
-                            details.Url = file.GenerateOfficeAppsEditUrl(web, sourceUrl);
                         }
                     }
-                    else
-                    {
-                        details.OnClick = null;
-                        details.Url = file.GenerateOfficeAppsViewUrl(web, sourceUrl);
-                    }
                 }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // Not valid for office web apps
+                details.Url = file.Url;
+                details.OnClick = EditJavascript(file.Url, web);
             }
 
             return details;

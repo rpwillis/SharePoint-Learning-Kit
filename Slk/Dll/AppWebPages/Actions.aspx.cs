@@ -257,7 +257,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             base.OnInit(e);
 
-            LoadSlkObjects();
+            if (NoFileAssignment == false)
+            {
+                LoadSlkObjects();
+            }
 
             string action = QueryString.ParseStringOptional(QueryStringKeys.Action);
 
@@ -450,24 +453,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 #region private methods
         void AssignToSite()
         {
-            string url = AssignmentSiteUrl(SPWeb.Url);
-            Redirect(url);
-        }
-
-        void AssignToSelf()
-        {
-            Guid learnerAssignmentGuidId = AssignmentProperties.CreateSelfAssignment(SlkStore, SPWeb, fileLocation, OrganizationIndex);
-            string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
-            url = String.Format(CultureInfo.InvariantCulture, 
-                    "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
-
-            Redirect(url);
-        }
-
-        void Redirect (string url)
-        {
             try
             {
+                string url = AssignmentSiteUrl(SPWeb.Url);
                 Response.Redirect(url, true);
             }
             catch (ThreadAbortException)
@@ -476,10 +464,39 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // flag an error in the next step if we don't do this.
                 throw;
             }
-            catch (SafeToDisplayException exception)
+            catch (SafeToDisplayException e)
             {
                 errorBanner.Clear();
-                errorBanner.AddError(ErrorType.Error, exception.Message);
+                errorBanner.AddError(ErrorType.Error, e.Message);
+            }
+            catch (Exception ex)
+            {
+                contentPanel.Visible = false;
+                errorBanner.AddException(ex);
+            }
+        }
+
+        void AssignToSelf()
+        {
+            try
+            {
+                Guid learnerAssignmentGuidId = AssignmentProperties.CreateSelfAssignment(SlkStore, SPWeb, fileLocation, OrganizationIndex);
+                string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
+                url = String.Format(CultureInfo.InvariantCulture, 
+                        "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
+
+                Response.Redirect(url, true);
+            }
+            catch (ThreadAbortException)
+            {
+                // Calling Response.Redirect throws a ThreadAbortException which will
+                // flag an error in the next step if we don't do this.
+                throw;
+            }
+            catch (SafeToDisplayException e)
+            {
+                errorBanner.Clear();
+                errorBanner.AddError(ErrorType.Error, e.Message);
             }
             catch (Exception ex)
             {

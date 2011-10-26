@@ -3381,6 +3381,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to retrieve learner ids..
+        /// </summary>
+        internal static string PopulateLearnerAssignmentIdsInvalidException {
+            get {
+                return ResourceManager.GetString("PopulateLearnerAssignmentIdsInvalidException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Always show the web part even if not an instructor on the site..
         /// </summary>
         internal static string QuickAssignmentAlwaysShowDescription {

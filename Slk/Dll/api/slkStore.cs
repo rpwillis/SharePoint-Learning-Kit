@@ -1239,20 +1239,28 @@ namespace Microsoft.SharePointLearningKit
         {
             LearningStoreJob job = LearningStore.CreateJob();
             // Use LearnerAssignmentList not LearnerAssignmentListForInstructors as a self-assigned one isn't an instructor
-            LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentList.BaseViewName);
-            query.AddColumn(LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
-            query.AddColumn(LearnerAssignmentListForInstructors.LearnerAssignmentId);
-            query.AddColumn(LearnerAssignmentListForInstructors.LearnerId);
-            query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
-            job.PerformQuery(query);
-            DataTable results = job.Execute<DataTable>();
-
-            foreach (DataRow row in results.Rows)
+            try
             {
-                Guid learnerAssignmentId = (Guid)row[LearnerAssignmentListForInstructors.LearnerAssignmentGuidId];
-                LearningStoreItemIdentifier storeId = (LearningStoreItemIdentifier)row[LearnerAssignmentListForInstructors.LearnerId];
-                UserItemIdentifier id = new UserItemIdentifier(storeId);
-                learners[id].AssignmentUserGuidId = learnerAssignmentId;
+                LearningStoreQuery query = LearningStore.CreateQuery(Schema.LearnerAssignmentList.BaseViewName);
+                query.AddColumn(LearnerAssignmentListForInstructors.LearnerAssignmentGuidId);
+                query.AddColumn(LearnerAssignmentListForInstructors.LearnerAssignmentId);
+                query.AddColumn(LearnerAssignmentListForInstructors.LearnerId);
+                query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
+                job.PerformQuery(query);
+                DataTable results = job.Execute<DataTable>();
+
+                foreach (DataRow row in results.Rows)
+                {
+                    Guid learnerAssignmentId = (Guid)row[LearnerAssignmentListForInstructors.LearnerAssignmentGuidId];
+                    LearningStoreItemIdentifier storeId = (LearningStoreItemIdentifier)row[LearnerAssignmentListForInstructors.LearnerId];
+                    UserItemIdentifier id = new UserItemIdentifier(storeId);
+                    learners[id].AssignmentUserGuidId = learnerAssignmentId;
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                LogError(e);
+                throw new SafeToDisplayException(AppResources.PopulateLearnerAssignmentIdsInvalidException);
             }
         }
 
@@ -2878,6 +2886,11 @@ namespace Microsoft.SharePointLearningKit
             query.AddSort(LearnerAssignmentList.AssignmentId, LearningStoreSortDirection.Ascending);
 
             return query;
+        }
+
+        void LogError(Exception e)
+        {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(e);
         }
 #endregion private methods
 
