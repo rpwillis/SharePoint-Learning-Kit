@@ -223,6 +223,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 LearnerAssignmentState learnerAssignmentStatus = LearnerAssignmentProperties.Status.Value;
                 bool startAssignment = (Request.QueryString[startQueryStringName] == "true");
+                bool initialViewForOfficeWebApps = false;
 
                 if (AssignmentProperties.IsNonELearning && LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted)
                 {
@@ -236,7 +237,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                         if (assignmentFile != null && assignmentFile.IsOffice2010File && SlkStore.Settings.DropBoxSettings.UseOfficeWebApps)
                         {
+                            // If using office web apps need to change the status of the assignment as the begin button is just a url rather than a script 
+                            // which opens the document in another application
                             startAssignment = true;
+                            initialViewForOfficeWebApps = true;
                         }
                     }
                 }
@@ -366,9 +370,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         break;
 
                     case LearnerAssignmentState.Active:
-                        if (startAssignment)
+                        if (initialViewForOfficeWebApps)
                         {
-                            // Office 2010 document which we have force started
                             SetUpForNotStarted();
                         }
                         else
@@ -521,18 +524,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             button.NavigateUrl = editDetails.Url;
         }
 
-        void SetUpForActive()
-        {
-            slkButtonBegin.Text = AppResources.LobbyResumeAssignmentText;
-            slkButtonBegin.ToolTip = AppResources.LobbyResumeAssignmentToolTip;
-            pageTitle.Text = AppResources.LobbyResumeAssignmentText;
-            pageTitleInTitlePage.Text = AppResources.LobbyResumeAssignmentText;
-
-            SetUpSubmitButtons(true);
-
-            slkButtonReviewSubmitted.Visible = false;
-        }
-
         void SetUpSubmitButtons(bool enableSubmitFiles)
         {
             //Check if non e-learning and enable the appropriate button accordingly
@@ -627,6 +618,17 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             slkButtonReviewSubmitted.Visible = false;
         }
 
+        void SetUpForActive()
+        {
+            slkButtonBegin.Text = AppResources.LobbyResumeAssignmentText;
+            slkButtonBegin.ToolTip = AppResources.LobbyResumeAssignmentToolTip;
+            pageTitle.Text = AppResources.LobbyResumeAssignmentText;
+            pageTitleInTitlePage.Text = AppResources.LobbyResumeAssignmentText;
+
+            SetUpSubmitButtons(true);
+
+            slkButtonReviewSubmitted.Visible = false;
+        }
 
         #endregion
 

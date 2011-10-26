@@ -482,7 +482,7 @@ namespace Microsoft.SharePointLearningKit
                 throw new ArgumentNullException("location");
             }
 
-            if (location == NoPackageLocation)
+            if (location.ToString() == NoPackageLocation.ToString())
             {
                 MakeNoPackageAssignment(title);
                 return;

@@ -744,37 +744,43 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <param name="lastModified">The time the file was last modified in SharePoint.</param>
         private static void GetSharePointFileData(CachedFileInfo fileInfo, out Stream fileContents, out DateTime lastModified, out string filename)
         {
-            SPFile spFile = GetSharePointFile(fileInfo);
-
-            fileInfo.SPFile = spFile;            
-            filename = spFile.Name;
-
-            if ( (spFile.Versions.Count == 0) || spFile.UIVersion == fileInfo.VersionId)
+            using (SPSite spSite = new SPSite(fileInfo.SiteId))
             {
-                if (spFile.UIVersion != fileInfo.VersionId)
+
+                using (SPWeb spWeb = spSite.OpenWeb(fileInfo.WebId))
                 {
-                    throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileVersionNotFound, 
-                                                        fileInfo.VersionId.ToString(NumberFormatInfo.CurrentInfo), spFile.Name));
+                    SPFile spFile = spWeb.GetFile(fileInfo.FileId);
+                    fileInfo.SPFile = spFile;
+                    filename = spFile.Name;
+
+                    if ( (spFile.Versions.Count == 0) || spFile.UIVersion == fileInfo.VersionId)
+                    {
+                        if (spFile.UIVersion != fileInfo.VersionId)
+                        {
+                            throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileVersionNotFound, 
+                                                                fileInfo.VersionId.ToString(NumberFormatInfo.CurrentInfo), spFile.Name));
+                        }
+
+                        fileContents = new MemoryStream(spFile.OpenBinary()); // Cannot OpenBinaryStream as SPWeb is disposed
+                        lastModified = spFile.TimeLastModified;
+                    }
+                    else
+                    {
+                        // The specified version isn't the current one
+                        SPFileVersion spFileVersion = spFile.Versions.GetVersionFromID(fileInfo.VersionId);
+
+                        if (spFileVersion == null)
+                        {
+                            throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileVersionNotFound, spFile.Name,
+                                                                fileInfo.VersionId.ToString(NumberFormatInfo.CurrentInfo)));
+                        }
+
+                        fileContents = new MemoryStream(spFileVersion.OpenBinary()); // Cannot OpenBinaryStream as SPWeb is disposed
+
+                        // There is no 'last modified' of a version, so use the time the version was created.
+                        lastModified = spFileVersion.Created;
+                    }
                 }
-
-                fileContents = spFile.OpenBinaryStream();
-                lastModified = spFile.TimeLastModified;
-            }
-            else
-            {
-                // The specified version isn't the current one
-                SPFileVersion spFileVersion = spFile.Versions.GetVersionFromID(fileInfo.VersionId);
-
-                if (spFileVersion == null)
-                {
-                    throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileVersionNotFound, spFile.Name,
-                                                        fileInfo.VersionId.ToString(NumberFormatInfo.CurrentInfo)));
-                }
-
-                fileContents = new MemoryStream(spFileVersion.OpenBinary()); // there's no SPFileVersion.OpenBinaryStream
-
-                // There is no 'last modified' of a version, so use the time the version was created.
-                lastModified = spFileVersion.Created;
             }
         }
 
@@ -786,33 +792,18 @@ namespace Microsoft.LearningComponents.SharePoint
         private static DateTime GetLastModifiedTime(CachedFileInfo fileInfo)
         {
             if (fileInfo.SPFile == null)
-                fileInfo.SPFile = GetSharePointFile(fileInfo);
+            {
+                using (SPSite spSite = new SPSite(fileInfo.SiteId))
+                {
+                    using (SPWeb spWeb = spSite.OpenWeb(fileInfo.WebId))
+                    {
+                        fileInfo.SPFile = spWeb.GetFile(fileInfo.FileId);
+                    }
+                }
+            }
 
             return fileInfo.SPFile.TimeLastModified;
         }
-
-        /// <summary>
-        /// Gets the spFile from SharePoint that matches the information in fileInfo.
-        /// </summary>
-        /// <param name="fileInfo"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]    // the objects are disposed by Disposer
-        private static SPFile GetSharePointFile(CachedFileInfo fileInfo)
-        {
-            SPFile spFile;
-            using (Disposer disposer = new Disposer())
-            {
-                SPSite spSite = new SPSite(fileInfo.SiteId);
-                disposer.Push(spSite);
-
-                SPWeb spWeb = spSite.OpenWeb(fileInfo.WebId);
-                disposer.Push(spWeb);
-
-                spFile = spWeb.GetFile(fileInfo.FileId);
-            }
-            return spFile;  
-        }
-
 
         /// <summary>
 		/// Performs the actual tasks involved with just locking a cache directory

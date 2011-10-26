@@ -94,7 +94,7 @@ namespace Microsoft.SharePointLearningKit
                     formatString = "{0}/_layouts/OneNote.aspx?id={1}&Edit=1&source={2}";
                     break;
                 default:
-                    break;
+                    throw new ArgumentOutOfRangeException(Extension.ToUpperInvariant());
             }
 
             return string.Format(CultureInfo.InvariantCulture, formatString, web.Url, HttpUtility.UrlEncode(Url), HttpUtility.UrlEncode(sourceUrl));
@@ -110,12 +110,14 @@ namespace Microsoft.SharePointLearningKit
 
             switch (Extension.ToUpperInvariant())
             {
+                case ".DOC":
                 case ".DOCX":
                     formatString = "{0}/_layouts/WordViewer.aspx?id={1}&source={2}";
                     break;
                 case ".XLSX":
                     formatString = "{0}/_layouts/xlviewer.aspx?DefaultItemOpen=1&id={1}&source={2}";
                     break;
+                case ".PPT":
                 case ".PPTX":
                     formatString = "{0}/_layouts/PowerPoint.aspx?PowerPointView=ReadingView&PresentationId={1}&source={2}";
                     break;
@@ -123,7 +125,7 @@ namespace Microsoft.SharePointLearningKit
                     formatString = "{0}/_layouts/OneNote.aspx?id={1}&Edit=0&source={2}";
                     break;
                 default:
-                    break;
+                    throw new ArgumentOutOfRangeException(Extension.ToUpperInvariant());
             }
 
             return string.Format(CultureInfo.InvariantCulture, formatString, web.Url, HttpUtility.UrlEncode(Url), HttpUtility.UrlEncode(sourceUrl));
