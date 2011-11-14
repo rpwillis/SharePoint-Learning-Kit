@@ -102,7 +102,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 writer.Write("</table>");
                 submit.RenderControl(writer);
             }
-            else if (WebPartManager.DisplayMode == WebPartManager.BrowseDisplayMode)
+            else if (WebPartManager != null && WebPartManager.DisplayMode == WebPartManager.BrowseDisplayMode)
             {
                 writer.Write("<style type='text/css'>#MSOZoneCell_WebPart{0} {1}</style>", ClientID, "{display:none;}");
             }
@@ -125,19 +125,22 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             try
             {
-                string webUrl = FindSelectedWeb();
-                string urlFormat = "{0}/_layouts/SharePointLearningKit/{1}.aspx?Location={2}&Title={3}";
-                string encodedTitle = HttpUtility.UrlEncode(titleBox.Text);
-                string page = "assignmentproperties";
-
-                if (Mode == QuickAssignmentMode.TitleOnly)
+                if (SPContext.Current != null && SPContext.Current.Site != null)
                 {
-                    page = "actions";
+                    string webUrl = FindSelectedWeb();
+                    string urlFormat = "{0}/_layouts/SharePointLearningKit/{1}.aspx?Location={2}&Title={3}";
+                    string encodedTitle = HttpUtility.UrlEncode(titleBox.Text);
+                    string page = "assignmentproperties";
+
+                    if (Mode == QuickAssignmentMode.TitleOnly)
+                    {
+                        page = "actions";
+                    }
+
+                    string url = String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, page, AssignmentProperties.NoPackageLocation.ToString(), encodedTitle);
+
+                    Page.Response.Redirect(url, true);
                 }
-
-                string url = String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, page, AssignmentProperties.NoPackageLocation.ToString(), encodedTitle);
-
-                Page.Response.Redirect(url, true);
             }
             catch (System.Threading.ThreadAbortException)
             {
@@ -187,14 +190,19 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
         void CreateSitesDropDown()
         {
-            SPWeb web = SPContext.Current.Web;
-            SlkStore store = SlkStore.GetStore(web);
-            webList = new UserWebList(store, web);
-
             sites = new DropDownList();
-            foreach (WebListItem item in webList.Items)
+
+            if (SPContext.Current != null && SPContext.Current.Web != null)
             {
-                sites.Items.Add(new ListItem(item.Title, item.SPWebGuid.ToString()));
+                SPWeb web = SPContext.Current.Web;
+                SlkStore store = SlkStore.GetStore(web);
+                webList = new UserWebList(store, web);
+
+                foreach (WebListItem item in webList.Items)
+                {
+                    sites.Items.Add(new ListItem(item.Title, item.SPWebGuid.ToString()));
+                }
+
             }
 
             Controls.Add(sites);
@@ -204,15 +212,23 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             if (showEvaluated == false)
             {
-                if (AlwaysShow)
+                if (AlwaysShow || DesignMode)
                 {
                     show = true;
                 }
                 else
                 {
-                    SPWeb web = SPContext.Current.Web;
-                    SlkStore store = SlkStore.GetStore(web);
-                    show =  store.IsInstructor(web);
+                    if (SPContext.Current == null && SPContext.Current.Web != null)
+                    {
+                        // Unknown environment
+                        show = true;
+                    }
+                    else
+                    {
+                        SPWeb web = SPContext.Current.Web;
+                        SlkStore store = SlkStore.GetStore(web);
+                        show =  store.IsInstructor(web);
+                    }
                 }
 
                 showEvaluated = true;
