@@ -118,6 +118,7 @@
     <FeatureManifests>
         <FeatureManifest Location="SharePointLearningKitWebParts\feature.xml"/>
         <FeatureManifest Location="SharePointLearningKitQuickAssignment\feature.xml"/>
+        <FeatureManifest Location="SharePointLearningKitSlkMembers\feature.xml"/>
         <FeatureManifest Location="SharePointLearningKit\feature.xml"/>
         <FeatureManifest Location="SharePointLearningKitAssignSelf\feature.xml"/>
         <FeatureManifest Location="SharePointLearningKitAssignSite\feature.xml"/>

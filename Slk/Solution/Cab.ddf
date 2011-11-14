@@ -114,6 +114,9 @@ Features\WebParts\AssignmentList.webpart                                    Shar
 Features\WebParts\quickAssignmentElements.xml                               SharePointLearningKitQuickAssignment\elements.xml
 Features\WebParts\quickAssignmentFeature.xml                                SharePointLearningKitQuickAssignment\feature.xml
 Features\WebParts\QuickAssignment.webpart                                   SharePointLearningKitQuickAssignment\QuickAssignment.webpart
+Features\WebParts\slkMembersElements.xml                                    SharePointLearningKitSlkMembers\elements.xml
+Features\WebParts\slkMembersFeature.xml                                     SharePointLearningKitSlkMembers\feature.xml
+Features\WebParts\slkMembers.webpart                                        SharePointLearningKitSlkMembers\SlkMembers.webpart
 Features\ContentTypes\feature.xml                                           SharePointLearningKitContentTypes\feature.xml
 Features\ContentTypes\elements.xml                                          SharePointLearningKitContentTypes\elements.xml
 Features\SelfAssign\elements.xml                                            SharePointLearningKitSelfAssign\elements.xml

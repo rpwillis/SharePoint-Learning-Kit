@@ -225,6 +225,20 @@
     <value>Allows an instructor to quickly assign a piece of work.</value>
   </data>
 
+  <!-- Slk members web part -->
+  <data name="SlkMembersWebPartFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit - Slk Members Web Part</value>
+  </data>
+  <data name="SlkMembersWebPartFeatureDescription" xml:space="preserve">
+    <value>Web Part to allow an instructor to view the SLK members of a site.</value>
+  </data>
+  <data name="SlkMembersWebPartTitle" xml:space="preserve">
+    <value>SLK Members</value>
+  </data>
+  <data name="SlkMembersWebPartDescription" xml:space="preserve">
+    <value>Allows an instructor to view the SLK members of a site.</value>
+  </data>
+
   <!-- Self Assign web part -->
   <data name="SelfAssignWebPartFeatureTitle" xml:space="preserve">
     <value>SharePoint Learning Kit - Enhanced Self Assign Functionality</value>
