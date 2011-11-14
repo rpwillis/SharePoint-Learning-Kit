@@ -190,6 +190,14 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
         base.OnInit(e);
     }
 
+    /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnPreInit"/>.</summary>
+    protected override void OnPreInit(EventArgs e)
+    {
+        MasterPageFile = SPWeb.CustomMasterUrl; //can be set to any master file url
+        base.OnPreInit(e);
+    }
+
+
     /// <summary>
     /// Returns a copy of the current page's query string (beginning with "?") with a given
     /// query string parameter key changed to a different value, or added if it doesn't exist.

@@ -181,6 +181,8 @@
     <Compile Include="WebParts\AssignmentListWebPart.cs" />
     <Compile Include="WebParts\QuickAssignmentWebPart.cs" />
     <Compile Include="WebParts\selfAssignWebPart.cs" />
+    <Compile Include="WebParts\slkMembersWebPart.cs" />
+    <Compile Include="WebParts\IObserverConnection.cs" />
     <Compile Include="AdminWebPages\Configure.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
