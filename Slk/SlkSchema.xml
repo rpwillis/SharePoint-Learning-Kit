@@ -1,0 +1,4305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- SlkSchema.xml - SharePoint Learning Kit (SLK) extensions to the Microsoft Learning Components (MLC) base schema -->
+<StoreSchema xmlns="urn:schemas-microsoft-com:learning-components:learning-store-schema">
+	<!-- Common functions that return the learner assignment state information-->
+	<SqlBefore>
+    GO
+
+    CREATE FUNCTION GetLearnerFileSubmissionState(
+    @RootActivityId bigint,
+    @IsFinal bit,
+    @NonELearningStatus int)
+    RETURNS varchar(20)
+    AS
+    BEGIN
+    RETURN CASE WHEN @RootActivityId IS NOT NULL -- e-learning content
+    THEN 'Not Available'
+    ELSE -- non-e-learning content
+    CASE WHEN @NonELearningStatus IS NULL OR @NonELearningStatus = 0 OR @NonELearningStatus = 3
+    -- LearnerAssignmentState.NotStarted or LearnerAssignmentState.Active
+    THEN 'Submit File(s)'
+    ELSE
+    CASE WHEN @IsFinal = 1 -- LearnerAssignmentState.Final
+    THEN 'Submitted LINK'
+    ELSE 'Submitted' -- LearnerAssignmentState.Completed
+    END
+    END
+    END
+    END
+
+    GO
+
+    CREATE FUNCTION GetObserverFileSubmissionState(
+    @RootActivityId bigint,
+    @IsFinal bit,
+    @NonELearningStatus int)
+    RETURNS varchar(20)
+    AS
+    BEGIN
+    RETURN CASE WHEN @RootActivityId IS NOT NULL -- e-learning content
+    THEN 'Not Available'
+    ELSE -- non-e-learning content
+    CASE WHEN @NonELearningStatus IS NULL OR @NonELearningStatus = 0 OR @NonELearningStatus = 3
+    -- LearnerAssignmentState.NotStarted or LearnerAssignmentState.Active
+    THEN 'Not Submitted'
+    ELSE
+    CASE WHEN @IsFinal = 1 -- LearnerAssignmentState.Final
+    THEN 'Submitted LINK'
+    ELSE 'Submitted' -- LearnerAssignmentState.Completed
+    END
+    END
+    END
+    END
+
+    GO
+
+    CREATE FUNCTION GetLearnerAssignmentState(
+    @RootActivityId bigint,
+    @IsFinal bit,
+    @NonELearningStatus int,
+    @AttemptStatus int)
+    RETURNS int
+    AS
+    BEGIN
+    RETURN CASE WHEN @RootActivityId IS NOT NULL
+    THEN
+    -- e-learning content
+    CASE WHEN @AttemptStatus IS NULL
+    THEN 0 -- LearnerAssignmentState.NotStarted
+    ELSE
+    CASE WHEN @IsFinal = 1
+    THEN 3 -- LearnerAssignmentState.Final
+    ELSE
+    CASE WHEN @AttemptStatus = 0 OR @AttemptStatus = 3
+    THEN 1 -- LearnerAssignmentState.Active
+    ELSE 2 -- LearnerAssignmentState.Completed
+    END
+    END
+    END
+    ELSE
+    -- non-e-learning content
+    CASE WHEN @NonELearningStatus IS NULL
+    THEN 0 -- LearnerAssignmentState.NotStarted
+    ELSE
+    CASE WHEN @IsFinal = 1
+    THEN 3 -- LearnerAssignmentState.Final
+    ELSE
+    CASE WHEN @NonELearningStatus = 0 OR @NonELearningStatus = 3
+    THEN 1 -- LearnerAssignmentState.Active
+    ELSE 2 -- LearnerAssignmentState.Completed
+    END
+    END
+    END
+    END
+    END
+
+    GO
+
+    CREATE FUNCTION IsLearnerAssignmentStarted(
+    @RootActivityId bigint,
+    @NonELearningStatus int,
+    @AttemptStatus int)
+    RETURNS int
+    AS
+    BEGIN
+    RETURN CASE WHEN @RootActivityId IS NOT NULL
+    THEN
+    -- e-learning content
+    CASE WHEN @AttemptStatus IS NULL
+    THEN 0 -- LearnerAssignmentState.NotStarted
+    ELSE 1 -- LearnerAssignmentState.Active or Completed or Final
+    END
+    ELSE
+    -- non-e-learning content
+    CASE WHEN @NonELearningStatus IS NULL
+    THEN 0 -- LearnerAssignmentState.NotStarted
+    ELSE 1 -- LearnerAssignmentState.Active or Completed or Final
+    END
+    END
+    END
+
+    GO
+
+  </SqlBefore>
+	<Enum Name="LearnerAssignmentState">
+		<Values>
+			<Value Name="NotStarted" Value="0">
+				<Documentation xmlns="">
+					The learner has not yet begun the assignment.
+				</Documentation>
+			</Value>
+			<Value Name="Active" Value="1">
+				<Documentation xmlns="">
+					The learner has begun working on the assignment, but has not yet submitted it
+					to the instructor. For self-assigned assignments, the learner has not yet marked
+					the assignment as "complete".
+				</Documentation>
+			</Value>
+			<Value Name="Completed" Value="2">
+				<Documentation xmlns="">
+					The learner submitted the assignment to the instructor, but the instructor has
+					not yet completed grading of the
+					<a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+					Self-assigned and auto-returned
+					assignments do not stay in this state -- they're automatically transitioned to
+					Final state.
+				</Documentation>
+			</Value>
+			<Value Name="Final" Value="3">
+				<Documentation xmlns="">
+					The instructor has graded the
+					<a href="SlkConcepts.htm#Assignments">learner assignment</a>
+					(or the learner assignment was
+					automatically graded, or both) and returned it to the learner (or it was
+					automatically returned to the learner).
+				</Documentation>
+			</Value>
+		</Values>
+		<Documentation>
+			<Summary xmlns="">
+				Represents the <a href="SlkApi.htm#LearnerAssignmentStates">state</a>
+				of a <a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					For more information, see <a href="SlkApi.htm#LearnerAssignmentStates">
+						Learner
+						Assignment States.
+					</a>
+				</para>
+				<para>
+					This enumeration is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Remarks>
+		</Documentation>
+	</Enum>
+	<ItemType Name="SiteSettingsItem">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each item of this <a href="SlkSchema.htm">LearningStore item type</a> contains the
+					SLK Settings corresponding to a given SharePoint site collectino (SPSite).
+				</para>
+				<para>
+					This item type is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to no users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Properties>
+			<Property Name="SiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							SiteGuid is the GUID of the SharePoint site collection (SPSite) that this
+							<a href="Microsoft.SharePointLearningKit.Schema.SiteSettingsItem.Class.htm">SiteSettingsItem</a>
+							refers to.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="SettingsXml" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							SettingsXml is the <a href="SlkSettings.htm">SLK Settings</a> XML of the
+							SharePoint site collection (SPSite) that this
+							<a href="Microsoft.SharePointLearningKit.Schema.SiteSettingsItem.Class.htm">SiteSettingsItem</a>
+							refers to.
+						</para>
+					</Summary>
+					<Remarks xmlns="">
+						<para>
+							This XML is stored as a string, not as a SQL Server XML column, to allow for
+							line numbers within error messages.
+						</para>
+					</Remarks>
+				</Documentation>
+			</Property>
+			<!-- SLK Settings; note type isn't "Xml" (doesn't support IXmlLineInfo) -->
+			<Property Name="SettingsXmlLastModified" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							SettingsXmlLastModified is the date/time (UTC) that the SLK Settings referred
+							to by this
+							<a href="Microsoft.SharePointLearningKit.Schema.SiteSettingsItem.Class.htm">SiteSettingsItem</a>
+							was uploaded.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<!-- when SettingsXml last uploaded-->
+		</Properties>
+	</ItemType>
+	<ItemType Name="AssignmentItem">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each item of this <a href="SlkSchema.htm">LearningStore item type</a> contains
+					information about one <a href="SlkConcepts.htm#Assignments">assignment</a>,
+					i.e. one <a href="SlkConcepts.htm#Packages">organization</a> of one e-learning
+					package, or one <a href="SlkConcepts.htm#Packages">non-e-learning document</a>,
+					assigned to one or more learners, with zero or more instructors.
+				</para>
+				<para>
+					This item type is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					For each learner on this assignment, there is one
+					<a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Class.htm">LearnerAssignmentItem</a>.
+					For each instructor on this assignment, there is one
+					<a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.Class.htm">InstructorAssignmentItem</a>.
+					If this assignment is associated with an
+					<a href="SlkConcepts.htm#Packages">e-learning package</a> (not a non-e-learning
+					document), then when the learner begins the assignment an MLC
+					<a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.Class.htm">AttemptItem</a> is created.
+				</para>
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to no users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Properties>
+			<Property Name="SPSiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							SPSiteGuid is the GUID of the SharePoint site collection (SPSite) that this
+							assignment is associated with.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.SPSiteGuid.Property.htm">AssignmentProperties.SPSiteGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="SPWebGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							SPWebGuid is the GUID of the SharePoint Web site (SPWeb) that this assignment is
+							associated with.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.SPWebGuid.Property.htm">AssignmentProperties.SPWebGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<!-- "RootActivityId" is NULL for non-e-learning content, "NonELearningLocation" is NULL otherwise -->
+			<Property Name="RootActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem" Nullable="true">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							If e-learning content was assigned, RootActivityId is the
+							<a href="Microsoft.LearningComponents.Storage.ActivityPackageItemIdentifier.Class.htm">ActivityPackageItemIdentifier</a>
+							of the assigned SCORM <a href="SlkConcepts.htm#Packages">organization</a>.
+							If non-e-learning content was assigned, RootActivityId is <b>null</b> -- in that
+							case, <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">NonELearningLocation</a> is used.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="NonELearningLocation" Type="String" Length="1000" Nullable="true">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							If non-e-learning content was assigned, NonELearningLocation is the
+							MLC SharePoint location string (i.e. the same value used in
+							<a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>)
+							of the assigned <a href="SlkConcepts.htm#Packages">non-e-learning</a> document.
+							If e-learning content was assigned, NonELearningLocation is <b>null</b> -- in that
+							case, <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.RootActivityId.Field.htm">RootActivityId</a> is used.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="Title" Type="String" Length="1000">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Title is the title of the assignment.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.Title.Property.htm">AssignmentProperties.Title</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="StartDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							StartDate is the start date/time (UTC) of the assignment.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.StartDate.Property.htm">AssignmentProperties.StartDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<!-- UTC; no start time -> DateTime.Now (better for reporting than NULL) -->
+			<Property Name="DueDate" Type="DateTime" Nullable="true">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							DueDate is the due date/time (UTC) of the assignment, or <b>null</b> if the
+							assignment has no due date/time.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.DueDate.Property.htm">AssignmentProperties.DueDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<!-- UTC -->
+			<Property Name="PointsPossible" Type="Single" Nullable="true">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							The nominal maximum number of points that can be awarded to a learner on this
+							assignment, or <b>null</b> if this information is not provided.  The actual
+							number of points awarded may exceed this value.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.PointsPossible.Property.htm">AssignmentProperties.PointsPossible</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<!-- non-scaled -->
+			<Property Name="Description" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Description is the description of the assignment, including instructions to the
+							learner (if any).
+							Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.Description.Property.htm">AssignmentProperties.Description</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<!-- unlimited length -->
+			<Property Name="AutoReturn" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AutoReturn is <b>true</b> if the assignment should be automatically returned to
+							learners when they submit it to the instructor or (for self-assigned assignments)
+							mark the assignment as complete.  If <b>false</b>, the instructor has an
+							opportunity to grade the learner's work.  AutoReturn should always be <b>true</b>
+							for self-assigned assignments.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.AutoReturn.Property.htm">AssignmentProperties.AutoReturn</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="ShowAnswersToLearners" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							ShowAnswersToLearners is <b>true</b> if answers will be shown to the learner when a
+							<a href="SlkConcepts.htm#Assignments">learner assignment</a>
+							associated with this assignment is returned to the learner.
+							This only applies to certain types of e-learning content.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.ShowAnswersToLearners.Property.htm">AssignmentProperties.ShowAnswersToLearners</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="CreatedBy" Type="ItemIdentifier" ReferencedItemTypeName="UserItem" Nullable="true">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CreatedBy is the
+							<a href="Microsoft.LearningComponents.Storage.UserItemIdentifier.Class.htm">UserItemIdentifier</a>
+							of the user who created the assignment.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.CreatedById.Property.htm">AssignmentProperties.CreatedById</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="DateCreated" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							DateCreated is the date/time (UTC) that the assignment was created.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.AssignmentProperties.DateCreated.Property.htm">AssignmentProperties.DateCreated</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<!-- UTC -->
+		</Properties>
+		<Indexes>
+			<Index>
+				CREATE INDEX SPWebIndex
+				ON AssignmentItem(SPWebGuid)
+			</Index>
+		</Indexes>
+		<GrantDeleteRight>
+			<!-- Is the user an instructor on the assignment? -->
+			<Expression>
+				CASE WHEN EXISTS
+				(
+				SELECT *
+				FROM InstructorAssignmentItem iai
+				INNER JOIN UserItem ui ON iai.InstructorId=ui.Id
+				WHERE iai.AssignmentId=@Id AND
+				ui.[Key]=@UserKey
+				) THEN 1 ELSE 0 END
+			</Expression>
+			<!-- Did the user create the assignment? -->
+			<Expression>
+				CASE WHEN EXISTS
+				(
+				SELECT *
+				FROM AssignmentItem ai
+				INNER JOIN UserItem ui ON ai.CreatedBy=ui.Id
+				WHERE ai.Id=@Id AND
+				ui.[Key]=@UserKey
+				) THEN 1 ELSE 0 END
+			</Expression>
+		</GrantDeleteRight>
+	</ItemType>
+	<ItemType Name="InstructorAssignmentItem">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each item of this <a href="SlkSchema.htm">LearningStore item type</a> contains
+					information about one
+					<a href="SlkConcepts.htm#Assignments">instructor assignment</a>,
+					i.e. the mapping of one instructor to one
+					<a href="SlkConcepts.htm#Assignments">assignment</a>.
+					For example, if an assignment has three instructors, there will be three
+					InstructorAssignmentItem table rows associated with that assignment.
+				</para>
+				<para>
+					This item type is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to no users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Properties>
+			<Property Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem" CascadeDelete="true">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentId is the
+							<a href="Microsoft.SharePointLearningKit.AssignmentItemIdentifier.Class.htm">AssignmentItemIdentifier</a>
+							of the assignment associated with this
+							<a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.Class.htm">InstructorAssignmentItem</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="InstructorId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem" CascadeDelete="true">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorId is the
+							<a href="Microsoft.LearningComponents.Storage.UserItemIdentifier.Class.htm">UserItemIdentifier</a>
+							of the instructor associated with this
+							<a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.Class.htm">InstructorAssignmentItem</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+		</Properties>
+		<Indexes>
+			<Index>
+				CREATE INDEX AssignmentIndex
+				ON InstructorAssignmentItem(AssignmentId,InstructorId)
+			</Index>
+			<Index>
+				CREATE INDEX InstructorIndex
+				ON InstructorAssignmentItem(InstructorId,AssignmentId)
+			</Index>
+		</Indexes>
+	</ItemType>
+	<ItemType Name="LearnerAssignmentItem">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each item of this <a href="SlkSchema.htm">LearningStore item type</a> contains
+					information about one <a href="SlkConcepts.htm#Assignments">learner assignment</a>,
+					i.e. the mapping of one learner to one
+					<a href="SlkConcepts.htm#Assignments">assignment</a>.  For example, if an
+					assignment has 30 learners, there will be 30 LearnerAssignmentItem table rows
+					associated with that assignment.
+				</para>
+				<para>
+					This item type is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to no users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Properties>
+			<Property Name="GuidId" Type="Guid" RowGuid="true" Nullable="true">
+				<Default IsFunction='true'>(newid())</Default>
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							GuidId is a column that is similar to the Id column that identifies a LearnerAssignment
+							uniquely. It is here as a more non-guessable entity compared to the Id column
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem" CascadeDelete="true">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentId is the
+							<a href="Microsoft.SharePointLearningKit.AssignmentItemIdentifier.Class.htm">AssignmentItemIdentifier</a>
+							of the assignment associated with this
+							<a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Class.htm">LearnerAssignmentItem</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="LearnerId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerId is the
+							<a href="Microsoft.LearningComponents.Storage.UserItemIdentifier.Class.htm">UserItemIdentifier</a>
+							of the learner associated with this
+							<a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.Class.htm">InstructorAssignmentItem</a>.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.GradingProperties.LearnerId.Property.htm">GradingProperties.LearnerId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<!-- CascadeDelete="true" -->
+			<Property Name="IsFinal" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							IsFinal is <b>true</b> if the
+							<a href="SlkApi.htm#LearnerAssignmentStates">learner assignment state</a> is
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">Final</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="NonELearningStatus" Type="Enum" EnumName="AttemptStatus" Nullable="true">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							NonELearningStatus is the
+							<a href="Microsoft.LearningComponents.AttemptStatus.Enumeration.htm">AttemptStatus</a>
+							of the
+							<a href="SlkConcepts.htm#Assignments">learner assignment</a>, if a
+							<a href="SlkConcepts.htm#Packages">non-e-learning document</a> was assigned
+							(unused if an e-learning package was assigned).  <b>null</b> if the learner hasn't
+							yet started the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<!-- NULL means "not started" -->
+			<Property Name="FinalPoints" Type="Single" Nullable="true">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							FinalPoints is the number of points the learner received on this
+							<a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+							When the learner submits the assignment, FinalPoints is initially the same as
+							<a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>,
+							but the instructor may manually change the value of FinalPoints.  For example, the
+							instructor may award bonus points to the learner.  <b>null</b> if the final points
+							value is blank.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.GradingProperties.FinalPoints.Property.htm">GradingProperties.FinalPoints</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<!-- non-scaled -->
+			<Property Name="InstructorComments" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorComments contains free-form comments, if any, from the instructor
+							about this
+							<a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+							Corresponds to <a href="Microsoft.SharePointLearningKit.GradingProperties.InstructorComments.Property.htm">GradingProperties.InstructorComments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<!-- unlimited length -->
+		</Properties>
+		<Indexes>
+			<Index>
+				CREATE INDEX AssignmentIndex
+				ON LearnerAssignmentItem(AssignmentId,LearnerId)
+				INCLUDE (IsFinal, NonELearningStatus)
+			</Index>
+			<Index>
+				CREATE INDEX LearnerIndex
+				ON LearnerAssignmentItem(LearnerId,AssignmentId)
+			</Index>
+		</Indexes>
+	</ItemType>
+	<ExtendItemType Name="PackageItem">
+		<Properties>
+			<Property Name="Warnings" Type="Xml" Nullable="true">
+				<Default Null="true" />
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Warnings contains warnings that SLK detected when the package was
+							<a href="Microsoft.SharePointLearningKit.SlkStore.RegisterPackage.Method.htm">registered</a>.
+							This XML consists of a root "&lt;Warnings&gt;" element containing one
+							"&lt;Warning&gt;" element per warning, each of which contains the text of the
+							warning as the content of the element plus the following attributes: the
+							"Code" attribute contains the warning's validation result code, and "Type"
+							attribute contains the warning's type, either "Error" or "Warning".  Warnings
+							is <b>null</b> if there are no warnings.
+						</para>
+						<para>
+							This property/column is available only in <a href="Default.htm">SLK</a> (not in
+							<a href="Mlc.htm">MLC</a>).
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+		</Properties>
+	</ExtendItemType>
+	<ExtendItemType Name="AttemptItem">
+		<Properties>
+			<Property Name="LearnerAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="LearnerAssignmentItem" Nullable="true" CascadeDelete="true">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerAssignmentId is the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentItemIdentifier.Class.htm">LearnerAssignmentItemIdentifier</a>
+							of the
+							<a href="SlkConcepts.htm#Assignments">learner assignment</a>
+							associated with this attempt.
+						</para>
+						<para>
+							This property/column is available only in <a href="Default.htm">SLK</a> (not in
+							<a href="Mlc.htm">MLC</a>).
+						</para>
+					</Summary>
+				</Documentation>
+				<Default Null="true" />
+			</Property>
+		</Properties>
+		<Indexes>
+			<Index>
+				CREATE INDEX LearnerAssignmentIndex
+				ON AttemptItem(LearnerAssignmentId)
+				INCLUDE (AttemptStatus)
+			</Index>
+		</Indexes>
+	</ExtendItemType>
+	<ItemType Name="UserWebListItem">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each item of this <a href="SlkSchema.htm">LearningStore item type</a> represents
+					one entry in one user's <b>user Web list</b>, for one site collection.  A user Web
+					list is the list of Web sites that appears on the SLK E-Learning Actions page for
+					all document libraries within a given site collection.  Each user has at most one
+					user Web list for each site collection (SPSite).
+				</para>
+				<para>
+					This item type is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to no users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Properties>
+			<Property Name="OwnerKey" Type="String" Length="250">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							OwnerKey is the
+							<a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>
+							value of the user that owns this user Web list item.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="SPSiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							SPSiteGuid is the GUID of the SharePoint site collection (SPSite) that this
+							user Web list item is associated with.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="SPWebGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							SPWebGuid is the GUID of the SharePoint Web site (SPWeb) that this user Web list
+							item is associated with.
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+			<Property Name="LastAccessTime" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LastAccessTime is the date/time (UTC) that this user Web list item was last
+							accessed via an operation such as assignment creation.  (Viewing the item within
+							the list on the E-Learning Actions page in SLK doesn't count as an access.)
+						</para>
+					</Summary>
+				</Documentation>
+			</Property>
+		</Properties>
+		<Indexes>
+			<Index>
+				CREATE INDEX OwnerIndex
+				ON UserWebListItem(OwnerKey)
+			</Index>
+		</Indexes>
+	</ItemType>
+	<View Name="LearnerAssignmentView">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					This <a href="SlkSchema.htm">LearningStore view</a> contains specific information
+					about all <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+					By default, access is granted to no users; consider using
+					<a href="SlkSchema.htm">other views</a>.
+				</para>
+				<para>
+					This view is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to no users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Columns>
+			<!-- from LearnerAssignmentItem: -->
+			<Column Name="LearnerAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="LearnerAssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerAssignmentId corresponds to <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Id.Field.htm">LearnerAssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerAssignmentGuidId" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Holds the value of the GuidId column of the LearnerAssignmentItem
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerId corresponds to <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.LearnerId.Field.htm">LearnerAssignmentItem.LearnerId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from AssignmentItem: -->
+			<Column Name="AssignmentAutoReturn" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentAutoReturn corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="RootActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							RootActivityId corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.RootActivityId.Field.htm">AssignmentItem.RootActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from AttemptItem: -->
+			<Column Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptId corresponds to <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.Id.Field.htm">AttemptItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptGradedPoints" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptGradedPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- computed: -->
+			<Column Name="LearnerAssignmentState" Type="Enum" EnumName="LearnerAssignmentState">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerAssignmentState is the state of this <a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+		</Columns>
+		<Implementation>
+			SELECT
+			----- from LearnerAssignmentItem -----
+			lai.Id                          LearnerAssignmentId,
+			lai.GuidId			LearnerAssignmentGuidId,
+			lai.LearnerId                   LearnerId,
+			----- from AssignmentItem -----
+			asi.AutoReturn                  AssignmentAutoReturn,
+			asi.RootActivityId              RootActivityId,
+			----- from AttemptItem -----
+			ati.Id AttemptId,
+			ati.TotalPoints                 AttemptGradedPoints,
+			----- computed LearnerAssignmentState -----
+			dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) LearnerAssignmentState
+			-----
+			FROM LearnerAssignmentItem lai
+			INNER JOIN AssignmentItem asi ON lai.AssignmentId = asi.Id
+			LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
+		</Implementation>
+	</View>
+	<View Name="AssignmentPropertiesView">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					This <a href="SlkSchema.htm">LearningStore view</a> contains information about one
+					<a href="SlkConcepts.htm#Assignments">SLK assignment</a>, as specified by the
+					"AssignmentId" view parameter (the
+					<a href="Microsoft.SharePointLearningKit.AssignmentItemIdentifier.Class.htm">AssignmentItemIdentifier</a> of an assignment) and the "IsInstructor" view parameter (<b>true</b> if the
+					current user is an instructor on the assignment, <b>false</b> if they're a
+					learner).
+				</para>
+				<para>
+					This view is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to instructors and learners of the assignment.
+					Learners have no access before the start date of the assignment.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Parameters>
+			<Parameter Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem" />
+			<Parameter Name="IsInstructor" Type="Boolean" />
+		</Parameters>
+		<Columns>
+			<!-- from AssignmentItem: -->
+			<Column Name="AssignmentSPSiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPSiteGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPSiteGuid.Field.htm">AssignmentItem.SPSiteGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPWebGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPWebGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPWebGuid.Field.htm">AssignmentItem.SPWebGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentNonELearningLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentNonELearningLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">AssignmentItem.NonELearningLocation</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentTitle" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentTitle holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Title.Field.htm">AssignmentItem.Title</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentStartDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentStartDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.StartDate.Field.htm">AssignmentItem.StartDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDueDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDueDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DueDate.Field.htm">AssignmentItem.DueDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentPointsPossible" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentPointsPossible holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.PointsPossible.Field.htm">AssignmentItem.PointsPossible</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDescription" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDescription holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Description.Field.htm">AssignmentItem.Description</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentAutoReturn" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentAutoReturn holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentShowAnswersToLearners" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedById" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedById holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.CreatedBy.Field.htm">AssignmentItem.CreatedBy</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDateCreated" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDateCreated holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DateCreated.Field.htm">AssignmentItem.DateCreated</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="RootActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							RootActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.RootActivityId.Field.htm">AssignmentItem.RootActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from PackageItem: -->
+			<Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageFormat" Type="Enum" EnumName="PackageFormat">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+		</Columns>
+		<Implementation>
+			SELECT
+			----- from AssignmentItem -----
+			asi.Id                          AssignmentId,
+			asi.SPSiteGuid                  AssignmentSPSiteGuid,
+			asi.SPWebGuid                   AssignmentSPWebGuid,
+			asi.NonELearningLocation        AssignmentNonELearningLocation,
+			asi.Title                       AssignmentTitle,
+			asi.StartDate                   AssignmentStartDate,
+			asi.DueDate                     AssignmentDueDate,
+			asi.PointsPossible              AssignmentPointsPossible,
+			asi.Description                 AssignmentDescription,
+			asi.AutoReturn                  AssignmentAutoReturn,
+			asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+			asi.CreatedBy                   AssignmentCreatedById,
+			cbui.[Name]                     AssignmentCreatedByName,
+			cbui.[Key]                      AssignmentCreatedByKey,
+			asi.DateCreated                 AssignmentDateCreated,
+			asi.RootActivityId              RootActivityId,
+			----- from PackageItem -----
+			pki.Id                          PackageId,
+			pki.PackageFormat               PackageFormat,
+			pki.Location                    PackageLocation
+			-----
+			FROM AssignmentItem asi
+			INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+			LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+			LEFT OUTER JOIN PackageItem pki ON api.PackageId = pki.Id
+			WHERE asi.Id = @AssignmentId
+		</Implementation>
+		<GrantQueryRight>
+			<!-- Is the user an instructor or learner on the assignment? -->
+			<Expression>
+				CASE WHEN EXISTS
+				(
+				SELECT *
+				FROM AssignmentItem asi
+				LEFT OUTER JOIN LearnerAssignmentItem lai ON lai.AssignmentId = asi.Id
+				LEFT OUTER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = asi.Id
+				LEFT OUTER JOIN UserItem lui ON lai.LearnerId = lui.Id
+				LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
+				WHERE asi.Id = @AssignmentId AND
+				(((lui.[Key] = @UserKey) AND (@IsInstructor = 0) AND (GETUTCDATE() >= asi.StartDate))
+				OR
+				((iui.[Key]=@UserKey) AND (@IsInstructor = 1)))
+				) THEN 1 ELSE 0 END
+			</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="AssignmentListForInstructors">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each row of this <a href="SlkSchema.htm">LearningStore view</a> contains
+					information about one
+					<a href="SlkConcepts.htm#Assignments">assignment</a>, as well as
+					information about the e-learning package (if any) associated with the assignment.
+					This view contains one row for each assignment for which the current user is an
+					instructor.
+				</para>
+				<para>
+					This view is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to all users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Columns>
+			<!-- from AssignmentItem: -->
+			<Column Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Id.Field.htm">AssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPSiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPSiteGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPSiteGuid.Field.htm">AssignmentItem.SPSiteGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPWebGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPWebGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPWebGuid.Field.htm">AssignmentItem.SPWebGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentNonELearningLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentNonELearningLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">AssignmentItem.NonELearningLocation</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentTitle" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentTitle holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Title.Field.htm">AssignmentItem.Title</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentStartDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentStartDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.StartDate.Field.htm">AssignmentItem.StartDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDueDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDueDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DueDate.Field.htm">AssignmentItem.DueDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentPointsPossible" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentPointsPossible holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.PointsPossible.Field.htm">AssignmentItem.PointsPossible</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDescription" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDescription holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Description.Field.htm">AssignmentItem.Description</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentAutoReturn" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentAutoReturn holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentShowAnswersToLearners" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedById" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedById holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.CreatedBy.Field.htm">AssignmentItem.CreatedBy</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDateCreated" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDateCreated holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DateCreated.Field.htm">AssignmentItem.DateCreated</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="RootActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							RootActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.RootActivityId.Field.htm">AssignmentItem.RootActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from PackageItem: -->
+			<Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageFormat" Type="Enum" EnumName="PackageFormat">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- computed: -->
+			<Column Name="CountTotal" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountTotal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountNotStarted" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountNotStarted is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.NotStarted</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountActive" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountActive is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Active</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountCompleted" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountCompleted is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Completed</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountFinal" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountFinal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Final</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountStarted" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountStarted is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are not in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.NotStarted</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountNotStartedOrActive" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountNotStartedOrActive is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.NotStarted</a> or
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Active</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountCompletedOrFinal" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountCompletedOrFinal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Completed</a> or
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Final</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountNotFinal" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountNotFinal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are not in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Final</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="MinGradedPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							MinGradedPoints is the minimum value of
+							<a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="MaxGradedPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							MaxGradedPoints is the maximum value of
+							<a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AvgGradedPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AvgGradedPoints is the average value of
+							<a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="MinFinalPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							MinFinalPoints is the minimum value of
+							<a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="MaxFinalPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							MaxFinalPoints is the maximum value of
+							<a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AvgFinalPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AvgFinalPoints is the average value of
+							<a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+		</Columns>
+		<Implementation>
+			SELECT
+			----- from AssignmentItem -----
+			asi.Id                          AssignmentId,
+			asi.SPSiteGuid                  AssignmentSPSiteGuid,
+			asi.SPWebGuid                   AssignmentSPWebGuid,
+			asi.NonELearningLocation        AssignmentNonELearningLocation,
+			asi.Title                       AssignmentTitle,
+			asi.StartDate                   AssignmentStartDate,
+			asi.DueDate                     AssignmentDueDate,
+			asi.PointsPossible              AssignmentPointsPossible,
+			asi.Description                 AssignmentDescription,
+			asi.AutoReturn                  AssignmentAutoReturn,
+			asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+			asi.CreatedBy                   AssignmentCreatedById,
+			cbui.[Name]                     AssignmentCreatedByName,
+			cbui.[Key]                      AssignmentCreatedByKey,
+			asi.DateCreated                 AssignmentDateCreated,
+			asi.RootActivityId              RootActivityId,
+			----- from PackageItem -----
+			pki.Id                          PackageId,
+			pki.PackageFormat               PackageFormat,
+			pki.Location                    PackageLocation,
+			----- from learner assignment computed info -----
+			ISNULL(la.CountTotal,0)         CountTotal,
+			ISNULL(la.CountNotStarted,0)    CountNotStarted,
+			ISNULL(la.CountActive,0)        CountActive,
+			ISNULL(la.CountCompleted,0)     CountCompleted,
+			ISNULL(la.CountFinal,0)         CountFinal,
+			ISNULL(la.CountStarted,0)       CountStarted,
+			ISNULL(la.CountNotStartedOrActive,0) CountNotStartedOrActive,
+			ISNULL(la.CountCompletedOrFinal,0) CountCompletedOrFinal,
+			ISNULL(la.CountNotFinal,0)      CountNotFinal,
+			la.MinGradedPoints              MinGradedPoints,
+			la.MaxGradedPoints              MaxGradedPoints,
+			la.AvgGradedPoints              AvgGradedPoints,
+			la.MinFinalPoints               MinFinalPoints,
+			la.MaxFinalPoints               MaxFinalPoints,
+			la.AvgFinalPoints               AvgFinalPoints
+			-----
+			FROM AssignmentItem asi
+			INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+			INNER JOIN InstructorAssignmentItem iai ON asi.Id = iai.AssignmentId
+			INNER JOIN UserItem iui ON iai.InstructorId = iui.Id
+			LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+			LEFT OUTER JOIN PackageItem pki ON api.PackageId = pki.Id
+			LEFT OUTER JOIN (
+			SELECT
+			----- from Assignment -----
+			lai.AssignmentId,
+			----- computed CountTotal -----
+			COUNT(lai.Id) CountTotal,
+			----- computed CountNotStarted -----
+			COUNT(CASE WHEN dbo.IsLearnerAssignmentStarted(asi.RootActivityId, lai.NonELearningStatus, ati.AttemptStatus) = 0 THEN 1 ELSE NULL END) CountNotStarted,
+			----- computed CountActive -----
+			COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) = 1 THEN 1 ELSE NULL END) CountActive,
+			----- computed CountCompleted -----
+			COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) = 2 THEN 1 ELSE NULL END) CountCompleted,
+			----- computed CountFinal -----
+			COUNT(CASE WHEN lai.IsFinal = 1 THEN 1 ELSE NULL END) CountFinal,
+			----- computed CountStarted -----
+			COUNT(CASE WHEN dbo.IsLearnerAssignmentStarted(asi.RootActivityId, lai.NonELearningStatus, ati.AttemptStatus) &lt;&gt; 0 THEN 1 ELSE NULL END) CountStarted,
+			----- computed CountNotStartedOrActive -----
+			COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) IN (0,1) THEN 1 ELSE NULL END) CountNotStartedOrActive,
+			----- computed CountCompletedOrFinal -----
+			COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) IN (2,3) THEN 1 ELSE NULL END) CountCompletedOrFinal,
+			----- computed CountNotFinal -----
+			COUNT(CASE WHEN lai.IsFinal = 0 THEN 1 ELSE NULL END) CountNotFinal,
+			----- computed MinGradedPoints -----
+			MIN(ati.TotalPoints)              MinGradedPoints,
+			----- computed MaxGradedPoints -----
+			MAX(ati.TotalPoints)              MaxGradedPoints,
+			----- computed AvgGradedPoints -----
+			AVG(ati.TotalPoints)              AvgGradedPoints,
+			----- computed MinFinalPoints -----
+			MIN(lai.FinalPoints)              MinFinalPoints,
+			----- computed MaxFinalPoints -----
+			MAX(lai.FinalPoints)              MaxFinalPoints,
+			----- computed AvgFinalPoints -----
+			AVG(lai.FinalPoints)              AvgFinalPoints
+			-----
+			FROM LearnerAssignmentItem lai
+			INNER JOIN AssignmentItem asi ON lai.AssignmentId = asi.Id
+			LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
+			INNER JOIN InstructorAssignmentItem iai ON asi.Id = iai.AssignmentId
+			INNER JOIN UserItem iui ON iai.InstructorId = iui.Id
+			WHERE iui.[Key] = @UserKey
+			GROUP BY lai.AssignmentId) AS la ON asi.Id = la.AssignmentId
+			WHERE iui.[Key] = @UserKey
+		</Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="InstructorAssignmentListForInstructors">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each row of this <a href="SlkSchema.htm">LearningStore view</a> contains
+					information about one <a href="SlkConcepts.htm#Assignments">
+						instructor
+						assignment
+					</a>, as well as information about the e-learning package (if any)
+					associated with the assignment.  This view returns one row for each instructor on
+					each assignment for which the current user is an instructor.
+				</para>
+				<para>
+					This view is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to all users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Columns>
+			<!-- from InstructorAssignmentItem: -->
+			<Column Name="InstructorAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="InstructorAssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorAssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.Id.Field.htm">InstructorAssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.InstructorId.Field.htm">InstructorAssignmentItem.InstructorId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the instructor.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the instructor.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from AssignmentItem: -->
+			<Column Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Id.Field.htm">AssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPSiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPSiteGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPSiteGuid.Field.htm">AssignmentItem.SPSiteGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPWebGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPWebGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPWebGuid.Field.htm">AssignmentItem.SPWebGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentNonELearningLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentNonELearningLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">AssignmentItem.NonELearningLocation</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentTitle" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentTitle holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Title.Field.htm">AssignmentItem.Title</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentStartDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentStartDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.StartDate.Field.htm">AssignmentItem.StartDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDueDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDueDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DueDate.Field.htm">AssignmentItem.DueDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentPointsPossible" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentPointsPossible holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.PointsPossible.Field.htm">AssignmentItem.PointsPossible</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDescription" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDescription holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Description.Field.htm">AssignmentItem.Description</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentAutoReturn" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentAutoReturn holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentShowAnswersToLearners" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedById" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedById holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.CreatedBy.Field.htm">AssignmentItem.CreatedBy</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from PackageItem: -->
+			<Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageFormat" Type="Enum" EnumName="PackageFormat">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageManifest" Type="Xml">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageManifest holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Manifest.Field.htm">PackageItem.Manifest</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+		</Columns>
+		<Implementation>
+      SELECT
+      ----- from InstructorAssignmentItem -----
+      iai.Id                          InstructorAssignmentId,
+      iai.InstructorId                InstructorId,
+      iui.[Name]                      InstructorName,
+      iui.[Key]                       InstructorKey,
+      ----- from AssignmentItem -----
+      asi.Id                          AssignmentId,
+      asi.SPSiteGuid                  AssignmentSPSiteGuid,
+      asi.SPWebGuid                   AssignmentSPWebGuid,
+      asi.NonELearningLocation        AssignmentNonELearningLocation,
+      asi.Title                       AssignmentTitle,
+      asi.StartDate                   AssignmentStartDate,
+      asi.DueDate                     AssignmentDueDate,
+      asi.PointsPossible              AssignmentPointsPossible,
+      asi.Description                 AssignmentDescription,
+      asi.AutoReturn                  AssignmentAutoReturn,
+      asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+      asi.CreatedBy                   AssignmentCreatedById,
+      cbui.[Name]                     AssignmentCreatedByName,
+      cbui.[Key]                      AssignmentCreatedByKey,
+      ----- from PackageItem -----
+      pki.Id                          PackageId,
+      pki.PackageFormat               PackageFormat,
+      pki.Location                    PackageLocation,
+      pki.Manifest                    PackageManifest
+      -----
+      FROM InstructorAssignmentItem iai
+      INNER JOIN AssignmentItem asi ON iai.AssignmentId = asi.Id
+      INNER JOIN UserItem iui ON iui.Id = iai.InstructorId
+      INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+      LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+      LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
+      WHERE EXISTS
+      (
+      SELECT *
+      FROM InstructorAssignmentItem iai2
+      INNER JOIN UserItem ui2
+      ON iai2.InstructorId = ui2.Id
+      WHERE iai2.AssignmentId = asi.Id
+      AND ui2.[Key] = @UserKey
+      )
+    </Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="InstructorAssignmentList">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each row of this <a href="SlkSchema.htm">LearningStore view</a> contains
+					information about one <a href="SlkConcepts.htm#Assignments">
+						instructor
+						assignment
+					</a>, as well as information about the e-learning package (if any)
+					associated with the assignment.  This view returns one row for each instructor on
+					each assignment for which the current user is an instructor.
+				</para>
+				<para>
+					This view is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to all users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Columns>
+			<!-- from InstructorAssignmentItem: -->
+			<Column Name="InstructorAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="InstructorAssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorAssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.Id.Field.htm">InstructorAssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.InstructorAssignmentItem.InstructorId.Field.htm">InstructorAssignmentItem.InstructorId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the instructor.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the instructor.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from AssignmentItem: -->
+			<Column Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Id.Field.htm">AssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPSiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPSiteGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPSiteGuid.Field.htm">AssignmentItem.SPSiteGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPWebGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPWebGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPWebGuid.Field.htm">AssignmentItem.SPWebGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentNonELearningLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentNonELearningLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">AssignmentItem.NonELearningLocation</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentTitle" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentTitle holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Title.Field.htm">AssignmentItem.Title</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentStartDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentStartDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.StartDate.Field.htm">AssignmentItem.StartDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDueDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDueDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DueDate.Field.htm">AssignmentItem.DueDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentPointsPossible" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentPointsPossible holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.PointsPossible.Field.htm">AssignmentItem.PointsPossible</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDescription" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDescription holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Description.Field.htm">AssignmentItem.Description</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentAutoReturn" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentAutoReturn holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentShowAnswersToLearners" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedById" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedById holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.CreatedBy.Field.htm">AssignmentItem.CreatedBy</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from PackageItem: -->
+			<Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageFormat" Type="Enum" EnumName="PackageFormat">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageManifest" Type="Xml">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageManifest holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Manifest.Field.htm">PackageItem.Manifest</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+		</Columns>
+		<Implementation>
+      SELECT
+      ----- from InstructorAssignmentItem -----
+      iai.Id                          InstructorAssignmentId,
+      iai.InstructorId                InstructorId,
+      iui.[Name]                      InstructorName,
+      iui.[Key]                       InstructorKey,
+      ----- from AssignmentItem -----
+      asi.Id                          AssignmentId,
+      asi.SPSiteGuid                  AssignmentSPSiteGuid,
+      asi.SPWebGuid                   AssignmentSPWebGuid,
+      asi.NonELearningLocation        AssignmentNonELearningLocation,
+      asi.Title                       AssignmentTitle,
+      asi.StartDate                   AssignmentStartDate,
+      asi.DueDate                     AssignmentDueDate,
+      asi.PointsPossible              AssignmentPointsPossible,
+      asi.Description                 AssignmentDescription,
+      asi.AutoReturn                  AssignmentAutoReturn,
+      asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+      asi.CreatedBy                   AssignmentCreatedById,
+      cbui.[Name]                     AssignmentCreatedByName,
+      cbui.[Key]                      AssignmentCreatedByKey,
+      ----- from PackageItem -----
+      pki.Id                          PackageId,
+      pki.PackageFormat               PackageFormat,
+      pki.Location                    PackageLocation,
+      pki.Manifest                    PackageManifest
+      -----
+      FROM InstructorAssignmentItem iai
+      INNER JOIN AssignmentItem asi ON iai.AssignmentId = asi.Id
+      INNER JOIN UserItem iui ON iui.Id = iai.InstructorId
+      INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+      LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+      LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
+    </Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="LearnerAssignmentListForLearners">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each row of this <a href="SlkSchema.htm">LearningStore view</a> contains
+					information about one <a href="SlkConcepts.htm#Assignments">learner assignment</a>,
+					as well as information about the e-learning package (if any) associated with the
+					assignment.  This view returns one row for each assignment for which the current
+					user is a learner, excluding assignments which have not yet started.
+				</para>
+				<para>
+					This view is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to all users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Columns>
+			<!-- from LearnerAssignmentItem: -->
+			<Column Name="LearnerAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="LearnerAssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerAssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Id.Field.htm">LearnerAssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerAssignmentGuidId" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Holds the value of the GuidId column of the LearnerAssignmentItem
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.LearnerId.Field.htm">LearnerAssignmentItem.LearnerId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the learner.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the learner.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="IsFinal" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							IsFinal holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.IsFinal.Field.htm">LearnerAssignmentItem.IsFinal</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="NonELearningStatus" Type="Enum" EnumName="AttemptStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							NonELearningStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.NonELearningStatus.Field.htm">LearnerAssignmentItem.NonELearningStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="FinalPoints" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							FinalPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorComments" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorComments holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.InstructorComments.Field.htm">LearnerAssignmentItem.InstructorComments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from AssignmentItem: -->
+			<Column Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Id.Field.htm">AssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPSiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPSiteGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPSiteGuid.Field.htm">AssignmentItem.SPSiteGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPWebGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPWebGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPWebGuid.Field.htm">AssignmentItem.SPWebGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentNonELearningLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentNonELearningLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">AssignmentItem.NonELearningLocation</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentTitle" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentTitle holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Title.Field.htm">AssignmentItem.Title</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentStartDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentStartDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.StartDate.Field.htm">AssignmentItem.StartDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDueDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDueDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DueDate.Field.htm">AssignmentItem.DueDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentPointsPossible" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentPointsPossible holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.PointsPossible.Field.htm">AssignmentItem.PointsPossible</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDescription" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDescription holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Description.Field.htm">AssignmentItem.Description</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentAutoReturn" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentAutoReturn holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentShowAnswersToLearners" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedById" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedById holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.CreatedBy.Field.htm">AssignmentItem.CreatedBy</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDateCreated" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDateCreated holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DateCreated.Field.htm">AssignmentItem.DateCreated</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="RootActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							RootActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.RootActivityId.Field.htm">AssignmentItem.RootActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from PackageItem: -->
+			<Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageFormat" Type="Enum" EnumName="PackageFormat">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from AttemptItem: -->
+			<Column Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.Id.Field.htm">AttemptItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptCurrentActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptCurrentActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CurrentActivityId.Field.htm">AttemptItem.CurrentActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptSuspendedActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptSuspendedActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuspendedActivityId.Field.htm">AttemptItem.SuspendedActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptStatus" Type="Enum" EnumName="AttemptStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.AttemptStatus.Field.htm">AttemptItem.AttemptStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptFinishedTimestamp" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptFinishedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.FinishedTimestamp.Field.htm">AttemptItem.FinishedTimestamp</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptLogDetailSequencing" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptLogDetailSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogDetailSequencing.Field.htm">AttemptItem.LogDetailSequencing</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptLogFinalSequencing" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptLogFinalSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogFinalSequencing.Field.htm">AttemptItem.LogFinalSequencing</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptLogRollup" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptLogRollup holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogRollup.Field.htm">AttemptItem.LogRollup</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptStartedTimestamp" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptStartedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.StartedTimestamp.Field.htm">AttemptItem.StartedTimestamp</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptCompletionStatus" Type="Enum" EnumName="CompletionStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptCompletionStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CompletionStatus.Field.htm">AttemptItem.CompletionStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptSuccessStatus" Type="Enum" EnumName="SuccessStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptSuccessStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuccessStatus.Field.htm">AttemptItem.SuccessStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptGradedPoints" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptGradedPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- computed: -->
+			<Column Name="LearnerAssignmentState" Type="Enum" EnumName="LearnerAssignmentState">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerAssignmentState is the state of this <a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="HasInstructors" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							HasInstructors is <b>true</b> if the assignment has instructors, <b>false</b> if not.  Note that self-assigned assignments have no instructors.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+      <Column Name="FileSubmissionState" Type="String">
+        <Documentation>
+          <Summary xmlns="">
+            <para>
+              FileSubmissionState is set to <b>NA</b> if the assignment is e-learning content. In case the assignment is non e-learning
+              content, FileSubmissionState has one of three values: <b>Submit File(s)</b> in case the assignment is active or not started, 
+              <b>Submitted LINK</b> in case the assignment is final, and <b>Submitted</b> otherwise (in case the assignment is completed).
+            </para>
+          </Summary>
+        </Documentation>
+      </Column>
+		</Columns>
+		<Implementation>
+      SELECT
+      ----- from LearnerAssignmentItem -----
+      lai.Id                          LearnerAssignmentId,
+      lai.GuidId			LearnerAssignmentGuidId,
+      lai.LearnerId                   LearnerId,
+      lui.[Name]                      LearnerName,
+      lui.[Key]                       LearnerKey,
+      lai.IsFinal                     IsFinal,
+      lai.NonELearningStatus          NonELearningStatus,
+      CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END
+      FinalPoints,
+      lai.InstructorComments          InstructorComments,
+      ----- from AssignmentItem -----
+      asi.Id                          AssignmentId,
+      asi.SPSiteGuid                  AssignmentSPSiteGuid,
+      asi.SPWebGuid                   AssignmentSPWebGuid,
+      asi.NonELearningLocation        AssignmentNonELearningLocation,
+      asi.Title                       AssignmentTitle,
+      asi.StartDate                   AssignmentStartDate,
+      asi.DueDate                     AssignmentDueDate,
+      asi.PointsPossible              AssignmentPointsPossible,
+      asi.Description                 AssignmentDescription,
+      asi.AutoReturn                  AssignmentAutoReturn,
+      asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+      asi.CreatedBy                   AssignmentCreatedById,
+      cbui.[Name]                     AssignmentCreatedByName,
+      cbui.[Key]                      AssignmentCreatedByKey,
+      asi.DateCreated                 AssignmentDateCreated,
+      asi.RootActivityId              RootActivityId,
+      ----- from PackageItem -----
+      pki.Id                          PackageId,
+      pki.PackageFormat               PackageFormat,
+      pki.Location                    PackageLocation,
+      ----- from AttemptItem -----
+      ati.Id AttemptId,
+      ati.CurrentActivityId           AttemptCurrentActivityId,
+      ati.SuspendedActivityId         AttemptSuspendedActivityId,
+      ati.AttemptStatus               AttemptStatus,
+      ati.FinishedTimestamp           AttemptFinishedTimestamp,
+      ati.LogDetailSequencing         AttemptLogDetailSequencing,
+      ati.LogFinalSequencing          AttemptLogFinalSequencing,
+      ati.LogRollup                   AttemptLogRollup,
+      ati.StartedTimestamp            AttemptStartedTimestamp,
+      ati.CompletionStatus            AttemptCompletionStatus,
+      ati.SuccessStatus               AttemptSuccessStatus,
+      ati.TotalPoints                 AttemptGradedPoints,
+      ----- computed FileSubmissionState -----
+      dbo.GetLearnerFileSubmissionState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus) FileSubmissionState,
+      ----- computed LearnerAssignmentState -----
+      dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) LearnerAssignmentState,
+      ----- computed HasInstructors -----
+      CASE WHEN EXISTS
+      (
+      SELECT *
+      FROM InstructorAssignmentItem iaiH
+      WHERE iaiH.AssignmentId = asi.Id
+      ) THEN 1 ELSE 0 END             HasInstructors
+      -----
+      FROM LearnerAssignmentItem lai
+      INNER JOIN AssignmentItem asi ON lai.AssignmentId = asi.Id
+      INNER JOIN UserItem lui ON lui.Id = lai.LearnerId
+      INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+      LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+      LEFT OUTER JOIN PackageItem pki on api.PackageId = pki.Id
+      LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
+      WHERE lui.[Key] = @UserKey
+      AND GETUTCDATE() >= asi.StartDate
+    </Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+
+	<View Name="LearnerAssignmentListForObservers">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each row of this <a href="SlkSchema.htm">LearningStore view</a> contains
+					information about one <a href="SlkConcepts.htm#Assignments">learner assignment</a>,
+					as well as information about the e-learning package (if any) associated with the
+					assignment. It also holds aggregated information about each assignment.
+					This view returns one row for each assignment for which the input
+					user is a learner, including assignments which have not yet started.
+				</para>
+				<para>
+					This view is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to all users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Columns>
+			<!-- from LearnerAssignmentItem: -->
+			<Column Name="LearnerAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="LearnerAssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerAssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Id.Field.htm">LearnerAssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerAssignmentGuidId" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Holds the value of the GuidId column of the LearnerAssignmentItem
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.LearnerId.Field.htm">LearnerAssignmentItem.LearnerId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the learner.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the learner.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="IsFinal" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							IsFinal holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.IsFinal.Field.htm">LearnerAssignmentItem.IsFinal</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="NonELearningStatus" Type="Enum" EnumName="AttemptStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							NonELearningStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.NonELearningStatus.Field.htm">LearnerAssignmentItem.NonELearningStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="FinalPoints" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							FinalPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorComments" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorComments holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.InstructorComments.Field.htm">LearnerAssignmentItem.InstructorComments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from AssignmentItem: -->
+			<Column Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Id.Field.htm">AssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPSiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPSiteGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPSiteGuid.Field.htm">AssignmentItem.SPSiteGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPWebGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPWebGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPWebGuid.Field.htm">AssignmentItem.SPWebGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentNonELearningLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentNonELearningLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">AssignmentItem.NonELearningLocation</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentTitle" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentTitle holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Title.Field.htm">AssignmentItem.Title</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentStartDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentStartDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.StartDate.Field.htm">AssignmentItem.StartDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDueDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDueDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DueDate.Field.htm">AssignmentItem.DueDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentPointsPossible" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentPointsPossible holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.PointsPossible.Field.htm">AssignmentItem.PointsPossible</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDescription" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDescription holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Description.Field.htm">AssignmentItem.Description</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentAutoReturn" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentAutoReturn holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentShowAnswersToLearners" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedById" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedById holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.CreatedBy.Field.htm">AssignmentItem.CreatedBy</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDateCreated" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDateCreated holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DateCreated.Field.htm">AssignmentItem.DateCreated</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="RootActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							RootActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.RootActivityId.Field.htm">AssignmentItem.RootActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from PackageItem: -->
+			<Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageFormat" Type="Enum" EnumName="PackageFormat">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- computed: -->
+			<Column Name="CountTotal" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountTotal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountNotStarted" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountNotStarted is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.NotStarted</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountActive" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountActive is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Active</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountCompleted" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountCompleted is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Completed</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountFinal" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountFinal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Final</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountStarted" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountStarted is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are not in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.NotStarted</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountNotStartedOrActive" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountNotStartedOrActive is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.NotStarted</a> or
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Active</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountCompletedOrFinal" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountCompletedOrFinal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Completed</a> or
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Final</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CountNotFinal" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CountNotFinal is the number of <a href="SlkConcepts.htm#Assignments">learner assignments</a> that are not in the
+							<a href="Microsoft.SharePointLearningKit.LearnerAssignmentState.Enumeration.htm">LearnerAssignmentState.Final</a> state.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="MinGradedPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							MinGradedPoints is the minimum value of
+							<a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="MaxGradedPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							MaxGradedPoints is the maximum value of
+							<a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AvgGradedPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AvgGradedPoints is the average value of
+							<a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="MinFinalPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							MinFinalPoints is the minimum value of
+							<a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="MaxFinalPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							MaxFinalPoints is the maximum value of
+							<a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AvgFinalPoints" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AvgFinalPoints is the average value of
+							<a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>
+							among the <a href="SlkConcepts.htm#Assignments">learner assignments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from AttemptItem: -->
+			<Column Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.Id.Field.htm">AttemptItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptCurrentActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptCurrentActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CurrentActivityId.Field.htm">AttemptItem.CurrentActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptSuspendedActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptSuspendedActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuspendedActivityId.Field.htm">AttemptItem.SuspendedActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptStatus" Type="Enum" EnumName="AttemptStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.AttemptStatus.Field.htm">AttemptItem.AttemptStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptFinishedTimestamp" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptFinishedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.FinishedTimestamp.Field.htm">AttemptItem.FinishedTimestamp</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptLogDetailSequencing" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptLogDetailSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogDetailSequencing.Field.htm">AttemptItem.LogDetailSequencing</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptLogFinalSequencing" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptLogFinalSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogFinalSequencing.Field.htm">AttemptItem.LogFinalSequencing</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptLogRollup" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptLogRollup holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogRollup.Field.htm">AttemptItem.LogRollup</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptStartedTimestamp" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptStartedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.StartedTimestamp.Field.htm">AttemptItem.StartedTimestamp</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptCompletionStatus" Type="Enum" EnumName="CompletionStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptCompletionStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CompletionStatus.Field.htm">AttemptItem.CompletionStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptSuccessStatus" Type="Enum" EnumName="SuccessStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptSuccessStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuccessStatus.Field.htm">AttemptItem.SuccessStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptGradedPoints" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptGradedPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- computed: -->
+			<Column Name="LearnerAssignmentState" Type="Enum" EnumName="LearnerAssignmentState">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerAssignmentState is the state of this <a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="HasInstructors" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							HasInstructors is <b>true</b> if the assignment has instructors, <b>false</b> if not.  Note that self-assigned assignments have no instructors.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+      <Column Name="FileSubmissionState" Type="String">
+        <Documentation>
+          <Summary xmlns="">
+            <para>
+              FileSubmissionState is set to <b>NA</b> if the assignment is e-learning content. In case the assignment is non e-learning
+              content, FileSubmissionState has one of three values: <b>Not Submitted</b> in case the assignment is active or not started,
+              <b>Submitted LINK</b> in case the assignment is final, and <b>Submitted</b> otherwise (in case the assignment is completed).
+            </para>
+          </Summary>
+        </Documentation>
+      </Column>
+		</Columns>
+		<Implementation>
+      SELECT
+      ----- from LearnerAssignmentItem -----
+
+      lai.Id                          LearnerAssignmentId,
+      lai.GuidId                      LearnerAssignmentGuidId,
+      lai.LearnerId                   LearnerId,
+      lui.[Name]                      LearnerName,
+      lui.[Key]                       LearnerKey,
+      lai.IsFinal                     IsFinal,
+      lai.NonELearningStatus          NonELearningStatus,
+      CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END
+      FinalPoints,
+      lai.InstructorComments          InstructorComments,
+
+      ----- from AssignmentItem -----
+      asi.Id                          AssignmentId,
+      asi.SPSiteGuid                  AssignmentSPSiteGuid,
+      asi.SPWebGuid                   AssignmentSPWebGuid,
+      asi.NonELearningLocation        AssignmentNonELearningLocation,
+      asi.Title                       AssignmentTitle,
+      asi.StartDate                   AssignmentStartDate,
+      asi.DueDate                     AssignmentDueDate,
+      asi.PointsPossible              AssignmentPointsPossible,
+      asi.Description                 AssignmentDescription,
+      asi.AutoReturn                  AssignmentAutoReturn,
+      asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+      asi.CreatedBy                   AssignmentCreatedById,
+      cbui.[Name]                     AssignmentCreatedByName,
+      cbui.[Key]                      AssignmentCreatedByKey,
+      asi.DateCreated                 AssignmentDateCreated,
+      asi.RootActivityId              RootActivityId,
+      ----- from PackageItem -----
+      pki.Id                          PackageId,
+      pki.PackageFormat               PackageFormat,
+      pki.Location                    PackageLocation,
+      ----- from learner assignment computed info -----
+      ISNULL(la.CountTotal,0)         CountTotal,
+      ISNULL(la.CountNotStarted,0)    CountNotStarted,
+      ISNULL(la.CountActive,0)        CountActive,
+      ISNULL(la.CountCompleted,0)     CountCompleted,
+      ISNULL(la.CountFinal,0)         CountFinal,
+      ISNULL(la.CountStarted,0)       CountStarted,
+      ISNULL(la.CountNotStartedOrActive,0) CountNotStartedOrActive,
+      ISNULL(la.CountCompletedOrFinal,0) CountCompletedOrFinal,
+      ISNULL(la.CountNotFinal,0)      CountNotFinal,
+      la.MinGradedPoints              MinGradedPoints,
+      la.MaxGradedPoints              MaxGradedPoints,
+      la.AvgGradedPoints              AvgGradedPoints,
+      la.MinFinalPoints               MinFinalPoints,
+      la.MaxFinalPoints               MaxFinalPoints,
+      la.AvgFinalPoints               AvgFinalPoints,
+      ----- from AttemptItem -----
+      ati.Id AttemptId,
+      ati.CurrentActivityId           AttemptCurrentActivityId,
+      ati.SuspendedActivityId         AttemptSuspendedActivityId,
+      ati.AttemptStatus               AttemptStatus,
+      ati.FinishedTimestamp           AttemptFinishedTimestamp,
+      ati.LogDetailSequencing         AttemptLogDetailSequencing,
+      ati.LogFinalSequencing          AttemptLogFinalSequencing,
+      ati.LogRollup                   AttemptLogRollup,
+      ati.StartedTimestamp            AttemptStartedTimestamp,
+      ati.CompletionStatus            AttemptCompletionStatus,
+      ati.SuccessStatus               AttemptSuccessStatus,
+      ati.TotalPoints                 AttemptGradedPoints,
+      ----- computed FileSubmissionState -----
+      dbo.GetObserverFileSubmissionState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus) FileSubmissionState,
+      ----- computed LearnerAssignmentState -----
+      dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) LearnerAssignmentState,
+      ----- computed HasInstructors -----
+      CASE WHEN EXISTS
+      (
+      SELECT *
+      FROM InstructorAssignmentItem iaiH
+      WHERE iaiH.AssignmentId = asi.Id
+      ) THEN 1 ELSE 0 END             HasInstructors
+      ------------------------------------
+      FROM AssignmentItem asi
+      INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+      INNER JOIN LearnerAssignmentItem lai ON asi.Id = lai.AssignmentId
+      INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
+      LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+      LEFT OUTER JOIN PackageItem pki ON api.PackageId = pki.Id
+      LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
+      INNER JOIN (
+      SELECT
+      ----- from Assignment -----
+      lai.AssignmentId,
+      ----- computed CountTotal -----
+      COUNT(lai.Id) CountTotal,
+      ----- computed CountNotStarted -----
+      COUNT(CASE WHEN dbo.IsLearnerAssignmentStarted(asi.RootActivityId, lai.NonELearningStatus, ati.AttemptStatus) = 0 THEN 1 ELSE NULL END) CountNotStarted,
+      ----- computed CountActive -----
+      COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) = 1 THEN 1 ELSE NULL END) CountActive,
+      ----- computed CountCompleted -----
+      COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) = 2 THEN 1 ELSE NULL END) CountCompleted,
+      ----- computed CountFinal -----
+      COUNT(CASE WHEN lai.IsFinal = 1 THEN 1 ELSE NULL END) CountFinal,
+      ----- computed CountStarted -----
+      COUNT(CASE WHEN dbo.IsLearnerAssignmentStarted(asi.RootActivityId, lai.NonELearningStatus, ati.AttemptStatus) &lt;&gt; 0 THEN 1 ELSE NULL END) CountStarted,
+	----- computed CountNotStartedOrActive -----
+	COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) IN (0,1) THEN 1 ELSE NULL END) CountNotStartedOrActive,
+	----- computed CountCompletedOrFinal -----
+	COUNT(CASE WHEN dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) IN (2,3) THEN 1 ELSE NULL END) CountCompletedOrFinal,
+	----- computed CountNotFinal -----
+	COUNT(CASE WHEN lai.IsFinal = 0 THEN 1 ELSE NULL END) CountNotFinal,
+	----- computed MinGradedPoints -----
+	MIN(ati.TotalPoints)              MinGradedPoints,
+	----- computed MaxGradedPoints -----
+	MAX(ati.TotalPoints)              MaxGradedPoints,
+	----- computed AvgGradedPoints -----
+	AVG(ati.TotalPoints)              AvgGradedPoints,
+	----- computed MinFinalPoints -----
+	MIN(lai.FinalPoints)              MinFinalPoints,
+	----- computed MaxFinalPoints -----
+	MAX(lai.FinalPoints)              MaxFinalPoints,
+	----- computed AvgFinalPoints -----
+	AVG(lai.FinalPoints)              AvgFinalPoints
+	-----
+	FROM LearnerAssignmentItem lai
+	INNER JOIN AssignmentItem asi ON lai.AssignmentId = asi.Id
+	LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
+	INNER JOIN LearnerAssignmentItem iai ON asi.Id = iai.AssignmentId
+	INNER JOIN UserItem iui ON iai.LearnerId = iui.Id
+	GROUP BY lai.AssignmentId) AS la ON asi.Id = la.AssignmentId
+	WHERE lui.[Key] = @UserKey
+	</Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="LearnerAssignmentListForInstructors">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each row of this <a href="SlkSchema.htm">LearningStore view</a> contains
+					information about one <a href="SlkConcepts.htm#Assignments">learner assignment</a>,
+					as well as information about the e-learning package (if any) associated with the
+					assignment.  This view returns one row for each learner on each assignment for
+					which the current user is an instructor.
+				</para>
+				<para>
+					This view is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to all users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Columns>
+			<!-- from LearnerAssignmentItem: -->
+			<Column Name="LearnerAssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="LearnerAssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerAssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.Id.Field.htm">LearnerAssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerAssignmentGuidId" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Holds the value of the GuidId column of the LearnerAssignmentItem
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.LearnerId.Field.htm">LearnerAssignmentItem.LearnerId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the learner.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LearnerKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the learner.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="IsFinal" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							IsFinal holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.IsFinal.Field.htm">LearnerAssignmentItem.IsFinal</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="NonELearningStatus" Type="Enum" EnumName="AttemptStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							NonELearningStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.NonELearningStatus.Field.htm">LearnerAssignmentItem.NonELearningStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="FinalPoints" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							FinalPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.FinalPoints.Field.htm">LearnerAssignmentItem.FinalPoints</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="InstructorComments" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							InstructorComments holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.InstructorComments.Field.htm">LearnerAssignmentItem.InstructorComments</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from AssignmentItem: -->
+			<Column Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Id.Field.htm">AssignmentItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPSiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPSiteGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPSiteGuid.Field.htm">AssignmentItem.SPSiteGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentSPWebGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentSPWebGuid holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.SPWebGuid.Field.htm">AssignmentItem.SPWebGuid</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentNonELearningLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentNonELearningLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.NonELearningLocation.Field.htm">AssignmentItem.NonELearningLocation</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentTitle" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentTitle holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Title.Field.htm">AssignmentItem.Title</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentStartDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentStartDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.StartDate.Field.htm">AssignmentItem.StartDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDueDate" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDueDate holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.DueDate.Field.htm">AssignmentItem.DueDate</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentPointsPossible" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentPointsPossible holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.PointsPossible.Field.htm">AssignmentItem.PointsPossible</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentDescription" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentDescription holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.Description.Field.htm">AssignmentItem.Description</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentAutoReturn" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentAutoReturn holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.AutoReturn.Field.htm">AssignmentItem.AutoReturn</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentShowAnswersToLearners" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentShowAnswersToLearners holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.ShowAnswersToLearners.Field.htm">AssignmentItem.ShowAnswersToLearners</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedById" Type="ItemIdentifier" ReferencedItemTypeName="UserItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedById holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.CreatedBy.Field.htm">AssignmentItem.CreatedBy</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByName" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByName holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Name.Field.htm">UserItem.Name</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AssignmentCreatedByKey" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AssignmentCreatedByKey holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.UserItem.Key.Field.htm">UserItem.Key</a>.  Refers to the user who created the assignment.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="RootActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							RootActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AssignmentItem.RootActivityId.Field.htm">AssignmentItem.RootActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from PackageItem: -->
+			<Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageFormat" Type="Enum" EnumName="PackageFormat">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageManifest" Type="Xml">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageManifest holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Manifest.Field.htm">PackageItem.Manifest</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from AttemptItem: -->
+			<Column Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.Id.Field.htm">AttemptItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptCurrentActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptCurrentActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CurrentActivityId.Field.htm">AttemptItem.CurrentActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptSuspendedActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptSuspendedActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuspendedActivityId.Field.htm">AttemptItem.SuspendedActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptStatus" Type="Enum" EnumName="AttemptStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.AttemptStatus.Field.htm">AttemptItem.AttemptStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptFinishedTimestamp" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptFinishedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.FinishedTimestamp.Field.htm">AttemptItem.FinishedTimestamp</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptLogDetailSequencing" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptLogDetailSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogDetailSequencing.Field.htm">AttemptItem.LogDetailSequencing</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptLogFinalSequencing" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptLogFinalSequencing holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogFinalSequencing.Field.htm">AttemptItem.LogFinalSequencing</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptLogRollup" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptLogRollup holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.LogRollup.Field.htm">AttemptItem.LogRollup</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptStartedTimestamp" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptStartedTimestamp holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.StartedTimestamp.Field.htm">AttemptItem.StartedTimestamp</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptCompletionStatus" Type="Enum" EnumName="CompletionStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptCompletionStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.CompletionStatus.Field.htm">AttemptItem.CompletionStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptSuccessStatus" Type="Enum" EnumName="SuccessStatus">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptSuccessStatus holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.SuccessStatus.Field.htm">AttemptItem.SuccessStatus</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="AttemptGradedPoints" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							AttemptGradedPoints holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.AttemptItem.TotalPoints.Field.htm">AttemptItem.TotalPoints</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- computed: -->
+			<Column Name="LearnerAssignmentState" Type="Enum" EnumName="LearnerAssignmentState">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LearnerAssignmentState is the state of this <a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="HasInstructors" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							HasInstructors is <b>true</b> if the assignment has instructors, <b>false</b> if not.  Note that self-assigned assignments have no instructors.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+		</Columns>
+		<Implementation>
+			SELECT
+			----- from LearnerAssignmentItem -----
+			lai.Id                          LearnerAssignmentId,
+			lai.GuidId			LearnerAssignmentGuidId,
+			lai.LearnerId                   LearnerId,
+			lui.[Name]                      LearnerName,
+			lui.[Key]                       LearnerKey,
+			lai.IsFinal                     IsFinal,
+			lai.NonELearningStatus          NonELearningStatus,
+			lai.FinalPoints                 FinalPoints,
+			lai.InstructorComments          InstructorComments,
+			----- from AssignmentItem -----
+			asi.Id                          AssignmentId,
+			asi.SPSiteGuid                  AssignmentSPSiteGuid,
+			asi.SPWebGuid                   AssignmentSPWebGuid,
+			asi.NonELearningLocation        AssignmentNonELearningLocation,
+			asi.Title                       AssignmentTitle,
+			asi.StartDate                   AssignmentStartDate,
+			asi.DueDate                     AssignmentDueDate,
+			asi.PointsPossible              AssignmentPointsPossible,
+			asi.Description                 AssignmentDescription,
+			asi.AutoReturn                  AssignmentAutoReturn,
+			asi.ShowAnswersToLearners       AssignmentShowAnswersToLearners,
+			asi.CreatedBy                   AssignmentCreatedById,
+			cbui.[Name]                     AssignmentCreatedByName,
+			cbui.[Key]                      AssignmentCreatedByKey,
+			asi.RootActivityId              RootActivityId,
+			----- from PackageItem -----
+			pki.Id                          PackageId,
+			pki.PackageFormat               PackageFormat,
+			pki.Location                    PackageLocation,
+			pki.Manifest                    PackageManifest,
+			----- from AttemptItem -----
+			ati.Id AttemptId,
+			ati.CurrentActivityId           AttemptCurrentActivityId,
+			ati.SuspendedActivityId         AttemptSuspendedActivityId,
+			ati.AttemptStatus               AttemptStatus,
+			ati.FinishedTimestamp           AttemptFinishedTimestamp,
+			ati.LogDetailSequencing         AttemptLogDetailSequencing,
+			ati.LogFinalSequencing          AttemptLogFinalSequencing,
+			ati.LogRollup                   AttemptLogRollup,
+			ati.StartedTimestamp            AttemptStartedTimestamp,
+			ati.CompletionStatus            AttemptCompletionStatus,
+			ati.SuccessStatus               AttemptSuccessStatus,
+			ati.TotalPoints                 AttemptGradedPoints,
+			----- computed LearnerAssignmentState -----
+			dbo.GetLearnerAssignmentState(asi.RootActivityId, lai.IsFinal, lai.NonELearningStatus, ati.AttemptStatus) LearnerAssignmentState,
+			----- computed HasInstructors -----
+			CASE WHEN EXISTS
+			(
+			SELECT *
+			FROM InstructorAssignmentItem iaiH
+			WHERE iaiH.AssignmentId = asi.Id
+			) THEN 1 ELSE 0 END             HasInstructors
+			-----
+			FROM LearnerAssignmentItem lai
+			INNER JOIN AssignmentItem asi ON lai.AssignmentId = asi.Id
+			INNER JOIN UserItem lui ON lui.Id = lai.LearnerId
+			INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
+			INNER JOIN InstructorAssignmentItem iai ON lai.AssignmentId = iai.AssignmentId
+			INNER JOIN UserItem iui ON iai.InstructorId = iui.Id
+			LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
+			LEFT OUTER JOIN PackageItem pki ON api.PackageId = pki.Id
+			LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
+			WHERE iui.[Key] = @UserKey
+		</Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="UserWebList">
+		<Documentation>
+			<Summary xmlns="">
+				<para>
+					Each row of this <a href="SlkSchema.htm">LearningStore view</a> represents one
+					entry in one user's "user Web list", for one site collection.  A user Web list is
+					the list of Web sites that appears on the SLK E-Learning Actions page for all
+					document libraries within a given site collection.  Each user has at most one user
+					Web list for each site collection (SPSite).
+				</para>
+				<para>
+					This view is available only in <a href="Default.htm">SLK</a> (not in
+					<a href="Mlc.htm">MLC</a>).
+				</para>
+			</Summary>
+			<Remarks xmlns="">
+				<para>
+					<b>
+						<a href="SlkSchema.htm">Default operation-level security</a>:
+					</b>
+					Access is granted to all users.
+				</para>
+			</Remarks>
+		</Documentation>
+		<Columns>
+			<Column Name="SPSiteGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							SPSiteGuid is the GUID of the SharePoint site collection (SPSite) that this
+							user Web list item is associated with.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="SPWebGuid" Type="Guid">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							SPWebGuid is the GUID of the SharePoint Web site (SPWeb) that this user Web list
+							item is associated with.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LastAccessTime" Type="DateTime">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LastAccessTime is the date/time (UTC) that this user Web list item was last
+							accessed via an operation such as assignment creation.  (Viewing the item within
+							the list on the E-Learning Actions page in SLK doesn't count as an access.)
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+		</Columns>
+		<Implementation>
+			SELECT SPSiteGuid, SPWebGuid, LastAccessTime
+			FROM UserWebListItem
+			WHERE OwnerKey = @UserKey
+		</Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="ActivityPackageItemView">
+		<Columns>
+			<!-- from PackageItem: -->
+			<Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Id.Field.htm">PackageItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageFormat" Type="Enum" EnumName="PackageFormat">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageFormat holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.PackageFormat.Field.htm">PackageItem.PackageFormat</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageLocation" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageLocation holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Location.Field.htm">PackageItem.Location</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PackageManifest" Type="Xml">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PackageManifest holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.PackageItem.Manifest.Field.htm">PackageItem.Manifest</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<!-- from ActivityPackageItem: -->
+			<Column Name="Id" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Id holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.Id.Field.htm">ActivityPackageItem.Id</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="ActivityIdFromManifest" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							ActivityIdFromManifest holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.ActivityIdFromManifest.Field.htm">ActivityPackageItem.ActivityIdFromManifest</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="OriginalPlacement" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							OriginalPlacement holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.OriginalPlacement.Field.htm">ActivityPackageItem.OriginalPlacement</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="ParentActivityId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							ParentActivityId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.ParentActivityId.Field.htm">ActivityPackageItem.ParentActivityId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PrimaryObjectiveId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityObjectiveItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PrimaryObjectiveId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.PrimaryObjectiveId.Field.htm">ActivityPackageItem.PrimaryObjectiveId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="ResourceId" Type="ItemIdentifier" ReferencedItemTypeName="ResourceItem">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							ResourceId holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.ResourceId.Field.htm">ActivityPackageItem.ResourceId</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="PrimaryResourceIdFromManifest" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							PrimaryResourceIdFromManifest holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.PrimaryResourceFromManifest.Field.htm">ActivityPackageItem.PrimaryResourceFromManifest</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="CompletionThreshold" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							CompletionThreshold holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.CompletionThreshold.Field.htm">ActivityPackageItem.CompletionThreshold</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="Credit" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Credit holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.Credit.Field.htm">ActivityPackageItem.Credit</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="IsVisibleInContents" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							IsVisibleInContents holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.IsVisibleInContents.Field.htm">ActivityPackageItem.IsVisibleInContents</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="LaunchData" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							LaunchData holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.LaunchData.Field.htm">ActivityPackageItem.LaunchData</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="MaxAttempts" Type="Int32">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							MaxAttempts holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.MaxAttempts.Field.htm">ActivityPackageItem.MaxAttempts</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="MaxTimeAllowed" Type="Double">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							MaxTimeAllowed holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.MaxTimeAllowed.Field.htm">ActivityPackageItem.MaxTimeAllowed</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="ResourceParameters" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							ResourceParameters holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.ResourceParameters.Field.htm">ActivityPackageItem.ResourceParameters</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="ScaledPassingScore" Type="Single">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							ScaledPassingScore holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.ScaledPassingScore.Field.htm">ActivityPackageItem.ScaledPassingScore</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="TimeLimitAction" Type="Enum" EnumName="TimeLimitAction">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							TimeLimitAction holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.TimeLimitAction.Field.htm">ActivityPackageItem.TimeLimitAction</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="Title" Type="String">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							Title holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.Title.Field.htm">ActivityPackageItem.Title</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+			<Column Name="ObjectivesGlobalToSystem" Type="Boolean">
+				<Documentation>
+					<Summary xmlns="">
+						<para>
+							ObjectivesGlobalToSystem holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.ActivityPackageItem.ObjectivesGlobalToSystem.Field.htm">ActivityPackageItem.ObjectivesGlobalToSystem</a>.
+						</para>
+					</Summary>
+				</Documentation>
+			</Column>
+		</Columns>
+		<Implementation>
+			SELECT
+			----- from PackageItem -----
+			pki.Id                          PackageId,
+			pki.PackageFormat               PackageFormat,
+			pki.Location                    PackageLocation,
+			pki.Manifest                    PackageManifest,
+			----- from ActivityPackageItem -----
+			api.Id                          Id,
+			api.ActivityIdFromManifest      ActivityIdFromManifest,
+			api.OriginalPlacement           OriginalPlacement,
+			api.ParentActivityId            ParentActivityId,
+			api.PrimaryObjectiveId          PrimaryObjectiveId,
+			api.ResourceId                  ResourceId,
+			api.PrimaryResourceFromManifest PrimaryResourceIdFromManifest,
+			api.CompletionThreshold         CompletionThreshold,
+			api.Credit                      Credit,
+			api.IsVisibleInContents         IsVisibleInContents,
+			api.LaunchData                  LaunchData,
+			api.MaxAttempts                 MaxAttempts,
+			api.MaxTimeAllowed              MaxTimeAllowed,
+			api.ResourceParameters          ResourceParameters,
+			api.ScaledPassingScore          ScaledPassingScore,
+			api.TimeLimitAction             TimeLimitAction,
+			api.Title                       Title,
+			api.ObjectivesGlobalToSystem    ObjectivesGlobalToSystem
+			-----
+			FROM ActivityPackageItem api
+			INNER JOIN PackageItem pki on api.PackageId = pki.Id
+		</Implementation>
+	</View>
+	<ExtendRight Name="ExecuteSessionRight">
+		<Grant>
+			<!-- Is the user a learner or instructor on the assignment? -->
+			<Expression>
+				CASE WHEN EXISTS
+				(
+				SELECT *
+				FROM AttemptItem ati
+				LEFT OUTER JOIN LearnerAssignmentItem lai ON ati.LearnerAssignmentId = lai.Id
+				LEFT OUTER JOIN AssignmentItem ai ON lai.AssignmentId = ai.Id
+				LEFT OUTER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = ai.Id
+				INNER JOIN UserItem lui ON ati.LearnerId = lui.Id
+				LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
+				WHERE ati.Id = @AttemptId AND
+				(lui.[Key] = @UserKey OR iui.[Key]=@UserKey)
+				) THEN 1 ELSE 0 END
+			</Expression>
+		</Grant>
+	</ExtendRight>
+	<ExtendRight Name="ReviewSessionRight">
+		<Grant>
+			<!-- TODO: For now, allow everyone access. -->
+			<Expression>
+				1
+			</Expression>
+		</Grant>
+	</ExtendRight>
+	<ExtendRight Name="RandomAccessSessionRight">
+		<Grant>
+			<!-- Is the user an instructor on the assignment, and is the attempt in the
+           Abandoned or Completed state? -->
+			<Expression>
+				CASE WHEN EXISTS
+				(
+				SELECT *
+				FROM AttemptItem ati
+				LEFT OUTER JOIN LearnerAssignmentItem lai ON ati.LearnerAssignmentId = lai.Id
+				LEFT OUTER JOIN AssignmentItem ai ON lai.AssignmentId = ai.Id
+				LEFT OUTER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = ai.Id
+				LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
+				WHERE ati.Id = @AttemptId AND
+				(ati.AttemptStatus = 1 OR ati.AttemptStatus = 2) AND
+				iui.[Key]=@UserKey
+				) THEN 1 ELSE 0 END
+			</Expression>
+		</Grant>
+	</ExtendRight>
+	<Right Name="StartAttemptOnLearnerAssignmentRight">
+		<Parameters>
+			<Parameter Name="LearnerAssignmentGuidId" Type="Guid"/>
+		</Parameters>
+		<Grant>
+			<!-- Is the user a learner or instructor on the assignment, and is the assignment an e-learning assignment? -->
+			<Expression>
+				CASE WHEN EXISTS
+				(
+				SELECT *
+				FROM LearnerAssignmentItem lai
+				INNER JOIN AssignmentItem ai ON lai.AssignmentId = ai.Id
+				LEFT OUTER JOIN AttemptItem ati ON lai.Id = ati.LearnerAssignmentId
+				LEFT OUTER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = lai.AssignmentId
+				INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
+				LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
+				ati.Id IS NULL AND
+				ai.RootActivityId IS NOT NULL AND
+				(lui.[Key]=@UserKey OR iui.[Key]=@UserKey)
+				) THEN 1 ELSE 0 END
+			</Expression>
+		</Grant>
+	</Right>
+	<Right Name="FinishLearnerAssignmentRight">
+		<Parameters>
+			<Parameter Name="LearnerAssignmentGuidId" Type="Guid"/>
+		</Parameters>
+		<Grant>
+			<!-- Is the user an instructor or learner on the assignment? -->
+			<Expression>
+				CASE WHEN EXISTS
+				(
+				SELECT *
+				FROM LearnerAssignmentItem lai
+				LEFT OUTER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = lai.AssignmentId
+				INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
+				LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
+				(lui.[Key]=@UserKey OR iui.[Key]=@UserKey)
+				) THEN 1 ELSE 0 END
+			</Expression>
+		</Grant>
+	</Right>
+	<Right Name="CompleteLearnerAssignmentRight">
+		<Parameters>
+			<Parameter Name="LearnerAssignmentGuidId" Type="Guid" />
+		</Parameters>
+		<Grant>
+			<!-- Is the user an instructor or learner on the assignment? -->
+			<Expression>
+				CASE WHEN EXISTS
+				(
+				SELECT *
+				FROM LearnerAssignmentItem lai
+				LEFT OUTER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = lai.AssignmentId
+				INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
+				LEFT OUTER JOIN UserItem iui ON iai.InstructorId = iui.Id
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
+				(lui.[Key]=@UserKey OR iui.[Key]=@UserKey)
+				) THEN 1 ELSE 0 END
+			</Expression>
+		</Grant>
+	</Right>
+	<Right Name="FinalizeLearnerAssignmentRight">
+		<Parameters>
+			<Parameter Name="LearnerAssignmentGuidId" Type="Guid" />
+		</Parameters>
+		<Grant>
+			<!-- Is the user an instructor on the assignment? -->
+			<Expression>
+				CASE WHEN EXISTS
+				(
+				SELECT *
+				FROM LearnerAssignmentItem lai
+				INNER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = lai.AssignmentId
+				INNER JOIN UserItem iui ON iai.InstructorId = iui.Id
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
+				iui.[Key]=@UserKey
+				) THEN 1 ELSE 0 END
+			</Expression>
+		</Grant>
+	</Right>
+	<Right Name="ActivateLearnerAssignmentRight">
+		<Parameters>
+			<Parameter Name="LearnerAssignmentGuidId" Type="Guid" />
+		</Parameters>
+		<Grant>
+			<!-- Is the user an instructor on the assignment? -->
+			<Expression>
+				CASE WHEN EXISTS
+				(
+				SELECT *
+				FROM LearnerAssignmentItem lai
+				INNER JOIN InstructorAssignmentItem iai ON iai.AssignmentId = lai.AssignmentId
+				INNER JOIN UserItem iui ON iai.InstructorId = iui.Id
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
+				iui.[Key]=@UserKey
+				) THEN 1 ELSE 0 END
+			</Expression>
+			<!-- Is the user the learner on the learner assignment, and is the assignment non-e-learning,
+           and is the learner assignment state NotStarted? -->
+			<Expression>
+				CASE WHEN EXISTS
+				(
+				SELECT *
+				FROM LearnerAssignmentItem lai
+				INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
+				INNER JOIN AssignmentItem ai ON lai.AssignmentId = ai.Id
+				WHERE lai.GuidId = @LearnerAssignmentGuidId AND
+				lui.[Key]=@UserKey AND
+				ai.RootActivityId IS NULL AND
+				(lai.NonELearningStatus IS NULL OR lai.NonELearningStatus = 0)
+				) THEN 1 ELSE 0 END
+			</Expression>
+		</Grant>
+	</Right>
+</StoreSchema>

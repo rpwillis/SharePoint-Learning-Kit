@@ -1,0 +1,42 @@
+
+  <!-- sample view from SLK SDK -->
+  <View Name="AllAssignmentInstructors">
+    <Parameters>
+      <Parameter Name="SPSiteGuid" Type="Guid" />
+    </Parameters>
+    <Columns>
+      <Column Name="InstructorId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem" />
+      <Column Name="InstructorName" Type="String" />
+    </Columns>
+    <Implementation>
+      SELECT DISTINCT ui.Id InstructorId, ui.Name InstructorName
+      FROM InstructorAssignmentItem iai
+      INNER JOIN AssignmentItem ai ON iai.AssignmentId = ai.Id
+      INNER JOIN UserItem ui ON iai.InstructorId = ui.Id
+      WHERE ai.SPSiteGuid = @SPSiteGuid
+    </Implementation>
+    <GrantQueryRight>
+		<!-- "0" means "this view can only be accessed inside LearningStorePrivilegedScope" -->
+        <Expression>0</Expression>
+    </GrantQueryRight>
+  </View>
+
+  <!-- sample view from SLK SDK -->
+  <View Name="AllAssignmentIds">
+    <Columns>
+      <Column Name="SPSiteGuid" Type="Guid" />
+      <Column Name="AssignmentId" Type="ItemIdentifier" ReferencedItemTypeName="AssignmentItem" />
+      <Column Name="InstructorId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem" />
+    </Columns>
+    <Implementation>
+      SELECT ai.SPSiteGuid SPSiteGuid, ai.Id AssignmentId, ui.Id InstructorId
+      FROM InstructorAssignmentItem iai
+      INNER JOIN AssignmentItem ai ON iai.AssignmentId = ai.Id
+      INNER JOIN UserItem ui ON iai.InstructorId = ui.Id
+    </Implementation>
+    <GrantQueryRight>
+		<!-- "0" means "this view can only be accessed inside LearningStorePrivilegedScope" -->
+        <Expression>0</Expression>
+    </GrantQueryRight>
+  </View>
+

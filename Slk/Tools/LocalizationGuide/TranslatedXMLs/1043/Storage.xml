@@ -1,0 +1,520 @@
+<root>
+  <assembly culture="nl" name="Microsoft.LearningComponents.Storage.resources" version="1.1.0.0" />
+  <resources name="Microsoft.LearningComponents.Storage.Properties.SessionResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.Properties.SessionResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>SLS_MoveToActivityNotValid</ID>
+        <Source>The session is not in a state where a new activity may be selected. In Execute view, only Active sessions may navigate to a selected activity.</Source>
+        <Translation>In deze sessiemodus is het selecteren van een nieuwe taak niet mogelijk. Dit kan alleen bij actieve sessies in de weergave Uitvoeren.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ExitCurrentActivityNotValid</ID>
+        <Source>The current activity cannot be exited. There must be a current activity in an active session in order to exit it. </Source>
+        <Translation>De huidige taak kan niet worden afgesloten. Er moet in de huidige sessie een taak actief zijn, om deze te kunnen sluiten.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_LoggingFlagsSetNotValid</ID>
+        <Source>The LoggingOptions property may not be set when reviewing a session.</Source>
+        <Translation>De eigenschap LoggingOptions is mogelijk niet geactiveerd bij het nakijken van een sessie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_MoveToPreviousNotValid</ID>
+        <Source>Moving to the previous activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
+        <Translation>Teruggaan naar de vorige taak is niet mogelijk. In de weergave Uitvoeren kan alleen in actieve sessies met een actieve taak naar een andere taak genavigeerd worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ReactivateNotValid</ID>
+        <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
+        <Translation>De huidige sessie hervatten is niet mogelijk. Alleen een voltooide of geannuleerde sessie kan opnieuw worden gestart in de weergave Willekeurig.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ExitNotValid</ID>
+        <Source>The session cannot be exited in its current state. In Execute view, only Active sessions which have been started may be exited. Sessions may not be exited in other views.</Source>
+        <Translation>De huidige sessie afsluiten is niet mogelijk. In de weergave Uitvoeren kunnen reeds gestarte actieve sessies afgesloten worden. In andere weergaves kunnen sessies niet afgesloten worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AbandonCurrentActivityNotValid</ID>
+        <Source>The current activity cannot be abandoned. There must be a current activity in an active session in order to abandon it. </Source>
+        <Translation>De huidige sessie annuleren is niet mogelijk. Alleen een geactiveerde taak in een actieve sessie kan geannuleerd worden. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CouldNotFindFirstActivity</ID>
+        <Source>An initial activity could not be identified in the session.</Source>
+        <Translation>Er kon geen voorgaande taak gevonden worden in deze sessie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AttemptEndTimeNotValid</ID>
+        <Source>The attempt associated with this session has not ended.</Source>
+        <Translation>Deze beurt van de sessie is nog niet afgerond.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_SuspendNotValid</ID>
+        <Source>The session cannot be suspended in its current state. In Execute view, only Active sessions may be suspended. Sessions may not be suspended in other views.</Source>
+        <Translation>De huidige sessie uitstellen is niet mogelijk. In de weergave Uitvoeren kunnen reeds gestarte actieve sessies uitgesteld worden. In andere weergaven kunnen sessies niet uitgesteld worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_InvalidateSessionCacheNotValid</ID>
+        <Source>The session cache cannot be cleared because the current session contains an active attempt. </Source>
+        <Translation>De cache van deze sessie kan niet geleegd worden, omdat er nog een beurt actief is. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ProcessNavigationRequestsNotValid</ID>
+        <Source>Navigation requests cannot be processed. In an ExecuteView, the AttemptStatus must be Active. This call is not valid in RandomAccess and Review views.</Source>
+        <Translation>Navigatieverzoeken kunnen niet uitgevoerd worden. In de weergave Uitvoering moet de AttemptStatus actief zijn. Deze actie is niet mogelijk in de weergaven Willekeurig en Nakijken.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_StartNotValid</ID>
+        <Source>A session may only be started on an active attempt in ExecuteView. The session may not be in Review or RandomAccess view when calling this method.</Source>
+        <Translation>Een sessie kan alleen gestart worden in de weergave Uitvoeren. In de andere weergaven werkt dit niet.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AbandonNotValid</ID>
+        <Source>The session cannot be abandoned in its current state. In Execute view, only Active sessions may be abandoned. Sessions may not be abandoned in other views.</Source>
+        <Translation>De sessie kan niet geannuleerd worden in de huidige weergave. In de weergave Uitvoeren kan dat wel.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ResourceNotFound</ID>
+        <Source>The current activity in the session does not have an associated resource. The content cannot be displayed.</Source>
+        <Translation>De huidige taak is niet gekoppeld aan een leermateriaal. De inhoud kan niet worden weergegeven.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_MoveToNextNotValid</ID>
+        <Source>Moving to the next activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
+        <Translation>Naar de volgende taak gaan is niet mogelijk. In de weergave Uitvoeren kan alleen vanuit actieve taken verder gegaan worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_RenderNotValid</ID>
+        <Source>The content cannot be rendered. In Execute view, the session must have an AttemptStatus of Active.</Source>
+        <Translation>De inhoud kan niet worden weergegeven. In de weergave Uitvoeren moet eerst een sessie gestart zijn.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CommitChangesNotValid</ID>
+        <Source>The changes to the current session cannot be committed. The session may not be in Review view when calling this method. </Source>
+        <Translation>De wijzigingen kunnen in de modus Bekijken niet worden opgeslagen. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AttemptHasStarted</ID>
+        <Source>The attempt has already started. You may not call Start more than once.</Source>
+        <Translation>Deze beurt van de taak is al gestart. Dat mag maar een keer.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ResumeNotValid</ID>
+        <Source>The session cannot be resumed in its current state. In Execute view, only Suspended sessions may be resumed. Sessions may not be resumed in other views.</Source>
+        <Translation>De sessie zo kan niet hervat worden. In de weergave Uitvoeren kunnen alleen geannuleerde sessies hervat worden. In andere weergaven kan dit niet.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>NotAllowedInExecuteMode</ID>
+        <Source>This operation cannot be performed in Execute view.</Source>
+        <Translation>Deze handeling kan niet worden uitgevoerd in de weergave Uitvoeren.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NotAllowedWhileInAutoGradingMode</ID>
+        <Source>This operation cannot be performed during the auto-grading process.</Source>
+        <Translation>Deze handeling kan niet worden uitgevoerd tijdens het automatisch nakijken.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptComplete</ID>
+        <Source>The requested operation cannot be performed because the session has been completed.</Source>
+        <Translation>Deze handeling kan niet worden uitgevoerd, omdat de sessie voltooid is.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptAbandoned</ID>
+        <Source>The requested operation cannot be performed because the session has been abandoned.</Source>
+        <Translation>Deze handeling kan niet worden uitgevoerd, omdat de sessie geannuleerd is.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttachmentTooLarge</ID>
+        <Source>Attachment exceeds maximum size of {0} bytes.</Source>
+        <Translation>De bijlage is groter dan het maximum van {0} bytes.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AutoGradingModeNotBegun</ID>
+        <Source>This operation is only valid during auto-grading.</Source>
+        <Translation>Deze handeling is alleen geldig tijdens het automatisch nakijken.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidAttemptId</ID>
+        <Source>The attempt could not be accessed. You may not have access to it, the attempt may have been deleted or does not exist.</Source>
+        <Translation>De beurt is niet toegankelijk. Hij bestaat niet of u heeft onvoldoende rechten.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NotAllowedInReviewMode</ID>
+        <Source>This operation cannot be performed in Review view.</Source>
+        <Translation>Deze handeling kan niet worden uitgevoerd in de weergave Nakijken.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptHasNotEnded</ID>
+        <Source>The requested operation cannot be performed because the session is not complete.</Source>
+        <Translation>Deze handeling kan niet worden uitgevoerd, omdat de sessie niet is voltooid.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidRootActivityId</ID>
+        <Source>The root activity id could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
+        <Translation>De begintaak is niet toegankelijk. Hij bestaat niet of u heeft onvoldoende rechten.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NoCurrentActivity</ID>
+        <Source>A current activity is required for this operation.</Source>
+        <Translation>Voor deze handeling is een actieve taak vereist.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_SessionCannotBeActive</ID>
+        <Source>This operation cannot be performed on a session with an AttemptStatus of Active.</Source>
+        <Translation>Deze handeling kan niet worden uitgevoerd in een sessie met een AttemptStatus actief.</Translation>
+      </Resources>
+      <Resources>
+        <ID>GlobalObjectiveDatabaseStateNotValid</ID>
+        <Source>Global Objective database contains non-unique entries.</Source>
+        <Translation>Globale doelendatabase bevat items die niet uniek zijn.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidLearnerId</ID>
+        <Source>The LearnerId could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
+        <Translation>Het leerling ID is niet toegankelijk. Het bestaat niet, of u heeft onvoldoende rechten.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidActivity</ID>
+        <Source>The requested activity cannot be found within the session.</Source>
+        <Translation>De gevraagde taak is niet beschikbaar in deze sessie.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.PackageResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.Properties.PackageResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>FSPS_BasePathDirNotFound</ID>
+        <Source>The folder '{0}' must exist prior to calling this method.</Source>
+        <Translation>De map '{0}' moet bestaan, voordat deze handeling uitgevoerd kan worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>FSPS_InvalidPackageId</ID>
+        <Source>The LearningStoreItemIdentifier {0} does not represent a package in LearningStore.</Source>
+        <Translation>De LearningStoreItemIdentifier {0} komt niet overeen met een leermateriaal in de LearningStore.</Translation>
+      </Resources>
+      <Resources>
+        <ID>FSPS_CouldNotFindDirectory</ID>
+        <Source>Could not find a unique directory name to use for the files.</Source>
+        <Translation>Kon geen unieke mapnaam voor deze bestanden vinden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_ValidationFailed</ID>
+        <Source>The package cannot be added to the store because it contains at least one error.</Source>
+        <Translation>Het leermateriaal kan niet worden toegevoegd, omdat het een of meer fouten bevat.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_InvalidManifest</ID>
+        <Source>The package cannot be added to LearningStore because the manifest in the package cannot be read.</Source>
+        <Translation>Het leermateriaal kan niet worden toegevoegd, omdat het manifest niet leesbaar is.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_NoOrganization</ID>
+        <Source>The package must contain at least one organization and one item in order to be added to LearningStore.</Source>
+        <Translation>Het leermateriaal moet minimaal een organisatiebestand en een item bevatten om opgenomen te worden.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.LearningStore.LearningStoreStrings.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.LearningStore.LearningStoreStrings.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>ColumnNotFound</ID>
+        <Source>Column '{0}' not found in the view.</Source>
+        <Translation>Kolom '{0}' niet gevonden in de weergave.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AtLeastOneValueMustBeProvided</ID>
+        <Source>At least one value must be provided.</Source>
+        <Translation>Er moet minimaal een waarde ingevoerd worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicatePropertyValue</ID>
+        <Source>More than one value has been provided for property '{0}'.</Source>
+        <Translation>Er is meer dan een waarde ingevoerd voor de eigenschap '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CannotChangeIdProperty</ID>
+        <Source>Property 'Id' can not be changed.</Source>
+        <Translation>Eigenschap 'Id' kan niet worden gewijzigd.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdConditionValue</ID>
+        <Source>Invalid condition value: only item identifiers with unique keys can be compared against.</Source>
+        <Translation>Ongeldige conditiewaarde: alleen item identifiers met unieke sleutels kunnen ter vergelijking dienen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResultsOfJobCanNotBeCast</ID>
+        <Source>The results of the job can not be cast to the specified return value.</Source>
+        <Translation>Het resultaat van de taak kan niet naar de retourwaarde overgedragen worden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RightNotFoundInSchema</ID>
+        <Source>Right '{0}' not found in the schema.</Source>
+        <Translation>Rechter '{0}' niet gevonden in het schema.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TimeoutMustBeZero</ID>
+        <Source>Timeout value specified for the transaction must be zero.</Source>
+        <Translation>Timeout waarde van de transactie moet nul zijn.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionValueForXmlColumn</ID>
+        <Source>Invalid condition value: an Xml column can only be compared against null.</Source>
+        <Translation>Ongeldige conditiewaarde: een Xml kolom kan alleen vergeleken worden met null.</Translation>
+      </Resources>
+      <Resources>
+        <ID>UniqueKeyNotAvailable</ID>
+        <Source>Unique key not available.</Source>
+        <Translation>Geen unieke sleutel beschikbaar.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionOperatorForGuidColumn</ID>
+        <Source>Invalid condition operator: a Guid column can only be compared with an equality or inequality operator.</Source>
+        <Translation>Ongeldige conditiewaarde: een Guid kolom kan alleen vergeleken worden met een gelijke of ongelijke operator.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TransactionAlreadyExists</ID>
+        <Source>A transaction already exists in this scope.</Source>
+        <Translation>Er bestaat al een transactie in deze scope.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCausesInvalidCast</ID>
+        <Source>Invalid cast.</Source>
+        <Translation>Ongeldige overdracht.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidPropertyValueWithDescription</ID>
+        <Source>Invalid value for property '{0}': {1}</Source>
+        <Translation>Ongeldige waarde voor de eigenschap '{0}': {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>QueryNotCompatibleWithStore</ID>
+        <Source>The query is not compatible with this LearningStore instance.</Source>
+        <Translation>De zoekvraag is niet compatible met deze LearningStore instantie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemNotFound</ID>
+        <Source>Item not found</Source>
+        <Translation>Item niet gevonden</Translation>
+      </Resources>
+      <Resources>
+        <ID>PropertyNotFound</ID>
+        <Source>Property '{0}' not found</Source>
+        <Translation>Eigenschap '{0}' niet gevonden</Translation>
+      </Resources>
+      <Resources>
+        <ID>MoreThanOneItemFoundInAddOrUpdate</ID>
+        <Source>More than one item matches the properties in the AddOrUpdateItem command.</Source>
+        <Translation>Er komt meer dan een item overeen met de eigenschappen in het AddOrUpdateItem commando.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemTypeNotFoundInSchema</ID>
+        <Source>Item type '{0}' not found in the schema.</Source>
+        <Translation>Item type '{0}' niet gevonden in het schema.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeGuid</ID>
+        <Source>Must be a Guid.</Source>
+        <Translation>Moet een Guid zijn.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ParameterNotFound</ID>
+        <Source>Parameter '{0}' not found in the view.</Source>
+        <Translation>Parameter '{0}' is niet gevonden in de weergave.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IncompatibleEngineVersion</ID>
+        <Source>The database was created by a different version of this product.</Source>
+        <Translation>De database is gemaakt met een andere versie van dit product.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ScopeDisposedInInvalidThread</ID>
+        <Source>Transaction scope disposed in invalid thread.</Source>
+        <Translation>Transactiescope verwijderd in een ongeldige thread.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MismatchedIsolationLevel</ID>
+        <Source>Isolation level specified for the transaction doesn't match the isolation level for the currently-existing transaction.</Source>
+        <Translation>Isolatieniveau van deze transactie komt niet overeen met dat van de huidige transactie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DebugLogAlreadyEnabled</ID>
+        <Source>The debug log has already been enabled.</Source>
+        <Translation>Het debug log is al geactiveerd.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnAlreadySortedOn</ID>
+        <Source>A sort order for the specified column already exists in the query.</Source>
+        <Translation>Er bestaat in de zoekvraag al een sorteervolgorde voor deze kolom.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnAlreadyExistsInQuery</ID>
+        <Source>Column '{0}' has already been added to the query</Source>
+        <Translation>Kolom '{0}' is al toegevoegd aan de zoekvraag</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueHasInvalidFormat</ID>
+        <Source>Invalid format.</Source>
+        <Translation>Ongeldig formaat.</Translation>
+      </Resources>
+      <Resources>
+        <ID>XmlPropertyCannotBeSearchedOn</ID>
+        <Source>Cannot search on XML property '{0}'.</Source>
+        <Translation>Kan niet zoeken met de XML eigenschap '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SecurityCheckFailed</ID>
+        <Source>Security check failed.</Source>
+        <Translation>Beveiligingscontrole mislukt.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValueWithDescription</ID>
+        <Source>Invalid parameter value: {0}</Source>
+        <Translation>Ongeldige parameterwaarde: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdParameterValue</ID>
+        <Source>Invalid parameter value: only item identifiers with unique keys can be used as parameters.</Source>
+        <Translation>Ongeldige parameterwaarde: alleen item identifiers met unieke sleutels kunnen gebruikt worden als parameter.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ParameterNotFoundInRight</ID>
+        <Source>Parameter '{0}' not found in the right.</Source>
+        <Translation>Parameter '{0}' niet rechts gevonden.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AtLeastOneOutputColumnMustBeSpecified</ID>
+        <Source>At least one output column must be specified in the query.</Source>
+        <Translation>Er moet in de zoekvraag minimaal een outputkolom gedefinieerd zijn.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidPropertyValue</ID>
+        <Source>Invalid value for property '{0}'</Source>
+        <Translation>Ongeldige waarde voor de eigenschap '{0}'</Translation>
+      </Resources>
+      <Resources>
+        <ID>EnumTypeNotFoundInSchema</ID>
+        <Source>Enum type '{0}' not found in the schema.</Source>
+        <Translation>Enum type '{0}' niet gevonden in het schema.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionValueWithDescription</ID>
+        <Source>Invalid condition value: {0}</Source>
+        <Translation>Ongeldige conditiewaarde: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidSchemaDefinition</ID>
+        <Source>Invalid schema definition</Source>
+        <Translation>Ongeldige schemadefinitie</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidOperatorForNullConditionValue</ID>
+        <Source>Invalid condition operator: null can only be compared with an equality or inequality operator.</Source>
+        <Translation>Invalid condition operator: null can only be compared with an equality or inequality operator.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NullReferenceWhenAccessingDatabase</ID>
+        <Source>Object reference not set to an instance of an object when attempting to access database.  Database connection may have been lost.</Source>
+        <Translation>Objectverwijzing van objectinstantie niet bepaald tijdens het benaderen van de database.  De verbinding met de database kan verbroken zijn.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidScopeNesting</ID>
+        <Source>Invalid transaction scope nesting.</Source>
+        <Translation>Ongeldig geneste transactiescope.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OperationFailedBecauseOfConstraintViolation</ID>
+        <Source>The operation failed because of a constraint violation.</Source>
+        <Translation>De handeling is mislukt door een inbreuk op inperkingen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCannotBeNull</ID>
+        <Source>Cannot be null.</Source>
+        <Translation>Kan geen null zijn.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnCannotBeSorted</ID>
+        <Source>Column can not be sorted on.</Source>
+        <Translation>Kan niet sorteren op deze kolom.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeItemIdentifier</ID>
+        <Source>Must be a LearningStoreItemIdentifier with ItemType '{0}'.</Source>
+        <Translation>Moet een LearningStoreItemIdentifier van het ItemType '{0}' zijn.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CompleteAlreadyCalled</ID>
+        <Source>Method has already been called.</Source>
+        <Translation>Handeling was al aangeroepen.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeXml</ID>
+        <Source>Must be a LearningStoreXml.</Source>
+        <Translation>Moet een LearningStoreXml zijn.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeValidEnumValue</ID>
+        <Source>Must be a valid value from '{0}'.</Source>
+        <Translation>Moet een geldige waarde van '{0}' zijn.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValueWithDescriptionAndName</ID>
+        <Source>Invalid value for parameter '{0}': {1}</Source>
+        <Translation>Ongeldige waarde voor de parameter '{0}': {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>PositiveValueExpected</ID>
+        <Source>Positive value expected</Source>
+        <Translation>Positieve waarde verwacht</Translation>
+      </Resources>
+      <Resources>
+        <ID>PropertyValueNotFound</ID>
+        <Source>Value for property '{0}' not found</Source>
+        <Translation>Waarde voor de eigenschap '{0}' is niet gevonden</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeByteArray</ID>
+        <Source>Must be a System.Byte array.</Source>
+        <Translation>Moet een System.Byte array zijn.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeWithinSqlDateTimeRange</ID>
+        <Source>Must be between SqlDateTime.MinValue and SqlDateTime.MaxValue.</Source>
+        <Translation>Moet liggen tussen SqlDateTime.MinValue en SqlDateTime.MaxValue.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ViewNotFoundInSchema</ID>
+        <Source>View '{0}' not found in the schema.</Source>
+        <Translation>Weergave '{0}' niet gevonden in het schema.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValue</ID>
+        <Source>Invalid value for parameter '{0}'</Source>
+        <Translation>Ongeldige waarde voor de parameter '{0}'</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCausesOverflow</ID>
+        <Source>Overflow.</Source>
+        <Translation>Overflow.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>

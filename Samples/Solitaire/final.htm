@@ -1,0 +1,66 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<html>
+<!-- MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
+     MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
+     LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
+     NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Basics of Solitaire - Final Summary</title>
+<link type="text/css" rel="stylesheet" href="./style.css">
+<script type="text/javascript" src="APIWrapper.js"></script>
+<script language="javascript" type="text/javascript">
+// <!CDATA[
+var displayMode="unknown"; // Set to cmi.mode during load.
+
+function LoadAPI()
+{
+    initializeCommunication();
+    
+    // Retrieve the display mode from the LMS. The page will disable inputs during "review" or "browse" modes.
+    displayMode = retrieveDataValue("cmi.mode");
+    if (displayMode == "review" | "browse") {document.getElementById("submitButton").style.display = "none";}
+}
+function UnloadAPI()
+{
+    terminateCommunication();
+}
+
+function finishTraining()
+{
+    // Set the exit all navigation state and continue.
+    storeDataValue("adl.nav.request","exitAll");
+    terminateCommunication();
+}
+// ]]>
+</script>
+</head>
+
+<body onload="LoadAPI()" onunload="UnloadAPI()">
+
+<table style="height:100%">
+<tr style="height:100%;vertical-align:top"><td >
+
+<h1>Congratulations!</h1>
+<p>You have successfully completed the basics of solitaire.</p>
+<p>In this course you learned:</p>
+<ul>
+	<li>The basic rules of most solitaire games</li>
+	<li>How to play Canfield solitaire</li>
+	<li>How to play Klondike solitaire</li>
+</ul>
+<p>Now that you have completed the training, be sure to practice and have fun playing!</p>
+<p>Click Finish Lesson to finish this training.</p>
+<p>
+<input type="button" id="submitButton" value="Finish Lesson" onclick="finishTraining()" tabindex="6">&nbsp;
+</p>
+<p><img border="0" src="images/klondike_opening.GIF" width="578" height="223"></p>
+</td></tr>
+<tr><td>
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div></td></tr>
+</table>
+</body>
+
+</html>

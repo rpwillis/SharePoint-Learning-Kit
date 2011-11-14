@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>
+	SLK Concepts
+</title>
+
+<link rel="stylesheet" href="Doc.css" />
+
+</head>
+
+<body id="DocTopic">
+
+<div class="TopicHeader">
+	<div class="Supertitle_">
+		SharePoint Learning Kit Customization
+	</div>
+	SLK Concepts
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="Summary">
+<p>This section reviews basic SharePoint Learning Kit end-user concepts, and introduces a few other
+underlying concepts that you should understand before reading further in this documentation set.
+</p>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="Packages"></a>
+<div class="SectionHeader">E-Learning Packages and Non-E-Learning Documents</div>
+<div class="Section">
+
+<p>In the context of SharePoint Learning Kit, a <b>package</b> is a file containing
+e-learning content, in one of the following formats:</p>
+
+<ul>
+	<li>SCORM&reg; 2004, packaged in a .zip file</li>
+	<li>SCORM 1.2, packaged in a .zip file</li>
+	<li>Microsoft Class Server IMS+, packaged in a .ims or .zip file</li>
+	<li>Microsoft Class Server LRM, packaged in a .lrm file</li>
+</ul>
+
+<p><a href="http://www.adlnet.gov/scorm">SCORM</a> (Sharable Content Object Reference Model), is an
+e-learning content standard published by <a href="http://www.adlnet.gov">Advanced Distributed
+Learning</a>.</p>
+
+<p>These e-learning formats are interpreted by SLK at run-time, i.e. when a user "execute"
+e-learning content.  Examples:</p>
+
+<ul>
+	<li>In the case of SCORM 2004 content, sequencing and navigation rules are honored.</li>
+	<li>In the case of SCORM 2004 or 1.2 content, a table of contents is displayed.</li>
+	<li>In the case of Class Server content, learner responses are automatically graded (if
+		specified in the content).</li>
+</ul>
+
+<p>An e-learning package contains one or more hierarchical trees of <b>activities</b>.
+Each tree is called an <b>organization</b>; the root element of such a tree represents both
+an organization and an activity.  (Class Server content is limited to one
+organization with one further level of activities.) Each activity that's displayed to the user
+appears as one page in a Web browser.  (Some activities, such as internal nodes in SCORM 2004
+content, cannot be displayed to users.)  Certain kinds of activities, called <b>SCO</b>s (shareable content objects),
+may contain user interface elements for interacting with the user (for example, to administer a
+quiz), and those interactions are stored in the SLK database.</p>
+
+<p>SLK also supports <b>non-e-learning</b> content, which can be any document that can be displayed
+in a Web browser; for example, a Microsoft Word document.  SLK support for non-e-learning
+documents is much simpler: files can be assigned, learners can indicate when they've completed
+them, and instructors can assign a point score and comments, but SLK does not interpret
+non-e-learning documents in any way.</p>
+
+<p><b>Note</b>&nbsp;SLK does not support <b>resource packages</b>, i.e. packages that contain only
+resources and no activities.  <a href="Mlc.htm">MLC</a> does provide limited support for resource
+packages: you can read them with
+<a href="Microsoft.LearningComponents.Manifest.ManifestReader.Class.htm">ManifestReader</a> and
+you can validate them with
+<a href="Microsoft.LearningComponents.PackageValidator.Class.htm">PackageValidator</a>.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="Assignments"></a>
+<div class="SectionHeader">Assignments and Learner Assignments</div>
+<div class="Section">
+
+<p>In SharePoint Learning Kit, an <b>assignment</b> is the association of one e-learning
+package or non-e-learning document with a set of learners.  An assignment can be self-assigned; in
+this case, there is one learner and no instructors.  An assignment includes the following
+information:</p>
+<ul>
+
+	<li>The <b>SharePoint Web site</b> associated with the assignment.  Each assignment is
+		associated with exactly one SharePoint Web site.  For example, assignments related to a
+		"Math 1B" class could be associated with a "Math 1B" Web site.  SLK's Assignment List Web
+		Part has the option of displaying all a user's assignments, or only those assignments
+		associated with the current Web site.</li>
+
+	<li>The <b>e-learning package or non-e-learning document</b> that's assigned.  The assigned
+		package or document is stored in a SharePoint document library and isn't copied to SLK's
+		database when the assignment is created.  As a result, if the package or document is
+		deleted after the assignment is made, much of the assignment data will be inaccessible
+		(except for information, such as the SCORM <a href="MlcDataModel.htm">data model</a>,
+		tracked in SLK's database).  Similarly, if the package or document data is modified after
+		the assignment is made, the results may be unpredictable (particularly in the case of
+		e-learning content).  Note, however, that SharePoint and SLK support <b>versioning</b> of
+		files within document libraries; for example, if version 1.0 of a file is assigned and a
+		subsequent version 2.0 of that file is changed or deleted, version 1.0 will continue to be
+		accessible to learners and instructors.</li>
+
+	<li>Any number of <b>instructors</b>.  The association of one instructor with one assignment is
+		called an <b>instructor assignment</b>.  (Self-assigned content has no
+		instructors.)  An instructor assignment consists only of the association between the
+		assignment and the instructor.</li>
+
+	<li>Any number of <b>learners</b>.  The association of one learner with one assignment is
+		called a <b>learner assignment</b>.  A learner assignment includes the following
+		information:
+		<ul>
+			<li>The identity of the learner.</li>
+			<li>The number of points awarded by the instructor during grading.  This value is
+				optional and may be blank.</li>
+			<li>Comments from the instructor, if any.  SLK's grading user interface includes a
+			    small auto-grow text box to allow entry of comments about each learner
+				assignment.</li>
+			<li>A boolean value indicating whether the assignment is "final".  In this state,
+				the points awarded and comments from the instructor are visible to the learner.
+				</li>
+			<li>For assignments of non-e-learning documents, a non-"final" learner assignment
+				includes additional status information: whether it's active (i.e. in progress)
+				or completed (i.e. submitted to the instructor).</li>
+			<li>For assignments of e-learning packages, a potentially large amount of information
+				is maintained in the <i>attempt</i> associated with the package, as described
+				below.</li>
+		</ul></li>
+
+	<li>The <b>title</b> of the assignment.  For assigned e-learning packages the title defaults
+		to the title stored in the package's manifest; for non-e-learning documents the file name
+		is used.  In either case, the title can be changed by the instructor.</li>
+
+	<li>The <b>description</b> of the assignment.  For e-learning packages the description defaults
+		to the description stored in the package's manifest; for non-e-learning documents the
+		description is blank by default.  In either case, the description can be changed by the
+		instructor.</li>
+
+	<li>The <b>start date/time</b> of the assignment.  Learners cannot access the assignment before
+		this date/time.</li>
+
+	<li>The <b>due date/time</b> of the assignment.  Learners <u>can</u> access the assignment
+		after this date/time, but the assignment is shown as being overdue.  (Note that the
+		instructor can "collect" assignments, i.e. take them back from learners, at any time.)
+		The due date/time is optional.</li>
+
+	<li>The nominal number of <b>points possible</b> on the assignment.  The actual number of
+		points awarded may be higher than this amount.  This value is optional.  For Class Server
+		content, this value defaults to the number stored in the package.  For SCORM 2004 packages
+		this value defaults to 100 (since scores used in SCORM 2004 content are typically scaled to
+		the range 0.0 to 1.0, displayed as 0 to 100 percent in SLK).  For SCORM 1.2, the default
+		points possible value is blank.</li>
+
+	<li>A boolean value indicating whether the assignment is <b>automatically returned</b> to the
+		learner after the learner completes it.  Fully auto-graded content is often auto-returned.
+		</li>
+
+	<li>A boolean value indicating whether <b>correct answers are shown to learners</b>.  This
+		feature is only supported for Class Server content.</li>
+
+	<li>The identity of the <b>user who created the assignment</b>.  This could be an instructor,
+		a learner (for self-assigned content), or any user.</li>
+
+</ul>
+
+<p>In SLK, a user can be an instructor, learner, or both on a given assignment.  Also, a user
+can be granted instructor or learner permissions (or both) on a given SharePoint Web
+site&mdash;this determines who will be able to create assignments, and who will appear in the list
+of possible learners of assignments.</p>
+
+<p>Multiple assignments can be made on the same package or document, and each such assignment is
+treated as an independent unit.  For example, if two assignments are made on a single SCORM 2004
+package, and a given user is a learner on both assignments, each of those learner-to-assignment
+associations is a separate learner assignment.</p>
+
+</ul>
+
+<p>For assignments of e-learning packages, when a learner launches the assignment's content for
+the first time, an <b>attempt</b> is created.  The attempt contains all information about
+the learner's interaction with the package, including the current activity within the package and
+the SCORM <a href="MlcDataModel.htm">data model</a> for each activity.</p>
+
+<p><img src="LearnerAssignments.gif" alt="" border="" galleryimg="no" /></p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<a name="ScormConcepts"></a>
+<div class="SectionHeader">Other SCORM Concepts</div>
+<div class="Section">
+SCORM defines many concepts not described in detail in this documentation set, including the
+following:
+	<b>resource</b>,
+	<b>interaction</b>,
+	<b>local objective</b>,
+	<b>global objective</b>,
+	<b>run-time environment (RTE)</b>,
+	<b>sequencing and navigation (SN)</b>,
+	<b>raw &amp; scaled score</b>,
+	<b>correct response string</b>,
+	<b>completion &amp; success status</b>,
+	<b>comments from LMS</b>.
+	</p>
+
+<p>To learn about these concepts, read the <a href="http://www.adlnet.gov/scorm">SCORM
+documentation set</a>.</p>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader"></div>
+<div class="Section">
+<b><a href="SlkQueriesAndQuerySets.htm">Next Topic: SLK Queries and Query Sets</a></b>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="TopicFooter">
+</div>
+
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div>
+
+</body>
+
+</html>
+

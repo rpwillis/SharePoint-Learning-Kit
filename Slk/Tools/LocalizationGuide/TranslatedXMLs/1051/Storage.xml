@@ -1,0 +1,521 @@
+﻿<root>
+  <assembly culture="sk-SK" name="Microsoft.LearningComponents.Storage.resources" version="1.1.0.0">
+  </assembly>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.SessionResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.Properties.SessionResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>SLS_MoveToActivityNotValid</ID>
+        <Source>The session is not in a state where a new activity may be selected. In Execute view, only Active sessions may navigate to a selected activity.</Source>
+        <Translation>Stav relácie nepovoľuje výber novej aktivity. V zobrazení pracovného režimu môžu navigovať na vybrané aktivity iba aktívne relácie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ExitCurrentActivityNotValid</ID>
+        <Source>The current activity cannot be exited. There must be a current activity in an active session in order to exit it. </Source>
+        <Translation>Zo súčasnej aktivity sa nedá vyjsť. Aby sa zo súčasnej aktivity dalo vyjsť musí byť v aktívnom režime. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_LoggingFlagsSetNotValid</ID>
+        <Source>The LoggingOptions property may not be set when reviewing a session.</Source>
+        <Translation>Možnosti prihlasovania sa v režime prehliadania nadstavovať nedajú.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_MoveToPreviousNotValid</ID>
+        <Source>Moving to the previous activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
+        <Translation>Prechod na predchádzajúcu aktivitu nie je platný. V zobrazení pracovného režimu môžu nasmerovať na ďašiu aktivitu iba aktívne relácie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ReactivateNotValid</ID>
+        <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
+        <Translation>Znovu aktivovanie súčasnej relácie nie je platné. Znovu aktivovať je možné len ukončený alebo opustený režim, a to iba v zobrazení náhodného prístupu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ExitNotValid</ID>
+        <Source>The session cannot be exited in its current state. In Execute view, only Active sessions which have been started may be exited. Sessions may not be exited in other views.</Source>
+        <Translation>V súčasnom stave nie je možné daný režim opustiť. V zobrazení pracovného režimu je možné opustiť len aktívne režimy, ktoré boli spustené. Pri ostatným zobrazeniach nie je možné režim opustiť.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AbandonCurrentActivityNotValid</ID>
+        <Source>The current activity cannot be abandoned. There must be a current activity in an active session in order to abandon it. </Source>
+        <Translation>Súčasná aktivita nemôže byť skončená. Na skončenie súčasnej aktivity je treba byť v aktívnom režime.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CouldNotFindFirstActivity</ID>
+        <Source>An initial activity could not be identified in the session.</Source>
+        <Translation>Počiatočnú aktivitu v danom režime sa nepodarilo identifikovať.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AttemptEndTimeNotValid</ID>
+        <Source>The attempt associated with this session has not ended.</Source>
+        <Translation>Pokus spojený s týmto režimom sa ešte neukončil.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_SuspendNotValid</ID>
+        <Source>The session cannot be suspended in its current state. In Execute view, only Active sessions may be suspended. Sessions may not be suspended in other views.</Source>
+        <Translation>Režim sa v súčasnom stave nadá prerušiť. V pracovnom zobrazení môžu byť prerušené iba aktívne režimy. V ostatným zobrazeniach nemôžu byť režimy prerušené.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_InvalidateSessionCacheNotValid</ID>
+        <Source>The session cache cannot be cleared because the current session contains an active attempt. </Source>
+        <Translation>Cache režim nemožno vyčistiť, pretože súčasný režim obsahuje aktívny pokus. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ProcessNavigationRequestsNotValid</ID>
+        <Source>Navigation requests cannot be processed. In an ExecuteView, the AttemptStatus must be Active. This call is not valid in RandomAccess and Review views.</Source>
+        <Translation>Navigačné požiadavky nemožno spracovať. V pracovnom zobrazení musí byť funkcia Stav pokusu aktívna. Táto požiadavka nie je platná v režimoch Náhodný prístup a Prehľad.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_StartNotValid</ID>
+        <Source>A session may only be started on an active attempt in ExecuteView. The session may not be in Review or RandomAccess view when calling this method.</Source>
+        <Translation>Režim je možné spustiť len v aktívnom pokuse v rámci pracovného zobrazenia. Pri požadovaní tejto metódy by režim nemal byť v zobrazení Prehľad a Náhodný prístup.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AbandonNotValid</ID>
+        <Source>The session cannot be abandoned in its current state. In Execute view, only Active sessions may be abandoned. Sessions may not be abandoned in other views.</Source>
+        <Translation>Režim v súčasnom stave nemôže byť ukončený. V pracovnom zobrazení môžu byť ukončené iba aktívne režimy. V ostatných zobrazeniach nemôžu byť režimy ukončené.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ResourceNotFound</ID>
+        <Source>The current activity in the session does not have an associated resource. The content cannot be displayed.</Source>
+        <Translation>Súčasná aktivita v režime nemá pridružený zdroj. Obsah nemožno zobraziť.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_MoveToNextNotValid</ID>
+        <Source>Moving to the next activity is not valid. In Execute view, only Active sessions with a current activity may navigate to the next activity.</Source>
+        <Translation>Prechod na ďalšiu aktivitu nie je platný. V pracovnom zobrazení môžu navigovať na ďalšiu aktivitu iba aktívne režimy so súčasnou aktivitou.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_RenderNotValid</ID>
+        <Source>The content cannot be rendered. In Execute view, the session must have an AttemptStatus of Active.</Source>
+        <Translation>Obsah nemožno poskytnúť. V pracovnom zobrazení musí byť funkcia Stav pokusu aktívna. </Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_CommitChangesNotValid</ID>
+        <Source>The changes to the current session cannot be committed. The session may not be in Review view when calling this method. </Source>
+        <Translation>Zmeny v súčasnom režime nemožno vykonať. Pri tomto postupe by režim nemal byť v zobrazení Prehľad.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_AttemptHasStarted</ID>
+        <Source>The attempt has already started. You may not call Start more than once.</Source>
+        <Translation>Pokus sa už začal. Nemali by ste požadovať funkciu Spustiť viac ako jeden raz.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_ResumeNotValid</ID>
+        <Source>The session cannot be resumed in its current state. In Execute view, only Suspended sessions may be resumed. Sessions may not be resumed in other views.</Source>
+        <Translation>V súčasnom stave sa režim nedá vrátiť späť. V zobrazení pracovného režimu sa dajú vrátiť späť iba Pozastavené režimy. V ostatných zobrazeniach sa režimy vrátiť späť nedajú.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.PackageResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.Properties.PackageResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>FSPS_BasePathDirNotFound</ID>
+        <Source>The folder '{0}' must exist prior to calling this method.</Source>
+        <Translation>Priečinok '{0}' musí existovať ešte pred požadovaním tejto metódy.</Translation>
+      </Resources>
+      <Resources>
+        <ID>FSPS_InvalidPackageId</ID>
+        <Source>The LearningStoreItemIdentifier {0} does not represent a package in LearningStore.</Source>
+        <Translation>The LearningStoreItemIdentifier {0} nie je zastúpený v balíku LearningStore.</Translation>
+      </Resources>
+      <Resources>
+        <ID>FSPS_CouldNotFindDirectory</ID>
+        <Source>Could not find a unique directory name to use for the files.</Source>
+        <Translation>Nepodarilo sa nájsť špecifický názov adresára pre tieto súbory.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_ValidationFailed</ID>
+        <Source>The package cannot be added to the store because it contains at least one error.</Source>
+        <Translation>Balík nemožno pridať k pamäti, pretože obsahuje minimálne jednu chybu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_InvalidManifest</ID>
+        <Source>The package cannot be added to LearningStore because the manifest in the package cannot be read.</Source>
+        <Translation>Balík nemožno pridať k Pamäti učenia sa, pretože znak v balíku sa nedá prečítať.</Translation>
+      </Resources>
+      <Resources>
+        <ID>PS_NoOrganization</ID>
+        <Source>The package must contain at least one organization and one item in order to be added to LearningStore.</Source>
+        <Translation>Balík musí obsahovať aspoň jedno usporiadanie a jednu položku, aby mohol byť pridaný do LearningStore.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>NotAllowedInExecuteMode</ID>
+        <Source>This operation cannot be performed in Execute view.</Source>
+        <Translation>Danú opeáciu nemožno v pracovnom režime vykonať.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NotAllowedWhileInAutoGradingMode</ID>
+        <Source>This operation cannot be performed during the auto-grading process.</Source>
+        <Translation>Operáciu nemožno vykonať počas procesu automatického známkovania.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptComplete</ID>
+        <Source>The requested operation cannot be performed because the session has been completed.</Source>
+        <Translation>Požadovanú operáciu nemožno vykonať, pretože režim bol ukončený.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptAbandoned</ID>
+        <Source>The requested operation cannot be performed because the session has been abandoned.</Source>
+        <Translation>Požadovanú operáciu nemožno vykonať, pretože sa vyšlo z režimu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttachmentTooLarge</ID>
+        <Source>Attachment exceeds maximum size of {0} bytes.</Source>
+        <Translation>Príloha presahuje maximálnu veľkosť{0} bytov.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AutoGradingModeNotBegun</ID>
+        <Source>This operation is only valid during auto-grading.</Source>
+        <Translation>Táto operácia je platná iba počas automatického známkovania.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidAttemptId</ID>
+        <Source>The attempt could not be accessed. You may not have access to it, the attempt may have been deleted or does not exist.</Source>
+        <Translation>K pokusu sa nepodarilo dostať. Zrejme nemáte prístup, prípadne bol pokus vymazaný alebo neexistuje.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NotAllowedInReviewMode</ID>
+        <Source>This operation cannot be performed in Review view.</Source>
+        <Translation>Túto operáciu nemožno vykonať v režime Prehľad.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AttemptHasNotEnded</ID>
+        <Source>The requested operation cannot be performed because the session is not complete.</Source>
+        <Translation>Požadovanú operáciu nemožno vykonať, pretože režim nie je úplný.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidRootActivityId</ID>
+        <Source>The root activity id could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
+        <Translation>Nie je prístup k id koreňu aktivity. Buď neexistuje alebo nemáte povolenie k jeho prístupu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NoCurrentActivity</ID>
+        <Source>A current activity is required for this operation.</Source>
+        <Translation>Pre túto operáciu sa požaduje súčasná aktivita.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SLS_SessionCannotBeActive</ID>
+        <Source>This operation cannot be performed on a session with an AttemptStatus of Active.</Source>
+        <Translation>Túto operáciu nemožno vykonať v režime s aktívnou funkciou Stavu pokusu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>GlobalObjectiveDatabaseStateNotValid</ID>
+        <Source>Global Objective database contains non-unique entries.</Source>
+        <Translation>Databáza Global Objective obsahuje nešpecifikované zložky.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidLearnerId</ID>
+        <Source>The LearnerId could not be accessed. Either it does not exist or you do not have permission to access it.</Source>
+        <Translation>Id študenta nie je prístupné. Buď neexistuje alebo nemáte povolenie k jeho prístupu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidActivity</ID>
+        <Source>The requested activity cannot be found within the session.</Source>
+        <Translation>Požadovanú aktivitu sa v rámci režimu nepodarilo nájsť.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Storage.LearningStore.LearningStoreStrings.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Storage.LearningStore.LearningStoreStrings.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>ColumnNotFound</ID>
+        <Source>Column '{0}' not found in the view.</Source>
+        <Translation>Stĺpec '{0}' v zobrazení nenájdený.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AtLeastOneValueMustBeProvided</ID>
+        <Source>At least one value must be provided.</Source>
+        <Translation>Musíte zadať aspoň jednu hodnotu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DuplicatePropertyValue</ID>
+        <Source>More than one value has been provided for property '{0}'.</Source>
+        <Translation>Pre vlastnosť'{0}' bola zadaná viac ako jedna hodnota.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CannotChangeIdProperty</ID>
+        <Source>Property 'Id' can not be changed.</Source>
+        <Translation>Vlastnosť 'Id' sa nedá zmeniť.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdConditionValue</ID>
+        <Source>Invalid condition value: only item identifiers with unique keys can be compared against.</Source>
+        <Translation>Chybný príkaz hodnoty: možno porovnať iba identifikátori zložky so špecifickými kľúčmi.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ResultsOfJobCanNotBeCast</ID>
+        <Source>The results of the job can not be cast to the specified return value.</Source>
+        <Translation>Výsledky zadania nemožno obsadiť špecifikovanými spätnými hodnotami.</Translation>
+      </Resources>
+      <Resources>
+        <ID>RightNotFoundInSchema</ID>
+        <Source>Right '{0}' not found in the schema.</Source>
+        <Translation>Pravidlo '{0}' sa v schéme nenašlo.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TimeoutMustBeZero</ID>
+        <Source>Timeout value specified for the transaction must be zero.</Source>
+        <Translation>Voľná hodnota určená pre tranzakciu musí byť nula.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionValueForXmlColumn</ID>
+        <Source>Invalid condition value: an Xml column can only be compared against null.</Source>
+        <Translation>Chybný príkaz hodnoty: Xml stĺpec možno porovnať len so základom.</Translation>
+      </Resources>
+      <Resources>
+        <ID>UniqueKeyNotAvailable</ID>
+        <Source>Unique key not available.</Source>
+        <Translation>Špecifický kľúč nie je k dispozícii.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionOperatorForGuidColumn</ID>
+        <Source>Invalid condition operator: a Guid column can only be compared with an equality or inequality operator.</Source>
+        <Translation>Chybný príkaz operátora: stĺpec Guid sa dá porovnať iba s operátorm rovnosti alebo nerovnosti.</Translation>
+      </Resources>
+      <Resources>
+        <ID>TransactionAlreadyExists</ID>
+        <Source>A transaction already exists in this scope.</Source>
+        <Translation>V tomto oli už tranzakcia existuje.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCausesInvalidCast</ID>
+        <Source>Invalid cast.</Source>
+        <Translation>Neplatné sčítanie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidPropertyValueWithDescription</ID>
+        <Source>Invalid value for property '{0}': {1}</Source>
+        <Translation>Neplatná hodnota pre vlastnosť'{0}': {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>QueryNotCompatibleWithStore</ID>
+        <Source>The query is not compatible with this LearningStore instance.</Source>
+        <Translation>Dotaz nie je kompatibilný s LearningStore prípadom.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemNotFound</ID>
+        <Source>Item not found</Source>
+        <Translation>Položka nebola nájdená</Translation>
+      </Resources>
+      <Resources>
+        <ID>PropertyNotFound</ID>
+        <Source>Vlastnosť '{0}' nebola nájdená</Source>
+        <Translation>Property '{0}' not found</Translation>
+      </Resources>
+      <Resources>
+        <ID>MoreThanOneItemFoundInAddOrUpdate</ID>
+        <Source>More than one item matches the properties in the AddOrUpdateItem command.</Source>
+        <Translation>Viac ako jedna položka zodpovedá vlastnostiam v príkaze Pridaj alebo aktualizuj položku.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ItemTypeNotFoundInSchema</ID>
+        <Source>Item type '{0}' not found in the schema.</Source>
+        <Translation>Položka typu '{0}' nebola v schéme nájdená.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeGuid</ID>
+        <Source>Must be a Guid.</Source>
+        <Translation>Musí byť Guid.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ParameterNotFound</ID>
+        <Source>Parameter '{0}' not found in the view.</Source>
+        <Translation>Parameter '{0}' sa v náhľade nenašiel.</Translation>
+      </Resources>
+      <Resources>
+        <ID>IncompatibleEngineVersion</ID>
+        <Source>The database was created by a different version of this product.</Source>
+        <Translation>Databáza bola vytvorená odlišnou verziou tohto produktu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ScopeDisposedInInvalidThread</ID>
+        <Source>Transaction scope disposed in invalid thread.</Source>
+        <Translation>Pripravená oblasť tranzakcie je v neplatnej ceste.</Translation>
+      </Resources>
+      <Resources>
+        <ID>MismatchedIsolationLevel</ID>
+        <Source>Isolation level specified for the transaction doesn't match the isolation level for the currently-existing transaction.</Source>
+        <Translation>Separácia úrovne špecifikovanej pre tranzakciu nezodpovedá úrovni separácie pre práve existujúcu tranzakciu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>DebugLogAlreadyEnabled</ID>
+        <Source>The debug log has already been enabled.</Source>
+        <Translation>Protokol ladenia bol už sprístupnený.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnAlreadySortedOn</ID>
+        <Source>A sort order for the specified column already exists in the query.</Source>
+        <Translation>Poradie triedenia pre špecifický stĺpec už existuje v požiadavke.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnAlreadyExistsInQuery</ID>
+        <Source>Column '{0}' has already been added to the query</Source>
+        <Translation>Stĺpec '{0}' bol už pridaný k požiadavke</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueHasInvalidFormat</ID>
+        <Source>Invalid format.</Source>
+        <Translation>Neplatný formát.</Translation>
+      </Resources>
+      <Resources>
+        <ID>XmlPropertyCannotBeSearchedOn</ID>
+        <Source>Cannot search on XML property '{0}'.</Source>
+        <Translation>Nedá sa hľadať vo vlastnosti XML '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>SecurityCheckFailed</ID>
+        <Source>Security check failed.</Source>
+        <Translation>Kontrola zabezpečenia zlyhala.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValueWithDescription</ID>
+        <Source>Invalid parameter value: {0}</Source>
+        <Translation>Chybná hodnota parametra: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdParameterValue</ID>
+        <Source>Invalid parameter value: only item identifiers with unique keys can be used as parameters.</Source>
+        <Translation>Chybná hodnota parametra: ako parametre sa môžu používať iba identifikátory položiek so špecifickými kľúčmi.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ParameterNotFoundInRight</ID>
+        <Source>Parameter '{0}' not found in the right.</Source>
+        <Translation>Parameter '{0}' nebol nájdený.</Translation>
+      </Resources>
+      <Resources>
+        <ID>AtLeastOneOutputColumnMustBeSpecified</ID>
+        <Source>At least one output column must be specified in the query.</Source>
+        <Translation>Pri požiadavke musí byť špecifikovaný minimálne jeden stĺpec výstupu.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidPropertyValue</ID>
+        <Source>Invalid value for property '{0}'</Source>
+        <Translation>Nesprávna hodnota pre vlastnosť '{0}'</Translation>
+      </Resources>
+      <Resources>
+        <ID>EnumTypeNotFoundInSchema</ID>
+        <Source>Enum type '{0}' not found in the schema.</Source>
+        <Translation>Typ výpočtu '{0}' sa v schéme nenašiel.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidConditionValueWithDescription</ID>
+        <Source>Invalid condition value: {0}</Source>
+        <Translation>Chybná hodnota príkazu: {0}</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidSchemaDefinition</ID>
+        <Source>Invalid schema definition</Source>
+        <Translation>Chybná definícia schémy</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidOperatorForNullConditionValue</ID>
+        <Source>Invalid condition operator: null can only be compared with an equality or inequality operator.</Source>
+        <Translation>Chybný príkaz operátora: nula môže byť porovnávaná iba s operátorom rovnosti alebo nerovnosti.</Translation>
+      </Resources>
+      <Resources>
+        <ID>NullReferenceWhenAccessingDatabase</ID>
+        <Source>Object reference not set to an instance of an object when attempting to access database.  Database connection may have been lost.</Source>
+        <Translation>Pri pokuse prístupu k databáze nie je odkaz predmetu nadstavený na príklad predmetu. Možnosť straty pripojenia k databáze.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidScopeNesting</ID>
+        <Source>Invalid transaction scope nesting.</Source>
+        <Translation>Neplatné zoskupenie škály tranzakcie.</Translation>
+      </Resources>
+      <Resources>
+        <ID>OperationFailedBecauseOfConstraintViolation</ID>
+        <Source>The operation failed because of a constraint violation.</Source>
+        <Translation>Operácia zlyhala kvôli porušeniu obmedzenia.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCannotBeNull</ID>
+        <Source>Cannot be null.</Source>
+        <Translation>Nemôže byť prázdne.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ColumnCannotBeSorted</ID>
+        <Source>Column can not be sorted on.</Source>
+        <Translation>Stĺpec sa nedá roztriediť.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeItemIdentifier</ID>
+        <Source>Must be a LearningStoreItemIdentifier with ItemType '{0}'.</Source>
+        <Translation>Identifikačná položka pamäti učenia sa musí mať typ položky '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>CompleteAlreadyCalled</ID>
+        <Source>Method has already been called.</Source>
+        <Translation>Metóda už bola požadovaná.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeXml</ID>
+        <Source>Must be a LearningStoreXml.</Source>
+        <Translation>Musí byť LearningStoreXml.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeValidEnumValue</ID>
+        <Source>Must be a valid value from '{0}'.</Source>
+        <Translation>Musí byť platná hodnota od '{0}'.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValueWithDescriptionAndName</ID>
+        <Source>Invalid value for parameter '{0}': {1}</Source>
+        <Translation>Nesprávna hodnota pre parameter '{0}': {1}</Translation>
+      </Resources>
+      <Resources>
+        <ID>PositiveValueExpected</ID>
+        <Source>Positive value expected</Source>
+        <Translation>Očakáva sa pozitívna hodnota</Translation>
+      </Resources>
+      <Resources>
+        <ID>PropertyValueNotFound</ID>
+        <Source>Value for property '{0}' not found</Source>
+        <Translation>Hodnota pre vlastnosť '{0}' sa nenašla</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeByteArray</ID>
+        <Source>Must be a System.Byte array.</Source>
+        <Translation>Musí byť zoskupenie System.Byte.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueMustBeWithinSqlDateTimeRange</ID>
+        <Source>Must be between SqlDateTime.MinValue and SqlDateTime.MaxValue.</Source>
+        <Translation>Musí byť medzi SqlDateTime.MinValue a SqlDateTime.MaxValue.</Translation>
+      </Resources>
+      <Resources>
+        <ID>ViewNotFoundInSchema</ID>
+        <Source>View '{0}' not found in the schema.</Source>
+        <Translation>Pohľad '{0}' sa v schéme nenašiel.</Translation>
+      </Resources>
+      <Resources>
+        <ID>InvalidParameterValue</ID>
+        <Source>Invalid value for parameter '{0}'</Source>
+        <Translation>Nesprávna hodnota pre parameter '{0}'</Translation>
+      </Resources>
+      <Resources>
+        <ID>ValueCausesOverflow</ID>
+        <Source>Overflow.</Source>
+        <Translation>Preplnenie.</Translation>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>
