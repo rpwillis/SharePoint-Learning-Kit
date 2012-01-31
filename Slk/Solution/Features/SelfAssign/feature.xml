@@ -3,7 +3,7 @@
         Title="$Resources:SelfAssignWebPartFeatureTitle" 
         Description="$Resources:SelfAssignWebPartFeatureDescription" 
         DefaultResourceFile="SLK"
-        ImageUrl="featureIcon.gif"
+        ImageUrl="slkFeature.gif"
         Scope="Site">
 
     <ActivationDependencies>

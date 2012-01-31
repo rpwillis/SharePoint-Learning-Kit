@@ -3,7 +3,7 @@
         Title="$Resources:SlkMembersWebPartFeatureTitle" 
         Description="$Resources:SlkMembersWebPartFeatureDescription" 
         DefaultResourceFile="SLK"
-        ImageUrl="featureIcon.gif"
+        ImageUrl="slkFeature.gif"
         Scope="Site">
     <ElementManifests>
         <ElementManifest Location="elements.xml"/>
