@@ -128,7 +128,7 @@
     </FeatureManifests>
     <RootFiles>
         <RootFile Location="Config\stsadmcommands.sharepointlearningkit.xml" />
-        <RootFile Location="Template\IMAGES\featureIcon.gif"/>
+        <RootFile Location="Template\IMAGES\slkFeature.gif"/>
         <RootFile Location="Resources\SLK.resx"/>
     </RootFiles>
 </Solution>

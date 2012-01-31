@@ -5,7 +5,7 @@
 		 Title="$Resources:ELearningFeatureTitle"
                  Description="$Resources:ELearningFeatureDescription" 
                  DefaultResourceFile="SLK"
-                 ImageUrl="featureIcon.gif"
+                 ImageUrl="slkFeature.gif"
                  > 
 		 
 	<ElementManifests>
