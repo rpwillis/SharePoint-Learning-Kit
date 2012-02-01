@@ -41,6 +41,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
     public partial class AlwpQuerySummary : SlkAppBasePage
     {
+
+        /// <summary>See <see cref="SlkAppBasePage.OverrideMasterPage"/>.</summary>
+        protected override bool OverrideMasterPage
+        {
+            get { return false ;}
+        }
+
         #region Private Variable
         /// <summary>
         /// This is a parameter of CreateStandardQuery.  It's specifies the SPWeb that this

@@ -59,6 +59,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region Public Properties
+        /// <summary>See <see cref="SlkAppBasePage.OverrideMasterPage"/>.</summary>
+        protected override bool OverrideMasterPage
+        {
+            get { return false ;}
+        }
+
         /// <summary>
         /// Gets the name of the SLK query to execute.
         /// Throws Exception if empty or null.
