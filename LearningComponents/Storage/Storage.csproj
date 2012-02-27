@@ -41,6 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\Microsoft.LearningComponents.Storage.XML</DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRules>-Microsoft.MSInternal#CA905;-Microsoft.MSInternal#CA908;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703</CodeAnalysisRules>

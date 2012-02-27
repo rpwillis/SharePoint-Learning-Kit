@@ -116,6 +116,8 @@ namespace Microsoft.LearningComponents.Storage
         }
 #endregion constructors
 
+        /// <summary>Assigns an identifier to the object.</summary>
+        /// <param name="id">The identifier to assign.</param>
         public void AssignIdentifier(LearningStoreItemIdentifier id)
         {
             if (id == null)

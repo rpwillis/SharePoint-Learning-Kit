@@ -152,8 +152,8 @@ namespace Microsoft.LearningComponents.Storage
         /// </summary>
         /// <param name="packageStore">The store which contains files from the package associated
         /// with the attempt.</param>
-        /// <param name="learnerId">The learner who is starting the attempt.</param>
         /// <param name="learnerId">The learner assignment. Only used in SLK.</param>
+        /// <param name="learnerAssignmentId">The id of the learner assignment.</param>
         /// <param name="rootActivityId">The LearningStore id of the organization (ie, root activity) 
         /// to be attempted.
         /// </param>

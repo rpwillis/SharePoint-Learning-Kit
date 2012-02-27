@@ -57,6 +57,11 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
         /////////////////////////////////////////////////////////////////////////////////////
 
+        /// <summary>See <see cref="SlkAppBasePage.OverrideMasterPage"/>.</summary>
+        protected override bool OverrideMasterPage
+        {
+            get { return false ;}
+        }
 
         /// <summary>Initializes a new instance of <see cref="FramesetPage"/>.</summary>
         public FramesetPage() : base()
