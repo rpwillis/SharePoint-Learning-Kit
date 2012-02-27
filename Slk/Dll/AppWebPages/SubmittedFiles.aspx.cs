@@ -75,6 +75,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #region Properties
 
+        /// <summary>See <see cref="SlkAppBasePage.OverrideMasterPage"/>.</summary>
+        protected override bool OverrideMasterPage
+        {
+            get { return false ;}
+        }
+
         /// <summary>
         /// Gets the value of the "LearnerAssignmentId" query parameter.
         /// </summary>

@@ -123,10 +123,8 @@ namespace Microsoft.SharePointLearningKit
                     output = string.Format(CultureInfo.CurrentUICulture, AppResources.StsGetSiteConfiguration,
                                             configuration.DatabaseServer,
                                             configuration.DatabaseName,
-                                            configuration.CreateDatabase,
                                             configuration.InstructorPermission,
-                                            configuration.LearnerPermission,
-                                            configuration.CreatePermissions);
+                                            configuration.LearnerPermission);
                     return 0;
                 }
         }

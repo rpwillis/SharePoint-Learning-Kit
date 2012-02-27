@@ -4185,10 +4185,8 @@ namespace Resources.Properties {
         ///   Looks up a localized string similar to   
         ///   Database server:         {0}
         ///   Database name:           {1}
-        ///   Create Database :        {2}
-        ///   Instructor Permission:   {3}
-        ///   Learner Permission:      {4}
-        ///   Create Permissions:      {5}
+        ///   Instructor Permission:   {2}
+        ///   Learner Permission:      {3}
         ///      .
         /// </summary>
         internal static string StsGetSiteConfiguration {
