@@ -192,6 +192,8 @@ namespace Microsoft.SharePointLearningKit
             queryDefinitions = new List<QueryDefinition>(20);
             querySetDefinitions = new List<QuerySetDefinition>(10);
             WhenUploaded = whenUploaded;
+            DropBoxSettings = new DropBoxSettings();
+            EmailSettings = new EmailSettings();
             ParseSettingsFile(xmlReader);
         }
 #endregion constructors

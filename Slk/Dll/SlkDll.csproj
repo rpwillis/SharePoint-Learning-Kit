@@ -299,6 +299,9 @@
   </Target>
   -->
   <Target Name="AfterBuild">
+      <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+      <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+      <Copy SourceFiles="../app/assignmentproperties.aspx" DestinationFolder="\\wingtipserver\14\TEMPLATE\LAYOUTS\SharePointLearningKit" SkipUnchangedFiles="true"/>
   </Target>
   <PropertyGroup>
     <PostBuildEvent>
