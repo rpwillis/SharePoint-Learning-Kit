@@ -140,6 +140,9 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         public int UserWebListMruSize { get; private set; }
 
+        ///<summary>Indicates whether to use the standard master page for the SLK application pages.</summary>
+        public bool UseMasterPageForApplicationPages { get; private set; }
+
         /// <summary>
         /// Gets the collection of MIME type mappings parsed from "&lt;MimeTypeMapping&gt;" elements
         /// within the SLK Settings XML file.  Each mapping has a key which is a file name extension
@@ -460,6 +463,7 @@ namespace Microsoft.SharePointLearningKit
 
             MaxAttachmentKilobytes = xmlReader.ReadContentAsInt();
             HideDisabledUsers = ParseAttributeAsBoolean(xmlReader, "HideDisabledUsers");
+            UseMasterPageForApplicationPages = ParseAttributeAsBoolean(xmlReader, "UseMasterPageForApplicationPages");
             UseGrades = ParseAttributeAsBoolean(xmlReader, "UseGrades");
             LearnerReportUrl = ParseAttributeAsString(xmlReader, "LearnerReportUrl");
 
