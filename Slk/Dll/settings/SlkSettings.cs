@@ -44,6 +44,9 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>The settings for Drop Box.</summary>
         public DropBoxSettings DropBoxSettings { get; private set; }
 
+        /// <summary>The settings for Quick Assignments.</summary>
+        public QuickAssignmentSettings QuickAssignmentSettings { get; private set; }
+
         /// <summary>
         /// Gets the collection of approved attachment file name extensions from the
         /// "ApprovedAttachmentTypes" attribute of the "&lt;Settings&gt;" element within the SLK
@@ -193,6 +196,7 @@ namespace Microsoft.SharePointLearningKit
             querySetDefinitions = new List<QuerySetDefinition>(10);
             WhenUploaded = whenUploaded;
             DropBoxSettings = new DropBoxSettings();
+            QuickAssignmentSettings = new QuickAssignmentSettings();
             EmailSettings = new EmailSettings();
             ParseSettingsFile(xmlReader);
         }
@@ -250,6 +254,10 @@ namespace Microsoft.SharePointLearningKit
                     else if (xmlReader.Name == "DropBoxSettings")
                     {
                         DropBoxSettings = new DropBoxSettings(xmlReader);
+                    }
+                    else if (xmlReader.Name == "QuickAssignmentSettings")
+                    {
+                        QuickAssignmentSettings = new QuickAssignmentSettings(xmlReader);
                     }
                     else if (xmlReader.Name == "EmailSettings")
                     {
