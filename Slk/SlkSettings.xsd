@@ -46,6 +46,13 @@
 				</xs:complexType>
 			</xs:element>
 
+			<xs:element name="QuickAssignmentSettings" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence />
+					<xs:attribute name="DefaultLibrary" type="xs:string" use="optional" />
+				</xs:complexType>
+			</xs:element>
+
 			<xs:element name="Query" maxOccurs="unbounded" minOccurs="0">
 				<xs:complexType>
 					<xs:sequence>

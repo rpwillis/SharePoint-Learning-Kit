@@ -509,17 +509,34 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             base.CreateChildControls();
 
+            Dictionary<string, int> items = new Dictionary<string, int>();
+
             if (Location.ToString() == AssignmentProperties.NoPackageLocation.ToString())
             {
                 SPWeb.Lists.ListsForCurrentUser = true;
+                int counter = 0;
                 foreach (SPList list in SPWeb.Lists)
                 {
                     if (list.BaseType == SPBaseType.DocumentLibrary && list.Hidden == false)
                     {
                         if ((list.EffectiveBasePermissions & SPBasePermissions.AddListItems) == SPBasePermissions.AddListItems)
                         {
+                            items.Add(list.Title.ToUpperInvariant(), counter);
                             UploadDocumentLibraries.Items.Add(list.Title);
+                            counter++;
                         }
+                    }
+                }
+
+                QuickAssignmentSettings settings = SlkStore.Settings.QuickAssignmentSettings;
+
+                foreach (string defaultLibrary in settings.DefaultLibraries)
+                {
+                    string upperKey = defaultLibrary.ToUpperInvariant();
+                    if (items.ContainsKey(upperKey))
+                    {
+                        UploadDocumentLibraries.SelectedIndex = items[upperKey];
+                        break;
                     }
                 }
             }

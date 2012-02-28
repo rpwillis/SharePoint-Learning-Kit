@@ -219,6 +219,7 @@
     <Compile Include="settings\SlkSettings.cs" />
     <Compile Include="settings\EmailSettings.cs" />
     <Compile Include="settings\dropBoxSettings.cs" />
+    <Compile Include="settings\quickAssignmentSettings.cs" />
     <Compile Include="QuerySetClasses.cs" />
     <Compile Include="SlkUtilities.cs">
     </Compile>
