@@ -104,6 +104,20 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected System.Web.UI.WebControls.Label lblShowAnswersToLearners;
         protected Label labelEmail;
+        /// <summary>The control for the upload document header.</summary>
+        protected System.Web.UI.WebControls.Label LabelUploadDocumentHeader { get; set; }
+        /// <summary>The control for the upload document text.</summary>
+        protected System.Web.UI.WebControls.Label LabelUploadDocumentText { get; set; }
+        /// <summary>The table containing the upload document functionality.</summary>
+        protected TableGrid TgUploadDocument { get; set; }
+        /// <summary>The label for the file upload control.</summary>
+        protected System.Web.UI.WebControls.Label LabelUploadDocumentName { get; set; }
+        /// <summary>The file upload control.</summary>
+        protected System.Web.UI.WebControls.FileUpload FileUploadDocument { get; set; }
+        /// <summary>The label for the document library control.</summary>
+        protected System.Web.UI.WebControls.Label LabelUploadDocumentLibrary { get; set; }
+        /// <summary>The document library control.</summary>
+        protected System.Web.UI.WebControls.DropDownList UploadDocumentLibraries { get; set; }
 
         //TextBox Controls
         protected System.Web.UI.WebControls.TextBox txtTitle;
@@ -458,6 +472,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             //Add the Package Warning in the Error Banner
                             errorBanner.AddHtmlErrorText(ErrorType.Warning, AppResources.ActionsWarning);
                         }
+
+                        if (AssignmentProperties.IsNoPackageAssignment)
+                        {
+                            SetUpForNewNoPackageAssignment();
+                        }
                     }
 
                     SetupPageElementAttributes();
@@ -484,6 +503,35 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
         #endregion
+
+        /// <summary>See <see cref="Control.CreateChildControls"/>.</summary>
+        protected override void CreateChildControls()
+        {
+            base.CreateChildControls();
+
+            if (Location.ToString() == AssignmentProperties.NoPackageLocation.ToString())
+            {
+                SPWeb.Lists.ListsForCurrentUser = true;
+                foreach (SPList list in SPWeb.Lists)
+                {
+                    if (list.BaseType == SPBaseType.DocumentLibrary && list.Hidden == false)
+                    {
+                        if ((list.EffectiveBasePermissions & SPBasePermissions.AddListItems) == SPBasePermissions.AddListItems)
+                        {
+                            UploadDocumentLibraries.Items.Add(list.Title);
+                        }
+                    }
+                }
+            }
+        }
+
+        void SetUpForNewNoPackageAssignment()
+        {
+            if (UploadDocumentLibraries.Items.Count > 0)
+            {
+                TgUploadDocument.Visible = true;
+            }
+        }
 
         void CheckInCorrectSite()
         {
@@ -768,6 +816,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             lblInstructorsText.Text = AppResources.CtrlLabelInstructorDesc;
             lblDistributeAssignmentText.Text = AppResources.CtrlLabelDistributeAssignmentDesc;
             lblDistributeAssignmentHeader.Text = AppResources.CtrlLabelDistributeAssignmentHeader;
+            LabelUploadDocumentText.Text = AppResources.CtrlLabelUploadDocumentText;
+            LabelUploadDocumentHeader.Text = AppResources.CtrlLabelUploadDocumentHeader;
+            LabelUploadDocumentName.Text = AppResources.CtrlLabelUploadDocumentName;
+            LabelUploadDocumentLibrary.Text = AppResources.CtrlLabelUploadDocumentLibrary;
+
             lblPointsPossible.Text = AppResources.CtrlLabelPointsPossible;
             lblAssignmentPropText.Text = AppResources.CtrlLabelAssignmentPropDesc;
             lblAssignmentPropHeader.Text = AppResources.CtrlLabelAssignmentPropHeader;
@@ -1295,6 +1348,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             try
             {
                 AssignmentProperties.SetLocation(Location, OrgIndex);
+
+                if (AssignmentProperties.IsNoPackageAssignment && FileUploadDocument.HasFile)
+                {
+                    SaveUploadedFile();
+                }
+
                 AssignmentProperties.Save(SPWeb, SlkRole.Instructor);
                 SetConfirmationPage(AssignmentProperties.Id.GetKey());
             }
@@ -1312,7 +1371,22 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-
+        void SaveUploadedFile()
+        {
+            try
+            {
+                SPDocumentLibrary library = SPWeb.Lists[UploadDocumentLibraries.SelectedValue] as SPDocumentLibrary;
+                string destinationUrl = library.RootFolder.Url + "/" + FileUploadDocument.FileName;
+                SPFile file = library.RootFolder.Files.Add(destinationUrl, FileUploadDocument.FileBytes, false);
+                file.Update();
+                location = new SharePointFileLocation(SPWeb, file);
+                AssignmentProperties.SetLocation(Location, OrgIndex);
+            }
+            catch (SPException e)
+            {
+                throw new SafeToDisplayException(e.Message);
+            }
+        }
 
         #region SetConfirmationPage
         /// <summary>Sets the Assignment Properties of Confirmation Page</summary>

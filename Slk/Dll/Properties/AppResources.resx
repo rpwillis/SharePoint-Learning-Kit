@@ -307,6 +307,18 @@ More information has been written to the server event log.</value>
     <value>Distribute the Assignment</value>
     <comment>Distribute  Assignment Header Text</comment>
   </data>
+  <data name="CtrlLabelUploadDocumentHeader" xml:space="preserve">
+    <value>Upload Document (Optional)</value>
+  </data>
+  <data name="CtrlLabelUploadDocumentText" xml:space="preserve">
+    <value>Optionally choose a document to upload to distribute and choose the document library to place it in.</value>
+  </data>
+  <data name="CtrlLabelUploadDocumentName" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="CtrlLabelUploadDocumentLibrary" xml:space="preserve">
+    <value>Document Library</value>
+  </data>
   <data name="CtrlLabelGenericErrorMsg" xml:space="preserve">
     <value>Error string goes here.</value>
     <comment>Generic Error string </comment>

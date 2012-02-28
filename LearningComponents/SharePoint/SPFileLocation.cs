@@ -85,6 +85,21 @@ namespace Microsoft.LearningComponents.SharePoint
             m_timestamp = GetTimeStamp(m_siteId, m_webId, m_fileId, m_versionId);
         }
 
+        /// <summary>Create a SharePointFileLocation by providing the SPWeb and SPFile objects.</summary>
+        /// <param name="web">The <see cref="SPWeb"/> containing the file.</param>
+        /// <param name="file">The <see cref="SPFile"/>.</param>
+        public SharePointFileLocation(SPWeb web, SPFile file)
+        {
+            Resources.Culture = Thread.CurrentThread.CurrentCulture;
+            Utilities.ValidateParameterNonNull("file", file);
+
+            m_siteId = web.Site.ID;
+            m_webId = web.ID;
+            m_fileId = file.UniqueId;
+            m_versionId = file.UIVersion;
+            m_timestamp = GetTimeStamp(m_siteId, m_webId, m_fileId, m_versionId);
+        }
+
         public SharePointFileLocation(string location)
         {
             string[] parts = location.Split('_');

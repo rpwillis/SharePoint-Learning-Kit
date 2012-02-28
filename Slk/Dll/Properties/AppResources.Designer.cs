@@ -1630,6 +1630,42 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upload Document (Optional).
+        /// </summary>
+        internal static string CtrlLabelUploadDocumentHeader {
+            get {
+                return ResourceManager.GetString("CtrlLabelUploadDocumentHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document Library.
+        /// </summary>
+        internal static string CtrlLabelUploadDocumentLibrary {
+            get {
+                return ResourceManager.GetString("CtrlLabelUploadDocumentLibrary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        internal static string CtrlLabelUploadDocumentName {
+            get {
+                return ResourceManager.GetString("CtrlLabelUploadDocumentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optionally choose a document to upload to distribute and choose the document library to place it in..
+        /// </summary>
+        internal static string CtrlLabelUploadDocumentText {
+            get {
+                return ResourceManager.GetString("CtrlLabelUploadDocumentText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string CtrlOKButtonText {

@@ -23,6 +23,10 @@ namespace Microsoft.SharePointLearningKit
     public class DropBoxSettings
     {
 #region constructors
+        internal DropBoxSettings()
+        {
+        }
+
         /// <summary>Initializes a new instance of <see cref="DropBoxSettings"/>.</summary>
         /// <param name="reader">The XmlReader containing the setting details.</param>
         public DropBoxSettings(XmlReader reader)

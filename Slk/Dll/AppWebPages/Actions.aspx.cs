@@ -721,6 +721,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     // the user doesn't have permission to access this site, so ignore it
                     continue;
                 }
+                catch (System.Data.SqlClient.SqlException)
+                {
+                    // site is in another web application and this web application's app pool user doesn't have access
+                    continue;
+                }
                 catch (FileNotFoundException)
                 {
                     // the site doesn't exist
