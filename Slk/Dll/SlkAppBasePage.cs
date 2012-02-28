@@ -199,10 +199,14 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnPreInit"/>.</summary>
     protected override void OnPreInit(EventArgs e)
     {
-        if (OverrideMasterPage)
+        if (SlkStore.Settings.UseMasterPageForApplicationPages)
         {
-            MasterPageFile = SPWeb.CustomMasterUrl; //can be set to any master file url
+            if (OverrideMasterPage)
+            {
+                MasterPageFile = SPWeb.CustomMasterUrl;
+            }
         }
+
         base.OnPreInit(e);
     }
 
