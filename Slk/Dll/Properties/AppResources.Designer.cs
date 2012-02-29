@@ -3915,7 +3915,7 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite GUID {0}.).
+        ///   Looks up a localized string similar to SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite {0}.).
         /// </summary>
         internal static string SlkSettingsNotFound {
             get {

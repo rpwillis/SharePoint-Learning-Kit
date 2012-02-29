@@ -216,6 +216,7 @@
     <Compile Include="SlkFramesetQueryParam.cs" />
     <Compile Include="SlkQueryString.cs" />
     <Compile Include="SlkSchema.cs" />
+    <Compile Include="slkSettingsException.cs" />
     <Compile Include="settings\SlkSettings.cs" />
     <Compile Include="settings\EmailSettings.cs" />
     <Compile Include="settings\dropBoxSettings.cs" />
