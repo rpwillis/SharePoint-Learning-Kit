@@ -217,8 +217,8 @@ More information has been written to the server event log.</value>
     <value>This site is not configured to use SharePoint Learning Kit. Administrators can use SharePoint Central Administration to configure SharePoint Learning Kit.</value>
   </data>
   <data name="SlkSettingsNotFound" xml:space="preserve">
-    <value>SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite GUID {0}.)</value>
-    <comment>{0} = SPSite GUID</comment>
+    <value>SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite {0}.)</value>
+    <comment>{0} = SPSite url</comment>
   </data>
   <data name="AlwpWepPartTitle" xml:space="preserve">
     <value>Assignment List</value>

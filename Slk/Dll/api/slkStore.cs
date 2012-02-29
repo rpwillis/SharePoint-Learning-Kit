@@ -475,7 +475,9 @@ namespace Microsoft.SharePointLearningKit
                 job.PerformQuery(query);
                 DataRowCollection dataRows = job.Execute<DataTable>().Rows;
                 if (dataRows.Count != 1)
-                        throw new SlkSettingsException(AppResources.SlkSettingsNotFound, spSiteGuid);
+                {
+                    throw new SafeToDisplayException(AppResources.SlkSettingsNotFound, spWeb.Site.Url);
+                }
                 DataRow dataRow = dataRows[0];
                 string settingsXml = (string)dataRow[0];
                 DateTime settingsXmlLastModified = ((DateTime)dataRow[1]);
