@@ -350,7 +350,10 @@ namespace Microsoft.SharePointLearningKit
             {
                 throw new SlkNotConfiguredException(AppResources.SlkNotEnabled);
             }
-            return mapping;
+            else
+            {
+                return mapping;
+            }
         }
 
         /// <summary>
@@ -373,16 +376,7 @@ namespace Microsoft.SharePointLearningKit
             // set <mapping> to the SlkSPSiteMapping corresponding to <spSiteGuid>
             string persistedObjectName = String.Format(CultureInfo.InvariantCulture, PersistedObjectNameFormat, spSiteGuid);
             SlkSPSiteMapping mapping = mappingCollection.GetValue<SlkSPSiteMapping>(persistedObjectName);
-
-            // return the mapping if found; if not found, create a new mapping
-            if (mapping != null)
-            {
-                return mapping;
-            }
-            else
-            {
-                return null;
-            }
+            return mapping;
         }
 
         /// <summary>Creates a new mapping.</summary>
