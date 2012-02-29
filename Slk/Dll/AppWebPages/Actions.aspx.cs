@@ -257,27 +257,35 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             base.OnInit(e);
 
-            if (NoFileAssignment == false)
+            try
             {
-                LoadSlkObjects();
-            }
-
-            string action = QueryString.ParseStringOptional(QueryStringKeys.Action);
-
-            if (string.IsNullOrEmpty(action) == false)
-            {
-                switch (action.ToLower(CultureInfo.InvariantCulture))
+                if (NoFileAssignment == false)
                 {
-                    case "assignself":
-                        AssignToSelf();
-                        break;
-                    case "assignsite":
-                        AssignToSite();
-                        break;
-                    default:
-                        //Ignore
-                        break;
+                    LoadSlkObjects();
                 }
+
+                string action = QueryString.ParseStringOptional(QueryStringKeys.Action);
+
+                if (string.IsNullOrEmpty(action) == false)
+                {
+                    switch (action.ToLower(CultureInfo.InvariantCulture))
+                    {
+                        case "assignself":
+                            AssignToSelf();
+                            break;
+                        case "assignsite":
+                            AssignToSite();
+                            break;
+                        default:
+                            //Ignore
+                            break;
+                    }
+                }
+            }
+            catch (SafeToDisplayException exception)
+            {
+                errorBanner.Clear();
+                errorBanner.AddException(exception);
             }
         }
 

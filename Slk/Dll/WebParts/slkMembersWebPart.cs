@@ -15,6 +15,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
     {
         bool show;
         bool showEvaluated;
+        bool errorOccurred;
         SlkStore store;
         SortedDictionary<string, HyperLink> members = new SortedDictionary<string, HyperLink>();
         string connectedId;
@@ -56,18 +57,28 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// <summary>Creates the child controls.</summary>
         protected override void CreateChildControls()
         {
-            if (Show())
+            try
             {
-                SlkMemberships slkMembers = new SlkMemberships();
-                slkMembers.FindAllSlkMembers(Web, Store, false);
-
-                foreach (SlkUser learner in slkMembers.Learners)
+                if (Show())
                 {
-                    HyperLink link = new HyperLink();
-                    link.Text = learner.Name;
-                    members.Add(learner.Name, link);
-                }
+                    SlkMemberships slkMembers = new SlkMemberships();
+                    slkMembers.FindAllSlkMembers(Web, Store, false);
 
+                    foreach (SlkUser learner in slkMembers.Learners)
+                    {
+                        HyperLink link = new HyperLink();
+                        link.Text = learner.Name;
+                        members.Add(learner.Name, link);
+                    }
+
+                }
+            }
+            catch (SafeToDisplayException e)
+            {
+                errorOccurred = true;
+                Literal literal = new Literal();
+                literal.Text = string.Format(CultureInfo.CurrentUICulture, "<p class=\"ms-formvalidation\">{0}</p>", e.Message);
+                Controls.Add(literal);
             }
 
             base.CreateChildControls();
@@ -76,22 +87,29 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// <summary>Renders the web part.</summary>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            if (Show())
+            if (errorOccurred)
             {
-                writer.Write("<ul class=\"slk-members\">");
-
-                foreach (HyperLink link in members.Values)
-                {
-                    writer.Write("<li>");
-                    link.RenderControl(writer);
-                    writer.Write("</li>");
-                }
-
-                writer.Write("</ul>");
+                base.RenderContents(writer);
             }
-            else if (WebPartManager.DisplayMode == WebPartManager.BrowseDisplayMode)
+            else
             {
-                writer.Write("<style type='text/css'>#MSOZoneCell_WebPart{0} {1}</style>", ClientID, "{display:none;}");
+                if (Show())
+                {
+                    writer.Write("<ul class=\"slk-members\">");
+
+                    foreach (HyperLink link in members.Values)
+                    {
+                        writer.Write("<li>");
+                        link.RenderControl(writer);
+                        writer.Write("</li>");
+                    }
+
+                    writer.Write("</ul>");
+                }
+                else if (WebPartManager.DisplayMode == WebPartManager.BrowseDisplayMode)
+                {
+                    writer.Write("<style type='text/css'>#MSOZoneCell_WebPart{0} {1}</style>", ClientID, "{display:none;}");
+                }
             }
         }
 
