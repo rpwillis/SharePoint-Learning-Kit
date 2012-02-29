@@ -470,8 +470,7 @@ namespace Microsoft.SharePointLearningKit
                 LearningStoreQuery query = learningStore.CreateQuery(Schema.SiteSettingsItem.ItemTypeName);
                 query.AddColumn(Schema.SiteSettingsItem.SettingsXml);
                 query.AddColumn(Schema.SiteSettingsItem.SettingsXmlLastModified);
-                query.AddCondition(Schema.SiteSettingsItem.SiteGuid,
-                        LearningStoreConditionOperator.Equal, spSiteGuid);
+                query.AddCondition(Schema.SiteSettingsItem.SiteGuid, LearningStoreConditionOperator.Equal, mapping.SPSiteGuid);
                 job.PerformQuery(query);
                 DataRowCollection dataRows = job.Execute<DataTable>().Rows;
                 if (dataRows.Count != 1)
