@@ -511,32 +511,35 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             Dictionary<string, int> items = new Dictionary<string, int>();
 
-            if (Location.ToString() == AssignmentProperties.NoPackageLocation.ToString())
+            if (AssignmentId == null)
             {
-                SPWeb.Lists.ListsForCurrentUser = true;
-                int counter = 0;
-                foreach (SPList list in SPWeb.Lists)
+                if (Location.ToString() == AssignmentProperties.NoPackageLocation.ToString())
                 {
-                    if (list.BaseType == SPBaseType.DocumentLibrary && list.Hidden == false)
+                    SPWeb.Lists.ListsForCurrentUser = true;
+                    int counter = 0;
+                    foreach (SPList list in SPWeb.Lists)
                     {
-                        if ((list.EffectiveBasePermissions & SPBasePermissions.AddListItems) == SPBasePermissions.AddListItems)
+                        if (list.BaseType == SPBaseType.DocumentLibrary && list.Hidden == false)
                         {
-                            items.Add(list.Title.ToUpperInvariant(), counter);
-                            UploadDocumentLibraries.Items.Add(list.Title);
-                            counter++;
+                            if ((list.EffectiveBasePermissions & SPBasePermissions.AddListItems) == SPBasePermissions.AddListItems)
+                            {
+                                items.Add(list.Title.ToUpperInvariant(), counter);
+                                UploadDocumentLibraries.Items.Add(list.Title);
+                                counter++;
+                            }
                         }
                     }
-                }
 
-                QuickAssignmentSettings settings = SlkStore.Settings.QuickAssignmentSettings;
+                    QuickAssignmentSettings settings = SlkStore.Settings.QuickAssignmentSettings;
 
-                foreach (string defaultLibrary in settings.DefaultLibraries)
-                {
-                    string upperKey = defaultLibrary.ToUpperInvariant();
-                    if (items.ContainsKey(upperKey))
+                    foreach (string defaultLibrary in settings.DefaultLibraries)
                     {
-                        UploadDocumentLibraries.SelectedIndex = items[upperKey];
-                        break;
+                        string upperKey = defaultLibrary.ToUpperInvariant();
+                        if (items.ContainsKey(upperKey))
+                        {
+                            UploadDocumentLibraries.SelectedIndex = items[upperKey];
+                            break;
+                        }
                     }
                 }
             }

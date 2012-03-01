@@ -118,18 +118,10 @@ namespace Microsoft.SharePointLearningKit
                                         {
                                             assignmentFolder = dropBox.CreateAssignmentFolder(assignmentProperties);
                                         }
-                                        else
-                                        {
-                                            learnerSubFolder = assignmentFolder.FindLearnerFolder(learner);
-                                        }
 
-                                        if (learnerSubFolder == null)
-                                        {
-                                            learnerSubFolder = assignmentFolder.CreateLearnerAssignmentFolder(CurrentUser);
-                                        }
-
-                                        assignmentFolder.ApplyPermission(learner, SPRoleType.Reader);
-                                        learnerSubFolder.ApplyPermission(learner, SPRoleType.Contributor);
+                                        // ApplyAssignmentPermission creates the learner folder if required
+                                        ApplyAssignmentPermission(learner, SPRoleType.Contributor, SPRoleType.Reader, true);
+                                        learnerSubFolder = assignmentFolder.FindLearnerFolder(learner);
 
                                         using (Stream stream = file.OpenBinaryStream())
                                         {
@@ -592,6 +584,11 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Applies permissions to the learner folder and creates it if required.</summary>
+        /// <param name="user">The learner to create the folder for.</param>
+        /// <param name="learnerPermissions">The permissions to set.</param>
+        /// <param name="instructorPermissions">The instructor permissions to set.</param>
+        /// <param name="removeObserverPermissions">Whether to remove observer permissions or not.</param>
         void ApplyAssignmentPermission(SPUser user, SPRoleType learnerPermissions, SPRoleType instructorPermissions, bool removeObserverPermissions)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
