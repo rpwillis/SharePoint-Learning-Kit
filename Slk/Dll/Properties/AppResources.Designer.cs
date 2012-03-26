@@ -435,6 +435,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not find learner {0}..
+        /// </summary>
+        internal static string AlwpObserverLearnerNotFound {
+            get {
+                return ResourceManager.GetString("AlwpObserverLearnerNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ERROR.
         /// </summary>
         internal static string AlwpQueryResultError {

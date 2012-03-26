@@ -1561,4 +1561,7 @@ More information may be available in the server event log.</value>
   <data name="GroupEnumerationFail" xml:space="preserve">
     <value>Could not get the members of group {0}.</value>
   </data>
+  <data name="AlwpObserverLearnerNotFound" xml:space="preserve">
+    <value>Could not find learner {0}.</value>
+  </data>
 </root>

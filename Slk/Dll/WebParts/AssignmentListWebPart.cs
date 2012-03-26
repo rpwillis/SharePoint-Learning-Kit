@@ -574,52 +574,109 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// </summary>
         private string GetLearnerKey(string learnerLogin)
         {
+            string learnerKey = string.Empty;
+            bool isObserver = SlkStore.IsObserver(SPWeb) == true;
+
             // If logged-in user is an observer, return the corresponding key, return empty string otherwise
-            if (String.IsNullOrEmpty(learnerLogin) == false && SlkStore.IsObserver(SPWeb) == true)
+            if (String.IsNullOrEmpty(learnerLogin) == false && isObserver)
             {
-                SPUser inputSPUser;
-                bool allowUnsafeUpdates = SPWeb.AllowUnsafeUpdates;
+                SPUser spUser = null;
                 try
                 {
-                    SPWeb.AllowUnsafeUpdates = true;
-                    inputSPUser = SPWeb.EnsureUser(learnerLogin);
+                    // Not using EnsureUsers as that requires elevated privileges if the user isn't already present in the site collection and th
+                    // current user isn't an admin. Do that next if this fails, but it involves instantiating a new SPSite and SPWeb so in the normal
+                    // condition this code avoid that, leaving it to the one-off exceptional condition.
+                    spUser = SPWeb.SiteUsers[learnerLogin];
+                    SlkUser slkUser = new SlkUser(spUser);
+                    learnerKey = slkUser.Key;
                 }
                 catch (SPException)
                 {
                     // Try again with claims based login name
                     try
                     {
-                        inputSPUser = SPWeb.EnsureUser("i:0#.w|" + learnerLogin);
+                        spUser = SPWeb.SiteUsers["i:0#.w|" + learnerLogin];
+                        SlkUser slkUser = new SlkUser(spUser);
+                        learnerKey = slkUser.Key;
                     }
-                    catch (SPException e)
+                    catch (SPException)
                     {
-                        throw new UserNotFoundException(e.Message);
+                        // User not already present in site collection. Try adding
+                        learnerKey = LearnerKeyFromNewUser(learnerLogin);
                     }
-                }
-                finally
-                {
-                    SPWeb.AllowUnsafeUpdates = allowUnsafeUpdates;
                 }
 
-                SlkUser slkUser = new SlkUser(inputSPUser);
-                string observerRoleLearnerKey = slkUser.Key;
+                if (string.IsNullOrEmpty(learnerKey))
+                {
+                    throw new UserNotFoundException(string.Format(CultureInfo.CurrentUICulture, AppResources.AlwpObserverLearnerNotFound, learnerLogin));
+                }
+            }
+
+            if (isObserver)
+            {
                 try
                 {
                     // Set the obtained LearnerKey as a session variable available across other pages
-                    Page.Session["LearnerKey"] = observerRoleLearnerKey;
+                    Page.Session["LearnerKey"] = learnerKey;
                 }
                 catch (HttpException)
                 {
                     throw new SafeToDisplayException(AppResources.SessionNotConfigured);
                 }
-                return observerRoleLearnerKey;
             }
-            else
+
+            return learnerKey;
+        }
+
+        string LearnerKeyFromNewUser(string learnerLogin)
+        {
+            string key = null;
+            // EnsureUser requires high privileges
+            SPSecurity.RunWithElevatedPrivileges(delegate()
             {
-                return String.Empty;
-            }
+                using (SPSite site = new SPSite(SPWeb.Url))
+                {
+                    using (SPWeb web =  site.OpenWeb())
+                    {
+                        SPUser inputSPUser = null;
+                        bool allowUnsafeUpdates = web.AllowUnsafeUpdates;
+                        try
+                        {
+                            web.AllowUnsafeUpdates = true;
+                            inputSPUser = web.EnsureUser(learnerLogin);
+                        }
+                        catch (SPException)
+                        {
+                            // Try again with claims based login name
+                            try
+                            {
+                                inputSPUser = web.EnsureUser("i:0#.w|" + learnerLogin);
+                            }
+                            catch (SPException)
+                            {
+                            }
+                        }
+                        finally
+                        {
+                            web.AllowUnsafeUpdates = allowUnsafeUpdates;
+                        }
+
+                        if (inputSPUser != null)
+                        {
+                            SlkUser slkUser = new SlkUser(inputSPUser);
+                            key = slkUser.Key;
+                        }
+                    }
+                }
+            });
+
+            return key;
         }
         #endregion
+
+        void Debug(string message)
+        {
+        }
 
         ///<summary>Initializes the LearnerKey session variable to a blank string.</summary>
         void InitializeLearnerKey()

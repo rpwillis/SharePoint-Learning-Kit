@@ -130,7 +130,7 @@ namespace Microsoft.SharePointLearningKit
 
                                         using (Stream stream = file.OpenBinaryStream())
                                         {
-                                            url = learnerSubFolder.SaveFile(file.Name, stream, learner);
+                                            url = learnerSubFolder.SaveFile(file.Name, stream, new SlkUser(learner));
                                         }
                                     }
                                     finally
@@ -181,9 +181,10 @@ namespace Microsoft.SharePointLearningKit
                         try
                         {
 
+                            SlkUser currentUser = new SlkUser(CurrentUser);
                             foreach (AssignmentUpload upload in files)
                             {
-                                learnerSubFolder.SaveFile(upload.Name, upload.Stream, CurrentUser);
+                                learnerSubFolder.SaveFile(upload.Name, upload.Stream, currentUser);
                             }
                         }
                         finally
@@ -316,7 +317,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 if (learner.UserId.GetKey() == learnerId)
                 {
-                    return LastSubmittedFiles(learner.SPUser);
+                    return LastSubmittedFiles(learner);
                 }
             }
             return new AssignmentFile[0];
@@ -325,7 +326,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Returns the last submitted files for the current user.</summary>
         public AssignmentFile[] LastSubmittedFiles()
         {
-            return LastSubmittedFiles(CurrentUser);
+            return LastSubmittedFiles(new SlkUser(CurrentUser));
         }
 
         /// <summary>Deletes the assignment folder.</summary>
@@ -596,7 +597,7 @@ namespace Microsoft.SharePointLearningKit
             });
         }
 
-        AssignmentFile[] LastSubmittedFiles(SPUser user)
+        AssignmentFile[] LastSubmittedFiles(SlkUser user)
         {
             if (user == null)
             {
