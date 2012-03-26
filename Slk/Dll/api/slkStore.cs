@@ -1220,15 +1220,16 @@ namespace Microsoft.SharePointLearningKit
             }
 
             string spWebUrl = spWeb.Url;
+            // Elevate so can add users to site collection if required
             SPSecurity.RunWithElevatedPrivileges(delegate()
             {
                 bool previousValue = SPSecurity.CatchAccessDeniedException;
                 using (SPSite spSite2 = new SPSite(spWebUrl))
                 {
-                    using (SPWeb spWeb2 = spSite2.OpenWeb())
+                    using (SPWeb elevatedWeb = spSite2.OpenWeb())
                     {
-                        spWeb2.AllowUnsafeUpdates = true; // enable spWeb2.AllUsers.AddCollection()
-                        foreach (SPRoleAssignment roleAssignment in spWeb2.RoleAssignments)
+                        elevatedWeb.AllowUnsafeUpdates = true; // enable elevatedWeb.AllUsers.AddCollection()
+                        foreach (SPRoleAssignment roleAssignment in elevatedWeb.RoleAssignments)
                         {
                             // determine if this role assignment refers to an instructor or a learner; skip
                             // it if it's neither
@@ -1253,7 +1254,7 @@ namespace Microsoft.SharePointLearningKit
                             SPGroup spGroup = member as SPGroup;
                             if (spUser != null)
                             {
-                                AddSPUserAsMember(spWeb2, spUser, isInstructor, isLearner, startTime, instructorsByUserKey, learnersByUserKey, users, null, learnerGroups, groupFailuresList, groupFailureDetailsBuilder);
+                                AddSPUserAsMember(elevatedWeb, spUser, isInstructor, isLearner, startTime, instructorsByUserKey, learnersByUserKey, users, null, learnerGroups, groupFailuresList, groupFailureDetailsBuilder);
                             }
                             else if (spGroup != null)
                             {
@@ -1269,7 +1270,7 @@ namespace Microsoft.SharePointLearningKit
                                 // learners, and/or this learner group, as appropriate
                                 foreach (SPUser spUserInGroup in spGroup.Users)
                                 {
-                                    AddSPUserAsMember(spWeb2, spUserInGroup, isInstructor, isLearner, startTime, instructorsByUserKey, learnersByUserKey, users, learnerGroup, null, groupFailuresList, groupFailureDetailsBuilder);
+                                    AddSPUserAsMember(elevatedWeb, spUserInGroup, isInstructor, isLearner, startTime, instructorsByUserKey, learnersByUserKey, users, learnerGroup, null, groupFailuresList, groupFailureDetailsBuilder);
                                 }
                                 if (isLearner)
                                 {
@@ -1379,7 +1380,7 @@ namespace Microsoft.SharePointLearningKit
             return new SlkMemberships(instructors, learners, learnerGroups.ToArray());
             }
 
-        void AddSPUserAsMember(SPWeb spWeb2, SPUser user , bool isInstructor, bool isLearner, DateTime startTime,
+        void AddSPUserAsMember(SPWeb spWeb, SPUser user , bool isInstructor, bool isLearner, DateTime startTime,
                                 Dictionary<string, SlkUser> instructorsByUserKey, 
                                 Dictionary<string, SlkUser> learnersByUserKey, 
                                 Dictionary<string, SlkUser> users,
@@ -1391,7 +1392,7 @@ namespace Microsoft.SharePointLearningKit
             if (user.IsDomainGroup)
             {
                 // role assignment member is a domain group
-                EnumerateDomainGroupMembers(spWeb2, user, isInstructor, isLearner, groupFailuresList,
+                EnumerateDomainGroupMembers(spWeb, user, isInstructor, isLearner, groupFailuresList,
                     groupFailureDetailsBuilder, instructorsByUserKey,
                     learnersByUserKey, users, 
                     ((learnerGroup != null) ? learnerGroup.UserKeys : null),

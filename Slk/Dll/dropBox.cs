@@ -70,7 +70,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="user">The user to get the files for.</param>
         /// <param name="assignmentKey">The key of the assignment.</param>
         /// <returns>The last submitted files.</returns>
-        public AssignmentFile[] LastSubmittedFiles(SPUser user, long assignmentKey)
+        public AssignmentFile[] LastSubmittedFiles(SlkUser user, long assignmentKey)
         {
             if (user == null)
             {
@@ -83,7 +83,7 @@ namespace Microsoft.SharePointLearningKit
                                     <Eq><FieldRef Name='{2}'/><Value Type='Text'>{3}</Value></Eq>
                                 </And>
                              </Where>";
-            queryXml = string.Format(CultureInfo.InvariantCulture, queryXml, ColumnAssignmentId, assignmentKey, ColumnLearnerId, user.Sid);
+            queryXml = string.Format(CultureInfo.InvariantCulture, queryXml, ColumnAssignmentId, assignmentKey, ColumnLearnerId, user.Key);
             SPQuery query = new SPQuery();
             query.ViewAttributes = "Scope=\"Recursive\"";
             query.Query = queryXml;

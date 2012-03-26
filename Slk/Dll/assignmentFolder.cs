@@ -145,7 +145,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="fileStream">The contents of the file.</param>
         /// <param name="learner">The learner the file is for.</param>
         /// <returns>The url of the saved file.</returns>
-        public string SaveFile(string fileName, Stream fileStream, SPUser learner)
+        public string SaveFile(string fileName, Stream fileStream, SlkUser learner)
         {
             SPFolder folder = assignmentFolder.Folder;
             string fileUrl = folder.Url + '/' + fileName;
@@ -155,8 +155,8 @@ namespace Microsoft.SharePointLearningKit
             file.Item[DropBox.ColumnAssignmentDate] = properties.StartDate;
             file.Item[DropBox.ColumnAssignmentName] = properties.Title.Trim();
             file.Item[DropBox.ColumnAssignmentId] = properties.Id.GetKey();
-            file.Item[DropBox.ColumnLearnerId] = learner.Sid;
-            file.Item[DropBox.ColumnLearner] = learner;
+            file.Item[DropBox.ColumnLearnerId] = learner.Key;
+            file.Item[DropBox.ColumnLearner] = learner.SPUser;
             file.Item[DropBox.ColumnIsLatest] = true; 
             file.Item.Update();
             return file.ServerRelativeUrl;
