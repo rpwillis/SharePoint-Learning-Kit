@@ -253,10 +253,8 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Sends a reminder email.</summary>
         public void SendReminderEmail()
         {
-            Console.WriteLine("SendReminderEmail");
             if (EmailChanges)
             {
-            Console.WriteLine("SendReminderEmail EmailChanges = true");
                 using (SPSite site = new SPSite(SPSiteGuid))
                 {
                     using (SPWeb web = site.OpenWeb(SPWebGuid))
@@ -273,7 +271,6 @@ namespace Microsoft.SharePointLearningKit
                                     case LearnerAssignmentState.NotStarted:
                                     case LearnerAssignmentState.Active:
                                         users.Add(learnerAssignment.User);
-            Console.WriteLine("SendReminderEmail Add user to email list {0}", learnerAssignment.User.Name);
                                         break;
                                 }
                             }
@@ -874,7 +871,6 @@ namespace Microsoft.SharePointLearningKit
 
         void SendEmail(SlkUser user, string subject, string body)
         {
-            Console.WriteLine("SendEmail SPUser {0} Address {1}", user.SPUser != null , user.SPUser == null ? null :user.SPUser.Email);
             if (user.SPUser != null && string.IsNullOrEmpty(user.SPUser.Email) == false)
             {
                 SendEmail(user.SPUser.Email, subject, UserEmailText(body, user));
