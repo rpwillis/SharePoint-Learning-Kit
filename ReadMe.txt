@@ -146,8 +146,7 @@ source code:
 
        -- The SLK application LearningStore schema, located here:
 
-              C:\dev\SLK\Slk\SlkSchema.sql
-              C:\dev\SLK\Slk\SlkUpgrade.sql
+              C:\dev\SLK\Slk\Sql\SlkSchema.sql
               C:\dev\SLK\Slk\Dll\SlkSchema.cs
 
        -- The SharePoint "solution" file (basically a CAB file that installs into SharePoint)

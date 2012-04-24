@@ -10,7 +10,7 @@
     <RootNamespace>Resources</RootNamespace>
     <AssemblyName>Microsoft.SharePointLearningKit</AssemblyName>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Src\Shared\SlkKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\LearningComponents\Shared\SlkKey.snk</AssemblyOriginatorKeyFile>
     <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
     <DelaySign>false</DelaySign>
     <GenerateFullPaths>true</GenerateFullPaths>
@@ -93,6 +93,7 @@
     <Compile Include="AssignmentDownloader.cs" />
     <Compile Include="DropBoxManager.cs" />
     <Compile Include="DropBox.cs" />
+    <Compile Include="ReminderEmails.cs" />
     <Compile Include="AssignmentFolder.cs" />
     <Compile Include="EnumerateDomainGroups.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -111,9 +112,16 @@
     </Compile>
     <Compile Include="SlkApi.cs" />
     <Compile Include="api\SlkStore.cs" />
+    <Compile Include="api\PackageDetails.cs" />
+    <Compile Include="api\ISlkStore.cs" />
+    <Compile Include="api\slkMemberships.cs" />
     <Compile Include="api\LearnerAssignmentProperties.cs" />
     <Compile Include="api\assignmentProperties.cs" />
     <Compile Include="api\slkUser.cs" />
+    <Compile Include="api\slkUserCollection.cs" />
+    <Compile Include="api\slkUserCollectionChanges.cs" />
+    <Compile Include="api\userWebList.cs" />
+    <Compile Include="api\webListItem.cs" />
     <Compile Include="FramesetResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -167,6 +175,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebParts\AssignmentListWebPart.cs" />
+    <Compile Include="WebParts\QuickAssignmentWebPart.cs" />
     <Compile Include="AdminWebPages\Configure.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -201,23 +210,25 @@
     <Compile Include="SlkQueryString.cs" />
     <Compile Include="SlkSchema.cs" />
     <Compile Include="SlkSettings.cs" />
+    <Compile Include="EmailSettings.cs" />
+    <Compile Include="QuerySetClasses.cs" />
     <Compile Include="SlkUtilities.cs">
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\LearningComponents\LearningComponents.csproj">
+    <ProjectReference Include="..\..\LearningComponents\LearningComponents\LearningComponents.csproj">
       <Project>{AE610073-6C2F-4789-BAF9-8CF1769EC6D7}</Project>
       <Name>LearningComponents</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Src\SharePoint\SharePoint.csproj">
+    <ProjectReference Include="..\..\LearningComponents\SharePoint\SharePoint.csproj">
       <Project>{FACFE4F7-FDF5-46A6-8FB7-76811932C2C8}</Project>
       <Name>SharePoint</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Src\Storage\Storage.csproj">
+    <ProjectReference Include="..\..\LearningComponents\Storage\Storage.csproj">
       <Project>{7E83613A-27E0-49D5-B1B7-9E0DB2942A67}</Project>
       <Name>Storage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Src\Compression\Compression.csproj">
+    <ProjectReference Include="..\..\LearningComponents\Compression\Compression.csproj">
       <Project>{561657B4-176B-4112-A692-D18521C6BA11}</Project>
       <Name>Compression</Name>
     </ProjectReference>
@@ -273,7 +284,10 @@
   </Target>
   -->
   <Target Name="AfterBuild">
+      <!--
       <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+      <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+      -->
   </Target>
   <PropertyGroup>
     <PostBuildEvent>

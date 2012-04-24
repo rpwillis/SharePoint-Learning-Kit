@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Web;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.SharePointLearningKit.Localization;
 using Microsoft.SharePointLearningKit.WebControls;
 
 namespace Microsoft.SharePointLearningKit.Frameset
@@ -46,8 +45,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             try
             {
-                SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
-
                 SlkUtilities.RetryOnDeadlock(delegate()
                 {
                     Response.Clear();
@@ -112,8 +109,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <returns></returns>
         public override bool TryGetAttemptId(bool showErrorPage, out AttemptItemIdentifier attemptId)
         {
-            SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
-
             // Initialize out parameter
             attemptId = null;
 
@@ -130,7 +125,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             // and update the assignment. Both should succeed or both should fail.
             LearnerAssignmentProperties la;
             TransactionOptions options = new TransactionOptions();
-            options.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
+            options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
             using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
             {
                 // Must force a read of assignment data so that it's read in the same transaction that it might be updated.
@@ -140,7 +135,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 if (!TryGetSessionView(true, out view))
                     return false;
 
-                if (IsELearningAssignment(la))
+                if (la.Assignment.IsELearning)
                 {
                     // This is e-learning content
                     m_isELearning = true;
@@ -153,7 +148,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         // Only create the attempt if this is a request for Execute view
                         if (view == SessionView.Execute)
                         {
-                            if (!FileExistsInSharePoint(la.Location))
+                            if (!FileExistsInSharePoint(la.Assignment.Location))
                             {
                                 if (showErrorPage)
                                 {
@@ -171,7 +166,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         {
                             // This is an error condition, since in other cases, the attempt must already exist.
                             // Use private method to get the right error message.
-                            if (!ProcessViewRequest(la, view))
+                            if (!ProcessViewRequest(la.Status, view))
 
                                 return false;
                         }
@@ -180,10 +175,10 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     {
                         // Attempt is already created. Verify the user has access to it and that the package exists. 
 
-                        if (!ProcessViewRequest(la, view))
+                        if (!ProcessViewRequest(la.Status, view))
                             return false;
 
-                        if (!FileExistsInSharePoint(la.Location))
+                        if (!FileExistsInSharePoint(la.Assignment.Location))
                         {
                             if (showErrorPage)
                             {
@@ -204,7 +199,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     // Verify that the learner can see the assignment.
                     if (view == SessionView.Execute)
                     {
-                        if (!FileExistsInSharePoint(la.Location))
+                        if (!FileExistsInSharePoint(la.Assignment.Location))
                         {
                             if (showErrorPage)
                             {
@@ -216,17 +211,17 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         // Mark the assignment as started
                         if (la.Status != LearnerAssignmentState.Active)
                         {
-                            SlkStore.ChangeLearnerAssignmentState(la.LearnerAssignmentGuidId, LearnerAssignmentState.Active);
+                            la.Start();
                         }
                     }
                     else
                     {
                         // Verify this is a view they have access to given the state of the assignment. No need to check 
                         // return value, as non-elearning content always returns false from this method.
-                        if (!ProcessViewRequest(la, view))
+                        if (!ProcessViewRequest(la.Status, view))
                             return false;
 
-                        if (!FileExistsInSharePoint(la.Location))
+                        if (!FileExistsInSharePoint(la.Assignment.Location))
                         {
                             if (showErrorPage)
                             {
@@ -416,14 +411,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         }
 
         /// <summary>
-        /// Returns true if the learner assignment references e-learning content.
-        /// </summary>
-        private static bool IsELearningAssignment(LearnerAssignmentProperties la)
-        {
-           return (la.RootActivityId != null);
-        }
-
-        /// <summary>
         /// Called by FramesetHelper. Delegate to return session view.
         /// </summary>
         public override bool TryGetSessionView(bool showErrorPage, out SessionView view)
@@ -445,13 +432,11 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// </summary>
         private void SendNonElearningContent()
         {
-            SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
-
             // Get the cached learner assignment properties
             LearnerAssignmentProperties la = GetLearnerAssignment();
 
             SharePointFileLocation spFileLocation;
-            if (!SharePointFileLocation.TryParse(la.Location, out spFileLocation))
+            if (!SharePointFileLocation.TryParse(la.Assignment.Location, out spFileLocation))
             {
                 // location was not valid
                 RegisterError(SlkFrameset.FRM_DocumentNotFoundTitleHtml, SlkFrameset.FRM_DocumentNotFound, false);
@@ -637,8 +622,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             get
             {
-                SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
-
                 PlainTextString text = new PlainTextString(ResHelper.GetMessage(SlkFrameset.FRM_Title));
                 HtmlString html = new HtmlString(text);
                 return html.ToString();
@@ -681,7 +664,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             get 
             {
-                SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
                 return SlkFrameset.FRM_GradingPageNotUpdated;
             }
         }

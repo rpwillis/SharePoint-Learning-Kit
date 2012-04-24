@@ -30,13 +30,13 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "App", "..\App", "{81CF373F-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlkDll", "..\Dll\SlkDll.csproj", "{D4ECA47D-2E5D-4ACF-B713-37BC4BB585B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharePoint", "..\..\Src\SharePoint\SharePoint.csproj", "{FACFE4F7-FDF5-46A6-8FB7-76811932C2C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharePoint", "..\..\LearningComponents\SharePoint\SharePoint.csproj", "{FACFE4F7-FDF5-46A6-8FB7-76811932C2C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "..\..\Src\Storage\Storage.csproj", "{7E83613A-27E0-49D5-B1B7-9E0DB2942A67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "..\..\LearningComponents\Storage\Storage.csproj", "{7E83613A-27E0-49D5-B1B7-9E0DB2942A67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningComponents", "..\..\Src\LearningComponents\LearningComponents.csproj", "{AE610073-6C2F-4789-BAF9-8CF1769EC6D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningComponents", "..\..\LearningComponents\LearningComponents\LearningComponents.csproj", "{AE610073-6C2F-4789-BAF9-8CF1769EC6D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compression", "..\..\Src\Compression\Compression\Compression.csproj", "{561657B4-176B-4112-A692-D18521C6BA11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compression", "..\..\LearningComponents\Compression\Compression\Compression.csproj", "{561657B4-176B-4112-A692-D18521C6BA11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

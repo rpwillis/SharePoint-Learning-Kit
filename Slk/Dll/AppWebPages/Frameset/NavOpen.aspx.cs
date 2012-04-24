@@ -3,7 +3,6 @@
 using System;
 using Microsoft.LearningComponents.Frameset;
 using Resources;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.Frameset
 {
@@ -18,7 +17,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             get
             {
-                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
                 PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(FramesetResources.NAV_NextTitle));
                 return new HtmlString(titleTxt).ToString();
             }
@@ -29,7 +27,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             get
             {
-                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
                 PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(FramesetResources.NAV_PrevTitle));
                 return new HtmlString(titleTxt).ToString();
             }
@@ -40,7 +37,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             get
             {
-                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
                 PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(FramesetResources.NAV_SaveTitle));
                 return new HtmlString(titleTxt).ToString();
             }
@@ -51,7 +47,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             get
             {
-                FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
                 PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(FramesetResources.NAV_MinimizeTitle));
                 return new HtmlString(titleTxt).ToString();
             }

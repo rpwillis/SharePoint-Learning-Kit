@@ -50,7 +50,6 @@
                                                         <asp:HyperLink ID="file3" runat="server" Style="display: none"></asp:HyperLink><br />
                                                         <asp:HyperLink ID="file4" runat="server" Style="display: none"></asp:HyperLink><br />
                                                         <asp:HyperLink ID="file5" runat="server" Style="display: none"></asp:HyperLink><br /><br /><br />
-                                                        <asp:Label ID="instructorMessage" runat="server" Style="display: none"></asp:Label>
                                                         <asp:HyperLink ID="instructorLink" runat="server" Style="display: none"></asp:HyperLink>
                                                     </slk:TableGridColumn>
                                                 </slk:TableGridRow>

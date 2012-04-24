@@ -19,7 +19,6 @@ using Resources.Properties;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Collections.ObjectModel;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
@@ -238,7 +237,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             try
             {
-                AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+                AssignmentProperties assignmentProperties = SlkStore.LoadAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
 
                 using (SPSite site = new SPSite(assignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
                 {
@@ -480,13 +479,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnPreRender(EventArgs e)
         {
+            base.OnPreRender(e);
+
             string exceptionMessage = string.Empty;
 
             try
             {
                 this.SetResourceText();
 
-                AssignmentProperties assignmentProperties = SlkStore.GetAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
+                AssignmentProperties assignmentProperties = SlkStore.LoadAssignmentProperties(AssignmentItemIdentifier, SlkRole.Instructor);
 
                 using (SPSite site = new SPSite(assignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
                 {
@@ -505,8 +506,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (!IsPostBack)
                 {
                     bool isAssignmentsCompleted = true;
-                    ReadOnlyCollection<GradingProperties> learnersGradingCollection = SlkStore.GetGradingProperties(AssignmentItemIdentifier, out m_assignmentProperties);
-                    foreach (GradingProperties learnerGrading in learnersGradingCollection)
+                    m_assignmentProperties = SlkStore.GetGradingProperties(AssignmentItemIdentifier);
+                    ReadOnlyCollection<LearnerAssignmentProperties> learnersGradingCollection = m_assignmentProperties.Results;
+                    foreach (LearnerAssignmentProperties learnerGrading in learnersGradingCollection)
                     {
                         if (learnerGrading.Status != LearnerAssignmentState.Completed)
                         {
@@ -597,7 +599,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void SetResourceText()
         {
-            AppResources.Culture = LocalizationManager.GetCurrentCulture();
             this.pageTitle.Text = AppResources.CommentedFilesPageTitle;
             this.pageTitleInTitlePage.Text = AppResources.CommentedFilesTitleinTitlePage;
             this.pageDescription.Text = AppResources.CommentedFilesPageDescription;

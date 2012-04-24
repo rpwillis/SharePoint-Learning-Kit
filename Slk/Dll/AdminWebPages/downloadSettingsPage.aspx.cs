@@ -28,7 +28,6 @@ using Schema = Microsoft.SharePointLearningKit.Schema;
 using System.Web.UI.WebControls;
 using Microsoft.SharePoint.WebControls;
 using System.Web.UI;
-using Microsoft.SharePointLearningKit.Localization;
 
 namespace Microsoft.SharePointLearningKit.AdminPages
 {

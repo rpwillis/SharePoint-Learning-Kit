@@ -204,34 +204,16 @@ namespace Microsoft.SharePointLearningKit
         /// <returns>The folder object</returns>
         public AssignmentFolder GetAssignmentFolder(AssignmentProperties properties)
         {
-            DropBoxManager.Debug("DropBox.GetAssignmentFolder: start");
-            SPQuery query = new SPQuery();
-            query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + GenerateFolderName(properties) + "</Value></Eq></Where>";
-            DropBoxManager.Debug("DropBox.GetAssignmentFolder: query {0}", query.Query);
-            SPListItemCollection items = DropBoxList.GetItems(query);
-            DropBoxManager.Debug("DropBox.GetAssignmentFolder: run query. count {0}", items.Count);
-            if (items.Count != 0)
-            {
-                DropBoxManager.Debug("DropBox.GetAssignmentFolder: returning folder");
-                DropBoxManager.Debug("DropBox.GetAssignmentFolder: url {0}", items[0].Url);
-                return new AssignmentFolder(items[0], false ,properties);
-            }
-            else
-            {
-                DropBoxManager.Debug("DropBox.GetAssignmentFolder: folder not found");
-                return null;
-            }
+            return GetAssignmentFolder(GenerateFolderName(properties), properties);
         }
 
         /// <summary>Changes the assignment folder name.</summary>
-        /// <param name="oldAssignmentProperties">The old assignment properties.</param>
-        /// <param name="newAssignmentProperties">The new assignment properties.</param>
-        public void ChangeFolderName(AssignmentProperties oldAssignmentProperties, AssignmentProperties newAssignmentProperties)
+        /// <param name="oldAssignmentFolderName">The old assignment name.</param>
+        /// <param name="newAssignmentFolderName">The new assignment name.</param>
+        public void ChangeFolderName(string oldAssignmentFolderName, string newAssignmentFolderName)
         {
-            string oldAssignmentFolderName = GenerateFolderName(oldAssignmentProperties);
-            string newAssignmentFolderName = GenerateFolderName(newAssignmentProperties);
             //Get old assignment folder
-            AssignmentFolder oldAssignmentFolder = GetAssignmentFolder(oldAssignmentProperties);
+            AssignmentFolder oldAssignmentFolder = GetAssignmentFolder(oldAssignmentFolderName, null);
             if (oldAssignmentFolder != null)
             {
                 oldAssignmentFolder.ChangeName(oldAssignmentFolderName, newAssignmentFolderName);
@@ -248,6 +230,27 @@ namespace Microsoft.SharePointLearningKit
 #endregion protected methods
 
 #region private methods
+        AssignmentFolder GetAssignmentFolder(string folderName, AssignmentProperties properties)
+        {
+            DropBoxManager.Debug("DropBox.GetAssignmentFolder: start");
+            SPQuery query = new SPQuery();
+            query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + folderName + "</Value></Eq></Where>";
+            DropBoxManager.Debug("DropBox.GetAssignmentFolder: query {0}", query.Query);
+            SPListItemCollection items = DropBoxList.GetItems(query);
+            DropBoxManager.Debug("DropBox.GetAssignmentFolder: run query. count {0}", items.Count);
+            if (items.Count != 0)
+            {
+                DropBoxManager.Debug("DropBox.GetAssignmentFolder: returning folder");
+                DropBoxManager.Debug("DropBox.GetAssignmentFolder: url {0}", items[0].Url);
+                return new AssignmentFolder(items[0], false ,properties);
+            }
+            else
+            {
+                DropBoxManager.Debug("DropBox.GetAssignmentFolder: folder not found");
+                return null;
+            }
+        }
+
         SPListItem GetNoPermissionsFolder()
         {
             try

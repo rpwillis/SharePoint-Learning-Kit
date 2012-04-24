@@ -15,7 +15,6 @@ using Microsoft.SharePointLearningKit.ApplicationPages;
 using Resources.Properties;
 using Resources;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.SharePointLearningKit.Localization;
 using Microsoft.SharePointLearningKit.WebControls;
 
 
@@ -41,9 +40,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
            try
            {
-               FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
-               SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
-
                SlkUtilities.RetryOnDeadlock(delegate()
                {
                    //Initialize data that may need to be reset on retry
@@ -171,24 +167,24 @@ namespace Microsoft.SharePointLearningKit.Frameset
             switch (session.View)
             {
                 case SessionView.Execute:
-                    return new PlainTextString(la.Title);
+                    return new PlainTextString(la.Assignment.Title);
                 
                 case SessionView.RandomAccess:
-                    return new PlainTextString(ResHelper.Format("{0}: {1}", la.LearnerName, la.Title));
+                    return new PlainTextString(ResHelper.Format("{0}: {1}", la.LearnerName, la.Assignment.Title));
 
                 case SessionView.Review:
                     {
                         if (IsInstructorReview)
                         {
-                            return new PlainTextString(ResHelper.Format("{0}: {1}", la.LearnerName, la.Title));
+                            return new PlainTextString(ResHelper.Format("{0}: {1}", la.LearnerName, la.Assignment.Title));
                         }
                         else
                         {
-                            return new PlainTextString(la.Title);
+                            return new PlainTextString(la.Assignment.Title);
                         }
                     }
                 default:
-                    return new PlainTextString(la.Title);
+                    return new PlainTextString(la.Assignment.Title);
 
             }
         }

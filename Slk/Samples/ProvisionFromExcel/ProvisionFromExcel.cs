@@ -464,8 +464,7 @@ class Program
             string schemaFileContents;
             if (configuration.CreateDatabase)
             {
-                schemaFileContents = File.ReadAllText(
-                    Path.Combine(slkAdminLocation, "SlkSchema.sql"));
+                schemaFileContents = File.ReadAllText(Path.Combine(slkAdminLocation, "SlkSchema.sql"));
                 Console.WriteLine("...database doesn't exist -- creating it");
             }
             else

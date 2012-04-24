@@ -1,4 +1,4 @@
-<Project DefaultTargets="" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
     <PropertyGroup>
         <DropDirectory>Drop</DropDirectory>
@@ -6,14 +6,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Projects Include="LearningComponents\compression\compression.csproj"/>
+        <Projects Include="LearningComponents\learningcomponents\learningcomponents.csproj"/>
+        <Projects Include="LearningComponents\storage\storage.csproj"/>
+        <Projects Include="LearningComponents\sharepoint\sharepoint.csproj"/>
         <Projects Include="slk\slk.proj"/>
-        <Projects Include="src\compression\compression.csproj"/>
-        <Projects Include="src\learningcomponents\learningcomponents.csproj"/>
-        <Projects Include="src\storage\storage.csproj"/>
-        <Projects Include="src\sharepoint\sharepoint.csproj"/>
         <InstallFiles Include="slk\slkadm\bin\release\slkadm.exe"/>
         <InstallFiles Include="slk\slkschema.xml"/>
-        <InstallFiles Include="slk\slkschema.sql"/>
+        <InstallFiles Include="slk\Sql\slkschema.sql"/>
+        <InstallFiles Include="slk\Sql\upgrade16.sql"/>
         <InstallFiles Include="slk\SlkSettings.xml"/>
         <InstallFiles Include="doc\root\*"/>
         <InstallFiles Include="doc\install\*"/>
@@ -112,7 +113,7 @@
 	mkdir $(SDK_DIR)\SLK
 	copy slk\SlkSchema.xml  $(SDK_DIR)\SLK
 	copy slk\Dll\SlkSchema.cs  $(SDK_DIR)\SLK
-	copy slk\SlkSchema.sql  $(SDK_DIR)\SLK
+	copy slk\Sql\SlkSchema.sql  $(SDK_DIR)\SLK
 	copy slk\SlkSettings.xsd  $(SDK_DIR)\SLK
 	copy slk\SlkSettings.xsx  $(SDK_DIR)\SLK
 	copy Slk\SlkSettings.xml $(SDK_DIR)\SLK
@@ -136,15 +137,15 @@
 	if exist ..\SLK.Internal ..\SLK.Internal\Tools\DZip.exe Samples\Solitaire $(SDK_DIR)\Samples\Solitaire.zip
 
 	rem  Copy other root-level files...
-	copy Src\Schema\InitSchema.sql Drop
+	copy LearningComponents\Schema\InitSchema.sql Drop
 
 	rem  Copy release PDBs...
 	mkdir $(RELEASEPDB)
-	copy Src\Compression\MRCI\bin\Release\Microsoft.LearningComponents.MRCI.pdb $(RELEASEPDB)
-	copy Src\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.pdb $(RELEASEPDB)
-	copy Src\LearningComponents\bin\Release\Microsoft.LearningComponents.pdb $(RELEASEPDB)
-	copy Src\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.pdb $(RELEASEPDB)
-	copy Src\Storage\bin\Release\Microsoft.LearningComponents.Storage.pdb $(RELEASEPDB)
+	copy LearningComponents\Compression\MRCI\bin\Release\Microsoft.LearningComponents.MRCI.pdb $(RELEASEPDB)
+	copy LearningComponents\Compression\Compression\bin\Release\Microsoft.LearningComponents.Compression.pdb $(RELEASEPDB)
+	copy LearningComponents\LearningComponents\bin\Release\Microsoft.LearningComponents.pdb $(RELEASEPDB)
+	copy LearningComponents\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.pdb $(RELEASEPDB)
+	copy LearningComponents\Storage\bin\Release\Microsoft.LearningComponents.Storage.pdb $(RELEASEPDB)
 	copy Slk\Dll\bin\Release\Microsoft.SharePointLearningKit.pdb $(RELEASEPDB)
 
 	rem  Create drop .zip files  MUST BE DONE AFTER DROP\DROP IS COMPLETE...
