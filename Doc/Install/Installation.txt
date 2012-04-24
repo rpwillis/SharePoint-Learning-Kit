@@ -1,13 +1,13 @@
 Installing SLK
 
-This document contains the installation and configuration instructions for SLK version 1.5. It has the following sections:
+This document contains the installation and configuration instructions for SLK version 1.6. It has the following sections:
 
 1.  Introduction - About SharePoint Learning Kit
 2.  Requirements
 3.  Contents of the installation package
 4.  Installing SLK
 5.  Configuring SLK
-6.  Upgrading from 1.4
+6.  Upgrading from 1.5
 
 1.  Introduction - About SharePoint Learning Kit
 
@@ -17,7 +17,7 @@ SharePoint Learning Kit (SLK) is a SCORM 2004-conformant e-learning delivery and
     b. Supports a learner-centric or instructor-led (assigned) workflow.
     c. Allows assignment, tracking and grading of both e-learning and non-e-learning content.
 
-The current version is 1.5.
+The current version is 1.6.
 
 SharePoint Learning Kit is a community source project. This means that it is made available to you for free, and that you can use it as-is or modify it to suit your needs as long as you comply with the conditions that are described in the accompanying License.txt file. You are responsible for reading and complying with this license. SharePoint Learning Kit is supported by a community of users and developers through discussion forums at http://www.codeplex.com/slk. You are invited to participate in this community, to help others, to report issues, and to contribute your ideas to carry SLK forward. For the most up to date information about SLK, please refer to http://www.codeplex.com/slk.
 
@@ -99,9 +99,9 @@ SharePoint Learning Kit is a community source project. This means that it is mad
 
 6.  Upgrading SLK
 
-To upgrade from 1.4 you need to: 
+To upgrade from 1.5 you need to: 
     a.  Retract the SharePoint Learning Kit solution
     b.  Once retraction has finished then remove the solution
     c.  Then add solution as in installing SLK and then deploy it to the appropriate web applications
+    d.  Run the database upgrade script (upgrade16.sql) in all of your SharePoint Learning Kit databases. Backup each database before running the script.
 
-There are no database changes required.

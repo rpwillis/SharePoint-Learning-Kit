@@ -240,6 +240,9 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         public const string QuerySet = "QuerySet";
 
+        /// <summary>Indicates if for an observer.</summary>
+        public const string ForObserver = "Observer";
+
         /// <summary>
         /// Name of querystring parameter for passing Query to load AssignmentList Webpart
         /// </summary>

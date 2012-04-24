@@ -52,7 +52,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\LearningComponents\LearningComponents.csproj">
+    <ProjectReference Include="..\..\LearningComponents\LearningComponents\LearningComponents.csproj">
       <Project>{AE610073-6C2F-4789-BAF9-8CF1769EC6D7}</Project>
       <Name>LearningComponents</Name>
     </ProjectReference>
@@ -76,9 +76,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>copy /y $(ProjectDir)..\SlkSchema.sql $(TargetDir)
-copy /y $(ProjectDir)..\SlkSettings.xml $(TargetDir)
-</PostBuildEvent>
-  </PropertyGroup>
 </Project>

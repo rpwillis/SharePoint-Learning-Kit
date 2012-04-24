@@ -19,7 +19,6 @@ using System.Text;
 using Resources.Properties;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
-using Microsoft.SharePointLearningKit.Localization;
 
 
 namespace Microsoft.SharePointLearningKit.Frameset
@@ -32,7 +31,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
     {
         private FramesetPageHelper m_helper;
         private Guid m_learnerAssignmentGuidId;
-        private LearnerAssignmentProperties m_learnerAssignmentProperties;
+        private LearnerAssignmentProperties learnerAssignmentProperties;
         
         /////////////////////////////////////////////////////////////////////////////////////
         private SlkStore m_observerRoleLearnerStore;
@@ -76,26 +75,31 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
-        /// <summary>
-        /// Process a request for a view. If not allowed, register an error and return false.
-        /// </summary>
-        /// <param name="view"></param>
-        /// <param name="session"></param>
+        /// <summary>Process a request for a view. If not allowed, register an error and return false.</summary>
         public bool ProcessViewRequest(SessionView view, LearningSession session)
         {
             LearnerAssignmentProperties la = GetLearnerAssignment();
 
-            return ProcessViewRequest(la, view);
+            LearnerAssignmentState state = la.Status == null ? LearnerAssignmentState.NotStarted : la.Status.Value;
+            return ProcessViewRequest(state, view);
         }
 
-        /// <summary>
-        /// Process a view request to determine if it's valid. The AssignmentView must be 
-        /// set before calling this method.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
-        protected bool ProcessViewRequest(LearnerAssignmentProperties la, SessionView sessionView)
+        /// <summary>Process a view request to determine if it's valid. The AssignmentView must be set before calling this method.</summary>
+        protected bool ProcessViewRequest(LearnerAssignmentState? learnerStatus, SessionView sessionView)
         {
-            SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
+            if (learnerStatus == null)
+            {
+                return ProcessViewRequest(LearnerAssignmentState.NotStarted, sessionView);
+            }
+            else
+            {
+                return ProcessViewRequest(learnerStatus.Value, sessionView);
+            }
+        }
+
+        /// <summary>Process a view request to determine if it's valid. The AssignmentView must be set before calling this method.</summary>
+        protected bool ProcessViewRequest(LearnerAssignmentState learnerStatus, SessionView sessionView)
+        {
             switch (AssignmentView)
             {
                 case AssignmentView.Execute:
@@ -107,7 +111,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         }
 
                         // Can only access active assignments in Execute view
-                        if (la.Status != LearnerAssignmentState.Active)
+                        if (learnerStatus != LearnerAssignmentState.Active)
                         {
                             RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle,
                                 SlkFrameset.FRM_AssignmentTurnedInMsgHtml, false);
@@ -125,8 +129,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         }
 
                         // Grading is not available if the assignment has not been submitted.
-                        if ((la.Status == LearnerAssignmentState.Active)
-                            || (la.Status == LearnerAssignmentState.NotStarted))
+                        if ((learnerStatus == LearnerAssignmentState.Active)
+                            || (learnerStatus == LearnerAssignmentState.NotStarted))
                         {
                             RegisterError(SlkFrameset.FRM_AssignmentNotGradableTitle,
                              SlkFrameset.FRM_AssignmentCantBeGradedMsgHtml, false);
@@ -143,7 +147,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                         }
 
                         // Only available if student has started the assignment
-                        if (la.Status == LearnerAssignmentState.NotStarted)
+                        if (learnerStatus == LearnerAssignmentState.NotStarted)
                         {
                             RegisterError(SlkFrameset.FRM_ReviewNotAvailableTitle,
                              SlkFrameset.FRM_ReviewNotAvailableMsgHtml, false);
@@ -162,13 +166,13 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
                         // If the user is an observer and the assignment state is equal to 'Completed' or 'NotStarted',
                         // then register error message
-                        if (SlkStore.IsObserver(SPWeb) && ((la.Status == LearnerAssignmentState.Completed) || (la.Status == LearnerAssignmentState.NotStarted)))
+                        if (SlkStore.IsObserver(SPWeb) && ((learnerStatus == LearnerAssignmentState.Completed) || (learnerStatus == LearnerAssignmentState.NotStarted)))
                         {
                             RegisterError(SlkFrameset.FRM_ObserverReviewNotAvailableTitle, SlkFrameset.FRM_ObserverReviewNotAvailableMsgHtml, false);
                             return false;
                         }
                         // If requesting student review, the assignment state must be final
-                        if ( !SlkStore.IsObserver(SPWeb) && la.Status != LearnerAssignmentState.Final)
+                        if ( !SlkStore.IsObserver(SPWeb) && learnerStatus != LearnerAssignmentState.Final)
                         {
                             RegisterError(SlkFrameset.FRM_ReviewNotAvailableTitle,
                                 SlkFrameset.FRM_LearnerReviewNotAvailableMsgHtml, false);
@@ -255,8 +259,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             // If the current value has not been set, or if we have to update it, get 
             // the information from the base class.
-            if ((m_learnerAssignmentProperties == null)
-                || forceUpdate)
+            if (learnerAssignmentProperties == null || forceUpdate)
             {
                 SlkRole slkRole;
                 if (SlkStore.IsObserver(SPWeb) && AssignmentView == AssignmentView.StudentReview)
@@ -269,10 +272,12 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 {
                     slkRole = GetSlkRole(AssignmentView);
                 }
-                m_learnerAssignmentProperties = SlkStore.GetLearnerAssignmentProperties(LearnerAssignmentGuidId, slkRole);
+
+                AssignmentProperties assignment = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuidId, slkRole);
+                learnerAssignmentProperties = assignment.Results[0];
             }
 
-            return m_learnerAssignmentProperties;
+            return learnerAssignmentProperties;
         }
 
         /// <summary>
@@ -297,8 +302,8 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
                 // There was a learnerAssignmentId and no AttemptId, so translate from learnerAssignmentId to attemptId
                 LearnerAssignmentGuidId = learnerAssignmentGuidId;
-                LearnerAssignmentProperties la = GetLearnerAssignment();
-                attemptId = la.AttemptId;        // this causes LearningStoreAccess
+                LearnerAssignmentProperties la = GetLearnerAssignment();  // this causes LearningStoreAccess
+                attemptId = la.AttemptId;        
                 return (attemptId != null);
             }
             return false;
@@ -313,8 +318,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <returns></returns>
         protected bool TryProcessLearnerAssignmentIdParameter(bool showErrorPage, out Guid learnerAssignmentGuidId)
         {
-            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
-
             // Initialize out parameter
             learnerAssignmentGuidId = Guid.Empty;
 
@@ -374,8 +377,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <returns></returns>
         public bool TryProcessAssignmentViewParameter(bool showErrorPage, out AssignmentView view)
         {
-            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
-
             string viewParam;
 
             // Default value to make compiler happy
@@ -588,8 +589,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <returns>The message.</returns>
         public string GetMessage(FramesetStringId stringId)
         {
-            SlkFrameset.Culture = LocalizationManager.GetCurrentCulture();
-            FramesetResources.Culture = LocalizationManager.GetCurrentCulture();
             switch (stringId)
             {
                 case FramesetStringId.MoveToNextFailedHtml:

@@ -468,7 +468,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         /// <param name="htmlTextWriter">Output Response Stream.</param>
    
-        private static void RegisterQuerySetClientScriptBlock(HtmlTextWriter htmlTextWriter)
+        private void RegisterQuerySetClientScriptBlock(HtmlTextWriter htmlTextWriter)
         {            
             //Get the Visibility 
             string spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
@@ -484,6 +484,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                    Constants.QueryResultPage,
                                    QueryStringKeys.Query
                                    );
+            if (IsObserver)
+            {
+                urlString = string.Format(CultureInfo.InvariantCulture, "{0}&{1}=true", urlString, QueryStringKeys.ForObserver);
+            }
+
             //Append the SPWebScope in the QueryString
             if (string.IsNullOrEmpty(spWebScope) == false)
             {

@@ -23,9 +23,7 @@ This directory builds SharePoint Learning Kit (SLK) functionality.
 
   -- Tools: Contains tools used in the building of the project.
 
-  -- SlkSchema.xml: Defines the SLK LearningStore schema.  This file is used as input to the
-     Microsoft Learning Components (MLC) SchemaCompiler.exe; the output is SlkSchema.sql and
-     Dll\SlkSchema.cs.
+  -- Sql: Contains sql scripts to build and upgrade SLK.
 
   -- SlkSettings.xml: The default out-of-box SLK Settings file, which is stored in an SLK database
      and which defines various SLK application settings and query definitions.  Customers can

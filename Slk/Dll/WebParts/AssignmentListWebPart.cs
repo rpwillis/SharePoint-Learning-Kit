@@ -38,9 +38,36 @@ namespace Microsoft.SharePointLearningKit.WebParts
     {
         #region WebPartCommunication
 
+        bool forObserver;
         private int _cellConnectedCount=0;
         /// <summary>The event raised then the cell is consumed.</summary>
         public event CellConsumerInitEventHandler CellConsumerInit;
+
+        /// <summary>See <see cref="Microsoft.SharePoint.WebPartPages.WebPart.GetInitEventArgs"/>.</summary>
+        [Obsolete]
+        public override InitEventArgs GetInitEventArgs(string interfaceName)
+        {
+            return null;
+            /*
+            // Check if this is my particular cell interface.
+            if (interfaceName == "MyCellConsumerInterface" || interfaceName == "Observer_WebPart_Listener")
+            {
+                // Create the object that will return the initialization arguments.
+                CellConsumerInitEventArgs cellConsumerInitArgs = new CellConsumerInitEventArgs();
+
+                // Set the FieldName and FieldDisplay name values.
+                cellConsumerInitArgs.FieldName = "AccountName";
+                cellConsumerInitArgs.FieldDisplayName = "Account Name";
+
+                // Return the CellConsumerInitEventArgs object.
+                return(cellConsumerInitArgs);
+            }
+            else
+            {
+                return(null);
+            }
+            */
+        }
 
         /// <summary>See <see cref="Microsoft.SharePoint.WebPartPages.WebPart.EnsureInterfaces"/>.</summary>
         [Obsolete]
@@ -118,8 +145,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             observerRoleLearnerLogin = "";
 
-            InitializeLearnerKey();
             // On CellReady, validate and set the learner's login id
+            InitializeLearnerKey();
             if (cellReadyArgs.Cell != null)
             {
                 observerRoleLearnerLogin = cellReadyArgs.Cell.ToString();
@@ -316,12 +343,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 // set <querySetDef> to the QuerySetDefinition named <querySetName>
 
-                QuerySetDefinition querySetDef
-                        = SlkStore.Settings.FindQuerySetDefinition(QuerySetOverride, true);
+                QuerySetDefinition querySetDef = SlkStore.Settings.FindQuerySetDefinition(QuerySetOverride, true);
                 if (querySetDef == null)
                 {
-                    throw new SafeToDisplayException
-                                    (AppResources.AlwpQuerySetNotFound, QuerySetOverride);
+                    throw new SafeToDisplayException (AppResources.AlwpQuerySetNotFound, QuerySetOverride);
                 }
                 else
                 {
@@ -452,6 +477,11 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 queryResultsUrl += queryString.ToString();
             }
 
+            if (forObserver)
+            {
+                queryResultsUrl = string.Format("{0}&{1}=true", queryResultsUrl, QueryStringKeys.ForObserver);
+            }
+
             WriteQueryResults(htmlTextWriter, queryResultsUrl);
 
             htmlTextWriter.Write("</tr>");
@@ -479,6 +509,11 @@ namespace Microsoft.SharePointLearningKit.WebParts
             StringBuilder url = new StringBuilder(1000);
 
             url.AppendFormat("?{0}={1}", QueryStringKeys.FrameId, frameId);
+
+            if (forObserver)
+            {
+                url.AppendFormat("&{0}={1}", QueryStringKeys.ForObserver, "true");
+            }
 
             if (ListScope)
             {
@@ -549,7 +584,11 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 QuerySetOverride = Constants.DefaultLearnerQuerySet;               
                
                 //// check for the role and assign the query set
-                if (SlkStore.IsInstructor(SPWeb))
+                if (SlkStore.IsObserver(SPWeb))
+                {
+                    QuerySetOverride = Constants.DefaultObserverQuerySet;
+                }
+                else if (SlkStore.IsInstructor(SPWeb))
                 {
                     QuerySetOverride = Constants.DefaultInstructorQuerySet;
                 }
@@ -557,11 +596,6 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 {
                     QuerySetOverride = Constants.DefaultLearnerQuerySet;
                 }
-                else if (SlkStore.IsObserver(SPWeb))
-                {
-                    QuerySetOverride = Constants.DefaultObserverQuerySet;
-                }
-
             }
         }
 
@@ -574,109 +608,53 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// </summary>
         private string GetLearnerKey(string learnerLogin)
         {
-            string learnerKey = string.Empty;
-            bool isObserver = SlkStore.IsObserver(SPWeb) == true;
-
             // If logged-in user is an observer, return the corresponding key, return empty string otherwise
-            if (String.IsNullOrEmpty(learnerLogin) == false && isObserver)
+            if (String.IsNullOrEmpty(learnerLogin) == false && SlkStore.IsObserver(SPWeb) == true)
             {
-                SPUser spUser = null;
+                SPUser inputSPUser;
+                bool allowUnsafeUpdates = SPWeb.AllowUnsafeUpdates;
                 try
                 {
-                    // Not using EnsureUsers as that requires elevated privileges if the user isn't already present in the site collection and th
-                    // current user isn't an admin. Do that next if this fails, but it involves instantiating a new SPSite and SPWeb so in the normal
-                    // condition this code avoid that, leaving it to the one-off exceptional condition.
-                    spUser = SPWeb.SiteUsers[learnerLogin];
-                    SlkUser slkUser = new SlkUser(spUser);
-                    learnerKey = slkUser.Key;
+                    SPWeb.AllowUnsafeUpdates = true;
+                    inputSPUser = SPWeb.EnsureUser(learnerLogin);
                 }
                 catch (SPException)
                 {
                     // Try again with claims based login name
                     try
                     {
-                        spUser = SPWeb.SiteUsers["i:0#.w|" + learnerLogin];
-                        SlkUser slkUser = new SlkUser(spUser);
-                        learnerKey = slkUser.Key;
+                        inputSPUser = SPWeb.EnsureUser("i:0#.w|" + learnerLogin);
                     }
-                    catch (SPException)
+                    catch (SPException e)
                     {
-                        // User not already present in site collection. Try adding
-                        learnerKey = LearnerKeyFromNewUser(learnerLogin);
+                        throw new UserNotFoundException(e.Message);
                     }
                 }
-
-                if (string.IsNullOrEmpty(learnerKey))
+                finally
                 {
-                    throw new UserNotFoundException(string.Format(CultureInfo.CurrentUICulture, AppResources.AlwpObserverLearnerNotFound, learnerLogin));
+                    SPWeb.AllowUnsafeUpdates = allowUnsafeUpdates;
                 }
-            }
 
-            if (isObserver)
-            {
+                SlkUser slkUser = new SlkUser(inputSPUser);
+                string observerRoleLearnerKey = slkUser.Key;
                 try
                 {
                     // Set the obtained LearnerKey as a session variable available across other pages
-                    Page.Session["LearnerKey"] = learnerKey;
+                    Page.Session["LearnerKey"] = observerRoleLearnerKey;
+                    forObserver = true;
                 }
                 catch (HttpException)
                 {
                     throw new SafeToDisplayException(AppResources.SessionNotConfigured);
                 }
+                return observerRoleLearnerKey;
             }
-
-            return learnerKey;
-        }
-
-        string LearnerKeyFromNewUser(string learnerLogin)
-        {
-            string key = null;
-            // EnsureUser requires high privileges
-            SPSecurity.RunWithElevatedPrivileges(delegate()
+            else
             {
-                using (SPSite site = new SPSite(SPWeb.Url))
-                {
-                    using (SPWeb web =  site.OpenWeb())
-                    {
-                        SPUser inputSPUser = null;
-                        bool allowUnsafeUpdates = web.AllowUnsafeUpdates;
-                        try
-                        {
-                            web.AllowUnsafeUpdates = true;
-                            inputSPUser = web.EnsureUser(learnerLogin);
-                        }
-                        catch (SPException)
-                        {
-                            // Try again with claims based login name
-                            try
-                            {
-                                inputSPUser = web.EnsureUser("i:0#.w|" + learnerLogin);
-                            }
-                            catch (SPException)
-                            {
-                            }
-                        }
-                        finally
-                        {
-                            web.AllowUnsafeUpdates = allowUnsafeUpdates;
-                        }
-
-                        if (inputSPUser != null)
-                        {
-                            SlkUser slkUser = new SlkUser(inputSPUser);
-                            key = slkUser.Key;
-                        }
-                    }
-                }
-            });
-
-            return key;
+                return String.Empty;
+            }
         }
         #endregion
-
-        void Debug(string message)
-        {
-        }
 
         ///<summary>Initializes the LearnerKey session variable to a blank string.</summary>
         void InitializeLearnerKey()
@@ -866,6 +844,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
         }
     }
+
     /// <summary>
     /// Defines the friendly name for a property of a ALWP.
     /// This allows the labels in ALWP's tool pane to be localized string resources.
@@ -892,6 +871,29 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 }
                 return base.DisplayName;
             }
+        }
+    }
+
+    /// <summary>
+    /// Defines the friendly name for a property of a SLK web part.
+    /// This allows the labels in web part's tool pane to be localized string resources.
+    /// </summary>
+    internal sealed class SlkCategoryAttribute : CategoryAttribute
+    {
+        /// <summary>Initializes a new instance of <see cref="SlkCategoryAttribute"/>.</summary>
+        public SlkCategoryAttribute() : base ("WebPartCategory")
+        {
+        }
+
+        /// <summary>Initializes a new instance of <see cref="SlkCategoryAttribute"/>.</summary>
+        public SlkCategoryAttribute(string category) : base (category)
+        {
+        }
+
+        /// <summary>Gets the name of a property to display.</summary>
+        protected override string GetLocalizedString(string value)
+        {
+            return AppResources.ResourceManager.GetString(value);
         }
     }
 }
