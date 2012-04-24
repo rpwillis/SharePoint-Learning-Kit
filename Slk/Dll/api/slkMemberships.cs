@@ -31,12 +31,26 @@ namespace Microsoft.SharePointLearningKit
         /// Enumerating domain groups in <c>GetMemberships</c> will time out if
         /// <c>GetMemberships</c> executes longer for this time span.
         /// </summary>
+        DomainGroupEnumerator domainGroupEnumerator;
         static readonly TimeSpan DomainGroupEnumerationTotalTimeout = new TimeSpan(0, 5, 0);
 
 #region fields
 #endregion fields
 
 #region properties
+        DomainGroupEnumerator DomainGroupEnumerator
+        {
+            get
+            {
+                if (domainGroupEnumerator == null)
+                {
+                    domainGroupEnumerator = new DomainGroupEnumeratorSlk();
+                }
+
+                return domainGroupEnumerator;
+            }
+        }
+
         /// <summary>Returns all group failures.</summary>
         public ReadOnlyCollection<string> GroupFailures
         {
@@ -323,6 +337,12 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        void AddGroupFailureDetail(string message, params object[] arguments)
+        {
+            groupFailureDetailsBuilder.AppendFormat(message, arguments);
+            groupFailureDetailsBuilder.Append("\r\n\r\n");
+        }
+
         /// <summary>Enumerates the members of a domain group. </summary>
         /// <param name="spWeb">An <c>SPWeb</c> within the site collection to which users from the domain group will be added as needed.</param>
         /// <param name="domainGroup">The <c>SPUser</c> representing the domain group to enumerate.</param>
@@ -332,74 +352,43 @@ namespace Microsoft.SharePointLearningKit
         ///     added to this collection, unless <paramref name="learnerKeys"/> is <c>null</c>.</param>
         /// <param name="hideDisabledUsers">Whether to hide disabled users or not.</param>
         /// <returns><c>true</c> if enumeration succeeds, <c>false</c> if not. </returns>
-        bool EnumerateDomainGroupMembers(SPWeb spWeb, SPUser domainGroup, bool isInstructor, bool isLearner, List<string> learnerKeys, bool hideDisabledUsers)
+        void EnumerateDomainGroupMembers(SPWeb spWeb, SPUser domainGroup, bool isInstructor, bool isLearner, List<string> learnerKeys, bool hideDisabledUsers)
         {
             // if timeout occurred, output a message to <groupFailureDetailsBuilder>
             TimeSpan timeRemaining = DomainGroupEnumerationTotalTimeout - (DateTime.Now - startTime);
             if (timeRemaining <= TimeSpan.Zero)
             {
-                groupFailureDetailsBuilder.AppendFormat( AppResources.DomainGroupEnumSkippedDueToTimeout, domainGroup.LoginName);
-                groupFailureDetailsBuilder.Append("\r\n\r\n");
-                return false;
+                AddGroupFailureDetail(AppResources.DomainGroupEnumSkippedDueToTimeout, domainGroup.LoginName);
+                return;
             }
 
-            // get the users in this group, in the form of a collection of SPUserInfo objects 
-            ICollection<SPUserInfo> spUserInfos;
-            try
-            {
-                DomainGroupUtilities enumerateDomainGroups = new DomainGroupUtilities(timeRemaining, hideDisabledUsers);
-                spUserInfos = enumerateDomainGroups.EnumerateDomainGroup(domainGroup);
+            DomainGroupEnumeratorResults results = DomainGroupEnumerator.EnumerateGroup(domainGroup, spWeb, timeRemaining, hideDisabledUsers);
 
-                foreach (string error in enumerateDomainGroups.Errors)
-                {
-                    groupFailuresList.Add(string.Format(CultureInfo.InvariantCulture, "{0} : {1}", domainGroup.Name, error));
-                    groupFailureDetailsBuilder.AppendFormat(AppResources.DomainGroupError, domainGroup.LoginName, error);
-                    groupFailureDetailsBuilder.Append("\r\n\r\n");
-                }
-            }
-            catch (DomainGroupEnumerationException ex)
+            if (results.Errors.Count > 0)
             {
-                groupFailuresList.Add(string.Format(CultureInfo.InvariantCulture, "{0} : {1}", domainGroup.Name, ex.Message));
-                groupFailureDetailsBuilder.AppendFormat(AppResources.DomainGroupError, domainGroup.LoginName, ex);
-                groupFailureDetailsBuilder.Append("\r\n\r\n");
-                return false;
-            }
-
-            // convert <spUserInfos> to <spUsers> (a collection of SPUser); add users to the site collection as needed
-            List<SPUser> spUsers = new List<SPUser>(spUserInfos.Count);
-            foreach (SPUserInfo spUserInfo in spUserInfos)
-            {
-                try
+                groupFailuresList.Add(domainGroup.Name);
+                foreach (String error in results.Errors)
                 {
-                    SPUser spUserInGroup = spWeb.EnsureUser(spUserInfo.LoginName);
-                    spUsers.Add(spUserInGroup);
-                }
-                catch (SPException ex)
-                {
-                    groupFailuresList.Add(domainGroup.Name);
-                    groupFailureDetailsBuilder.AppendFormat(AppResources.ErrorCreatingSPSiteUser, spWeb.Site.Url, ex);
-                    groupFailureDetailsBuilder.Append("\r\n\r\n");
-                    return false;
+                    AddGroupFailureDetail(AppResources.DomainGroupError, domainGroup.LoginName, error);
                 }
             }
 
-            // create a SlkGroup if this role assignment has the "SLK Learner" permission, unless <learnerGroups> is null
+            // If a learner then create a new learner group and add to the collection of learner groups
             SlkGroup learnerGroup = null;
             if (isLearner && (learnerGroups != null))
             {
                 learnerGroup = new SlkGroup(null, domainGroup);
-                learnerGroup.UserKeys = new List<string>(spUserInfos.Count);
+                learnerGroup.UserKeys = new List<string>(results.Users.Count);
                 learnerGroups.Add(learnerGroup);
             }
 
-            // add users from the domain group to the collections of instructors, learners, and/or this
-                    // learner group, as appropriate
-            foreach (SPUser spUserInGroup in spUsers)
+            // add users from the domain group to the collections of instructors, learners, and/or this learner group, as appropriate
+            foreach (SPUser spUserInGroup in results.Users)
             {
                 AddUser(spUserInGroup, isInstructor, isLearner, learnerGroup, learnerKeys);
             }
 
-            return true;
+            return;
         }
 
         ReadOnlyCollection<SlkUser> SortedDictionary(Dictionary<string, SlkUser> users)

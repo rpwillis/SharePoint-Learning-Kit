@@ -225,7 +225,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You can&apos;t review this assignment at this moment. This may be because of one of the reasons given below:
         ///    &lt;ul&gt;&lt;li&gt;Learner not started the assignment
-        ///    &lt;li&gt;Learner completed the assignment and submited to the instructor for grading
+        ///    &lt;li&gt;Learner completed the assignment and submitted to the instructor for grading
         ///    &lt;li&gt;You do not have access to the requested view of the assignment.
         ///    &lt;/ul&gt;.
         /// </summary>
