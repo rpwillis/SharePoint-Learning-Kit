@@ -98,7 +98,10 @@
     <Compile Include="ReminderEmails.cs" />
     <Compile Include="AssignmentFolder.cs" />
     <Compile Include="AssignmentFile.cs" />
-    <Compile Include="EnumerateDomainGroups.cs" />
+    <Compile Include="EnumerateDomainGroups\EnumerateDomainGroups.cs" />
+    <Compile Include="EnumerateDomainGroups\domainGroupEnumerator.cs" />
+    <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorSlk.cs" />
+    <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorResults.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LearningStoreHelper.cs" />
     <!--
