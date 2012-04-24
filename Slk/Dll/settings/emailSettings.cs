@@ -23,6 +23,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>A reminder for an assignment.</summary>
         Reminder
     }
+
     /// <summary>The Email settings</summary>
     public class EmailSettings
     {
@@ -30,6 +31,17 @@ namespace Microsoft.SharePointLearningKit
         string reminderDaysInput;
 
 #region constructors
+        internal EmailSettings()
+        {
+            NewAssignment = new EmailDetails();
+            CancelAssignment = new EmailDetails();
+            SubmitAssignment = new EmailDetails();
+            ReactivateAssignment = new EmailDetails();
+            ReturnAssignment = new EmailDetails();
+            CollectAssignment = new EmailDetails();
+            AssignmentReminder = new EmailDetails();
+        }
+
         /// <summary>Initializes a new instance of <see cref="EmailSettings"/>.</summary>
         /// <param name="reader">The XmlReader containing the setting details.</param>
         public EmailSettings(XmlReader reader)
@@ -180,6 +192,10 @@ namespace Microsoft.SharePointLearningKit
     public class EmailDetails
     {
 #region constructors
+        internal EmailDetails()
+        {
+        }
+
         /// <summary>Initializes a new instance of <see cref="EmailDetails"/>.</summary>
         /// <param name="reader">The XmlReader containing the setting details.</param>
         public EmailDetails(XmlReader reader)

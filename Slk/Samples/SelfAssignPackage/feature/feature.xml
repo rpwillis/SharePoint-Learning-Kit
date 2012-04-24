@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/"
+    Id="3bf5c298-30f6-433f-a9c0-73f0f0826477"
+		Scope="Web"
+		Title="$Resources:FeatureTitle"
+		Description="$Resources:FeatureDescription"
+                ImageUrl="slkFeature.gif"
+                >
+		 
+	<ElementManifests>
+            <!-- The document library -->
+            <ElementManifest Location="LearningObjects.xml"/>
+            <!-- Add a web part page in the Site Pages library -->
+            <ElementManifest Location="SitePages.xml"/>
+            <!-- The actual web part page to add to the site pages library -->
+            <ElementFile Location="selfAssign.aspx"/>
+            <!-- The resource file for the feature -->
+            <ElementFile Location="Resources\Resources.resx" />
+	</ElementManifests>
+</Feature>

@@ -29,6 +29,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         UserWebList webList;
         bool show;
         bool showEvaluated;
+        bool errorOccurred;
 
 #region properties
         ///<summary>The license for the webpart.</summary>
@@ -64,24 +65,34 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// <summary>Creates the child controls.</summary>
         protected override void CreateChildControls()
         {
-            if (Show())
+            try
             {
-                titleBox = new TextBox();
-                titleBox.MaxLength = 100;
-                titleBox.Rows = 2;
-                titleBox.Width = Unit.Percentage(100); 
-                Controls.Add(titleBox);
-
-                if (Mode != QuickAssignmentMode.TitleOnly && Mode != QuickAssignmentMode.TitleOnlyForThisSite)
+                if (Show())
                 {
-                    CreateSitesDropDown();
-                }
+                    titleBox = new TextBox();
+                    titleBox.MaxLength = 100;
+                    titleBox.Rows = 2;
+                    titleBox.Width = Unit.Percentage(100); 
+                    Controls.Add(titleBox);
 
-                submit = new Button();
-                submit.Text = AppResources.QuickAssignmentAssignText;
-                submit.Click += AssignClick;
-                submit.CssClass="ms-ButtonHeightWidth";
-                Controls.Add(submit);
+                    if (Mode != QuickAssignmentMode.TitleOnly && Mode != QuickAssignmentMode.TitleOnlyForThisSite)
+                    {
+                        CreateSitesDropDown();
+                    }
+
+                    submit = new Button();
+                    submit.Text = AppResources.QuickAssignmentAssignText;
+                    submit.Click += AssignClick;
+                    submit.CssClass="ms-ButtonHeightWidth";
+                    Controls.Add(submit);
+                }
+            }
+            catch (SafeToDisplayException e)
+            {
+                errorOccurred = true;
+                Literal literal = new Literal();
+                literal.Text = string.Format(CultureInfo.CurrentUICulture, "<p class=\"ms-formvalidation\">{0}</p>", e.Message);
+                Controls.Add(literal);
             }
 
             base.CreateChildControls();
@@ -90,21 +101,27 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// <summary>Renders the web part.</summary>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-
-            if (Show())
+            if (errorOccurred)
             {
-                writer.Write("<table class='ms-formtable' width='100%' cellspacing='0' cellpadding='0' border='0' style='margin-top: 8px;'>");
-                RenderFormLine(writer, AppResources.QuickAssignmentLabelTitle, titleBox);
-                if (sites != null)
-                {
-                    RenderFormLine(writer, AppResources.QuickAssignmentLabelSite, sites);
-                }
-                writer.Write("</table>");
-                submit.RenderControl(writer);
+                base.RenderContents(writer);
             }
-            else if (WebPartManager != null && WebPartManager.DisplayMode == WebPartManager.BrowseDisplayMode)
+            else
             {
-                writer.Write("<style type='text/css'>#MSOZoneCell_WebPart{0} {1}</style>", ClientID, "{display:none;}");
+                if (Show())
+                {
+                    writer.Write("<table class='ms-formtable' width='100%' cellspacing='0' cellpadding='0' border='0' style='margin-top: 8px;'>");
+                    RenderFormLine(writer, AppResources.QuickAssignmentLabelTitle, titleBox);
+                    if (sites != null)
+                    {
+                        RenderFormLine(writer, AppResources.QuickAssignmentLabelSite, sites);
+                    }
+                    writer.Write("</table>");
+                    submit.RenderControl(writer);
+                }
+                else if (WebPartManager.DisplayMode == WebPartManager.BrowseDisplayMode)
+                {
+                    writer.Write("<style type='text/css'>#MSOZoneCell_WebPart{0} {1}</style>", ClientID, "{display:none;}");
+                }
             }
         }
 
@@ -125,22 +142,19 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             try
             {
-                if (SPContext.Current != null && SPContext.Current.Site != null)
+                string webUrl = FindSelectedWeb();
+                string urlFormat = "{0}/_layouts/SharePointLearningKit/{1}.aspx?Location={2}&Title={3}";
+                string encodedTitle = HttpUtility.UrlEncode(titleBox.Text);
+                string page = "assignmentproperties";
+
+                if (Mode == QuickAssignmentMode.TitleOnly)
                 {
-                    string webUrl = FindSelectedWeb();
-                    string urlFormat = "{0}/_layouts/SharePointLearningKit/{1}.aspx?Location={2}&Title={3}";
-                    string encodedTitle = HttpUtility.UrlEncode(titleBox.Text);
-                    string page = "assignmentproperties";
-
-                    if (Mode == QuickAssignmentMode.TitleOnly)
-                    {
-                        page = "actions";
-                    }
-
-                    string url = String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, page, AssignmentProperties.NoPackageLocation.ToString(), encodedTitle);
-
-                    Page.Response.Redirect(url, true);
+                    page = "actions";
                 }
+
+                string url = String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, page, AssignmentProperties.NoPackageLocation, encodedTitle);
+
+                Page.Response.Redirect(url, true);
             }
             catch (System.Threading.ThreadAbortException)
             {
@@ -190,19 +204,14 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
         void CreateSitesDropDown()
         {
+            SPWeb web = SPContext.Current.Web;
+            SlkStore store = SlkStore.GetStore(web);
+            webList = new UserWebList(store, web);
+
             sites = new DropDownList();
-
-            if (SPContext.Current != null && SPContext.Current.Web != null)
+            foreach (WebListItem item in webList.Items)
             {
-                SPWeb web = SPContext.Current.Web;
-                SlkStore store = SlkStore.GetStore(web);
-                webList = new UserWebList(store, web);
-
-                foreach (WebListItem item in webList.Items)
-                {
-                    sites.Items.Add(new ListItem(item.Title, item.SPWebGuid.ToString()));
-                }
-
+                sites.Items.Add(new ListItem(item.Title, item.SPWebGuid.ToString()));
             }
 
             Controls.Add(sites);
@@ -212,23 +221,15 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             if (showEvaluated == false)
             {
-                if (AlwaysShow || DesignMode)
+                if (AlwaysShow)
                 {
                     show = true;
                 }
                 else
                 {
-                    if (SPContext.Current == null && SPContext.Current.Web != null)
-                    {
-                        // Unknown environment
-                        show = true;
-                    }
-                    else
-                    {
-                        SPWeb web = SPContext.Current.Web;
-                        SlkStore store = SlkStore.GetStore(web);
-                        show =  store.IsInstructor(web);
-                    }
+                    SPWeb web = SPContext.Current.Web;
+                    SlkStore store = SlkStore.GetStore(web);
+                    show =  store.IsInstructor(web);
                 }
 
                 showEvaluated = true;

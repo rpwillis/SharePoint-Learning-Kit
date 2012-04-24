@@ -41,6 +41,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
     public partial class AlwpQuerySet : SlkAppBasePage
     {
+
+        /// <summary>See <see cref="SlkAppBasePage.OverrideMasterPage"/>.</summary>
+        protected override bool OverrideMasterPage
+        {
+            get { return false ;}
+        }
+
         #region Page_Init
         /// <summary>
         ///  Page Init for AlwpQueryResults. 

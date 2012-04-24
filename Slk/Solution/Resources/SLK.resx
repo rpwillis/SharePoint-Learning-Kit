@@ -118,6 +118,41 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 
+  <!-- Content Types  -->
+  <data name="ContentTypesFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit Content Types</value>
+  </data>
+  <data name="ContentTypesFeatureDescription" xml:space="preserve">
+    <value>The base content types for SharePoint Learning Kit.</value>
+  </data>
+  <data name="SharePointLearningKitWebPartsGroup" xml:space="preserve">
+    <value>SharePoint Learning Kit</value>
+  </data>
+  <data name="BaseContentTypeName" xml:space="preserve">
+    <value>Learning Object</value>
+  </data>
+  <data name="BaseContentTypeDescription" xml:space="preserve">
+    <value>The SharePoint Learning Kit Base Content Type. Represents a learning object which can be assigned.</value>
+  </data>
+  <data name="AssignmentContentTypeName" xml:space="preserve">
+    <value>Assignment</value>
+  </data>
+  <data name="AssignmentContentTypeDescription" xml:space="preserve">
+    <value>A learning object which a custom action so it can be assigned.</value>
+  </data>
+  <data name="SelfAssignContentTypeName" xml:space="preserve">
+    <value>Self Assignment</value>
+  </data>
+  <data name="SelfAssignContentTypeDescription" xml:space="preserve">
+    <value>A learning object which a custom action so it can be self assigned.</value>
+  </data>
+  <data name="AssignmentActionTitle" xml:space="preserve">
+    <value>Assign Work</value>
+  </data>
+  <data name="SelfAssignActionTitle" xml:space="preserve">
+    <value>Start Assignment</value>
+  </data>
+
   <!-- ELearning Actions Feature -->
   <data name="ELearningFeatureTitle" xml:space="preserve">
     <value>SharePoint Learning Kit</value>
@@ -176,7 +211,7 @@
     <value>Display the assignments for an instructor or learner.</value>
   </data>
 
-  <!-- AssignmentList web part -->
+  <!-- Quick Assign web part -->
   <data name="QuickAssignmentWebPartFeatureTitle" xml:space="preserve">
     <value>SharePoint Learning Kit - Quick Assignment Web Part</value>
   </data>
@@ -190,8 +225,37 @@
     <value>Allows an instructor to quickly assign a piece of work.</value>
   </data>
 
-  <data name="SharePointLearningKitWebPartsGroup" xml:space="preserve">
+  <!-- Slk members web part -->
+  <data name="SlkMembersWebPartFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit - Slk Members Web Part</value>
+  </data>
+  <data name="SlkMembersWebPartFeatureDescription" xml:space="preserve">
+    <value>Web Part to allow an instructor to view the SLK members of a site.</value>
+  </data>
+  <data name="SlkMembersWebPartTitle" xml:space="preserve">
+    <value>SLK Members</value>
+  </data>
+  <data name="SlkMembersWebPartDescription" xml:space="preserve">
+    <value>Allows an instructor to view the SLK members of a site.</value>
+  </data>
+
+  <!-- Self Assign web part -->
+  <data name="SelfAssignWebPartFeatureTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit - Enhanced Self Assign Functionality</value>
+  </data>
+  <data name="SelfAssignWebPartFeatureDescription" xml:space="preserve">
+    <value>Functionality to allow learners to easily self assign packages.</value>
+  </data>
+  <data name="SelfAssignWebPartTitle" xml:space="preserve">
+    <value>Self Assign</value>
+  </data>
+  <data name="SelfAssignWebPartDescription" xml:space="preserve">
+    <value>Exposes a document library's contents as a set of links to allow self-assigning.</value>
+  </data>
+
+  <data name="ContentTypesGroup" xml:space="preserve">
     <value>SharePoint Learning Kit</value>
   </data>
+
 
 </root>

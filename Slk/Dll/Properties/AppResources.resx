@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="SlkSettingsFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\SlkSettings.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="SlkSettingsSchema" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\SlkSettings.xsd;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="Done" xml:space="preserve">
     <value>Done</value>
+  </data>
+  <data name="PopulateLearnerAssignmentIdsInvalidException" xml:space="preserve">
+    <value>Failed to retrieve learner ids.</value>
   </data>
   <data name="SeriousErrorInEventLog" xml:space="preserve">
     <value>A serious error occurred.  Please contact your system administrator.  More information has been written to the server event log.</value>
@@ -211,8 +217,8 @@ More information has been written to the server event log.</value>
     <value>This site is not configured to use SharePoint Learning Kit. Administrators can use SharePoint Central Administration to configure SharePoint Learning Kit.</value>
   </data>
   <data name="SlkSettingsNotFound" xml:space="preserve">
-    <value>SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite GUID {0}.)</value>
-    <comment>{0} = SPSite GUID</comment>
+    <value>SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite {0}.)</value>
+    <comment>{0} = SPSite url</comment>
   </data>
   <data name="AlwpWepPartTitle" xml:space="preserve">
     <value>Assignment List</value>
@@ -300,6 +306,18 @@ More information has been written to the server event log.</value>
   <data name="CtrlLabelDistributeAssignmentHeader" xml:space="preserve">
     <value>Distribute the Assignment</value>
     <comment>Distribute  Assignment Header Text</comment>
+  </data>
+  <data name="CtrlLabelUploadDocumentHeader" xml:space="preserve">
+    <value>Upload Document (Optional)</value>
+  </data>
+  <data name="CtrlLabelUploadDocumentText" xml:space="preserve">
+    <value>Optionally choose a document to upload to distribute and choose the document library to place it in.</value>
+  </data>
+  <data name="CtrlLabelUploadDocumentName" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="CtrlLabelUploadDocumentLibrary" xml:space="preserve">
+    <value>Document Library</value>
   </data>
   <data name="CtrlLabelGenericErrorMsg" xml:space="preserve">
     <value>Error string goes here.</value>
@@ -1682,7 +1700,114 @@ More information may be available in the server event log.</value>
   <data name="GroupEnumerationFail" xml:space="preserve">
     <value>Could not get the members of group {0}.</value>
   </data>
-  <data name="AlwpObserverLearnerNotFound" xml:space="preserve">
-    <value>Could not find learner {0}.</value>
+  <data name="SelfAssignSiteUrlDisplayName" xml:space="preserve">
+    <value>Site Url</value>
+  </data>
+  <data name="SelfAssignSiteUrlDescription" xml:space="preserve">
+    <value>The url of the site hosting the list to get the documents from. Leave blank for current site.</value>
+  </data>
+  <data name="SelfAssignListNameDisplayName" xml:space="preserve">
+    <value>List Name</value>
+  </data>
+  <data name="SelfAssignListNameDescription" xml:space="preserve">
+    <value>The name of the list hosting the documents.</value>
+  </data>
+  <data name="SelfAssignViewNameDisplayName" xml:space="preserve">
+    <value>View Name</value>
+  </data>
+  <data name="SelfAssignViewNameDescription" xml:space="preserve">
+    <value>The name of the view hosting the documents. Leave blank to use the default view.</value>
+  </data>
+  <data name="SelfAssignPartNoItems" xml:space="preserve">
+    <value>No packages to show.</value>
+  </data>
+  <data name="SelfAssignInvalidView" xml:space="preserve">
+    <value>The View Name property is set to an invalid view.</value>
+  </data>
+  <data name="SelfAssignInvalidList" xml:space="preserve">
+    <value>The List Name property is set to an invalid list.</value>
+  </data>
+  <data name="SelfAssignListNameRequired" xml:space="preserve">
+    <value>The List Name property is required.</value>
+  </data>
+  <data name="StsMissingParameter" xml:space="preserve">
+      <value>{0} is a required parameter.</value>
+  </data>
+  <data name="StsMissingParameters" xml:space="preserve">
+      <value>Either {0} or {1} are required parameters.</value>
+  </data>
+  <data name="StsInvalidGuid" xml:space="preserve">
+      <value>SLK mapping not found for GUID {0}.</value>
+  </data>
+  <data name="StsMappingDeleted" xml:space="preserve">
+    <value>SLK mapping deleted for GUID {0}</value>
+    <comment>{0} = GUID</comment>
+  </data>
+  <data name="StsEnumMappingLine" xml:space="preserve">
+      <value>{0} ({1}) --> Server={2};Database={3}</value>
+      <comment>{0} = site title; {1} = guid; {2} = database server; {3} = database name</comment>
+  </data>
+  <data name="StsSettingsError" xml:space="preserve">
+      <value>Only one of {0} or {1} is allowed.</value>
+  </data>
+  <data name="StsConfiguringSlkForSite" xml:space="preserve">
+    <value>Configuring SLK for site: {0} ({1})</value>
+    <comment>{0} = url; {1} = site GUID</comment>
+  </data>
+  <data name="StsConfiguringSlkForApplication" xml:space="preserve">
+    <value>Configuring SLK for web application: {0} ({1})</value>
+    <comment>{0} = url; {1} = application GUID</comment>
+  </data>
+  <data name="StsGetSiteConfiguration" xml:space="preserve">
+      <value>  
+   Database server:         {0}
+   Database name:           {1}
+   Instructor Permission:   {2}
+   Learner Permission:      {3}
+      </value>
+    <comment>{0} = SLK database server name or connection string fragment</comment>
+  </data>
+  <data name="StsHelpConfigure" xml:space="preserve">
+    <value>
+           -url &lt;url&gt;
+           [-databaseserver &lt;database server name*&gt;]
+           [-databasename &lt;database name&gt;]
+           [-createdatabase]
+           [-instructorpermission &lt;instructor permission name&gt;]
+           [-learnerpermission &lt;learner permission name&gt;]
+           [-createpermissions]
+           [-uploadslksettings &lt;SLK Settings XML file name&gt; | -defaultslksettings]
+           [-application]
+
+* By default, integrated authentication is used to connect to the database.
+To use a SQL Server user ID and password instead, append the appropriate
+connection string information to the database server name -- for example,
+instead of "MyServer", use "MyServer;user id=myacct;password=mypassword".
+For security reasons, integrated authentication is strongly recommended.
+
+    Only one of -uploadslksettings and -defaultslksettings can be used
+    -application must be used when configuring a web application rather than a site collection
+    </value>
+  </data>
+  <data name="StsHelpGetConfiguration" xml:space="preserve">
+    <value>
+           -url &lt;url&gt;
+           -guid &lt;guid&gt;
+
+   Returns the configuration for a site or web application. 
+   Use either url or guid.
+    </value>
+  </data>
+  <data name="StsHelpEnumMappings" xml:space="preserve">
+    <value>
+    Enumerates all mappings
+    </value>
+  </data>
+  <data name="StsHelpDeleteMapping" xml:space="preserve">
+    <value>
+           -guid &lt;site-guid&gt;
+
+    Deletes a mapping.
+    </value>
   </data>
 </root>

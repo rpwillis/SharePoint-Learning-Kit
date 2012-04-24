@@ -46,6 +46,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// Holds the Postback Grading Item Collection.
         /// </summary>
         private Dictionary<string, GradingItem> m_postBackGradingItems;
+        DropBoxManager dropBox;
 
         #endregion
 
@@ -288,6 +289,11 @@ namespace Microsoft.SharePointLearningKit.WebControls
             LearnerReportUrl = settings.LearnerReportUrl;
             HasLearnerReport = string.IsNullOrEmpty(LearnerReportUrl) == false;
 
+            if (AssignmentProperties.IsNonELearning)
+            {
+                dropBox = new DropBoxManager(AssignmentProperties);
+            }
+
             foreach (LearnerAssignmentProperties item in AssignmentProperties.Results)
             {
                 Add(item);
@@ -408,11 +414,10 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 }
                 else
                 {
-                    DropBoxManager dropBox = new DropBoxManager(AssignmentProperties);
                     AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
                     if (files.Length > 0)
                     {
-                        SetUpSubmittedFileHyperLink(lnkLearnerItem, files, item.LearnerAssignmentGuidId);
+                        SetUpSubmittedFileHyperLink(lnkLearnerItem, files, item);
                     }
                 }
 
@@ -433,7 +438,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
             if (item.Status == LearnerAssignmentState.Completed || item.Status == LearnerAssignmentState.Final)
             {
-                DropBoxManager dropBox = new DropBoxManager(AssignmentProperties);
                 AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
 
                 if (files.Length == 0)
@@ -445,7 +449,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 {
                     control = new HyperLink();
                     ((HyperLink)control).Text = AppResources.GradingFileSubmissionSubmitted;
-                    SetUpSubmittedFileHyperLink((HyperLink)control, files, item.LearnerAssignmentGuidId);
+                    SetUpSubmittedFileHyperLink((HyperLink)control, files, item);
                 }
             }
             else
@@ -458,21 +462,25 @@ namespace Microsoft.SharePointLearningKit.WebControls
             control.RenderControl(htmlTextWriter);
         }
 
-        void SetUpSubmittedFileHyperLink(HyperLink link, AssignmentFile[] files, Guid learnerAssignmentGuidId)
+        void SetUpSubmittedFileHyperLink(HyperLink link, AssignmentFile[] files, GradingItem item)
         {
             SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
             if (files.Length > 1)
             {
-                string url = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", slkAppBasePage.SPWeb.Url, learnerAssignmentGuidId);
+                string url = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", slkAppBasePage.SPWeb.Url, item.LearnerAssignmentGuidId);
                 string script = string.Format("window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable');return false;", url);
                 link.Attributes.Add("onclick", script);
                 link.NavigateUrl = "#";
             }
             else
             {
-                string url = files[0].Url;
-                link.Attributes.Add("onclick", DropBoxManager.EditJavascript(url, slkAppBasePage.SPWeb) + "return false;");
-                link.NavigateUrl = url;
+                DropBoxEditMode editMode = item.Status == LearnerAssignmentState.Completed ? DropBoxEditMode.Edit : DropBoxEditMode.View;
+                DropBoxEditDetails editDetails = dropBox.GenerateDropBoxEditDetails(files[0], slkAppBasePage.SPWeb, editMode, Page.Request.RawUrl);
+                link.NavigateUrl = editDetails.Url;
+                if (string.IsNullOrEmpty(editDetails.OnClick) == false)
+                {
+                    link.Attributes.Add("onclick", editDetails.OnClick + "return false;");
+                }
             }
         }
         #endregion

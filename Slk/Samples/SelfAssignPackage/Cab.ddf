@@ -1,0 +1,14 @@
+;
+.Set CabinetNameTemplate=Output\SelfAssignPackage.wsp
+.set DiskDirectoryTemplate=CDROM ; All cabinets go in a single directory
+.Set CompressionType=MSZIP;** All files are compressed in cabinet files
+.Set UniqueFiles="ON"
+.Set Cabinet=on
+.Set DiskDirectory1=.
+Feature\LearningObjects.xml                                                 SelfAssignPackage\LearningObjects.xml
+Feature\SitePages.xml                                                       SelfAssignPackage\SitePages.xml
+Feature\SelfAssign.aspx                                                     SelfAssignPackage\SelfAssign.aspx
+Feature\feature.xml                                                         SelfAssignPackage\feature.xml
+Feature\Resources.resx                                                      SelfAssignPackage\Resources\Resources.resx
+manifest.xml                                                                manifest.xml
+;*** <the end>

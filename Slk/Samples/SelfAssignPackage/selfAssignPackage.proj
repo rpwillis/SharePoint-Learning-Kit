@@ -1,0 +1,25 @@
+<Project DefaultTargets="Build"  xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+
+    <PropertyGroup>
+    </PropertyGroup>
+
+    <ItemGroup>
+    </ItemGroup>
+
+    <Target Name="Build" >
+        <CallTarget Targets="MakeWsp"/>
+    </Target>
+
+    <Target Name="Clean">
+        <RemoveDir Directories="Output"/>
+    </Target>
+
+    <Target Name="MakeWsp" Outputs="Output\SelfAssignPackage.wsp">
+        <MakeDir Directories="Output"/>
+        <Exec Command="makecab /F cab.ddf"/>
+        <Delete Files="setup.inf"/>
+        <Delete Files="setup.rpt"/>
+    </Target>
+
+</Project>
+

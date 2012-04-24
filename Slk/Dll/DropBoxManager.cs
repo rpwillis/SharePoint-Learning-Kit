@@ -20,13 +20,14 @@ namespace Microsoft.SharePointLearningKit
     public class DropBoxManager
     {
         AssignmentProperties assignmentProperties;
+        DropBoxSettings settings;
 
 #region constructors
         /// <summary>Initializes a new instance of <see cref="DropBoxManager"/>.</summary>
-        /// <param name="assignmentProperties">The assignment properties.</param>
         public DropBoxManager(AssignmentProperties assignmentProperties)
         {
             this.assignmentProperties = assignmentProperties;
+            this.settings = assignmentProperties.Store.Settings.DropBoxSettings;
         }
 #endregion constructors
 
@@ -78,9 +79,10 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Copies the original file to the student's drop box.</summary>
         /// <returns>The url of the file.</returns>
-        public string CopyFileToDropBox()
+        public AssignmentFile CopyFileToDropBox()
         {
             string url = null;
+            string name = null;
             SPSecurity.RunWithElevatedPrivileges(delegate()
             {
                 SharePointFileLocation fileLocation;
@@ -97,6 +99,7 @@ namespace Microsoft.SharePointLearningKit
 
                         if (MustCopyFileToDropBox(file.Name))
                         {
+                            name = file.Name;
                             using (SPSite destinationSite = new SPSite(assignmentProperties.SPSiteGuid))
                             {
                                 destinationSite.CatchAccessDeniedException = false;
@@ -115,18 +118,10 @@ namespace Microsoft.SharePointLearningKit
                                         {
                                             assignmentFolder = dropBox.CreateAssignmentFolder(assignmentProperties);
                                         }
-                                        else
-                                        {
-                                            learnerSubFolder = assignmentFolder.FindLearnerFolder(learner);
-                                        }
 
-                                        if (learnerSubFolder == null)
-                                        {
-                                            learnerSubFolder = assignmentFolder.CreateLearnerAssignmentFolder(CurrentUser);
-                                        }
-
-                                        assignmentFolder.ApplyPermission(learner, SPRoleType.Reader);
-                                        learnerSubFolder.ApplyPermission(learner, SPRoleType.Contributor);
+                                        // ApplyAssignmentPermission creates the learner folder if required
+                                        ApplyAssignmentPermission(learner, SPRoleType.Contributor, SPRoleType.Reader, true);
+                                        learnerSubFolder = assignmentFolder.FindLearnerFolder(learner);
 
                                         using (Stream stream = file.OpenBinaryStream())
                                         {
@@ -144,7 +139,7 @@ namespace Microsoft.SharePointLearningKit
                 }
             });
 
-            return url;
+            return new AssignmentFile(name, url);
         }
 
         /// <summary>Uploads files to the learner's drop box.</summary>
@@ -462,6 +457,55 @@ namespace Microsoft.SharePointLearningKit
                 ApplySubmittedPermissions(assignmentFolder, learnerSubFolder);
             }
         }
+
+        /// <summary>Generate the drop box edit details.</summary>
+        /// <param name="file">The file to edit.</param>
+        /// <param name="web">The web the file is in.</param>
+        /// <param name="mode">The open mode.</param>
+        /// <param name="sourceUrl">The source page.</param>
+        /// <returns></returns>
+        public DropBoxEditDetails GenerateDropBoxEditDetails(AssignmentFile file, SPWeb web, DropBoxEditMode mode, string sourceUrl)
+        {
+            DropBoxEditDetails details = new DropBoxEditDetails();
+
+            // Set default details
+            details.Url = file.Url;
+            details.OnClick = EditJavascript(file.Url, web);
+
+            try
+            {
+                if (settings.UseOfficeWebApps)
+                {
+                    if (file.IsOfficeFile)
+                    {
+                        if (mode == DropBoxEditMode.Edit)
+                        {
+                            // Document must be 2010 format to be edited in office web apps
+                            if (file.IsOffice2010File)
+                            {
+                                details.Url = file.GenerateOfficeAppsEditUrl(web, sourceUrl);
+                                details.OnClick = null;
+                            }
+                        }
+                        // Use Office Web Apps viewer for office files except for Excel which does not support it for pre 2010 worksheets
+                        else if (file.Extension.ToUpperInvariant() != "XLS")
+                        {
+                            details.Url = file.GenerateOfficeAppsViewUrl(web, sourceUrl);
+                            details.OnClick = null;
+                        }
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // Not valid for office web apps
+                details.Url = file.Url;
+                details.OnClick = EditJavascript(file.Url, web);
+            }
+
+            return details;
+        }
+
 #endregion public methods
 
 #region private methods
@@ -541,6 +585,11 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Applies permissions to the learner folder and creates it if required.</summary>
+        /// <param name="user">The learner to create the folder for.</param>
+        /// <param name="learnerPermissions">The permissions to set.</param>
+        /// <param name="instructorPermissions">The instructor permissions to set.</param>
+        /// <param name="removeObserverPermissions">Whether to remove observer permissions or not.</param>
         void ApplyAssignmentPermission(SPUser user, SPRoleType learnerPermissions, SPRoleType instructorPermissions, bool removeObserverPermissions)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
@@ -625,7 +674,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="fileUrl">The url of the file.</param>
         /// <param name="web">The web the file is in.</param>
         /// <returns>The script.</returns>
-        public static string EditJavascript(string fileUrl, SPWeb web)
+        static string EditJavascript(string fileUrl, SPWeb web)
         {
             //string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff');return false;";
             string script = "editDocumentWithProgID2('{0}', '', 'SharePoint.OpenDocuments','0','{1}','0');";
@@ -649,25 +698,7 @@ namespace Microsoft.SharePointLearningKit
 
         static bool MustCopyFileToDropBox(string fileName)
         {
-            string extension = Path.GetExtension(fileName);
-
-            switch (extension)
-            {
-                case ".doc":
-                    return true;
-                case ".docx":
-                    return true;
-                case ".xls":
-                    return true;
-                case ".xlsx":
-                    return true;
-                case ".ppt":
-                    return true;
-                case ".pptx":
-                    return true;
-                default:
-                    return false;
-            }
+            return AssignmentFile.IsOfficeFileByExtension(Path.GetExtension(fileName));
         }
 #endregion static methods
 
@@ -694,34 +725,6 @@ namespace Microsoft.SharePointLearningKit
         }
 
     }
-
-#region AssignmentFile
-    /// <summary>A file in an assignment.</summary>
-    public struct AssignmentFile
-    {
-        string name;
-        string url;
-
-        /// <summary>The file's Url.</summary>
-        public string Url
-        {
-            get { return url ;}
-        }
-        /// <summary>The file's Name.</summary>
-        public string Name
-        {
-            get { return name ;}
-        }
-        /// <summary>Initializes a new instance of <see cref="AssignmentFile"/>.</summary>
-        /// <param name="name">The name of the file.</param>
-        /// <param name="url">The file's url.</param>
-        public AssignmentFile(string name, string url)
-        {
-            this.name = name;
-            this.url = url;
-        }
-    }
-#endregion AssignmentFile
 
 #region AssignmentUpload
     /// <summary>An uploaded file for an assignment.</summary>

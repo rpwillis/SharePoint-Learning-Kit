@@ -41,6 +41,12 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>The settings for email.</summary>
         public EmailSettings EmailSettings { get; private set; }
 
+        /// <summary>The settings for Drop Box.</summary>
+        public DropBoxSettings DropBoxSettings { get; private set; }
+
+        /// <summary>The settings for Quick Assignments.</summary>
+        public QuickAssignmentSettings QuickAssignmentSettings { get; private set; }
+
         /// <summary>
         /// Gets the collection of approved attachment file name extensions from the
         /// "ApprovedAttachmentTypes" attribute of the "&lt;Settings&gt;" element within the SLK
@@ -134,6 +140,9 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         public int UserWebListMruSize { get; private set; }
 
+        ///<summary>Indicates whether to use the standard master page for the SLK application pages.</summary>
+        public bool UseMasterPageForApplicationPages { get; private set; }
+
         /// <summary>
         /// Gets the collection of MIME type mappings parsed from "&lt;MimeTypeMapping&gt;" elements
         /// within the SLK Settings XML file.  Each mapping has a key which is a file name extension
@@ -189,6 +198,9 @@ namespace Microsoft.SharePointLearningKit
             queryDefinitions = new List<QueryDefinition>(20);
             querySetDefinitions = new List<QuerySetDefinition>(10);
             WhenUploaded = whenUploaded;
+            DropBoxSettings = new DropBoxSettings();
+            QuickAssignmentSettings = new QuickAssignmentSettings();
+            EmailSettings = new EmailSettings();
             ParseSettingsFile(xmlReader);
         }
 #endregion constructors
@@ -241,6 +253,14 @@ namespace Microsoft.SharePointLearningKit
                     else if (xmlReader.Name == "MimeTypeMapping")
                     {
                         MimeTypeMappings[xmlReader.GetAttribute("Extension")] = xmlReader.GetAttribute("MimeType");
+                    }
+                    else if (xmlReader.Name == "DropBoxSettings")
+                    {
+                        DropBoxSettings = new DropBoxSettings(xmlReader);
+                    }
+                    else if (xmlReader.Name == "QuickAssignmentSettings")
+                    {
+                        QuickAssignmentSettings = new QuickAssignmentSettings(xmlReader);
                     }
                     else if (xmlReader.Name == "EmailSettings")
                     {
@@ -443,6 +463,7 @@ namespace Microsoft.SharePointLearningKit
 
             MaxAttachmentKilobytes = xmlReader.ReadContentAsInt();
             HideDisabledUsers = ParseAttributeAsBoolean(xmlReader, "HideDisabledUsers");
+            UseMasterPageForApplicationPages = ParseAttributeAsBoolean(xmlReader, "UseMasterPageForApplicationPages");
             UseGrades = ParseAttributeAsBoolean(xmlReader, "UseGrades");
             LearnerReportUrl = ParseAttributeAsString(xmlReader, "LearnerReportUrl");
 

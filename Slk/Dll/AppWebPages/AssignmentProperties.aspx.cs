@@ -104,6 +104,20 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected System.Web.UI.WebControls.Label lblShowAnswersToLearners;
         protected Label labelEmail;
+        /// <summary>The control for the upload document header.</summary>
+        protected System.Web.UI.WebControls.Label LabelUploadDocumentHeader { get; set; }
+        /// <summary>The control for the upload document text.</summary>
+        protected System.Web.UI.WebControls.Label LabelUploadDocumentText { get; set; }
+        /// <summary>The table containing the upload document functionality.</summary>
+        protected TableGrid TgUploadDocument { get; set; }
+        /// <summary>The label for the file upload control.</summary>
+        protected System.Web.UI.WebControls.Label LabelUploadDocumentName { get; set; }
+        /// <summary>The file upload control.</summary>
+        protected System.Web.UI.WebControls.FileUpload FileUploadDocument { get; set; }
+        /// <summary>The label for the document library control.</summary>
+        protected System.Web.UI.WebControls.Label LabelUploadDocumentLibrary { get; set; }
+        /// <summary>The document library control.</summary>
+        protected System.Web.UI.WebControls.DropDownList UploadDocumentLibraries { get; set; }
 
         //TextBox Controls
         protected System.Web.UI.WebControls.TextBox txtTitle;
@@ -183,7 +197,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// document library.  Example:
         /// 696119ae-dd2f-42fb-b1c2-f57cef818553_671ff432-662d-4bb2-8a79-44eea19bf948_04da6346-aca8-453a-bcbf-             /// dc59877b911e_512_632872855930000000
         /// </summary>
-        private string m_locationString;
+        private SharePointFileLocation location;
         /// <summary>
         /// Holds OrgIndex Query String value.  OrgIndex is only used in PageMode.Create -- in that case, it's
         /// null for non-e-learning content.  OrgIndex is the zero-based index of the organization (i.e. root
@@ -206,7 +220,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>Holds Current SPWeb User's SlkUser Key </summary>
         private string m_currentSlkUserKey;
 
-        #endregion
+        #endregion Private Variables
 
         #region Private Properties
         /// <summary>
@@ -225,19 +239,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        /// <summary>
-        /// Gets the Location Query String value.
-        /// Throws Exception if empty or null.
-        /// </summary>
-        private string Location
+        /// <summary>Gets the file location.</summary>
+        private SharePointFileLocation Location
         {
             get
             {
-                if (m_locationString == null)
+                if (location == null)
                 {
-                    m_locationString = QueryString.ParseString(QueryStringKeys.Location);
+                    string locationString = QueryString.ParseString(QueryStringKeys.Location);
+
+                    if (string.IsNullOrEmpty(locationString) == false)
+                    {
+                        location = new SharePointFileLocation(locationString);
+                    }
                 }
-                return m_locationString;
+                return location;
             }
         }
 
@@ -456,6 +472,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             //Add the Package Warning in the Error Banner
                             errorBanner.AddHtmlErrorText(ErrorType.Warning, AppResources.ActionsWarning);
                         }
+
+                        if (AssignmentProperties.IsNoPackageAssignment)
+                        {
+                            SetUpForNewNoPackageAssignment();
+                        }
                     }
 
                     SetupPageElementAttributes();
@@ -482,6 +503,55 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
         #endregion
+
+        /// <summary>See <see cref="Control.CreateChildControls"/>.</summary>
+        protected override void CreateChildControls()
+        {
+            base.CreateChildControls();
+
+            Dictionary<string, int> items = new Dictionary<string, int>();
+
+            if (AssignmentId == null)
+            {
+                if (Location.ToString() == AssignmentProperties.NoPackageLocation.ToString())
+                {
+                    SPWeb.Lists.ListsForCurrentUser = true;
+                    int counter = 0;
+                    foreach (SPList list in SPWeb.Lists)
+                    {
+                        if (list.BaseType == SPBaseType.DocumentLibrary && list.Hidden == false)
+                        {
+                            if ((list.EffectiveBasePermissions & SPBasePermissions.AddListItems) == SPBasePermissions.AddListItems)
+                            {
+                                items.Add(list.Title.ToUpperInvariant(), counter);
+                                UploadDocumentLibraries.Items.Add(list.Title);
+                                counter++;
+                            }
+                        }
+                    }
+
+                    QuickAssignmentSettings settings = SlkStore.Settings.QuickAssignmentSettings;
+
+                    foreach (string defaultLibrary in settings.DefaultLibraries)
+                    {
+                        string upperKey = defaultLibrary.ToUpperInvariant();
+                        if (items.ContainsKey(upperKey))
+                        {
+                            UploadDocumentLibraries.SelectedIndex = items[upperKey];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        void SetUpForNewNoPackageAssignment()
+        {
+            if (UploadDocumentLibraries.Items.Count > 0)
+            {
+                TgUploadDocument.Visible = true;
+            }
+        }
 
         void CheckInCorrectSite()
         {
@@ -766,6 +836,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             lblInstructorsText.Text = AppResources.CtrlLabelInstructorDesc;
             lblDistributeAssignmentText.Text = AppResources.CtrlLabelDistributeAssignmentDesc;
             lblDistributeAssignmentHeader.Text = AppResources.CtrlLabelDistributeAssignmentHeader;
+            LabelUploadDocumentText.Text = AppResources.CtrlLabelUploadDocumentText;
+            LabelUploadDocumentHeader.Text = AppResources.CtrlLabelUploadDocumentHeader;
+            LabelUploadDocumentName.Text = AppResources.CtrlLabelUploadDocumentName;
+            LabelUploadDocumentLibrary.Text = AppResources.CtrlLabelUploadDocumentLibrary;
+
             lblPointsPossible.Text = AppResources.CtrlLabelPointsPossible;
             lblAssignmentPropText.Text = AppResources.CtrlLabelAssignmentPropDesc;
             lblAssignmentPropHeader.Text = AppResources.CtrlLabelAssignmentPropHeader;
@@ -1293,7 +1368,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             try
             {
                 AssignmentProperties.SetLocation(Location, OrgIndex);
-                AssignmentProperties.Save(SPWeb, SlkRole.Instructor, SlkMembers);
+
+                if (AssignmentProperties.IsNoPackageAssignment && FileUploadDocument.HasFile)
+                {
+                    SaveUploadedFile();
+                }
+
+                AssignmentProperties.Save(SPWeb, SlkRole.Instructor);
                 SetConfirmationPage(AssignmentProperties.Id.GetKey());
             }
             catch (SafeToDisplayException ex)
@@ -1310,7 +1391,22 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-
+        void SaveUploadedFile()
+        {
+            try
+            {
+                SPDocumentLibrary library = SPWeb.Lists[UploadDocumentLibraries.SelectedValue] as SPDocumentLibrary;
+                string destinationUrl = library.RootFolder.Url + "/" + FileUploadDocument.FileName;
+                SPFile file = library.RootFolder.Files.Add(destinationUrl, FileUploadDocument.FileBytes, false);
+                file.Update();
+                location = new SharePointFileLocation(SPWeb, file);
+                AssignmentProperties.SetLocation(Location, OrgIndex);
+            }
+            catch (SPException e)
+            {
+                throw new SafeToDisplayException(e.Message);
+            }
+        }
 
         #region SetConfirmationPage
         /// <summary>Sets the Assignment Properties of Confirmation Page</summary>
@@ -1346,7 +1442,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             if (AssignmentProperties.IsNoPackageAssignment == false)
             {
                 //Add Doclib Url
-                SPFile spFile = SlkUtilities.GetSPFileFromPackageLocation(Location);
+                SPFile spFile = Location.LoadFile();
                 string message = String.Format(CultureInfo.CurrentCulture, AppResources.AppNavigateToDocLib, spFile.ParentFolder.Name);
                 lstNavigateBulletedList.Items.Add(new ListItem(message, spFile.ParentFolder.ServerRelativeUrl));
             }
@@ -1770,7 +1866,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             try
             {
-                AssignmentProperties.Save(SPWeb, SlkRole.Instructor, SlkMembers);
+                AssignmentProperties.Save(SPWeb, SlkRole.Instructor);
                 // Redirect to Grading Page
                 Response.Redirect(urlString, false);
 

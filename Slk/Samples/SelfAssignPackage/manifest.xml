@@ -1,0 +1,5 @@
+<Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="bffc7e5a-bb9d-45e5-a33d-1066495ba9e6">
+    <FeatureManifests>
+        <FeatureManifest Location="SelfAssignPackage\feature.xml"/>
+    </FeatureManifests>
+</Solution>

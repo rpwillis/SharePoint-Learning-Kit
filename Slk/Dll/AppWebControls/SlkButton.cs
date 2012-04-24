@@ -155,13 +155,25 @@ namespace Microsoft.SharePointLearningKit.WebControls
 			if (Enabled)
 			{
 				if (Click != null)
-					href += Page.ClientScript.GetPostBackEventReference(this, "") + ";";
-				if (OnClientClick.Length != 0)
-					htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Onclick, OnClientClick);
+                                {
+                                    href += Page.ClientScript.GetPostBackEventReference(this, "") + ";";
+                                }
+
+				if (OnClientClick != null && OnClientClick.Length != 0)
+                                {
+                                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Onclick, OnClientClick);
+                                }
+
 				if (Target.Length != 0)
-					htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Target, Target);
-				if (NavigateUrl.Length != 0)
-					href = NavigateUrl;
+                                {
+                                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Target, Target);
+                                }
+
+				if (NavigateUrl != null && NavigateUrl.Length != 0)
+                                {
+                                    href = NavigateUrl;
+                                }
+
 				htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Href, href);
 			}
 			else

@@ -221,41 +221,6 @@ namespace Microsoft.SharePointLearningKit
         #endregion
 
         /// <summary>
-        /// Returns an <c>SPFile</c> given a <c>SharePointPackageStore</c>-style
-        /// package location string.
-        /// </summary>
-        ///
-        /// <param name="packageLocation">The package location string to parse.</param>
-        ///
-        /// <remarks>
-        /// Note that the returned <c>SPFile</c> represents the entire collection of versions
-        /// associated with that <paramref name="packageLocation"/> -- it is not version-specific.
-        /// </remarks>
-        ///
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
-        public static SPFile GetSPFileFromPackageLocation(string packageLocation)
-        {
-            // Check parameters
-            if(packageLocation == null)
-                throw new ArgumentNullException("packageLocation");
-                
-            SharePointFileLocation fileLocation;
-
-            if (SharePointFileLocation.TryParse(packageLocation, out fileLocation))
-            {
-                using (SPSite spSite = new SPSite(fileLocation.SiteId,SPContext.Current.Site.Zone))
-                {
-                    using (SPWeb spWeb = spSite.OpenWeb(fileLocation.WebId))
-                        return spWeb.GetFile(fileLocation.FileId);
-                }
-            }
-
-            // If we got here, it's an error
-            throw new ArgumentException(AppResources.IncorrectLocationStringSyntax,
-                "packageLocation");
-        }
-
-        /// <summary>
         /// Combines url paths in a similar way to Path.Combine for file paths.
         /// Beginning and trailing slashes are not needed but will be accounted for
         /// if they are present.
