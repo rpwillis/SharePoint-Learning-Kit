@@ -1749,6 +1749,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to load type {0}. {1}.
+        /// </summary>
+        internal static string DomainGroupEnumeratorFailure {
+            get {
+                return ResourceManager.GetString("DomainGroupEnumeratorFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Domain group enumeration failed for path &quot;{0}&quot;.
         /// </summary>
         internal static string DomainGroupEnumFailed {
@@ -3368,6 +3377,15 @@ namespace Resources.Properties {
         internal static string NoAccessToSite {
             get {
                 return ResourceManager.GetString("NoAccessToSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No assembly value given for the domain group enumerator..
+        /// </summary>
+        internal static string NoDomainGroupEnumeratorAssembly {
+            get {
+                return ResourceManager.GetString("NoDomainGroupEnumeratorAssembly", resourceCulture);
             }
         }
         

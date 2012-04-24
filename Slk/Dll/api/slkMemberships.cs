@@ -32,6 +32,8 @@ namespace Microsoft.SharePointLearningKit
         /// <c>GetMemberships</c> executes longer for this time span.
         /// </summary>
         DomainGroupEnumerator domainGroupEnumerator;
+        string domainGroupEnumeratorType;
+        string domainGroupEnumeratorAssembly;
         static readonly TimeSpan DomainGroupEnumerationTotalTimeout = new TimeSpan(0, 5, 0);
 
 #region fields
@@ -44,7 +46,68 @@ namespace Microsoft.SharePointLearningKit
             {
                 if (domainGroupEnumerator == null)
                 {
-                    domainGroupEnumerator = new DomainGroupEnumeratorSlk();
+                    if (string.IsNullOrEmpty(domainGroupEnumeratorType))
+                    {
+                        domainGroupEnumerator = new DomainGroupEnumeratorSlk();
+                    }
+                    else
+                    {
+                        switch (domainGroupEnumeratorType.ToUpperInvariant())
+                        {
+                            case "SLK":
+                                domainGroupEnumerator = new DomainGroupEnumeratorSlk();
+                                break;
+                            case "NOGROUPS":
+                            case "NONE":
+                                domainGroupEnumerator = new DomainGroupEnumeratorNoGroups();
+                                break;
+                            default:
+                                if (string.IsNullOrEmpty(domainGroupEnumeratorAssembly))
+                                {
+                                    throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.NoDomainGroupEnumeratorAssembly, domainGroupEnumeratorType));
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        domainGroupEnumerator = (DomainGroupEnumerator)Activator.CreateInstance(domainGroupEnumeratorAssembly, domainGroupEnumeratorType).Unwrap();
+                                    }
+                                    catch (MissingMethodException e)
+                                    {
+                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                    }
+                                    catch (TypeLoadException e)
+                                    {
+                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                    }
+                                    catch (System.IO.FileNotFoundException e)
+                                    {
+                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                    }
+                                    catch (MemberAccessException e)
+                                    {
+                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                    }
+                                    catch (System.Reflection.TargetInvocationException e)
+                                    {
+                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                    }
+                                    catch (System.Runtime.InteropServices.InvalidComObjectException e)
+                                    {
+                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                    }
+                                    catch (NotSupportedException e)
+                                    {
+                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                    }
+                                    catch (BadImageFormatException e)
+                                    {
+                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                    }
+                                }
+                                break;
+                        }
+                    }
                 }
 
                 return domainGroupEnumerator;
@@ -189,6 +252,8 @@ namespace Microsoft.SharePointLearningKit
             SlkSPSiteMapping mapping = store.Mapping;
             SPRoleDefinition instructorRole = FindRole(web, mapping.InstructorPermission);
             SPRoleDefinition learnerRole = FindRole(web, mapping.LearnerPermission);
+            domainGroupEnumeratorType = store.Settings.DomainGroupEnumeratorType;
+            domainGroupEnumeratorAssembly = store.Settings.DomainGroupEnumeratorAssembly;
 
             SPSecurity.RunWithElevatedPrivileges(delegate()
             {

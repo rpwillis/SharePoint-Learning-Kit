@@ -101,6 +101,7 @@
     <Compile Include="EnumerateDomainGroups\EnumerateDomainGroups.cs" />
     <Compile Include="EnumerateDomainGroups\domainGroupEnumerator.cs" />
     <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorSlk.cs" />
+    <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorNoGroups.cs" />
     <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorResults.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LearningStoreHelper.cs" />
@@ -219,7 +220,7 @@
     <Compile Include="SlkFramesetQueryParam.cs" />
     <Compile Include="SlkQueryString.cs" />
     <Compile Include="SlkSchema.cs" />
-    <Compile Include="slkSettingsException.cs" />
+    <Compile Include="settings\slkSettingsException.cs" />
     <Compile Include="settings\SlkSettings.cs" />
     <Compile Include="settings\EmailSettings.cs" />
     <Compile Include="settings\dropBoxSettings.cs" />
@@ -304,9 +305,10 @@
   </Target>
   -->
   <Target Name="AfterBuild">
+      <!--
       <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
-      <Copy SourceFiles="../app/assignmentproperties.aspx" DestinationFolder="\\wingtipserver\14\TEMPLATE\LAYOUTS\SharePointLearningKit" SkipUnchangedFiles="true"/>
+      -->
   </Target>
   <PropertyGroup>
     <PostBuildEvent>
