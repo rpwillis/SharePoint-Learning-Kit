@@ -6301,6 +6301,7 @@ namespace Microsoft.LearningComponents.Storage {
     /// </summary>
     public class ActivityPackageItemIdentifier : LearningStoreItemIdentifier {
         
+        /// <summary>Initializes a new instance of <see cref="ActivityPackageItemIdentifier"/>.</summary>
         public ActivityPackageItemIdentifier() : base()
         {
         }
@@ -6758,6 +6759,7 @@ namespace Microsoft.LearningComponents.Storage {
     /// </summary>
     public class PackageItemIdentifier : LearningStoreItemIdentifier {
 
+        /// <summary>Initializes a new instance of <see cref="PackageItemIdentifier"/>.</summary>
         public PackageItemIdentifier() : base()
         {
         }

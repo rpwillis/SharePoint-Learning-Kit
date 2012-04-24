@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+      <Compile Include="Admin\stsCommands.cs" />
       <Compile Include="Admin\slkAdministration.cs" />
       <Compile Include="Admin\slkSpSiteMapping.cs" />
       <Compile Include="Admin\administrationConfiguration.cs" />
@@ -92,9 +93,11 @@
     </Compile>
     <Compile Include="AssignmentDownloader.cs" />
     <Compile Include="DropBoxManager.cs" />
+    <Compile Include="DropBoxEditDetails.cs" />
     <Compile Include="DropBox.cs" />
     <Compile Include="ReminderEmails.cs" />
     <Compile Include="AssignmentFolder.cs" />
+    <Compile Include="AssignmentFile.cs" />
     <Compile Include="EnumerateDomainGroups.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LearningStoreHelper.cs" />
@@ -104,12 +107,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    -->
     <Compile Include="Properties\SlkFrameset.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SlkFrameset.resx</DependentUpon>
     </Compile>
+    -->
     <Compile Include="SlkApi.cs" />
     <Compile Include="api\SlkStore.cs" />
     <Compile Include="api\PackageDetails.cs" />
@@ -129,6 +132,7 @@
     </Compile>
     <Compile Include="SlkError.cs" />
     <Compile Include="AppWebControls\TableGrid.cs" />
+    <Compile Include="AppWebPages\assignmentObjectsFromQueryString.cs"/>
     <Compile Include="AppWebPages\Actions.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -176,6 +180,9 @@
     </Compile>
     <Compile Include="WebParts\AssignmentListWebPart.cs" />
     <Compile Include="WebParts\QuickAssignmentWebPart.cs" />
+    <Compile Include="WebParts\selfAssignWebPart.cs" />
+    <Compile Include="WebParts\slkMembersWebPart.cs" />
+    <Compile Include="WebParts\IObserverConnection.cs" />
     <Compile Include="AdminWebPages\Configure.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -209,8 +216,11 @@
     <Compile Include="SlkFramesetQueryParam.cs" />
     <Compile Include="SlkQueryString.cs" />
     <Compile Include="SlkSchema.cs" />
-    <Compile Include="SlkSettings.cs" />
-    <Compile Include="EmailSettings.cs" />
+    <Compile Include="slkSettingsException.cs" />
+    <Compile Include="settings\SlkSettings.cs" />
+    <Compile Include="settings\EmailSettings.cs" />
+    <Compile Include="settings\dropBoxSettings.cs" />
+    <Compile Include="settings\quickAssignmentSettings.cs" />
     <Compile Include="QuerySetClasses.cs" />
     <Compile Include="SlkUtilities.cs">
     </Compile>
@@ -252,7 +262,14 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SlkFrameset.Designer.cs</LastGenOutput>
+      <StronglyTypedClassName>SlkFrameset</StronglyTypedClassName>
+      <StronglyTypedFilename>properties\SlkFrameset.Designer.cs</StronglyTypedFilename>
+      <StronglyTypedLanguage>C#</StronglyTypedLanguage>
+      <StronglyTypedNamespace>Resources.Properties</StronglyTypedNamespace>
     </EmbeddedResource>
+    <None Include="Resources\SlkFrameset.resx">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\AppResources.resx">
       <SubType>Designer</SubType>
     </None>
@@ -284,10 +301,9 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-      <!--
       <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/debug/Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
-      -->
+      <Copy SourceFiles="../app/assignmentproperties.aspx" DestinationFolder="\\wingtipserver\14\TEMPLATE\LAYOUTS\SharePointLearningKit" SkipUnchangedFiles="true"/>
   </Target>
   <PropertyGroup>
     <PostBuildEvent>

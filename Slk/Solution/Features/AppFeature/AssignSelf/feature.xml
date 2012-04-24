@@ -5,6 +5,7 @@
 		Title="$Resources:AssignSelfFeatureTitle"
 		Description="$Resources:AssignSelfFeatureDescription"
                 DefaultResourceFile="SLK"
+                ImageUrl="slkFeature.gif"
                 >
 		 
 	<ElementManifests>

@@ -57,6 +57,11 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
         /////////////////////////////////////////////////////////////////////////////////////
 
+        /// <summary>See <see cref="SlkAppBasePage.OverrideMasterPage"/>.</summary>
+        protected override bool OverrideMasterPage
+        {
+            get { return false ;}
+        }
 
         /// <summary>Initializes a new instance of <see cref="FramesetPage"/>.</summary>
         public FramesetPage() : base()
@@ -602,15 +607,31 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
                 case FramesetStringId.SubmitPageTitleHtml:
                     if (AssignmentView == AssignmentView.Execute)
+                    {
                         return SlkFrameset.HID_SubmitPageTitleHtml;
+                    }
                     else
+                    {
                         return SlkFrameset.HID_SubmitGradingPageTitleHtml;
+                    }
 
                 case FramesetStringId.SubmitPageMessageHtml:
                     if (AssignmentView == AssignmentView.Execute)
-                        return SlkFrameset.HID_SubmitPageMessageHtml;
+                    {
+                        LearnerAssignmentProperties la = GetLearnerAssignment();
+                        if (la.Assignment.IsSelfAssignment)
+                        {
+                            return SlkFrameset.HID_SubmitPageMessageHtmlSelfAssignment;
+                        }
+                        else
+                        {
+                            return SlkFrameset.HID_SubmitPageMessageHtml;
+                        }
+                    }
                     else
+                    {
                         return SlkFrameset.HID_SubmitGradingPageMessageHtml;
+                    }
 
                 case FramesetStringId.SubmitPageMessageNoCurrentActivityHtml:
                     // This should not happen in grading view
@@ -618,9 +639,13 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     
                 case FramesetStringId.SubmitPageSaveButtonHtml:
                     if (AssignmentView == AssignmentView.Execute)
+                    {
                         return SlkFrameset.FRM_SubmitPageBtnHtml;
+                    }
                     else
+                    {
                         return SlkFrameset.FRM_SubmitGradingPageBtnHtml;
+                    }
 
                 case FramesetStringId.CannotDisplayContentTitle:
                     return SlkFrameset.FRM_CannotDisplayContentTitle;

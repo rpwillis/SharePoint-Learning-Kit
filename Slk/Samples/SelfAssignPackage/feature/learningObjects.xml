@@ -1,0 +1,18 @@
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <!-- 
+    Creates a document library (type 101) in the site. 
+    The title and description are pulled from the resource file. 
+    The FeatureId is the ID of the feature which contains the document library definition, not this feature
+    The document library is created in the root of the site which is the standard for document libraries. This is controlled by the Url attribute
+    -->
+    <ListInstance 
+        FeatureId="00BFEA71-E717-4E80-AA17-D0C71B360101" 
+        Id="1671" 
+        OnQuickLaunch="TRUE" 
+        RootWebOnly="FALSE" 
+        TemplateType="101" 
+        Title="$Resources:LearningObjectsListTitle" 
+        Description="$Resources:LearningObjectsListDescription" 
+        Url="LearningObjects" />
+</Elements> 
+

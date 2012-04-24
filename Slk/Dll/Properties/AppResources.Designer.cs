@@ -1639,6 +1639,42 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upload Document (Optional).
+        /// </summary>
+        internal static string CtrlLabelUploadDocumentHeader {
+            get {
+                return ResourceManager.GetString("CtrlLabelUploadDocumentHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document Library.
+        /// </summary>
+        internal static string CtrlLabelUploadDocumentLibrary {
+            get {
+                return ResourceManager.GetString("CtrlLabelUploadDocumentLibrary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        internal static string CtrlLabelUploadDocumentName {
+            get {
+                return ResourceManager.GetString("CtrlLabelUploadDocumentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optionally choose a document to upload to distribute and choose the document library to place it in..
+        /// </summary>
+        internal static string CtrlLabelUploadDocumentText {
+            get {
+                return ResourceManager.GetString("CtrlLabelUploadDocumentText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string CtrlOKButtonText {
@@ -3390,6 +3426,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to retrieve learner ids..
+        /// </summary>
+        internal static string PopulateLearnerAssignmentIdsInvalidException {
+            get {
+                return ResourceManager.GetString("PopulateLearnerAssignmentIdsInvalidException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Always show the web part even if not an instructor on the site..
         /// </summary>
         internal static string QuickAssignmentAlwaysShowDescription {
@@ -3541,6 +3586,96 @@ namespace Resources.Properties {
         internal static string SelectSiteCollectionHtml {
             get {
                 return ResourceManager.GetString("SelectSiteCollectionHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The List Name property is set to an invalid list..
+        /// </summary>
+        internal static string SelfAssignInvalidList {
+            get {
+                return ResourceManager.GetString("SelfAssignInvalidList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The View Name property is set to an invalid view..
+        /// </summary>
+        internal static string SelfAssignInvalidView {
+            get {
+                return ResourceManager.GetString("SelfAssignInvalidView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the list hosting the documents..
+        /// </summary>
+        internal static string SelfAssignListNameDescription {
+            get {
+                return ResourceManager.GetString("SelfAssignListNameDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List Name.
+        /// </summary>
+        internal static string SelfAssignListNameDisplayName {
+            get {
+                return ResourceManager.GetString("SelfAssignListNameDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The List Name property is required..
+        /// </summary>
+        internal static string SelfAssignListNameRequired {
+            get {
+                return ResourceManager.GetString("SelfAssignListNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No packages to show..
+        /// </summary>
+        internal static string SelfAssignPartNoItems {
+            get {
+                return ResourceManager.GetString("SelfAssignPartNoItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The url of the site hosting the list to get the documents from. Leave blank for current site..
+        /// </summary>
+        internal static string SelfAssignSiteUrlDescription {
+            get {
+                return ResourceManager.GetString("SelfAssignSiteUrlDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site Url.
+        /// </summary>
+        internal static string SelfAssignSiteUrlDisplayName {
+            get {
+                return ResourceManager.GetString("SelfAssignSiteUrlDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the view hosting the documents. Leave blank to use the default view..
+        /// </summary>
+        internal static string SelfAssignViewNameDescription {
+            get {
+                return ResourceManager.GetString("SelfAssignViewNameDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Name.
+        /// </summary>
+        internal static string SelfAssignViewNameDisplayName {
+            get {
+                return ResourceManager.GetString("SelfAssignViewNameDisplayName", resourceCulture);
             }
         }
         
@@ -3765,6 +3900,21 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;Settings xmlns=&quot;urn:schemas-microsoft-com:sharepoint-learning-kit:settings&quot; xmlns:slk=&quot;urn:schemas-microsoft-com:sharepoint-learning-kit:settings&quot;
+        ///    ApprovedAttachmentTypes=&quot;bmp, doc, docx, gif, htm, html, jpeg, jnt, jpg, lit, mdi, mix, pdf, png, ppt, pptx, pub, rtf, txt, wdb, wks, xlr, xls, xlsx, zip&quot;
+        ///	ELearningIisCompatibilityModeExtensions=&quot;mp3, swf&quot;
+        ///    LoggingOptions=&quot;None&quot; 
+        ///    MaxAttachmentKilobytes=&quot;10240&quot;
+        ///	NonELearningIisCompatibilityModeExtensions=&quot;&quot; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SlkSettingsFile {
+            get {
+                return ResourceManager.GetString("SlkSettingsFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Problem found in SLK Settings file: {0}.
         /// </summary>
         internal static string SlkSettingsFileError {
@@ -3774,7 +3924,7 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite GUID {0}.).
+        ///   Looks up a localized string similar to SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite {0}.).
         /// </summary>
         internal static string SlkSettingsNotFound {
             get {
@@ -4046,6 +4196,152 @@ namespace Resources.Properties {
         internal static string SPWebDoesNotMatchSlkSPSite {
             get {
                 return ResourceManager.GetString("SPWebDoesNotMatchSlkSPSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configuring SLK for web application: {0} ({1}).
+        /// </summary>
+        internal static string StsConfiguringSlkForApplication {
+            get {
+                return ResourceManager.GetString("StsConfiguringSlkForApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configuring SLK for site: {0} ({1}).
+        /// </summary>
+        internal static string StsConfiguringSlkForSite {
+            get {
+                return ResourceManager.GetString("StsConfiguringSlkForSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} ({1}) --&gt; Server={2};Database={3}.
+        /// </summary>
+        internal static string StsEnumMappingLine {
+            get {
+                return ResourceManager.GetString("StsEnumMappingLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to   
+        ///   Database server:         {0}
+        ///   Database name:           {1}
+        ///   Instructor Permission:   {2}
+        ///   Learner Permission:      {3}
+        ///      .
+        /// </summary>
+        internal static string StsGetSiteConfiguration {
+            get {
+                return ResourceManager.GetString("StsGetSiteConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///           -url &lt;url&gt;
+        ///           [-databaseserver &lt;database server name*&gt;]
+        ///           [-databasename &lt;database name&gt;]
+        ///           [-createdatabase]
+        ///           [-instructorpermission &lt;instructor permission name&gt;]
+        ///           [-learnerpermission &lt;learner permission name&gt;]
+        ///           [-createpermissions]
+        ///           [-uploadslksettings &lt;SLK Settings XML file name&gt; | -defaultslksettings]
+        ///           [-application]
+        ///
+        ///* By default, integrated authentication is used to connect to the database.
+        ///To use a SQL [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string StsHelpConfigure {
+            get {
+                return ResourceManager.GetString("StsHelpConfigure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///           -guid &lt;site-guid&gt;
+        ///
+        ///    Deletes a mapping.
+        ///    .
+        /// </summary>
+        internal static string StsHelpDeleteMapping {
+            get {
+                return ResourceManager.GetString("StsHelpDeleteMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///    Enumerates all mappings
+        ///    .
+        /// </summary>
+        internal static string StsHelpEnumMappings {
+            get {
+                return ResourceManager.GetString("StsHelpEnumMappings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///           -url &lt;url&gt;
+        ///           -guid &lt;guid&gt;
+        ///
+        ///   Returns the configuration for a site or web application. 
+        ///   Use either url or guid.
+        ///    .
+        /// </summary>
+        internal static string StsHelpGetConfiguration {
+            get {
+                return ResourceManager.GetString("StsHelpGetConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SLK mapping not found for GUID {0}..
+        /// </summary>
+        internal static string StsInvalidGuid {
+            get {
+                return ResourceManager.GetString("StsInvalidGuid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SLK mapping deleted for GUID {0}.
+        /// </summary>
+        internal static string StsMappingDeleted {
+            get {
+                return ResourceManager.GetString("StsMappingDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is a required parameter..
+        /// </summary>
+        internal static string StsMissingParameter {
+            get {
+                return ResourceManager.GetString("StsMissingParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Either {0} or {1} are required parameters..
+        /// </summary>
+        internal static string StsMissingParameters {
+            get {
+                return ResourceManager.GetString("StsMissingParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only one of {0} or {1} is allowed..
+        /// </summary>
+        internal static string StsSettingsError {
+            get {
+                return ResourceManager.GetString("StsSettingsError", resourceCulture);
             }
         }
         

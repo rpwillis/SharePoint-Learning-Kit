@@ -142,7 +142,7 @@ namespace Microsoft.SharePointLearningKit
         /// <exception cref="UnauthorizedAccessException">
         /// The user is not authorized to access the package.
         /// </exception>
-        PackageDetails RegisterAndValidatePackage(string location);
+        PackageDetails RegisterAndValidatePackage(SharePointFileLocation location);
 
         /// <summary>Gets information about the package.</summary>
         /// <param name="packageId">The id of the package.</param>
@@ -247,6 +247,11 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="minDueDate">The minimum due date to return.</param>
         /// <param name="maxDueDate">The maximum due date to return.</param>
         IEnumerable<AssignmentProperties> LoadAssignmentReminders(DateTime minDueDate, DateTime maxDueDate);
+
+        /// <summary>Loads a self assignment for a particular location if one exists.</summary>
+        /// <param name="location">The location of the assignment.</param>
+        /// <returns>An <see cref="AssignmentProperties"/>.</returns>
+        AssignmentProperties LoadSelfAssignmentForLocation(SharePointFileLocation location);
     }
 }
 

@@ -54,6 +54,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
+        /// <summary>See <see cref="SlkAppBasePage.OverrideMasterPage"/>.</summary>
+        protected override bool OverrideMasterPage
+        {
+            get { return false ;}
+        }
+
 
         // TODO: Needs error handling. Remove catch all exceptions and ignore as that is worse than none.
         

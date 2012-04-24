@@ -102,6 +102,12 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     }
 
     #region protected properties
+    /// <summary>Indicates if should override master page.</summary>
+    protected virtual bool OverrideMasterPage
+    {
+        get { return true; ;}
+    }
+
     /// <summary>
     /// Gets the learnerKey session parameter which is used as the LearningStore user
     /// if the user is an SlkObserver
@@ -189,6 +195,28 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
         AppResources.Culture = Thread.CurrentThread.CurrentCulture;
         base.OnInit(e);
     }
+
+    /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnPreInit"/>.</summary>
+    protected override void OnPreInit(EventArgs e)
+    {
+        try
+        {
+            if (SlkStore.Settings.UseMasterPageForApplicationPages)
+            {
+                if (OverrideMasterPage)
+                {
+                    MasterPageFile = SPWeb.CustomMasterUrl;
+                }
+            }
+        }
+        catch (SafeToDisplayException)
+        {
+            // Error will be handled elsewhere
+        }
+
+        base.OnPreInit(e);
+    }
+
 
     /// <summary>
     /// Returns a copy of the current page's query string (beginning with "?") with a given

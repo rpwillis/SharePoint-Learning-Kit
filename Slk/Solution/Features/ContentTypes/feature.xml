@@ -1,0 +1,11 @@
+<Feature  xmlns="http://schemas.microsoft.com/sharepoint/"
+    Id="63c11133-4373-4318-934e-a4448ac522f2" 
+        Title="$Resources:ContentTypesFeatureTitle" 
+        Description="$Resources:ContentTypesFeatureDescription" 
+        DefaultResourceFile="SLK"
+        ImageUrl="slkFeature.gif"
+        Scope="Site">
+    <ElementManifests>
+        <ElementManifest Location="elements.xml"/>
+    </ElementManifests>
+</Feature>

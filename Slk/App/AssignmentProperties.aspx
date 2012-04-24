@@ -181,6 +181,39 @@
 										<slk:TableGridColumn ColumnSpan="2" ColumnType="FormLine"><img height=1 width=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif"></slk:TableGridColumn>
 									</slk:TableGridRow>
                                 </slk:TableGrid>
+
+                                <slk:TableGrid ID="TgUploadDocument" runat="server" Width="100%" CellPadding="0" CellSpacing="0" Visible="false">
+                                    <slk:TableGridRow runat="server">
+                                        <slk:TableGridColumn ColumnSpan="2" ColumnType="FormLabel" runat="server" Width="100%" Style="border-top: none">
+                                            <asp:Label ID="LabelUploadDocumentHeader" runat="server" CssClass="UserGenericHeader" EnableViewState="false"></asp:Label>
+                                        </slk:TableGridColumn>
+                                    </slk:TableGridRow>
+                                    <slk:TableGridRow>
+                                        <slk:TableGridColumn ColumnSpan="2" ColumnType="FormDefault" runat="server" Width="100%" CssClass="UserGenericText" Style="border-top: none">
+                                            <asp:Label ID="LabelUploadDocumentText" runat="server" EnableViewState="false"></asp:Label>                 
+                                        </slk:TableGridColumn>
+                                    </slk:TableGridRow>
+                                     <slk:TableGridRow>
+                                        <slk:TableGridColumn ColumnSpan="2" Width="100%" ColumnType="FormBreak" runat="server"></slk:TableGridColumn>
+                                    </slk:TableGridRow>
+                                    <slk:TableGridRow  runat="server">
+                                        <slk:TableGridColumn  runat="server" ColumnType="FormLabel">
+                                            <h3 class="ms-standardheader"><nobr><asp:Label ID="LabelUploadDocumentName" runat="server" EnableViewState="false"></asp:Label></nobr></h3>
+                                        </slk:TableGridColumn>
+                                        <slk:TableGridColumn  runat="server" ColumnType="FormBody">
+                                            <asp:FileUpload id="FileUploadDocument" runat="server" class="ms-fileinput"></asp:FileUpload>
+                                        </slk:TableGridColumn>
+                                    </slk:TableGridRow>
+                                    <slk:TableGridRow  runat="server">
+                                        <slk:TableGridColumn  runat="server" ColumnType="FormLabel">
+                                            <h3 class="ms-standardheader"><nobr><asp:Label ID="LabelUploadDocumentLibrary" runat="server" EnableViewState="false"></asp:Label></nobr></h3>
+                                        </slk:TableGridColumn>
+                                        <slk:TableGridColumn  runat="server" ColumnType="FormBody">
+                                            <asp:DropDownList ID="UploadDocumentLibraries" CssClass="ms-long" runat="server" />
+                                        </slk:TableGridColumn>
+                                    </slk:TableGridRow>
+
+                                </slk:TableGrid>
                                                                 
                                 <!-- Distribute the Assignment -->
                                 <slk:TableGrid ID="tgDistAssignment" runat="server" Width="100%" CellPadding="0" CellSpacing="0">
