@@ -1810,4 +1810,11 @@ For security reasons, integrated authentication is strongly recommended.
     Deletes a mapping.
     </value>
   </data>
+  <data name="NoDomainGroupEnumeratorAssembly" xml:space="preserve">
+    <value>No assembly value given for the domain group enumerator.</value>
+  </data>
+  <data name="DomainGroupEnumeratorFailure" xml:space="preserve">
+      <value>Failed to load type {0}. {1}</value>
+  </data>
+
 </root>

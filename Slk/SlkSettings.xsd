@@ -53,6 +53,14 @@
 				</xs:complexType>
 			</xs:element>
 
+			<xs:element name="DomainGroupEnumerator" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence />
+					<xs:attribute name="Assembly" type="xs:string" use="optional" />
+					<xs:attribute name="Type" type="xs:string" use="optional" />
+				</xs:complexType>
+			</xs:element>
+
 			<xs:element name="Query" maxOccurs="unbounded" minOccurs="0">
 				<xs:complexType>
 					<xs:sequence>

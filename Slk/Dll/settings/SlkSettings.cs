@@ -47,6 +47,11 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>The settings for Quick Assignments.</summary>
         public QuickAssignmentSettings QuickAssignmentSettings { get; private set; }
 
+        /// <summary>The type of the domain group enumerator.</summary>
+        public string DomainGroupEnumeratorType { get; private set; }
+        /// <summary>The assembly of the domain group enumerator.</summary>
+        public string DomainGroupEnumeratorAssembly { get; private set; }
+
         /// <summary>
         /// Gets the collection of approved attachment file name extensions from the
         /// "ApprovedAttachmentTypes" attribute of the "&lt;Settings&gt;" element within the SLK
@@ -245,34 +250,44 @@ namespace Microsoft.SharePointLearningKit
                     {
                         continue;
                     }
-                    else if (xmlReader.Name == "Settings")
+                    else
                     {
-                        ParseSettingsAttributes(xmlReader);
-                        xmlReader.MoveToElement();
-                    }
-                    else if (xmlReader.Name == "MimeTypeMapping")
-                    {
-                        MimeTypeMappings[xmlReader.GetAttribute("Extension")] = xmlReader.GetAttribute("MimeType");
-                    }
-                    else if (xmlReader.Name == "DropBoxSettings")
-                    {
-                        DropBoxSettings = new DropBoxSettings(xmlReader);
-                    }
-                    else if (xmlReader.Name == "QuickAssignmentSettings")
-                    {
-                        QuickAssignmentSettings = new QuickAssignmentSettings(xmlReader);
-                    }
-                    else if (xmlReader.Name == "EmailSettings")
-                    {
-                        EmailSettings = new EmailSettings(xmlReader);
-                    }
-                    else if (xmlReader.Name == "Query")
-                    {
-                        ParseQuery(xmlReader);
-                    }
-                    else if (xmlReader.Name == "QuerySet")
-                    {
-                        ParseQuerySet(xmlReader);
+                        switch (xmlReader.Name)
+                        {
+                            case "Settings":
+                                ParseSettingsAttributes(xmlReader);
+                                xmlReader.MoveToElement();
+                                break;
+
+                            case "MimeTypeMapping":
+                                MimeTypeMappings[xmlReader.GetAttribute("Extension")] = xmlReader.GetAttribute("MimeType");
+                                break;
+
+                            case "DropBoxSettings":
+                                DropBoxSettings = new DropBoxSettings(xmlReader);
+                                break;
+
+                            case "QuickAssignmentSettings":
+                                QuickAssignmentSettings = new QuickAssignmentSettings(xmlReader);
+                                break;
+
+                            case "EmailSettings":
+                                EmailSettings = new EmailSettings(xmlReader);
+                                break;
+
+                            case "Query":
+                                ParseQuery(xmlReader);
+                                break;
+
+                            case "QuerySet":
+                                ParseQuerySet(xmlReader);
+                                break;
+
+                            case "DomainGroupEnumerator":
+                                DomainGroupEnumeratorType = xmlReader.GetAttribute("Type");
+                                DomainGroupEnumeratorAssembly = xmlReader.GetAttribute("Assembly");
+                                break;
+                        }
                     }
                 }
             }
