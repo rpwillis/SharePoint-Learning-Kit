@@ -174,7 +174,10 @@ namespace Microsoft.SharePointLearningKit
                         usersById.Add(user.UserId.GetKey(), user);
                     }
                 }
-                return usersById[key] ;
+
+                SlkUser toReturn = null;
+                usersById.TryGetValue(key, out toReturn);
+                return toReturn;
             }
         }
 #endregion properties
@@ -368,6 +371,7 @@ namespace Microsoft.SharePointLearningKit
 
         void AddUser(SPUser user, bool isInstructor, bool isLearner, SlkGroup learnerGroup, List<string> learnerKeys)
         {
+
             SlkUser slkUser = new SlkUser(user);
             SlkUser slkUser2;
             string userKey = slkUser.Key;

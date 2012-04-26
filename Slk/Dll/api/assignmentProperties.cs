@@ -29,6 +29,7 @@ namespace Microsoft.SharePointLearningKit
         List<Email> cachedEmails;
         List<DropBoxUpdate> cachedDropBoxUpdates;
         Dictionary<long, LearnerAssignmentProperties> keyedResults = new Dictionary<long, LearnerAssignmentProperties>();
+        Dictionary<long, LearnerAssignmentProperties> userResults = new Dictionary<long, LearnerAssignmentProperties>();
         DropBoxManager dropBoxManager;
         SPSite site;
 
@@ -250,6 +251,15 @@ namespace Microsoft.SharePointLearningKit
 #endregion constructors
 
 #region public methods
+        /// <summary>Gets the result for a learner.</summary>
+        /// <param name="learner">The learner to get the result for.</param>
+        public LearnerAssignmentProperties ResultForLearner(SlkUser learner)
+        {
+            LearnerAssignmentProperties result = null;
+            userResults.TryGetValue(learner.UserId.GetKey(), out result);
+            return result;
+        }
+
         /// <summary>Sends a reminder email.</summary>
         public void SendReminderEmail()
         {
@@ -1029,7 +1039,8 @@ namespace Microsoft.SharePointLearningKit
         {
             foreach (LearnerAssignmentProperties result in results)
             {
-                keyedResults.Add(result.LearnerAssignmentId.GetKey(), result);
+                keyedResults[result.LearnerAssignmentId.GetKey()] = result;
+                userResults[result.User.UserId.GetKey()] = result;
             }
 
             Results = new ReadOnlyCollection<LearnerAssignmentProperties>(results) ;

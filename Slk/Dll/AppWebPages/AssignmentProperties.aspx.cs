@@ -1112,7 +1112,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary> Gets the Assignment Properties Modified in UI</summary>  
         private void CreateAssignmentPropertiesObject()
         {
-            AssignmentProperties = new AssignmentProperties(AssignmentItemIdentifier, SlkStore);
+            if (AssignmentId == null)
+            {
+                AssignmentProperties = new AssignmentProperties(AssignmentItemIdentifier, SlkStore);
+            }
+            else
+            {
+                AssignmentProperties = AssignmentProperties.Load(AssignmentItemIdentifier, SlkStore);
+            }
 
             AssignmentProperties.Title = SlkUtilities.Trim(txtTitle.Text);
             AssignmentProperties.Description = SlkUtilities.Trim(txtDescription.Text);
@@ -1149,6 +1156,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="customChkBoxList">control to retrive the item from</param>
         private void SetMembersList(SlkUserCollection slkUserCollection, CustomCheckBoxList customChkBoxList)
         {
+            slkUserCollection.Clear();
             if (customChkBoxList.Items.Count > 0)
             {
                 //Get all the selected members and adds to the collection
@@ -1159,7 +1167,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         //get the item key and add to collection
                         SlkUser user = SlkMembers[GetUserItemIdentifier(item.Value).GetKey()];
-                        slkUserCollection.Add(user);
+                        if (user == null)
+                        {
+                        }
+                        else
+                        {
+                            slkUserCollection.Add(user);
+                        }
                     }
                 }
 
@@ -1875,8 +1889,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 //Log the Exception 
                 WriteError(ex, true);
-                errorBanner.Clear();
-                errorBanner.AddError(ErrorType.Error, ex.Message);
+                SlkError.WriteToEventLog(ex);
             }
         }
 

@@ -106,19 +106,28 @@ namespace Microsoft.SharePointLearningKit
         public SlkUser(UserItemIdentifier userId, SPUser spUser) : this(userId)
         {
             SPUser = spUser;
-            Name = spUser.Name;
+            if (SPUser != null)
+            {
+                Name = SPUser.Name;
+            }
         }
 
         // If this constructor is used the calling code is responsible for setting the userId.
         internal SlkUser(SPUser spUser)
         {
             SPUser = spUser;
-            Name = spUser.Name;
+            if (SPUser != null)
+            {
+                Name = SPUser.Name;
+            }
         }
 
         internal SlkUser(UserItemIdentifier userId, string name, string key, SPUser user) : this (userId, user)
         {
-            Name = name;
+            if (string.IsNullOrEmpty(Name))
+            {
+                Name = name;
+            }
             this.key = key;
         }
 #endregion constructors

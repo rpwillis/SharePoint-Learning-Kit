@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using Microsoft.SharePoint;
@@ -29,6 +30,11 @@ namespace Microsoft.SharePointLearningKit
 #endregion constructors
 
 #region properties
+        /// <summary>The url of the folder.</summary>
+        public string Url
+        {
+            get { return assignmentFolder.Url ;}
+        }
 #endregion properties
 
 #region public methods
@@ -165,10 +171,18 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Removes all permissions on the folder.</summary>
         public void RemoveAllPermissions()
         {
+            List<SPPrincipal> toRemove = new List<SPPrincipal>();
             foreach (SPRoleAssignment role in assignmentFolder.RoleAssignments)
             {
-                role.RoleDefinitionBindings.RemoveAll();
+                //role.RoleDefinitionBindings.RemoveAll();
+                toRemove.Add(role.Member);
             }
+
+            foreach (SPPrincipal principal in toRemove)
+            {
+                assignmentFolder.RoleAssignments.Remove(principal);
+            }
+
             assignmentFolder.Update();
         }
 

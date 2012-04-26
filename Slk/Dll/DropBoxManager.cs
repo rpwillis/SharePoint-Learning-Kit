@@ -261,22 +261,17 @@ namespace Microsoft.SharePointLearningKit
                                 assignmentFolder.ApplyPermission(learner.SPUser, SPRoleType.Reader);
 
                                 AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(learner.SPUser);
+                                LearnerAssignmentProperties result = assignmentProperties.ResultForLearner(learner);
 
-                                if (learnerSubFolder != null)
-                                {
-                                    learnerSubFolder.RemoveAllPermissions();
-
-                                    // Grant assignment instructors permission on the learner subfolder based on the learner assignment status
-                                    ApplyInstructorsReadAccessPermissions(learnerSubFolder);
-
-                                    // Grant learner permission on his/her learner subfolder based on the learner assignment status
-                                    learnerSubFolder.ApplyPermission(learner.SPUser, SPRoleType.Reader);
-                                }
-                                else
-                                // In case the assignment is assigned to new learner
+                                if (learnerSubFolder == null)
                                 {
                                     // Create a new subfolder for this learner
                                     assignmentFolder.CreateLearnerAssignmentFolder(learner.SPUser);
+                                }
+
+                                if (result != null)
+                                {
+                                    AssignUpdatePermissions(learnerSubFolder, learner.SPUser, result.Status);
                                 }
                             }
                             spWeb.AllowUnsafeUpdates = false;
@@ -284,6 +279,34 @@ namespace Microsoft.SharePointLearningKit
                     }
                 }
             });
+        }
+
+        void AssignUpdatePermissions(AssignmentFolder folder, SPUser learner, LearnerAssignmentState? status)
+        {
+            folder.RemoveAllPermissions();
+
+            if (status != null)
+            {
+                switch (status.Value)
+                {
+                    case LearnerAssignmentState.NotStarted:
+                        break;
+
+                    case LearnerAssignmentState.Active:
+                        ApplyInstructorsReadAccessPermissions(folder);
+                        folder.ApplyPermission(learner, SPRoleType.Contributor);
+                        break;
+
+                    case LearnerAssignmentState.Completed:
+                        ApplyInstructorsContributeAccessPermissions(folder);
+                        break;
+
+                    case LearnerAssignmentState.Final:
+                        ApplyInstructorsReadAccessPermissions(folder);
+                        folder.ApplyPermission(learner, SPRoleType.Reader);
+                        break;
+                }
+            }
         }
         
         /// <summary>Returns the last submitted files for the given learner.</summary>
@@ -574,6 +597,14 @@ namespace Microsoft.SharePointLearningKit
                         learnerSubFolder.Delete();
                     }
                 }
+            }
+        }
+
+        void ApplyInstructorsContributeAccessPermissions(AssignmentFolder folder)
+        {
+            foreach (SlkUser instructor in assignmentProperties.Instructors)
+            {
+                folder.ApplyPermission(instructor.SPUser, SPRoleType.Contributor);
             }
         }
 
