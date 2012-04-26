@@ -42,6 +42,11 @@ namespace Microsoft.SharePointLearningKit
         {
             get
             {
+                if (Extension == null)
+                {
+                    return false;
+                }
+
                 switch (Extension.ToUpperInvariant())
                 {
                     case ".DOCX":
