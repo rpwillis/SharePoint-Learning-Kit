@@ -1040,7 +1040,11 @@ namespace Microsoft.SharePointLearningKit
             foreach (LearnerAssignmentProperties result in results)
             {
                 keyedResults[result.LearnerAssignmentId.GetKey()] = result;
-                userResults[result.User.UserId.GetKey()] = result;
+
+                if (result.User != null && result.User.UserId != null)
+                {
+                    userResults[result.User.UserId.GetKey()] = result;
+                }
             }
 
             Results = new ReadOnlyCollection<LearnerAssignmentProperties>(results) ;
