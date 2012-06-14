@@ -278,15 +278,22 @@ namespace Microsoft.SharePointLearningKit
 
             CheckSid(sddl);
 
-            SecurityIdentifier sid = new SecurityIdentifier(sddl);
-            byte[] bytes = new byte[sid.BinaryLength];
-            sid.GetBinaryForm(bytes, 0);
-            StringBuilder builder = new StringBuilder();
-            for (int i=0; i < bytes.Length; i++)
+            try
             {
-                builder.Append(bytes[i].ToString("X2", CultureInfo.InvariantCulture));
+                SecurityIdentifier sid = new SecurityIdentifier(sddl);
+                byte[] bytes = new byte[sid.BinaryLength];
+                sid.GetBinaryForm(bytes, 0);
+                StringBuilder builder = new StringBuilder();
+                for (int i=0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("X2", CultureInfo.InvariantCulture));
+                }
+                return builder.ToString();
             }
-            return builder.ToString();
+            catch (ArgumentException)
+            {
+                throw new DomainGroupEnumerationException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupInvalidSid, sddl));
+            }
         }
 
         void ProcessSearchResults(DirectorySearcher searcher, List<SPUserInfo> users)

@@ -23,6 +23,5 @@ using System;
 [assembly: AssemblyProduct("Microsoft SharePoint Learning Kit")]
 [assembly: AssemblyCopyright("\x00A9 Microsoft Corp. 2005-2006.  All rights reserved.")]
 [assembly: AssemblyCulture("")]
-[assembly: System.Resources.SatelliteContractVersion("1.1.0.0")]
 
 [assembly: CLSCompliant(false)]
