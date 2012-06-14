@@ -7,7 +7,7 @@ using System.Data;
 using System.Collections;
 using System.Xml;
 
-namespace Loc
+namespace SharePointLearningKit.Localization
 {
     class ResourceData 
     {
@@ -15,6 +15,7 @@ namespace Loc
         string _type;
         string _name;
         DataSet _ds;
+        Dictionary<string, DataRow> keyedRows = new Dictionary<string, DataRow>();
 
         public ResourceData()
         {
@@ -61,6 +62,15 @@ namespace Loc
             }
         }
 
+        public void SetTranslation(string id, string translation)
+        {
+            DataRow row = null;
+            if (keyedRows.TryGetValue(id, out row))
+            {
+                row["Translation"] = translation;
+            }
+        }
+
         private void AddToMetaData(string FieldName, string Value)
         {
             if (_ds.Tables["MetaData"].Rows.Count == 0)
@@ -86,12 +96,14 @@ namespace Loc
         }
 
 
-        public void Add(string ID, string Value)
+        public void Add(string id, string value, bool crucial)
         {
             DataRow dr = _ds.Tables["Resources"].NewRow();
-            dr["ID"] = ID;
-            dr["Source"] = Value;
-            dr["Translation"] = Value;
+            dr["ID"] = id;
+            dr["Source"] = value;
+            dr["Translation"] = value;
+            dr["Crucial"] = crucial;
+            keyedRows.Add(id, dr);
             _ds.Tables["Resources"].Rows.Add(dr);
         }
 
@@ -106,68 +118,18 @@ namespace Loc
             ds.Tables["Resources"].Columns.Add("ID");
             ds.Tables["Resources"].Columns.Add("Source");
             ds.Tables["Resources"].Columns.Add("Translation");
+            ds.Tables["Resources"].Columns.Add("Crucial");
         }
 
 
     }
 
-    class ResourceDataCollection : CollectionBase
+    /// <summary>The type of resource.</summary>
+    public enum ResourceTypes
     {
-
-        public ResourceData this[int index]
-        {
-            get
-            {
-                return ((ResourceData)List[index]);
-            }
-            set
-            {
-                List[index] = value;
-            }
-        }
-
-        public int Add(ResourceData value)
-        {
-            return (List.Add(value));
-        }
-
-        public void Add(ResourceDataCollection coll)
-        {
-            foreach (ResourceData it in coll)
-            {
-                List.Add(it);
-            }
-        }
-
-        public int IndexOf(ResourceData value)
-        {
-            return (List.IndexOf(value));
-        }
-
-        public void Insert(int index, ResourceData value)
-        {
-            List.Insert(index, value);
-        }
-
-        public void Remove(ResourceData value)
-        {
-            List.Remove(value);
-        }
-
-        public bool Contains(ResourceData value)
-        {
-            return (List.Contains(value));
-        }
-
-        protected override void OnValidate(object value)
-        {
-            if (value.GetType() != Type.GetType("Loc.ResourceData"))
-            {
-                throw new ArgumentException("Argument must be of type 'ResourceData'.");
-            }
-        }
+        /// <summary>A string table.</summary>
+        StringTable = 0, 
+        /// <summary>Xml data.</summary>
+        XML
     }
-
-
-    public enum ResourceTypes{StringTable = 0, XML}
 }
