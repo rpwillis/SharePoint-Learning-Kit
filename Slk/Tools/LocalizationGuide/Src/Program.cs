@@ -5,18 +5,43 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 
-namespace Loc
+namespace SharePointLearningKit.Localization
 {
+    enum Task
+    {
+        Extract = 0,
+        Generate
+    }
+
     class Program
     {
 
-        private static int _task;
-        private static string _source;
-        private static string _target;
+        private Task task;
+        private string source;
+        private string target;
 
         static void Main(string[] args)
         {
 
+            try
+            {
+                Program program = new Program();
+                program.Run(args);
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("Failed:");
+                Console.WriteLine(e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+        }
+
+        public void Run(string[] args)
+        {
             Assembly entryAssembly = Assembly.GetEntryAssembly();
             Console.WriteLine(String.Format("{0} v{1}", entryAssembly.GetName().Name, entryAssembly.GetName().Version.ToString()));
 
@@ -28,25 +53,23 @@ namespace Loc
             }
             else
             {
-                if (_task == (int)Tasks.Extract)
+                if (task == Task.Extract)
                 {
                     Extractor resourceExtractor = new Extractor();
-                    resourceExtractor.Extract(_source);
-                    resourceExtractor.Save(_target);
+                    resourceExtractor.Extract(source);
+                    resourceExtractor.Save(target);
 
                     Success();
                 }
                 else
                 {
                     Generator resourceGenerator = new Generator();
-                    resourceGenerator.LoadXML(_source);
+                    resourceGenerator.LoadXML(source);
                     resourceGenerator.Save();
 
                     Success();
-                    
                 }
             }
-
         }
 
         private static void Success()
@@ -55,7 +78,7 @@ namespace Loc
             Console.WriteLine("Successful.");
         }
 
-        private static bool ParseArgs(string[] args)
+        private bool ParseArgs(string[] args)
         {
 
             if (args.Length < 2)
@@ -68,17 +91,17 @@ namespace Loc
                 switch (Command)
                 {
                     case "e":
-
-                        _task = (int)Tasks.Extract;
+                        task = Task.Extract;
                         break;
                     case "g":
-                        _task = (int)Tasks.Generate;
+                        task = Task.Generate;
                         break;
                     default:
                         return false;
 
                 }
-                if (_task == (int)Tasks.Extract)
+
+                if (task == Task.Extract)
                 {
                     if (args.Length != 3)
                     {
@@ -86,8 +109,8 @@ namespace Loc
                     }
                     else
                     {
-                        _source = args[1];
-                        _target = args[2];
+                        source = args[1];
+                        target = args[2];
                     }
                 }
                 else
@@ -98,14 +121,13 @@ namespace Loc
                     }
                     else
                     {
-                        _source = args[1];
+                        source = args[1];
                     }
                 }
             }
             return true;
         }
 
-        private enum Tasks { Extract = 0, Generate }
 
     }
 }

@@ -11,43 +11,51 @@ using System.IO;
 using System.Data;
 using System.Globalization;
 
-namespace Loc
+namespace SharePointLearningKit.Localization
 {
     class Generator
     {
-        private ResourceDataCollection _data;
-        private string _source;
-        private AssemblyName _assemblyName;
+        Dictionary<AssemblyName, ResourceDataCollection> resources = new Dictionary<AssemblyName, ResourceDataCollection>();
 
+#region constructors
         public Generator()
         {
-            Init();
         }
+#endregion constructors
 
-        public string Source
-        {
-            get
-            {
-                return _source;
-            }
-            set
-            {
-                _source = value;
-            }
-        }
+#region properties
+        /// <summary>The source file.</summary>
+        public string Source {get; set; }
+#endregion properties
 
-        private void Init()
-        {
-            _data = new ResourceDataCollection();
-            _assemblyName = new AssemblyName();
-        }
-
+#region public methods
         public void LoadXML()
         {
-            LoadXML(_source);
+            LoadXML(Source);
         }
 
-        public void LoadXML(string Source)
+        public void LoadXML(string source)
+        {
+            if (File.Exists(source))
+            {
+                ProcessAssembly(source);
+            }
+            else if (Directory.Exists(source))
+            {
+                string[] files = Directory.GetFiles(source, "*.xml");
+
+                foreach (string file in files)
+                {
+                    ProcessAssembly(file);
+                }
+            }
+            else
+            {
+                Tools.Error("Invalid File name: " + source);
+            }
+        }
+
+        public void ProcessAssembly(string source)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.ConformanceLevel = ConformanceLevel.Fragment;
@@ -57,123 +65,97 @@ namespace Loc
             XmlReader reader = null;
             try
             {
-                reader = XmlReader.Create(Source, settings);
+                reader = XmlReader.Create(source, settings);
             }
             catch (Exception e)
             {
-                Tools.Error("Can't open file " + Source, e.Message);
+                Tools.Error("Can't open file " + source, e.Message);
             }
-            if (ReadHeader(reader))
+
+            ResourceDataCollection data = new ResourceDataCollection();
+            AssemblyName assemblyName = new AssemblyName();
+            resources.Add(assemblyName, data);
+
+            using (reader)
             {
-                try
+                if (ReadHeader(assemblyName, reader))
                 {
-                    while (!reader.EOF)
+                    try
                     {
-                        reader.Read();
-                        if (reader.Name == "NewDataSet")
+                        while (!reader.EOF)
                         {
-                            string Xml = reader.ReadOuterXml();
-                            // Xml = "<NewDataSet>" + Xml + "</NewDataSet>";
-                            XmlDataDocument xmlDoc = new XmlDataDocument();
-                            ResourceData.PrepareDataSet(xmlDoc.DataSet);
-                            xmlDoc.LoadXml(Xml);
+                            reader.Read();
+                            if (reader.Name == "NewDataSet")
+                            {
+                                string xml = reader.ReadOuterXml();
+                                XmlDataDocument xmlDoc = new XmlDataDocument();
+                                ResourceData.PrepareDataSet(xmlDoc.DataSet);
+                                xmlDoc.LoadXml(xml);
 
-                            ResourceData rd = new ResourceData();
-                            rd.DataSet = xmlDoc.DataSet.Copy();
-                            rd.ResourceName = rd.DataSet.Tables["MetaData"].Rows[0]["Name"].ToString();
-                            rd.ResourceType = rd.DataSet.Tables["MetaData"].Rows[0]["Type"].ToString();
+                                ResourceData rd = new ResourceData();
+                                rd.DataSet = xmlDoc.DataSet.Copy();
+                                rd.ResourceName = rd.DataSet.Tables["MetaData"].Rows[0]["Name"].ToString();
+                                rd.ResourceType = rd.DataSet.Tables["MetaData"].Rows[0]["Type"].ToString();
 
-                            _data.Add(rd);
+                                data.Add(rd);
+                            }
                         }
                     }
-                }
-                catch (Exception e)
-                {
-                    Tools.Error("Corruption in resources XML", e.Message);
-                }
-            }
-
-
-
-        }
-
-        private bool ReadHeader(XmlReader reader)
-        {
-            try
-            {
-                bool done = false;
-                while (!done && !reader.EOF)
-                {
-                    reader.Read();
-                    if (reader.Name == "assembly")
+                    catch (Exception e)
                     {
-                        _assemblyName.CultureInfo = new CultureInfo(reader.GetAttribute("culture"));
-                        _assemblyName.Name = reader.GetAttribute("name");
-                        _assemblyName.Version = new Version(reader.GetAttribute("version"));
-                        _assemblyName.KeyPair = new StrongNameKeyPair(File.Open("..\\..\\..\\..\\src\\Shared\\SlkKey.snk", FileMode.Open, FileAccess.Read));
-                        done = true;
+                        Tools.Error("Corruption in resources XML", e.Message);
                     }
                 }
             }
-            catch (Exception e)
-            {
-                Tools.Error("Error reading XML header", e.Message);
-                return false;
-            }
-            return true;
-
         }
-
-
 
         public void Save()
         {
+            AppDomain appDomain = AppDomain.CurrentDomain;
 
-            AppDomain appDomain = System.Threading.Thread.GetDomain();
-
-            AssemblyBuilder asmBuilder = appDomain.DefineDynamicAssembly(_assemblyName,
-                AssemblyBuilderAccess.ReflectionOnly);
-
-            string satteliteAssemblyFileName = _assemblyName.Name;
-            satteliteAssemblyFileName += ".dll";
-
-            ModuleBuilder moduleBuilder = asmBuilder.DefineDynamicModule(satteliteAssemblyFileName, satteliteAssemblyFileName);
-
-            foreach (ResourceData rd in _data)
+            foreach (KeyValuePair<AssemblyName, ResourceDataCollection> pair in resources)
             {
+                AssemblyName assemblyName = pair.Key;
+                ResourceDataCollection data = pair.Value;
+                AssemblyBuilder asmBuilder = appDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.ReflectionOnly);
 
-                MemoryStream stream = new MemoryStream();
-                string resourceStreamExtension = Path.GetExtension(rd.ResourceName).ToLower();
-                if (resourceStreamExtension == ".resources")
+                string satelliteAssemblyFileName = assemblyName.Name + ".dll";
+
+                ModuleBuilder moduleBuilder = asmBuilder.DefineDynamicModule(satelliteAssemblyFileName, satelliteAssemblyFileName);
+
+                foreach (ResourceData rd in data)
                 {
-                    ResourceWriter resourceWriter = new ResourceWriter(stream);
-                    moduleBuilder.DefineManifestResource(LocResourceName(rd.ResourceName, _assemblyName.CultureInfo.ToString()), stream, ResourceAttributes.Private);
-                    foreach (DataRow dr in rd.DataSet.Tables["Resources"].Rows)
+
+                    MemoryStream stream = new MemoryStream();
+                    string resourceStreamExtension = Path.GetExtension(rd.ResourceName).ToLower();
+                    if (resourceStreamExtension == ".resources")
                     {
-                        if (dr["Translation"].ToString() != dr["Source"].ToString())
+                        ResourceWriter resourceWriter = new ResourceWriter(stream);
+                        moduleBuilder.DefineManifestResource(LocResourceName(rd.ResourceName, assemblyName.CultureInfo.ToString()), stream, ResourceAttributes.Private);
+                        foreach (DataRow dr in rd.DataSet.Tables["Resources"].Rows)
                         {
-                            resourceWriter.AddResource(dr["ID"].ToString(), dr["Translation"].ToString());
+                            if (dr["Translation"].ToString() != dr["Source"].ToString())
+                            {
+                                resourceWriter.AddResource(dr["ID"].ToString(), dr["Translation"].ToString());
+                            }
+                        }
+                        resourceWriter.Generate();
+                    }
+
+                    if ((resourceStreamExtension == ".xsd") || (resourceStreamExtension == ".xml"))
+                    {
+                        if (!Convert.IsDBNull(rd.DataSet.Tables["Resources"].Rows[0]["Translation"]))
+                        {
+                            TextWriter textWriter = new StreamWriter(stream);
+                            moduleBuilder.DefineManifestResource(LocResourceName(rd.ResourceName, assemblyName.CultureInfo.ToString()), stream, ResourceAttributes.Private);
+                            textWriter.Write(rd.DataSet.Tables["Resources"].Rows[0]["Translation"] as string);
+                            textWriter.Flush();
                         }
                     }
-                    resourceWriter.Generate();
                 }
 
-                if ((resourceStreamExtension == ".xsd") || (resourceStreamExtension == ".xml"))
-                {
-                    if (!Convert.IsDBNull(rd.DataSet.Tables["Resources"].Rows[0]["Translation"]))
-                    {
-                        TextWriter textWriter = new StreamWriter(stream);
-                        moduleBuilder.DefineManifestResource(LocResourceName(rd.ResourceName, _assemblyName.CultureInfo.ToString()), stream, ResourceAttributes.Private);
-                        textWriter.Write(rd.DataSet.Tables["Resources"].Rows[0]["Translation"] as string);
-                        textWriter.Flush();
-                    }
-                }
-
-
-
+                asmBuilder.Save(satelliteAssemblyFileName);
             }
-
-            asmBuilder.Save(satteliteAssemblyFileName);
         }
 
         public string LocResourceName(string ResourceName, string Culture)
@@ -186,6 +168,43 @@ namespace Loc
 
             return ret;
         }
+
+#endregion public methods
+
+#region private methods
+        private bool ReadHeader(AssemblyName assemblyName, XmlReader reader)
+        {
+            try
+            {
+                bool done = false;
+                while (!done && !reader.EOF)
+                {
+                    reader.Read();
+                    if (reader.Name == "assembly")
+                    {
+                        assemblyName.CultureInfo = new CultureInfo(reader.GetAttribute("culture"));
+                        assemblyName.Name = reader.GetAttribute("name");
+                        assemblyName.Version = new Version(reader.GetAttribute("version"));
+                        using (FileStream stream =File.Open("..\\..\\..\\LearningComponents\\Shared\\SlkKey.snk", FileMode.Open, FileAccess.Read)) 
+                        {
+                            assemblyName.KeyPair = new StrongNameKeyPair(stream);
+                        }
+
+                        done = true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Tools.Error("Error reading XML header", e.Message);
+                return false;
+            }
+
+            return true;
+        }
+#endregion private methods
+
+
 
  
     }
