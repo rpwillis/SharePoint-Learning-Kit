@@ -1165,6 +1165,9 @@ saving, click Cancel.</value>
   <data name="DomainGroupInvalid" xml:space="preserve">
     <value>Cannot determine group in AD</value>
   </data>
+  <data name="DomainGroupInvalidSid" xml:space="preserve">
+      <value>Cannot determine group in AD. Invalid SID {0}.</value>
+  </data>
   <data name="DomainGroupxxx" xml:space="preserve">
     <value>xxx</value>
   </data>
