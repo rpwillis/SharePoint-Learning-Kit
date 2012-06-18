@@ -56,10 +56,19 @@ namespace SharePointLearningKit.Localization
                 if (task == Task.Extract)
                 {
                     Extractor resourceExtractor = new Extractor();
+                    Console.WriteLine("Processing for output to {0}", target);
                     resourceExtractor.Extract(source);
-                    resourceExtractor.Save(target);
+                    try
+                    {
+                        resourceExtractor.Save(target);
+                        Success();
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Fail();
+                    }
 
-                    Success();
                 }
                 else
                 {
@@ -70,6 +79,12 @@ namespace SharePointLearningKit.Localization
                     Success();
                 }
             }
+        }
+
+        private static void Fail()
+        {
+            Console.WriteLine();
+            Console.WriteLine("FAILED.");
         }
 
         private static void Success()
@@ -87,8 +102,18 @@ namespace SharePointLearningKit.Localization
             }
             else
             {
-                string Command = args[0].Substring(0, 1).ToLower();
-                switch (Command)
+                string command = args[0];
+                if (command[0] == '/')
+                {
+                    command = command.Substring(1,1);
+                }
+                else
+                {
+                    command = command.Substring(0,1);
+                }
+                command = command.ToLowerInvariant();
+
+                switch (command)
                 {
                     case "e":
                         task = Task.Extract;
