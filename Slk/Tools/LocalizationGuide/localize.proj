@@ -1,0 +1,30 @@
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <ItemGroup>
+        <InputFile Include="../../dll/bin/release/Microsoft.LearningComponents.dll"/>
+        <InputFile Include="../../dll/bin/release/Microsoft.LearningComponents.Storage.dll"/>
+        <InputFile Include="../../dll/bin/release/Microsoft.LearningComponents.SharePoint.dll"/>
+        <InputFile Include="../../dll/bin/release/Microsoft.SharePointLearningKit.dll"/>
+        <!--
+        <AllFiles Include="TranslatedXmls/**/Microsoft.SharePointLearningKit.xml"/>
+        -->
+        <AllFiles Include="TranslatedXMLs/**/Microsoft.SharePointLearningKit.xml"/>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <InputDirectory>Input</InputDirectory>
+    </PropertyGroup>
+
+    <Target Name="GetInputFiles" >
+        <MakeDir Directories="$(InputDirectory)"/>
+        <Copy SourceFiles="@(InputFile)" DestinationFolder="$(InputDirectory)" SkipUnchangedFiles="true"/>
+    </Target>
+
+    <Target Name="Extract" DependsOnTargets="GetInputFiles;ExtractResources"/>
+
+    <Target Name="ExtractResources" Outputs="%(AllFiles.Directory)/Microsoft.SharePointLearningKit.xml">
+        <Message Text="%(AllFiles.Directory)"/>
+        <Exec Command="Localize.exe /e $(InputDirectory) %(AllFiles.RootDir)%(AllFiles.Directory)"/>
+    </Target>
+
+</Project>

@@ -1,6 +1,7 @@
 /* Copyright (c) Microsoft Corporation. All rights reserved. */
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Reflection;
 using System.IO;
@@ -129,6 +130,10 @@ namespace SharePointLearningKit.Localization
 
         public void Save(string outputDirectory)
         {
+            if (Directory.Exists(outputDirectory) == false)
+            {
+                throw new ArgumentException(string.Format(CultureInfo.CurrentUICulture, "Invalid output directory {0}", outputDirectory));
+            }
 
             string cultureFile = Path.Combine(outputDirectory, "culture.txt");
             if (File.Exists(cultureFile))

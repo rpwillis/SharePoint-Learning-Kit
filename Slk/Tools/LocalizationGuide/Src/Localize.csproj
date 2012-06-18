@@ -9,7 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharePointLearningKit.Localization</RootNamespace>
     <AssemblyName>Localize</AssemblyName>
+    <!--
     <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+    -->
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
