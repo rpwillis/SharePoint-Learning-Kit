@@ -165,29 +165,28 @@ namespace Microsoft.SharePointLearningKit
         {
             get
             {
-                            if (m_sharePointCacheSettings == null)
-                            {
+                if (m_sharePointCacheSettings == null)
+                {
                     // set <cachePath> to the path of the package store cache, with environment
                     // variables (e.g. "%TEMP%") expanded
                     string cachePath = null;
                     SlkUtilities.ImpersonateAppPool(delegate()
                     {
-                        cachePath = Environment.ExpandEnvironmentVariables(
-                            Settings.PackageCacheLocation);
+                        cachePath = Environment.ExpandEnvironmentVariables(Settings.PackageCacheLocation);
                     });
 
                     // initialize <m_sharePointCacheSettings>
                     if (Settings.PackageCacheExpirationMinutes == null)
-                        m_sharePointCacheSettings = new SharePointCacheSettings(cachePath,
-                            null, ImpersonationBehavior.UseOriginalIdentity, true);
+                    {
+                        m_sharePointCacheSettings = new SharePointCacheSettings(cachePath, null, ImpersonationBehavior.UseOriginalIdentity, true);
+                    }
                     else
                     {
-                        TimeSpan expirationTime = new TimeSpan(0,
-                                                    Settings.PackageCacheExpirationMinutes.Value, 0);
-                        m_sharePointCacheSettings = new SharePointCacheSettings(cachePath,
-                            expirationTime, ImpersonationBehavior.UseOriginalIdentity, true);
+                        TimeSpan expirationTime = new TimeSpan(0, Settings.PackageCacheExpirationMinutes.Value, 0);
+                        m_sharePointCacheSettings = new SharePointCacheSettings(cachePath, expirationTime, ImpersonationBehavior.UseOriginalIdentity, true);
                     }
-                            }
+                }
+
                 return m_sharePointCacheSettings;
             }
         }
@@ -228,6 +227,21 @@ namespace Microsoft.SharePointLearningKit
 #endregion internal methods
 
 #region public methods
+        /// <summary>Opens and returns a <see cref="PackageReader"/> for the file.</summary>
+        /// <param name="location">The location of the file.</param>
+        /// <returns>A <see cref="PackageReader"/>.</returns>
+        public PackageReader OpenPackage(SharePointFileLocation location)
+        {
+            try
+            {
+                return new SharePointPackageReader(SharePointCacheSettings, location, false);
+            }
+            catch (InvalidPackageException ex)
+            {
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotValid, ex.Message));
+            }
+        }
+
         /// <summary>See <see cref="ISlkStore.LoadAssignmentReminders"/>.</summary>
         public IEnumerable<AssignmentProperties> LoadAssignmentReminders(DateTime minDueDate, DateTime maxDueDate)
         {
@@ -678,20 +692,11 @@ namespace Microsoft.SharePointLearningKit
 
             // validate the package, but don't register it
             package.PackageId = null;
-            SharePointPackageReader packageReader;
 
-            try
-            {
-                packageReader = new SharePointPackageReader(SharePointCacheSettings, location, false);
-            }
-            catch (InvalidPackageException ex)
-            {
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotValid, ex.Message));
-            }
+            PackageValidatorSettings settings = new PackageValidatorSettings(ValidationBehavior.LogWarning, ValidationBehavior.None, ValidationBehavior.LogError, ValidationBehavior.LogWarning);
 
-            using (packageReader)
+            using (PackageReader packageReader = OpenPackage(location))
             {
-                PackageValidatorSettings settings = new PackageValidatorSettings(ValidationBehavior.LogWarning, ValidationBehavior.None, ValidationBehavior.LogError, ValidationBehavior.LogWarning);
                 try
                 {
                     ValidationResults log = PackageValidator.Validate(packageReader, settings);
@@ -801,7 +806,7 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        private bool IsInRole(SPWeb spWeb, string roleDefinitionName)
+        bool IsInRole(SPWeb spWeb, string roleDefinitionName)
         {
             // Security checks: Fails if the user doesn't have Reader access (implemented
             // by SharePoint)
@@ -814,71 +819,101 @@ namespace Microsoft.SharePointLearningKit
             if (spWeb.Site.ID != m_anonymousSlkStore.SPSiteGuid)
                 throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
 
-            bool isInRole = false;
-
-            SPRoleDefinitionBindingCollection roleDefinitionCollection = null;
             try
             {
                 // In some cases this fails and we must take an alternate approach.
-                roleDefinitionCollection = spWeb.AllRolesForCurrentUser;
+                SPRoleDefinitionBindingCollection roleDefinitionCollection = spWeb.AllRolesForCurrentUser;
+
+                if (roleDefinitionCollection != null)
+                {
+                    foreach (SPRoleDefinition roleDefinition in roleDefinitionCollection)
+                    {
+                        if (roleDefinition.Name == roleDefinitionName)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
             }
             catch (SPException spException)
             {
                 System.Runtime.InteropServices.COMException comException = spException.InnerException as System.Runtime.InteropServices.COMException;
                 if (comException == null || comException.ErrorCode != unchecked((int)0x80040E14)) // Not the specific case we're looking for, rethrow
-                    throw;
-
-                // Use a brute force iteration approach if the attempt to get AllRolesForCurrentUser fails with COMException 0x80040E14
-                SPSecurity.RunWithElevatedPrivileges(delegate
                 {
-                    using (SPSite site = new SPSite(spWeb.Site.ID))
-                    {
-                        using (SPWeb web = site.OpenWeb(spWeb.ID))
-                        {
-                            foreach (SPRoleAssignment roleAssignment in web.RoleAssignments)
-                            {
-                                SPUser user = roleAssignment.Member as SPUser;
-                                if (user != null)
-                                {
-                                    if (string.Compare(user.LoginName, HttpContext.Current.User.Identity.Name, true, CultureInfo.InvariantCulture) != 0)
-                                    {
-                                        continue; // the roleAssignment is for a different user
-                                    }
-                                }
-                                else
-                                {
-                                    SPGroup group = roleAssignment.Member as SPGroup;
-                                    if (group != null)
-                                    {
-                                        if (!group.ContainsCurrentUser)
-                                        {
-                                            continue; // the roleAssignment is for a group the user is not a member of
-                                        }
-                                    }
-                                }
+                    throw;
+                }
 
-                                foreach (SPRoleDefinition roleDefinition in roleAssignment.RoleDefinitionBindings)
+                return IsInRoleViaIteration(spWeb, roleDefinitionName);
+            }
+        }
+
+        bool IsInRoleViaIteration(SPWeb spWeb, string roleDefinitionName)
+        {
+            // Use a brute force iteration approach if the attempt to get AllRolesForCurrentUser fails with COMException 0x80040E14
+            List<string> groupsToCheck = new List<string>();
+            bool isInRole = false;
+            SPSecurity.RunWithElevatedPrivileges(delegate
+            {
+                using (SPSite site = new SPSite(spWeb.Site.ID))
+                {
+                    using (SPWeb web = site.OpenWeb(spWeb.ID))
+                    {
+                        foreach (SPRoleAssignment roleAssignment in web.RoleAssignments)
+                        {
+                            SPGroup group = null;
+                            SPUser user = roleAssignment.Member as SPUser;
+                            if (user != null)
+                            {
+                                if (string.Compare(user.LoginName, HttpContext.Current.User.Identity.Name, true, CultureInfo.InvariantCulture) != 0)
                                 {
-                                    if (roleDefinition.Name == roleDefinitionName)
+                                    continue; // the roleAssignment is for a different user
+                                }
+                            }
+                            else
+                            {
+                                group = roleAssignment.Member as SPGroup;
+                            }
+
+                            foreach (SPRoleDefinition roleDefinition in roleAssignment.RoleDefinitionBindings)
+                            {
+                                if (roleDefinition.Name == roleDefinitionName)
+                                {
+                                    if (user != null)
                                     {
                                         isInRole = true;
                                         return;
                                     }
+                                    else if (group != null)
+                                    {
+                                        // The group has the correct permission, so cache id to check when running under context of user
+                                        groupsToCheck.Add(group.Name);
+                                    }
+
+                                    break;
                                 }
                             }
                         }
                     }
-                });
-            }
+                }
+            });
 
-            if (roleDefinitionCollection != null)
+            if (isInRole == false)
             {
-                foreach (SPRoleDefinition roleDefinition in roleDefinitionCollection)
+                foreach (string name in groupsToCheck)
                 {
-                    if (roleDefinition.Name == roleDefinitionName)
+                    try
                     {
-                        isInRole = true;
-                        break;
+                        SPGroup group = spWeb.SiteGroups[name];
+                        if (group.ContainsCurrentUser)
+                        {
+                            return true;
+                        }
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        // Invalid groups so not in it
                     }
                 }
             }
@@ -2084,7 +2119,6 @@ namespace Microsoft.SharePointLearningKit
         static PackageInformation GetPackageInformation(PackageReader packageReader, SPFile spFile)
         {
             PackageInformation information = new PackageInformation();
-            information.SPFile = spFile;
 
             information.ManifestReader = new ManifestReader(packageReader, new ManifestReaderSettings(true, true));
             MetadataNodeReader metadataReader = information.ManifestReader.Metadata;
@@ -2162,9 +2196,11 @@ namespace Microsoft.SharePointLearningKit
             FileAndLocation fileLocation = GetFileFromSharePointLocation(location);
             SPFile spFile = fileLocation.File;
 
-            using(PackageReader packageReader = new SharePointPackageReader(SharePointCacheSettings, fileLocation.Location, false))
+            using(PackageReader packageReader = OpenPackage(fileLocation.Location))
             {
-                return SlkStore.GetPackageInformation(packageReader, spFile);
+                PackageInformation information = SlkStore.GetPackageInformation(packageReader, spFile);
+                information.SPFile = spFile;
+                return information;
             }
         }
 

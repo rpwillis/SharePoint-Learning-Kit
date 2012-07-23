@@ -1411,35 +1411,11 @@ More information may be available in the server event log.</value>
   <data name="AlwpFileSubmissionSubmitText" xml:space="preserve">
     <value>Submit File(s)</value>
   </data>
-  <data name="ConfigureInputDropBoxFilesExtensionsLabelText" xml:space="preserve">
-    <value>Files extensions:</value>
-  </data>
-  <data name="ConfigureInputDropBoxFilesExtensionsSectionTitle" xml:space="preserve">
-    <value>Drop Box Files Extensions</value>
-  </data>
-  <data name="ConfigurelabelDropBoxFilesExtensionsDescriptionText" xml:space="preserve">
-    <value>Specify the allowed Drop Box file extension types... (Example: doc;docx;xls)</value>
-  </data>
-  <data name="ConfigureTxtDropBoxFilesExtensionsToolTip" xml:space="preserve">
-    <value>Drop Box files extensions.</value>
-  </data>
   <data name="AssFolderAlreadyExists" xml:space="preserve">
     <value>An assignment folder with the same name already exists</value>
   </data>
   <data name="AssFolderNotFound" xml:space="preserve">
     <value>No folder was found for this assignment</value>
-  </data>
-  <data name="DropBoxInstructors" xml:space="preserve">
-    <value>DropBox Instructors</value>
-  </data>
-  <data name="DropBoxInstructorsDescription" xml:space="preserve">
-    <value>Can only view and open list items.</value>
-  </data>
-  <data name="DropBoxLearners" xml:space="preserve">
-    <value>DropBox Learners</value>
-  </data>
-  <data name="DropBoxLearnersDescription" xml:space="preserve">
-    <value>Can only view , open and add list items.</value>
   </data>
   <data name="SubFolderNotFound" xml:space="preserve">
     <value>No sub folder was found for this assignment for the given student name</value>

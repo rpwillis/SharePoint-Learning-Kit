@@ -34,10 +34,7 @@ namespace Microsoft.LearningComponents.SharePoint
         private SharePointFileLocation m_pkgLocation;
 
         // Temporary instance variables used to pass data to delegates
-        private string m_filePath;
         private Stream m_stream;
-        private bool m_fileExists;
-        private ReadOnlyCollection<string> m_filePaths;
 
         // Delegate to access SharePoint files with elevated privileges.
         private RunWithElevatedPrivileges m_useRequestedPrivileges;
@@ -114,9 +111,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <exception cref="FileNotFoundException">Thrown if the requested file does not exist.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown if the identity doesn't have access to the CachePath provided in the 
         /// cache settings.</exception>
-        public SharePointPackageReader(SharePointCacheSettings cacheSettings,
-                                       SharePointFileLocation packageLocation,
-                                       bool runWithElevatedPrivileges)
+        public SharePointPackageReader(SharePointCacheSettings cacheSettings, SharePointFileLocation packageLocation, bool runWithElevatedPrivileges)
         {
             Resources.Culture = Thread.CurrentThread.CurrentCulture;
             Utilities.ValidateParameterNonNull("cacheSettings", cacheSettings);
@@ -151,32 +146,33 @@ namespace Microsoft.LearningComponents.SharePoint
                 throw;
             }
 
-
             // Run with elevated permissions to access SharePoint
             UseRequestedPrivileges(delegate
             {
-                using (Disposer disposer = new Disposer())
+                // These methods will throw FileNotFoundException if the package does not exist.
+
+                // If the site does not exist, this throws FileNotFound
+                using (SPSite siteElevatedPermissions = new SPSite(packageLocation.SiteId))
                 {
-                    // These methods will throw FileNotFoundException if the package does not exist.
-
-                    // If the site does not exist, this throws FileNotFound
-                    SPSite siteElevatedPermissions = new SPSite(packageLocation.SiteId);
-                    disposer.Push(siteElevatedPermissions);
-
                     // If the web does not exist, this throws FileNotFound
-                    SPWeb webElevatedPermissions = siteElevatedPermissions.OpenWeb(packageLocation.WebId);
-                    disposer.Push(webElevatedPermissions);
-                
-                    SPFile fileElevatedPermissions = webElevatedPermissions.GetFile(packageLocation.FileId);
-                    if (!fileElevatedPermissions.Exists)
-                        throw new FileNotFoundException(Resources.SPFileNotFoundNoName);
-                    
-                    string filename = fileElevatedPermissions.Name;
-                    
-                    // Now check if the version of the file exists.
-                    if (!FileExistsInSharePoint(fileElevatedPermissions, packageLocation.VersionId))
-                        throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileNotFound, filename));
+                    using (SPWeb webElevatedPermissions = siteElevatedPermissions.OpenWeb(packageLocation.WebId))
+                    {
+                        SPFile fileElevatedPermissions = webElevatedPermissions.GetFile(packageLocation.FileId);
+                        if (!fileElevatedPermissions.Exists)
+                        {
+                            throw new FileNotFoundException(Resources.SPFileNotFoundNoName);
+                        }
+                        
+                        string filename = fileElevatedPermissions.Name;
+                        
+                        // Now check if the version of the file exists.
+                        if (!FileExistsInSharePoint(fileElevatedPermissions, packageLocation.VersionId))
+                        {
+                            throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileNotFound, filename));
+                        }
+                    }
                 }
+               
             });
            
             // Store variables.
@@ -259,8 +255,10 @@ namespace Microsoft.LearningComponents.SharePoint
         /// </summary>
         private static bool FileExistsInSharePoint(SPFile spFile, int versionId)
         {
-            if (!spFile.Exists)
-                return false;
+            if (spFile.Exists == false)
+            {
+                    return false;
+            }
 
             // If there are no versions, or if the current version is the requested version
             if ((spFile.Versions.Count == 0) || spFile.UIVersion == versionId)
@@ -291,16 +289,7 @@ namespace Microsoft.LearningComponents.SharePoint
             Utilities.ValidateParameterNonNull("filePath", filePath);
             Utilities.ValidateParameterNotEmpty("filePath", filePath);
                         
-            m_filePath = filePath;
-            try
-            {
-                // Get the stream
-                m_stream = FileSystemPackageReader.GetFileStream(m_filePath);
-            }
-            finally
-            {
-                m_filePath = null;
-            }
+            m_stream = FileSystemPackageReader.GetFileStream(filePath);
 
             return m_stream;
         }
@@ -323,10 +312,7 @@ namespace Microsoft.LearningComponents.SharePoint
                 Utilities.ValidateParameterNonNull("filePath", filePath);
                 Utilities.ValidateParameterNotEmpty("filePath", filePath);
 
-                m_fileExists = false;
-                m_filePath = filePath;
-                // Sets m_fileExists
-                m_fileExists = FileSystemPackageReader.FileExists(m_filePath);
+                return FileSystemPackageReader.FileExists(filePath);
             }
             // Catch exceptions that should be converted into a "false" file exists. (Same list as File.Exists())
             catch (DirectoryNotFoundException)
@@ -347,11 +333,8 @@ namespace Microsoft.LearningComponents.SharePoint
             catch (UnauthorizedAccessException)
             {
             }
-            finally
-            {
-               m_filePath = null;
-            }
-            return m_fileExists;
+
+            return false;
         }
 
         /// <summary>
@@ -361,12 +344,7 @@ namespace Microsoft.LearningComponents.SharePoint
         public override ReadOnlyCollection<string> GetFilePaths()
         {
             CheckDisposed();
-            m_filePaths = null;
-            
-            // Sets m_filePaths
-            m_filePaths = FileSystemPackageReader.GetFilePaths();
-        
-            return m_filePaths;
+            return FileSystemPackageReader.GetFilePaths();
 
         }
 
