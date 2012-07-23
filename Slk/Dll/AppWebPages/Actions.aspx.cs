@@ -621,7 +621,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             fileLocation = new SharePointFileLocation(SPWeb, SPFile.UniqueId, VersionId);
 
             // set <nonELearning> to true if this file isn't an e-learning package type
-            using (SharePointPackageReader spReader = new SharePointPackageReader(SlkStore.SharePointCacheSettings, fileLocation, false))
+            using (PackageReader spReader = SlkStore.OpenPackage(fileLocation))
             {
                 m_nonELearning = PackageValidator.ValidateIsELearning(spReader).HasErrors;
             }
@@ -772,8 +772,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // no minor versions or limited version number warnings
             if (!SPList.EnableVersioning || SPList.MajorVersionLimit != 0 || SPList.MajorWithMinorVersionsLimit != 0)
             {
-                errorBanner.AddError(ErrorType.Warning,
-                    string.Format(CultureInfo.CurrentCulture, AppResources.ActionsVersioningOff, Server.HtmlEncode(SPList.Title)));
+                errorBanner.AddError(ErrorType.Warning, string.Format(CultureInfo.CurrentCulture, AppResources.ActionsVersioningOff, Server.HtmlEncode(SPList.Title)));
             }
 
             // If the current file isn't a published version, show a warning.

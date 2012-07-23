@@ -1193,24 +1193,6 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Files extensions:.
-        /// </summary>
-        internal static string ConfigureInputDropBoxFilesExtensionsLabelText {
-            get {
-                return ResourceManager.GetString("ConfigureInputDropBoxFilesExtensionsLabelText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drop Box Files Extensions.
-        /// </summary>
-        internal static string ConfigureInputDropBoxFilesExtensionsSectionTitle {
-            get {
-                return ResourceManager.GetString("ConfigureInputDropBoxFilesExtensionsSectionTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Instructor permission:.
         /// </summary>
         internal static string ConfigureInputInstructorPermissionsLabelText {
@@ -1301,15 +1283,6 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specify the allowed Drop Box file extension types... (Example: doc;docx;xls).
-        /// </summary>
-        internal static string ConfigurelabelDropBoxFilesExtensionsDescriptionText {
-            get {
-                return ResourceManager.GetString("ConfigurelabelDropBoxFilesExtensionsDescriptionText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;p style=&quot;margin-bottom: 6pt&quot;&gt;Specify the SharePoint permissions that will identify instructors and learners in SLK.&lt;/p&gt;&lt;p style=&quot;margin-top: 0pt; margin-bottom: 0pt;&quot;&gt;&lt;ul style=&quot;margin-top: 0pt; margin-bottom: 0pt;&quot;&gt;&lt;li style=&quot;margin-bottom: 6pt&quot;&gt;To use existing SharePoint permissions to identify instructors and learners, enter the permission names; for example, &quot;Contribute&quot; and &quot;Read&quot;.&lt;/li&gt;&lt;li&gt;To create new permissions, enter the permission names and select &lt;b&gt;Create permissions&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;&lt;p style= [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConfigureLabelPermissionsDescriptionText {
@@ -1387,15 +1360,6 @@ namespace Resources.Properties {
         internal static string ConfigureTxtDatabaseServerToolTip {
             get {
                 return ResourceManager.GetString("ConfigureTxtDatabaseServerToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drop Box files extensions..
-        /// </summary>
-        internal static string ConfigureTxtDropBoxFilesExtensionsToolTip {
-            get {
-                return ResourceManager.GetString("ConfigureTxtDropBoxFilesExtensionsToolTip", resourceCulture);
             }
         }
         
@@ -1943,42 +1907,6 @@ namespace Resources.Properties {
         internal static string DropBoxDocLibName {
             get {
                 return ResourceManager.GetString("DropBoxDocLibName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DropBox Instructors.
-        /// </summary>
-        internal static string DropBoxInstructors {
-            get {
-                return ResourceManager.GetString("DropBoxInstructors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can only view and open list items..
-        /// </summary>
-        internal static string DropBoxInstructorsDescription {
-            get {
-                return ResourceManager.GetString("DropBoxInstructorsDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DropBox Learners.
-        /// </summary>
-        internal static string DropBoxLearners {
-            get {
-                return ResourceManager.GetString("DropBoxLearners", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can only view , open and add list items..
-        /// </summary>
-        internal static string DropBoxLearnersDescription {
-            get {
-                return ResourceManager.GetString("DropBoxLearnersDescription", resourceCulture);
             }
         }
         

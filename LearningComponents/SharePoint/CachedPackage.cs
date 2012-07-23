@@ -5,8 +5,8 @@ using Microsoft.SharePoint;
 using Microsoft.Win32;
 using System.IO;
 using System.ComponentModel;
-using System.Security.Principal;		// for WindowsIndentity
-using System.Runtime.InteropServices;	// for dllimport
+using System.Security.Principal;        // for WindowsIndentity
+using System.Runtime.InteropServices;    // for dllimport
 using System.Xml;
 using System.Globalization;
 using System.Diagnostics;
@@ -14,16 +14,6 @@ using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Text;
 
-//
-// CachedPackage.cs
-//
-// This file defines five classes that handle the caching mechanism for packages 
-// drawn from a SharePoint document library.
-//
-//  CacheException - An exception that represents a problem in the
-//              caching process.  This could be a missing file, a failure to
-//              get a cache lock.
-//
 //  CachedPackage - A class that controls access to cached packages. It must always be
 //              called from within a 'using' statement.  Upon creation, the 
 //              cache will unpackage the package (if necessary), and hold the cache
@@ -34,72 +24,27 @@ using System.Text;
 namespace Microsoft.LearningComponents.SharePoint
 {
 
-    #region CacheException class
     /// <summary>
-    /// A special case exception indicating that an error occurred in the
-    /// caching process.   
-    /// </summary>
-    [Serializable]
-    public class CacheException : Exception
-    {
-        /// <summary>
-        /// Creates an instance of CacheException.
-        /// </summary>
-        public CacheException() :base()             
-        {
-        }
-
-        /// <summary>
-        /// Creates an instance of CacheException with a message.
-        /// </summary>
-        /// <param name="message">A string describing the conditions leading to the exception</param>
-        public CacheException( string message ) : base( message )
-        {
-        }
-
-        /// <summary>
-        /// Creates an instance of CacheException with serialization information.
-        /// </summary>
-        /// <param name="serializationInfo">The serialization information.</param>
-        /// <param name="context">The context of serialization.</param>
-        protected CacheException(SerializationInfo serializationInfo, StreamingContext context) 
-                    : base(serializationInfo, context)
-        {
-        }
-
-        /// <summary>
-        /// Creates an instance of CacheException based on another exception.
-        /// </summary>
-        /// <param name="message">A string describing the conditions leading to the exception.</param>
-        /// <param name="innerException">The exception that caused this exception.</param>
-        public CacheException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
-    }
-    #endregion
-
-    /// <summary>
-	/// CachedPackage is the core of the caching mechanisms that holds files  taken
-	/// from a SharePoint document library. Instances must be disposed of 
-	/// when finished with.  Best practice is to use within a 
-	/// using () {} construct, like this:
-	/// 
-	/// using ( CachedPackage lr = new CachedPackage(settings, location, cacheAsPackage) )
-	/// {
-	///     // Load a file from the package
-	/// }
-	/// 
-	/// The cache is locked for reading for as long as the code is inside the
-	/// 'using' clause.   If the package being requested isn't already in the cache,
-	/// it is read from the file in the doc lib.
-	/// 
+    /// CachedPackage is the core of the caching mechanisms that holds files  taken
+    /// from a SharePoint document library. Instances must be disposed of 
+    /// when finished with.  Best practice is to use within a 
+    /// using () {} construct, like this:
+    /// 
+    /// using ( CachedPackage lr = new CachedPackage(settings, location, cacheAsPackage) )
+    /// {
+    ///     // Load a file from the package
+    /// }
+    /// 
+    /// The cache is locked for reading for as long as the code is inside the
+    /// 'using' clause.   If the package being requested isn't already in the cache,
+    /// it is read from the file in the doc lib.
+    /// 
     /// The cache can contain a package (for instance, an exploded version of a scorm zip package)
     /// or an individual file (for instance, a doc file). 
     /// 
-	/// </summary>
-	internal sealed class CachedPackage : IDisposable
-	{
+    /// </summary>
+    internal sealed class CachedPackage : IDisposable
+    {
         /// <summary>
         /// Valid values to store in lock file defining how a file was cached.
         /// </summary>
@@ -113,14 +58,14 @@ namespace Microsoft.LearningComponents.SharePoint
         // The path to the cache directory for this package
         private string m_cacheDir;
 
-		// The path to the cache directory for the requested package
-		private SharePointCacheSettings m_settings = null;
+        // The path to the cache directory for the requested package
+        private SharePointCacheSettings m_settings = null;
 
-		//A filestream object representing the lock file
-		private FileStream m_lockFile;
+        //A filestream object representing the lock file
+        private FileStream m_lockFile;
 
-		// Amount of time to keep trying to lock: 2 minutes
-		private TimeSpan m_attemptLockingTime = new TimeSpan( 0, 0, 2, 0, 0 );
+        // Amount of time to keep trying to lock: 2 minutes
+        private TimeSpan m_attemptLockingTime = new TimeSpan( 0, 0, 2, 0, 0 );
 
         // Characters to use when encoding to Base32
         private const string ENCODER_MAP = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456";
@@ -132,7 +77,7 @@ namespace Microsoft.LearningComponents.SharePoint
         private int NUM_PACKAGES_PER_CACHE_CLEAN = 10;
         
         // The delegate to call in case this is a test scenario.
-		private ICachePackageTest m_tester;
+        private ICachePackageTest m_tester;
 
         // Keep track of the first exception encountered. If caching fails, this exception 
         // is thrown.
@@ -342,30 +287,30 @@ namespace Microsoft.LearningComponents.SharePoint
             get { return m_cacheDir; }
         }
 
-		/// <summary>
-		/// If the package in question hasn't been cached yet, then create the
-		/// cache lock file, the cache directory and write the package, then
-		/// lock it and return.
-		/// 
-		/// If the package does already exist in the cache, just try to lock
-		/// it and return.
-		/// </summary>
-		/// <param name="lockFileName">The filename of the lockfile for the 
-		/// package in question</param>
-		/// <returns>True of the cache directory was successfully locked,
-		/// false if a lock couldn't be obtained</returns>
-		private bool LockCache( string lockFileName, string cacheDir, CachedFileInfo fileInfo )
-		{
-			bool lockFileFound = false;
+        /// <summary>
+        /// If the package in question hasn't been cached yet, then create the
+        /// cache lock file, the cache directory and write the package, then
+        /// lock it and return.
+        /// 
+        /// If the package does already exist in the cache, just try to lock
+        /// it and return.
+        /// </summary>
+        /// <param name="lockFileName">The filename of the lockfile for the 
+        /// package in question</param>
+        /// <returns>True of the cache directory was successfully locked,
+        /// false if a lock couldn't be obtained</returns>
+        private bool LockCache( string lockFileName, string cacheDir, CachedFileInfo fileInfo )
+        {
+            bool lockFileFound = false;
 
             Debug2(m_settings.ImpersonationBehavior, lockFileName);
-			using ( new ImpersonateIdentity(m_settings.ImpersonationBehavior) )
-			{
-				FileInfo fi = new FileInfo( lockFileName );
-				lockFileFound = fi.Exists;
-			}
+            using ( new ImpersonateIdentity(m_settings.ImpersonationBehavior) )
+            {
+                FileInfo fi = new FileInfo( lockFileName );
+                lockFileFound = fi.Exists;
+            }
 
-			// If the cache doesn't yet exist, create it.
+            // If the cache doesn't yet exist, create it.
             if (!lockFileFound)
             {
                 Debug1(m_settings.ImpersonationBehavior, lockFileName);
@@ -388,7 +333,7 @@ namespace Microsoft.LearningComponents.SharePoint
             }
 
             // Now lock the cache directory.
-			return LockCacheDirectory( lockFileName, cacheDir, fileInfo);
+            return LockCacheDirectory( lockFileName, cacheDir, fileInfo);
         }
 
         #region TestingHooks
@@ -429,28 +374,28 @@ namespace Microsoft.LearningComponents.SharePoint
         #endregion
 
         /// <summary>
-		/// Does the actual tasks involved with creating the package cache directory 
-		/// and unbundling the package to it. The parent cache directory (m_settings.CachePath)
+        /// Does the actual tasks involved with creating the package cache directory 
+        /// and unbundling the package to it. The parent cache directory (m_settings.CachePath)
         /// must already exist. 
-		/// </summary>
-		/// <param name="lockFileName">The path to the lock file to use. This is located in the directory above the 
+        /// </summary>
+        /// <param name="lockFileName">The path to the lock file to use. This is located in the directory above the 
         /// cacheDir.</param>
         /// <param name="cacheDir">The cache directory to contain the package. This directory should not exist prior to calling 
         /// this method.</param>
-		/// <returns>Returns true if the directory was created.</returns>
+        /// <returns>Returns true if the directory was created.</returns>
         /// <exception cref="UnauthorizedAccessException">Thrown if the user does not have read and write permissions to 
         /// cacheDir.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // exception in the finally block is saved in case it's significant, but is most likely not
         private bool CreateCacheDirectory( string lockFileName, string cacheDir, CachedFileInfo fileInfo )
-		{
-		    FileStream lockFile = null;
-		    bool deleteLockFileAndDir = false;
-		    
-		    try
-		    {		    
-			    using (new ImpersonateIdentity(m_settings.ImpersonationBehavior) )
-			    {
-				    // Try to create the lock file (with exclusive write privs); if it fails, retry
+        {
+            FileStream lockFile = null;
+            bool deleteLockFileAndDir = false;
+            
+            try
+            {            
+                using (new ImpersonateIdentity(m_settings.ImpersonationBehavior) )
+                {
+                    // Try to create the lock file (with exclusive write privs); if it fails, retry
                     try
                     {
                         Debug4(m_settings.ImpersonationBehavior, lockFileName);
@@ -483,9 +428,9 @@ namespace Microsoft.LearningComponents.SharePoint
                         CachingException = e;
                         return false;
                     }
-				    deleteLockFileAndDir = true;
+                    deleteLockFileAndDir = true;
                     
-				    // Make sure the directory doesn't exist. (Yes, 
+                    // Make sure the directory doesn't exist. (Yes, 
                     // this may get created before we attempt to create it. This is just the preliminary check.)
                     if(Directory.Exists( cacheDir ))
                     {
@@ -547,19 +492,19 @@ namespace Microsoft.LearningComponents.SharePoint
                     // Everything succeeded
                     deleteLockFileAndDir = false;
 
-			    } // Impersonate
-			    return true;
-			}
-			finally
-			{
+                } // Impersonate
+                return true;
+            }
+            finally
+            {
                 // If there is a lock file and there was an error, remove the file and the directory (if they exist)
-			    if ((lockFile != null) || deleteLockFileAndDir)
-			    {
-			        using (new ImpersonateIdentity(m_settings.ImpersonationBehavior))
-			        {
-			            if (deleteLockFileAndDir)
-			            {
-			                try 
+                if ((lockFile != null) || deleteLockFileAndDir)
+                {
+                    using (new ImpersonateIdentity(m_settings.ImpersonationBehavior))
+                    {
+                        if (deleteLockFileAndDir)
+                        {
+                            try 
                             { 
                                 Directory.Delete( cacheDir, true ); 
                             }
@@ -569,23 +514,23 @@ namespace Microsoft.LearningComponents.SharePoint
                                 // thrown to caller. In most cases, this is ignored.
                                 CachingException = new CacheException(Resources.CacheCreateDirCleanupFailed, e);
                             }
-			            }
-			            if(lockFile != null)
-			                lockFile.Close();
-			            if (deleteLockFileAndDir)
-			            {
-			                try { File.Delete( lockFileName ); }
+                        }
+                        if(lockFile != null)
+                            lockFile.Close();
+                        if (deleteLockFileAndDir)
+                        {
+                            try { File.Delete( lockFileName ); }
                             catch (Exception e)
                             {
                                 // Save the exception, in case it's the first one and there's a problem that needs to be 
                                 // thrown to caller. In most cases, this is ignored.
                                 CachingException = new CacheException(Resources.CacheCreateDirCleanupFailed, e);
                             }
-			            }
-			        }
-                }			    			   
-			}
-		}
+                        }
+                    }
+                }                               
+            }
+        }
 
         /// <summary>
         /// Write the contents of the lock file. The file is closed and lockFile set to null on successful return from 
@@ -645,7 +590,7 @@ namespace Microsoft.LearningComponents.SharePoint
             Directory.CreateDirectory(cacheDir);
             
             // Write the file to the directory
-			stream.Seek(0, SeekOrigin.Begin);
+            stream.Seek(0, SeekOrigin.Begin);
             using (FileStream output = new FileStream(PackageReader.SafePathCombine(cacheDir, filename),
                 FileMode.Create, FileAccess.Write, FileShare.None))
             {
@@ -666,7 +611,7 @@ namespace Microsoft.LearningComponents.SharePoint
             // does not contain a package.
             using (Disposer disposer = new Disposer())
             {
-				stream.Seek(0, SeekOrigin.Begin);
+                stream.Seek(0, SeekOrigin.Begin);
                 PackageReader packageReader = PackageReader.Create(stream);
                 disposer.Push(packageReader);
            
@@ -806,32 +751,32 @@ namespace Microsoft.LearningComponents.SharePoint
         }
 
         /// <summary>
-		/// Performs the actual tasks involved with just locking a cache directory
-		/// </summary>
-		/// <param name="lockFileName">The full path of the lockfile for the package.</param>
+        /// Performs the actual tasks involved with just locking a cache directory
+        /// </summary>
+        /// <param name="lockFileName">The full path of the lockfile for the package.</param>
         /// <param name="cacheDir">The directory containing the cached spFile.</param>
-		/// <returns>True if the cache directory was successfully locked, 
-		/// False if a lock couldn't be obtained</returns>
+        /// <returns>True if the cache directory was successfully locked, 
+        /// False if a lock couldn't be obtained</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // exception in the finally block is saved in case it's significant, but is most likely not
         private bool LockCacheDirectory( string lockFileName, string cacheDir, CachedFileInfo fileInfo )
-		{
+        {
             FileStream lockFile = null;
             bool deleteLockFileAndDir = false;
 
-			using ( new ImpersonateIdentity(m_settings.ImpersonationBehavior) )
-			{
-			    try
-			    {			    
-				    // Try to open the lock file with shared Read privs; if it fails, retry
+            using ( new ImpersonateIdentity(m_settings.ImpersonationBehavior) )
+            {
+                try
+                {                
+                    // Try to open the lock file with shared Read privs; if it fails, retry
                     try
-				    {
-					    lockFile = new FileStream( lockFileName, FileMode.Open, FileAccess.Read, FileShare.Read );
-		            }
-		            catch (IOException e)
-		            {
+                    {
+                        lockFile = new FileStream( lockFileName, FileMode.Open, FileAccess.Read, FileShare.Read );
+                    }
+                    catch (IOException e)
+                    {
                         CachingException = e;
-		                return false;
-		            }
+                        return false;
+                    }
 
                     // From this point on, assume that every error requires
                     // rebuilding the lock file and directory
@@ -845,26 +790,26 @@ namespace Microsoft.LearningComponents.SharePoint
                        detachableLockFile.Detach();
                     }
 
-				    if (contents == null)
-				    {
-					    // empty file, something broke during the caching process
-					    return false;
-				    }
-    				else
-    				{
-    					string[] segments = contents.Split(' ');
+                    if (contents == null)
+                    {
+                        // empty file, something broke during the caching process
+                        return false;
+                    }
+                    else
+                    {
+                        string[] segments = contents.Split(' ');
 
-    					string cacheVersion = segments[0];
+                        string cacheVersion = segments[0];
 
-					    // if it's 'version 1'
-					    if (cacheVersion == CACHE_VERSION_ID)
-					    {
-						    // there are 4 required segments: cache version id, date, length and <cachedAsPackage or cachedAsFile>
-						    if (segments.Length != 4)
-						    {
-							    // bad format
-							    return false;
-						    }
+                        // if it's 'version 1'
+                        if (cacheVersion == CACHE_VERSION_ID)
+                        {
+                            // there are 4 required segments: cache version id, date, length and <cachedAsPackage or cachedAsFile>
+                            if (segments.Length != 4)
+                            {
+                                // bad format
+                                return false;
+                            }
 
                             // If the lock file date last accessed was not within the last two minutes,
                             // then check if the file has changed. Note that WSS has a filetime granularity of 
@@ -910,57 +855,57 @@ namespace Microsoft.LearningComponents.SharePoint
                                 default:
                                     return false;   // bad format
                             }                            
-					    }
-					    else
-					    {
-						    // bad format
-						    return false;
-    					} 
-    				}
+                        }
+                        else
+                        {
+                            // bad format
+                            return false;
+                        } 
+                    }
                 
-				    // If the lock file exists but the directory doesn't, then another
-				    // process is probably in the process of deleting the cache, retry
-				    // and create it.
+                    // If the lock file exists but the directory doesn't, then another
+                    // process is probably in the process of deleting the cache, retry
+                    // and create it.
 
-				    if (!Directory.Exists( cacheDir) )
-				    {
-					    // retry
-					    return false;
-				    }
+                    if (!Directory.Exists( cacheDir) )
+                    {
+                        // retry
+                        return false;
+                    }
 
                     // Check that the lock file has something in it.  If it doesn't
-				    // then another process may have failed while unbundling.  Clear it
-				    // out, and retry.                
-				    if (lockFile.Length == 0)
-				    {
-					    // retry
-					    return false;
-				    }
+                    // then another process may have failed while unbundling.  Clear it
+                    // out, and retry.                
+                    if (lockFile.Length == 0)
+                    {
+                        // retry
+                        return false;
+                    }
                     
-				    // Done!
+                    // Done!
                     m_lockFile = lockFile;
                     lockFile = null;
                     m_cacheDir = cacheDir;
                     deleteLockFileAndDir = false;
                                         
-        			return true;
-        	    }
-        	    finally
-        	    {
-        	        if( deleteLockFileAndDir )
-        	        {
-        	            try { Directory.Delete( cacheDir, true ); } 
+                    return true;
+                }
+                finally
+                {
+                    if( deleteLockFileAndDir )
+                    {
+                        try { Directory.Delete( cacheDir, true ); } 
                         catch (Exception e)
                         { 
                             // Save the exception, in case it's the first one and there's a problem that needs to be 
                             // thrown to caller. In most cases, this is ignored.
                             CachingException = new CacheException(Resources.CacheLockDirCleanupFailed, e);
                         }
-        	        }
-        	        if(lockFile != null)
-        	           lockFile.Close();
-        	        if( deleteLockFileAndDir )
-        	        {
+                    }
+                    if(lockFile != null)
+                       lockFile.Close();
+                    if( deleteLockFileAndDir )
+                    {
                         try { File.Delete(lockFileName); }
                         catch (Exception e)
                         {
@@ -968,56 +913,56 @@ namespace Microsoft.LearningComponents.SharePoint
                             // thrown to caller. In most cases, this is ignored.
                             CachingException = new CacheException(Resources.CacheLockDirCleanupFailed, e);
                         }
-        	        } 
-        	    }
-    	    }
-		}
+                    } 
+                }
+            }
+        }
 
         /// <summary>
         /// Clean up the cache. 
         /// </summary>
         public void Dispose()
-		{
+        {
             using ( new ImpersonateIdentity(m_settings.ImpersonationBehavior) )
-			{
-				UnlockCache();
-				CleanCache();
-			}
-		}
+            {
+                UnlockCache();
+                CleanCache();
+            }
+        }
 
 
-		/// <summary>
-		/// Performs the tasks associated with unlocking a cache directory. This method does not 
+        /// <summary>
+        /// Performs the tasks associated with unlocking a cache directory. This method does not 
         /// impersonate.
-		/// </summary>	
+        /// </summary>    
         private void UnlockCache()
-		{
-			// Close the lock file and update the last accessed time
-			if( m_lockFile != null )
-				m_lockFile.Close();
+        {
+            // Close the lock file and update the last accessed time
+            if( m_lockFile != null )
+                m_lockFile.Close();
 
-			// Update the last accessed time, if it fails then it's likely that
-			// another process has a read lock on this.
-			try
-			{
+            // Update the last accessed time, if it fails then it's likely that
+            // another process has a read lock on this.
+            try
+            {
                 Debug5(m_lockFile.Name);
-				File.SetLastAccessTime( m_lockFile.Name, DateTime.Now );
-			}
-			catch (IOException)
-			{
+                File.SetLastAccessTime( m_lockFile.Name, DateTime.Now );
+            }
+            catch (IOException)
+            {
                 // Not a problem. Another process has a lock and that process will set the access time.
-			}
-		}
+            }
+        }
 
-		/// <summary>
-		/// Iterates through the cache directories, looking for those that
-		/// have expired, then tries to delete them. This method does not impersonate.
-		/// </summary>
+        /// <summary>
+        /// Iterates through the cache directories, looking for those that
+        /// have expired, then tries to delete them. This method does not impersonate.
+        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // the exceptions are suppressed so that the process can continue
         private void CleanCache()
-		{
-			if( m_settings.CachePath != null )
-			{
+        {
+            if( m_settings.CachePath != null )
+            {
                 string[] lockFileNames = Directory.GetFiles(m_settings.CachePath, "*.lock");
 
                 // Count the number of packages we have removed. Only remove a specified amount each time the 
@@ -1026,8 +971,8 @@ namespace Microsoft.LearningComponents.SharePoint
                 int deletedPackages = 0;
                 TimeSpan? keepAliveTime = m_settings.ExpirationTime;
 
-				foreach (string filename in lockFileNames)
-				{
+                foreach (string filename in lockFileNames)
+                {
                     // If we have exceeded the number of packages to delete per process, then stop.
                     if (deletedPackages >= NUM_PACKAGES_PER_CACHE_CLEAN)
                         break;
@@ -1036,9 +981,9 @@ namespace Microsoft.LearningComponents.SharePoint
                     bool dirDeleted = false;
                     bool lockDeleted = false;
                     
-					// if we fail in here, it's most likely because there's an exclusive lock
-					// on the lock file and the GetLastAccess() or Delete() calls failed.
-					// In those cases, just move on to the next one.
+                    // if we fail in here, it's most likely because there's an exclusive lock
+                    // on the lock file and the GetLastAccess() or Delete() calls failed.
+                    // In those cases, just move on to the next one.
                     try
                     {
                         DateTime lastAccess = File.GetLastAccessTime(filename);
@@ -1085,10 +1030,10 @@ namespace Microsoft.LearningComponents.SharePoint
                     if (dirDeleted && lockDeleted)
                         deletedPackages++;
 
-				} // foreach
-			}
+                } // foreach
+            }
 
-		} // CleanCache()
+        } // CleanCache()
 
         /// <summary>
         /// Private class to encapsulate information about the cached file
@@ -1118,7 +1063,7 @@ namespace Microsoft.LearningComponents.SharePoint
                 set { m_file = value; }
             } 
         }
-	}
+    }
 
     /// <summary>
     /// Represents the settings to be specified for caching e-learning packages that are stored in 
