@@ -116,7 +116,12 @@
     <Compile Include="Utilities\HtmlTextReader.cs" />
     <Compile Include="Utilities\ReadOnlyDictionary.cs" />
     <Compile Include="Utilities\Utilities.cs" />
-    <Compile Include="Validator.cs" />
+    <Compile Include="ManifestValidator.cs" />
+    <Compile Include="PackageValidator.cs" />
+    <Compile Include="ValidationResults.cs" />
+    <Compile Include="ValidationResult.cs" />
+    <Compile Include="PackageValidatorSettings.cs" />
+    <Compile Include="InvalidPackageException.cs" />
     <Compile Include="Properties\ValidatorResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

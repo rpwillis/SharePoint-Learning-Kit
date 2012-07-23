@@ -158,9 +158,7 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        /// <summary>
-        /// Gets information about the file system cache used by <c>PackageStore</c>.
-        /// </summary>
+        /// <summary>Gets information about the file system cache used by <c>PackageStore</c>. </summary>
         public SharePointCacheSettings SharePointCacheSettings
         {
             get
@@ -227,21 +225,6 @@ namespace Microsoft.SharePointLearningKit
 #endregion internal methods
 
 #region public methods
-        /// <summary>Opens and returns a <see cref="PackageReader"/> for the file.</summary>
-        /// <param name="location">The location of the file.</param>
-        /// <returns>A <see cref="PackageReader"/>.</returns>
-        public PackageReader OpenPackage(SharePointFileLocation location)
-        {
-            try
-            {
-                return new SharePointPackageReader(SharePointCacheSettings, location, false);
-            }
-            catch (InvalidPackageException ex)
-            {
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotValid, ex.Message));
-            }
-        }
-
         /// <summary>See <see cref="ISlkStore.LoadAssignmentReminders"/>.</summary>
         public IEnumerable<AssignmentProperties> LoadAssignmentReminders(DateTime minDueDate, DateTime maxDueDate)
         {
@@ -367,7 +350,7 @@ namespace Microsoft.SharePointLearningKit
 
         public static SlkStore GetStore(SPWeb spWeb)
         {
-            return GetStore(spWeb, "");
+            return GetStore(spWeb, string.Empty);
         }
 
         /// <summary>
@@ -561,79 +544,59 @@ namespace Microsoft.SharePointLearningKit
             currentUserId = CastNonNullIdentifier<UserItemIdentifier>(resultEnumerator.Current);
         }
 
-        /// <summary>
-        /// Validates a specified version of a given e-learning package (that's stored in a SharePoint
-        /// document library), and returns its content warnings.  If that version -- with the same
-        /// last-modified date/time -- is already registered, its information is returned rather than
-        /// re-validating the package.
-        /// Uses an MLC SharePoint location string to locate the package.
-        /// </summary>
-        ///
-        /// <param name="location">The MLC SharePoint location string that refers to the e-learning
-        ///     package to validate.  Use <c>SharePointPackageStore.GetLocation</c> to construct this
-        ///     string.</param>
-        /// 
-        /// <returns>The warnings.  This XML consists of a root "&lt;Warnings&gt;" element containing
-        ///     one "&lt;Warning&gt;" element per warning, each of which contains the text of the
-        ///     warning as the content of the element plus the following attributes: the "Code"
-        ///     attribute contains the warning's <c>ValidationResultCode</c>, and the "Type" attribute
-        ///     contains the warning's type, either "Error" or "Warning".  <n>null</n> is returned
-        ///     if there are no warnings.</returns>
-            ///
-            /// <remarks>
-            /// <para>
-            /// If the package is valid, <n>null</n> is returned.  If the package is not completely valid,
-            /// but is valid enough to be assigned within SharePoint Learning Kit, warnings about the
-            /// package are returned.  If the package has problems severe enough to prevent it from being
-            /// assignable within SLK, a <r>SafeToDisplayException</r> is thrown.
-            /// </para>
-            /// <para>
-            /// <b>Security:</b>&#160; This operation fails if the
-            /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> doesn't have access to the package.
-            /// </para>
-            /// </remarks>
-            ///
-        /// <exception cref="FileNotFoundException">
-        /// <pr>location</pr> refers to a file that does not exist.
-        /// </exception>
-        /// 
-        /// <exception cref="SafeToDisplayException">
-        /// An error occurred that can be displayed to a browser user.  Possible cause: the package has
-            /// problems severe enough to prevent it from being assignable within SharePoint Learning Kit.
-        /// </exception>
-        /// 
-        /// <exception cref="UnauthorizedAccessException">
-        /// <pr>location</pr> refers to a file that the user does not have access to.
-        /// </exception>
-        ///
-        public LearningStoreXml ValidatePackage(SharePointFileLocation location)
-        {
-            // Security checks: Fails if user doesn't have access to the package (implemented
-            // by RegisterAndValidatePackage)
-
-            // Check parameters
-            if (location == null)
-            {
-                throw new ArgumentNullException("location");
-            }
-
-            PackageDetails package = RegisterAndValidatePackage(location, true);
-            return package.Warnings;
-        }
-
         /// <summary>See <see cref="ISlkStore.RegisterAndValidatePackage"/>.</summary>
-        public PackageDetails RegisterAndValidatePackage(SharePointFileLocation location)
+        public PackageDetails RegisterAndValidatePackage(PackageReader reader)
         {
-            return RegisterAndValidatePackage(location, false);
+            SharePointPackageReader spReader = (SharePointPackageReader)reader;
+            PackageDetails package = LoadPackageFromStore(spReader.Location);
+           
+            if (package == null)
+            {
+                package = new PackageDetails();
+
+                ValidationResults log;
+                // validate and register the package
+                PackageEnforcement pe = new PackageEnforcement(false, true, false);
+                try
+                {
+                    RegisterPackageResult registerResult = PackageStore.RegisterPackage(spReader, pe);
+                    package.PackageId = registerResult.PackageId;
+                    log = registerResult.Log;
+                }
+                catch (PackageImportException ex)
+                {
+                    throw new SafeToDisplayException(ex.Log, ex.Message);
+                }
+
+                // if there were warnings, set <warnings> to refer to them and update the
+                // PackageItem in LearningStore to contain the warnings (if there is a PackageItem)
+                if (log.HasWarnings || log.HasErrors)
+                {
+                    using (XmlReader xmlLog = log.ToXml())
+                    {
+                        package.Warnings = LearningStoreXml.CreateAndLoad(xmlLog);
+                    }
+
+                    LearningStoreJob job = LearningStore.CreateJob();
+                    Dictionary<string, object> properties = new Dictionary<string, object>();
+                    properties[Schema.PackageItem.Warnings] = package.Warnings;
+                    job.UpdateItem(package.PackageId, properties);
+                    job.Execute();
+                }
+
+                return package;
+            }
+                    
+            return package;
         }
 
-        PackageDetails RegisterAndValidatePackage(SharePointFileLocation location, bool validateOnly)
+        /// <summary>Loads the package details from the store.</summary>
+        /// <param name="location">The location of the package.</param>
+        /// <returns>The details of the package.</returns>
+        public PackageDetails LoadPackageFromStore(SharePointFileLocation location)
         {
-            PackageDetails package = new PackageDetails();
-            
-            // Security checks: Fails if user doesn't have access to the package (implemented by GetFileFromSharePointLocation)
-            FileAndLocation fileLocation = GetFileFromSharePointLocation(location);
-           
+            PackageDetails package = null;
+
             // find the package in the SharePointPackageStore; add it if it doesn't exist;
             // set <packageId> to its PackageItemIdentifier; set <warnings> to refer to warnings
             // about the package contents
@@ -650,7 +613,7 @@ namespace Microsoft.SharePointLearningKit
                     LearningStoreQuery query = LearningStore.CreateQuery(Schema.PackageItem.ItemTypeName);
                     query.AddColumn(Schema.PackageItem.Id);
                     query.AddColumn(Schema.PackageItem.Warnings);
-                    query.AddCondition(Schema.PackageItem.Location, LearningStoreConditionOperator.Equal, fileLocation.Location.ToString());
+                    query.AddCondition(Schema.PackageItem.Location, LearningStoreConditionOperator.Equal, location.ToString());
                     job.PerformQuery(query);
                     DataRowCollection result = job.Execute<DataTable>().Rows;
                     if (result.Count > 0)
@@ -658,22 +621,10 @@ namespace Microsoft.SharePointLearningKit
                         // package exists in SharePointPackageStore, i.e. it's listed one or more times in
                         // the PackageItem table -- set <packageId> to the PackageItemIdentifier of the
                         // first of them
+                        package = new PackageDetails();
                         package.PackageId = CastNonNullIdentifier<PackageItemIdentifier>(result[0][Schema.PackageItem.Id]);
                         package.Warnings = Cast<LearningStoreXml>(result[0][Schema.PackageItem.Warnings]);
-                    }
-                    else
-                    {
-                        // package doesn't exist in SharePointPackageStore -- register it if <validateOnly>
-                        // is false, or just validate it if <validateOnly> is true, and <log> to the
-                        // validation log in either case
-                        if (validateOnly)
-                        {
-                            package = ValidateActualPackage(fileLocation.Location);
-                        }
-                        else
-                        {
-                            package = RegisterAndValidatePackageLocal(fileLocation.Location);
-                        }
+                        return package;
                     }
                 }
                     
@@ -682,82 +633,6 @@ namespace Microsoft.SharePointLearningKit
 
             return package;
         }
-
-        /// <summary>Validates a package.</summary>
-        /// <param name="location">The location of the package.</param>
-        /// <returns>The package details.</returns>
-        PackageDetails ValidateActualPackage(SharePointFileLocation location)
-        {
-            PackageDetails package = new PackageDetails();
-
-            // validate the package, but don't register it
-            package.PackageId = null;
-
-            PackageValidatorSettings settings = new PackageValidatorSettings(ValidationBehavior.LogWarning, ValidationBehavior.None, ValidationBehavior.LogError, ValidationBehavior.LogWarning);
-
-            using (PackageReader packageReader = OpenPackage(location))
-            {
-                try
-                {
-                    ValidationResults log = PackageValidator.Validate(packageReader, settings);
-                    if (log.HasErrors)
-                    {
-                        throw new SafeToDisplayException(log, String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotValid, ""));
-                    }
-                    else if (log.HasWarnings)
-                    {
-                        using (XmlReader xmlLog = log.ToXml())
-                        {
-                            package.Warnings = LearningStoreXml.CreateAndLoad(xmlLog);
-                        }
-                    }
-
-                    return package;
-                }
-                catch (InvalidPackageException ex)
-                {
-                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotValid, ex.Message));
-                }
-            }
-        }
-
-        /// <summary>Register the package in the SharePointPackageStore.</summary>
-        PackageDetails RegisterAndValidatePackageLocal(SharePointFileLocation location)
-        {
-            PackageDetails package = new PackageDetails();
-
-            ValidationResults log;
-            // validate and register the package
-            PackageEnforcement pe = new PackageEnforcement(false, true, false);
-            try
-            {
-                RegisterPackageResult registerResult = PackageStore.RegisterPackage(location, pe);
-                package.PackageId = registerResult.PackageId;
-                log = registerResult.Log;
-            }
-            catch (PackageImportException ex)
-            {
-                throw new SafeToDisplayException(ex.Log, ex.Message);
-            }
-
-            // if there were warnings, set <warnings> to refer to them and update the
-            // PackageItem in LearningStore to contain the warnings (if there is a PackageItem)
-            if (log.HasWarnings || log.HasErrors)
-            {
-                using (XmlReader xmlLog = log.ToXml())
-                {
-                    package.Warnings = LearningStoreXml.CreateAndLoad(xmlLog);
-                }
-
-                LearningStoreJob job = LearningStore.CreateJob();
-                Dictionary<string, object> properties = new Dictionary<string, object>();
-                properties[Schema.PackageItem.Warnings] = package.Warnings;
-                job.UpdateItem(package.PackageId, properties);
-                job.Execute();
-            }
-
-            return package;
-        }                
 
         //////////////////////////////////////////////////////////////////////////////////////////////
             // Private Methods
@@ -1048,31 +923,6 @@ namespace Microsoft.SharePointLearningKit
             jobForSites.Execute();
         }
 
-
-        /// <summary>Retrieves an <n>SPFile</n> given an MLC SharePoint location string. </summary>
-        /// <param name="location">The MLC SharePoint location string.</param>
-        /// <exception cref="UnauthorizedAccessException"><pr>location</pr> refers to a file that the user does not have access to.</exception>
-        private static FileAndLocation GetFileFromSharePointLocation(SharePointFileLocation location)
-        {
-            // Security checks: Fails if user doesn't have access to the package (implemented
-            // by accessing the assignment properties)
-
-            FileAndLocation fileAndLocation;
-
-            fileAndLocation.Location = location;
-
-            // Access the file to check user has access to it.
-            using (SPSite spSite = new SPSite(location.SiteId))
-            {
-                using (SPWeb spWeb = spSite.OpenWeb(location.WebId))
-                {
-                    fileAndLocation.File = spWeb.GetFile(location.FileId);
-                    Hashtable fileProperties = fileAndLocation.File.Properties;
-                }
-            }
-
-            return fileAndLocation;
-        }
 
         /// <summary>See <see cref="ISlkStore.LoadInstructors"/>.</summary>
         public void LoadInstructors(AssignmentItemIdentifier id, SlkUserCollection instructors)
@@ -2113,111 +1963,6 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        /// <summary>Retrieves some information about an e-learning package. </summary>
-        /// <param name="packageReader">A <c>PackageReader</c> open onto the e-learning package to retrieve information about.</param>
-        /// <param name="spFile">The <c>SPFile</c> of the package to retrieve information about.</param>
-        static PackageInformation GetPackageInformation(PackageReader packageReader, SPFile spFile)
-        {
-            PackageInformation information = new PackageInformation();
-
-            information.ManifestReader = new ManifestReader(packageReader, new ManifestReaderSettings(true, true));
-            MetadataNodeReader metadataReader = information.ManifestReader.Metadata;
-
-            // set <title> to the title to display for the package, using these rules:
-            //   1. if there's a Title column value, use it;
-            //   2. otherwise, if there's a title specified in the package metadata, use it;
-            //   3. otherwise, use the file name without the extension
-            if (String.IsNullOrEmpty(spFile.Title) == false)
-            {
-                information.Title = spFile.Title;
-            }
-            else 
-            {
-                string titleFromMetadata = metadataReader.GetTitle(CultureInfo.CurrentCulture);
-                if (string.IsNullOrEmpty(titleFromMetadata) == false)
-                {
-                    information.Title = titleFromMetadata;
-                }
-                else
-                {
-                    information.Title = Path.GetFileNameWithoutExtension(spFile.Name);
-                }
-            }
-
-            // set description to the package description specified in metadata, or null if none
-            ReadOnlyCollection<string> descriptions = metadataReader.GetDescriptions(CultureInfo.CurrentCulture);
-            if (descriptions.Count > 0)
-            {
-                information.Description = descriptions[0];
-                if (information.Description == null)
-                {
-                    information.Description = string.Empty;
-                }
-            }
-            else
-            {
-                information.Description = string.Empty;
-            }
-
-            return information;
-        }
-
-        /// <summary>
-        /// Retrieves some information about an e-learning package.
-        /// </summary>
-        ///
-        /// <param name="location">Location string for the package</param>
-            ///
-            /// <remarks>
-            /// <b>Security:</b>&#160; Fails if the
-            /// <a href="SlkApi.htm#AccessingSlkStore">current user</a> doesn't have access to the
-            /// package.
-            /// </remarks>
-            ///
-        /// <exception cref="FileNotFoundException">
-        /// <pr>location</pr> refers to a file that does not exist.
-        /// </exception>
-        /// 
-        /// <exception cref="UnauthorizedAccessException">
-        /// <pr>location</pr> refers to a file that the user does not have access to.
-        /// </exception>
-        ///
-        public PackageInformation GetPackageInformation(SharePointFileLocation location)
-        {
-            // Check parameters
-            if (location == null)
-            {
-                throw new ArgumentNullException("location");
-            }
-
-            // Security checks: Fails if user doesn't have access to the package (implemented
-            // by GetFileFromSharePointLocation and SharePointPackageReader)
-
-            FileAndLocation fileLocation = GetFileFromSharePointLocation(location);
-            SPFile spFile = fileLocation.File;
-
-            using(PackageReader packageReader = OpenPackage(fileLocation.Location))
-            {
-                PackageInformation information = SlkStore.GetPackageInformation(packageReader, spFile);
-                information.SPFile = spFile;
-                return information;
-            }
-        }
-
-        /// <summary>See <see cref="ISlkStore.GetPackageInformation"/>.</summary>
-        public PackageInformation GetPackageInformation(PackageItemIdentifier packageId, SPFile file)
-        {
-            using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
-            {
-                using (PackageReader packageReader = PackageStore.GetPackageReader(packageId))
-                {
-                    // set <manifestReader> and <metadataReader> to refer to the package; set <title> and
-                    // <description> to the package-level title and description
-                    return GetPackageInformation(packageReader, file);
-                }
-            }
-        }
-
         /// <summary>See <see cref="ISlkStore.FetchUserWebList"/>.</summary>
         public ReadOnlyCollection<SlkUserWebListItem> FetchUserWebList()
         {
@@ -2640,12 +2385,6 @@ namespace Microsoft.SharePointLearningKit
             Dictionary<string,object> securityParameters = new Dictionary<string,object>();
             securityParameters.Add(Schema.ActivateLearnerAssignmentRight.LearnerAssignmentGuidId, learnerAssignmentGuidId);
             job.DemandRight(right, securityParameters);
-        }
-
-        struct FileAndLocation
-        {
-            public SPFile File;
-            public SharePointFileLocation Location;
         }
 
         void AddInstructorsQuery(LearningStoreJob job, AssignmentItemIdentifier assignmentId)

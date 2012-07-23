@@ -60,20 +60,14 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <remarks>The package is read from SharePoint under elevated privileges. The current user does not need access to the 
         /// package in order to register it. However, the current user does need to have permission to add a package to 
         /// LearningStore in order to register it.</remarks>
-        public RegisterPackageResult RegisterPackage(SharePointFileLocation packageLocation, PackageEnforcement packageEnforcement)
+        public RegisterPackageResult RegisterPackage(SharePointPackageReader packageReader, PackageEnforcement packageEnforcement)
         {
             Utilities.ValidateParameterNonNull("packageEnforcement", packageEnforcement);
-            Utilities.ValidateParameterNonNull("location", packageLocation);
+            Utilities.ValidateParameterNonNull("packageReader", packageReader);
 
-            // Get package reader to get the package from SharePoint. Read all files with elevated privileges.
-            AddPackageReferenceResult refResult;
-            using (SharePointPackageReader spPackageReader = new SharePointPackageReader(m_cacheSettings, packageLocation, true))
-            {
-                // Add the reference to the package. The process of importing the package will cause the package reader to cache 
-                // the package in the file system.
-                refResult = AddPackageReference(spPackageReader, packageLocation.ToString(),  packageEnforcement);  
-            }
-
+            // Add the reference to the package. The process of importing the package will cause the package reader to cache 
+            // the package in the file system.
+            AddPackageReferenceResult refResult = AddPackageReference(packageReader, packageReader.Location.ToString(),  packageEnforcement);  
             return new RegisterPackageResult(refResult);
         }
 
