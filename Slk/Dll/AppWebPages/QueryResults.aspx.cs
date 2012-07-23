@@ -359,8 +359,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         ///     cannot be found.</param>
         ///
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "2#")]
-        protected void ResolveSPWebName(Guid spWebGuid, Guid spSiteGuid, out string spWebName,
-            out string spWebUrl)
+        protected void ResolveSPWebName(Guid spWebGuid, Guid spSiteGuid, out string spWebName, out string spWebUrl)
         {
             //Restore previously assigned value 
             bool previousValue = SPSecurity.CatchAccessDeniedException;
@@ -395,6 +394,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                 }
             }
+            catch (SqlException)
+            {
+                //The database the site is in is not accessible
+                //Add the site to unknown site collection
+                m_unknownSiteCount++; //increment the Site Count by 1;
+                spWebName = String.Format(CultureInfo.CurrentCulture, AppResources.AlwpUnknownSite, m_unknownSiteCount);
+                spWebUrl = null;
+            }
             catch (FileNotFoundException)
             {
                 //The Site  does not exist : SPWeb not available. 
@@ -407,11 +414,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 // the user doesn't have permission to access this site.
                 //Set the SPWeb Title as Unknown Site #
-
                 m_unknownSiteCount++; //increment the Site Count by 1;
-                spWebName = String.Format(CultureInfo.CurrentCulture, 
-                                          AppResources.AlwpUnknownSite, 
-                                          m_unknownSiteCount);
+                spWebName = String.Format(CultureInfo.CurrentCulture, AppResources.AlwpUnknownSite, m_unknownSiteCount);
                 spWebUrl = null;
             }
             finally
@@ -419,6 +423,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //assign back previously assigned value
                 SPSecurity.CatchAccessDeniedException = previousValue;
             }
+
             // update the collection
             webNameAndUrl = new WebNameAndUrl();
             webNameAndUrl.Name = spWebName;
