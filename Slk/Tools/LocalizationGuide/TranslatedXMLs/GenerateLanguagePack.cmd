@@ -5,11 +5,7 @@ cd ..
 del /f/s/q bin 
 mkdir bin
 cd bin
-copy ..\%2\*.dll 
-..\localize g ..\TranslatedXMLs\%1\LearningComponents.xml
-..\localize g  ..\TranslatedXMLs\%1\SharePointLearningKit.xml
-..\localize g  ..\TranslatedXMLs\%1\SharePoint.xml
-..\localize g  ..\TranslatedXMLs\%1\Storage.xml
+..\localize g ..\TranslatedXMLs\%1
 
 copy *.resources.dll ..\solution
 copy ..\TranslatedXMLs\%1\SlkSettings.xml.dat ..\solution

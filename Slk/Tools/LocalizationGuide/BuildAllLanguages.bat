@@ -1,2 +1,2 @@
 CD TranslatedXMLs
-FOR /D %%I in (*) DO GenerateLanguagePack.CMD %%I %1
+FOR /D %%I in (*) DO GenerateLanguagePack.CMD %%I
