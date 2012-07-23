@@ -908,6 +908,7 @@ SET @schema = @schema +
         '<Column Name="LearnerId" TypeCode="1" Nullable="true" ReferencedItemTypeName="UserItem"/>' +
         '<Column Name="LearnerName" TypeCode="2" Nullable="true"/>' +
         '<Column Name="LearnerKey" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="SPUserId" TypeCode="9" Nullable="true"/>' +
         '<Column Name="IsFinal" TypeCode="3" Nullable="true"/>' +
         '<Column Name="NonELearningStatus" TypeCode="8" Nullable="true" EnumName="AttemptStatus"/>' +
         '<Column Name="FinalPoints" TypeCode="5" Nullable="true"/>' +
@@ -1536,6 +1537,7 @@ RETURN (
     lai.LearnerId                   LearnerId,
     lui.[Name]                      LearnerName,
     lui.[Key]                       LearnerKey,
+    luis.SPUserId                   SPUserId,
     lai.IsFinal                     IsFinal,
     lai.NonELearningStatus          NonELearningStatus,
     CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END FinalPoints,
@@ -1609,6 +1611,8 @@ RETURN (
     INNER JOIN UserItem cbui ON cbui.Id = asi.CreatedBy
     INNER JOIN LearnerAssignmentItem lai ON asi.Id = lai.AssignmentId
     INNER JOIN UserItem lui ON lai.LearnerId = lui.Id
+    LEFT JOIN UserItemSite luis ON lui.Id = luis.UserId AND
+                                    asi.SPSiteGuid = luis.SPSiteGuid
     LEFT OUTER JOIN ActivityPackageItem api ON asi.RootActivityId = api.Id
     LEFT OUTER JOIN PackageItem pki ON api.PackageId = pki.Id
     LEFT OUTER JOIN AttemptItem ati ON ati.LearnerAssignmentId = lai.Id
