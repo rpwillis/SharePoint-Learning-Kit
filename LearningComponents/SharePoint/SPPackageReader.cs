@@ -41,6 +41,7 @@ namespace Microsoft.LearningComponents.SharePoint
 
         private bool m_disposed; // indicates this object has been disposed
 
+#region constructors
         /// <summary>
         /// Creates a package reader to read the specified package from SharePoint. The package 
         /// must be valid e-learning content.The package 
@@ -68,9 +69,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <exception cref="FileNotFoundException">Thrown if the requested file does not exist.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown if the identity doesn't have access to the CachePath provided in the 
         /// cache settings.</exception>
-        public SharePointPackageReader(SharePointCacheSettings cacheSettings,
-                                        SharePointFileLocation packageLocation)
-            : this(cacheSettings, packageLocation, false)
+        public SharePointPackageReader(SharePointCacheSettings cacheSettings, SharePointFileLocation packageLocation) : this(cacheSettings, packageLocation, false)
         {
         }
 
@@ -179,6 +178,15 @@ namespace Microsoft.LearningComponents.SharePoint
             m_pkgLocation = new SharePointFileLocation(packageLocation);
             m_settings = new SharePointCacheSettings(cacheSettings);
         }
+#endregion constructors
+
+#region properties
+        /// <summary>The location of the package.</summary>
+        public SharePointFileLocation Location
+        {
+            get { return m_pkgLocation ;}
+        }
+#endregion properties
 
         /// <summary>
         /// Define the delegate that mimics the SPSecurity delegate that allows accessing SharePoint 

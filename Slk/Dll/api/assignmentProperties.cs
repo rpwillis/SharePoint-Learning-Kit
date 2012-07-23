@@ -502,37 +502,36 @@ namespace Microsoft.SharePointLearningKit
             // set <rootActivityId> to the ID of the organization, or null if a non-e-learning document is being assigned
             if (organizationIndex != null)
             {
-                // register the package with PackageStore (if it's not registered yet), and get the PackageItemIdentifier
-                PackageDetails package = Store.RegisterAndValidatePackage(location);
+                Package package = new Package(Store, file, location);
+                package.Register();
 
-                RootActivityId = Store.FindRootActivity(package.PackageId, organizationIndex.Value);
-                PackageInformation information = Store.GetPackageInformation(package.PackageId, file);
+                RootActivityId = package.FindRootActivity(organizationIndex.Value);
 
                 bool existingTitle = (string.IsNullOrEmpty(Title) == false);
 
                 if (existingTitle == false)
                 {
-                    Title = information.Title;
+                    Title = package.Title;
                 }
 
                 if (string.IsNullOrEmpty(Description))
                 {
-                    Description = information.Description;
+                    Description = package.Description;
                 }
 
                 // validate <organizationIndex>
-                if ((organizationIndex.Value < 0) || (organizationIndex.Value >= information.ManifestReader.Organizations.Count))
+                if ((organizationIndex.Value < 0) || (organizationIndex.Value >= package.Organizations.Count))
                 {
                     throw new SafeToDisplayException(AppResources.InvalidOrganizationIndex);
                 }
 
-                PackageFormat = information.ManifestReader.PackageFormat;
+                PackageFormat = package.PackageFormat;
 
                 // set <organizationNodeReader> to refer to the organization
-                OrganizationNodeReader organizationNodeReader = information.ManifestReader.Organizations[organizationIndex.Value];
+                OrganizationNodeReader organizationNodeReader = package.Organizations[organizationIndex.Value];
 
                 // if there is more than one organization, append the organization title, if any
-                if (existingTitle == false && information.ManifestReader.Organizations.Count > 1)
+                if (existingTitle == false && package.Organizations.Count > 1)
                 {
                     if (!String.IsNullOrEmpty(organizationNodeReader.Title))
                     {
@@ -541,7 +540,7 @@ namespace Microsoft.SharePointLearningKit
                 }
 
                 // set <pointsPossible> to the points-possible value stored in the manifest, or null if none
-                switch (information.ManifestReader.PackageFormat)
+                switch (PackageFormat)
                 {
                     case Microsoft.LearningComponents.PackageFormat.Lrm:
                         PointsPossible = organizationNodeReader.PointsPossible;

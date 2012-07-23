@@ -135,7 +135,8 @@ namespace Microsoft.LearningComponents.Storage
             ValidationResults log = new ValidationResults();
             try
             {
-                PackageValidator.Validate(pvSettings, packageReader, true, log, manifestSettings, new LrmSettings(!packageEnforcement.EnforceLrmRequirements), out manifestReader);
+                bool fixLrmErrors = !packageEnforcement.EnforceLrmRequirements;
+                PackageValidator.Validate(pvSettings, packageReader, true, log, manifestSettings, fixLrmErrors, out manifestReader);
             }
             catch (InvalidPackageException e)
             {

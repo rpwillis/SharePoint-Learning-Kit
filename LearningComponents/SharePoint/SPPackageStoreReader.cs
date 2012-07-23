@@ -44,8 +44,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// LearningStore PackageItem.Location column. This cannot be null.</param>
         /// <param name="spIdentity">The user who has access to the package related to the store.</param>
         /// <remarks></remarks>
-        internal SharePointPackageStoreReader(SharePointPackageStore packageStore,
-            PackageItemIdentifier packageId, string packageLocation)
+        internal SharePointPackageStoreReader(SharePointPackageStore packageStore, PackageItemIdentifier packageId, string packageLocation)
         {
             Resources.Culture = Thread.CurrentThread.CurrentCulture;
             Utilities.ValidateParameterNonNull("packageLocation", packageLocation);

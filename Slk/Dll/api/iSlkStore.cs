@@ -33,6 +33,9 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Gets the <c>Guid</c> of the <c>SPSite</c> associated with this <c>SlkStore</c>.</summary>
         Guid SPSiteGuid { get; }
 
+        /// <summary>Gets information about the file system cache used by <c>PackageStore</c>. </summary>
+        SharePointCacheSettings SharePointCacheSettings { get; }
+
 
         /// <summary>Gets a reference to the <c>SharePointPackageStore</c> associated with this SharePoint
         /// Learning Kit store.  <c>SharePointPackageStore</c> holds references to e-learning packages stored in SharePoint document libraries.</summary>
@@ -126,7 +129,7 @@ namespace Microsoft.SharePointLearningKit
         /// registered, its information is returned rather than re-registering the package.
         /// Uses an <c>SPFile</c> and version ID to locate the package.
         /// </summary>
-        /// <param name="location">The location string.</param>
+        /// <param name="reader">A reader for the package.</param>
         /// <remarks>
         /// If the package is valid, <pr>warnings</pr> is set to <n>null</n>.  If the package is not
         /// completely valid, but is valid enough to be assigned within SharePoint Learning Kit,
@@ -142,13 +145,7 @@ namespace Microsoft.SharePointLearningKit
         /// <exception cref="UnauthorizedAccessException">
         /// The user is not authorized to access the package.
         /// </exception>
-        PackageDetails RegisterAndValidatePackage(SharePointFileLocation location);
-
-        /// <summary>Gets information about the package.</summary>
-        /// <param name="packageId">The id of the package.</param>
-        /// <param name="file">The actual package.</param>
-        /// <returns>The package information.</returns>
-        PackageInformation GetPackageInformation(PackageItemIdentifier packageId, SPFile file);
+        PackageDetails RegisterAndValidatePackage(PackageReader reader);
 
         /// <summary>Returns the SharePoint Learning Kit user web list for the current user. </summary>
         /// <remarks>
@@ -252,6 +249,11 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="location">The location of the assignment.</param>
         /// <returns>An <see cref="AssignmentProperties"/>.</returns>
         AssignmentProperties LoadSelfAssignmentForLocation(SharePointFileLocation location);
+
+        /// <summary>Loads the package details from the store.</summary>
+        /// <param name="location">The location of the package.</param>
+        /// <returns>The details of the package.</returns>
+        PackageDetails LoadPackageFromStore(SharePointFileLocation location);
     }
 }
 

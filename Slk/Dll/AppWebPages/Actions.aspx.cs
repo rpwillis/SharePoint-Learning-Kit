@@ -85,8 +85,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         AssignmentObjectsFromQueryString objects;
         private Guid? newSite;
         private SPFile m_spFile;
-        private bool? m_nonELearning;
         SharePointFileLocation fileLocation;
+        Package package;
         #endregion
 
         #region Private Properties
@@ -120,15 +120,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             get
             {
-                if (!m_nonELearning.HasValue)
+                if (package == null)
                 {
                     LoadSlkObjects();
-                    if (!m_nonELearning.HasValue)
+                    if (package == null)
                     {
                         throw new InternalErrorException("SLKActions1003");
                     }
                 }
-                return m_nonELearning.Value;
+
+                return package.IsNonELearning;
             }
         }
 
@@ -619,12 +620,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             LoadObjects();
             fileLocation = new SharePointFileLocation(SPWeb, SPFile.UniqueId, VersionId);
-
-            // set <nonELearning> to true if this file isn't an e-learning package type
-            using (PackageReader spReader = SlkStore.OpenPackage(fileLocation))
-            {
-                m_nonELearning = PackageValidator.ValidateIsELearning(spReader).HasErrors;
-            }
+            package = new Package(SlkStore, SPFile, SPWeb);
         }
 
         /// <summary>
@@ -785,22 +781,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
             }
 
-            // validate the package -- if it's already registered in LearningStore then
-            // retrieve the cached warnings, otherwise validate the package now, but don't
-            // actually register it (since we want to avoid unnecessary registrations of the
-            // package in the database in the case where an author edits and previews a
-            // package many times before deciding to assign it); note that non-e-learning
-            // files are not validated
-            LearningStoreXml warnings;
-            if (NonELearning)
-            {
-                warnings = null;
-            }
-            else
-            {
-                warnings = SlkStore.ValidatePackage(fileLocation);
-            }
-
             if (!IsPostBack)
             {
                 // get information about the package: populate the "Organizations" row
@@ -817,7 +797,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         title = Path.GetFileNameWithoutExtension(SPFile.Name);
                     }
-                    description = "";
+                    description = string.Empty;
 
                     // hide the "Organizations" row
                     organizationRow.Visible = false;
@@ -828,28 +808,28 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     // e-learning content...
 
                     // set <packageInformation> to refer to information about the package
-                    PackageInformation packageInformation = SlkStore.GetPackageInformation(fileLocation);
-                    m_spFile = packageInformation.SPFile;
-                    title = packageInformation.Title;
-                    description = packageInformation.Description;
+                    title = package.Title;
+                    description = package.Description;
 
-                    // populate the drop-down list of organizations; hide the entire row containing that
-                    // drop-down if there's only one organization
-                    ReadOnlyCollection<OrganizationNodeReader> organizations = packageInformation.ManifestReader.Organizations;
-                    foreach (OrganizationNodeReader nodeReader in organizations)
-                    {
-                        string id = nodeReader.Id;
-                        organizationList.Items.Add(new ListItem(Server.HtmlEncode(GetDefaultTitle(nodeReader.Title, id)), id));
-                        if (packageInformation.ManifestReader.DefaultOrganization.Id == id)
-                        {
-                            organizationList.Items.FindByValue(id).Selected = true;
-                        }
-                    }
-
-                    if (organizations.Count == 1)
+                    // populate the drop-down list of organizations; hide the entire row containing that drop-down if there's only one organization
+                    if (package.Organizations.Count <= 1)
                     {
                         organizationRow.Visible = false;
                         organizationRowBottomLine.Visible = false;
+                    }
+                    else
+                    {
+                        foreach (OrganizationNodeReader nodeReader in package.Organizations)
+                        {
+                            string id = nodeReader.Id;
+                            organizationList.Items.Add(new ListItem(Server.HtmlEncode(GetDefaultTitle(nodeReader.Title, id)), id));
+                        }
+
+                        ListItem defaultOrganization = organizationList.Items.FindByValue(package.DefaultOrganizationId.ToString(CultureInfo.InvariantCulture));
+                        if (defaultOrganization != null)
+                        {
+                            defaultOrganization.Selected = true;
+                        }
                     }
                 }
 
@@ -859,7 +839,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
 
             // if the package has warnings, tell the user
-            if (warnings != null)
+            if (package.Warnings != null)
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append(AppResources.ActionsWarning);
@@ -874,7 +854,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (ShowWarnings)
                 {
                     sb.AppendLine("<ul style=\"margin-top:0;margin-bottom:0;margin-left:24;\">");
-                    using (XmlReader xmlReader = warnings.CreateReader())
+                    using (XmlReader xmlReader = package.Warnings.CreateReader())
                     {
                         XPathNavigator root = new XPathDocument(xmlReader).CreateNavigator();
                         foreach (XPathNavigator error in root.Select("/Warnings/Warning"))
