@@ -1,5 +1,3 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +14,7 @@ namespace SharePointLearningKit.Localization
     class Generator
     {
         Dictionary<AssemblyName, ResourceDataCollection> resources = new Dictionary<AssemblyName, ResourceDataCollection>();
+        string slkKeyPath;
 
 #region constructors
         public Generator()
@@ -185,7 +184,7 @@ namespace SharePointLearningKit.Localization
                         assemblyName.CultureInfo = new CultureInfo(reader.GetAttribute("culture"));
                         assemblyName.Name = reader.GetAttribute("name");
                         assemblyName.Version = new Version(reader.GetAttribute("version"));
-                        using (FileStream stream =File.Open("..\\..\\..\\LearningComponents\\Shared\\SlkKey.snk", FileMode.Open, FileAccess.Read)) 
+                        using (FileStream stream =File.Open(FindKeyFile(), FileMode.Open, FileAccess.Read)) 
                         {
                             assemblyName.KeyPair = new StrongNameKeyPair(stream);
                         }
@@ -201,6 +200,41 @@ namespace SharePointLearningKit.Localization
             }
 
             return true;
+        }
+
+        private string FindKeyFile()
+        {
+            if (slkKeyPath == null)
+            {
+                DirectoryInfo directory = Directory.GetParent(".");
+                ProcessDirectory(directory);
+                if (slkKeyPath == null)
+                {
+                    throw new InvalidOperationException("Cannot find SLK key file.");
+                }
+            }
+
+            return slkKeyPath;
+        }
+
+        private void ProcessDirectory(DirectoryInfo directory)
+        {
+            if (directory != null)
+            {
+                if (CheckDirectory(directory))
+                {
+                    slkKeyPath = Path.Combine(directory.FullName, "LearningComponents\\Shared\\SlkKey.snk");
+                }
+                else
+                {
+                    ProcessDirectory(directory.Parent);
+                }
+            }
+        }
+
+        bool CheckDirectory(DirectoryInfo directory)
+        {
+            return (directory.GetDirectories("LearningComponents").Length == 1);
         }
 #endregion private methods
 
