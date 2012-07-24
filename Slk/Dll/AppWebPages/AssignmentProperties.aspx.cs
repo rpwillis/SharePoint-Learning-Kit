@@ -513,7 +513,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             if (AssignmentId == null)
             {
-                if (Location.ToString() == AssignmentProperties.NoPackageLocation.ToString())
+                if (Location.ToString() == Package.NoPackageLocation.ToString())
                 {
                     SPWeb.Lists.ListsForCurrentUser = true;
                     int counter = 0;
@@ -1413,7 +1413,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 string destinationUrl = library.RootFolder.Url + "/" + FileUploadDocument.FileName;
                 SPFile file = library.RootFolder.Files.Add(destinationUrl, FileUploadDocument.FileBytes, false);
                 file.Update();
-                location = new SharePointFileLocation(SPWeb, file);
+                location = Package.CreateFileLocation(SPWeb, file);
                 AssignmentProperties.SetLocation(Location, OrgIndex);
             }
             catch (SPException e)

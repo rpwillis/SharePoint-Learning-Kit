@@ -10,6 +10,11 @@
         </FieldRefs>
     </ContentType>
 
+    <ContentType ID="0x010100CF3A5A3D3C324CF5876663C33D4EE8AA0101" Name="$Resources:SLK,LargeAssignmentContentTypeName" Group="$Resources:SLK,ContentTypesGroup" Description="$Resources:SLK,LargeAssignmentContentTypeDescription" >
+        <FieldRefs>
+        </FieldRefs>
+    </ContentType>
+
     <CustomAction Id="{f2b73c73-6504-446f-a07e-4d786fe25efd}"
                        Title="$Resources:SLK,AssignmentActionTitle"
                        Location="EditControlBlock"

@@ -284,8 +284,7 @@ namespace Microsoft.LearningComponents.Storage
         /// <returns>A reader for the requested package.</returns>
         /// <exception cref="LearningStoreItemNotFoundException">Thrown if <paramref name="packageId"/>
         /// does not represent a package in the store.</exception>
-        protected internal abstract PackageReader GetPackageReader(PackageItemIdentifier packageId,
-                                                            string packageLocation);
+        protected internal abstract PackageReader GetPackageReader(PackageItemIdentifier packageId, string packageLocation);
 
         /// <summary>
         /// Adds information to a LearningStoreJob to import manifest information into LearningStore. 

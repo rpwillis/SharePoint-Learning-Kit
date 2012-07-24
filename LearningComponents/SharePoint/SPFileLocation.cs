@@ -16,12 +16,6 @@ namespace Microsoft.LearningComponents.SharePoint
     /// </summary>
     public class SharePointFileLocation
     {
-        private Guid m_siteId;
-        private Guid m_webId;
-        private Guid m_fileId;
-        private int m_versionId;
-        private DateTime m_timestamp;
-
 #region constructors
         /// <summary>
         /// Create a SharePointFileLocation with optional timestamp.
@@ -34,15 +28,35 @@ namespace Microsoft.LearningComponents.SharePoint
         /// in the document library, this is the time the <paramref name="versionId"/> was created. If there 
         /// is no versioning, then it is the last modified time of the file.
         /// </param>
-        public SharePointFileLocation(Guid siteId, Guid webId, Guid fileId, int versionId, DateTime timestamp)
+        public SharePointFileLocation(Guid siteId, Guid webId, Guid fileId, int versionId, DateTime timestamp) : this (siteId, webId, fileId, versionId, timestamp, null)
+        {
+        }
+
+        /// <summary>
+        /// Create a SharePointFileLocation with optional timestamp.
+        /// </summary>
+        /// <param name="siteId">The id of the site the file exists.</param>
+        /// <param name="webId">The id of the SPWeb where the file exists.</param>
+        /// <param name="fileId">The unique identifier of the file.</param>
+        /// <param name="versionId">The version of the file.</param>
+        /// <param name="timestamp">The timestamp associated with the file. If versioning is turned on
+        /// in the document library, this is the time the <paramref name="versionId"/> was created. If there 
+        /// is no versioning, then it is the last modified time of the file.
+        /// </param>
+        /// <param name="extraInformation">Any extra information for the location.</param>
+        public SharePointFileLocation(Guid siteId, Guid webId, Guid fileId, int versionId, DateTime timestamp, string extraInformation)
         {
             // No validation on parameters because if the values are not valid, it will become clear soon enough.
             Resources.Culture = Thread.CurrentThread.CurrentCulture;
-            m_siteId = siteId;
-            m_webId = webId;
-            m_fileId = fileId;
-            m_versionId = versionId;
-            m_timestamp = timestamp;
+            SiteId = siteId;
+            WebId = webId;
+            FileId = fileId;
+            VersionId = versionId;
+            ExtraInformation = extraInformation;
+            if (timestamp != DateTime.MinValue)
+            {
+                Timestamp = timestamp;
+            }
         }
 
         /// <summary>
@@ -52,16 +66,9 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <param name="webId">The id of the SPWeb where the file exists.</param>
         /// <param name="fileId">The unique identifier of the file.</param>
         /// <param name="versionId">The version of the file.</param>
-        public SharePointFileLocation(Guid siteId, Guid webId, Guid fileId, int versionId)
+        public SharePointFileLocation(Guid siteId, Guid webId, Guid fileId, int versionId) : this(siteId, webId, fileId, versionId, DateTime.MinValue)
         {
-            // No validation on parameters because if the values are not valid, it will become clear soon enough.
-            Resources.Culture = Thread.CurrentThread.CurrentCulture;
-            
-            m_siteId = siteId;
-            m_webId = webId;
-            m_fileId = fileId;
-            m_versionId = versionId;
-            m_timestamp = GetTimeStamp(m_siteId, m_webId, m_fileId, m_versionId);
+            Timestamp = GetTimeStamp(SiteId, WebId, FileId, VersionId);
         }
 
         /// <summary>
@@ -78,11 +85,11 @@ namespace Microsoft.LearningComponents.SharePoint
             Resources.Culture = Thread.CurrentThread.CurrentCulture;
             Utilities.ValidateParameterNonNull("web", web);
 
-            m_siteId = web.Site.ID;
-            m_webId = web.ID;
-            m_fileId = fileId;
-            m_versionId = versionId;
-            m_timestamp = GetTimeStamp(m_siteId, m_webId, m_fileId, m_versionId);
+            SiteId = web.Site.ID;
+            WebId = web.ID;
+            FileId = fileId;
+            VersionId = versionId;
+            Timestamp = GetTimeStamp(web, FileId, VersionId);
         }
 
         /// <summary>Create a SharePointFileLocation by providing the SPWeb and SPFile objects.</summary>
@@ -93,27 +100,31 @@ namespace Microsoft.LearningComponents.SharePoint
             Resources.Culture = Thread.CurrentThread.CurrentCulture;
             Utilities.ValidateParameterNonNull("file", file);
 
-            m_siteId = web.Site.ID;
-            m_webId = web.ID;
-            m_fileId = file.UniqueId;
-            m_versionId = file.UIVersion;
-            m_timestamp = GetTimeStamp(m_siteId, m_webId, m_fileId, m_versionId);
+            SiteId = web.Site.ID;
+            WebId = web.ID;
+            FileId = file.UniqueId;
+            VersionId = file.UIVersion;
+            Timestamp = file.TimeLastModified;
         }
 
         public SharePointFileLocation(string location)
         {
             string[] parts = location.Split('_');
-            if (parts.Length != 5)
+            if (parts.Length < 5 || parts.Length > 6)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            m_siteId = new Guid(parts[0]);
-            m_webId = new Guid(parts[1]);
-            m_fileId = new Guid(parts[2]);
-            m_versionId = Int32.Parse(parts[3], NumberFormatInfo.InvariantInfo);
+            SiteId = new Guid(parts[0]);
+            WebId = new Guid(parts[1]);
+            FileId = new Guid(parts[2]);
+            VersionId = Int32.Parse(parts[3], NumberFormatInfo.InvariantInfo);
             long ticks = long.Parse(parts[4], NumberFormatInfo.InvariantInfo);
-            m_timestamp = new DateTime(ticks);
+            Timestamp = new DateTime(ticks);
+            if (parts.Length == 6)
+            {
+                ExtraInformation = parts[5];
+            }
         }
 
         /// <summary>
@@ -124,11 +135,11 @@ namespace Microsoft.LearningComponents.SharePoint
         {
             Resources.Culture = Thread.CurrentThread.CurrentCulture;
             Utilities.ValidateParameterNonNull("copyFrom", copyFrom);
-            m_siteId = copyFrom.SiteId;
-            m_webId = copyFrom.WebId;
-            m_fileId = copyFrom.FileId;
-            m_versionId = copyFrom.VersionId;
-            m_timestamp = copyFrom.Timestamp;
+            SiteId = copyFrom.SiteId;
+            WebId = copyFrom.WebId;
+            FileId = copyFrom.FileId;
+            VersionId = copyFrom.VersionId;
+            Timestamp = copyFrom.Timestamp;
         }
 #endregion constructors
 
@@ -136,27 +147,30 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <summary>
         /// Gets the site id of the location.
         /// </summary>
-        public Guid SiteId { get { return m_siteId; } }
+        public Guid SiteId { get; private set; }
 
         /// <summary>
         /// Gets the identifier of the web portion of the location.
         /// </summary>
-        public Guid WebId { get { return m_webId; } }
+        public Guid WebId { get; private set; }
 
         /// <summary>
         /// Gets the unique identifier of the file portion of the location.
         /// </summary>
-        public Guid FileId { get { return m_fileId; } }
+        public Guid FileId { get; private set; }
 
         /// <summary>
         /// Gets the identifier of the version of the location.
         /// </summary>
-        public int VersionId { get { return m_versionId; } }
+        public int VersionId { get; private set; }
 
         /// <summary>
         /// Gets the timestamp associated with the location.
         /// </summary>
-        public DateTime Timestamp { get { return m_timestamp; } }
+        public DateTime Timestamp { get; private set; }
+
+        /// <summary>Any extra information associated with the file location.</summary>
+        public string ExtraInformation { get; private set; }
 #endregion properties
 
 #region public methods
@@ -187,6 +201,7 @@ namespace Microsoft.LearningComponents.SharePoint
                 // if the location was not valid for any reason, return false
                 return false;
             }
+
             return true;
         }
 
@@ -196,10 +211,21 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <returns>The string format of the location.</returns>
         public override string ToString()
         {
-            return String.Format(CultureInfo.CurrentCulture, "{0}_{1}_{2}_{3}_{4}",
-                                    m_siteId.ToString(), m_webId.ToString(), m_fileId.ToString(),
-                                    Convert.ToString(m_versionId, CultureInfo.InvariantCulture),
-                                    Convert.ToString(m_timestamp.Ticks, CultureInfo.InvariantCulture));
+            if (string.IsNullOrEmpty(ExtraInformation))
+            {
+                return String.Format(CultureInfo.CurrentCulture, "{0}_{1}_{2}_{3}_{4}",
+                                        SiteId.ToString(), WebId.ToString(), FileId.ToString(),
+                                        Convert.ToString(VersionId, CultureInfo.InvariantCulture),
+                                        Convert.ToString(Timestamp.Ticks, CultureInfo.InvariantCulture));
+            }
+            else
+            {
+                return String.Format(CultureInfo.CurrentCulture, "{0}_{1}_{2}_{3}_{4}_{5}",
+                                        SiteId.ToString(), WebId.ToString(), FileId.ToString(),
+                                        Convert.ToString(VersionId, CultureInfo.InvariantCulture),
+                                        Convert.ToString(Timestamp.Ticks, CultureInfo.InvariantCulture),
+                                        ExtraInformation);
+            }
         }
 
         /// <summary>Returns an <c>SPFile</c> represented by the <see cref="SharePointFileLocation"/>>.</summary>
@@ -220,29 +246,29 @@ namespace Microsoft.LearningComponents.SharePoint
                 web = SPContext.Current.Web;
             }
 
-            if (site != null && site.ID == m_siteId)
+            if (site != null && site.ID == SiteId)
             {
                 isContextSite = true;
             }
             else
             {
-                site =  new SPSite(m_siteId,SPContext.Current.Site.Zone);
+                site =  new SPSite(SiteId,SPContext.Current.Site.Zone);
             }
 
             try
             {
                 try
                 {
-                    if (site != null && isContextSite && web.ID == m_webId)
+                    if (site != null && isContextSite && web.ID == WebId)
                     {
                         isContextWeb = true;
                     }
                     else
                     {
-                        web = site.OpenWeb(m_webId);
+                        web = site.OpenWeb(WebId);
                     }
 
-                    return web.GetFile(m_fileId);
+                    return web.GetFile(FileId);
                 }
                 finally
                 {
@@ -262,39 +288,46 @@ namespace Microsoft.LearningComponents.SharePoint
         }
 #endregion public methods
 
-        /// <summary>
-        /// Static helper function to get the timestamp
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]    // handled by disposer
-        private static DateTime GetTimeStamp(Guid siteId, Guid webId, Guid fileId, int versionId)
+        /// <summary>Static helper function to get the timestamp.</summary>
+        static DateTime GetTimeStamp(Guid siteId, Guid webId, Guid fileId, int versionId)
         {
-            using (Disposer disposer = new Disposer())
+            using (SPSite spSite = new SPSite(siteId))
             {
-                SPSite spSite = new SPSite(siteId);
-                disposer.Push(spSite);
-
-                SPWeb spWeb = spSite.OpenWeb(webId);
-                disposer.Push(spWeb);
-
-                SPFile spFile = spWeb.GetFile(fileId);
-
-                if ((spFile.Versions.Count == 0) || spFile.UIVersion == versionId)
+                using (SPWeb spWeb = spSite.OpenWeb(webId))
                 {
-                    if (spFile.UIVersion != versionId)
-                        throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileNotFound, spFile.Name));
-
-                    return spFile.TimeLastModified;
+                    return GetTimeStamp(spWeb, fileId, versionId);
                 }
-                else
+            }
+        }
+
+        static DateTime GetTimeStamp(SPWeb web, Guid fileId, int versionId)
+        {
+            SPFile file = web.GetFile(fileId);
+            return GetTimeStamp(file, versionId);
+        }
+
+        static DateTime GetTimeStamp(SPFile file, int versionId)
+        {
+            if ((file.Versions.Count == 0) || file.UIVersion == versionId)
+            {
+                if (file.UIVersion != versionId)
                 {
-                    // The specified version isn't the current one
-                    SPFileVersion spFileVersion = spFile.Versions.GetVersionFromID(versionId);
-
-                    if (spFileVersion == null)
-                        throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileNotFound, spFile.Name));
-
-                    return spFileVersion.Created;
+                    throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileNotFound, file.Name));
                 }
+
+                return file.TimeLastModified;
+            }
+            else
+            {
+                // The specified version isn't the current one
+                SPFileVersion spFileVersion = file.Versions.GetVersionFromID(versionId);
+
+                if (spFileVersion == null)
+                {
+                    throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileNotFound, file.Name));
+                }
+
+                return spFileVersion.Created;
             }
         }
     }

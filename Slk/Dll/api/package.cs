@@ -15,14 +15,13 @@ namespace Microsoft.SharePointLearningKit
         PackageReader reader;
         ISlkStore store;
         SPFile file;
-        SharePointFileLocation location;
 
 #region constructors
         /// <summary>Initializes a new instance of <see cref="Package"/>.</summary>
         /// <param name="store">The ISlkStore to use.</param>
         /// <param name="file">The package file in SharePoint.</param>
         /// <param name="web">The SPWeb containing the file. SP 2007 SPFile does not expose this as a property.</param>
-        public Package(ISlkStore store, SPFile file, SPWeb web) : this (store, file, new SharePointFileLocation(web, file.UniqueId, file.UIVersion))
+        public Package(ISlkStore store, SPFile file, SPWeb web) : this (store, file, CreateFileLocation(web, file))
         {
         }
 
@@ -34,10 +33,10 @@ namespace Microsoft.SharePointLearningKit
         {
             this.store = store;
             this.file = file;
-            this.location = location;
+            Location = location;
             try
             {
-                reader = new SharePointPackageReader(store.SharePointCacheSettings, location, false);
+                reader = new SharePointPackageReader(store.SharePointCacheSettings, Location, false);
                 using (reader)
                 {
                     Initialize();
@@ -52,7 +51,9 @@ namespace Microsoft.SharePointLearningKit
 
 #region properties
         /// <summary>The ID of the package.</summary>
-        public PackageItemIdentifier Id { get; set; }
+        public PackageItemIdentifier Id { get; private set; }
+        /// <summary>The location of the file.</summary>
+        public SharePointFileLocation Location { get; private set; }
         /// <summary>Any warnings for the package.</summary>
         public LearningStoreXml Warnings { get; private set; }
         /// <summary>The title of the package.</summary>
@@ -146,7 +147,7 @@ namespace Microsoft.SharePointLearningKit
 
         void ValidatePackage()
         {
-            PackageDetails details = store.LoadPackageFromStore(location);
+            PackageDetails details = store.LoadPackageFromStore(Location);
 
             if (details != null)
             {
@@ -174,7 +175,22 @@ namespace Microsoft.SharePointLearningKit
 #endregion private methods
 
 #region static members
+
+        /// <summary>Creates a new <see cref="SharePointFileLocation"/> object.</summary>
+        /// <param name="web">The web the file is in - not in SPFile properties in SP2007.</param>
+        /// <param name="file">The file to get the location for.</param>
+        /// <returns>A <see cref="SharePointFileLocation"/>.</returns>
+        public static SharePointFileLocation CreateFileLocation(SPWeb web, SPFile file)
+        {
+            return new SharePointFileLocation(web, file.UniqueId, file.UIVersion);
+        }
 #endregion static members
+
+#region NoPackageLocation
+        /// <summary>Represents a non-location.</summary>
+        public static readonly SharePointFileLocation NoPackageLocation = new SharePointFileLocation(Guid.Empty, Guid.Empty, Guid.Empty, 0, DateTime.MinValue);
+#endregion NoPackageLocation
+
     }
 }
 

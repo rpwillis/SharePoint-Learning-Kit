@@ -14,7 +14,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         public SPList List { get; private set; }
         public SPListItem ListItem { get; private set; }
         public SPFile File { get; private set; }
-        public int VersionId { get; private set; }
 #endregion properties
 
 #region public methods
@@ -56,8 +55,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // The file isn't found
                 throw new SafeToDisplayException(AppResources.ActionsItemNotFound);
             }
-
-            VersionId = File.UIVersion;
         }
 #endregion private methods
 

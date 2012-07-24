@@ -319,7 +319,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             {
                 AssignmentObjectsFromQueryString objects = new AssignmentObjectsFromQueryString();
                 objects.LoadObjects(SPWeb);
-                SharePointFileLocation fileLocation = new SharePointFileLocation(SPWeb, objects.File.UniqueId, objects.VersionId);
+                SharePointFileLocation fileLocation = Package.CreateFileLocation(SPWeb, objects.File);
 
                 AssignmentProperties assignment = AssignmentProperties.LoadSelfAssignmentForLocation(fileLocation, SlkStore);
 
