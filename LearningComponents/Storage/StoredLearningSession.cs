@@ -64,9 +64,7 @@ namespace Microsoft.LearningComponents.Storage
         /// represent a valid view for the session, of if <paramref name="attemptId"/> is not a positive value.</exception>
         /// <exception cref="ArgumentNullException">Thrown if a <paramref name="packageStore"/> or 
         /// <paramref name="attemptId"/> is not provided.</exception>
-        public StoredLearningSession(SessionView view,
-            AttemptItemIdentifier attemptId,
-            PackageStore packageStore) : base(view)
+        public StoredLearningSession(SessionView view, AttemptItemIdentifier attemptId, PackageStore packageStore) : base(view)
         {
             SessionResources.Culture = Thread.CurrentThread.CurrentCulture;
             Utilities.ValidateParameterNonNull("packageStore", packageStore);
@@ -617,9 +615,7 @@ namespace Microsoft.LearningComponents.Storage
         /// returned object.</remarks>
         internal override PackageReader GetPackageReader()
         {
-                return m_packageStore.GetPackageReader(
-                        new PackageItemIdentifier(DatabaseNavigator.PackageId),
-                        DatabaseNavigator.PackageLocation);
+            return m_packageStore.GetPackageReader(new PackageItemIdentifier(DatabaseNavigator.PackageId), DatabaseNavigator.PackageLocation);
         }
                 
         #region Show*Ui methods

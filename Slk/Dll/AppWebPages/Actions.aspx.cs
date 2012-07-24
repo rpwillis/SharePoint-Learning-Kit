@@ -85,31 +85,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         AssignmentObjectsFromQueryString objects;
         private Guid? newSite;
         private SPFile m_spFile;
-        SharePointFileLocation fileLocation;
         Package package;
         #endregion
 
         #region Private Properties
         bool NoFileAssignment
         {
-            get { return Request.QueryString["Location"] == AssignmentProperties.NoPackageLocation.ToString() ;}
-        }
-
-        /// <summary>
-        /// Retrieves the SharePoint version identifier of the file that the Actions page is acting upon.
-        /// For example, the first version is typically 512, corresponding to version "1.0".
-        /// </summary>
-        private int VersionId
-        {
-            get
-            {
-                if (objects == null)
-                {
-                    LoadObjects();
-                }
-
-                return objects.VersionId;
-            }
+            get { return Request.QueryString["Location"] == Package.NoPackageLocation.ToString() ;}
         }
 
         /// <summary>
@@ -489,7 +471,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
-                Guid learnerAssignmentGuidId = AssignmentProperties.CreateSelfAssignment(SlkStore, SPWeb, fileLocation, OrganizationIndex);
+                Guid learnerAssignmentGuidId = AssignmentProperties.CreateSelfAssignment(SlkStore, SPWeb, package.Location, OrganizationIndex);
                 string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
                 url = String.Format(CultureInfo.InvariantCulture, 
                         "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
@@ -525,11 +507,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             if (NoFileAssignment)
             {
                 title = Request.QueryString["title"];;
-                location = AssignmentProperties.NoPackageLocation;
+                location = Package.NoPackageLocation;
             }
             else
             {
-                location = fileLocation;
+                location = package.Location;
                 if (NonELearning == false)
                 {
                     orgIndex = String.Format(CultureInfo.InvariantCulture, "&OrgIndex={0}", OrganizationIndex);
@@ -604,7 +586,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             ClientScript.RegisterStartupScript(this.GetType(), "DisplayAddSite", "DisplayAddSiteUi();", true);
         }
         /// <summary>
-        /// Initializes <c>VersionId</c>, <c>SPFile</c>, <c>SPListItem</c>, and <c>SPList</c>.
+        /// Initializes <c>SPFile</c>, <c>SPListItem</c>, and <c>SPList</c>.
         /// </summary>
         private void LoadObjects()
         {
@@ -619,7 +601,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void LoadSlkObjects()
         {
             LoadObjects();
-            fileLocation = new SharePointFileLocation(SPWeb, SPFile.UniqueId, VersionId);
             package = new Package(SlkStore, SPFile, SPWeb);
         }
 

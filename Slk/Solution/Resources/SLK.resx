@@ -134,6 +134,12 @@
   <data name="BaseContentTypeDescription" xml:space="preserve">
     <value>The SharePoint Learning Kit Base Content Type. Represents a learning object which can be assigned.</value>
   </data>
+  <data name="LargeAssignmentContentTypeName" xml:space="preserve">
+    <value>Large Assignment</value>
+  </data>
+  <data name="LargeAssignmentContentTypeDescription" xml:space="preserve">
+    <value>A large learning object which a custom action so it can be assigned.</value>
+  </data>
   <data name="AssignmentContentTypeName" xml:space="preserve">
     <value>Assignment</value>
   </data>

@@ -204,7 +204,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Indicates if the assignment is a no package assignment.</summary>
         public bool IsNoPackageAssignment
         {
-            get { return Location == NoPackageLocation.ToString() ;}
+            get { return Location == Package.NoPackageLocation.ToString() ;}
         }
 
         /// <summary>The root activity for SCORM packages.</summary>
@@ -438,7 +438,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Makes the assignment be a no package assignemnt.</summary>
         public void MakeNoPackageAssignment(string title)
         {
-            Location = NoPackageLocation.ToString();
+            Location = Package.NoPackageLocation.ToString();
             if (String.IsNullOrEmpty(Title))
             {
                 if (string.IsNullOrEmpty(title))
@@ -489,7 +489,7 @@ namespace Microsoft.SharePointLearningKit
                 throw new ArgumentNullException("location");
             }
 
-            if (location.ToString() == NoPackageLocation.ToString())
+            if (location.ToString() == Package.NoPackageLocation.ToString())
             {
                 MakeNoPackageAssignment(title);
                 return;
@@ -1212,11 +1212,6 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 #endregion DropBoxUpdate
-
-#region NoPackageLocation
-        /// <summary>Represents a non-location.</summary>
-        public static readonly SharePointFileLocation NoPackageLocation = new SharePointFileLocation(Guid.Empty, Guid.Empty, Guid.Empty, 0, DateTime.MinValue);
-#endregion NoPackageLocation
 
     }
 
