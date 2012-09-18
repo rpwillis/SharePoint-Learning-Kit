@@ -172,8 +172,7 @@ namespace Microsoft.LearningComponents
         /// </summary>
         /// <exception cref="InvalidPackageException">The imsmanifest.xml file is missing from the package, or the
         /// &lt;manifest&gt; is missing from the imsmanifest.xml file.</exception>
-        internal void CreateManifestNavigator(ValidationBehavior lrmValidation, bool fixLrmViolations,
-            out ValidationResults log, out XPathNavigator manifest)
+        internal void CreateManifestNavigator(ValidationBehavior lrmValidation, bool fixLrmViolations, out ValidationResults log, out XPathNavigator manifest)
         {
             Stream stream;
             log = null;

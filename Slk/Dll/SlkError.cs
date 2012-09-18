@@ -209,7 +209,6 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
         }
         #endregion
 
-        /*
         public static void Debug (Exception e)
         {
             Debug(e.ToString());
@@ -222,7 +221,6 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
                 writer.WriteLine(message, arguments);
             }
         }
-        */
 
         #region WriteToEventLog
         /// <summary>

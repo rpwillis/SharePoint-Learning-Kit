@@ -502,55 +502,57 @@ namespace Microsoft.SharePointLearningKit
             // set <rootActivityId> to the ID of the organization, or null if a non-e-learning document is being assigned
             if (organizationIndex != null)
             {
-                Package package = new Package(Store, file, location);
-                package.Register();
-
-                RootActivityId = package.FindRootActivity(organizationIndex.Value);
-
-                bool existingTitle = (string.IsNullOrEmpty(Title) == false);
-
-                if (existingTitle == false)
+                using (Package package = new Package(Store, file, location))
                 {
-                    Title = package.Title;
-                }
+                    package.Register();
 
-                if (string.IsNullOrEmpty(Description))
-                {
-                    Description = package.Description;
-                }
+                    RootActivityId = package.FindRootActivity(organizationIndex.Value);
 
-                // validate <organizationIndex>
-                if ((organizationIndex.Value < 0) || (organizationIndex.Value >= package.Organizations.Count))
-                {
-                    throw new SafeToDisplayException(AppResources.InvalidOrganizationIndex);
-                }
+                    bool existingTitle = (string.IsNullOrEmpty(Title) == false);
 
-                PackageFormat = package.PackageFormat;
-
-                // set <organizationNodeReader> to refer to the organization
-                OrganizationNodeReader organizationNodeReader = package.Organizations[organizationIndex.Value];
-
-                // if there is more than one organization, append the organization title, if any
-                if (existingTitle == false && package.Organizations.Count > 1)
-                {
-                    if (!String.IsNullOrEmpty(organizationNodeReader.Title))
+                    if (existingTitle == false)
                     {
-                        Title = String.Format(CultureInfo.CurrentCulture, AppResources.SlkPackageAndOrganizationTitle, Title, organizationNodeReader.Title);
+                        Title = package.Title;
                     }
-                }
 
-                // set <pointsPossible> to the points-possible value stored in the manifest, or null if none
-                switch (PackageFormat)
-                {
-                    case Microsoft.LearningComponents.PackageFormat.Lrm:
-                        PointsPossible = organizationNodeReader.PointsPossible;
-                        break;
-                    case Microsoft.LearningComponents.PackageFormat.V1p3:
-                        PointsPossible = 100;
-                        break;
-                    default:
-                        PointsPossible = null;
-                        break;
+                    if (string.IsNullOrEmpty(Description))
+                    {
+                        Description = package.Description;
+                    }
+
+                    // validate <organizationIndex>
+                    if ((organizationIndex.Value < 0) || (organizationIndex.Value >= package.Organizations.Count))
+                    {
+                        throw new SafeToDisplayException(AppResources.InvalidOrganizationIndex);
+                    }
+
+                    PackageFormat = package.PackageFormat;
+
+                    // set <organizationNodeReader> to refer to the organization
+                    OrganizationNodeReader organizationNodeReader = package.Organizations[organizationIndex.Value];
+
+                    // if there is more than one organization, append the organization title, if any
+                    if (existingTitle == false && package.Organizations.Count > 1)
+                    {
+                        if (!String.IsNullOrEmpty(organizationNodeReader.Title))
+                        {
+                            Title = String.Format(CultureInfo.CurrentCulture, AppResources.SlkPackageAndOrganizationTitle, Title, organizationNodeReader.Title);
+                        }
+                    }
+
+                    // set <pointsPossible> to the points-possible value stored in the manifest, or null if none
+                    switch (PackageFormat)
+                    {
+                        case Microsoft.LearningComponents.PackageFormat.Lrm:
+                            PointsPossible = organizationNodeReader.PointsPossible;
+                            break;
+                        case Microsoft.LearningComponents.PackageFormat.V1p3:
+                            PointsPossible = 100;
+                            break;
+                        default:
+                            PointsPossible = null;
+                            break;
+                    }
                 }
             }
             else  // Non-elearning content
@@ -1024,12 +1026,14 @@ namespace Microsoft.SharePointLearningKit
             // only learner
             if (Instructors.Count != 0)
             {
-                throw new UnauthorizedAccessException(AppResources.AccessDenied);
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Instructors {0}", Instructors.Count);
+                throw new UnauthorizedAccessException(AppResources.InvalidSelfAssignment);
             }
 
             if ((Learners.Count != 1) || (Learners[0].UserId != currentUserId))
             {
-                throw new UnauthorizedAccessException(AppResources.AccessDenied);
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("learners {0} {1} {2}", Learners.Count, currentUserId, Learners[0].UserId);
+                throw new UnauthorizedAccessException(AppResources.InvalidSelfAssignment);
             }
         }
 #endregion private methods

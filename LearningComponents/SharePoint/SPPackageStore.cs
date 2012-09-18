@@ -19,6 +19,7 @@ namespace Microsoft.LearningComponents.SharePoint
     /// </summary>
     public class SharePointPackageStore : PackageStore
     {
+        static readonly SPContentTypeId permanentCacheContentType = new SPContentTypeId("0x010100CF3A5A3D3C324CF5876663C33D4EE8AA0101");
         private SharePointCacheSettings m_cacheSettings;
         
         /// <summary>
@@ -60,7 +61,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <remarks>The package is read from SharePoint under elevated privileges. The current user does not need access to the 
         /// package in order to register it. However, the current user does need to have permission to add a package to 
         /// LearningStore in order to register it.</remarks>
-        public RegisterPackageResult RegisterPackage(SharePointPackageReader packageReader, PackageEnforcement packageEnforcement)
+        public RegisterPackageResult RegisterPackage(FileSystemBasedSharePointPackageReader packageReader, PackageEnforcement packageEnforcement)
         {
             Utilities.ValidateParameterNonNull("packageEnforcement", packageEnforcement);
             Utilities.ValidateParameterNonNull("packageReader", packageReader);
@@ -139,6 +140,45 @@ namespace Microsoft.LearningComponents.SharePoint
             return new SharePointPackageStoreReader(this, packageId, packageLocation);
         }
         #endregion
+
+        /// <summary>Creates a package reader for a package without accessing the store.</summary>
+        /// <param name="file">The package.</param>
+        /// <param name="location">The package location.</param>
+        /// <returns></returns>
+        public PackageReader CreatePackageReader(SPFile file, SharePointFileLocation location, bool runWithElevatedPrivileges)
+        {
+            if (SPContentTypeId.FindCommonParent(file.Item.ContentType.Id, permanentCacheContentType) == permanentCacheContentType)
+            {
+                object directoryValue = file.Item[new Guid("a76de874-b256-4fd6-8933-813aa8587163")];
+                if (directoryValue == null)
+                {
+                    throw new CacheException(Resources.PermanentCacheNoDirectory);
+                }
+                else
+                {
+                    DirectoryInfo directory;
+                    try
+                    {
+                        directory = new DirectoryInfo(directoryValue.ToString());
+                    }
+                    catch (ArgumentException)
+                    {
+                        throw new CacheException(Resources.PermanentCacheInvalidDirectory);
+                    }
+                    catch (PathTooLongException)
+                    {
+                        throw new CacheException(Resources.PermanentCacheInvalidDirectory);
+                    }
+
+                    return new PermanentCacheSharePointPackageReader(directory, location);
+                }
+            }
+            else
+            {
+                return new SharePointPackageReader(CacheSettings, location, file, runWithElevatedPrivileges);
+            }
+        }
+
     }
 
 	/// <summary>
