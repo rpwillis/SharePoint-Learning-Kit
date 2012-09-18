@@ -149,4 +149,10 @@
         <value>The package is not valid and cannot be read. More information: {0}</value>
         <comment>{0} a list of messages from a validation log</comment>
     </data>
+    <data name="PermanentCacheNoDirectory" xml:space="preserve">
+      <value>No directory specified for the permanent cache.</value>
+    </data>
+    <data name="PermanentCacheInvalidDirectory" xml:space="preserve">
+      <value>Invalid directory specified for the permanent cache.</value>
+    </data>
 </root>

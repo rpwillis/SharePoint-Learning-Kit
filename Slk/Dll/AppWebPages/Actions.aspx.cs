@@ -275,6 +275,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>See <see cref="Page.Render"/>.</summary>
         protected override void Render(HtmlTextWriter writer)
         {
+            // Not sure best place to put this.
+            package.Dispose();
             // This is needed to allow the showWarnings postback
             this.ClientScript.RegisterForEventValidation("showWarnings");
 
@@ -486,11 +488,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             catch (SafeToDisplayException e)
             {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("AssignToSelf {0}", e);
                 errorBanner.Clear();
                 errorBanner.AddError(ErrorType.Error, e.Message);
             }
             catch (Exception ex)
             {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("AssignToSelf {0}", ex);
                 contentPanel.Visible = false;
                 errorBanner.AddException(ex);
             }

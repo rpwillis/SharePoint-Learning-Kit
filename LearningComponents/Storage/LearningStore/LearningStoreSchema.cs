@@ -1740,13 +1740,16 @@ namespace Microsoft.LearningComponents.Storage
             // Read the name
             right.m_name = navigator.GetAttribute("Name", String.Empty);
             if (!LearningStoreSchemaUtilities.IsIdentifierValid(right.m_name))
-                throw new InvalidOperationException(
-                    Microsoft.LearningComponents.Storage.LearningStoreStrings.InvalidSchemaDefinition);
+            {
+                throw new InvalidOperationException(Microsoft.LearningComponents.Storage.LearningStoreStrings.InvalidSchemaDefinition);
+            }
 
             // Read the SQL function information
             right.m_securityFunction = navigator.GetAttribute("SecurityFunction", String.Empty);
             if (String.IsNullOrEmpty(right.m_securityFunction))
+            {
                 right.m_securityFunction = null;
+            }
 
             // Read the parameters
             foreach (XPathNavigator subNode in navigator.SelectChildren("Parameter", String.Empty))
@@ -1756,8 +1759,9 @@ namespace Microsoft.LearningComponents.Storage
 
                 // Verify that it doesn't already exist
                 if (right.m_parametersByName.ContainsKey(parameter.Name))
-                    throw new InvalidOperationException(
-                        Microsoft.LearningComponents.Storage.LearningStoreStrings.InvalidSchemaDefinition);
+                {
+                    throw new InvalidOperationException(Microsoft.LearningComponents.Storage.LearningStoreStrings.InvalidSchemaDefinition);
+                }
 
                 // Add it
                 right.m_parameters.Add(parameter);
@@ -1766,7 +1770,6 @@ namespace Microsoft.LearningComponents.Storage
 
             return right;
         }
-
     }
 
     /// <summary>

@@ -59,14 +59,18 @@
     <Compile Include="CacheException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <!--
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    -->
     <Compile Include="SPFile.cs" />
     <Compile Include="SPFileLocation.cs" />
     <Compile Include="SPPackageReader.cs" />
+    <Compile Include="PermanentCacheSharePointPackageReader.cs" />
+    <Compile Include="FileSystemBasedSharePointPackageReader.cs" />
     <Compile Include="SPPackageStore.cs" />
     <Compile Include="SPPackageStoreReader.cs" />
   </ItemGroup>
@@ -84,8 +88,14 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
+      <!--
       <CustomToolNamespace>Microsoft.LearningComponents.SharePoint</CustomToolNamespace>
+      -->
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <StronglyTypedClassName>Resources</StronglyTypedClassName>
+      <StronglyTypedFilename>properties\Resources.Designer.cs</StronglyTypedFilename>
+      <StronglyTypedLanguage>C#</StronglyTypedLanguage>
+      <StronglyTypedNamespace>Microsoft.LearningComponents.SharePoint</StronglyTypedNamespace>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

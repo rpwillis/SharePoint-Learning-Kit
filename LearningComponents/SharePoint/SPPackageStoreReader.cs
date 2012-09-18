@@ -30,7 +30,7 @@ namespace Microsoft.LearningComponents.SharePoint
         // The package this reader is going to read.
         PackageItemIdentifier m_packageId;
 
-        SharePointPackageReader m_spPackageReader;  // the PackageReader to read resource files
+        PackageReader m_spPackageReader;  // the PackageReader to read resource files
 
         private bool m_isDisposed;
 
@@ -60,7 +60,27 @@ namespace Microsoft.LearningComponents.SharePoint
                 throw new ArgumentException(String.Format(CultureInfo.CurrentCulture, Resources.SPFormatInvalid, packageLocation));
             }
 
-            m_spPackageReader = new SharePointPackageReader(m_store.CacheSettings, location, true);
+            CreatePackageReader(location);
+        }
+
+        void CreatePackageReader(SharePointFileLocation location)
+        {
+            SPSecurity.RunWithElevatedPrivileges(delegate
+            {
+                // These methods will throw FileNotFoundException if the package does not exist.
+
+                // If the site does not exist, this throws FileNotFound
+                using (SPSite siteElevatedPermissions = new SPSite(location.SiteId))
+                {
+                    // If the web does not exist, this throws FileNotFound
+                    using (SPWeb webElevatedPermissions = siteElevatedPermissions.OpenWeb(location.WebId))
+                    {
+                        SPFile fileElevatedPermissions = webElevatedPermissions.GetFile(location.FileId);
+                        m_spPackageReader = m_store.CreatePackageReader(fileElevatedPermissions, location, true);
+                    }
+                }
+               
+            });
         }
 
         /// <summary>

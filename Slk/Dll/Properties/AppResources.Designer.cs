@@ -2794,6 +2794,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid self assignment..
+        /// </summary>
+        internal static string InvalidSelfAssignment {
+            get {
+                return ResourceManager.GetString("InvalidSelfAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid or unsupported SlkRole.
         /// </summary>
         internal static string InvalidSlkRole {

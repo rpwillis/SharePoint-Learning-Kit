@@ -128,17 +128,23 @@
   <data name="SharePointLearningKitWebPartsGroup" xml:space="preserve">
     <value>SharePoint Learning Kit</value>
   </data>
+  <data name="CacheDirectoryFieldDescription" xml:space="preserve">
+    <value>The directory containing the unzipped contents of the package.</value>
+  </data>
+  <data name="CacheDirectoryFieldName" xml:space="preserve">
+    <value>Cache Directory</value>
+  </data>
   <data name="BaseContentTypeName" xml:space="preserve">
     <value>Learning Object</value>
   </data>
   <data name="BaseContentTypeDescription" xml:space="preserve">
     <value>The SharePoint Learning Kit Base Content Type. Represents a learning object which can be assigned.</value>
   </data>
-  <data name="LargeAssignmentContentTypeName" xml:space="preserve">
-    <value>Large Assignment</value>
+  <data name="AssignmentPermanentCacheContentTypeName" xml:space="preserve">
+    <value>Permanently Cached Assignment</value>
   </data>
-  <data name="LargeAssignmentContentTypeDescription" xml:space="preserve">
-    <value>A large learning object which a custom action so it can be assigned.</value>
+  <data name="AssignmentPermanentCacheContentDescription" xml:space="preserve">
+    <value>A learning object which is permanently cached. This must be loaded administratively.</value>
   </data>
   <data name="AssignmentContentTypeName" xml:space="preserve">
     <value>Assignment</value>

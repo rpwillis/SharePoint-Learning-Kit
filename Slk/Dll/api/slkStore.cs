@@ -547,47 +547,51 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>See <see cref="ISlkStore.RegisterAndValidatePackage"/>.</summary>
         public PackageDetails RegisterAndValidatePackage(PackageReader reader)
         {
-            SharePointPackageReader spReader = (SharePointPackageReader)reader;
-            PackageDetails package = LoadPackageFromStore(spReader.Location);
-           
-            if (package == null)
+            // Anyone who has access to the package can register it.
+            using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
             {
-                package = new PackageDetails();
+                FileSystemBasedSharePointPackageReader spReader = (FileSystemBasedSharePointPackageReader)reader;
+                PackageDetails package = LoadPackageFromStore(spReader.Location);
+               
+                if (package == null)
+                {
+                    package = new PackageDetails();
 
-                ValidationResults log;
-                // validate and register the package
-                PackageEnforcement pe = new PackageEnforcement(false, true, false);
-                try
-                {
-                    RegisterPackageResult registerResult = PackageStore.RegisterPackage(spReader, pe);
-                    package.PackageId = registerResult.PackageId;
-                    log = registerResult.Log;
-                }
-                catch (PackageImportException ex)
-                {
-                    throw new SafeToDisplayException(ex.Log, ex.Message);
-                }
-
-                // if there were warnings, set <warnings> to refer to them and update the
-                // PackageItem in LearningStore to contain the warnings (if there is a PackageItem)
-                if (log.HasWarnings || log.HasErrors)
-                {
-                    using (XmlReader xmlLog = log.ToXml())
+                    ValidationResults log;
+                    // validate and register the package
+                    PackageEnforcement pe = new PackageEnforcement(false, true, false);
+                    try
                     {
-                        package.Warnings = LearningStoreXml.CreateAndLoad(xmlLog);
+                        RegisterPackageResult registerResult = PackageStore.RegisterPackage(spReader, pe);
+                        package.PackageId = registerResult.PackageId;
+                        log = registerResult.Log;
+                    }
+                    catch (PackageImportException ex)
+                    {
+                        throw new SafeToDisplayException(ex.Log, ex.Message);
                     }
 
-                    LearningStoreJob job = LearningStore.CreateJob();
-                    Dictionary<string, object> properties = new Dictionary<string, object>();
-                    properties[Schema.PackageItem.Warnings] = package.Warnings;
-                    job.UpdateItem(package.PackageId, properties);
-                    job.Execute();
-                }
+                    // if there were warnings, set <warnings> to refer to them and update the
+                    // PackageItem in LearningStore to contain the warnings (if there is a PackageItem)
+                    if (log.HasWarnings || log.HasErrors)
+                    {
+                        using (XmlReader xmlLog = log.ToXml())
+                        {
+                            package.Warnings = LearningStoreXml.CreateAndLoad(xmlLog);
+                        }
 
+                        LearningStoreJob job = LearningStore.CreateJob();
+                        Dictionary<string, object> properties = new Dictionary<string, object>();
+                        properties[Schema.PackageItem.Warnings] = package.Warnings;
+                        job.UpdateItem(package.PackageId, properties);
+                        job.Execute();
+                    }
+
+                    return package;
+                }
+                        
                 return package;
             }
-                    
-            return package;
         }
 
         /// <summary>Loads the package details from the store.</summary>
@@ -1385,8 +1389,7 @@ namespace Microsoft.SharePointLearningKit
                     LearningStoreItemIdentifier learnerAssignmentId = Cast<LearningStoreItemIdentifier>(dataRow[Schema.LearnerAssignmentView.LearnerAssignmentId]);
 
                     // Create the attempt
-                    StoredLearningSession session = StoredLearningSession.CreateAttempt(PackageStore,
-                        learnerId, rootActivityId, Settings.LoggingOptions);
+                    StoredLearningSession session = StoredLearningSession.CreateAttempt(PackageStore, learnerId, rootActivityId, Settings.LoggingOptions);
                     attemptId = session.AttemptId;
                     
                     // Start the attempt

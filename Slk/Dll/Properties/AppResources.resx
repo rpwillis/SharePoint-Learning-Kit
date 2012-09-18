@@ -803,6 +803,9 @@ saving, click Cancel.</value>
     <value>Query Control Width</value>
     <comment>Alwp SummaryWidth WebDisplayName Attribute Value</comment>
   </data>
+  <data name="InvalidSelfAssignment" xml:space="preserve">
+    <value>Invalid self assignment.</value>
+  </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Access is denied</value>
   </data>
@@ -1795,5 +1798,4 @@ For security reasons, integrated authentication is strongly recommended.
   <data name="DomainGroupEnumeratorFailure" xml:space="preserve">
       <value>Failed to load type {0}. {1}</value>
   </data>
-
 </root>

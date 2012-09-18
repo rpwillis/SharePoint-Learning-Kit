@@ -22,56 +22,12 @@ namespace Microsoft.LearningComponents.SharePoint
     /// <summary>
     /// Represents a reader that can access packages stored in SharePoint. 
     /// </summary>
-    public class SharePointPackageReader : PackageReader
+    class SharePointPackageReader : FileSystemBasedSharePointPackageReader
     {
-        private FileSystemPackageReader m_fsPackageReader;
-        private CachedPackage m_cachedPackage;
-
         // Settings regarding the cache
         private SharePointCacheSettings m_settings;
 
-        // Information about package to read
-        private SharePointFileLocation m_pkgLocation;
-
-        // Temporary instance variables used to pass data to delegates
-        private Stream m_stream;
-
-        // Delegate to access SharePoint files with elevated privileges.
-        private RunWithElevatedPrivileges m_useRequestedPrivileges;
-
-        private bool m_disposed; // indicates this object has been disposed
-
 #region constructors
-        /// <summary>
-        /// Creates a package reader to read the specified package from SharePoint. The package 
-        /// must be valid e-learning content.The package 
-        /// is read using the current user's credentials.
-        /// </summary>
-        /// <param name="cacheSettings">The settings to use for the caching of this package. 
-        /// A subdirectory will be created in the cacheSettings.CachePath location with a cached version of this package.</param>
-        /// <param name="packageLocation">The location of the package to be read. Any changes to this SharePointFileLocation
-        /// object after the SharePointPackageReader is created are not reflected in the behavior of this object.</param>
-        /// <remarks>
-        /// <para>
-        /// In addition to the exceptions listed below, this method may throw exceptions caused by the 
-        /// identity not having access to the <paramref name="cacheSettings"/> CachePath location.
-        /// </para>
-        /// <para>
-        /// The contents of the package are not read in the constructor.  The contents of the package are read
-        /// only once when they are first needed.  If the referenced SharePoint file does not contain a 
-        /// valid e-learning package, accessing other methods and properties on this object will result 
-        /// in an <c>InvalidPackageException</c>.
-        /// </para>
-        /// </remarks>
-        /// <exception cref="ArgumentNullException">Thrown if any argument is null.</exception>
-        /// <exception cref="DirectoryNotFoundException">Thrown if the CachePath property of <paramref name="cacheSettings"/>
-        /// does not exist prior to calling this constructor.</exception>
-        /// <exception cref="FileNotFoundException">Thrown if the requested file does not exist.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if the identity doesn't have access to the CachePath provided in the 
-        /// cache settings.</exception>
-        public SharePointPackageReader(SharePointCacheSettings cacheSettings, SharePointFileLocation packageLocation) : this(cacheSettings, packageLocation, false)
-        {
-        }
 
         /// <summary>
         /// Creates a package reader to read the specified package from SharePoint. This constructor
@@ -110,19 +66,19 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <exception cref="FileNotFoundException">Thrown if the requested file does not exist.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown if the identity doesn't have access to the CachePath provided in the 
         /// cache settings.</exception>
-        public SharePointPackageReader(SharePointCacheSettings cacheSettings, SharePointFileLocation packageLocation, bool runWithElevatedPrivileges)
+        public SharePointPackageReader(SharePointCacheSettings cacheSettings, SharePointFileLocation packageLocation, SPFile file, bool runWithElevatedPrivileges) : base(packageLocation)
         {
             Resources.Culture = Thread.CurrentThread.CurrentCulture;
             Utilities.ValidateParameterNonNull("cacheSettings", cacheSettings);
-            Utilities.ValidateParameterNonNull("packageLocation", packageLocation);
 
-             if (runWithElevatedPrivileges)
+            RunWithElevatedPrivileges useRequestedPrivileges;
+            if (runWithElevatedPrivileges)
             {
-                m_useRequestedPrivileges = SPSecurity.RunWithElevatedPrivileges;
+                useRequestedPrivileges = SPSecurity.RunWithElevatedPrivileges;
             }
             else
             {
-                m_useRequestedPrivileges = RunWithCurrentUserPrivileges;
+                useRequestedPrivileges = RunWithCurrentUserPrivileges;
             }
 
             try
@@ -145,48 +101,40 @@ namespace Microsoft.LearningComponents.SharePoint
                 throw;
             }
 
-            // Run with elevated permissions to access SharePoint
-            UseRequestedPrivileges(delegate
-            {
-                // These methods will throw FileNotFoundException if the package does not exist.
-
-                // If the site does not exist, this throws FileNotFound
-                using (SPSite siteElevatedPermissions = new SPSite(packageLocation.SiteId))
-                {
-                    // If the web does not exist, this throws FileNotFound
-                    using (SPWeb webElevatedPermissions = siteElevatedPermissions.OpenWeb(packageLocation.WebId))
-                    {
-                        SPFile fileElevatedPermissions = webElevatedPermissions.GetFile(packageLocation.FileId);
-                        if (!fileElevatedPermissions.Exists)
-                        {
-                            throw new FileNotFoundException(Resources.SPFileNotFoundNoName);
-                        }
-                        
-                        string filename = fileElevatedPermissions.Name;
-                        
-                        // Now check if the version of the file exists.
-                        if (!FileExistsInSharePoint(fileElevatedPermissions, packageLocation.VersionId))
-                        {
-                            throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileNotFound, filename));
-                        }
-                    }
-                }
-               
-            });
+            CheckFileExists(file, packageLocation);
            
             // Store variables.
-            m_pkgLocation = new SharePointFileLocation(packageLocation);
             m_settings = new SharePointCacheSettings(cacheSettings);
+
+            CachedPackage cachedPackage = null;
+            useRequestedPrivileges(delegate
+            {
+                cachedPackage = new CachedPackage(m_settings, Location, true);
+            });
+
+            Initialize(new DirectoryInfo(cachedPackage.CacheDir), m_settings.ImpersonationBehavior);
+            cachedPackage.Dispose();
         }
 #endregion constructors
 
 #region properties
-        /// <summary>The location of the package.</summary>
-        public SharePointFileLocation Location
-        {
-            get { return m_pkgLocation ;}
-        }
 #endregion properties
+
+        void CheckFileExists(SPFile file, SharePointFileLocation packageLocation)
+        {
+            if (file.Exists == false)
+            {
+                throw new FileNotFoundException(Resources.SPFileNotFoundNoName);
+            }
+            
+            string filename = file.Name;
+            
+            // Now check if the version of the file exists.
+            if (FileExistsInSharePoint(file, packageLocation.VersionId) == false)
+            {
+                throw new FileNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.SPFileNotFound, filename));
+            }
+        }
 
         /// <summary>
         /// Define the delegate that mimics the SPSecurity delegate that allows accessing SharePoint 
@@ -195,66 +143,12 @@ namespace Microsoft.LearningComponents.SharePoint
         private delegate void RunWithElevatedPrivileges(SPSecurity.CodeToRunElevated codeToRun);
 
         /// <summary>
-        /// The FileSystemPackageReader used by this reader
-        /// </summary>
-        private FileSystemPackageReader FileSystemPackageReader
-        {
-            get
-            {
-                if(m_fsPackageReader == null)
-                {
-                    UseRequestedPrivileges(delegate
-                    {
-                        m_cachedPackage = new CachedPackage(m_settings, m_pkgLocation, true);
-                    });
-                    m_fsPackageReader = new FileSystemPackageReader(m_cachedPackage.CacheDir, m_settings.ImpersonationBehavior);
-                }
-                return m_fsPackageReader;
-            }
-        }
-        
-        /// <summary>
-        /// Gets the delegate to use when a request may require elevated privileges.
-        /// </summary>
-        private RunWithElevatedPrivileges UseRequestedPrivileges
-        {
-            get { return m_useRequestedPrivileges; }
-        }
-
-        /// <summary>
         /// Delegate to run without elevated privileges. Just run as the current user.
         /// </summary>
         private void RunWithCurrentUserPrivileges(SPSecurity.CodeToRunElevated codeToRun)
         {
             // Don't impersonate, just run the code.
             codeToRun();
-        }
-
-        /// <summary>
-        /// Releases all resources used by this object
-        /// </summary>
-        /// <param name="disposing">True if this method was called from
-        ///    <Typ>/System.IDisposable.Dispose</Typ></param>
-        protected override void Dispose(bool disposing)
-        {
-            m_disposed = true;
-            try
-            {
-                if (m_cachedPackage != null)
-                {
-                    m_cachedPackage.Dispose();
-                    m_cachedPackage = null;
-                }
-                if (m_fsPackageReader != null)
-                {
-                    m_fsPackageReader.Dispose();
-                    m_fsPackageReader = null;
-                }
-            }
-            finally
-            {
-                base.Dispose(disposing);
-            }
         }
 
         /// <summary>
@@ -281,94 +175,6 @@ namespace Microsoft.LearningComponents.SharePoint
                 return (spFileVersion != null) && spFileVersion.File.Exists;
             }
         }
-
-        /// <summary>
-        /// Throws <Typ>ObjectDisposedException</Typ> if this object has been disposed.
-        /// </summary>
-        private void CheckDisposed()
-        {
-            if (m_disposed) throw new ObjectDisposedException("SharePointPackageReader");
-        }
-        
-        #region Required Overrides
-        public override Stream GetFileStream(string filePath)
-        {
-            CheckDisposed();
-            Utilities.ValidateParameterNonNull("filePath", filePath);
-            Utilities.ValidateParameterNotEmpty("filePath", filePath);
-                        
-            m_stream = FileSystemPackageReader.GetFileStream(filePath);
-
-            return m_stream;
-        }
-
-        /// <summary>
-        /// Returns true if a file exists at the specified path and the caller has the 
-        /// required permissions. 
-        /// 
-        /// </summary>
-        /// <param name="filePath">The package-relative path to a file in the package.</param>
-        /// <returns>Returns true if a file exists. This method also returns false if path is a null 
-        /// reference, an invalid path, or a zero-length string. If the caller does not have sufficient permissions to 
-        /// read the specified file, no exception is thrown and the method returns false regardless of the 
-        /// existence of path. </returns>
-        public override bool FileExists(string filePath)
-        {
-            CheckDisposed();
-            try
-            {
-                Utilities.ValidateParameterNonNull("filePath", filePath);
-                Utilities.ValidateParameterNotEmpty("filePath", filePath);
-
-                return FileSystemPackageReader.FileExists(filePath);
-            }
-            // Catch exceptions that should be converted into a "false" file exists. (Same list as File.Exists())
-            catch (DirectoryNotFoundException)
-            {
-            }
-            catch (ArgumentException)
-            {
-            }
-            catch (NotSupportedException)
-            {
-            }
-            catch (SecurityException)
-            {
-            }
-            catch (IOException)
-            {
-            }
-            catch (UnauthorizedAccessException)
-            {
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Gets the list of package relative file paths of all files in the package.
-        /// </summary>
-        /// <returns></returns>
-        public override ReadOnlyCollection<string> GetFilePaths()
-        {
-            CheckDisposed();
-            return FileSystemPackageReader.GetFilePaths();
-
-        }
-
-        /// <summary>
-        /// Writes a file directly to a web page response. This method should be used whenever possible, as it has 
-        /// much better performance than reading a file into a stream and copying it to the response.
-        /// </summary>
-        /// <param name="filePath">The package-relative path to the file.</param>
-        /// <param name="response">The response to write to.</param>
-        public override void TransmitFile(string filePath, HttpResponse response)
-        {
-            CheckDisposed();
-            FileSystemPackageReader.TransmitFile(filePath, response);
-        }
-
-        #endregion
 
         /// <summary>
         /// Gets the directory that the package (specified by site, web, file, etc)

@@ -10,7 +10,7 @@ using Microsoft.SharePoint;
 namespace Microsoft.SharePointLearningKit
 {
     /// <summary>A learning Package, either an e-learning package or a simple electronic document.</summary>
-    public class Package
+    public class Package : IDisposable
     {
         PackageReader reader;
         ISlkStore store;
@@ -36,11 +36,12 @@ namespace Microsoft.SharePointLearningKit
             Location = location;
             try
             {
-                reader = new SharePointPackageReader(store.SharePointCacheSettings, Location, false);
-                using (reader)
-                {
-                    Initialize();
-                }
+                reader = store.PackageStore.CreatePackageReader(file, location, false);
+                Initialize();
+            }
+            catch (CacheException ex)
+            {
+                throw new SafeToDisplayException(ex.Message);
             }
             catch (InvalidPackageException ex)
             {
@@ -87,6 +88,12 @@ namespace Microsoft.SharePointLearningKit
                 PackageDetails package = store.RegisterAndValidatePackage(reader);
                 Id = package.PackageId;
             }
+        }
+
+        /// <summary>See <see cref="IDisposable.Dispose"/>.</summary>
+        public void Dispose()
+        {
+            reader.Dispose();
         }
 #endregion public methods
 
