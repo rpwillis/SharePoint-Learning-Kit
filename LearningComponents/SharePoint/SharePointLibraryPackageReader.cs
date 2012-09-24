@@ -24,7 +24,6 @@ namespace Microsoft.LearningComponents.SharePoint
     /// </summary>
     class SharePointLibraryPackageReader : SharePointLocationPackageReader
     {
-        SPWeb web;
         SharePointLibraryCache cache;
 
 #region constructors
@@ -58,13 +57,26 @@ namespace Microsoft.LearningComponents.SharePoint
             Resources.Culture = Thread.CurrentThread.CurrentCulture;
             Utilities.ValidateParameterNonNull("cacheSettings", cacheSettings);
 
-            web = SPContext.Current.Web;
+            SPWeb web = SPContext.Current.Web;
             cache = new SharePointLibraryCache(web, file, packageLocation, cacheSettings);
         }
 #endregion constructors
 
 #region properties
 #endregion properties
+
+#region IDisposable
+        /// <summary>Disposes objects.</summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                cache.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+#endregion IDisposable
 
 #region Required Overrides
         /// <summary>See <see cref="PackageReader.GetFileStream"/>.</summary>

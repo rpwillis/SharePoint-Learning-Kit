@@ -36,7 +36,7 @@ namespace Microsoft.SharePointLearningKit
             Location = location;
             try
             {
-                reader = store.PackageStore.CreatePackageReader(file, location, false);
+                reader = store.CreatePackageReader(file, location);
                 Initialize();
             }
             catch (CacheException ex)

@@ -32,6 +32,12 @@ namespace Microsoft.LearningComponents.SharePoint
 #endregion constructors
 
 #region properties
+        /// <summary>See <see cref="PackageReader.UniqueLocation"/>.</summary>
+        public override string UniqueLocation
+        {
+            get {  return Location.ToString() ;}
+        }
+
         /// <summary>The location of the package.</summary>
         public SharePointFileLocation Location { get; private set; }
 #endregion properties

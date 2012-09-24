@@ -9,8 +9,10 @@ using Ionic.Zip;
 namespace Microsoft.LearningComponents.SharePoint
 {
     /// <summary>The cache in a SharePoint library.</summary>
-    class SharePointLibraryCache
+    class SharePointLibraryCache : IDisposable
     {
+        SPSite cacheSite;
+        SPWeb cacheWeb;
         SPList cacheList;
         SPFolder cacheFolder;
         Dictionary<string, SPFolder> folders = new Dictionary<string, SPFolder>();
@@ -18,18 +20,32 @@ namespace Microsoft.LearningComponents.SharePoint
 #region constructors
         public SharePointLibraryCache(SPWeb web, SPFile file, SharePointFileLocation packageLocation, SharePointCacheSettings cacheSettings)
         {
-            cacheList = web.GetList(cacheSettings.CachePath);
-            CacheFolderUrl = string.Concat(cacheList.ParentWeb.Url, cacheList.RootFolder.Url, "/", packageLocation.ToString());
-            cacheFolder = web.GetFolder(CacheFolderUrl);
-            if (cacheFolder.Exists)
+            Uri baseWebUri = new Uri(web.Url);
+            Uri cacheUri = new Uri(baseWebUri, cacheSettings.CachePath);
+            cacheSite = new SPSite(cacheUri.ToString());
+            cacheWeb = cacheSite.OpenWeb();
+            cacheWeb.AllowUnsafeUpdates = true;
+
+            try
             {
-                cacheFolder = CreateCacheFolder(packageLocation.ToString());
+                cacheList = cacheWeb.GetList(cacheSettings.CachePath);
             }
-            else
+            catch (ArgumentException)
             {
+                throw new CacheException(string.Format(CultureInfo.CurrentUICulture, Resources.InvalidLibraryCache, cacheSettings.CachePath));
+            }
+
+            int packageId = FindOrCreatePackageId(packageLocation);
+
+            CacheFolderUrl = string.Concat(cacheWeb.Url, "/", cacheList.RootFolder.Url, "/", packageId.ToString(CultureInfo.InvariantCulture));
+            cacheFolder = cacheWeb.GetFolder(CacheFolderUrl);
+            if (cacheFolder.Exists == false)
+            {
+                cacheFolder = CreateCacheFolder(packageId.ToString(CultureInfo.InvariantCulture));
                 UnzipAndCachePackage(file);
             }
         }
+
 #endregion constructors
 
 #region properties
@@ -38,6 +54,19 @@ namespace Microsoft.LearningComponents.SharePoint
 #endregion properties
 
 #region public methods
+        public void Dispose()
+        {
+            if (cacheWeb != null)
+            {
+                cacheWeb.Dispose();
+            }
+
+            if (cacheSite != null)
+            {
+                cacheSite.Dispose();
+            }
+        }
+
         /// <summary>Checks whether a given file exists in the package.</summary>
         /// <param name="filePath">The file to check.</param>
         /// <returns>True if the file exists.</returns>
@@ -82,7 +111,10 @@ namespace Microsoft.LearningComponents.SharePoint
         public void TransmitFile(string filePath, System.Web.HttpResponse response)
         {
             SPFile file = FindFile(filePath);
-            file.SaveBinary(response.OutputStream);
+            Debug("TransmitFile {0}", file.Exists);
+            byte[] contents = file.OpenBinary();
+            response.OutputStream.Write(contents, 0, contents.Length);
+            response.Flush();
         }
 #endregion public methods
 
@@ -90,6 +122,33 @@ namespace Microsoft.LearningComponents.SharePoint
 #endregion protected methods
 
 #region private methods
+        int FindOrCreatePackageId(SharePointFileLocation packageLocation)
+        {
+            SPList packagesList = cacheWeb.Lists["Packages"];
+            string location = packageLocation.ToString();
+
+            SPQuery query = new SPQuery();
+            query.Query = String.Concat(@"<Where>
+                                                <Eq>
+                                                    <FieldRef Name='Title'/>
+                                                    <Value Type='Text'>", location, @"</Value>
+                                                </Eq>
+                                            </Where>");
+            SPListItemCollection items = packagesList.GetItems(query);
+
+            if (items.Count == 0)
+            {
+                SPListItem item = packagesList.Items.Add();
+                item["Location"] = location;
+                item.Update();
+                return item.ID;
+            }
+            else
+            {
+                return items[0].ID;
+            }
+        }
+
         void ListFolder(SPFolder folder, string root, List<string> files)
         {
             string folderPath = string.Concat(root, folder.Name, "\\");
@@ -109,11 +168,26 @@ namespace Microsoft.LearningComponents.SharePoint
         {
             Utilities.ValidateParameterNotEmpty("filePath", filePath);
             string url = string.Concat(CacheFolderUrl, "/", filePath);
-            return cacheList.ParentWeb.GetFile(url);
+            Debug("FindFile {0}", url);
+            return cacheWeb.GetFile(url);
         }
+
+        public static void Debug(string message, params object[] arguments)
+        {
+            using (StreamWriter writer = new StreamWriter("c:\\temp\\slkdebug.txt", true))
+            {
+                writer.WriteLine(message, arguments);
+            }
+        }
+
 
         void UnzipAndCachePackage(SPFile file)
         {
+            if (file == null)
+            {
+                throw new ArgumentNullException("file");
+            }
+
             Stream fileContents = file.OpenBinaryStream();
             fileContents = new MemoryStream(file.OpenBinary());
             using (ZipFile zip = ZipFile.Read(fileContents))

@@ -155,4 +155,7 @@
     <data name="PermanentCacheInvalidDirectory" xml:space="preserve">
       <value>Invalid directory specified for the permanent cache.</value>
     </data>
+    <data name="InvalidLibraryCache" xml:space="preserve">
+        <value>Invalid library cache {0}.</value>
+    </data>
 </root>

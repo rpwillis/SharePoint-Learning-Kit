@@ -71,6 +71,31 @@ namespace Microsoft.LearningComponents.Storage
         }
 
         /// <summary>
+        /// Registers a package with the SharePointPackageStore. Any changes to the original file after the package is 
+        /// registered are not reflected in the store.        
+        /// </summary>
+        /// <param name="packageLocation">The location of the package to be registered.</param>
+        /// <param name="packageEnforcement">The settings to determine whether the package should be modified to 
+        /// allow it to be added to the store.</param>
+        /// <returns>The results of adding the package, including a log of any warnings or errors that occurred in the process.
+        /// </returns>
+        /// <exception cref="PackageImportException">Thrown if the package could not be registered with the store. The exception may 
+        /// include a log indicating a cause for the failure.</exception>
+        /// <remarks>The package is read from SharePoint under elevated privileges. The current user does not need access to the 
+        /// package in order to register it. However, the current user does need to have permission to add a package to 
+        /// LearningStore in order to register it.</remarks>
+        public RegisterPackageResult RegisterPackage(PackageReader packageReader, PackageEnforcement packageEnforcement)
+        {
+            Utilities.ValidateParameterNonNull("packageEnforcement", packageEnforcement);
+            Utilities.ValidateParameterNonNull("packageReader", packageReader);
+
+            // Add the reference to the package. The process of importing the package will cause the package reader to cache 
+            // the package in the file system.
+            AddPackageReferenceResult refResult = AddPackageReference(packageReader, packageReader.UniqueLocation,  packageEnforcement);  
+            return new RegisterPackageResult(refResult);
+        }
+
+        /// <summary>
         /// Creates and executes a LearningStoreJob to add a package reference to the PackageStore. 
         /// </summary>
         /// <param name="packageReader">The package to be added to PackageStore. This is required.</param>
@@ -1677,6 +1702,46 @@ namespace Microsoft.LearningComponents.Storage
         }
     }
 
+    /// <summary>
+    /// The results of registering a package in the package store.
+    /// </summary>
+    public class RegisterPackageResult
+    {
+        private ValidationResults m_log;
+        private PackageItemIdentifier m_packageId;
 
+        /// <summary>
+        /// Create an AddPackageResult from the results of adding a reference to a package in PackageStore.
+        /// </summary>
+        /// <param name="addReferenceResult">The results of adding a package reference to PackageStore.</param>
+        internal RegisterPackageResult(AddPackageReferenceResult addReferenceResult)
+        {
+            m_log = addReferenceResult.Log;
+            m_packageId = addReferenceResult.PackageId;
+        }
+
+        /// <summary>
+        /// Create an AddPackageResult object to encapsulate the results of adding a package.
+        /// </summary>
+        /// <param name="packageId">The unique identifier of the package that was added.</param>
+        /// <param name="log">The log containing any warnings or errors that occurred during the process of adding the package.</param>
+        public RegisterPackageResult(PackageItemIdentifier packageId, ValidationResults log)
+        {
+            Utilities.ValidateParameterNonNull("packageId", packageId);
+
+            m_packageId = packageId;
+            m_log = log;
+        }
+
+        /// <summary>
+        /// The reference that was added to PackageStore.
+        /// </summary>
+        public PackageItemIdentifier PackageId { get { return m_packageId; } }
+
+        /// <summary>
+        /// The log of errors and warnings that occurred in the course of adding the package to PackageStore.
+        /// </summary>
+        public ValidationResults Log { get { return m_log; } }
+    }
 }
 

@@ -55,7 +55,7 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         ///
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        SharePointPackageStore m_packageStore;
+        PackageStore m_packageStore;
 
         /// <summary>
         /// Holds the value of the <c>SharePointCacheSettings</c> property.
@@ -118,13 +118,14 @@ namespace Microsoft.SharePointLearningKit
         }
 
         /// <summary>See <see cref="ISlkStore.PackageStore"/>.</summary>
-        public SharePointPackageStore PackageStore
+        public PackageStore PackageStore
         {
             get
             {
                 if (m_packageStore == null)
                 {
                     m_packageStore = new SharePointPackageStore(LearningStore, SharePointCacheSettings);
+                    //m_packageStore = new SharePointLibraryPackageStore(LearningStore, SharePointCacheSettings);
                 }
                 return m_packageStore;
             }
@@ -225,6 +226,22 @@ namespace Microsoft.SharePointLearningKit
 #endregion internal methods
 
 #region public methods
+        /// <summary>See <see cref="ISlkStore.CreatePackageReader"/>.</summary>
+        public PackageReader CreatePackageReader(SPFile file, SharePointFileLocation location)
+        {
+            SharePointLibraryPackageStore libraryStore = PackageStore as SharePointLibraryPackageStore;
+
+            if (libraryStore == null)
+            {
+                SharePointPackageStore store = (SharePointPackageStore)PackageStore;
+                return store.CreatePackageReader(file, location, false);
+            }
+            else
+            {
+                return libraryStore.CreatePackageReader(file, location, false);
+            }
+        }
+
         /// <summary>See <see cref="ISlkStore.LoadAssignmentReminders"/>.</summary>
         public IEnumerable<AssignmentProperties> LoadAssignmentReminders(DateTime minDueDate, DateTime maxDueDate)
         {
