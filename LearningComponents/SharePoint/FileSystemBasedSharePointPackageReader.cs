@@ -20,7 +20,7 @@ namespace Microsoft.LearningComponents.SharePoint
     /// <summary>
     /// Represents a reader that can access packages stored in SharePoint and permanently cached to the file system. 
     /// </summary>
-    public abstract class FileSystemBasedSharePointPackageReader : PackageReader
+    public abstract class FileSystemBasedSharePointPackageReader : SharePointLocationPackageReader
     {
         private FileSystemPackageReader fileSystemPackageReader;
         ImpersonationBehavior impersonationBehavior;
@@ -51,19 +51,12 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <exception cref="FileNotFoundException">Thrown if the requested file does not exist.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown if the identity doesn't have access to the CachePath provided in the 
         /// cache settings.</exception>
-        public FileSystemBasedSharePointPackageReader(SharePointFileLocation packageLocation)
+        public FileSystemBasedSharePointPackageReader(SharePointFileLocation packageLocation) : base (packageLocation)
         {
-            Resources.Culture = Thread.CurrentThread.CurrentCulture;
-            Utilities.ValidateParameterNonNull("packageLocation", packageLocation);
-
-            Location = new SharePointFileLocation(packageLocation);
         }
 #endregion constructors
 
 #region properties
-        /// <summary>The location of the package.</summary>
-        public SharePointFileLocation Location { get; private set; }
-
         /// <summary>The cache directory.</summary>
         public DirectoryInfo CacheDirectory { get; private set; }
 
@@ -131,7 +124,6 @@ namespace Microsoft.LearningComponents.SharePoint
         public override Stream GetFileStream(string filePath)
         {
             CheckDisposed();
-            Utilities.ValidateParameterNonNull("filePath", filePath);
             Utilities.ValidateParameterNotEmpty("filePath", filePath);
                         
             return FileSystemPackageReader.GetFileStream(filePath);
@@ -152,7 +144,6 @@ namespace Microsoft.LearningComponents.SharePoint
             CheckDisposed();
             try
             {
-                Utilities.ValidateParameterNonNull("filePath", filePath);
                 Utilities.ValidateParameterNotEmpty("filePath", filePath);
 
                 return FileSystemPackageReader.FileExists(filePath);

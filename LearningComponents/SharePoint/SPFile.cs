@@ -65,7 +65,7 @@ namespace Microsoft.LearningComponents.SharePoint
             Utilities.ValidateParameterNonNull("cacheSettings", cacheSettings);
             Utilities.ValidateParameterNonNull("location", location);
             
-            m_settings = new SharePointCacheSettings(cacheSettings);
+            m_settings = cacheSettings.Clone();
             m_location = location;
 
             if (runWithElevatedPrivileges)

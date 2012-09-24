@@ -104,7 +104,7 @@ namespace Microsoft.LearningComponents.SharePoint
             CheckFileExists(file, packageLocation);
            
             // Store variables.
-            m_settings = new SharePointCacheSettings(cacheSettings);
+            m_settings = cacheSettings.Clone();
 
             CachedPackage cachedPackage = null;
             useRequestedPrivileges(delegate

@@ -550,7 +550,7 @@ namespace Microsoft.SharePointLearningKit
             // Anyone who has access to the package can register it.
             using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
             {
-                FileSystemBasedSharePointPackageReader spReader = (FileSystemBasedSharePointPackageReader)reader;
+                SharePointLocationPackageReader spReader = (SharePointLocationPackageReader)reader;
                 PackageDetails package = LoadPackageFromStore(spReader.Location);
                
                 if (package == null)
@@ -1173,8 +1173,7 @@ namespace Microsoft.SharePointLearningKit
                     dbProperties[Schema.AssignmentItem.SPWebGuid] = properties.SPWebGuid;
                     dbProperties[Schema.AssignmentItem.Title] = properties.Title;
                     dbProperties[Schema.AssignmentItem.StartDate] = properties.StartDate.ToUniversalTime();
-                    dbProperties[Schema.AssignmentItem.DueDate] = ((properties.DueDate == null) ? null :
-                                                (object) properties.DueDate.Value.ToUniversalTime());
+                    dbProperties[Schema.AssignmentItem.DueDate] = ((properties.DueDate == null) ? null : (object) properties.DueDate.Value.ToUniversalTime());
                     dbProperties[Schema.AssignmentItem.PointsPossible] = properties.PointsPossible;
                     dbProperties[Schema.AssignmentItem.RootActivityId] = properties.RootActivityId;
                     if (properties.IsNonELearning)

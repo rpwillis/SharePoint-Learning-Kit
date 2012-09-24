@@ -61,7 +61,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <remarks>The package is read from SharePoint under elevated privileges. The current user does not need access to the 
         /// package in order to register it. However, the current user does need to have permission to add a package to 
         /// LearningStore in order to register it.</remarks>
-        public RegisterPackageResult RegisterPackage(FileSystemBasedSharePointPackageReader packageReader, PackageEnforcement packageEnforcement)
+        public RegisterPackageResult RegisterPackage(SharePointLocationPackageReader packageReader, PackageEnforcement packageEnforcement)
         {
             Utilities.ValidateParameterNonNull("packageEnforcement", packageEnforcement);
             Utilities.ValidateParameterNonNull("packageReader", packageReader);
@@ -79,7 +79,6 @@ namespace Microsoft.LearningComponents.SharePoint
         private void RemoveCache(string packageLocation)
         {
             // Verify parameters
-            Utilities.ValidateParameterNonNull("packageLocation", packageLocation);
             Utilities.ValidateParameterNotEmpty("packageLocation", packageLocation);
 
             // Get the cache directory, outside of the impersonation block.
