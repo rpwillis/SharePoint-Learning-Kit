@@ -83,8 +83,7 @@ namespace Microsoft.LearningComponents.SharePoint
 
         protected internal override PackageReader GetPackageReader(PackageItemIdentifier packageId, string packageLocation)
         {
-            return null;
-            //return new SharePointPackageStoreReader(this, packageId, packageLocation);
+            return new SharePointLibraryPackageReader(CacheSettings, new SharePointFileLocation(packageLocation), null);
         }
         #endregion
 

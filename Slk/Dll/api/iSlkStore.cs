@@ -39,7 +39,7 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Gets a reference to the <c>SharePointPackageStore</c> associated with this SharePoint
         /// Learning Kit store.  <c>SharePointPackageStore</c> holds references to e-learning packages stored in SharePoint document libraries.</summary>
-        SharePointPackageStore PackageStore { get; }
+        PackageStore PackageStore { get; }
 
         /// <summary>Gets the <c>SlkSPSiteMapping</c> of the <c>SPSite</c> associated with this <c>AnonymousSlkStore</c>.</summary>
         SlkSPSiteMapping Mapping { get; }
@@ -254,6 +254,12 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="location">The location of the package.</param>
         /// <returns>The details of the package.</returns>
         PackageDetails LoadPackageFromStore(SharePointFileLocation location);
+
+        /// <summary>Creates a package reader for a package without accessing the store.</summary>
+        /// <param name="file">The package.</param>
+        /// <param name="location">The package location.</param>
+        /// <returns></returns>
+        PackageReader CreatePackageReader(SPFile file, SharePointFileLocation location);
     }
 }
 

@@ -65,8 +65,8 @@ namespace Microsoft.LearningComponents
 	///
     public abstract class PackageReader : IDisposable
     {
-
-
+        private ConversionResult m_result;
+#region constructors
         // protected constructor to set Culture for resources
         /// <summary>
         /// TODO
@@ -76,7 +76,17 @@ namespace Microsoft.LearningComponents
             ValidatorResources.Culture = Thread.CurrentThread.CurrentCulture;
             Resources.Culture = Thread.CurrentThread.CurrentCulture;
         }
+#endregion constructors
 
+#region properties
+        /// <summary>A string which uniquely identifies the package.</summary>
+        public virtual string UniqueLocation
+        {
+            get { throw new NotSupportedException() ;}
+        }
+#endregion properties
+
+#region public methods
         /// <summary>
         /// Returns either a <Typ>ZipPackageReader</Typ> or <Typ>LrmPackageReader</Typ>, according to the type of
         /// package provided.
@@ -166,7 +176,35 @@ namespace Microsoft.LearningComponents
             return manifest;
         }
 
-        private ConversionResult m_result;
+        /// <summary>
+        /// Gets a value indicating whether the file exists in the package.
+        /// </summary>
+        /// 
+        /// <param name="filePath">The package-relative path to the file; for example, "imsmanifest.xml"
+		///		or "page3/diagram4.gif".  This path should have no URL encoding.</param>
+        /// 
+        /// <returns><c>true</c> if the file exists; otherwise <c>false</c> if the file does not exist or if the 
+        /// file is a directory.</returns>
+        /// 
+        public abstract bool FileExists(string filePath);
+
+        /// <summary>
+        /// Writes a file directly to a web page response. This method should be used whenever possible, as it has 
+        /// much better performance than reading a file into a stream and copying it to the response.
+        /// </summary>
+        /// <param name="filePath">The package-relative path to the file.</param>
+        /// <param name="response">The response to write to.</param>
+        public abstract void TransmitFile(string filePath, HttpResponse response); 
+
+        /// <summary>
+        /// Gets the collection of file paths in the package.  All paths are relative to the root of the package.
+        /// </summary>
+        /// <returns>Collection of file paths, relative to the root of the package, in the package.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1024")] // this is a method and not a property because it may do significant work        
+        public abstract ReadOnlyCollection<string> GetFilePaths();
+#endregion public methods
+
+#region internal methods
         /// <summary>
         /// Returns an <Typ>XPathNavigator</Typ> that points to the &lt;manifest&gt; node of the package manifest.
         /// </summary>
@@ -258,52 +296,6 @@ namespace Microsoft.LearningComponents
             XPathNavigator manifest = CreateManifestNavigator();
 
             return new ManifestReader(this, manifestSettings, packageValidatorSettings, logReplacement, log, manifest);
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the file exists in the package.
-        /// </summary>
-        /// 
-        /// <param name="filePath">The package-relative path to the file; for example, "imsmanifest.xml"
-		///		or "page3/diagram4.gif".  This path should have no URL encoding.</param>
-        /// 
-        /// <returns><c>true</c> if the file exists; otherwise <c>false</c> if the file does not exist or if the 
-        /// file is a directory.</returns>
-        /// 
-        public abstract bool FileExists(string filePath);
-
-        /// <summary>
-        /// Writes a file directly to a web page response. This method should be used whenever possible, as it has 
-        /// much better performance than reading a file into a stream and copying it to the response.
-        /// </summary>
-        /// <param name="filePath">The package-relative path to the file.</param>
-        /// <param name="response">The response to write to.</param>
-        public abstract void TransmitFile(string filePath, HttpResponse response); 
-
-        /// <summary>
-        /// Gets the collection of file paths in the package.  All paths are relative to the root of the package.
-        /// </summary>
-        /// <returns>Collection of file paths, relative to the root of the package, in the package.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024")] // this is a method and not a property because it may do significant work        
-        public abstract ReadOnlyCollection<string> GetFilePaths();
-
-        /// <summary>
-        /// Recursively get the file paths from the given directory and all subdirectories.  The paths gotten are absolute paths,
-        /// not paths relative to the package root.
-        /// </summary>
-        /// <param name="path">Directory to parse.</param>
-        /// <param name="filePaths">Collection in which to place the file paths</param>
-        private void RecursivelyGetFilePaths(DirectoryInfo path, ref Collection<string> filePaths)
-        {
-            FileInfo[] files = path.GetFiles();
-            foreach (FileInfo file in files)
-            {
-                filePaths.Add(file.FullName);
-            }
-            foreach (DirectoryInfo sub in path.GetDirectories())
-            {
-                RecursivelyGetFilePaths(sub, ref filePaths);
-            }
         }
 
         /// <summary>
@@ -425,6 +417,30 @@ namespace Microsoft.LearningComponents
                 return output.Stream;
             }
         }
+
+#endregion internal methods
+
+#region private methods
+        /// <summary>
+        /// Recursively get the file paths from the given directory and all subdirectories.  The paths gotten are absolute paths,
+        /// not paths relative to the package root.
+        /// </summary>
+        /// <param name="path">Directory to parse.</param>
+        /// <param name="filePaths">Collection in which to place the file paths</param>
+        private void RecursivelyGetFilePaths(DirectoryInfo path, ref Collection<string> filePaths)
+        {
+            FileInfo[] files = path.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                filePaths.Add(file.FullName);
+            }
+            foreach (DirectoryInfo sub in path.GetDirectories())
+            {
+                RecursivelyGetFilePaths(sub, ref filePaths);
+            }
+        }
+
+#endregion private methods
 
         #region IDisposable Members
         /// <summary>
