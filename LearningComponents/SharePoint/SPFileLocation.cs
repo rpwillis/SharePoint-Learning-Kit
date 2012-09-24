@@ -186,7 +186,6 @@ namespace Microsoft.LearningComponents.SharePoint
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // invalid values return false
         public static bool TryParse(string locationValue, out SharePointFileLocation location)
         {
-            Utilities.ValidateParameterNonNull("locationValue", locationValue);
             Utilities.ValidateParameterNotEmpty("locationValue", locationValue);
 
             location = null;

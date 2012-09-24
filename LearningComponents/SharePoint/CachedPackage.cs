@@ -75,9 +75,6 @@ namespace Microsoft.LearningComponents.SharePoint
 
         // The max number of packages to delete when cleaning up the cache.
         private int NUM_PACKAGES_PER_CACHE_CLEAN = 10;
-        
-        // The delegate to call in case this is a test scenario.
-        private ICachePackageTest m_tester;
 
         // Keep track of the first exception encountered. If caching fails, this exception 
         // is thrown.
@@ -100,7 +97,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// These things are assumed by this code to be true. If they are not, the user will get something unexpected.
         ///     </remarks>
         internal CachedPackage(SharePointCacheSettings settings, SharePointFileLocation packageLocation)
-            : this(settings, packageLocation, true /*cacheAsPackage*/, null)
+            : this(settings, packageLocation, true /*cacheAsPackage*/)
         {
         }
 
@@ -118,32 +115,8 @@ namespace Microsoft.LearningComponents.SharePoint
         /// &lt;/ul&gt;
         /// These things are assumed by this code to be true. If they are not, the user will get something unexpected.
         ///     </remarks>
-        internal CachedPackage(SharePointCacheSettings settings, SharePointFileLocation packageLocation, 
-            bool cacheAsPackage)
-            : this(settings, packageLocation, cacheAsPackage, null)
+        internal CachedPackage(SharePointCacheSettings settings, SharePointFileLocation packageLocation, bool cacheAsPackage)
         {
-        }
-
-        /// <summary>
-        /// Creates a CachedPackage object and starts the caching process. This constructor has the option of passing a 
-        /// test delegate. Should only be used for unit test code. If necessary, it creates and 
-        /// populates the cache directory. When this constructor returns, the package is cached and locked.
-        /// The code must be called within an elevated privileges state.
-        /// </summary>
-        /// <remarks>
-        /// The constructor has minimal error checking (since it's an internal class) It does not explicitly verify:
-        /// &lt;ul&gt;
-        /// &lt;li&gt;that the file exists,&lt;/li&gt;
-        /// &lt;li&gt;that the identity has access to the cache dir,&lt;/li&gt;
-        /// &lt;/ul&gt;
-        /// These things are assumed by this code to be true. If they are not, the user will get something unexpected.
-        ///     </remarks>
-        internal CachedPackage(SharePointCacheSettings settings, SharePointFileLocation packageLocation,
-                                    bool cacheAsPackage,    
-                                    ICachePackageTest cacheTester )
-        {
-            m_tester = cacheTester;
-
             m_settings = settings;
             m_cacheAsPackage = cacheAsPackage;
 
@@ -303,7 +276,6 @@ namespace Microsoft.LearningComponents.SharePoint
         {
             bool lockFileFound = false;
 
-            Debug2(m_settings.ImpersonationBehavior, lockFileName);
             using ( new ImpersonateIdentity(m_settings.ImpersonationBehavior) )
             {
                 FileInfo fi = new FileInfo( lockFileName );
@@ -313,11 +285,9 @@ namespace Microsoft.LearningComponents.SharePoint
             // If the cache doesn't yet exist, create it.
             if (!lockFileFound)
             {
-                Debug1(m_settings.ImpersonationBehavior, lockFileName);
                 // And then create the cache directory for the package
                 if (!CreateCacheDirectory(lockFileName, cacheDir, fileInfo))
                 {
-                    Debug3(m_settings.ImpersonationBehavior, lockFileName);
                     return false;
                 }
             }
@@ -335,43 +305,6 @@ namespace Microsoft.LearningComponents.SharePoint
             // Now lock the cache directory.
             return LockCacheDirectory( lockFileName, cacheDir, fileInfo);
         }
-
-        #region TestingHooks
-        [Conditional("MLCDEBUG")]
-        private void Debug1(ImpersonationBehavior impersonationBehavior, string lockFileName)
-        {
-            // Called after lockFileName was determined to exist.
-            if ((m_tester != null) && (m_tester.Debug1 != null)) m_tester.Debug1(impersonationBehavior, lockFileName);  
-        }
-
-        [Conditional("MLCDEBUG")]
-        private void Debug2(ImpersonationBehavior impersonationBehavior, string lockFileName)
-        {
-            // Before checking if lockFileName exists
-            if ((m_tester != null) && (m_tester.Debug2 != null)) m_tester.Debug2(impersonationBehavior, lockFileName);
-        }
-
-        [Conditional("MLCDEBUG")]
-        private void Debug3(ImpersonationBehavior impersonationBehavior, string lockFileName)
-        {
-            // After CreateCacheDirectory fails
-            if ((m_tester != null) && (m_tester.Debug3 != null)) m_tester.Debug3(impersonationBehavior, lockFileName);
-        }
-
-        [Conditional("MLCDEBUG")]
-        private void Debug4(ImpersonationBehavior impersonationBehavior, string lockFileName)
-        {
-            // About to try to create the lockFile with exclusive write privileges
-            if ((m_tester != null) && (m_tester.Debug4 != null)) m_tester.Debug4(impersonationBehavior, lockFileName);
-        }
-
-        [Conditional("MLCDEBUG")]
-        private void Debug5(string lockFileName)
-        {
-            // About to try to create the lockFile with exclusive write privileges
-            if ((m_tester != null) && (m_tester.Debug5 != null)) m_tester.Debug5(lockFileName);
-        }
-        #endregion
 
         /// <summary>
         /// Does the actual tasks involved with creating the package cache directory 
@@ -398,7 +331,6 @@ namespace Microsoft.LearningComponents.SharePoint
                     // Try to create the lock file (with exclusive write privs); if it fails, retry
                     try
                     {
-                        Debug4(m_settings.ImpersonationBehavior, lockFileName);
                         lockFile = new FileStream(lockFileName, FileMode.CreateNew, FileAccess.Write, FileShare.None);
                     }
                     catch (IOException e)
@@ -945,7 +877,6 @@ namespace Microsoft.LearningComponents.SharePoint
             // another process has a read lock on this.
             try
             {
-                Debug5(m_lockFile.Name);
                 File.SetLastAccessTime( m_lockFile.Name, DateTime.Now );
             }
             catch (IOException)
@@ -1064,128 +995,4 @@ namespace Microsoft.LearningComponents.SharePoint
             } 
         }
     }
-
-    /// <summary>
-    /// Represents the settings to be specified for caching e-learning packages that are stored in 
-    /// SharePoint.
-    /// </summary>
-    public class SharePointCacheSettings
-    {
-        private string m_cachePath;
-        private TimeSpan? m_expirationTime;
-        private ImpersonationBehavior m_impersonationBehavior = ImpersonationBehavior.UseImpersonatedIdentity;
-
-        /// <summary>
-        /// Copy constructor to create new cache settings.
-        /// </summary>
-        /// <param name="copyFrom"></param>
-        internal SharePointCacheSettings(SharePointCacheSettings copyFrom)
-        {
-            Utilities.ValidateParameterNonNull("copyFrom", copyFrom);
-
-            m_cachePath = copyFrom.CachePath;
-            m_expirationTime = copyFrom.ExpirationTime;
-            m_impersonationBehavior = copyFrom.ImpersonationBehavior;
-        }
-
-        /// <summary>
-        /// Create settings for a class that manages a cache of SharePoint files.
-        /// </summary>
-        /// <param name="cachePath">The path to the folder containing the cached files.</param>
-        /// <param name="expirationTime">The minimum amount of time that packages are stored in the cache. After this time has passed, 
-        /// the package will be removed from the cache if it has not been accessed. If not provided, files will never be removed from the 
-        /// cache.</param>
-        /// <param name="impersonationBehavior">The identity used to access the cache. </param>
-        /// <param name="cacheInvalidPackageAsFile">If true, a package that is invalid will be cached as a file. While it 
-        /// cannot be read as a package in this case, setting this to true may improve performance.</param>
-        /// <remarks>
-        /// This class does not verify that the <paramref name="cachePath"/>
-        /// directory exists, however, when the settings are passed to SharePointPackageReader or SharePointPackageStore, those 
-        /// classes will require the directory to exist.</remarks>
-        public SharePointCacheSettings(string cachePath, TimeSpan? expirationTime, ImpersonationBehavior impersonationBehavior, bool cacheInvalidPackageAsFile)
-        {
-            Utilities.ValidateParameterNonNull("cachePath", cachePath);
-            Utilities.ValidateParameterNotEmpty("cachePath", cachePath);
-
-            m_cachePath = cachePath;
-            m_expirationTime = expirationTime;
-            m_impersonationBehavior = impersonationBehavior;
-            m_cacheInvalidPackageAsFile = cacheInvalidPackageAsFile;
-        }
-
-        /// <summary>
-        /// Create settings for a class that manages a cache of SharePoint files. By default, the cache files will not be 
-        /// cleaned up, and invalid packages will not be cached as a file.
-        /// </summary>
-        /// <param name="cachePath">The path to the folder containing the cached files. </param>
-        /// <remarks>
-        /// This class does not verify that the <paramref name="cachePath"/>
-        /// directory exists, however, when the settings are passed to SharePointPackageReader or SharePointPackageStore, those 
-        /// classes will require the directory to exist.
-        /// </remarks>
-        public SharePointCacheSettings(string cachePath)
-        {
-            Utilities.ValidateParameterNonNull("cachePath", cachePath);
-            Utilities.ValidateParameterNotEmpty("cachePath", cachePath);
-
-            m_expirationTime = null;
-            m_cachePath = cachePath;
-        }
-
-        /// <summary>
-        /// The path to the folder containing the cached files.
-        /// </summary>
-        public string CachePath
-        {
-            get { return m_cachePath; }
-        }
-
-        /// <summary>
-        /// The minimum amount of time that packages are stored in the cache. After this time has passed, 
-        /// the package will be removed from the cache if it has not been accessed. If null, files will never be removed from the 
-        /// cache. 
-        /// </summary>
-        public TimeSpan? ExpirationTime
-        {
-            get { return m_expirationTime; }
-        }
-
-        /// <summary>
-        /// Gets and sets the identity used to access the cache.
-        /// </summary>
-        public ImpersonationBehavior ImpersonationBehavior
-        {
-            get { return m_impersonationBehavior; }
-            set { m_impersonationBehavior = value; }
-        }
-
-        /// <summary>
-        /// If true, e-learning packages that do not contain basic package information are saved as 
-        /// files in the cache. </summary>
-        /// <remarks>In particular, this may increase performance in processing of zip files that 
-        /// do not contain e-learning content. If false, SharePointPackageReader will not cache zip files 
-        /// that are not e-learning content. In that case, an application that wants to cache this file would 
-        /// need to cache it as a CachedSharePointFile.
-        /// </remarks>
-        public bool CacheInvalidPackageAsFile
-        {
-            get { return m_cacheInvalidPackageAsFile; } 
-            set { m_cacheInvalidPackageAsFile = value; }
-        }
-        private bool m_cacheInvalidPackageAsFile;
-    }
-
-    internal delegate void TestMethod1(ImpersonationBehavior impersonationBehavior, string info);
-    internal delegate void TestMethod2(string info);
-    internal interface ICachePackageTest
-    {
-        
-        TestMethod1 Debug1 { get; set; } // Called after lockFileName was determined to exist.
-        TestMethod1 Debug2 { get; set; } // Called before checking if lockFileName exists
-        TestMethod1 Debug3 { get; set; } // Called after CreateCacheDirectory fails
-        TestMethod1 Debug4 { get; set; } // Called before trying to create lockFileName
-        TestMethod2 Debug5 { get; set; } // Called before trying to 
-    }
 }
-
-

@@ -47,7 +47,6 @@ namespace Microsoft.LearningComponents.SharePoint
         internal SharePointPackageStoreReader(SharePointPackageStore packageStore, PackageItemIdentifier packageId, string packageLocation)
         {
             Resources.Culture = Thread.CurrentThread.CurrentCulture;
-            Utilities.ValidateParameterNonNull("packageLocation", packageLocation);
             Utilities.ValidateParameterNotEmpty("packageLocation", packageLocation);
 
             m_store = packageStore;
@@ -185,7 +184,6 @@ namespace Microsoft.LearningComponents.SharePoint
             if (m_isDisposed)
                 throw new ObjectDisposedException(GetType().Name);
 
-            Utilities.ValidateParameterNonNull("filePath", filePath);
             Utilities.ValidateParameterNotEmpty("filePath", filePath);
             Utilities.ValidateParameterNonNull("response", response);
 

@@ -388,6 +388,7 @@ namespace Microsoft.LearningComponents
         /// <param name="parameter">The parameter value to validate.</param>
         internal static void ValidateParameterNotEmpty(string paramName, string parameter)
         {
+            ValidateParameterNonNull(paramName, parameter);
             if (String.IsNullOrEmpty(parameter) || String.IsNullOrEmpty(parameter.Trim()))
                 throw new ArgumentException(String.Format(CultureInfo.CurrentCulture, Resources.UTIL_ParamIsEmptyString, paramName), paramName);
         }
@@ -403,39 +404,29 @@ namespace Microsoft.LearningComponents
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]    // the writer is disposed for all code paths
         internal static void CopyStream(Stream fromStream, ImpersonationBehavior readImpersonationBehavior, Stream toStream, ImpersonationBehavior writeImpersonationBehavior)
         {
-            using (Disposer disposer = new Disposer())
+            // An addition revert during write operations is required if the setting for reading and writing
+            // is not the same
+            bool requiresWriteRevert = (readImpersonationBehavior != writeImpersonationBehavior);
+
+            using (ImpersonateIdentity readId = new ImpersonateIdentity(readImpersonationBehavior))
             {
-                DetachableStream dsToStream = new DetachableStream(toStream);
-                disposer.Push(dsToStream);
-
-                BinaryWriter writer = new BinaryWriter(dsToStream);
-                disposer.Push(writer);
-
-                // An addition revert during write operations is required if the setting for reading and writing
-                // is not the same
-                bool requiresWriteRevert = (readImpersonationBehavior != writeImpersonationBehavior);
-
-                using (ImpersonateIdentity readId = new ImpersonateIdentity(readImpersonationBehavior))
+                byte[] bytesIn = new byte[65536];
+                int bytesRead;
+                while ((bytesRead = fromStream.Read(bytesIn, 0, bytesIn.Length)) != 0)
                 {
-                    byte[] bytesIn = new byte[65536];
-                    int bytesRead;
-                    while ((bytesRead = fromStream.Read(bytesIn, 0, bytesIn.Length)) != 0)
+                    // If we have to impersonate to write, then do it. Otherwise skip it.
+                    if (requiresWriteRevert)
                     {
-                        // If we have to impersonate to write, then do it. Otherwise skip it.
-                        if (requiresWriteRevert)
+                        using (ImpersonateIdentity id = new ImpersonateIdentity(writeImpersonationBehavior))
                         {
-                            using (ImpersonateIdentity id = new ImpersonateIdentity(writeImpersonationBehavior))
-                            {
-                                writer.Write(bytesIn, 0, bytesRead);
-                            }
-                        }
-                        else
-                        {
-                            writer.Write(bytesIn, 0, bytesRead);
+                            toStream.Write(bytesIn, 0, bytesRead);
                         }
                     }
+                    else
+                    {
+                        toStream.Write(bytesIn, 0, bytesRead);
+                    }
                 }
-                dsToStream.Detach();
             }
         }
     }

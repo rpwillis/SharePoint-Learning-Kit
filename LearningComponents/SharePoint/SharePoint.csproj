@@ -46,6 +46,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Microsoft.SharePoint.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
@@ -55,9 +59,9 @@
     <Compile Include="..\Shared\Version.cs">
       <Link>Version.cs</Link>
     </Compile>
+    <Compile Include="SharePointCacheSettings.cs" />
     <Compile Include="CachedPackage.cs" />
     <Compile Include="CacheException.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <!--
     <Compile Include="Properties\Resources.Designer.cs">
@@ -73,6 +77,10 @@
     <Compile Include="FileSystemBasedSharePointPackageReader.cs" />
     <Compile Include="SPPackageStore.cs" />
     <Compile Include="SPPackageStoreReader.cs" />
+    <Compile Include="SharePointLibraryPackageStore.cs" />
+    <Compile Include="SharePointLibraryPackageReader.cs" />
+    <Compile Include="SharePointLibraryCache.cs" />
+    <Compile Include="SharePointLocationPackageReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LearningComponents\LearningComponents.csproj">
