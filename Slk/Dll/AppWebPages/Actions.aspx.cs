@@ -276,7 +276,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected override void Render(HtmlTextWriter writer)
         {
             // Not sure best place to put this.
-            package.Dispose();
+            if (package != null)
+            {
+                package.Dispose();
+            }
+
             // This is needed to allow the showWarnings postback
             this.ClientScript.RegisterForEventValidation("showWarnings");
 
