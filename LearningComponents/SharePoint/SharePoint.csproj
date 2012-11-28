@@ -104,6 +104,7 @@
       <StronglyTypedFilename>properties\Resources.Designer.cs</StronglyTypedFilename>
       <StronglyTypedLanguage>C#</StronglyTypedLanguage>
       <StronglyTypedNamespace>Microsoft.LearningComponents.SharePoint</StronglyTypedNamespace>
+      <LogicalName>Microsoft.LearningComponents.SharePoint.Resources.resources</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
