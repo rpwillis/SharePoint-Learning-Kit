@@ -74,7 +74,7 @@ namespace Microsoft.LearningComponents.Storage
         /// Registers a package with the SharePointPackageStore. Any changes to the original file after the package is 
         /// registered are not reflected in the store.        
         /// </summary>
-        /// <param name="packageLocation">The location of the package to be registered.</param>
+        /// <param name="packageReader">A reader for the package.</param>
         /// <param name="packageEnforcement">The settings to determine whether the package should be modified to 
         /// allow it to be added to the store.</param>
         /// <returns>The results of adding the package, including a log of any warnings or errors that occurred in the process.
