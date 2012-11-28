@@ -290,17 +290,17 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 #region private methods
         void LoadAssignmentProperties()
         {
-            if (SlkStore.IsLearner(SPWeb))
+            if (SlkStore.IsInstructor(SPWeb))
+            {
+                this.assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuid, SlkRole.Instructor);
+            }
+            else if (SlkStore.IsLearner(SPWeb))
             {
                 this.assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuid, SlkRole.Learner);
             }
             else if (SlkStore.IsObserver(SPWeb))
             {
                this.assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuid, SlkRole.Learner);
-            }
-            else if (SlkStore.IsInstructor(SPWeb))
-            {
-                this.assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuid, SlkRole.Instructor);
             }
             else
             {
