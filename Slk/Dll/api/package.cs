@@ -104,52 +104,56 @@ namespace Microsoft.SharePointLearningKit
         void Initialize()
         {
             IsNonELearning = PackageValidator.ValidateIsELearning(reader).HasErrors;
-            ValidatePackage();
-                
-            ManifestReader manifestReader = new ManifestReader(reader, new ManifestReaderSettings(true, true));
-            MetadataNodeReader metadataReader = manifestReader.Metadata;
 
-            // set <title> to the title to display for the package, using these rules:
-            //   1. if there's a Title column value, use it;
-            //   2. otherwise, if there's a title specified in the package metadata, use it;
-            //   3. otherwise, use the file name without the extension
-            if (String.IsNullOrEmpty(file.Title) == false)
+            if (IsNonELearning == false)
             {
-                Title = file.Title;
-            }
-            else 
-            {
-                string titleFromMetadata = metadataReader.GetTitle(CultureInfo.CurrentCulture);
-                if (string.IsNullOrEmpty(titleFromMetadata) == false)
+                ValidatePackage();
+                    
+                ManifestReader manifestReader = new ManifestReader(reader, new ManifestReaderSettings(true, true));
+                MetadataNodeReader metadataReader = manifestReader.Metadata;
+
+                // set <title> to the title to display for the package, using these rules:
+                //   1. if there's a Title column value, use it;
+                //   2. otherwise, if there's a title specified in the package metadata, use it;
+                //   3. otherwise, use the file name without the extension
+                if (String.IsNullOrEmpty(file.Title) == false)
                 {
-                    Title = titleFromMetadata;
+                    Title = file.Title;
+                }
+                else 
+                {
+                    string titleFromMetadata = metadataReader.GetTitle(CultureInfo.CurrentCulture);
+                    if (string.IsNullOrEmpty(titleFromMetadata) == false)
+                    {
+                        Title = titleFromMetadata;
+                    }
+                    else
+                    {
+                        Title = System.IO.Path.GetFileNameWithoutExtension(file.Name);
+                    }
+                }
+
+                // set description to the package description specified in metadata, or null if none
+                IList<string> descriptions = metadataReader.GetDescriptions(CultureInfo.CurrentCulture);
+                if (descriptions.Count > 0)
+                {
+                    Description = descriptions[0];
+                    if (Description == null)
+                    {
+                        Description = string.Empty;
+                    }
                 }
                 else
                 {
-                    Title = System.IO.Path.GetFileNameWithoutExtension(file.Name);
-                }
-            }
-
-            // set description to the package description specified in metadata, or null if none
-            IList<string> descriptions = metadataReader.GetDescriptions(CultureInfo.CurrentCulture);
-            if (descriptions.Count > 0)
-            {
-                Description = descriptions[0];
-                if (Description == null)
-                {
                     Description = string.Empty;
                 }
-            }
-            else
-            {
-                Description = string.Empty;
-            }
 
-            // populate the drop-down list of organizations; hide the entire row containing that
-            // drop-down if there's only one organization
-            Organizations = manifestReader.Organizations;
-            DefaultOrganizationId = manifestReader.DefaultOrganization.Id;
-            PackageFormat = manifestReader.PackageFormat;
+                // populate the drop-down list of organizations; hide the entire row containing that
+                // drop-down if there's only one organization
+                Organizations = manifestReader.Organizations;
+                DefaultOrganizationId = manifestReader.DefaultOrganization.Id;
+                PackageFormat = manifestReader.PackageFormat;
+            }
         }
 
         void ValidatePackage()
