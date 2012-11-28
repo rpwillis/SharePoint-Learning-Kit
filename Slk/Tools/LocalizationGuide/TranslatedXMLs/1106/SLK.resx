@@ -120,141 +120,141 @@
 
   <!-- Content Types  -->
   <data name="ContentTypesFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit Content Types</value>
+    <value>Mathau o Gynnwys Pecyn Dysgu SharePoint</value>
   </data>
   <data name="ContentTypesFeatureDescription" xml:space="preserve">
-    <value>The base content types for SharePoint Learning Kit.</value>
+    <value>Mathau o gynnwys sylfaenol ar gyfer Pecyn Dysgu SharePoint.</value>
   </data>
   <data name="SharePointLearningKitWebPartsGroup" xml:space="preserve">
-    <value>SharePoint Learning Kit</value>
+    <value>Pecyn Dysgu SharePoint</value>
   </data>
   <data name="BaseContentTypeName" xml:space="preserve">
-    <value>Learning Object</value>
+    <value>Gwrthrych Dysgu</value>
   </data>
   <data name="BaseContentTypeDescription" xml:space="preserve">
-    <value>The SharePoint Learning Kit Base Content Type. Represents a learning object which can be assigned.</value>
+    <value>Math o Gynnwys Sylfaenol Pecyn Dysgu SharePoint. Mae'n cynrychioli gwrthrych dysgu y gellir ei neilltuo.</value>
   </data>
   <data name="AssignmentContentTypeName" xml:space="preserve">
-    <value>Assignment</value>
+    <value>Aseiniad</value>
   </data>
   <data name="AssignmentContentTypeDescription" xml:space="preserve">
-    <value>A learning object which a custom action so it can be assigned.</value>
+    <value>Gwrthrych dysgu â cham wedi'i deilwra fel y gellir ei neilltuo.</value>
   </data>
   <data name="SelfAssignContentTypeName" xml:space="preserve">
-    <value>Self Assignment</value>
+    <value>Hunanaseiniad</value>
   </data>
   <data name="SelfAssignContentTypeDescription" xml:space="preserve">
-    <value>A learning object which a custom action so it can be self assigned.</value>
+    <value>Gwrthrych dysgu â cham wedi'i deilwra fel y gellir ei hunan-neilltuo.</value>
   </data>
   <data name="AssignmentActionTitle" xml:space="preserve">
-    <value>Assign Work</value>
+    <value>Neilltuo Gwaith</value>
   </data>
   <data name="SelfAssignActionTitle" xml:space="preserve">
-    <value>Start Assignment</value>
+    <value>Dechrau Aseiniad</value>
   </data>
 
   <!-- ELearning Actions Feature -->
   <data name="ELearningFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit</value>
+    <value>Pecyn Dysgu SharePoint</value>
   </data>
   <data name="ELearningFeatureDescription" xml:space="preserve">
-    <value>Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be launched directly by learners or assigned by instructors.</value>
+    <value>Mae'n caniatáu cynnwys e-ddysgu fel SCORM neu ffeiliau Gweinydd Dosbarth Microsoft (.zip neu .lrm) i'w lansio'n uniongyrchol gan ddysgwyr neu eu neilltuo gan hyfforddwyr.</value>
   </data>
   <data name="ELearningCustomActionTitle" xml:space="preserve">
-    <value>E-Learning Actions</value>
+    <value>Camau E-Ddysgu</value>
   </data>
 
   <!-- SelfAssign Feature -->
   <data name="AssignSelfFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Assign Self</value>
+    <value>Pecyn Dysgu SharePoint - Neilltuo eich Hun</value>
   </data>
   <data name="AssignSelfFeatureDescription" xml:space="preserve">
-    <value>Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be launched directly by learners.</value>
+    <value>>Mae'n caniatáu cynnwys e-ddysgu fel SCORM neu ffeiliau Gweinydd Dosbarth Microsoft (.zip neu .lrm) i'w lansio'n uniongyrchol gan ddysgwyr.</value>
   </data>
   <data name="AssignSelfCustomActionTitle" xml:space="preserve">
-    <value>Assign To Self</value>
+    <value>Ei Neilltuo i chi'ch Hun</value>
   </data>
 
   <!-- SiteAssign Feature -->
   <data name="AssignSiteFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Assign to Site</value>
+    <value>Pecyn Dysgu SharePoint - Ei Neilltuo i Wefan</value>
   </data>
   <data name="AssignSiteFeatureDescription" xml:space="preserve">
-    <value>Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be assigned by instructors directly to this site.</value>
+    <value>>Mae'n caniatáu cynnwys e-ddysgu fel SCORM neu ffeiliau Gweinydd Dosbarth Microsoft (.zip neu .lrm) i'w neilltuo gan hyfforddwyr yn uniongyrchol i'r wefan hon.</value>
   </data>
   <data name="AssignSiteCustomActionTitle" xml:space="preserve">
-    <value>Assign to Site</value>
+    <value>Ei Neilltuo i Wefan</value>
   </data>
 
   <!-- Admin Feature -->
   <data name="AdminFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit Administration</value>
+    <value>Gweinyddu Pecyn Dysgu SharePoint</value>
   </data>
   <data name="AdminCustomActionGroupTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit Configuration</value>
+    <value>Ffurfweddiad Pecyn Dysgu SharePoint</value>
   </data>
   <data name="AdminCustomActionTitle" xml:space="preserve">
-    <value>Configure SharePoint Learning Kit</value>
+    <value>Ffurfweddu Pecyn Dysgu SharePoint</value>
   </data>
 
   <!-- AssignmentList web part -->
   <data name="AssignmentListWebPartFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Assignment List Web Part</value>
+    <value>Pecyn Dysgu SharePoint - Rhan Gwe Rhestr o Aseiniadau</value>
   </data>
   <data name="AssignmentListWebPartFeatureDescription" xml:space="preserve">
-    <value>Display the assignments for an instructor or learner.</value>
+    <value>Dangos yr aseiniadau ar gyfer hyfforddwr neu ddysgwr.</value>
   </data>
   <data name="AssignmentListWebPartTitle" xml:space="preserve">
-    <value>Assignment List Web Part</value>
+    <value>Rhan Gwe Rhestr o Aseiniadau</value>
   </data>
   <data name="AssignmentListWebPartDescription" xml:space="preserve">
-    <value>Display the assignments for an instructor or learner.</value>
+    <value>Dangos yr aseiniadau ar gyfer hyfforddwr neu ddysgwr.</value>
   </data>
 
   <!-- Quick Assign web part -->
   <data name="QuickAssignmentWebPartFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Quick Assignment Web Part</value>
+    <value>Pecyn Dysgu SharePoint - Rhan Gwe Aseiniad Cyflym</value>
   </data>
   <data name="QuickAssignmentWebPartFeatureDescription" xml:space="preserve">
-    <value>Web Part to allow an instructor to quickly assign a piece of work.</value>
+    <value>Rhan Gwe i ganiatáu i hyfforddwr neilltuo darn o waith yn gyflym.</value>
   </data>
   <data name="QuickAssignmentWebPartTitle" xml:space="preserve">
-    <value>Quick Assignment</value>
+    <value>Aseiniad Cyflym</value>
   </data>
   <data name="QuickAssignmentWebPartDescription" xml:space="preserve">
-    <value>Allows an instructor to quickly assign a piece of work.</value>
+    <value>Mae'n caniatáu i hyfforddwr neilltuo darn o waith yn gyflym.</value>
   </data>
 
   <!-- Slk members web part -->
   <data name="SlkMembersWebPartFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Slk Members Web Part</value>
+    <value>Pecyn Dysgu SharePoint - Rhan Gwe Aelodau Slk</value>
   </data>
   <data name="SlkMembersWebPartFeatureDescription" xml:space="preserve">
-    <value>Web Part to allow an instructor to view the SLK members of a site.</value>
+    <value>Rhan Gwe i ganiatáu i hyfforddwyr weld aelodau SLK gwefan.</value>
   </data>
   <data name="SlkMembersWebPartTitle" xml:space="preserve">
-    <value>SLK Members</value>
+    <value>Aelodau SLK</value>
   </data>
   <data name="SlkMembersWebPartDescription" xml:space="preserve">
-    <value>Allows an instructor to view the SLK members of a site.</value>
+    <value>Mae'n caniatáu i hyfforddwr weld aelodau SLK gwefan.</value>
   </data>
 
   <!-- Self Assign web part -->
   <data name="SelfAssignWebPartFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Enhanced Self Assign Functionality</value>
+    <value>Pecyn Dysgu SharePoint - Caniatáu Hunan-Neilltuo Uwch</value>
   </data>
   <data name="SelfAssignWebPartFeatureDescription" xml:space="preserve">
-    <value>Functionality to allow learners to easily self assign packages.</value>
+    <value>Gall ganiatáu i ddysgwyr neilltuo pecynnau'n hawdd i'w hunain.</value>
   </data>
   <data name="SelfAssignWebPartTitle" xml:space="preserve">
-    <value>Self Assign</value>
+    <value>Hunan-Neilltuo</value>
   </data>
   <data name="SelfAssignWebPartDescription" xml:space="preserve">
-    <value>Exposes a document library's contents as a set of links to allow self-assigning.</value>
+    <value>Mae'n datgelu cynnwys llyfrgell ddogfennau fel cyfres o ddolenni i ganiatáu proses hunan-neilltuo.</value>
   </data>
 
   <data name="ContentTypesGroup" xml:space="preserve">
-    <value>SharePoint Learning Kit</value>
+    <value>Pecyn Dysgu SharePoint</value>
   </data>
 
 
