@@ -229,6 +229,7 @@ namespace Microsoft.LearningComponents.SharePoint
 
         /// <summary>Returns an <c>SPFile</c> represented by the <see cref="SharePointFileLocation"/>>.</summary>
         /// <remarks>
+        /// The user must have access to the file for this method to work. Part of its functionality is to test that.
         /// Note that the returned <c>SPFile</c> represents the entire collection of versions
         /// associated with that location -- it is not version-specific.
         /// </remarks>
