@@ -67,6 +67,9 @@ namespace Microsoft.LearningComponents.SharePoint
         // Amount of time to keep trying to lock: 2 minutes
         private TimeSpan m_attemptLockingTime = new TimeSpan( 0, 0, 2, 0, 0 );
 
+        // The amount of time between cache cleaning
+        const int cacheCleanHourIntervals = 24;
+
         // Characters to use when encoding to Base32
         private const string ENCODER_MAP = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456";
 
@@ -74,7 +77,7 @@ namespace Microsoft.LearningComponents.SharePoint
         private string CACHE_VERSION_ID = "1";
 
         // The max number of packages to delete when cleaning up the cache.
-        private int NUM_PACKAGES_PER_CACHE_CLEAN = 10;
+        private const int NUM_PACKAGES_PER_CACHE_CLEAN = 3;
 
         // Keep track of the first exception encountered. If caching fails, this exception 
         // is thrown.
@@ -128,7 +131,7 @@ namespace Microsoft.LearningComponents.SharePoint
 
             // Try to lock the cache.
             DateTime startLocking = DateTime.Now;
-            while (!LockCache(lockFileName, cacheDir, fileInfo))
+            while (LockCache(lockFileName, cacheDir, fileInfo) == false)
             {
                 if (DateTime.Now - startLocking > m_attemptLockingTime)
                 {
@@ -137,6 +140,7 @@ namespace Microsoft.LearningComponents.SharePoint
 
                 System.Threading.Thread.Sleep(750);
             }
+
         }
 
         // If true, an invalid package should be cached as a single file
@@ -283,22 +287,12 @@ namespace Microsoft.LearningComponents.SharePoint
             }
 
             // If the cache doesn't yet exist, create it.
-            if (!lockFileFound)
+            if (lockFileFound == false)
             {
                 // And then create the cache directory for the package
                 if (!CreateCacheDirectory(lockFileName, cacheDir, fileInfo))
                 {
                     return false;
-                }
-            }
-            else
-            {
-                // The cache exists. However, it may not contain the correct package format.
-
-                using (new ImpersonateIdentity(m_settings.ImpersonationBehavior))
-                {
-                    if (Directory.Exists(cacheDir)) 
-                        Directory.GetFiles(cacheDir);
                 }
             }
 
@@ -371,54 +365,53 @@ namespace Microsoft.LearningComponents.SharePoint
                     }
                     
                     // Get the file from SharePoint
-                    Stream stream;
                     DateTime dateTimeLastModified;  // time the file in SharePoint was last modified
                     string filename;
+                    byte[] fileContents;
 
-                    GetSharePointFileData(fileInfo, out stream, out dateTimeLastModified, out filename);
-                    using (stream)
+                    GetSharePointFileData(fileInfo, out fileContents, out dateTimeLastModified, out filename);
+
+                    // Indicates whether SPFile was written as file or package.
+                    CachedFileState cachedFileState;
+
+                    // If application requested to always cache as a file, then do that. Otherwise, attempt to 
+                    // cache it as a package and if that fails then perhaps try to cache it as a file.
+                    if (AlwaysCacheAsFile)
                     {
-
-                        // Indicates whether SPFile was written as file or package.
-                        CachedFileState cachedFileState;
-
-                        // If application requested to always cache as a file, then do that. Otherwise, attempt to 
-                        // cache it as a package and if that fails then perhaps try to cache it as a file.
-                        if (AlwaysCacheAsFile)
+                        CacheAsFile(cacheDir, filename, fileContents);
+                        cachedFileState = CachedFileState.WrittenAsFile;
+                    }
+                    else
+                    {
+                        try
                         {
-                            CacheAsFile(cacheDir, filename, stream);
-                            cachedFileState = CachedFileState.WrittenAsFile;
+                            // The content might be an e-learning package, so try caching it as a package.
+                            CacheAsPackage(cacheDir, fileContents);
+                            cachedFileState = CachedFileState.WrittenAsPackage;
                         }
-                        else
+                        catch (InvalidPackageException)
                         {
-                            try
+                            // The package is not valid. If we are supposed to cache it as a file, then do so.
+                            // In either case, throw the exception so that caller knows it was not cached as package. 
+                            if (CacheInvalidPackageAsFile)
                             {
-                                // The content might be an e-learning package, so try caching it as a package.
-                                CacheAsPackage(cacheDir, stream);
-                                cachedFileState = CachedFileState.WrittenAsPackage;
+                                CacheAsFile(cacheDir, filename, fileContents);
+
+                                // If this succeeded, write the information to the lock file
+                                WriteAndCloseLockFile(CachedFileState.InvalidPackageWrittenAsFile, lockFile, fileContents.Length, dateTimeLastModified);
+                                lockFile = null;
+
+                                // Mark it as succeeded so that the lock file and directory are not deleted on exit
+                                deleteLockFileAndDir = false;
                             }
-                            catch (InvalidPackageException)
-                            {
-                                // The package is not valid. If we are supposed to cache it as a file, then do so.
-                                // In either case, throw the exception so that caller knows it was not cached as package. 
-                                if (CacheInvalidPackageAsFile)
-                                {
-                                    CacheAsFile(cacheDir, filename, stream);
 
-                                    // If this succeeded, write the information to the lock file
-                                    WriteLockFile(CachedFileState.InvalidPackageWrittenAsFile, ref lockFile, stream.Length, dateTimeLastModified);
-
-                                    // Mark it as succeeded so that the lock file and directory are not deleted on exit
-                                    deleteLockFileAndDir = false;
-                                }
-
-                                // Rethrow the exception. 
-                                throw;
-                            }
+                            // Rethrow the exception. 
+                            throw;
                         }
 
                         // Write information to lock file and close it.
-                        WriteLockFile(cachedFileState, ref lockFile, stream.Length, dateTimeLastModified);
+                        WriteAndCloseLockFile(cachedFileState, lockFile, fileContents.Length, dateTimeLastModified);
+                        lockFile = null;
                     }
 
                     // Everything succeeded
@@ -472,15 +465,13 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <param name="lockFile">The lock file to write to. The caller needs to close this if the method does not succeed.</param>
         /// <param name="lengthOfFile">The length of the SPFile, in bytes.</param>
         /// <param name="dateTimeLastModified">The time the SPFile was last modified.</param>
-        private void WriteLockFile(CachedFileState cachedFileState, ref FileStream lockFile, long lengthOfFile, DateTime dateTimeLastModified)
+        private void WriteAndCloseLockFile(CachedFileState cachedFileState, FileStream lockFile, long lengthOfFile, DateTime dateTimeLastModified)
         {
             // write the information to the lock file
-            DetachableStream lockDetachableStr = null;
-            StreamWriter sw = null;
             try
             {
-                lockDetachableStr = new DetachableStream(lockFile);
-                using (sw = new StreamWriter(lockDetachableStr))
+                DetachableStream lockDetachableStr = new DetachableStream(lockFile);
+                using (StreamWriter sw = new StreamWriter(lockDetachableStr))
                 {
                     // first 'segment' (required) is the version of the file
                     sw.Write(CACHE_VERSION_ID + " ");
@@ -505,9 +496,11 @@ namespace Microsoft.LearningComponents.SharePoint
             {
                 throw new CacheException(Resources.SPCannotWriteToLockFile);
             }
-
-            lockFile.Close();
-            lockFile = null;
+            finally
+            {
+                lockFile.Close();
+                lockFile.Dispose();
+            }
         }
 
         /// <summary>
@@ -516,18 +509,15 @@ namespace Microsoft.LearningComponents.SharePoint
         /// </summary>
         /// <param name="cacheDir"></param>
         /// <param name="stream"></param>
-        private static void CacheAsFile(string cacheDir, string filename, Stream stream)
+        private static void CacheAsFile(string cacheDir, string filename, byte[] fileContents)
         {
             // Create cache directory
             Directory.CreateDirectory(cacheDir);
             
             // Write the file to the directory
-            stream.Seek(0, SeekOrigin.Begin);
-            using (FileStream output = new FileStream(PackageReader.SafePathCombine(cacheDir, filename),
-                FileMode.Create, FileAccess.Write, FileShare.None))
+            using (FileStream output = new FileStream(PackageReader.SafePathCombine(cacheDir, filename), FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                Utilities.CopyStream(stream, ImpersonationBehavior.UseImpersonatedIdentity,
-                    output, ImpersonationBehavior.UseImpersonatedIdentity);
+                output.Write(fileContents, 0, fileContents.Length);
             }
         }
 
@@ -537,16 +527,12 @@ namespace Microsoft.LearningComponents.SharePoint
         /// contain a package that has the basic format of an e-learning package.
         /// This method does not impersonate.
         /// </summary>
-        private static void CacheAsPackage(string cacheDir, Stream stream)
+        private static void CacheAsPackage(string cacheDir, byte[] fileContents)
         {
             // Get a PackageReader to read the package. This will throw InvalidPackageException if the byteArray
             // does not contain a package.
-            using (Disposer disposer = new Disposer())
+            using (PackageReader packageReader = PackageReader.Create(fileContents))
             {
-                stream.Seek(0, SeekOrigin.Begin);
-                PackageReader packageReader = PackageReader.Create(stream);
-                disposer.Push(packageReader);
-           
                 // If this is not a valid package, throw an exception
                 ValidatePackage(packageReader);           
                 
@@ -570,26 +556,23 @@ namespace Microsoft.LearningComponents.SharePoint
 
                     foreach (string filePath in packageReader.GetFilePaths())
                     {
-                        using (Disposer d2 = new Disposer())
+                        // Create subdirectory, if it's required
+                        string absFilePath = PackageReader.SafePathCombine(cacheDir, filePath);
+                        string absDirPath = Path.GetDirectoryName(absFilePath);
+                        if (!File.Exists(absDirPath) && !Directory.Exists(absDirPath))
                         {
-                            // Create subdirectory, if it's required
-                            string absFilePath = PackageReader.SafePathCombine(cacheDir, filePath);
-                            string absDirPath = Path.GetDirectoryName(absFilePath);
-                            if (!File.Exists(absDirPath) && !Directory.Exists(absDirPath))
-                            {
-                                // Create it
-                                Directory.CreateDirectory(absDirPath);
-                            }
+                            // Create it
+                            Directory.CreateDirectory(absDirPath);
+                        }
 
-                            // Get stream for file from package
-                            Stream pkgStream = packageReader.GetFileStream(filePath);
-                            d2.Push(pkgStream);
-
+                        // Get stream for file from package
+                        using (Stream pkgStream = packageReader.GetFileStream(filePath))
+                        {
                             // Create file location to write
-                            FileStream outputStream = new FileStream(absFilePath, FileMode.Create);
-                            d2.Push(outputStream);
-
-                            Utilities.CopyStream(pkgStream, ImpersonationBehavior.UseImpersonatedIdentity, outputStream, ImpersonationBehavior.UseImpersonatedIdentity);
+                            using (FileStream outputStream = new FileStream(absFilePath, FileMode.Create))
+                            {
+                                Utilities.CopyStream(pkgStream, ImpersonationBehavior.UseImpersonatedIdentity, outputStream, ImpersonationBehavior.UseImpersonatedIdentity);
+                            }
                         }
                     }
                 }
@@ -619,7 +602,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <param name="versionId">The version of the file to retrieve.</param>
         /// <param name="fileContents">A Stream open onto the file.</param>
         /// <param name="lastModified">The time the file was last modified in SharePoint.</param>
-        private static void GetSharePointFileData(CachedFileInfo fileInfo, out Stream fileContents, out DateTime lastModified, out string filename)
+        private static void GetSharePointFileData(CachedFileInfo fileInfo, out byte[] fileContents, out DateTime lastModified, out string filename)
         {
             using (SPSite spSite = new SPSite(fileInfo.SiteId))
             {
@@ -638,7 +621,7 @@ namespace Microsoft.LearningComponents.SharePoint
                                                                 fileInfo.VersionId.ToString(NumberFormatInfo.CurrentInfo), spFile.Name));
                         }
 
-                        fileContents = new MemoryStream(spFile.OpenBinary()); // Cannot OpenBinaryStream as SPWeb is disposed
+                        fileContents = spFile.OpenBinary(); // Cannot OpenBinaryStream as SPWeb is disposed
                         lastModified = spFile.TimeLastModified;
                     }
                     else
@@ -652,7 +635,7 @@ namespace Microsoft.LearningComponents.SharePoint
                                                                 fileInfo.VersionId.ToString(NumberFormatInfo.CurrentInfo)));
                         }
 
-                        fileContents = new MemoryStream(spFileVersion.OpenBinary()); // Cannot OpenBinaryStream as SPWeb is disposed
+                        fileContents = spFileVersion.OpenBinary(); // Cannot OpenBinaryStream as SPWeb is disposed
 
                         // There is no 'last modified' of a version, so use the time the version was created.
                         lastModified = spFileVersion.Created;
@@ -666,7 +649,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// to retrieve it.
         /// </summary>
         /// <param name="fileInfo"></param>
-        private static DateTime GetLastModifiedTime(CachedFileInfo fileInfo)
+        private static DateTime GetSharePointLastModifiedTime(CachedFileInfo fileInfo)
         {
             if (fileInfo.SPFile == null)
             {
@@ -680,6 +663,17 @@ namespace Microsoft.LearningComponents.SharePoint
             }
 
             return fileInfo.SPFile.TimeLastModified;
+        }
+
+        static string ReadContents(FileStream lockFile)
+        {
+            DetachableStream detachableLockFile = new DetachableStream(lockFile);
+            using (StreamReader sr = new StreamReader(detachableLockFile))
+            {
+               string contents = sr.ReadLine();
+               detachableLockFile.Detach();
+               return contents;
+            }
         }
 
         /// <summary>
@@ -712,19 +706,13 @@ namespace Microsoft.LearningComponents.SharePoint
 
                     // From this point on, assume that every error requires
                     // rebuilding the lock file and directory
-                    deleteLockFileAndDir = true;
 
-                    String contents;
-                    DetachableStream detachableLockFile = new DetachableStream(lockFile);
-                    using (StreamReader sr = new StreamReader(detachableLockFile))
-                    {
-                       contents = sr.ReadLine();
-                       detachableLockFile.Detach();
-                    }
+                    String contents = ReadContents(lockFile);
 
                     if (contents == null)
                     {
                         // empty file, something broke during the caching process
+                        deleteLockFileAndDir = true;
                         return false;
                     }
                     else
@@ -740,22 +728,25 @@ namespace Microsoft.LearningComponents.SharePoint
                             if (segments.Length != 4)
                             {
                                 // bad format
+                                deleteLockFileAndDir = true;
                                 return false;
                             }
 
                             // If the lock file date last accessed was not within the last two minutes,
                             // then check if the file has changed. Note that WSS has a filetime granularity of 
                             // 1 minute, which is why we wait 2 minutes to check.
-                            if (File.GetLastAccessTime(Path.Combine(m_settings.CachePath, lockFileName))
-                                < (DateTime.Now.AddMinutes(-2)))
+                            DateTime fileLastAccessTime = PackageLastAccessTime(Path.Combine(m_settings.CachePath, lockFileName));
+                            if (fileLastAccessTime < (DateTime.Now.AddMinutes(-2)))
                             {
                                 // Compare the last modified value for the file in SharePoint and see if it is
                                 // newer than the one in the cache.  If it is, then remove the cache 
                                 // and reload it.
                                 long ticksAtCreation = long.Parse(segments[1], NumberFormatInfo.InvariantInfo);
 
-                                if (ticksAtCreation != GetLastModifiedTime(fileInfo).Ticks)
+                                DateTime spFileLastModified = GetSharePointLastModifiedTime(fileInfo);
+                                if (ticksAtCreation != spFileLastModified.Ticks)
                                 {
+                                    deleteLockFileAndDir = true;
                                     return false;
                                 }
                             }
@@ -775,46 +766,43 @@ namespace Microsoft.LearningComponents.SharePoint
                                 case CachedFileState.WrittenAsPackage:
                                     // If request is to cache as file, then need to retry cache
                                     if (AlwaysCacheAsFile)
+                                    {
+                                        deleteLockFileAndDir = true;
                                         return false;
+                                    }
                                     break;
 
                                 case CachedFileState.WrittenAsFile:
                                     // It was cached as a file, without first trying to cache as package. Return
                                     // false so caller can attempt to cache as package.
                                     if (AttemptCacheAsPackage)
+                                    {
+                                        deleteLockFileAndDir = true;
                                         return false;
+                                    }
                                     break;
                                 default:
+                                    deleteLockFileAndDir = true;
                                     return false;   // bad format
                             }                            
                         }
                         else
                         {
                             // bad format
+                            deleteLockFileAndDir = true;
                             return false;
                         } 
                     }
                 
-                    // If the lock file exists but the directory doesn't, then another
-                    // process is probably in the process of deleting the cache, retry
+                    // If the lock file exists but the directory doesn't, then another process is probably in the process of deleting the cache, retry
                     // and create it.
-
-                    if (!Directory.Exists( cacheDir) )
+                    if (Directory.Exists( cacheDir) == false)
                     {
                         // retry
+                        deleteLockFileAndDir = true;
                         return false;
                     }
 
-                    // Check that the lock file has something in it.  If it doesn't
-                    // then another process may have failed while unbundling.  Clear it
-                    // out, and retry.                
-                    if (lockFile.Length == 0)
-                    {
-                        // retry
-                        return false;
-                    }
-                    
-                    // Done!
                     m_lockFile = lockFile;
                     lockFile = null;
                     m_cacheDir = cacheDir;
@@ -834,8 +822,12 @@ namespace Microsoft.LearningComponents.SharePoint
                             CachingException = new CacheException(Resources.CacheLockDirCleanupFailed, e);
                         }
                     }
+
                     if(lockFile != null)
+                    {
                        lockFile.Close();
+                    }
+
                     if( deleteLockFileAndDir )
                     {
                         try { File.Delete(lockFileName); }
@@ -858,7 +850,7 @@ namespace Microsoft.LearningComponents.SharePoint
             using ( new ImpersonateIdentity(m_settings.ImpersonationBehavior) )
             {
                 UnlockCache();
-                CleanCache();
+                TryCleanCache(m_settings.CachePath, m_settings.ExpirationTime);
             }
         }
 
@@ -871,7 +863,9 @@ namespace Microsoft.LearningComponents.SharePoint
         {
             // Close the lock file and update the last accessed time
             if( m_lockFile != null )
+            {
                 m_lockFile.Close();
+            }
 
             // Update the last accessed time, if it fails then it's likely that
             // another process has a read lock on this.
@@ -881,90 +875,174 @@ namespace Microsoft.LearningComponents.SharePoint
             }
             catch (IOException)
             {
-                // Not a problem. Another process has a lock and that process will set the access time.
+                // Not a problem. Another process has a lock and that process will set the access time. Set the time on the time file instead
+                try
+                {
+                    string timeFile = TimeFileName(m_lockFile.Name);
+                    if (File.Exists(timeFile) == false)
+                    {
+                        File.Create(timeFile);
+                    }
+
+                    File.SetLastAccessTime( timeFile, DateTime.Now );
+                }
+                catch (IOException)
+                {
+                }
             }
+        }
+
+
+#region static members
+        static object lockObject = new object();
+        static DateTime lastCacheClean = new DateTime(2000,1,1);
+
+        static void TryCleanCache(string cachePath, TimeSpan? keepAliveTime)
+        {
+            if (DateTime.Now > lastCacheClean.AddHours(cacheCleanHourIntervals))
+            {
+                lock (lockObject)
+                {
+                    if (DateTime.Now > lastCacheClean.AddHours(cacheCleanHourIntervals))
+                    {
+                        if (CleanCache(cachePath, keepAliveTime))
+                        {
+                            lastCacheClean = DateTime.Now;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>Gets the last access time of the package.</summary>
+        /// <remarks>Needs to also check the .time file which is used if the lock file is locked.</remarks>
+        /// <param name="lockFileName">The name of the lock file.</param>
+        /// <returns>The last access time.</returns>
+        static DateTime PackageLastAccessTime(string lockFileName)
+        {
+            DateTime lastAccess = File.GetLastAccessTime(lockFileName);
+            string timeFileName = TimeFileName(lockFileName);
+            if (File.Exists(timeFileName))
+            {
+                DateTime timeLastAccess = File.GetLastAccessTime(lockFileName);
+                if (timeLastAccess > lastAccess)
+                {
+                    lastAccess = timeLastAccess;
+                }
+            }
+
+            return lastAccess;
+        }
+
+        /// <summary>Returns the name of the time file.</summary>
+        static string TimeFileName(string fileName)
+        {
+            return fileName + ".time";
         }
 
         /// <summary>
         /// Iterates through the cache directories, looking for those that
         /// have expired, then tries to delete them. This method does not impersonate.
         /// </summary>
+        /// <param name="cachePath">The path to the cache.</param>
+        /// <param name="keepAliveTime">The time to keep items in the cache.</param>
+        /// <returns>True if no more items to clean.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")] // the exceptions are suppressed so that the process can continue
-        private void CleanCache()
+        private static bool CleanCache(string cachePath, TimeSpan? keepAliveTime)
         {
-            if( m_settings.CachePath != null )
+            if( cachePath != null )
             {
-                string[] lockFileNames = Directory.GetFiles(m_settings.CachePath, "*.lock");
+                string[] lockFileNames = Directory.GetFiles(cachePath, "*.lock");
 
                 // Count the number of packages we have removed. Only remove a specified amount each time the 
                 // cache is cleared. This prevents huge delays when a database backup is restored and the cache directory
                 // contains out of date information on a large number of files.
                 int deletedPackages = 0;
-                TimeSpan? keepAliveTime = m_settings.ExpirationTime;
 
-                foreach (string filename in lockFileNames)
+                if (keepAliveTime != null)
                 {
-                    // If we have exceeded the number of packages to delete per process, then stop.
-                    if (deletedPackages >= NUM_PACKAGES_PER_CACHE_CLEAN)
-                        break;
-
-                    // reinitialize local variables
-                    bool dirDeleted = false;
-                    bool lockDeleted = false;
-                    
-                    // if we fail in here, it's most likely because there's an exclusive lock
-                    // on the lock file and the GetLastAccess() or Delete() calls failed.
-                    // In those cases, just move on to the next one.
-                    try
+                    foreach (string filename in lockFileNames)
                     {
-                        DateTime lastAccess = File.GetLastAccessTime(filename);
-
-                        TimeSpan timeSinceLastAccess = DateTime.Now - lastAccess;
-
-                        // alive for more than the lifetime
-                        if ((keepAliveTime != null) && (timeSinceLastAccess > keepAliveTime))
+                        // reinitialize local variables
+                        bool dirDeleted = false;
+                        bool lockDeleted = false;
+                        
+                        // if we fail in here, it's most likely because there's an exclusive lock
+                        // on the lock file and the GetLastAccess() or Delete() calls failed.
+                        // In those cases, just move on to the next one.
+                        try
                         {
-                            // Try to open the lock file (with exclusive write privs); if it fails, retry
-                            FileStream lockFile = new FileStream(filename, FileMode.Open, FileAccess.Write, FileShare.None);
-                            string dirname = filename.Substring(0, filename.LastIndexOf(".", StringComparison.OrdinalIgnoreCase));
+                            if (File.Exists(filename))      // May have been deleted by another process in the meantime
+                            {
+                                DateTime lastAccess = PackageLastAccessTime(filename);
 
-                            // this isn't the current cache dir being cleaned up, so we can't 
-                            // use the RemoveCache() function, though it does the same steps.
+                                TimeSpan timeSinceLastAccess = DateTime.Now - lastAccess;
 
-                            try
-                            {
-                                Directory.Delete(dirname, true);
-                                dirDeleted = true;
-                            }
-                            catch
-                            {
-                                // Don't care why it failed. Skip it.
-                            }
+                                // alive for more than the lifetime
+                                if (timeSinceLastAccess > keepAliveTime)
+                                {
+                                        // If we have exceeded the number of packages to delete per process, then stop and let know more to do.
+                                        if (deletedPackages >= NUM_PACKAGES_PER_CACHE_CLEAN)
+                                        {
+                                            return false;
+                                        }
 
-                            lockFile.Close();
-                            try
-                            {
-                                File.Delete(filename);
-                                lockDeleted = true;
-                            }
-                            catch
-                            {
-                                // Don't care why it failed. Skip it.
+                                    // Try to open the lock file (with exclusive write privs); if it fails, skip
+                                    using (FileStream lockFile = new FileStream(filename, FileMode.Open, FileAccess.Write, FileShare.None))
+                                    {
+                                        string dirname = filename.Substring(0, filename.LastIndexOf(".", StringComparison.OrdinalIgnoreCase));
+
+                                        try
+                                        {
+                                            if (Directory.Exists(dirname))
+                                            {
+                                                Directory.Delete(dirname, true);
+                                            }
+
+                                            dirDeleted = true;
+                                        }
+                                        catch (Exception)
+                                        {
+                                            // Don't care why it failed. Skip it.
+                                        }
+                                    }
+
+                                    try
+                                    {
+                                        File.Delete(filename);
+                                        lockDeleted = true;
+
+                                        string timeFile = TimeFileName(filename);
+                                        if (File.Exists(timeFile))
+                                        {
+                                            File.Delete(timeFile);
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                                        // Don't care why it failed. Skip it.
+                                    }
+                                }
                             }
                         }
-                    }
-                    catch
-                    {
-                        // Don't care why it failed. Skip it.
-                    }
-                    
-                    if (dirDeleted && lockDeleted)
-                        deletedPackages++;
+                        catch (Exception)
+                        {
+                            // Don't care why it failed. Skip it.
+                        }
+                        
+                        if (dirDeleted && lockDeleted)
+                        {
+                            deletedPackages++;
+                        }
 
-                } // foreach
+                    } // foreach
+                }
             }
 
+            return true;
+
         } // CleanCache()
+#endregion static members
 
         /// <summary>
         /// Private class to encapsulate information about the cached file

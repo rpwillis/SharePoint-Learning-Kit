@@ -87,7 +87,7 @@ namespace Microsoft.LearningComponents
 #endregion properties
 
 #region public methods
-        /// <summary>
+         /// <summary>
         /// Returns either a <Typ>ZipPackageReader</Typ> or <Typ>LrmPackageReader</Typ>, according to the type of
         /// package provided.
         /// </summary>
@@ -102,7 +102,7 @@ namespace Microsoft.LearningComponents
         /// </para></remarks>
         public static PackageReader Create(Stream package)
         {
-            // returns either ZipPackageReader or LrmPackageReader – which is used is determined by
+            // returns either ZipPackageReader or LrmPackageReader û which is used is determined by
             // looking at the first four bytes in the file to determine if it is a Zip file.  Assume it is
             // an LRM file if it is not a .zip.
 
@@ -146,6 +146,50 @@ namespace Microsoft.LearningComponents
             else
             {
                 throw new ArgumentNullException("package");
+            }
+        }
+
+        /// <summary>
+        /// Returns either a <Typ>ZipPackageReader</Typ> or <Typ>LrmPackageReader</Typ>, according to the type of
+        /// package provided.
+        /// </summary>
+        /// <param name="fileContents">The zipped package (.zip or .ims) or .lrm package.</param>
+        /// <returns>A <Typ>PackageReader</Typ> that reads the supplied package.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="package"/> is null.</exception>
+        /// <remarks>The contents are analyzed to determine if it is a zipped file.  If it is not, it is assumed to
+        /// be an .lrm package.  In either case, the correctness of the package is not checked here, but rather
+        /// in subsequent calls to e.g. <Mth>CreateManifestNavigator</Mth>.
+        /// <para>
+        /// The PackageReader that is returned uses the current user's credentials to read files from the package.
+        /// </para></remarks>
+        public static PackageReader Create(byte[] fileContents)
+        {
+            // returns either ZipPackageReader or LrmPackageReader – which is used is determined by
+            // looking at the first four bytes in the file to determine if it is a Zip file.  Assume it is
+            // an LRM file if it is not a .zip.
+            ValidatorResources.Culture = Thread.CurrentThread.CurrentCulture;
+            Resources.Culture = Thread.CurrentThread.CurrentCulture;
+
+            if (fileContents != null)
+            {
+                FileInfo file = new FileInfo(Path.GetTempFileName());
+                using (FileStream fileStream = file.Create())
+                {
+                    fileStream.Write(fileContents, 0, fileContents.Length);
+                }
+
+                if (fileContents[0] == 0x50 && fileContents[1] == 0x4b && fileContents[2] == 0x03 && fileContents[3] == 0x04)
+                {
+                    return new ZipPackageReader(file, true);
+                }
+                else
+                {
+                    return new LrmPackageReader(file, true);
+                }
+            }
+            else
+            {
+                throw new ArgumentNullException("fileContents");
             }
         }
 
