@@ -493,7 +493,7 @@ namespace Microsoft.SharePointLearningKit
 
             // Set default details
             details.Url = file.Url;
-            details.OnClick = EditJavascript(file.Url, web);
+            details.OnClick = EditJavascript(file, web);
 
             try
             {
@@ -523,7 +523,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 // Not valid for office web apps
                 details.Url = file.Url;
-                details.OnClick = EditJavascript(file.Url, web);
+                details.OnClick = EditJavascript(file, web);
             }
 
             return details;
@@ -702,14 +702,21 @@ namespace Microsoft.SharePointLearningKit
 
 #region static methods
         /// <summary>Generates the edit javascript script.</summary>
-        /// <param name="fileUrl">The url of the file.</param>
+        /// <param name="file">The file to generate the js for.</param>
         /// <param name="web">The web the file is in.</param>
         /// <returns>The script.</returns>
-        static string EditJavascript(string fileUrl, SPWeb web)
+        static string EditJavascript(AssignmentFile file, SPWeb web)
         {
-            //string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff');return false;";
-            string script = "editDocumentWithProgID2('{0}', '', 'SharePoint.OpenDocuments','0','{1}','0');";
-            return string.Format(CultureInfo.InvariantCulture, script, Microsoft.SharePoint.Utilities.SPHttpUtility.UrlPathEncode(fileUrl, false), web.Url);
+            if (file.IsEditable)
+            {
+                //string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff');return false;";
+                string script = "editDocumentWithProgID2('{0}', '', 'SharePoint.OpenDocuments','0','{1}','0');";
+                return string.Format(CultureInfo.InvariantCulture, script, Microsoft.SharePoint.Utilities.SPHttpUtility.UrlPathEncode(file.Url, false), web.Url);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         static string GenerateFolderName(AssignmentProperties properties)
