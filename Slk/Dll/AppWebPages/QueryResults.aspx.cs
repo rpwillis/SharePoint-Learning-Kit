@@ -525,10 +525,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 }
                             }
 
+                            // TODO:Relies on being 2nd column. Need to iterate over if needed, so move to below where used
                             Guid learnerAssignmentGUID = Guid.Empty;
-                            if (renderedRow[1].Id.ItemTypeName == Schema.LearnerAssignmentItem.ItemTypeName)
+                            if (renderedRow[1].Id != null)
                             {
-                                learnerAssignmentGUID = SlkStore.GetLearnerAssignmentGuidId(renderedRow[1].Id);
+                                if (renderedRow[1].Id.ItemTypeName == Schema.LearnerAssignmentItem.ItemTypeName)
+                                {
+                                    learnerAssignmentGUID = SlkStore.GetLearnerAssignmentGuidId(renderedRow[1].Id);
+                                }
                             }
 
                             // render the cells in this row
