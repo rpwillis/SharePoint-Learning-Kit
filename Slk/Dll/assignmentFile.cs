@@ -28,7 +28,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>The extenstion of the file.</summary>
         public string Extension
         {
-            get { return System.IO.Path.GetExtension(Name) ;}
+            get { return System.IO.Path.GetExtension(Url) ;}
         }
 
         /// <summary>Detemines if the file is an office file.</summary>
@@ -56,6 +56,32 @@ namespace Microsoft.SharePointLearningKit
                     case ".PPTX":
                         return true;
                     case ".ONE":
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        /// <summary>Shows if the document is editable.</summary>
+        public bool IsEditable
+        {
+            get
+            {
+                if (Extension == null)
+                {
+                    return false;
+                }
+                else if (IsOfficeFile)
+                {
+                    return true;
+                }
+
+                switch (Extension.ToUpperInvariant())
+                {
+                    case ".PDF":
+                        return false;
+                    case ".TXT":
                         return true;
                     default:
                         return false;
@@ -139,6 +165,11 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Detemines if the file is an office file.</summary>
         public static bool IsOfficeFileByExtension(string extension)
         {
+            if (extension == null)
+            {
+                return false;
+            }
+
             switch (extension.ToUpperInvariant())
             {
                 case ".DOC":
