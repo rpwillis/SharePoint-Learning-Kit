@@ -1911,6 +1911,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to create Drop Box. {0}.
+        /// </summary>
+        internal static string DropBoxListCreateFailure {
+            get {
+                return ResourceManager.GetString("DropBoxListCreateFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find role {0}. This is required to set Drop Box permissions..
         /// </summary>
         internal static string DropBoxManagerNoRole {
