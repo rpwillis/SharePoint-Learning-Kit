@@ -296,17 +296,17 @@ namespace Microsoft.SharePointLearningKit
             {
                 web.AllowUnsafeUpdates = true;
                 Guid id;
+                string name = dropBoxName;
+                if (recursiveNumber > 0)
+                {
+                    name = name + recursiveNumber.ToString(CultureInfo.InvariantCulture);
+                }
+
                 try
                 {
-                    string name = dropBoxName;
-                    if (recursiveNumber > 0)
-                    {
-                        name = name + recursiveNumber.ToString(CultureInfo.InvariantCulture);
-                    }
                     DropBoxManager.Debug("Creating DropBox {0}", name);
                     id = web.Lists.Add(name, dropBoxName, SPListTemplateType.DocumentLibrary);
                     DropBoxManager.Debug("Created DropBox {0}", name);
-                    SetUpDropBox(web, id);
                 }
                 catch (SPException e)
                 {
@@ -315,6 +315,7 @@ namespace Microsoft.SharePointLearningKit
                     if (recursiveNumber < 2)
                     {
                         CreateDropBoxLibrary(recursiveNumber + 1);
+                        return;
                     }
                     else
                     {
@@ -322,6 +323,7 @@ namespace Microsoft.SharePointLearningKit
                     }
                 }
 
+                SetUpDropBox(web, id);
             }
             finally
             {
@@ -393,22 +395,41 @@ namespace Microsoft.SharePointLearningKit
         void SetUpDropBox(SPWeb web, Guid id)
         {
             dropBoxList = web.Lists[id];
-            DropBoxManager.Debug("Save id");
-            web.AllProperties[propertyKey] = DropBoxList.ID.ToString("D", CultureInfo.InvariantCulture);
-            web.Update();
-            DropBoxManager.Debug("Saved id");
 
-            AddFields();
-            ChangeToInternationalNames();
+            try
+            {
 
-            // Set up versioning
-            DropBoxList.EnableVersioning = true;
-            DropBoxList.Update();
+                AddFields();
+                ChangeToInternationalNames();
 
-            ModifyDefaultView();
+                // Set up versioning
+                DropBoxList.EnableVersioning = true;
+                DropBoxList.Update();
 
-            ClearPermissions();
-            CreateNoPermissionsFolder();
+                ModifyDefaultView();
+
+                ClearPermissions();
+                CreateNoPermissionsFolder();
+
+                DropBoxManager.Debug("Save id");
+                web.AllProperties[propertyKey] = DropBoxList.ID.ToString("D", CultureInfo.InvariantCulture);
+                web.Update();
+                DropBoxManager.Debug("Saved id");
+            }
+            catch (SPException e)
+            {
+                // Error creating list - delete it
+                dropBoxList.Delete();
+                dropBoxList = null;
+                throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DropBoxListCreateFailure, e.Message));
+            }
+            catch (Exception)
+            {
+                // Error creating list - delete it
+                dropBoxList.Delete();
+                dropBoxList = null;
+                throw;
+            }
         }
 
         SPField AddField(string name, SPFieldType type, bool addToDefaultView)
