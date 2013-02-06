@@ -1232,7 +1232,7 @@ More information may be available in the server event log.</value>
     <comment>Error Message if User doesn’t have instructor permission on the SPWeb.</comment>
   </data>
   <data name="LearnerAssignmentTransitionNotSupported" xml:space="preserve">
-    <value>Requested learner assignment state transition is not supported</value>
+      <value>Requested learner assignment state transition is not supported. {0} to {1}.</value>
   </data>
   <data name="ConfigureTitle" xml:space="preserve">
     <value>Configure SharePoint Learning Kit</value>

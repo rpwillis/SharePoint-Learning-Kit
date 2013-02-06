@@ -371,7 +371,11 @@ namespace Microsoft.SharePointLearningKit
             switch (Status)
             {
                 case LearnerAssignmentState.NotStarted:
-                    throw InvalidTransitionException(LearnerAssignmentState.NotStarted, LearnerAssignmentState.Completed);
+                    if (Assignment.IsELearning)
+                    {
+                        throw InvalidTransitionException(LearnerAssignmentState.NotStarted, LearnerAssignmentState.Completed);
+                    }
+                    break;
 
                 case LearnerAssignmentState.Active:
                     break;

@@ -2875,7 +2875,7 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Requested learner assignment state transition is not supported.
+        ///   Looks up a localized string similar to Requested learner assignment state transition is not supported. {0} to {1}..
         /// </summary>
         internal static string LearnerAssignmentTransitionNotSupported {
             get {
