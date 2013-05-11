@@ -41,7 +41,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
         /// <summary>The OnInit event.</summary>
         protected override void OnInit(EventArgs e)
         {
-            AppResources.Culture = Thread.CurrentThread.CurrentCulture;
+            AppResources.Culture = Thread.CurrentThread.CurrentUICulture;
             base.OnInit(e);
         }
 
@@ -120,7 +120,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                     Response.Clear();
                     Response.ContentType = "text/html";
                                     Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                    Response.Write(String.Format(CultureInfo.CurrentCulture, AppResources.AdminErrorPageHtml, ex.Message));
+                    Response.Write(String.Format(CultureInfo.CurrentUICulture, AppResources.AdminErrorPageHtml, ex.Message));
                     Response.End();
                 }
             }
@@ -135,7 +135,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 Response.Clear();
                 Response.ContentType = "text/html";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Write(String.Format(CultureInfo.CurrentCulture, AppResources.AdminErrorPageHtml, Server.HtmlEncode(AppResources.SeriousErrorInEventLog)));
+                Response.Write(String.Format(CultureInfo.CurrentUICulture, AppResources.AdminErrorPageHtml, Server.HtmlEncode(AppResources.SeriousErrorInEventLog)));
                 Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(ex);
                 Response.End();
             }

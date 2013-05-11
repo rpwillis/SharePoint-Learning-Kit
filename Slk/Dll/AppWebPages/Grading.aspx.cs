@@ -196,13 +196,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         lblPointsValue.Text = AssignmentProperties.PointsPossible.Value.ToString(Constants.RoundTrip, NumberFormatInfo);
                     }
-                    //lblStartValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate.ToLocalTime());
                     SPTimeZone timeZone = SPWeb.RegionalSettings.TimeZone;
                     lblStartValue.Text = timeZone.UTCToLocalTime(AssignmentProperties.StartDate).ToString("f", SPWeb.Locale);
 
                     if (AssignmentProperties.DueDate.HasValue)
                     {
-                        //lblDueValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.DueDate.Value);
                         lblDueValue.Text = timeZone.UTCToLocalTime(AssignmentProperties.DueDate.Value).ToString("f", SPWeb.Locale);
                     }
                     tblAutoReturn.Visible = AssignmentProperties.AutoReturn;
@@ -244,7 +242,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             script.AppendLine("\t}");
             script.AppendLine("\tif (showMessage)");
             script.Append("\t\treturn confirm(\"");
-            script.AppendFormat(CultureInfo.CurrentCulture, "{0}", AppResources.GradingReactivateMessage);
+            script.AppendFormat(CultureInfo.CurrentUICulture, "{0}", AppResources.GradingReactivateMessage);
             script.AppendLine("\");");
             script.AppendLine("\telse");
             script.AppendLine("\t\treturn true;");
@@ -483,19 +481,19 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             slkButtonCollect.Text = AppResources.GradingCollectText;
             slkButtonCollect.ToolTip = AppResources.GradingCollectToolTip;
-            slkButtonCollect.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');", AppResources.GradingCollectMessage);
+            slkButtonCollect.OnClientClick = String.Format(CultureInfo.CurrentUICulture, "javascript: return confirm('{0}');", AppResources.GradingCollectMessage);
             slkButtonCollect.ImageUrl = Constants.ImagePath + Constants.CollectAllIcon;
             slkButtonCollect.AccessKey = AppResources.GradingCollectAccessKey;
 
             slkButtonReturn.Text = AppResources.GradingReturnText;
             slkButtonReturn.ToolTip = AppResources.GradingReturnToolTip;
-            slkButtonReturn.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');", AppResources.GradingReturnMessage);
+            slkButtonReturn.OnClientClick = String.Format(CultureInfo.CurrentUICulture, "javascript: return confirm('{0}');", AppResources.GradingReturnMessage);
             slkButtonReturn.ImageUrl = Constants.ImagePath + Constants.ReturnAllIcon;
             slkButtonReturn.AccessKey = AppResources.GradingReturnAccessKey;
 
             slkButtonDelete.Text = AppResources.GradingDeleteText;
             slkButtonDelete.ToolTip = AppResources.GradingDeleteToolTip;
-            slkButtonDelete.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');", AppResources.GradingDeleteMessage);
+            slkButtonDelete.OnClientClick = String.Format(CultureInfo.CurrentUICulture, "javascript: return confirm('{0}');", AppResources.GradingDeleteMessage);
             slkButtonDelete.ImageUrl = Constants.ImagePath + Constants.DeleteIcon;
             slkButtonDelete.AccessKey = AppResources.GradingDeleteAccessKey;
 

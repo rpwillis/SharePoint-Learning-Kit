@@ -99,7 +99,7 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
         {
             SlkUtilities.ImpersonateAppPool(delegate()
             {
-                string message = String.Format(CultureInfo.CurrentCulture, AppResources.AppError, String.Format(CultureInfo.CurrentCulture, format, args));
+                string message = String.Format(CultureInfo.CurrentUICulture, AppResources.AppError, String.Format(CultureInfo.CurrentUICulture, format, args));
                 message = message.Replace(@"\n", "\r\n");
                 WriteEvent(message);
             });
@@ -287,7 +287,7 @@ namespace Microsoft.SharePointLearningKit
             :
             base(
                     (args !=  null && args.Length == 0) ? 
-                     format : String.Format(CultureInfo.CurrentCulture, format, args)
+                     format : String.Format(CultureInfo.CurrentUICulture, format, args)
                 )
         {
         }
@@ -363,7 +363,7 @@ namespace Microsoft.SharePointLearningKit
         ///
         internal InternalErrorException(string internalErrorCode)
             :
-            base(String.Format(CultureInfo.CurrentCulture, AppResources.InternalError, internalErrorCode))
+            base(String.Format(CultureInfo.CurrentUICulture, AppResources.InternalError, internalErrorCode))
         {
         }
     }

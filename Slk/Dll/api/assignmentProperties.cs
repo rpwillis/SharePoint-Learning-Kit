@@ -530,7 +530,7 @@ namespace Microsoft.SharePointLearningKit
                     {
                         if (!String.IsNullOrEmpty(organizationNodeReader.Title))
                         {
-                            Title = String.Format(CultureInfo.CurrentCulture, AppResources.SlkPackageAndOrganizationTitle, Title, organizationNodeReader.Title);
+                            Title = String.Format(CultureInfo.CurrentUICulture, AppResources.SlkPackageAndOrganizationTitle, Title, organizationNodeReader.Title);
                         }
                     }
 

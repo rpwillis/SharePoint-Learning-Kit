@@ -500,14 +500,14 @@ namespace Microsoft.SharePointLearningKit.Frameset
                     // If one of the cases that relates to SLK settings is true, then tell user that there are settings
                     // that affect the error
                     if (hasInvalidFileSize || hasInvalidFileAttachment)
-                        message.AppendFormat(CultureInfo.CurrentCulture, "{0}<br><br>", ResHelper.GetMessage(SlkFrameset.CON_InvalidFileAttachmentMsgHtml));
+                        message.AppendFormat(CultureInfo.CurrentUICulture, "{0}<br><br>", ResHelper.GetMessage(SlkFrameset.CON_InvalidFileAttachmentMsgHtml));
 
                     message.Append(FramesetResources.CON_FileAttachmentErrorEndHtml);
 
                     // Add information for the 'Continue' link
                     JScriptString js = new JScriptString(ResHelper.FormatInvariant("API_GetFramesetManager().DoChoice(\"{0}\");",
                                         FramesetUtil.GetStringInvariant(session.CurrentActivityId)));
-                    message.AppendFormat(CultureInfo.CurrentCulture, "<br><br><a href='{0}' >{1}</a>",
+                    message.AppendFormat(CultureInfo.CurrentUICulture, "<br><br><a href='{0}' >{1}</a>",
                                     js.ToJavascriptProtocol(), HttpUtility.HtmlEncode(FramesetResources.HID_ReloadCurrentContent));
 
                     RegisterError(SlkFrameset.CON_InvalidFileAttachmentTitleHtml, message.ToString(), false);

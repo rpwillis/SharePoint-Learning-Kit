@@ -228,7 +228,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (COMException ex)
                 {
-                    throw new DomainGroupEnumerationException(String.Format(CultureInfo.CurrentCulture, AppResources.DomainGroupEnumFailed, "LDAP://" + names.Domain), ex);
+                    throw new DomainGroupEnumerationException(String.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumFailed, "LDAP://" + names.Domain), ex);
                 }
             }
         }

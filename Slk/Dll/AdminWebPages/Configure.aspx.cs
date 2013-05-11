@@ -188,7 +188,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 // administrator, we'll show them the error, but we'll write additional information
                 // (e.g. stack trace) to the event log
                 EnableUi(false, true);
-                LabelErrorMessage.Text = Html(String.Format(CultureInfo.CurrentCulture, AppResources.AdminGenericException, ex.Message));
+                LabelErrorMessage.Text = Html(String.Format(CultureInfo.CurrentUICulture, AppResources.AdminGenericException, ex.Message));
                 SlkError.WriteToEventLog(ex);
             }
         }
@@ -218,7 +218,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 // exception that may contain sensitive information -- since the user is an
                 // administrator, we'll show them the error, but we'll write additional information
                 // (e.g. stack trace) to the event log
-                LabelErrorMessage.Text = Html(String.Format(CultureInfo.CurrentCulture, AppResources.AdminGenericException, ex.Message));
+                LabelErrorMessage.Text = Html(String.Format(CultureInfo.CurrentUICulture, AppResources.AdminGenericException, ex.Message));
                 SlkError.WriteToEventLog(ex);
             }
         }

@@ -192,7 +192,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
     protected override void OnInit(EventArgs e)
     {
-        AppResources.Culture = Thread.CurrentThread.CurrentCulture;
+        AppResources.Culture = Thread.CurrentThread.CurrentUICulture;
         base.OnInit(e);
     }
 
@@ -241,7 +241,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
         StringBuilder result = new StringBuilder(1000);
         foreach (string key in Request.QueryString.Keys)
         {
-            if (String.Compare(key, replacementKey, true, CultureInfo.CurrentCulture) != 0)
+            if (String.Compare(key, replacementKey, true, CultureInfo.InvariantCulture) != 0)
             {
                 result.Append((result.Length == 0) ? '?' : '&');
                 result.Append(HttpUtility.UrlEncode(key));
@@ -366,7 +366,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
         #warning current culture is hard-coded to Icelandic
         CultureInfo cultureInfo = CultureInfo.GetCultureInfo("is-IS");
 #else
-        CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+        CultureInfo cultureInfo = CultureInfo.CurrentUICulture;
 #endif
 
         // this method imagines that today is the day of <dateTime>
