@@ -123,6 +123,9 @@
     <Compile Include="api\Package.cs" />
     <Compile Include="api\PackageInformation.cs" />
     <Compile Include="api\ISlkStore.cs" />
+    <Compile Include="api\IEmailSender.cs" />
+    <Compile Include="api\SharePointEmailer.cs" />
+    <Compile Include="api\AssignmentEmailer.cs" />
     <Compile Include="api\slkMemberships.cs" />
     <Compile Include="api\LearnerAssignmentProperties.cs" />
     <Compile Include="api\assignmentProperties.cs" />

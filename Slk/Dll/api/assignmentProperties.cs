@@ -21,17 +21,15 @@ namespace Microsoft.SharePointLearningKit
     ///
     public class AssignmentProperties
     {
-        SPWeb webWhileSaving;
         bool hasInstructors;
         bool hasInstructorsIsSet;
         bool isSelfAssigned;
+        AssignmentEmailer emailSender;
         SlkUserCollection instructors;
-        List<Email> cachedEmails;
         List<DropBoxUpdate> cachedDropBoxUpdates;
         Dictionary<long, LearnerAssignmentProperties> keyedResults = new Dictionary<long, LearnerAssignmentProperties>();
         Dictionary<long, LearnerAssignmentProperties> userResults = new Dictionary<long, LearnerAssignmentProperties>();
         DropBoxManager dropBoxManager;
-        SPSite site;
 
 #region properties
         /// <summary>The ISlkStore to use.</summary>
@@ -265,29 +263,27 @@ namespace Microsoft.SharePointLearningKit
         {
             if (EmailChanges)
             {
-                using (SPSite site = new SPSite(SPSiteGuid))
+                List<SlkUser> users = new List<SlkUser>();
+
+                foreach (LearnerAssignmentProperties learnerAssignment in keyedResults.Values)
                 {
-                    using (SPWeb web = site.OpenWeb(SPWebGuid))
+                    if (learnerAssignment.Status != null)
                     {
-                        webWhileSaving = web;
-                        List<SlkUser> users = new List<SlkUser>();
-
-                        foreach (LearnerAssignmentProperties learnerAssignment in keyedResults.Values)
+                        switch (learnerAssignment.Status.Value)
                         {
-                            if (learnerAssignment.Status != null)
-                            {
-                                switch (learnerAssignment.Status.Value)
-                                {
-                                    case LearnerAssignmentState.NotStarted:
-                                    case LearnerAssignmentState.Active:
-                                        users.Add(learnerAssignment.User);
-                                        break;
-                                }
-                            }
+                            case LearnerAssignmentState.NotStarted:
+                            case LearnerAssignmentState.Active:
+                                users.Add(learnerAssignment.User);
+                                break;
                         }
+                    }
+                }
 
-                        SendEmail(users, ReminderSubjectText(), ReminderBodyText());
-                        webWhileSaving = null;
+                if (users.Count > 0)
+                {
+                    using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid))
+                    {
+                        emailer.SendReminderEmail(users);
                     }
                 }
             }
@@ -296,11 +292,10 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Starts the batch for saving the results.</summary>
         public void StartResultSaving()
         {
-            cachedEmails = new List<Email>();
             cachedDropBoxUpdates = new List<DropBoxUpdate>();
             Store.StartBatchJobs();
-            site = new SPSite(SPSiteGuid);
-            webWhileSaving = site.OpenWeb(SPWebGuid);
+            emailSender = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid);
+            emailSender.CacheEmails = true;
         }
 
         /// <summary>Completes the batch for saving results.</summary>
@@ -308,30 +303,26 @@ namespace Microsoft.SharePointLearningKit
         {
             Store.EndBatchJobs();
             UpdateCachedDropBox();
-            SendCachedEmails();
-            site.Dispose();
-            webWhileSaving.Dispose();
+            emailSender.Dispose();
         }
 
         /// <summary>Error action on result saving.</summary>
         public void ErrorOnResultSaving()
         {
+            emailSender.ClearCachedEmails();
             Store.CancelBatchJobs();
-            site.Dispose();
-            webWhileSaving.Dispose();
+            emailSender.Dispose();
         }
 
         /// <summary>Sends and email when a learner submits an assignment.</summary>
         /// <param name="name">The name of the learner.</param>
         public void SendSubmitEmail(string name)
         {
-            using (SPSite site = new SPSite(SPSiteGuid))
+            if (EmailChanges)
             {
-                using (SPWeb web = site.OpenWeb(SPWebGuid))
+                using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid))
                 {
-                    webWhileSaving = web;
-                    SendEmail(Instructors, SubmitSubjectText(name), SubmitBodyText(name));
-                    webWhileSaving = null;
+                    emailer.SendSubmitEmail(name);
                 }
             }
         }
@@ -340,47 +331,59 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="learner">The learner being reactivated.</param>
         public void SendReactivateEmail(SlkUser learner)
         {
-            SendEmail(learner, ReactivateSubjectText(), ReactivateBodyText());
+            if (EmailChanges)
+            {
+                using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid))
+                {
+                    emailer.SendReactivateEmail(learner);
+                }
+            }
         }
 
         /// <summary>Sends an email when an assignment is returned.</summary>
         /// <param name="learner">The learner being returned.</param>
         public void SendReturnEmail(SlkUser learner)
         {
-            SendEmail(learner, ReturnSubjectText(), ReturnBodyText());
+            if (EmailChanges)
+            {
+                using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid))
+                {
+                    emailer.SendReturnEmail(learner);
+                }
+            }
         }
 
         /// <summary>Sends an email when an assignment is collected.</summary>
         /// <param name="learner">The learner being collected.</param>
         public void SendCollectEmail(SlkUser learner)
         {
-            SendEmail(learner, CollectSubjectText(), CollectBodyText());
+            if (EmailChanges)
+            {
+                using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid))
+                {
+                    emailer.SendCollectEmail(learner);
+                }
+            }
         }
 
         /// <summary>Deletes the assignment.</summary>
         public void Delete(SPWeb web)
         {
-            webWhileSaving = web;
+            Store.DeleteAssignment(Id);
 
-            try
+            if (EmailChanges)
             {
-                Store.DeleteAssignment(Id);
-
-                if (EmailChanges)
+                using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, web))
                 {
-                    SendEmail(Learners, CancelSubjectText(), CancelBodyText());
-                }
-
-                //Delete corresponding assignment folder from the drop box if exists
-                if (IsNonELearning)
-                {
-                    DropBoxManager dropBoxManager = new DropBoxManager(this);
-                    dropBoxManager.DeleteAssignmentFolder();
+                    emailer.SendCancelEmail(Learners);
                 }
             }
-            finally
+
+            //Delete corresponding assignment folder from the drop box if exists
+            if (IsNonELearning)
             {
-                webWhileSaving = null;
+                DropBoxManager dropBoxManager = new DropBoxManager(this);
+                dropBoxManager.DeleteAssignmentFolder();
             }
         }
 
@@ -416,22 +419,13 @@ namespace Microsoft.SharePointLearningKit
                 throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
             }
 
-            webWhileSaving = web;
-
-            try
+            if (Id == null)
             {
-                if (Id == null)
-                {
-                    SaveNewAssignment(web, slkRole);
-                }
-                else
-                {
-                    UpdateAssignment();
-                }
+                SaveNewAssignment(web, slkRole);
             }
-            finally
+            else
             {
-                webWhileSaving = null;
+                UpdateAssignment(web);
             }
         }
 
@@ -650,7 +644,7 @@ namespace Microsoft.SharePointLearningKit
             Location = properties.Location;
         }
 
-        void UpdateAssignment()
+        void UpdateAssignment(SPWeb web)
         {
             AssignmentProperties oldProperties = Store.LoadAssignmentProperties(Id, SlkRole.Instructor);
             CopyInvariantProperties(oldProperties);
@@ -680,231 +674,12 @@ namespace Microsoft.SharePointLearningKit
 
                 if (EmailChanges)
                 {
-                    SendUpdateEmail(learnerChanges);
+                    using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, web))
+                    {
+                        emailer.SendNewEmail(learnerChanges.Additions);
+                        emailer.SendCancelEmail(learnerChanges.Removals);
+                    }
                 }
-            }
-        }
-
-        void SendUpdateEmail(SlkUserCollectionChanges learnerChanges)
-        {
-            SendNewEmail(learnerChanges.Additions);
-            SendEmail(learnerChanges.Removals, CancelSubjectText(), CancelBodyText());
-        }
-
-        void SendNewEmail()
-        {
-            SendNewEmail(Learners);
-        }
-
-        string SubmitSubjectText(string name)
-        {
-            string subject = null;
-            EmailSettings settings = Store.Settings.EmailSettings;
-            if (settings != null && settings.SubmitAssignment != null)
-            {
-                subject = settings.SubmitAssignment.Subject;
-            }
-            else
-            {
-                subject = AppResources.SubmitAssignmentEmailDefaultSubject;
-            }
-
-            return EmailText(subject, name);
-        }
-
-        EmailDetails EmailDetails(EmailType type)
-        {
-            EmailSettings settings = Store.Settings.EmailSettings;
-            if (settings != null)
-            {
-                return settings[type];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        string BodyText(EmailType type, string defaultText)
-        {
-            string body = null;
-
-            EmailDetails details = EmailDetails(type);
-
-            if (details != null)
-            {
-                body = details.Body;
-            }
-            else
-            {
-                body = defaultText;
-            }
-
-            return EmailText(body);
-        }
-
-        string SubjectText(EmailType type, string defaultText)
-        {
-            string subject = null;
-            EmailDetails details = EmailDetails(type);
-
-            if (details != null)
-            {
-                subject = details.Subject;
-            }
-            else
-            {
-                subject = defaultText;
-            }
-
-            return EmailText(subject);
-        }
-
-        string ReturnSubjectText()
-        {
-            return SubjectText(EmailType.Return, AppResources.ReturnAssignmentEmailDefaultSubject);
-        }
-
-        string ReturnBodyText()
-        {
-            return BodyText(EmailType.Return, AppResources.ReturnAssignmentEmailDefaultBody);
-        }
-
-        string ReactivateSubjectText()
-        {
-            return SubjectText(EmailType.Reactivate, AppResources.ReactivateAssignmentEmailDefaultSubject);
-        }
-
-        string ReactivateBodyText()
-        {
-            return BodyText(EmailType.Reactivate, AppResources.ReactivateAssignmentEmailDefaultBody);
-        }
-
-        string CollectSubjectText()
-        {
-            return SubjectText(EmailType.Collect, AppResources.CollectAssignmentEmailDefaultSubject);
-        }
-
-        string CollectBodyText()
-        {
-            return BodyText(EmailType.Collect, AppResources.CollectAssignmentEmailDefaultBody);
-        }
-
-        string ReminderSubjectText()
-        {
-            return SubjectText(EmailType.Reminder, AppResources.AssignmentReminderEmailDefaultSubject);
-        }
-
-        string ReminderBodyText()
-        {
-            string body = BodyText(EmailType.Reminder, AppResources.AssignmentReminderEmailDefaultBody);
-            if (DueDate != null)
-            {
-                body = body.Replace("%due%", DueDate.Value.ToString("f", webWhileSaving.Locale));
-            }
-
-            return body;
-        }
-
-
-        string CancelSubjectText()
-        {
-            return SubjectText(EmailType.Cancel, AppResources.CancelAssignmentEmailDefaultSubject);
-        }
-
-        string CancelBodyText()
-        {
-            return BodyText(EmailType.Cancel, AppResources.CancelAssignmentEmailDefaultBody);
-        }
-
-        string SubmitBodyText(string name)
-        {
-            string body = null;
-            EmailSettings settings = Store.Settings.EmailSettings;
-            if (settings != null && settings.SubmitAssignment != null)
-            {
-                body = settings.SubmitAssignment.Body;
-            }
-            else
-            {
-                body = AppResources.SubmitAssignmentEmailDefaultBody;
-            }
-
-            return EmailText(body, name);
-        }
-
-        string NewSubjectText()
-        {
-            string subject = null;
-            EmailSettings settings = Store.Settings.EmailSettings;
-            if (settings != null && settings.NewAssignment != null)
-            {
-                subject = settings.NewAssignment.Subject;
-            }
-            else
-            {
-                subject = AppResources.NewAssignmentEmailDefaultSubject;
-            }
-
-            return EmailText(subject);
-        }
-
-        string NewBodyText()
-        {
-            string body = null;
-            EmailSettings settings = Store.Settings.EmailSettings;
-            if (settings != null && settings.NewAssignment != null)
-            {
-                body = settings.NewAssignment.Body;
-            }
-            else
-            {
-                body = AppResources.NewAssignmentEmailDefaultBody;
-            }
-
-            return EmailText(body);
-        }
-
-        void SendNewEmail(IEnumerable<SlkUser> toSend)
-        {
-            string subject = NewSubjectText();
-            string body = NewBodyText();    // This is the format string as it probably contains a url placeholder which will be learner specific
-            SendEmail(toSend, subject, body);
-        }
-
-        void SendEmail(IEnumerable<SlkUser> toSend, string subject, string body)
-        {
-            foreach (SlkUser user in toSend)
-            {
-                SendEmail(user, subject, body);
-            }
-        }
-
-        void SendEmail(SlkUser user, string subject, string body)
-        {
-            if (user.SPUser != null && string.IsNullOrEmpty(user.SPUser.Email) == false)
-            {
-                SendEmail(user.SPUser.Email, subject, UserEmailText(body, user));
-            }
-        }
-
-        void SendEmail(string emailAddress, string subject, string body)
-        {
-            if (cachedEmails != null)
-            {
-                cachedEmails.Add(new Email(emailAddress, subject, body));
-            }
-            else
-            {
-                SPUtility.SendEmail(webWhileSaving, false, false, emailAddress, subject, body);
-            }
-        }
-
-        void SendCachedEmails()
-        {
-            foreach (Email email in cachedEmails)
-            {
-                SPUtility.SendEmail(webWhileSaving, false, false, email.Address, email.Subject, email.Body);
             }
         }
 
@@ -917,45 +692,6 @@ namespace Microsoft.SharePointLearningKit
             }
 
             dropBoxManager = null;
-        }
-
-        string UserEmailText(string baseText, SlkUser user)
-        {
-            string text = baseText;
-
-            if (text.Contains("%url%"))
-            {
-                string url = "{0}/_layouts/SharePointLearningKit/Lobby.aspx?LearnerAssignmentId={1}";
-                url = string.Format(CultureInfo.InvariantCulture, url, webWhileSaving.Url, user.AssignmentUserGuidId);
-                text = text.Replace("%url%", url);
-            }
-
-            if (text.Contains("%gradingUrl%"))
-            {
-                string url = "{0}/_layouts/SharePointLearningKit/grading.aspx?AssignmentId={1}";
-                url = string.Format(CultureInfo.InvariantCulture, url, webWhileSaving.Url, Id.GetKey());
-                text = text.Replace("%gradingUrl%", url);
-            }
-
-            return text;
-        }
-
-        string EmailText(string baseText)
-        {
-            return EmailText(baseText, null);
-        }
-
-        string EmailText(string baseText, string name)
-        {
-            string toReturn = baseText.Replace("%title%", Title);
-            toReturn = toReturn.Replace("%description%", Description);
-
-            if (string.IsNullOrEmpty(name) == false)
-            {
-                toReturn = toReturn.Replace("%name%", name);
-            }
-
-            return toReturn;
         }
 
         void SaveNewAssignment(SPWeb web, SlkRole slkRole)
@@ -993,7 +729,10 @@ namespace Microsoft.SharePointLearningKit
 
             if (EmailChanges)
             {
-                SendNewEmail();
+                using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, web))
+                {
+                    emailer.SendNewEmail(Learners);
+                }
             }
         }
 
@@ -1026,13 +765,11 @@ namespace Microsoft.SharePointLearningKit
             // only learner
             if (Instructors.Count != 0)
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Instructors {0}", Instructors.Count);
                 throw new UnauthorizedAccessException(AppResources.InvalidSelfAssignment);
             }
 
             if ((Learners.Count != 1) || (Learners[0].UserId != currentUserId))
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("learners {0} {1} {2}", Learners.Count, currentUserId, Learners[0].UserId);
                 throw new UnauthorizedAccessException(AppResources.InvalidSelfAssignment);
             }
         }
@@ -1186,22 +923,6 @@ namespace Microsoft.SharePointLearningKit
             return store.LoadSelfAssignmentForLocation(location);
         }
 #endregion public static methods
-
-#region Email
-        class Email
-        {
-            public string Address { get; private set; }
-            public string Subject { get; private set; }
-            public string Body { get; private set; }
-
-            public Email(string address, string subject, string body)
-            {
-                Address = address;
-                Subject = subject;
-                Body = body;
-            }
-        }
-#endregion Email
 
 #region DropBoxUpdate
         class DropBoxUpdate
