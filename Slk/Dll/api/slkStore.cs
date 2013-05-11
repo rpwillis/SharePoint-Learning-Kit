@@ -698,7 +698,7 @@ namespace Microsoft.SharePointLearningKit
             // Verify that the user is an instructor
             if (!IsInstructor(spWeb))
             {
-                throw new NotAnInstructorException(String.Format(CultureInfo.CurrentCulture,AppResources.SlkExInstructorPermissonNotFound, spWeb.Title));
+                throw new NotAnInstructorException(String.Format(CultureInfo.CurrentUICulture,AppResources.SlkExInstructorPermissonNotFound, spWeb.Title));
             }
         }
 
@@ -971,7 +971,7 @@ namespace Microsoft.SharePointLearningKit
                 // this error message includes the assignment ID, but that's okay since
                 // the information we provide does not allow the user to distinguish between the
                 // assignment not existing and the user not having access to it
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.AssignmentNotFoundInDatabase, id.GetKey()));
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, AppResources.AssignmentNotFoundInDatabase, id.GetKey()));
             }
         }
 
@@ -1009,7 +1009,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 // this error message includes the assignment ID, but that's okay since the information we provide does not allow the user to distinguish between the
                 // assignment not existing and the user not having access to it
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
             }
 
             // retrieve from <resultEnumerator> information requested by BeginGetAssignmentProperties()
@@ -1119,7 +1119,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     // this error message includes the package ID, but that package ID came from
                     // another API call (above) -- it's pretty unlikely the user will see it
-                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.PackageNotFoundInDatabase, packageId.GetKey()));
+                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, AppResources.PackageNotFoundInDatabase, packageId.GetKey()));
                 }
 
                 if ((organizationIndex < 0) || (organizationIndex >= result.Count))
@@ -1271,12 +1271,12 @@ namespace Microsoft.SharePointLearningKit
             {
                 // if the user doesn't have access, LearningStoreItemNotFoundException isn't thrown --
                 // instead, LearningStoreSecurityException is thrown            
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
             }
             catch (LearningStoreSecurityException)
             {
                 //User doesn't have access
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
             }
         }
 
@@ -1373,7 +1373,7 @@ namespace Microsoft.SharePointLearningKit
                     }
                     catch(LearningStoreSecurityException)
                     {
-                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture,
                             AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                     }
                     if (dataRows.Count != 1)
@@ -1382,7 +1382,7 @@ namespace Microsoft.SharePointLearningKit
                         // very unlikely the user will see this since security rules would have
                         // prevented code from getting this far if the learner assignment couldn't
                         // be found in the database
-                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, 
+                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, 
                             AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                     }
                     DataRow dataRow = dataRows[0];
@@ -1466,7 +1466,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (LearningStoreSecurityException)
                 {
-                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture,
                         AppResources.LearnerAssignmentNotFoundInDatabase,
                             learnerAssignmentId.GetKey()));
                 }
@@ -1476,7 +1476,7 @@ namespace Microsoft.SharePointLearningKit
                     // this error message includes the learner assignment ID, but that's okay since
                     // the information we provide does not allow the user to distinguish between the
                     // learner assignment not existing and the user not having access to it
-                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture,
                         AppResources.LearnerAssignmentNotFoundInDatabase,
                             learnerAssignmentId.GetKey()));
                 }
@@ -1565,7 +1565,7 @@ namespace Microsoft.SharePointLearningKit
                 // this error message includes the assignment ID, but that's okay since
                 // the information we provide does not allow the user to distinguish between the
                 // assignment not existing and the user not having access to it
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
             }        
 
             IEnumerator<object> resultEnumerator = results.GetEnumerator();
@@ -1641,7 +1641,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (LearningStoreSecurityException)
                 {
-                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture,
                         AppResources.LearnerAssignmentNotFoundInDatabase,
                             learnerAssignmentGuidId.ToString()));
                 }
@@ -1650,7 +1650,7 @@ namespace Microsoft.SharePointLearningKit
                     // this error message includes the learner assignment ID, but that's okay since
                     // the information we provide does not allow the user to distinguish between the
                     // learner assignment not existing and the user not having access to it
-                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture,
                         AppResources.LearnerAssignmentNotFoundInDatabase,
                             learnerAssignmentGuidId.ToString()));
                 }
@@ -1662,7 +1662,7 @@ namespace Microsoft.SharePointLearningKit
 
                 // Only valid if we are in the completed or final state
                 if ((status != LearnerAssignmentState.Completed) && (status != LearnerAssignmentState.Final))
-                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture,
                         AppResources.LearnerAssignmentNotInCorrectStateForFinish));
 
                 // We've verified that the user has the correct right, so do everything else
@@ -1743,7 +1743,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (LearningStoreSecurityException)
                 {
-                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture,
                         AppResources.LearnerAssignmentNotFoundInDatabase,
                             learnerAssignmentGuidId.ToString()));
                 }
@@ -1752,7 +1752,7 @@ namespace Microsoft.SharePointLearningKit
                     // this error message includes the learner assignment ID, but that's okay since
                     // the information we provide does not allow the user to distinguish between the
                     // learner assignment not existing and the user not having access to it
-                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                    throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture,
                         AppResources.LearnerAssignmentNotFoundInDatabase,
                             learnerAssignmentGuidId.ToString()));
                 }
@@ -1936,7 +1936,7 @@ namespace Microsoft.SharePointLearningKit
                     }
                     catch(LearningStoreSecurityException)
                     {
-                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture,
                             AppResources.LearnerAssignmentNotFoundInDatabase,
                                 learnerAssignmentGuidId.ToString()));
                     }
@@ -1945,7 +1945,7 @@ namespace Microsoft.SharePointLearningKit
                         // this error message includes the learner assignment ID, but that's okay since
                         // the information we provide does not allow the user to distinguish between the
                         // learner assignment not existing and the user not having access to it
-                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture,
                             AppResources.LearnerAssignmentNotFoundInDatabase,
                                 learnerAssignmentGuidId.ToString()));
                     }
@@ -1958,7 +1958,7 @@ namespace Microsoft.SharePointLearningKit
 
                     // Only valid if there's an attempt and we are in the completed state
                     if((rootActivityId == null) || (status != LearnerAssignmentState.Completed))                
-                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture,
+                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture,
                             AppResources.LearnerAssignmentNotInCorrectStateForFinish));
 
                     // create another LearningStore job
@@ -2218,7 +2218,7 @@ namespace Microsoft.SharePointLearningKit
                 // this error message includes the assignment ID, but that's okay since
                 // the information we provide does not allow the user to distinguish between the
                 // assignment not existing and the user not having access to it
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
             }
             DataRow dataRow = dataRows[0];
 

@@ -376,14 +376,14 @@ public class QueryDefinition
                     else
                         cellSortKey = cellValue;
                     if (columnDefinition.ToolTipFormat != null)
-                        cellToolTip = String.Format(CultureInfo.CurrentCulture, columnDefinition.ToolTipFormat, cellValue);
+                        cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat, cellValue);
                     else
                         cellToolTip = null;
                     if (columnDefinition.CellFormat != null)
                     {
                         text = FormatValue(cellValue, columnDefinition.CellFormat);
                         cellValue = text;
-                        cellSortKey = text.ToLower(CultureInfo.CurrentCulture);
+                        cellSortKey = text.ToLower(CultureInfo.CurrentUICulture);
                     }
                 }
                 break;
@@ -415,7 +415,7 @@ public class QueryDefinition
                         cellValue = FormatValue(dateTime, columnDefinition.CellFormat);
                     cellId = null;
                     if (columnDefinition.ToolTipFormat != null)
-                        cellToolTip = String.Format(CultureInfo.CurrentCulture, columnDefinition.ToolTipFormat, dateTime);
+                        cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat, dateTime);
                     else
                         cellToolTip = null;
                 }
@@ -434,10 +434,10 @@ public class QueryDefinition
                 if (text == null)
                     text = cellWebGuid.Value.ToString();
                 cellValue = text;
-                cellSortKey = text.ToLower(CultureInfo.CurrentCulture);
+                cellSortKey = text.ToLower(CultureInfo.CurrentUICulture);
                 cellId = null;
                 if (columnDefinition.ToolTipFormat != null)
-                    cellToolTip = String.Format(CultureInfo.CurrentCulture, columnDefinition.ToolTipFormat, text);
+                    cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat, text);
                 else
                     cellToolTip = null;
                 break;
@@ -449,9 +449,9 @@ public class QueryDefinition
                 cellId = GetQueryCell<LearningStoreItemIdentifier>(dataRow, columnMap,
                     columnDefinition, iColumnDefinition, 1);
                 cellValue = text;
-                cellSortKey = text.ToLower(CultureInfo.CurrentCulture);
+                cellSortKey = text.ToLower(CultureInfo.CurrentUICulture);
                 if (columnDefinition.ToolTipFormat != null)
-                    cellToolTip = String.Format(CultureInfo.CurrentCulture, columnDefinition.ToolTipFormat, text);
+                    cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat, text);
                 else
                     cellToolTip = null;
                 break;
@@ -467,7 +467,7 @@ public class QueryDefinition
                 cellSortKey = learnerAssignmentState;
                 cellId = null;
                 if (columnDefinition.ToolTipFormat != null)
-                    cellToolTip = String.Format(CultureInfo.CurrentCulture, columnDefinition.ToolTipFormat, text);
+                    cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat, text);
                 else
                     cellToolTip = null;
                 break;
@@ -490,8 +490,8 @@ public class QueryDefinition
                 if (!noFinalPoints)
                 {
                     // FinalPoints is not NULL
-                    text = string.Format(CultureInfo.CurrentCulture, AppResources.SlkUtilitiesPointsValue, FormatValue(finalPointsRounded, columnDefinition.CellFormat));
-                    textNotRounded = string.Format(CultureInfo.CurrentCulture, AppResources.SlkUtilitiesPointsValue, finalPoints);
+                    text = string.Format(CultureInfo.CurrentUICulture, AppResources.SlkUtilitiesPointsValue, FormatValue(finalPointsRounded, columnDefinition.CellFormat));
+                    textNotRounded = string.Format(CultureInfo.CurrentUICulture, AppResources.SlkUtilitiesPointsValue, finalPoints);
                 }
                 else
                 {
@@ -502,9 +502,9 @@ public class QueryDefinition
                 if (!noPointsPossible)
                 {
                     // PointsPossible is not NULL
-                    text = String.Format(CultureInfo.CurrentCulture, AppResources.SlkUtilitiesPointsPossible, text,
+                    text = String.Format(CultureInfo.CurrentUICulture, AppResources.SlkUtilitiesPointsPossible, text,
                         FormatValue(pointsPossibleRounded, columnDefinition.CellFormat));
-                    textNotRounded = String.Format(CultureInfo.CurrentCulture, AppResources.SlkUtilitiesPointsPossible, textNotRounded,
+                    textNotRounded = String.Format(CultureInfo.CurrentUICulture, AppResources.SlkUtilitiesPointsPossible, textNotRounded,
                         pointsPossible);
                 }
                 cellValue = text;
@@ -512,7 +512,7 @@ public class QueryDefinition
                 if ((columnDefinition.ToolTipFormat != null) &&
                     (!noFinalPoints || !noPointsPossible))
                 {
-                    cellToolTip = String.Format(CultureInfo.CurrentCulture, columnDefinition.ToolTipFormat,
+                    cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat,
                         textNotRounded);
                 }
                 else
@@ -536,7 +536,7 @@ public class QueryDefinition
                     iColumnDefinition, 0);
                 int countTotal = GetQueryCell<int>(dataRow, columnMap, columnDefinition,
                     iColumnDefinition, 1);
-                text = String.Format(CultureInfo.CurrentCulture, AppResources.SlkUtilitiesSubmitted, countCompletedOrFinal, countTotal);
+                text = String.Format(CultureInfo.CurrentUICulture, AppResources.SlkUtilitiesSubmitted, countCompletedOrFinal, countTotal);
                 cellValue = text;
                 cellId = null;
                 cellToolTip = null;

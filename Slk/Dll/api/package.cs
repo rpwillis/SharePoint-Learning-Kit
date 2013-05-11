@@ -45,7 +45,7 @@ namespace Microsoft.SharePointLearningKit
             }
             catch (InvalidPackageException ex)
             {
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentCulture, Resources.Properties.AppResources.PackageNotValid, ex.Message));
+                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, Resources.Properties.AppResources.PackageNotValid, ex.Message));
             }
         }
 #endregion constructors
@@ -122,7 +122,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 else 
                 {
-                    string titleFromMetadata = metadataReader.GetTitle(CultureInfo.CurrentCulture);
+                    string titleFromMetadata = metadataReader.GetTitle(CultureInfo.CurrentUICulture);
                     if (string.IsNullOrEmpty(titleFromMetadata) == false)
                     {
                         Title = titleFromMetadata;
@@ -134,7 +134,7 @@ namespace Microsoft.SharePointLearningKit
                 }
 
                 // set description to the package description specified in metadata, or null if none
-                IList<string> descriptions = metadataReader.GetDescriptions(CultureInfo.CurrentCulture);
+                IList<string> descriptions = metadataReader.GetDescriptions(CultureInfo.CurrentUICulture);
                 if (descriptions.Count > 0)
                 {
                     Description = descriptions[0];
@@ -172,7 +172,7 @@ namespace Microsoft.SharePointLearningKit
                 if (log.HasErrors)
                 {
                     // Shouldn't have any since enforcing errors.
-                    throw new SafeToDisplayException(log, String.Format(CultureInfo.CurrentCulture, Resources.Properties.AppResources.PackageNotValid, string.Empty));
+                    throw new SafeToDisplayException(log, String.Format(CultureInfo.CurrentUICulture, Resources.Properties.AppResources.PackageNotValid, string.Empty));
                 }
                 else if (log.HasWarnings)
                 {

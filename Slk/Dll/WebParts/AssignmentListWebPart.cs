@@ -198,7 +198,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         public AssignmentListWebPart()
         {
             // Set the culture for the resources
-            AppResources.Culture = Thread.CurrentThread.CurrentCulture;
+            AppResources.Culture = Thread.CurrentThread.CurrentUICulture;
 
             // Initialize private variables.
 
@@ -210,9 +210,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             this.Description = AppResources.AlwpWepPartDescription;
 
-            this.ToolTip = String.Format(CultureInfo.CurrentCulture, 
-                                         AppResources.AlwpWepPartToolTipFormat, 
-                                         this.Title, this.Description);
+            this.ToolTip = String.Format(CultureInfo.CurrentUICulture, AppResources.AlwpWepPartToolTipFormat, this.Title, this.Description);
 
         }
         #endregion

@@ -195,7 +195,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         protected override void OnInit(EventArgs e)
         {
-            SlkFrameset.Culture = Thread.CurrentThread.CurrentCulture;
+            SlkFrameset.Culture = Thread.CurrentThread.CurrentUICulture;
             base.OnInit(e);
         }
 

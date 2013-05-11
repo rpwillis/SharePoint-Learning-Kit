@@ -58,7 +58,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             sb.Append(UrlCombine(SPWeb.Url, "_layouts/SharePointLearningKit/Frameset/Frameset.aspx", HttpUtility.UrlPathEncode(fileName)));
 
             // Append query parameters
-            sb.AppendFormat(CultureInfo.CurrentCulture, "?{0}={1}&{2}={3}", 
+            sb.AppendFormat(CultureInfo.InvariantCulture, "?{0}={1}&{2}={3}", 
                     FramesetQueryParameter.LearnerAssignmentId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId), 
                     FramesetQueryParameter.SlkView, FramesetQueryParameter.GetValueAsParameter(AssignmentView));
 

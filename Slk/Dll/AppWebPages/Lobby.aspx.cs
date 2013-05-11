@@ -323,11 +323,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         if (AssignmentProperties.PointsPossible.HasValue)
                         {
-                            lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsNoValuePointsPossible, AssignmentProperties.PointsPossible);
+                            lblScoreValue.Text = string.Format(CultureInfo.CurrentUICulture, AppResources.LobbyPointsNoValuePointsPossible, AssignmentProperties.PointsPossible);
                         }
                         else
                         {
-                            lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsNoValue, LearnerAssignmentProperties.FinalPoints);
+                            lblScoreValue.Text = string.Format(CultureInfo.CurrentUICulture, AppResources.LobbyPointsNoValue, LearnerAssignmentProperties.FinalPoints);
                         }
                     }
                     else
@@ -337,9 +337,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             finalPoints = LearnerAssignmentProperties.FinalPoints.Value.ToString(CultureInfo.CurrentCulture);
 
                         if (AssignmentProperties.PointsPossible.HasValue)
-                            lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsValuePointsPossible, finalPoints, AssignmentProperties.PointsPossible);
+                            lblScoreValue.Text = string.Format(CultureInfo.CurrentUICulture, AppResources.LobbyPointsValuePointsPossible, finalPoints, AssignmentProperties.PointsPossible);
                         else
-                            lblScoreValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LobbyPointsValue, finalPoints);
+                            lblScoreValue.Text = string.Format(CultureInfo.CurrentUICulture, AppResources.LobbyPointsValue, finalPoints);
                     }
                 }
 
@@ -352,9 +352,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     rowGrade.Visible = false;
                 }
 
-                lblStartValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LongDateShortTime, AssignmentProperties.StartDate);
+                lblStartValue.Text = string.Format(CultureInfo.CurrentUICulture, AppResources.LongDateShortTime, AssignmentProperties.StartDate);
                 if (AssignmentProperties.DueDate.HasValue)
-                    lblDueValue.Text = string.Format(CultureInfo.CurrentCulture, AppResources.LongDateShortTime, AssignmentProperties.DueDate.Value);
+                    lblDueValue.Text = string.Format(CultureInfo.CurrentUICulture, AppResources.LongDateShortTime, AssignmentProperties.DueDate.Value);
 
                 if (LearnerAssignmentProperties.InstructorComments.Length != 0)
                     lblCommentsValue.Text = SlkUtilities.GetCrlfHtmlEncodedText(LearnerAssignmentProperties.InstructorComments);
@@ -400,7 +400,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     slkButtonDelete.Text = AppResources.LobbyDeleteAssignmentText;
                     slkButtonDelete.ToolTip = AppResources.LobbyDeleteToolTip;
-                    slkButtonDelete.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');",
+                    slkButtonDelete.OnClientClick = String.Format(CultureInfo.CurrentUICulture, "javascript: return confirm('{0}');",
                         AppResources.LobbyDeleteMessage);
                     slkButtonDelete.ImageUrl = Constants.ImagePath + Constants.DeleteIcon;
                 }
@@ -414,14 +414,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     slkButtonSubmit.Text = AppResources.LobbySubmitText;
                     slkButtonSubmit.ToolTip = AppResources.LobbySubmitToolTip;
-                    slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');", AppResources.LobbySubmitMessage);
+                    slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentUICulture, "javascript: return confirm('{0}');", AppResources.LobbySubmitMessage);
                     slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.SubmitIcon;
                 }
                 else
                 {
                     slkButtonSubmit.Text = AppResources.LobbyMarkasCompleteText;
                     slkButtonSubmit.ToolTip = AppResources.LobbyMarkasCompleteToolTip;
-                    slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentCulture, "javascript: return confirm('{0}');", AppResources.LobbyMarkasCompleteMessage);
+                    slkButtonSubmit.OnClientClick = String.Format(CultureInfo.CurrentUICulture, "javascript: return confirm('{0}');", AppResources.LobbyMarkasCompleteMessage);
                     slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.MarkCompleteIcon;
                 }
 
@@ -577,7 +577,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (assignmentFiles.Length != 1)
                 {
                     string onClickUrl = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", SPWeb.Url, LearnerAssignmentGuidId.ToString());
-                    slkButtonReviewSubmitted.OnClientClick = String.Format(CultureInfo.CurrentCulture, "window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable'); ", onClickUrl);
+                    slkButtonReviewSubmitted.OnClientClick = String.Format(CultureInfo.InvariantCulture, "window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable'); ", onClickUrl);
                 }
                 else
                 {
@@ -716,7 +716,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             lblAutoReturn.Text = AppResources.LobbylblAutoReturn;
             infoImage.AlternateText = AppResources.SlkErrorTypeInfoToolTip;
             ClientScript.RegisterClientScriptBlock(this.GetType(), "SlkWindowAlreadyOpen",
-            string.Format(CultureInfo.CurrentCulture, "var SlkWindowAlreadyOpen = \"{0}\";", AppResources.LobbyWindowAlreadyOpen), true);
+            string.Format(CultureInfo.CurrentUICulture, "var SlkWindowAlreadyOpen = \"{0}\";", AppResources.LobbyWindowAlreadyOpen), true);
         }
 
         /// <summary> Generates the url to view the submitted files. </summary>

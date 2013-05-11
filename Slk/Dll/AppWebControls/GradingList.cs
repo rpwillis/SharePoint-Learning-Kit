@@ -534,7 +534,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                         gradedScore.Attributes.Add("ToolTipText", AppResources.GradingScoreToolTip);
                         if (item.GradedScore != null)
                         {
-                            string text = String.Format(CultureInfo.CurrentCulture, AppResources.GradingGradedScore, item.GradedScore.Value);
+                            string text = String.Format(CultureInfo.CurrentUICulture, AppResources.GradingGradedScore, item.GradedScore.Value);
                             if (isHyperLink)
                             {
                                 HyperLink link = (HyperLink)gradedScore;
@@ -548,7 +548,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
                             //Tool Tip for Graded Score 
                             //Similar to <Computed points with full precision> Points.
-                            gradedScore.ToolTip = String.Format(CultureInfo.CurrentCulture, AppResources.GradingGradedScoreToolTip, item.GradedScore.Value, AppResources.GradingScoreToolTip);
+                            gradedScore.ToolTip = String.Format(CultureInfo.CurrentUICulture, AppResources.GradingGradedScoreToolTip, item.GradedScore.Value, AppResources.GradingScoreToolTip);
                         }
                         else
                         {
@@ -1166,9 +1166,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                           break    
                         case 6:
                             var isOverride = confirm(""" +
-                String.Format(CultureInfo.CurrentCulture,
-                              AppResources.GradingConfirmOverrideFinalPoints,
-                              "\"+ modifiedGradedPoints +\"") + @""");");
+                String.Format(CultureInfo.CurrentUICulture, AppResources.GradingConfirmOverrideFinalPoints, "\"+ modifiedGradedPoints +\"") + @""");");
                 csGradingClientScript.AppendLine(@"
                             if(isOverride)
                             {

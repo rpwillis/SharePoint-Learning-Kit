@@ -397,7 +397,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
                 {
                     hw.AddAttribute(HtmlTextWriterAttribute.Id,
-                                    String.Format(CultureInfo.CurrentCulture, 
+                                    String.Format(CultureInfo.InvariantCulture, 
                                                   "QueryLabelA{0}",
                                                   queryIndex));
                     hw.AddAttribute(HtmlTextWriterAttribute.Href, "javascript:");
@@ -417,7 +417,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
                 {
                     hw.AddAttribute(HtmlTextWriterAttribute.Id,
-                                    String.Format(CultureInfo.CurrentCulture,
+                                    String.Format(CultureInfo.InvariantCulture,
                                     "QueryCountA{0}",
                                     queryIndex));
                     hw.AddAttribute(HtmlTextWriterAttribute.Href, "javascript:");
@@ -461,7 +461,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // write query count cell
                 hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
                 hw.AddAttribute(HtmlTextWriterAttribute.Id,
-                                String.Format(CultureInfo.CurrentCulture, 
+                                String.Format(CultureInfo.InvariantCulture, 
                                               "QueryCountBorderBottom{0}",
                                               queryIndex));
                 HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
