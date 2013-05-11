@@ -492,13 +492,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             catch (SafeToDisplayException e)
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("AssignToSelf {0}", e);
                 errorBanner.Clear();
                 errorBanner.AddError(ErrorType.Error, e.Message);
             }
             catch (Exception ex)
             {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("AssignToSelf {0}", ex);
                 contentPanel.Visible = false;
                 errorBanner.AddException(ex);
             }
