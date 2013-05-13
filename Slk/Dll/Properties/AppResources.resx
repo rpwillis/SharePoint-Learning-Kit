@@ -1414,6 +1414,89 @@ More information may be available in the server event log.</value>
   <data name="AlwpFileSubmissionSubmitText" xml:space="preserve">
     <value>Submit File(s)</value>
   </data>
+
+  <data name="QueryTitleOverdue" xml:space="preserve">
+    <value>Overdue</value>
+  </data>
+  <data name="QueryColumnTitleSite" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="QueryColumnTitleAssignment" xml:space="preserve">
+    <value>Assignment</value>
+  </data>
+  <data name="QueryColumnTitleDue" xml:space="preserve">
+    <value>Due</value>
+  </data>
+  <data name="QueryColumnTitleStatus" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="QueryColumnTitleScore" xml:space="preserve">
+    <value>Score</value>
+  </data>
+  <data name="QueryColumnTitleSubmitted" xml:space="preserve">
+    <value>Submitted</value>
+  </data>
+  <data name="QueryColumnTitleAverage" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="QueryColumnTitleFileSubmission" xml:space="preserve">
+    <value>File Submission</value>
+  </data>
+  <data name="QueryColumnNullDisplayUntitled" xml:space="preserve">
+    <value>Untitled</value>
+  </data>
+  <data name="QueryColumnNullDisplayDash" xml:space="preserve">
+    <value>--</value>
+  </data>
+  <data name="QueryColumnToolTipScore" xml:space="preserve">
+      <value>Score: {0}</value>
+  </data>
+  <data name="QueryColumnToolTipAverage" xml:space="preserve">
+      <value>Average: {0}</value>
+  </data>
+  <data name="QueryColumnToolTipDue" xml:space="preserve">
+      <value>Due: {0:D}, {0:t}</value>
+  </data>
+  <data name="QueryTitleOverdue" xml:space="preserve">
+      <value>Overdue</value>
+  </data>
+  <data name="QueryTitleDueToday" xml:space="preserve">
+      <value>Due Today</value>
+  </data>
+  <data name="QueryTitleDueThisWeek" xml:space="preserve">
+      <value>Due This Week</value>
+  </data>
+  <data name="QueryTitleDueNextWeek" xml:space="preserve">
+      <value>Due Next Week</value>
+  </data>
+  <data name="QueryTitleToDo" xml:space="preserve">
+      <value>To Do</value>
+  </data>
+  <data name="QueryTitleReturned" xml:space="preserve">
+      <value>Returned</value>
+  </data>
+  <data name="QueryTitleAllAssignments" xml:space="preserve">
+      <value>All Assignments</value>
+  </data>
+  <data name="QueryTitleActive" xml:space="preserve">
+      <value>Active</value>
+  </data>
+  <data name="QueryTitleReadyToGrade" xml:space="preserve">
+      <value>Ready To Grade</value>
+  </data>
+  <data name="QueryTitleReturned" xml:space="preserve">
+      <value>Returned</value>
+  </data>
+  <data name="QuerySetTitleLearner" xml:space="preserve">
+      <value>Learner Query Set</value>
+  </data>
+  <data name="QuerySetTitleInstructor" xml:space="preserve">
+      <value>Instructor Query Set</value>
+  </data>
+  <data name="QuerySetTitleObserver" xml:space="preserve">
+      <value>Observer Query Set</value>
+  </data>
+
   <data name="AssFolderAlreadyExists" xml:space="preserve">
     <value>An assignment folder with the same name already exists</value>
   </data>

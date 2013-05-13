@@ -3399,6 +3399,231 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to --.
+        /// </summary>
+        internal static string QueryColumnNullDisplayDash {
+            get {
+                return ResourceManager.GetString("QueryColumnNullDisplayDash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Untitled.
+        /// </summary>
+        internal static string QueryColumnNullDisplayUntitled {
+            get {
+                return ResourceManager.GetString("QueryColumnNullDisplayUntitled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment.
+        /// </summary>
+        internal static string QueryColumnTitleAssignment {
+            get {
+                return ResourceManager.GetString("QueryColumnTitleAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average.
+        /// </summary>
+        internal static string QueryColumnTitleAverage {
+            get {
+                return ResourceManager.GetString("QueryColumnTitleAverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Due.
+        /// </summary>
+        internal static string QueryColumnTitleDue {
+            get {
+                return ResourceManager.GetString("QueryColumnTitleDue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Submission.
+        /// </summary>
+        internal static string QueryColumnTitleFileSubmission {
+            get {
+                return ResourceManager.GetString("QueryColumnTitleFileSubmission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Score.
+        /// </summary>
+        internal static string QueryColumnTitleScore {
+            get {
+                return ResourceManager.GetString("QueryColumnTitleScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site.
+        /// </summary>
+        internal static string QueryColumnTitleSite {
+            get {
+                return ResourceManager.GetString("QueryColumnTitleSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        internal static string QueryColumnTitleStatus {
+            get {
+                return ResourceManager.GetString("QueryColumnTitleStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submitted.
+        /// </summary>
+        internal static string QueryColumnTitleSubmitted {
+            get {
+                return ResourceManager.GetString("QueryColumnTitleSubmitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average: {0}.
+        /// </summary>
+        internal static string QueryColumnToolTipAverage {
+            get {
+                return ResourceManager.GetString("QueryColumnToolTipAverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Due: {0:D}, {0:t}.
+        /// </summary>
+        internal static string QueryColumnToolTipDue {
+            get {
+                return ResourceManager.GetString("QueryColumnToolTipDue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Score: {0}.
+        /// </summary>
+        internal static string QueryColumnToolTipScore {
+            get {
+                return ResourceManager.GetString("QueryColumnToolTipScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instructor Query Set.
+        /// </summary>
+        internal static string QuerySetTitleInstructor {
+            get {
+                return ResourceManager.GetString("QuerySetTitleInstructor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Learner Query Set.
+        /// </summary>
+        internal static string QuerySetTitleLearner {
+            get {
+                return ResourceManager.GetString("QuerySetTitleLearner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Observer Query Set.
+        /// </summary>
+        internal static string QuerySetTitleObserver {
+            get {
+                return ResourceManager.GetString("QuerySetTitleObserver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        internal static string QueryTitleActive {
+            get {
+                return ResourceManager.GetString("QueryTitleActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Assignments.
+        /// </summary>
+        internal static string QueryTitleAllAssignments {
+            get {
+                return ResourceManager.GetString("QueryTitleAllAssignments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Due Next Week.
+        /// </summary>
+        internal static string QueryTitleDueNextWeek {
+            get {
+                return ResourceManager.GetString("QueryTitleDueNextWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Due This Week.
+        /// </summary>
+        internal static string QueryTitleDueThisWeek {
+            get {
+                return ResourceManager.GetString("QueryTitleDueThisWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Due Today.
+        /// </summary>
+        internal static string QueryTitleDueToday {
+            get {
+                return ResourceManager.GetString("QueryTitleDueToday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overdue.
+        /// </summary>
+        internal static string QueryTitleOverdue {
+            get {
+                return ResourceManager.GetString("QueryTitleOverdue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready To Grade.
+        /// </summary>
+        internal static string QueryTitleReadyToGrade {
+            get {
+                return ResourceManager.GetString("QueryTitleReadyToGrade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returned.
+        /// </summary>
+        internal static string QueryTitleReturned {
+            get {
+                return ResourceManager.GetString("QueryTitleReturned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To Do.
+        /// </summary>
+        internal static string QueryTitleToDo {
+            get {
+                return ResourceManager.GetString("QueryTitleToDo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Always show the web part even if not an instructor on the site..
         /// </summary>
         internal static string QuickAssignmentAlwaysShowDescription {

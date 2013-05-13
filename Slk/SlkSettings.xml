@@ -63,13 +63,13 @@
 
   <QuickAssignmentSettings DefaultLibrary="" />
 
-  <Query Name="OverdueLearner" Title="Overdue" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+  <Query Name="OverdueLearner" Title="$Resources:SlkDll,QueryTitleOverdue" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+    <Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
@@ -80,13 +80,13 @@
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
   </Query>
 
-  <Query Name="DueTodayLearner" Title="Due Today" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+  <Query Name="DueTodayLearner" Title="$Resources:SlkDll,QueryTitleDueToday" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+    <Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
@@ -96,13 +96,13 @@
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
   </Query>
 
-  <Query Name="DueThisWeekLearner" Title="Due This Week" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+  <Query Name="DueThisWeekLearner" Title="$Resources:SlkDll,QueryTitleDueThisWeek" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+    <Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
@@ -112,13 +112,13 @@
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
   </Query>
 
-  <Query Name="DueNextWeekLearner" Title="Due Next Week" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+  <Query Name="DueNextWeekLearner" Title="$Resources:SlkDll,QueryTitleDueNextWeek" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+    <Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
@@ -128,13 +128,13 @@
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
   </Query>
 
-  <Query Name="ToDoLearner" Title="To Do" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+  <Query Name="ToDoLearner" Title="$Resources:SlkDll,QueryTitleToDo" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+    <Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
     <Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" /><!-- helps SQL perf? -->
@@ -143,13 +143,13 @@
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
   </Query>
 
-  <Query Name="ReturnedLearner" Title="Returned" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+  <Query Name="ReturnedLearner" Title="$Resources:SlkDll,QueryTitleReturned" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+    <Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
     <Condition ViewColumnName="IsFinal" Operator="Equal" Value="1" />
@@ -157,35 +157,35 @@
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="AllAssignmentsLearner" Title="All Assignments" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-    <Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-    <Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
+  <Query Name="AllAssignmentsLearner" Title="$Resources:SlkDll,QueryTitleAllAssignments" ViewName="LearnerAssignmentListForLearners" CountViewColumnName="IsFinal">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+    <Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
     <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
     <Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
   </Query>
 
-  <Query Name="ActiveInstructor" Title="Active" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Submitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="ActiveInstructor" Title="$Resources:SlkDll,QueryTitleActive" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSubmitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="CountNotFinal" Operator="GreaterThan" Value="0"/>
     <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="OverdueInstructor" Title="Overdue" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Submitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="OverdueInstructor" Title="$Resources:SlkDll,QueryTitleOverdue" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSubmitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="LessThan" MacroName="Now"/>
@@ -194,22 +194,22 @@
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="ReadyToGradeInstructor" Title="Ready to Grade" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Submitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="ReadyToGradeInstructor" Title="$Resources:SlkDll,QueryTitleReadyToGrade" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSubmitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="CountCompleted" Operator="GreaterThan" Value="0"/>
     <Sort ViewColumnName="AssignmentDueDate" Ascending="true"/>
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="DueTodayInstructor" Title="Due Today" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Submitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="DueTodayInstructor" Title="$Resources:SlkDll,QueryTitleDueToday" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSubmitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfToday"/>
@@ -218,11 +218,11 @@
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="DueThisWeekInstructor" Title="Due This Week" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Submitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="DueThisWeekInstructor" Title="$Resources:SlkDll,QueryTitleDueThisWeek" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSubmitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfThisWeek"/>
@@ -231,11 +231,11 @@
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="DueNextWeekInstructor" Title="Due Next Week" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Submitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="DueNextWeekInstructor" Title="$Resources:SlkDll,QueryTitleDueNextWeek" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSubmitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
     <Condition ViewColumnName="AssignmentDueDate" Operator="GreaterThanEqual" MacroName="StartOfNextWeek"/>
@@ -244,36 +244,36 @@
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="ReturnedInstructor" Title="Returned" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Submitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="ReturnedInstructor" Title="$Resources:SlkDll,QueryTitleReturned" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSubmitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Condition ViewColumnName="CountNotFinal" Operator="Equal" Value="0"/>
     <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
-  <Query Name="AllAssignmentsInstructor" Title="All Assignments" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
-    <Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-    <Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="Untitled" />
-    <Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="Submitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
+  <Query Name="AllAssignmentsInstructor" Title="$Resources:SlkDll,QueryTitleAllAssignments" ViewName="AssignmentListForInstructors" CountViewColumnName="AssignmentId">
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="AssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleSubmitted" RenderAs="Submitted" ViewColumnName="CountCompletedOrFinal" ViewColumnName2="CountTotal" Wrap="false" />
     <Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
     <Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
     <Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
   </Query>
 
 
-	<Query Name="OverdueObserver" Title="Overdue" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
-		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
-		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+	<Query Name="OverdueObserver" Title="$Resources:SlkDll,QueryTitleOverdue" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+		<Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAverage" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipAverage" Wrap="false" />
 		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
 		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
 		<Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
@@ -286,14 +286,14 @@
 		<Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
 	</Query>
 
-	<Query Name="DueTodayObserver" Title="Due Today" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
-		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
-		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+	<Query Name="DueTodayObserver" Title="$Resources:SlkDll,QueryTitleDueToday" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+		<Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAverage" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipAverage" Wrap="false" />
 		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
 		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
 		<Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
@@ -303,14 +303,14 @@
 		<Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
 	</Query>
 
-	<Query Name="DueThisWeekObserver" Title="Due This Week" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
-		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
-		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+	<Query Name="DueThisWeekObserver" Title="$Resources:SlkDll,QueryTitleDueThisWeek" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+		<Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAverage" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipAverage" Wrap="false" />
 		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
 		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
 		<Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
@@ -320,14 +320,14 @@
 		<Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
 	</Query>
 
-	<Query Name="DueNextWeekObserver" Title="Due Next Week" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
-		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
-		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+	<Query Name="DueNextWeekObserver" Title="$Resources:SlkDll,QueryTitleDueNextWeek" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+		<Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAverage" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipAverage" Wrap="false" />
 		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
 		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
 		<Condition ViewColumnName="AssignmentDueDate" Operator="IsNotNull" />
@@ -337,14 +337,14 @@
 		<Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
 	</Query>
 
-	<Query Name="ToDoObserver" Title="To Do" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
-		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
-		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+	<Query Name="ToDoObserver" Title="$Resources:SlkDll,QueryTitleToDo" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+		<Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAverage" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipAverage" Wrap="false" />
 		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
 		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
 		<Condition ViewColumnName="IsFinal" Operator="NotEqual" Value="1" />
@@ -355,14 +355,14 @@
 		<Sort ViewColumnName="LearnerAssignmentState" Ascending="true"/>
 	</Query>
 
-	<Query Name="ReturnedObserver" Title="Returned" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
-		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
-		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+	<Query Name="ReturnedObserver" Title="$Resources:SlkDll,QueryTitleReturned" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+		<Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAverage" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipAverage" Wrap="false" />
 		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
 		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
 		<Condition ViewColumnName="IsFinal" Operator="Equal" Value="1" />
@@ -370,14 +370,14 @@
 		<Sort ViewColumnName="AssignmentTitle" Ascending="true"/>
 	</Query>
 
-	<Query Name="AllAssignmentsObserver" Title="All Assignments" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
-		<Column Title="Site" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
-		<Column Title="Assignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="Untitled" />
-		<Column Title="Due" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="--" ToolTipFormat="Due: {0:D}, {0:t}" Wrap="false" />
-    <Column Title="File Submission" ViewColumnName="FileSubmissionState"/>
-		<Column Title="Status" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
-		<Column Title="Score" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="Score: {0}" Wrap="false" />
-		<Column Title="Average" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="Average: {0}" Wrap="false" />
+	<Query Name="AllAssignmentsObserver" Title="$Resources:SlkDll,QueryTitleAllAssignments" ViewName="LearnerAssignmentListForObservers" CountViewColumnName="IsFinal">
+		<Column Title="$Resources:SlkDll,QueryColumnTitleSite" RenderAs="SPWebName" ViewColumnName="AssignmentSPWebGuid" ViewColumnName2="AssignmentSPSiteGuid" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAssignment" RenderAs="Link" ViewColumnName="AssignmentTitle" ViewColumnName2="LearnerAssignmentId" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayUntitled" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleDue" RenderAs="UtcAsLocalDateTime" ViewColumnName="AssignmentDueDate" CellFormat="d" NullDisplayString="$Resources:SlkDll,QueryColumnNullDisplayDash" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipDue" Wrap="false" />
+    <Column Title="$Resources:SlkDll,QueryColumnTitleFileSubmission" ViewColumnName="FileSubmissionState"/>
+		<Column Title="$Resources:SlkDll,QueryColumnTitleStatus" RenderAs="LearnerAssignmentStatus" ViewColumnName="LearnerAssignmentState" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleScore" RenderAs="ScoreAndPossible" ViewColumnName="FinalPoints" ViewColumnName2="AssignmentPointsPossible" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipScore" Wrap="false" />
+		<Column Title="$Resources:SlkDll,QueryColumnTitleAverage" RenderAs="Default" ViewColumnName="AvgFinalPoints" ToolTipFormat="$Resources:SlkDll,QueryColumnToolTipAverage" Wrap="false" />
 		<Condition ViewColumnName="AssignmentSPWebGuid" Operator="Equal" MacroName="SPWebScope" NoConditionOnNull="true" />
 		<Condition ViewColumnName="AssignmentStartDate" Operator="LessThanEqual" MacroName="Now"/>
 		<Sort ViewColumnName="AssignmentDueDate" Ascending="false"/>
@@ -385,7 +385,7 @@
 	</Query>
 
 
-	<QuerySet Name="LearnerQuerySet" Title="Learner Query Set" DefaultQueryName="ToDoLearner">
+	<QuerySet Name="LearnerQuerySet" Title="$Resources:SlkDll,QuerySetTitleLearner" DefaultQueryName="ToDoLearner">
     <IncludeQuery QueryName="ToDoLearner" />
     <IncludeQuery QueryName="OverdueLearner" />
     <IncludeQuery QueryName="DueTodayLearner" />
@@ -395,7 +395,7 @@
     <IncludeQuery QueryName="AllAssignmentsLearner" />
   </QuerySet>
 
-  <QuerySet Name="InstructorQuerySet" Title="Instructor Query Set" DefaultQueryName="ActiveInstructor">
+  <QuerySet Name="InstructorQuerySet" Title="$Resources:SlkDll,QuerySetTitleInstructor" DefaultQueryName="ActiveInstructor">
     <IncludeQuery QueryName="ActiveInstructor" />
     <IncludeQuery QueryName="ReadyToGradeInstructor" />
     <IncludeQuery QueryName="OverdueInstructor" />
@@ -407,7 +407,7 @@
   </QuerySet>
 
 
-	<QuerySet Name="ObserverQuerySet" Title="Observer Query Set" DefaultQueryName="ToDoObserver">
+	<QuerySet Name="ObserverQuerySet" Title="$Resources:SlkDll,QuerySetTitleObserver" DefaultQueryName="ToDoObserver">
 		<IncludeQuery QueryName="ToDoObserver" />
 		<IncludeQuery QueryName="OverdueObserver" />
 		<IncludeQuery QueryName="DueTodayObserver" />
