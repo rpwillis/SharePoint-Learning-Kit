@@ -106,7 +106,7 @@ public class QueryDefinition
         [DebuggerStepThrough]
         get
         {
-            return m_title;
+            return QuerySetLocalization.LocalizedValue(m_title);
         }
     }
 
@@ -977,7 +977,7 @@ public class ColumnDefinition
         [DebuggerStepThrough]
         get
         {
-            return m_title;
+            return QuerySetLocalization.LocalizedValue(m_title);
         }
     }
 
@@ -1059,7 +1059,7 @@ public class ColumnDefinition
         [DebuggerStepThrough]
         get
         {
-            return m_nullDisplayString;
+            return QuerySetLocalization.LocalizedValue(m_nullDisplayString);
         }
     }
 
@@ -1074,7 +1074,7 @@ public class ColumnDefinition
         [DebuggerStepThrough]
         get
         {
-            return m_toolTipFormat;
+            return QuerySetLocalization.LocalizedValue(m_toolTipFormat);
         }
     }
 
@@ -1645,7 +1645,7 @@ public class QuerySetDefinition
         [DebuggerStepThrough]
         get
         {
-            return m_title;
+            return QuerySetLocalization.LocalizedValue(m_title);
         }
     }
 
@@ -2135,6 +2135,48 @@ internal class XmlValue : IConvertible
         return XmlConvert.ToUInt64(m_stringValue);
     }
 
+}
+
+sealed class QuerySetLocalization
+{
+    public static string LocalizedValue(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
+        try
+        {
+            if (value.Length > 11 && value.Substring(0, 11) == "$Resources:")
+            {
+                if (value.Length > 18 && value.Substring(0, 18) == "$Resources:SlkDll,")
+                {
+                    // Resource string from Slk dll resource
+                    string key = value.Substring(18);
+                    return AppResources.ResourceManager.GetString(key, AppResources.Culture);;
+                }
+                else
+                {
+                    // Generic resource string
+                    int index = value.IndexOf(",");
+                    if (index > -1)
+                    {
+                        string source = value.Substring(11, index - 11);
+                        string key = value.Substring(index + 1);
+                        return Microsoft.SharePoint.Utilities.SPUtility.GetLocalizedString("$Resources:" + key, source, (uint)AppResources.Culture.LCID);
+                    }
+                }
+            }
+
+            // Not a valid resource string
+            return value;
+        }
+        catch (Exception e)
+        {
+            return e.ToString();
+        }
+    }
 }
 
 }
