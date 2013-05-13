@@ -45,7 +45,16 @@ namespace Microsoft.SharePointLearningKit
             }
             catch (InvalidPackageException ex)
             {
-                throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, Resources.Properties.AppResources.PackageNotValid, ex.Message));
+                string extension = System.IO.Path.GetExtension(file.Name).ToUpperInvariant();
+                switch (extension)
+                {
+                    case ".ZIP":
+                    case ".LRM":
+                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, Resources.Properties.AppResources.PackageNotValid, ex.Message));
+                    default:
+                        IsNonELearning = true;
+                        break;
+                }
             }
         }
 #endregion constructors
@@ -93,7 +102,10 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>See <see cref="IDisposable.Dispose"/>.</summary>
         public void Dispose()
         {
-            reader.Dispose();
+            if (reader != null)
+            {
+                reader.Dispose();
+            }
         }
 #endregion public methods
 
