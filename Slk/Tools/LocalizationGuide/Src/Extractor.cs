@@ -186,33 +186,40 @@ namespace SharePointLearningKit.Localization
         {
             if (File.Exists(fileName))
             {
-                XPathDocument document = new XPathDocument(fileName);
-                XPathNavigator navigator = document.CreateNavigator();
-
-                XPathNodeIterator iterator = navigator.Select("/root/resources");
-
-                fileCulture = string.Empty;
-                fileCulture = (string)navigator.Evaluate("string(/root/assembly/@culture)");
-
-                while (iterator.MoveNext())
+                try
                 {
-                    string name = iterator.Current.GetAttribute("name", string.Empty);
-                    ResourceData resource = data[name];
-                    if (resource != null)
-                    {
-                        XPathNodeIterator resourceIterator = iterator.Current.Select("NewDataSet/Resources");
+                    XPathDocument document = new XPathDocument(fileName);
+                    XPathNavigator navigator = document.CreateNavigator();
 
-                        while (resourceIterator.MoveNext())
+                    XPathNodeIterator iterator = navigator.Select("/root/resources");
+
+                    fileCulture = string.Empty;
+                    fileCulture = (string)navigator.Evaluate("string(/root/assembly/@culture)");
+
+                    while (iterator.MoveNext())
+                    {
+                        string name = iterator.Current.GetAttribute("name", string.Empty);
+                        ResourceData resource = data[name];
+                        if (resource != null)
                         {
-                            string id = (string)resourceIterator.Current.Evaluate("string(ID)");
-                            string translation = (string)resourceIterator.Current.Evaluate("string(Translation)");
-                            string source = (string)resourceIterator.Current.Evaluate("string(Source)");
-                            if (translation != source)
+                            XPathNodeIterator resourceIterator = iterator.Current.Select("NewDataSet/Resources");
+
+                            while (resourceIterator.MoveNext())
                             {
-                                resource.SetTranslation(id, translation);
+                                string id = (string)resourceIterator.Current.Evaluate("string(ID)");
+                                string translation = (string)resourceIterator.Current.Evaluate("string(Translation)");
+                                string source = (string)resourceIterator.Current.Evaluate("string(Source)");
+                                if (translation != source)
+                                {
+                                    resource.SetTranslation(id, translation);
+                                }
                             }
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Failed to insert from " + fileName, e);
                 }
             }
         }

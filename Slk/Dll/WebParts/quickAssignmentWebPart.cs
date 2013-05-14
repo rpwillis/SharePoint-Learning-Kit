@@ -91,7 +91,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 errorOccurred = true;
                 Literal literal = new Literal();
-                literal.Text = string.Format(CultureInfo.CurrentUICulture, "<p class=\"ms-formvalidation\">{0}</p>", e.Message);
+                literal.Text = string.Format(CultureInfo.InvariantCulture, "<p class=\"ms-formvalidation\">{0}</p>", e.Message);
                 Controls.Add(literal);
             }
 

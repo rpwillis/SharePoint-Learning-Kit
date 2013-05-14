@@ -146,7 +146,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 //place holder Content
                 StringBuilder renderedContent = new StringBuilder();
                 //Text Writer to write the content to content Render
-                using(TextWriter contentWriter = new StringWriter(renderedContent, CultureInfo.CurrentUICulture))
+                using(TextWriter contentWriter = new StringWriter(renderedContent, SlkCulture.GetCulture()))
                 {
                     using(HtmlTextWriter originalStream = new HtmlTextWriter(contentWriter))
                     {

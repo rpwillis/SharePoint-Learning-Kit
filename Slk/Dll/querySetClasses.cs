@@ -38,6 +38,7 @@ public class QueryDefinition
     // Private Fields
     //
 
+    SlkCulture culture = new SlkCulture();
     /// <summary>
     /// Holds the value of the <c>Name</c> property.
     /// </summary>
@@ -376,14 +377,14 @@ public class QueryDefinition
                     else
                         cellSortKey = cellValue;
                     if (columnDefinition.ToolTipFormat != null)
-                        cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat, cellValue);
+                        cellToolTip = culture.Format(columnDefinition.ToolTipFormat, cellValue);
                     else
                         cellToolTip = null;
                     if (columnDefinition.CellFormat != null)
                     {
                         text = FormatValue(cellValue, columnDefinition.CellFormat);
                         cellValue = text;
-                        cellSortKey = text.ToLower(CultureInfo.CurrentUICulture);
+                        cellSortKey = text.ToLower(culture.Culture);
                     }
                 }
                 break;
@@ -415,7 +416,7 @@ public class QueryDefinition
                         cellValue = FormatValue(dateTime, columnDefinition.CellFormat);
                     cellId = null;
                     if (columnDefinition.ToolTipFormat != null)
-                        cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat, dateTime);
+                        cellToolTip = culture.Format(columnDefinition.ToolTipFormat, dateTime);
                     else
                         cellToolTip = null;
                 }
@@ -434,10 +435,10 @@ public class QueryDefinition
                 if (text == null)
                     text = cellWebGuid.Value.ToString();
                 cellValue = text;
-                cellSortKey = text.ToLower(CultureInfo.CurrentUICulture);
+                cellSortKey = text.ToLower(culture.Culture);
                 cellId = null;
                 if (columnDefinition.ToolTipFormat != null)
-                    cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat, text);
+                    cellToolTip = culture.Format(columnDefinition.ToolTipFormat, text);
                 else
                     cellToolTip = null;
                 break;
@@ -449,9 +450,9 @@ public class QueryDefinition
                 cellId = GetQueryCell<LearningStoreItemIdentifier>(dataRow, columnMap,
                     columnDefinition, iColumnDefinition, 1);
                 cellValue = text;
-                cellSortKey = text.ToLower(CultureInfo.CurrentUICulture);
+                cellSortKey = text.ToLower(culture.Culture);
                 if (columnDefinition.ToolTipFormat != null)
-                    cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat, text);
+                    cellToolTip = culture.Format(columnDefinition.ToolTipFormat, text);
                 else
                     cellToolTip = null;
                 break;
@@ -467,7 +468,7 @@ public class QueryDefinition
                 cellSortKey = learnerAssignmentState;
                 cellId = null;
                 if (columnDefinition.ToolTipFormat != null)
-                    cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat, text);
+                    cellToolTip = culture.Format(columnDefinition.ToolTipFormat, text);
                 else
                     cellToolTip = null;
                 break;
@@ -490,8 +491,8 @@ public class QueryDefinition
                 if (!noFinalPoints)
                 {
                     // FinalPoints is not NULL
-                    text = string.Format(CultureInfo.CurrentUICulture, AppResources.SlkUtilitiesPointsValue, FormatValue(finalPointsRounded, columnDefinition.CellFormat));
-                    textNotRounded = string.Format(CultureInfo.CurrentUICulture, AppResources.SlkUtilitiesPointsValue, finalPoints);
+                    text = culture.Format(AppResources.SlkUtilitiesPointsValue, FormatValue(finalPointsRounded, columnDefinition.CellFormat));
+                    textNotRounded = culture.Format(AppResources.SlkUtilitiesPointsValue, finalPoints);
                 }
                 else
                 {
@@ -502,9 +503,9 @@ public class QueryDefinition
                 if (!noPointsPossible)
                 {
                     // PointsPossible is not NULL
-                    text = String.Format(CultureInfo.CurrentUICulture, AppResources.SlkUtilitiesPointsPossible, text,
+                    text = culture.Format(AppResources.SlkUtilitiesPointsPossible, text,
                         FormatValue(pointsPossibleRounded, columnDefinition.CellFormat));
-                    textNotRounded = String.Format(CultureInfo.CurrentUICulture, AppResources.SlkUtilitiesPointsPossible, textNotRounded,
+                    textNotRounded = culture.Format(AppResources.SlkUtilitiesPointsPossible, textNotRounded,
                         pointsPossible);
                 }
                 cellValue = text;
@@ -512,8 +513,7 @@ public class QueryDefinition
                 if ((columnDefinition.ToolTipFormat != null) &&
                     (!noFinalPoints || !noPointsPossible))
                 {
-                    cellToolTip = String.Format(CultureInfo.CurrentUICulture, columnDefinition.ToolTipFormat,
-                        textNotRounded);
+                    cellToolTip = culture.Format(columnDefinition.ToolTipFormat, textNotRounded);
                 }
                 else
                     cellToolTip = null;
@@ -536,7 +536,7 @@ public class QueryDefinition
                     iColumnDefinition, 0);
                 int countTotal = GetQueryCell<int>(dataRow, columnMap, columnDefinition,
                     iColumnDefinition, 1);
-                text = String.Format(CultureInfo.CurrentUICulture, AppResources.SlkUtilitiesSubmitted, countCompletedOrFinal, countTotal);
+                text = culture.Format(AppResources.SlkUtilitiesSubmitted, countCompletedOrFinal, countTotal);
                 cellValue = text;
                 cellId = null;
                 cellToolTip = null;
@@ -589,7 +589,7 @@ public class QueryDefinition
     /// <paramref name="renderedRows"/>.
     /// </exception>
     ///
-    public static void SortRenderedRows(IList<RenderedCell[]> renderedRows, int columnIndex,
+    public void SortRenderedRows(IList<RenderedCell[]> renderedRows, int columnIndex,
         bool ascending)
     {
         // Check parameters
@@ -651,7 +651,7 @@ public class QueryDefinition
             }
             catch (InvalidCastException)
             {
-                throw new InvalidOperationException(String.Format(AppResources.SlkUtilitiesCannotSortColumnType, sortKeyX.GetType().Name));
+                throw new InvalidOperationException(culture.Format(AppResources.SlkUtilitiesCannotSortColumnType, sortKeyX.GetType().Name));
             }
 
             // do the comparison; if equal, maintain the original order of the rows

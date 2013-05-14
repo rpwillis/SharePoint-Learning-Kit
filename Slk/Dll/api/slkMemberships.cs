@@ -19,6 +19,7 @@ namespace Microsoft.SharePointLearningKit
     /// </remarks>
     public class SlkMemberships
     {
+        SlkCulture culture = new SlkCulture();
         DateTime startTime;
         List<string> groupFailuresList = new List<string>();
         StringBuilder groupFailureDetailsBuilder = new StringBuilder();
@@ -64,7 +65,7 @@ namespace Microsoft.SharePointLearningKit
                             default:
                                 if (string.IsNullOrEmpty(domainGroupEnumeratorAssembly))
                                 {
-                                    throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.NoDomainGroupEnumeratorAssembly, domainGroupEnumeratorType));
+                                    throw new SafeToDisplayException(culture.Format(AppResources.NoDomainGroupEnumeratorAssembly, domainGroupEnumeratorType));
                                 }
                                 else
                                 {
@@ -74,35 +75,35 @@ namespace Microsoft.SharePointLearningKit
                                     }
                                     catch (MissingMethodException e)
                                     {
-                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (TypeLoadException e)
                                     {
-                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (System.IO.FileNotFoundException e)
                                     {
-                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (MemberAccessException e)
                                     {
-                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (System.Reflection.TargetInvocationException e)
                                     {
-                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (System.Runtime.InteropServices.InvalidComObjectException e)
                                     {
-                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (NotSupportedException e)
                                     {
-                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (BadImageFormatException e)
                                     {
-                                        throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                 }
                                 break;

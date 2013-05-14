@@ -139,7 +139,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 else
                 {
-                    throw new DomainGroupEnumerationException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupNotFound, group.Name));
+                    throw new DomainGroupEnumerationException(string.Format(SlkCulture.GetCulture(), AppResources.DomainGroupNotFound, group.Name));
                 }
             }
         }
@@ -228,7 +228,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (COMException ex)
                 {
-                    throw new DomainGroupEnumerationException(String.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupEnumFailed, "LDAP://" + names.Domain), ex);
+                    throw new DomainGroupEnumerationException(String.Format(SlkCulture.GetCulture(), AppResources.DomainGroupEnumFailed, "LDAP://" + names.Domain), ex);
                 }
             }
         }
@@ -292,7 +292,7 @@ namespace Microsoft.SharePointLearningKit
             }
             catch (ArgumentException)
             {
-                throw new DomainGroupEnumerationException(string.Format(CultureInfo.CurrentUICulture, AppResources.DomainGroupInvalidSid, sddl));
+                throw new DomainGroupEnumerationException(string.Format(SlkCulture.GetCulture(), AppResources.DomainGroupInvalidSid, sddl));
             }
         }
 
@@ -347,7 +347,7 @@ namespace Microsoft.SharePointLearningKit
             }
             catch (COMException e)
             {
-                errors.Add(string.Format(CultureInfo.CurrentUICulture, AppResources.GroupEnumerationFail, group.Name));
+                errors.Add(string.Format(SlkCulture.GetCulture(), AppResources.GroupEnumerationFail, group.Name));
                 Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(e);
             }
 

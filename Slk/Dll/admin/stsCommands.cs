@@ -84,7 +84,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (string.IsNullOrEmpty(guidValue) && string.IsNullOrEmpty(url))
             {
-                output = string.Format(CultureInfo.CurrentUICulture, AppResources.StsMissingParameters, "guid", "url");
+                output = FormatString(AppResources.StsMissingParameters, "guid", "url");
                 return (int)ErrorCodes.SyntaxError;
             }
             else if (string.IsNullOrEmpty(url))
@@ -115,12 +115,12 @@ namespace Microsoft.SharePointLearningKit
                 AdministrationConfiguration configuration = SlkAdministration.LoadConfiguration(guid);
                 if (configuration.IsNewConfiguration)
                 {
-                    output = string.Format(CultureInfo.CurrentUICulture, AppResources.StsInvalidGuid, guid);
+                    output = FormatString(AppResources.StsInvalidGuid, guid);
                     return (int)ErrorCodes.GeneralError;
                 }
                 else
                 {
-                    output = string.Format(CultureInfo.CurrentUICulture, AppResources.StsGetSiteConfiguration,
+                    output = FormatString(AppResources.StsGetSiteConfiguration,
                                             configuration.DatabaseServer,
                                             configuration.DatabaseName,
                                             configuration.InstructorPermission,
@@ -165,7 +165,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (string.IsNullOrEmpty(guidValue))
             {
-                output = string.Format(CultureInfo.CurrentUICulture, AppResources.StsMissingParameter, "guid");
+                output = FormatString(AppResources.StsMissingParameter, "guid");
                 return (int)ErrorCodes.SyntaxError;
             }
 
@@ -175,13 +175,13 @@ namespace Microsoft.SharePointLearningKit
             SlkSPSiteMapping mapping= SlkSPSiteMapping.GetMapping(guid);
             if (mapping == null)
             {
-                output = string.Format(CultureInfo.CurrentUICulture, AppResources.StsInvalidGuid, guid);
+                output = FormatString(AppResources.StsInvalidGuid, guid);
                 return (int)ErrorCodes.GeneralError;
             }
             else
             {
                 mapping.Delete();
-                output = string.Format(CultureInfo.CurrentUICulture, AppResources.StsMappingDeleted, guid);
+                output = FormatString(AppResources.StsMappingDeleted, guid);
                 return 0;
             }
         }
@@ -203,14 +203,14 @@ namespace Microsoft.SharePointLearningKit
 
             if (string.IsNullOrEmpty(url))
             {
-                output = string.Format(CultureInfo.CurrentUICulture, AppResources.StsMissingParameter, "url");
+                output = FormatString(AppResources.StsMissingParameter, "url");
                 return (int)ErrorCodes.SyntaxError;
             }
 
             //   -- can't specify both -uploadslksettings and -defaultslksettings
             if (settingsFileName != null && defaultSlkSettings)
             {
-                output = string.Format(CultureInfo.CurrentUICulture, AppResources.StsSettingsError, "settingsFileName", "defaultSlkSettings");
+                output = FormatString(AppResources.StsSettingsError, "settingsFileName", "defaultSlkSettings");
                 return (int)ErrorCodes.SyntaxError;
             }
 
@@ -270,11 +270,11 @@ namespace Microsoft.SharePointLearningKit
 
             if (forApplication)
             {
-                output = string.Format(CultureInfo.CurrentUICulture, AppResources.StsConfiguringSlkForApplication, url, id);
+                output = FormatString(AppResources.StsConfiguringSlkForApplication, url, id);
             }
             else
             {
-                output = string.Format(CultureInfo.CurrentUICulture, AppResources.StsConfiguringSlkForSite, url, id);
+                output = FormatString(AppResources.StsConfiguringSlkForSite, url, id);
             }
 
             return 0;
@@ -318,6 +318,11 @@ namespace Microsoft.SharePointLearningKit
 #endregion private methods
 
 #region static members
+        static string FormatString(string format, params object[] args)
+        {
+            return string.Format(CultureInfo.CurrentUICulture, format, args);
+        }
+
 #endregion static members
     }
 }

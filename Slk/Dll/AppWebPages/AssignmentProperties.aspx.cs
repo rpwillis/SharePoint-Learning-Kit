@@ -1433,10 +1433,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             lblAssignmentDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description);
 
             // say e.g.: {0:D}, {1:t} where {0} = date, {1} = time;
-            lblAssignmentStartText.Text = string.Format(CultureInfo.CurrentUICulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate);
+            lblAssignmentStartText.Text = PageCulture.Format(AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate);
             if (AssignmentProperties.DueDate != null)
             {
-                lblAssignmentDueText.Text = string.Format(CultureInfo.CurrentUICulture, AppResources.SlkDateFormatSpecifier, AssignmentProperties.DueDate.Value);
+                lblAssignmentDueText.Text = PageCulture.Format(AppResources.SlkDateFormatSpecifier, AssignmentProperties.DueDate.Value);
             }
 
             if (AssignmentProperties.PointsPossible != null)
@@ -1457,7 +1457,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 //Add Doclib Url
                 SPFile spFile = Location.LoadFile();
-                string message = String.Format(CultureInfo.CurrentUICulture, AppResources.AppNavigateToDocLib, spFile.ParentFolder.Name);
+                string message = PageCulture.Format(AppResources.AppNavigateToDocLib, spFile.ParentFolder.Name);
                 lstNavigateBulletedList.Items.Add(new ListItem(message, spFile.ParentFolder.ServerRelativeUrl));
             }
 
@@ -1973,7 +1973,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     enumerationWarning.AppendLine("</li>");
                     enumerationWarning.Append("</ul>\n");
                 }
-                errorBanner.AddHtmlErrorText(ErrorType.Warning, String.Format(CultureInfo.CurrentUICulture, AppResources.AppEnumerationWarning, enumerationWarning.ToString()));
+                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.AppEnumerationWarning, enumerationWarning.ToString()));
             }
 
             if (groupFailureDetails != null)

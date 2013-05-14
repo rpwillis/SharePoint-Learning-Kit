@@ -278,7 +278,7 @@ namespace Microsoft.SharePointLearningKit
             }
             catch (ArgumentException)
             {
-                throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DropBoxManagerNoRole, roleType));
+                throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), AppResources.DropBoxManagerNoRole, roleType));
             }
 
             SPRoleAssignment roleAssignment = new SPRoleAssignment(user);

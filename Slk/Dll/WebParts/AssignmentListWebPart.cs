@@ -155,6 +155,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         #endregion
 
         #region Private Variables
+        SlkCulture culture;
         string frameId = "Frame" + Guid.NewGuid().ToString().Replace("-", "");
         /// <summary>
         /// Holds List Scope - "Only Show Assignments for this Site" web part property
@@ -197,8 +198,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// </summary>
         public AssignmentListWebPart()
         {
-            // Set the culture for the resources
-            AppResources.Culture = Thread.CurrentThread.CurrentUICulture;
+            culture = new SlkCulture();
 
             // Initialize private variables.
 
@@ -210,7 +210,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             this.Description = AppResources.AlwpWepPartDescription;
 
-            this.ToolTip = String.Format(CultureInfo.CurrentUICulture, AppResources.AlwpWepPartToolTipFormat, this.Title, this.Description);
+            this.ToolTip = culture.Format(AppResources.AlwpWepPartToolTipFormat, this.Title, this.Description);
 
         }
         #endregion
@@ -477,7 +477,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             if (forObserver)
             {
-                queryResultsUrl = string.Format("{0}&{1}=true", queryResultsUrl, QueryStringKeys.ForObserver);
+                queryResultsUrl = string.Format(CultureInfo.InvariantCulture, "{0}&{1}=true", queryResultsUrl, QueryStringKeys.ForObserver);
             }
 
             WriteQueryResults(htmlTextWriter, queryResultsUrl);

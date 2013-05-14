@@ -553,7 +553,8 @@ namespace Microsoft.SharePointLearningKit
 
         Exception InvalidTransitionException(LearnerAssignmentState oldStatus, LearnerAssignmentState newStatus)
         {
-            string message = string.Format(CultureInfo.CurrentUICulture, AppResources.LearnerAssignmentTransitionNotSupported, oldStatus, newStatus);
+            SlkCulture culture = new SlkCulture();
+            string message = culture.Format(AppResources.LearnerAssignmentTransitionNotSupported, oldStatus, newStatus);
             return new InvalidOperationException(message);
         }
 

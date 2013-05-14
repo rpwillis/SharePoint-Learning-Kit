@@ -39,6 +39,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
     public class ConfigurePage : System.Web.UI.Page
     {
 #region fields
+        SlkCulture culture;
         #pragma warning disable 1591
         protected Label LabelErrorMessage;
         protected SiteAdministrationSelector SPSiteSelector;
@@ -107,6 +108,13 @@ namespace Microsoft.SharePointLearningKit.AdminPages
             }
 
             base.OnPreRender(e);
+        }
+
+        /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
+        protected override void OnInit(EventArgs e)
+        {
+            culture = new SlkCulture(null);
+            base.OnInit(e);
         }
 
         /// <summary>Event raised when a new SPSite is chosen.</summary>
@@ -188,7 +196,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 // administrator, we'll show them the error, but we'll write additional information
                 // (e.g. stack trace) to the event log
                 EnableUi(false, true);
-                LabelErrorMessage.Text = Html(String.Format(CultureInfo.CurrentUICulture, AppResources.AdminGenericException, ex.Message));
+                LabelErrorMessage.Text = Html(culture.Format(AppResources.AdminGenericException, ex.Message));
                 SlkError.WriteToEventLog(ex);
             }
         }
@@ -218,7 +226,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 // exception that may contain sensitive information -- since the user is an
                 // administrator, we'll show them the error, but we'll write additional information
                 // (e.g. stack trace) to the event log
-                LabelErrorMessage.Text = Html(String.Format(CultureInfo.CurrentUICulture, AppResources.AdminGenericException, ex.Message));
+                LabelErrorMessage.Text = Html(culture.Format(AppResources.AdminGenericException, ex.Message));
                 SlkError.WriteToEventLog(ex);
             }
         }
