@@ -421,7 +421,7 @@ namespace Microsoft.SharePointLearningKit
                 // Error creating list - delete it
                 dropBoxList.Delete();
                 dropBoxList = null;
-                throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DropBoxListCreateFailure, e.Message));
+                throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), AppResources.DropBoxListCreateFailure, e.Message));
             }
             catch (Exception)
             {
@@ -538,7 +538,11 @@ namespace Microsoft.SharePointLearningKit
             folder.Update();
         }
 
+#if SP2010
+        static void RemoveRoleAssignments(SPSecurableObject securable, SPWeb web)
+#else
         static void RemoveRoleAssignments(ISecurableObject securable, SPWeb web)
+#endif
         {
             // There's a bug with BreakRoleInheritance which means that passing false resets AllowUnsafeUpdates to
             // false so the call fails. http://www.ofonesandzeros.com/2008/11/18/the-security-validation-for-this-page-is-invalid/

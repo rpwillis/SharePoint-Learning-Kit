@@ -235,7 +235,7 @@ namespace Microsoft.SharePointLearningKit
                         string newAssignmentFolderName = FolderName;
 
                         // If assignment title has been changed, create a new assignment folder and move old assignment folder contents to it
-                        if (string.Compare(oldAssignmentFolderName,  newAssignmentFolderName, true, CultureInfo.CurrentUICulture) != 0)
+                        if (string.Compare(oldAssignmentFolderName,  newAssignmentFolderName, true, CultureInfo.InvariantCulture) != 0)
                         {
                             dropBox.ChangeFolderName(oldAssignmentFolderName, newAssignmentFolderName);
                         }
@@ -553,7 +553,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (failures.Count > 0)
             {
-                string message = string.Format(CultureInfo.CurrentUICulture, AppResources.FilesUploadPageFailureMessage, string.Join(", ", failures.ToArray()));
+                string message = string.Format(SlkCulture.GetCulture(), AppResources.FilesUploadPageFailureMessage, string.Join(", ", failures.ToArray()));
                 throw new SafeToDisplayException(message);
             }
         }
@@ -687,7 +687,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 if (instructor.SPUser == null)
                 {
-                    throw new SafeToDisplayException(string.Format(CultureInfo.CurrentUICulture, AppResources.DropBoxManagerUploadFilesNoInstructor, instructor.Name));
+                    throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), AppResources.DropBoxManagerUploadFilesNoInstructor, instructor.Name));
                 }
                 learnerSubFolder.RemovePermissions(instructor.SPUser);
                 learnerSubFolder.ApplyPermission(instructor.SPUser, SPRoleType.Contributor);

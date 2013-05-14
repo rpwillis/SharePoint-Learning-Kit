@@ -399,7 +399,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //The database the site is in is not accessible
                 //Add the site to unknown site collection
                 m_unknownSiteCount++; //increment the Site Count by 1;
-                spWebName = String.Format(CultureInfo.CurrentUICulture, AppResources.AlwpUnknownSite, m_unknownSiteCount);
+                spWebName = PageCulture.Format(AppResources.AlwpUnknownSite, m_unknownSiteCount);
                 spWebUrl = null;
             }
             catch (FileNotFoundException)
@@ -407,7 +407,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //The Site  does not exist : SPWeb not available. 
                 //Add the site to unknown site collection
                 m_unknownSiteCount++; //increment the Site Count by 1;
-                spWebName = String.Format(CultureInfo.CurrentUICulture, AppResources.AlwpUnknownSite, m_unknownSiteCount);
+                spWebName = PageCulture.Format(AppResources.AlwpUnknownSite, m_unknownSiteCount);
                 spWebUrl = null;
             }
             catch (UnauthorizedAccessException)
@@ -415,7 +415,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // the user doesn't have permission to access this site.
                 //Set the SPWeb Title as Unknown Site #
                 m_unknownSiteCount++; //increment the Site Count by 1;
-                spWebName = String.Format(CultureInfo.CurrentUICulture, AppResources.AlwpUnknownSite, m_unknownSiteCount);
+                spWebName = PageCulture.Format(AppResources.AlwpUnknownSite, m_unknownSiteCount);
                 spWebUrl = null;
             }
             finally
@@ -453,7 +453,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             // sort <renderedRows> if so specified
             if ((sortColumnIndex >= 0) && (sortColumnIndex < queryDef.Columns.Count))
-                QueryDefinition.SortRenderedRows(renderedRows, sortColumnIndex, sortAscending);
+                queryDef.SortRenderedRows(renderedRows, sortColumnIndex, sortAscending);
 
             // render the "<table>" element and its contents 
             hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-summarystandardbody");

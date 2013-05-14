@@ -239,8 +239,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             else
                             {
                                 queryCounts.AppendLine(
-                                            String.Format(CultureInfo.CurrentUICulture,
-                                                          "a[{0}] = \"{1}\";",
+                                            String.Format(CultureInfo.InvariantCulture, "a[{0}] = \"{1}\";",
                                                           queryIndex,
                                                           AppResources.AlwpQueryResultError));
                             }
@@ -266,8 +265,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             for (int i = 0; i < queryIndex; i++)
                             {
                                 queryCounts.AppendLine(
-                                                    String.Format(CultureInfo.CurrentUICulture,
-                                                                  "a[{0}] = \"{1}\";", i,
+                                                    String.Format(CultureInfo.InvariantCulture, "a[{0}] = \"{1}\";", i,
                                                                   AppResources.AlwpQueryResultError));
                             }
                         }

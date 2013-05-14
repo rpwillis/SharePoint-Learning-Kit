@@ -15,6 +15,7 @@ namespace Microsoft.SharePointLearningKit
         PackageReader reader;
         ISlkStore store;
         SPFile file;
+        SlkCulture culture = new SlkCulture();
 
 #region constructors
         /// <summary>Initializes a new instance of <see cref="Package"/>.</summary>
@@ -50,7 +51,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     case ".ZIP":
                     case ".LRM":
-                        throw new SafeToDisplayException(String.Format(CultureInfo.CurrentUICulture, Resources.Properties.AppResources.PackageNotValid, ex.Message));
+                        throw new SafeToDisplayException(culture.Format(Resources.Properties.AppResources.PackageNotValid, ex.Message));
                     default:
                         IsNonELearning = true;
                         break;
@@ -134,7 +135,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 else 
                 {
-                    string titleFromMetadata = metadataReader.GetTitle(CultureInfo.CurrentUICulture);
+                    string titleFromMetadata = metadataReader.GetTitle(culture.Culture);
                     if (string.IsNullOrEmpty(titleFromMetadata) == false)
                     {
                         Title = titleFromMetadata;
@@ -146,7 +147,7 @@ namespace Microsoft.SharePointLearningKit
                 }
 
                 // set description to the package description specified in metadata, or null if none
-                IList<string> descriptions = metadataReader.GetDescriptions(CultureInfo.CurrentUICulture);
+                IList<string> descriptions = metadataReader.GetDescriptions(culture.Culture);
                 if (descriptions.Count > 0)
                 {
                     Description = descriptions[0];
@@ -184,7 +185,7 @@ namespace Microsoft.SharePointLearningKit
                 if (log.HasErrors)
                 {
                     // Shouldn't have any since enforcing errors.
-                    throw new SafeToDisplayException(log, String.Format(CultureInfo.CurrentUICulture, Resources.Properties.AppResources.PackageNotValid, string.Empty));
+                    throw new SafeToDisplayException(log, culture.Format(Resources.Properties.AppResources.PackageNotValid, string.Empty));
                 }
                 else if (log.HasWarnings)
                 {

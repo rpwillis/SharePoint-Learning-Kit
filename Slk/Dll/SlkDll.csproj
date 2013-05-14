@@ -2,6 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Version Condition=" '$(Version)' == '' ">2010</Version>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D4ECA47D-2E5D-4ACF-B713-37BC4BB585B7}</ProjectGuid>
@@ -26,7 +27,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SP$(Version)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Microsoft.SharePointLearningKit.XML</DocumentationFile>
@@ -38,7 +39,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;SP$(Version)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Microsoft.SharePointLearningKit.XML</DocumentationFile>
@@ -50,10 +51,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\References\Microsoft.SharePoint.dll</HintPath>
-    </Reference>
+    <Reference Include="..\..\References\$(Version)\Microsoft.SharePoint.dll"/>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -231,8 +229,8 @@
     <Compile Include="settings\dropBoxSettings.cs" />
     <Compile Include="settings\quickAssignmentSettings.cs" />
     <Compile Include="QuerySetClasses.cs" />
-    <Compile Include="SlkUtilities.cs">
-    </Compile>
+    <Compile Include="SlkUtilities.cs"/>
+    <Compile Include="SlkCulture.cs"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LearningComponents\LearningComponents\LearningComponents.csproj">

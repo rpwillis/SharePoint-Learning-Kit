@@ -37,11 +37,12 @@ namespace Microsoft.SharePointLearningKit.AdminPages
     /// </summary>
     public class DownloadSettingsPage : System.Web.UI.Page
     {
+        SlkCulture culture;
 
         /// <summary>The OnInit event.</summary>
         protected override void OnInit(EventArgs e)
         {
-            AppResources.Culture = Thread.CurrentThread.CurrentUICulture;
+            culture = new SlkCulture();
             base.OnInit(e);
         }
 
@@ -120,7 +121,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                     Response.Clear();
                     Response.ContentType = "text/html";
                                     Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                    Response.Write(String.Format(CultureInfo.CurrentUICulture, AppResources.AdminErrorPageHtml, ex.Message));
+                    Response.Write(culture.Format(AppResources.AdminErrorPageHtml, ex.Message));
                     Response.End();
                 }
             }
@@ -135,7 +136,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 Response.Clear();
                 Response.ContentType = "text/html";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Write(String.Format(CultureInfo.CurrentUICulture, AppResources.AdminErrorPageHtml, Server.HtmlEncode(AppResources.SeriousErrorInEventLog)));
+                Response.Write(culture.Format(AppResources.AdminErrorPageHtml, Server.HtmlEncode(AppResources.SeriousErrorInEventLog)));
                 Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(ex);
                 Response.End();
             }

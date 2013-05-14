@@ -8,3 +8,5 @@ DefaultSlkDatabaseName
 DefaultSlkInstructorPermissionName
 AlwpQueryResultError
 SlkSchemaSql
+SlkSettingsSchema
+SlkSettingsFile

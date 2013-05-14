@@ -7,3 +7,5 @@ Slk/Solution/Output
 .sln.cache
 ChangeVersion.exe
 out
+setup
+.pdb

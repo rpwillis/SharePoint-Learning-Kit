@@ -382,7 +382,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         }
                         catch (SlkNotConfiguredException)
                         {
-                            errorBanner.AddHtmlErrorText(ErrorType.Warning, string.Format(CultureInfo.CurrentUICulture, AppResources.ActionsNotEnabled, Server.HtmlEncode(destinationUrl)));
+                            errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.ActionsNotEnabled, Server.HtmlEncode(destinationUrl)));
                             DisplayAddSite();
                             return;
                         }
@@ -390,7 +390,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         // check if the user is an instructor on that site
                         if (!destinationSlkStore.IsInstructor(destinationWeb))
                         {
-                            errorBanner.AddHtmlErrorText(ErrorType.Warning, string.Format(CultureInfo.CurrentUICulture, AppResources.ActionsNotInstructor, Server.HtmlEncode(destinationUrl)));
+                            errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.ActionsNotInstructor, Server.HtmlEncode(destinationUrl)));
                             DisplayAddSite();
                             return;
                         }
@@ -401,7 +401,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
                             if (destinationWeb.ID.Equals(webListItem.SPWebGuid))
                             {
-                                errorBanner.AddHtmlErrorText(ErrorType.Info, string.Format(CultureInfo.CurrentUICulture, AppResources.ActionsAlreadyInList, Server.HtmlEncode(destinationWeb.Title)));
+                                errorBanner.AddHtmlErrorText(ErrorType.Info, PageCulture.Format(AppResources.ActionsAlreadyInList, Server.HtmlEncode(destinationWeb.Title)));
                                 break;
                             }
                         }
@@ -418,16 +418,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (UriFormatException)
             {
                 // the url is an invalid format
-                errorBanner.AddHtmlErrorText(ErrorType.Warning, string.Format(CultureInfo.CurrentUICulture, AppResources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
+                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
             }
             catch (UnauthorizedAccessException)
             {
                 // the user doesn't have permission to access this site, so show an error message
-                errorBanner.AddHtmlErrorText(ErrorType.Warning, string.Format(CultureInfo.CurrentUICulture, AppResources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
+                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
             }
             catch (FileNotFoundException)
             {
-                errorBanner.AddHtmlErrorText(ErrorType.Warning, string.Format(CultureInfo.CurrentUICulture, AppResources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
+                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
             }
             finally
             {
@@ -542,7 +542,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 foreach (WebListItem webListItem in webList)
                 {
                     li = new HtmlGenericControl("li");
-                    li.Attributes.Add("title", string.Format(CultureInfo.CurrentUICulture, AppResources.ActionsMRUToolTip, Server.HtmlEncode(webListItem.Title)));
+                    li.Attributes.Add("title", PageCulture.Format(AppResources.ActionsMRUToolTip, Server.HtmlEncode(webListItem.Title)));
                     hl = new HyperLink();
                     hl.NavigateUrl = AssignmentSiteUrl(webListItem.Url);
 
@@ -698,7 +698,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
                             if (SPWeb.ID.Equals(item.SPWebGuid))
                             {
-                                webList.Add(new WebListItem(item, web.Url, string.Format(CultureInfo.CurrentUICulture, "{0} {1}", web.Title, AppResources.ActionslblMRUCurrentSite)));
+                                webList.Add(new WebListItem(item, web.Url, PageCulture.Format("{0} {1}", web.Title, AppResources.ActionslblMRUCurrentSite)));
                             }
                             else
                             {
@@ -731,7 +731,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             if (addCurrentToList)
             {
                 webList.Add(new WebListItem(SPWeb.Site.ID, SPWeb.ID, DateTime.Now, SPWeb.Url,
-                    string.Format(CultureInfo.CurrentUICulture, "{0} {1}", SPWeb.Title, AppResources.ActionslblMRUCurrentSite)));
+                    PageCulture.Format("{0} {1}", SPWeb.Title, AppResources.ActionslblMRUCurrentSite)));
             }
             webList.Sort();
 
@@ -746,7 +746,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             // Make sure that the package isn't checked out.
             //Using LoginName instead of Sid as Sid may be empty while using FBA
+#if SP2010
+            if (SPFile.CheckOutType != SPFile.SPCheckOutType.None && SPFile.CheckedOutBy.LoginName.Equals(SPWeb.CurrentUser.LoginName))
+#else
             if (SPFile.CheckOutStatus != SPFile.SPCheckOutStatus.None && SPFile.CheckedOutBy.LoginName.Equals(SPWeb.CurrentUser.LoginName))
+#endif
             {
                 // If it's checked out by the current user, show an error.
                 throw new SafeToDisplayException(AppResources.ActionsCheckedOutError);
@@ -755,7 +759,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // no minor versions or limited version number warnings
             if (!SPList.EnableVersioning || SPList.MajorVersionLimit != 0 || SPList.MajorWithMinorVersionsLimit != 0)
             {
-                errorBanner.AddError(ErrorType.Warning, string.Format(CultureInfo.CurrentUICulture, AppResources.ActionsVersioningOff, Server.HtmlEncode(SPList.Title)));
+                errorBanner.AddError(ErrorType.Warning, PageCulture.Format(AppResources.ActionsVersioningOff, Server.HtmlEncode(SPList.Title)));
             }
 
             // If the current file isn't a published version, show a warning.

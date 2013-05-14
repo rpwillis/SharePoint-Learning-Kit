@@ -108,6 +108,9 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
         get { return true; ;}
     }
 
+    /// <summary>The culture to use for the page.</summary>
+    protected SlkCulture PageCulture { get; private set; }
+
     /// <summary>
     /// Gets the learnerKey session parameter which is used as the LearningStore user
     /// if the user is an SlkObserver
@@ -192,7 +195,9 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
     protected override void OnInit(EventArgs e)
     {
-        AppResources.Culture = Thread.CurrentThread.CurrentUICulture;
+Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Culture: OnInit before setting: Current UI {0} : Current {1} AppResources {2}", Thread.CurrentThread.CurrentUICulture, Thread.CurrentThread.CurrentCulture, AppResources.Culture == null ? "null" : AppResources.Culture.Name);
+        PageCulture = new SlkCulture(SPWeb);
+Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Culture: OnInit before setting: Current UI {0} : Current {1} AppResources {2}", Thread.CurrentThread.CurrentUICulture, Thread.CurrentThread.CurrentCulture, AppResources.Culture == null ? "null" : AppResources.Culture.Name);
         base.OnInit(e);
     }
 
@@ -359,15 +364,8 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     ///
     private static DateTime StartOfWeek(DateTime dateTime)
     {
-        // set <cultureInfo> to information about the current user's culture; for debugging
-        // purposes, we can set the culture to Icelandic, which has Monday as the first day of
-        // the week
-#if false
-        #warning current culture is hard-coded to Icelandic
-        CultureInfo cultureInfo = CultureInfo.GetCultureInfo("is-IS");
-#else
-        CultureInfo cultureInfo = CultureInfo.CurrentUICulture;
-#endif
+        // set <cultureInfo> to information about the current user's culture
+        CultureInfo cultureInfo = CultureInfo.CurrentCulture;
 
         // this method imagines that today is the day of <dateTime>
         DateTime today = dateTime.Date;

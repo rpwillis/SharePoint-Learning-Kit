@@ -641,12 +641,12 @@ namespace Microsoft.SharePointLearningKit.Frameset
             {
                 StringBuilder frames = new StringBuilder(4096);
                 int view = Convert.ToInt32(AssignmentView, NumberFormatInfo.InvariantInfo);                
-                frames.Append(String.Format(CultureInfo.CurrentUICulture, "MainFrames.aspx?{0}={1}&",
+                frames.Append(String.Format(CultureInfo.InvariantCulture, "MainFrames.aspx?{0}={1}&",
                                                 FramesetQueryParameter.SlkView, view.ToString(NumberFormatInfo.InvariantInfo)));
                 
                 GetLearnerAssignment();
 
-                frames.Append(String.Format(CultureInfo.CurrentUICulture, "{0}={1}",
+                frames.Append(String.Format(CultureInfo.InvariantCulture, "{0}={1}",
                                             FramesetQueryParameter.LearnerAssignmentId, FramesetQueryParameter.GetValueAsParameter(LearnerAssignmentGuidId)));
             
                 return new UrlString(frames.ToString()).ToAscii();
