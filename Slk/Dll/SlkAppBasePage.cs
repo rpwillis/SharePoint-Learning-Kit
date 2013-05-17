@@ -195,9 +195,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
     protected override void OnInit(EventArgs e)
     {
-Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Culture: OnInit before setting: Current UI {0} : Current {1} AppResources {2}", Thread.CurrentThread.CurrentUICulture, Thread.CurrentThread.CurrentCulture, AppResources.Culture == null ? "null" : AppResources.Culture.Name);
         PageCulture = new SlkCulture(SPWeb);
-Microsoft.SharePointLearningKit.WebControls.SlkError.Debug("Culture: OnInit before setting: Current UI {0} : Current {1} AppResources {2}", Thread.CurrentThread.CurrentUICulture, Thread.CurrentThread.CurrentCulture, AppResources.Culture == null ? "null" : AppResources.Culture.Name);
         base.OnInit(e);
     }
 
