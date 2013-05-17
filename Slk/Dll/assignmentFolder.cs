@@ -288,7 +288,11 @@ namespace Microsoft.SharePointLearningKit
             try
             {
                 roleAssignment.RoleDefinitionBindings.Add(roleDefinition);
+#if SP2010
+                folder.RoleAssignments.AddToCurrentScopeOnly(roleAssignment);
+#else
                 folder.RoleAssignments.Add(roleAssignment);
+#endif
             }
             finally
             {
