@@ -30,6 +30,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         bool show;
         bool showEvaluated;
         bool errorOccurred;
+        SlkCulture culture = new SlkCulture();
 
 #region properties
         ///<summary>The license for the webpart.</summary>
@@ -81,7 +82,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                     }
 
                     submit = new Button();
-                    submit.Text = AppResources.QuickAssignmentAssignText;
+                    submit.Text = culture.Resources.QuickAssignmentAssignText;
                     submit.Click += AssignClick;
                     submit.CssClass="ms-ButtonHeightWidth";
                     Controls.Add(submit);
@@ -110,10 +111,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 if (Show())
                 {
                     writer.Write("<table class='ms-formtable' width='100%' cellspacing='0' cellpadding='0' border='0' style='margin-top: 8px;'>");
-                    RenderFormLine(writer, AppResources.QuickAssignmentLabelTitle, titleBox);
+                    RenderFormLine(writer, culture.Resources.QuickAssignmentLabelTitle, titleBox);
                     if (sites != null)
                     {
-                        RenderFormLine(writer, AppResources.QuickAssignmentLabelSite, sites);
+                        RenderFormLine(writer, culture.Resources.QuickAssignmentLabelSite, sites);
                     }
                     writer.Write("</table>");
                     submit.RenderControl(writer);

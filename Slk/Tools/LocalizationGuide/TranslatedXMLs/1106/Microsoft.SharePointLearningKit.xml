@@ -2021,8 +2021,8 @@ More information may be available in the server event log.</Source>
       </Resources>
       <Resources>
         <ID>AlwpWepPartTitle</ID>
-        <Source>Assignment List</Source>
-        <Translation>Rhestr o Aseiniadau</Translation>
+        <Source>Assignment List Web Part</Source>
+        <Translation>Rhan Gwe Rhestr o Aseiniadau</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
@@ -3291,8 +3291,8 @@ For security reasons, integrated authentication is strongly recommended.
       </Resources>
       <Resources>
         <ID>AlwpWepPartDescription</ID>
-        <Source>Use this web part to keep track of your SharePoint Learning Kit assignments.</Source>
-        <Translation>Defnyddiwch y rhan gwe hon i gadw cofnod o aseiniadau Pecyn Dysgu SharePoint.</Translation>
+        <Source>Display the assignments for an instructor or learner.</Source>
+        <Translation>Dangos yr aseiniadau ar gyfer hyfforddwr neu ddysgwr.</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>

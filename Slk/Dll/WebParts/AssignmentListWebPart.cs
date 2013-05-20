@@ -80,7 +80,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                ConnectionRunAt.Server,            //RunAtOptions
                this,                              //InterfaceObject
                "CellConsumerInterface_WPQ_",      //InterfaceClientReference
-               AppResources.ObserverRoleCommunicationInterfaceTitle,                       //MenuLabel
+               culture.Resources.ObserverRoleCommunicationInterfaceTitle,                       //MenuLabel
                "Learner Information Receiving Interface");               //Description
         }
 
@@ -156,6 +156,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
         #region Private Variables
         SlkCulture culture;
+        SlkCulture invariantCulture = new SlkCulture(CultureInfo.InvariantCulture);
         string frameId = "Frame" + Guid.NewGuid().ToString().Replace("-", "");
         /// <summary>
         /// Holds List Scope - "Only Show Assignments for this Site" web part property
@@ -199,23 +200,50 @@ namespace Microsoft.SharePointLearningKit.WebParts
         public AssignmentListWebPart()
         {
             culture = new SlkCulture();
-
-            // Initialize private variables.
-
             displaySummary = true;
             listScope = true;
-
-            //Sets the WepPart Properties.
-            this.Title = AppResources.AlwpWepPartTitle;
-
-            this.Description = AppResources.AlwpWepPartDescription;
-
-            this.ToolTip = culture.Format(AppResources.AlwpWepPartToolTipFormat, this.Title, this.Description);
-
+            ToolTip = culture.Format(culture.Resources.AlwpWepPartToolTipFormat, this.Title, this.Description);
         }
         #endregion
 
         #region Public Properties
+
+        /// <summary>See <see cref="WebPart.Description"/>.</summary>
+        public override string Description
+        {
+            get
+            {
+                // Localise the description if empty or it is the default value
+                if (string.IsNullOrEmpty(base.Description) || base.Description == invariantCulture.Resources.AlwpWepPartDescription)
+                {
+                    return culture.Resources.AlwpWepPartDescription;
+                }
+                else
+                {
+                    return base.Description;
+                }
+            }
+            set { base.Description = value ;}
+        }
+
+        /// <summary>See <see cref="WebPart.Title"/>.</summary>
+        public override string Title
+        {
+            get
+            {
+                // Localise the description if empty or it is the default value
+                if (string.IsNullOrEmpty(base.Title) || base.Title == invariantCulture.Resources.AlwpWepPartTitle)
+                {
+                    return culture.Resources.AlwpWepPartTitle;
+                }
+                else
+                {
+                    return base.Title;
+                }
+            }
+            set { base.Title = value ;}
+        }
+
         /// <summary>
         /// Sets the assignment list to display assignments from this site or 
         /// all sites using the same SLK database.
@@ -266,7 +294,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 else
                 {
                     //Throw an ArgumentOutOfRangeException for negative values 
-                    throw new ArgumentOutOfRangeException(AppResources.AlwpSummaryWidthDisplayName);
+                    throw new ArgumentOutOfRangeException(culture.Resources.AlwpSummaryWidthDisplayName);
                 }
             }
         }
@@ -334,7 +362,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             if (SPWeb.CurrentUser == null)
             {
-                throw new UserNotFoundException(AppResources.SlkExUserNotFound);
+                throw new UserNotFoundException(culture.Resources.SlkExUserNotFound);
             }
 
             if (String.IsNullOrEmpty(SlkUtilities.Trim(QuerySetOverride)) == false)
@@ -344,7 +372,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 QuerySetDefinition querySetDef = SlkStore.Settings.FindQuerySetDefinition(QuerySetOverride, true);
                 if (querySetDef == null)
                 {
-                    throw new SafeToDisplayException (AppResources.AlwpQuerySetNotFound, QuerySetOverride);
+                    throw new SafeToDisplayException (culture.Resources.AlwpQuerySetNotFound, QuerySetOverride);
                 }
                 else
                 {
@@ -370,7 +398,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             edPart.ID = this.ID + "_editorPart1";
             //Assign the Category for Title and 
-            edPart.Title = AppResources.AlwpWepPartTitle;
+            edPart.Title = culture.Resources.AlwpWepPartTitle;
             editorArray.Add(edPart);
 
             return new EditorPartCollection(editorArray);
@@ -643,7 +671,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 }
                 catch (HttpException)
                 {
-                    throw new SafeToDisplayException(AppResources.SessionNotConfigured);
+                    throw new SafeToDisplayException(culture.Resources.SessionNotConfigured);
                 }
                 return observerRoleLearnerKey;
             }
@@ -685,6 +713,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             //Controls to Render Error
             Image imgErrorType = new Image();
+            SlkCulture culture = new SlkCulture();
 
             switch (errorType)
             {
@@ -692,21 +721,21 @@ namespace Microsoft.SharePointLearningKit.WebParts
                     {
                         //Error Image Tag
                         imgErrorType.ImageUrl = Constants.ImagePath + Constants.ErrorIcon;
-                        imgErrorType.ToolTip = AppResources.SlkErrorTypeErrorToolTip;
+                        imgErrorType.ToolTip = culture.Resources.SlkErrorTypeErrorToolTip;
                         break;
                     }
                 case ErrorType.Info:
                     {
                         //Info Image Tag
                         imgErrorType.ImageUrl = Constants.ImagePath + Constants.InfoIcon;
-                        imgErrorType.ToolTip = AppResources.SlkErrorTypeInfoToolTip;
+                        imgErrorType.ToolTip = culture.Resources.SlkErrorTypeInfoToolTip;
                         break;
                     }
                 case ErrorType.Warning:
                     {
                         //ErrorType Image Tag
                         imgErrorType.ImageUrl = Constants.ImagePath + Constants.WarningIcon;
-                        imgErrorType.ToolTip = AppResources.SlkErrorTypeWarningToolTip;
+                        imgErrorType.ToolTip = culture.Resources.SlkErrorTypeWarningToolTip;
                         break;
                     }
 
@@ -714,7 +743,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                     {
                         //Error Image Tag                       
                         imgErrorType.ImageUrl = Constants.ImagePath + Constants.ErrorIcon;
-                        imgErrorType.ToolTip = AppResources.SlkErrorTypeErrorToolTip;
+                        imgErrorType.ToolTip = culture.Resources.SlkErrorTypeErrorToolTip;
                         break;
                     }
             }
@@ -794,12 +823,13 @@ namespace Microsoft.SharePointLearningKit.WebParts
         internal static void WriteException(SqlException sqlEx, out SlkError slkError)
         {
             //Set the Standard Error text 
-            string errorText = AppResources.SlkGenericError;
+            SlkCulture culture = new SlkCulture();
+            string errorText = culture.Resources.SlkGenericError;
             
             //check whether deadlock occured
             if (sqlEx.Number == 1205)
             {
-                errorText = AppResources.SlkExAlwpSqlDeadLockError;
+                errorText = culture.Resources.SlkExAlwpSqlDeadLockError;
             }
 
             //Slk Error with Generic or dead lock error message.
@@ -835,7 +865,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 if (!loadedResource)
                 {
-                    DescriptionValue = AppResources.ResourceManager.GetString(base.Description); 
+                    SlkCulture culture = new SlkCulture();
+                    DescriptionValue = culture.Resources.ResourceManager.GetString(base.Description); 
                     loadedResource = true;
                 }
                 return base.Description;
@@ -864,7 +895,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 if (!loadedResource)
                 {
-                    DisplayNameValue = AppResources.ResourceManager.GetString(base.DisplayName);
+                    SlkCulture culture = new SlkCulture();
+                    DisplayNameValue = culture.Resources.ResourceManager.GetString(base.DisplayName);
                     loadedResource = true;
                 }
                 return base.DisplayName;
@@ -891,7 +923,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
         /// <summary>Gets the name of a property to display.</summary>
         protected override string GetLocalizedString(string value)
         {
-            return AppResources.ResourceManager.GetString(value);
+            SlkCulture culture = new SlkCulture();
+            return culture.Resources.ResourceManager.GetString(value);
         }
     }
 }

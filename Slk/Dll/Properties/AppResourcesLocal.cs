@@ -22,21 +22,21 @@ namespace Resources.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AppResources {
+    internal class AppResourcesLocal {
         
-        private static global::System.Resources.ResourceManager resourceMan;
+        private  global::System.Resources.ResourceManager resourceMan;
         
-        private static global::System.Globalization.CultureInfo resourceCulture;
+        private  global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal AppResources() {
+        internal AppResourcesLocal() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        internal  global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Resources.Properties.AppResources", typeof(AppResources).Assembly);
@@ -51,7 +51,7 @@ namespace Resources.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        internal  global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Access is denied.
         /// </summary>
-        internal static string AccessDenied {
+        internal  string AccessDenied {
             get {
                 return ResourceManager.GetString("AccessDenied", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The site ({0}) is already in your list. Click the (show all sites) link to see your entire list..
         /// </summary>
-        internal static string ActionsAlreadyInList {
+        internal  string ActionsAlreadyInList {
             get {
                 return ResourceManager.GetString("ActionsAlreadyInList", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
-        internal static string ActionsbtnAdd {
+        internal  string ActionsbtnAdd {
             get {
                 return ResourceManager.GetString("ActionsbtnAdd", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You cannot assign the learning resource because it is currently checked out to you. You must check it in before assigning it..
         /// </summary>
-        internal static string ActionsCheckedOutError {
+        internal  string ActionsCheckedOutError {
             get {
                 return ResourceManager.GetString("ActionsCheckedOutError", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment.
         /// </summary>
-        internal static string ActionsDocLibLinkNoFile {
+        internal  string ActionsDocLibLinkNoFile {
             get {
                 return ResourceManager.GetString("ActionsDocLibLinkNoFile", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The learning resource is a draft. If you assign it, learners may lose access to it once it is published or approved..
         /// </summary>
-        internal static string ActionsDraftVersion {
+        internal  string ActionsDraftVersion {
             get {
                 return ResourceManager.GetString("ActionsDraftVersion", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to (hide details...).
         /// </summary>
-        internal static string ActionsHideDetails {
+        internal  string ActionsHideDetails {
             get {
                 return ResourceManager.GetString("ActionsHideDetails", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The site ({0}) is not a valid site on this installation of SharePoint, or you may not have permission to access it..
         /// </summary>
-        internal static string ActionsInvalidSite {
+        internal  string ActionsInvalidSite {
             get {
                 return ResourceManager.GetString("ActionsInvalidSite", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You cannot assign a folder. To assign all the contents of a folder, you must package its contents into a single archive file..
         /// </summary>
-        internal static string ActionsItemIsFolder {
+        internal  string ActionsItemIsFolder {
             get {
                 return ResourceManager.GetString("ActionsItemIsFolder", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The learning resource does not exist or you may not have permission to access it..
         /// </summary>
-        internal static string ActionsItemNotFound {
+        internal  string ActionsItemNotFound {
             get {
                 return ResourceManager.GetString("ActionsItemNotFound", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The assignment will appear with all your other assignments..
         /// </summary>
-        internal static string ActionslblAssignSelf {
+        internal  string ActionslblAssignSelf {
             get {
                 return ResourceManager.GetString("ActionslblAssignSelf", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Choose the site where you&apos;d like to assign this learning resource:.
         /// </summary>
-        internal static string ActionslblChoose {
+        internal  string ActionslblChoose {
             get {
                 return ResourceManager.GetString("ActionslblChoose", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Type the address of the SharePoint site you&apos;d like to add..
         /// </summary>
-        internal static string ActionslblMRUAddress {
+        internal  string ActionslblMRUAddress {
             get {
                 return ResourceManager.GetString("ActionslblMRUAddress", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to (Current Site).
         /// </summary>
-        internal static string ActionslblMRUCurrentSite {
+        internal  string ActionslblMRUCurrentSite {
             get {
                 return ResourceManager.GetString("ActionslblMRUCurrentSite", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Organization.
         /// </summary>
-        internal static string ActionslblOrganization {
+        internal  string ActionslblOrganization {
             get {
                 return ResourceManager.GetString("ActionslblOrganization", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assign it to someone else.
         /// </summary>
-        internal static string ActionslblSelfAssignAssign {
+        internal  string ActionslblSelfAssignAssign {
             get {
                 return ResourceManager.GetString("ActionslblSelfAssignAssign", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assign it.
         /// </summary>
-        internal static string ActionslblSelfAssignAssignNoFile {
+        internal  string ActionslblSelfAssignAssignNoFile {
             get {
                 return ResourceManager.GetString("ActionslblSelfAssignAssignNoFile", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Use it myself.
         /// </summary>
-        internal static string ActionslblSelfAssignHeader {
+        internal  string ActionslblSelfAssignHeader {
             get {
                 return ResourceManager.GetString("ActionslblSelfAssignHeader", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to What would you like to do with this document?.
         /// </summary>
-        internal static string ActionslblWhatHeader {
+        internal  string ActionslblWhatHeader {
             get {
                 return ResourceManager.GetString("ActionslblWhatHeader", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assign work.
         /// </summary>
-        internal static string ActionslblWhatHeaderNoFile {
+        internal  string ActionslblWhatHeaderNoFile {
             get {
                 return ResourceManager.GetString("ActionslblWhatHeaderNoFile", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assign this learning resource to yourself..
         /// </summary>
-        internal static string ActionslnkAssignSelf {
+        internal  string ActionslnkAssignSelf {
             get {
                 return ResourceManager.GetString("ActionslnkAssignSelf", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Add a site to this list....
         /// </summary>
-        internal static string ActionslnkMRUAddSite {
+        internal  string ActionslnkMRUAddSite {
             get {
                 return ResourceManager.GetString("ActionslnkMRUAddSite", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to (show all sites).
         /// </summary>
-        internal static string ActionslnkMRUShowAll {
+        internal  string ActionslnkMRUShowAll {
             get {
                 return ResourceManager.GetString("ActionslnkMRUShowAll", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Test this link (opens in new window).
         /// </summary>
-        internal static string ActionslnkMRUTestLink {
+        internal  string ActionslnkMRUTestLink {
             get {
                 return ResourceManager.GetString("ActionslnkMRUTestLink", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assign the learning resource to learners on site: {0}.
         /// </summary>
-        internal static string ActionsMRUToolTip {
+        internal  string ActionsMRUToolTip {
             get {
                 return ResourceManager.GetString("ActionsMRUToolTip", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The site ({0}) is not configured to use SharePoint Learning Kit. Administrators can use SharePoint Central Administration to configure SharePoint Learning Kit..
         /// </summary>
-        internal static string ActionsNotEnabled {
+        internal  string ActionsNotEnabled {
             get {
                 return ResourceManager.GetString("ActionsNotEnabled", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You cannot assign to the site ({0}) because you are not an instructor on that site..
         /// </summary>
-        internal static string ActionsNotInstructor {
+        internal  string ActionsNotInstructor {
             get {
                 return ResourceManager.GetString("ActionsNotInstructor", resourceCulture);
             }
@@ -309,7 +309,7 @@ namespace Resources.Properties {
         ///	a SharePoint site where the assignment will appear, and choose members of that site to be
         ///	instructors or learners..
         /// </summary>
-        internal static string ActionsPageDescription {
+        internal  string ActionsPageDescription {
             get {
                 return ResourceManager.GetString("ActionsPageDescription", resourceCulture);
             }
@@ -318,7 +318,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to This page allows you to choose which site to assign a piece of work to..
         /// </summary>
-        internal static string ActionsPageDescriptionNoFile {
+        internal  string ActionsPageDescriptionNoFile {
             get {
                 return ResourceManager.GetString("ActionsPageDescriptionNoFile", resourceCulture);
             }
@@ -327,7 +327,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to E-Learning Actions.
         /// </summary>
-        internal static string ActionsPageTitle {
+        internal  string ActionsPageTitle {
             get {
                 return ResourceManager.GetString("ActionsPageTitle", resourceCulture);
             }
@@ -336,7 +336,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to E-Learning Actions:.
         /// </summary>
-        internal static string ActionsPageTitleinTitlePage {
+        internal  string ActionsPageTitleinTitlePage {
             get {
                 return ResourceManager.GetString("ActionsPageTitleinTitlePage", resourceCulture);
             }
@@ -345,7 +345,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to (show details...).
         /// </summary>
-        internal static string ActionsShowDetails {
+        internal  string ActionsShowDetails {
             get {
                 return ResourceManager.GetString("ActionsShowDetails", resourceCulture);
             }
@@ -354,7 +354,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You must type a Web address to add a site to your site list..
         /// </summary>
-        internal static string ActionsSiteRequired {
+        internal  string ActionsSiteRequired {
             get {
                 return ResourceManager.GetString("ActionsSiteRequired", resourceCulture);
             }
@@ -363,7 +363,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The document library ({0}) does not have versioning turned on or the number of versions is limited. Editing this learning resource after you assign it could cause unpredictable results..
         /// </summary>
-        internal static string ActionsVersioningOff {
+        internal  string ActionsVersioningOff {
             get {
                 return ResourceManager.GetString("ActionsVersioningOff", resourceCulture);
             }
@@ -372,7 +372,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Some errors in this learning resource were repaired, but the learning resource may not function as expected..
         /// </summary>
-        internal static string ActionsWarning {
+        internal  string ActionsWarning {
             get {
                 return ResourceManager.GetString("ActionsWarning", resourceCulture);
             }
@@ -381,7 +381,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;html&gt;&lt;body style=&quot;font: 10pt Tahoma&quot;&gt;{0}&lt;/body&gt;&lt;/html&gt;.
         /// </summary>
-        internal static string AdminErrorPageHtml {
+        internal  string AdminErrorPageHtml {
             get {
                 return ResourceManager.GetString("AdminErrorPageHtml", resourceCulture);
             }
@@ -392,7 +392,7 @@ namespace Resources.Properties {
         ///
         ///More information has been written to the server event log..
         /// </summary>
-        internal static string AdminGenericException {
+        internal  string AdminGenericException {
             get {
                 return ResourceManager.GetString("AdminGenericException", resourceCulture);
             }
@@ -401,7 +401,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Show the control for selecting a query to display in the assignment list..
         /// </summary>
-        internal static string AlwpDisplaySummaryDescription {
+        internal  string AlwpDisplaySummaryDescription {
             get {
                 return ResourceManager.GetString("AlwpDisplaySummaryDescription", resourceCulture);
             }
@@ -410,7 +410,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Show Query Control.
         /// </summary>
-        internal static string AlwpDisplaySummaryDisplayName {
+        internal  string AlwpDisplaySummaryDisplayName {
             get {
                 return ResourceManager.GetString("AlwpDisplaySummaryDisplayName", resourceCulture);
             }
@@ -419,7 +419,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to File Submission.
         /// </summary>
-        internal static string AlwpFileSubmissionColumnTitle {
+        internal  string AlwpFileSubmissionColumnTitle {
             get {
                 return ResourceManager.GetString("AlwpFileSubmissionColumnTitle", resourceCulture);
             }
@@ -428,7 +428,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submitted LINK.
         /// </summary>
-        internal static string AlwpFileSubmissionSubmittedText {
+        internal  string AlwpFileSubmissionSubmittedText {
             get {
                 return ResourceManager.GetString("AlwpFileSubmissionSubmittedText", resourceCulture);
             }
@@ -437,7 +437,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submit File(s).
         /// </summary>
-        internal static string AlwpFileSubmissionSubmitText {
+        internal  string AlwpFileSubmissionSubmitText {
             get {
                 return ResourceManager.GetString("AlwpFileSubmissionSubmitText", resourceCulture);
             }
@@ -446,7 +446,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Display only assignments for this site instead of all assignments in the database..
         /// </summary>
-        internal static string AlwpListScopeDescription {
+        internal  string AlwpListScopeDescription {
             get {
                 return ResourceManager.GetString("AlwpListScopeDescription", resourceCulture);
             }
@@ -455,7 +455,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Show Only This Site&apos;s Assignments.
         /// </summary>
-        internal static string AlwpListScopeDisplayName {
+        internal  string AlwpListScopeDisplayName {
             get {
                 return ResourceManager.GetString("AlwpListScopeDisplayName", resourceCulture);
             }
@@ -464,7 +464,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to There are no items to show in this view..
         /// </summary>
-        internal static string AlwpNoItemFound {
+        internal  string AlwpNoItemFound {
             get {
                 return ResourceManager.GetString("AlwpNoItemFound", resourceCulture);
             }
@@ -473,7 +473,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ERROR.
         /// </summary>
-        internal static string AlwpQueryResultError {
+        internal  string AlwpQueryResultError {
             get {
                 return ResourceManager.GetString("AlwpQueryResultError", resourceCulture);
             }
@@ -482,7 +482,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The query or query set, {0}, does not exist. Open the tool pane to specify a different query set override or remove the entry to use the default query set..
         /// </summary>
-        internal static string AlwpQuerySetNotFound {
+        internal  string AlwpQuerySetNotFound {
             get {
                 return ResourceManager.GetString("AlwpQuerySetNotFound", resourceCulture);
             }
@@ -491,7 +491,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Query or query set to display for all users instead of the default. For example, &quot;LearnerQuerySet&quot; or &quot;InstructorQuerySet&quot;..
         /// </summary>
-        internal static string AlwpQuerySetOverrideDescription {
+        internal  string AlwpQuerySetOverrideDescription {
             get {
                 return ResourceManager.GetString("AlwpQuerySetOverrideDescription", resourceCulture);
             }
@@ -500,7 +500,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Query Set Override.
         /// </summary>
-        internal static string AlwpQuerySetOverrideDisplayName {
+        internal  string AlwpQuerySetOverrideDisplayName {
             get {
                 return ResourceManager.GetString("AlwpQuerySetOverrideDisplayName", resourceCulture);
             }
@@ -509,7 +509,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Width of the query control..
         /// </summary>
-        internal static string AlwpSummaryWidthDescription {
+        internal  string AlwpSummaryWidthDescription {
             get {
                 return ResourceManager.GetString("AlwpSummaryWidthDescription", resourceCulture);
             }
@@ -518,7 +518,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Query Control Width.
         /// </summary>
-        internal static string AlwpSummaryWidthDisplayName {
+        internal  string AlwpSummaryWidthDisplayName {
             get {
                 return ResourceManager.GetString("AlwpSummaryWidthDisplayName", resourceCulture);
             }
@@ -527,25 +527,25 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Unknown Site {0}.
         /// </summary>
-        internal static string AlwpUnknownSite {
+        internal  string AlwpUnknownSite {
             get {
                 return ResourceManager.GetString("AlwpUnknownSite", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Display the assignments for an instructor or learner..
+        ///   Looks up a localized string similar to Use this web part to keep track of your SharePoint Learning Kit assignments..
         /// </summary>
-        internal static string AlwpWepPartDescription {
+        internal  string AlwpWepPartDescription {
             get {
                 return ResourceManager.GetString("AlwpWepPartDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assignment List Web Part.
+        ///   Looks up a localized string similar to Assignment List.
         /// </summary>
-        internal static string AlwpWepPartTitle {
+        internal  string AlwpWepPartTitle {
             get {
                 return ResourceManager.GetString("AlwpWepPartTitle", resourceCulture);
             }
@@ -554,7 +554,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} - {1}.
         /// </summary>
-        internal static string AlwpWepPartToolTipFormat {
+        internal  string AlwpWepPartToolTipFormat {
             get {
                 return ResourceManager.GetString("AlwpWepPartToolTipFormat", resourceCulture);
             }
@@ -563,7 +563,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to All Learners.
         /// </summary>
-        internal static string AppAllLearnersGroup {
+        internal  string AppAllLearnersGroup {
             get {
                 return ResourceManager.GetString("AppAllLearnersGroup", resourceCulture);
             }
@@ -572,7 +572,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Choose date from calendar.
         /// </summary>
-        internal static string AppCalendarToolTip {
+        internal  string AppCalendarToolTip {
             get {
                 return ResourceManager.GetString("AppCalendarToolTip", resourceCulture);
             }
@@ -581,7 +581,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to If you clear this check box, any work completed on the assignment by this learner or group will be permanently deleted..
         /// </summary>
-        internal static string AppConfirmUnAssigning {
+        internal  string AppConfirmUnAssigning {
             get {
                 return ResourceManager.GetString("AppConfirmUnAssigning", resourceCulture);
             }
@@ -590,7 +590,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to If you uncheck yourself you will no longer be able to grade this assignment, or have access to this assignment’s properties..
         /// </summary>
-        internal static string AppConfirmUnCheckCurrentUser {
+        internal  string AppConfirmUnCheckCurrentUser {
             get {
                 return ResourceManager.GetString("AppConfirmUnCheckCurrentUser", resourceCulture);
             }
@@ -599,7 +599,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The description exceeds the maximum length of 4096 characters..
         /// </summary>
-        internal static string AppDescMaxLengthError {
+        internal  string AppDescMaxLengthError {
             get {
                 return ResourceManager.GetString("AppDescMaxLengthError", resourceCulture);
             }
@@ -608,7 +608,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The due date must be later than the start date..
         /// </summary>
-        internal static string AppDueDateError {
+        internal  string AppDueDateError {
             get {
                 return ResourceManager.GetString("AppDueDateError", resourceCulture);
             }
@@ -619,7 +619,7 @@ namespace Resources.Properties {
         ///{0}
         ///More information may be available in the server event log..
         /// </summary>
-        internal static string AppEnumerationWarning {
+        internal  string AppEnumerationWarning {
             get {
                 return ResourceManager.GetString("AppEnumerationWarning", resourceCulture);
             }
@@ -630,7 +630,7 @@ namespace Resources.Properties {
         ///
         ///{0}.
         /// </summary>
-        internal static string AppError {
+        internal  string AppError {
             get {
                 return ResourceManager.GetString("AppError", resourceCulture);
             }
@@ -639,7 +639,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Grade or manage the assignment .
         /// </summary>
-        internal static string AppGradeOrManage {
+        internal  string AppGradeOrManage {
             get {
                 return ResourceManager.GetString("AppGradeOrManage", resourceCulture);
             }
@@ -648,7 +648,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You cannot assign to this site because you are not an instructor..
         /// </summary>
-        internal static string AppInstructorPermissonNotFound {
+        internal  string AppInstructorPermissonNotFound {
             get {
                 return ResourceManager.GetString("AppInstructorPermissonNotFound", resourceCulture);
             }
@@ -657,7 +657,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The assignment must have at least one instructor..
         /// </summary>
-        internal static string AppInstructorRequiredError {
+        internal  string AppInstructorRequiredError {
             get {
                 return ResourceManager.GetString("AppInstructorRequiredError", resourceCulture);
             }
@@ -666,7 +666,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to This Web site is not accessible..
         /// </summary>
-        internal static string APPInvalidSite {
+        internal  string APPInvalidSite {
             get {
                 return ResourceManager.GetString("APPInvalidSite", resourceCulture);
             }
@@ -675,7 +675,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Learners.
         /// </summary>
-        internal static string AppLearnersHeaderText {
+        internal  string AppLearnersHeaderText {
             get {
                 return ResourceManager.GetString("AppLearnersHeaderText", resourceCulture);
             }
@@ -684,7 +684,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to There are no learners on this site..
         /// </summary>
-        internal static string AppLearnersNotFound {
+        internal  string AppLearnersNotFound {
             get {
                 return ResourceManager.GetString("AppLearnersNotFound", resourceCulture);
             }
@@ -693,7 +693,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The assignment must be assigned to at least one learner..
         /// </summary>
-        internal static string AppLearnersRequiredError {
+        internal  string AppLearnersRequiredError {
             get {
                 return ResourceManager.GetString("AppLearnersRequiredError", resourceCulture);
             }
@@ -702,7 +702,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Go back to {0}.
         /// </summary>
-        internal static string AppNavigateToDocLib {
+        internal  string AppNavigateToDocLib {
             get {
                 return ResourceManager.GetString("AppNavigateToDocLib", resourceCulture);
             }
@@ -711,7 +711,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Navigate to site:.
         /// </summary>
-        internal static string AppNavigateToSite {
+        internal  string AppNavigateToSite {
             get {
                 return ResourceManager.GetString("AppNavigateToSite", resourceCulture);
             }
@@ -720,7 +720,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The available learners and instructors for this site could not be displayed because you are not an instructor on the site..
         /// </summary>
-        internal static string AppNotAnInstructorInCurrentSiteError {
+        internal  string AppNotAnInstructorInCurrentSiteError {
             get {
                 return ResourceManager.GetString("AppNotAnInstructorInCurrentSiteError", resourceCulture);
             }
@@ -729,7 +729,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment Created.
         /// </summary>
-        internal static string AppPageCreateConfirmationTitle {
+        internal  string AppPageCreateConfirmationTitle {
             get {
                 return ResourceManager.GetString("AppPageCreateConfirmationTitle", resourceCulture);
             }
@@ -740,7 +740,7 @@ namespace Resources.Properties {
         ///    properties of your assignment such as start date, due date, and instructions to
         ///    the learner, and then choose who will be instructors or learners for this assignment..
         /// </summary>
-        internal static string AppPageCreationDescription {
+        internal  string AppPageCreationDescription {
             get {
                 return ResourceManager.GetString("AppPageCreationDescription", resourceCulture);
             }
@@ -749,7 +749,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Create an Assignment.
         /// </summary>
-        internal static string AppPageCreationTitle {
+        internal  string AppPageCreationTitle {
             get {
                 return ResourceManager.GetString("AppPageCreationTitle", resourceCulture);
             }
@@ -758,7 +758,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Create an Assignment.
         /// </summary>
-        internal static string AppPageCreationTitleInTitleArea {
+        internal  string AppPageCreationTitleInTitleArea {
             get {
                 return ResourceManager.GetString("AppPageCreationTitleInTitleArea", resourceCulture);
             }
@@ -767,7 +767,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to This page helps you edit an assignment’s properties or change instructors or learners for the assignment..
         /// </summary>
-        internal static string AppPageEditDescription {
+        internal  string AppPageEditDescription {
             get {
                 return ResourceManager.GetString("AppPageEditDescription", resourceCulture);
             }
@@ -776,7 +776,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Edit Assignment.
         /// </summary>
-        internal static string AppPageEditTitle {
+        internal  string AppPageEditTitle {
             get {
                 return ResourceManager.GetString("AppPageEditTitle", resourceCulture);
             }
@@ -785,7 +785,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Edit Assignment.
         /// </summary>
-        internal static string AppPageEditTitleInTitleArea {
+        internal  string AppPageEditTitleInTitleArea {
             get {
                 return ResourceManager.GetString("AppPageEditTitleInTitleArea", resourceCulture);
             }
@@ -797,7 +797,7 @@ namespace Resources.Properties {
         /// 
         ///.
         /// </summary>
-        internal static string AppPointsPossibleNaNError {
+        internal  string AppPointsPossibleNaNError {
             get {
                 return ResourceManager.GetString("AppPointsPossibleNaNError", resourceCulture);
             }
@@ -806,7 +806,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to QueryString Missing RootActivityId: Activity Package Item Identifier cannot be empty or null..
         /// </summary>
-        internal static string AppRootActivityIDNotFound {
+        internal  string AppRootActivityIDNotFound {
             get {
                 return ResourceManager.GetString("AppRootActivityIDNotFound", resourceCulture);
             }
@@ -815,7 +815,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Open site in a new window.
         /// </summary>
-        internal static string AppSharePointSiteToolTip {
+        internal  string AppSharePointSiteToolTip {
             get {
                 return ResourceManager.GetString("AppSharePointSiteToolTip", resourceCulture);
             }
@@ -824,7 +824,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The site {0} has not been enabled for e-learning..
         /// </summary>
-        internal static string AppSPWebNotEnabled {
+        internal  string AppSPWebNotEnabled {
             get {
                 return ResourceManager.GetString("AppSPWebNotEnabled", resourceCulture);
             }
@@ -833,7 +833,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The assignment must have a title..
         /// </summary>
-        internal static string AppTitleBlankError {
+        internal  string AppTitleBlankError {
             get {
                 return ResourceManager.GetString("AppTitleBlankError", resourceCulture);
             }
@@ -842,7 +842,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The title exceeds the maximum length of 1000 characters..
         /// </summary>
-        internal static string AppTitleMaxLengthError {
+        internal  string AppTitleMaxLengthError {
             get {
                 return ResourceManager.GetString("AppTitleMaxLengthError", resourceCulture);
             }
@@ -851,7 +851,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to An assignment folder with the same name already exists.
         /// </summary>
-        internal static string AssFolderAlreadyExists {
+        internal  string AssFolderAlreadyExists {
             get {
                 return ResourceManager.GetString("AssFolderAlreadyExists", resourceCulture);
             }
@@ -860,7 +860,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No folder was found for this assignment.
         /// </summary>
-        internal static string AssFolderNotFound {
+        internal  string AssFolderNotFound {
             get {
                 return ResourceManager.GetString("AssFolderNotFound", resourceCulture);
             }
@@ -869,7 +869,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to This name is already used for another assignment..
         /// </summary>
-        internal static string AssignmentNameAlreadyUsed {
+        internal  string AssignmentNameAlreadyUsed {
             get {
                 return ResourceManager.GetString("AssignmentNameAlreadyUsed", resourceCulture);
             }
@@ -878,7 +878,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The assignment (ID {0}) does not exist or you may not have permission to access it..
         /// </summary>
-        internal static string AssignmentNotFoundInDatabase {
+        internal  string AssignmentNotFoundInDatabase {
             get {
                 return ResourceManager.GetString("AssignmentNotFoundInDatabase", resourceCulture);
             }
@@ -888,7 +888,7 @@ namespace Resources.Properties {
         ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; is due on %due%.&lt;/p&gt;
         ///&lt;p&gt;&lt;a href=&apos;%url%&apos;&gt;%url%&lt;/a&gt;&lt;/p&gt;.
         /// </summary>
-        internal static string AssignmentReminderEmailDefaultBody {
+        internal  string AssignmentReminderEmailDefaultBody {
             get {
                 return ResourceManager.GetString("AssignmentReminderEmailDefaultBody", resourceCulture);
             }
@@ -897,7 +897,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment Reminder : %title%.
         /// </summary>
-        internal static string AssignmentReminderEmailDefaultSubject {
+        internal  string AssignmentReminderEmailDefaultSubject {
             get {
                 return ResourceManager.GetString("AssignmentReminderEmailDefaultSubject", resourceCulture);
             }
@@ -906,7 +906,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; had been collected.&lt;/p&gt;.
         /// </summary>
-        internal static string CancelAssignmentEmailDefaultBody {
+        internal  string CancelAssignmentEmailDefaultBody {
             get {
                 return ResourceManager.GetString("CancelAssignmentEmailDefaultBody", resourceCulture);
             }
@@ -915,7 +915,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment Cancelled : %title%.
         /// </summary>
-        internal static string CancelAssignmentEmailDefaultSubject {
+        internal  string CancelAssignmentEmailDefaultSubject {
             get {
                 return ResourceManager.GetString("CancelAssignmentEmailDefaultSubject", resourceCulture);
             }
@@ -924,7 +924,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot change learner assignment because you are not an instructor for the assignment..
         /// </summary>
-        internal static string ChangeLearnerAssignmentNotInstructor {
+        internal  string ChangeLearnerAssignmentNotInstructor {
             get {
                 return ResourceManager.GetString("ChangeLearnerAssignmentNotInstructor", resourceCulture);
             }
@@ -933,7 +933,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Email learners on creation or when changed..
         /// </summary>
-        internal static string CheckBoxEmailAssignment {
+        internal  string CheckBoxEmailAssignment {
             get {
                 return ResourceManager.GetString("CheckBoxEmailAssignment", resourceCulture);
             }
@@ -943,7 +943,7 @@ namespace Resources.Properties {
         ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; has been collected in.&lt;/p&gt;
         ///          &lt;p&gt;&lt;a href=&apos;%url%&apos;&gt;%url%&lt;/a&gt;&lt;/p&gt;.
         /// </summary>
-        internal static string CollectAssignmentEmailDefaultBody {
+        internal  string CollectAssignmentEmailDefaultBody {
             get {
                 return ResourceManager.GetString("CollectAssignmentEmailDefaultBody", resourceCulture);
             }
@@ -952,7 +952,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment %title% has been collected in.
         /// </summary>
-        internal static string CollectAssignmentEmailDefaultSubject {
+        internal  string CollectAssignmentEmailDefaultSubject {
             get {
                 return ResourceManager.GetString("CollectAssignmentEmailDefaultSubject", resourceCulture);
             }
@@ -961,7 +961,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment cannot be collected as it is not yet started..
         /// </summary>
-        internal static string CollectAssignmentNotStarted {
+        internal  string CollectAssignmentNotStarted {
             get {
                 return ResourceManager.GetString("CollectAssignmentNotStarted", resourceCulture);
             }
@@ -970,7 +970,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to , .
         /// </summary>
-        internal static string CommaSpace {
+        internal  string CommaSpace {
             get {
                 return ResourceManager.GetString("CommaSpace", resourceCulture);
             }
@@ -979,7 +979,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to One or more learners did not complete the assignment yet.
         /// </summary>
-        internal static string CommentedFilesAssignmnetsNotCompleted {
+        internal  string CommentedFilesAssignmnetsNotCompleted {
             get {
                 return ResourceManager.GetString("CommentedFilesAssignmnetsNotCompleted", resourceCulture);
             }
@@ -988,7 +988,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while trying to extract the uploaded file..
         /// </summary>
-        internal static string CommentedFilesExtractFileException {
+        internal  string CommentedFilesExtractFileException {
             get {
                 return ResourceManager.GetString("CommentedFilesExtractFileException", resourceCulture);
             }
@@ -997,7 +997,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No commented files were uploaded, please check the zip file..
         /// </summary>
-        internal static string CommentedFilesExtractionFailed {
+        internal  string CommentedFilesExtractionFailed {
             get {
                 return ResourceManager.GetString("CommentedFilesExtractionFailed", resourceCulture);
             }
@@ -1006,7 +1006,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to file(s) ignored..
         /// </summary>
-        internal static string CommentedFilesIgnoredMessage {
+        internal  string CommentedFilesIgnoredMessage {
             get {
                 return ResourceManager.GetString("CommentedFilesIgnoredMessage", resourceCulture);
             }
@@ -1015,7 +1015,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Upload zip files only..
         /// </summary>
-        internal static string CommentedFilesInvalidExtenstion {
+        internal  string CommentedFilesInvalidExtenstion {
             get {
                 return ResourceManager.GetString("CommentedFilesInvalidExtenstion", resourceCulture);
             }
@@ -1024,7 +1024,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to file(s) missing.
         /// </summary>
-        internal static string CommentedFilesMissedMessage {
+        internal  string CommentedFilesMissedMessage {
             get {
                 return ResourceManager.GetString("CommentedFilesMissedMessage", resourceCulture);
             }
@@ -1033,7 +1033,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You do not have access to this page because you are not an instructor.
         /// </summary>
-        internal static string CommentedFilesNoAccessException {
+        internal  string CommentedFilesNoAccessException {
             get {
                 return ResourceManager.GetString("CommentedFilesNoAccessException", resourceCulture);
             }
@@ -1042,7 +1042,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to assignment folder does not exist under Drop Box Document Library..
         /// </summary>
-        internal static string CommentedFilesNoAssignmentFolderException {
+        internal  string CommentedFilesNoAssignmentFolderException {
             get {
                 return ResourceManager.GetString("CommentedFilesNoAssignmentFolderException", resourceCulture);
             }
@@ -1051,7 +1051,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Please attach a file..
         /// </summary>
-        internal static string CommentedFilesNoFileAttached {
+        internal  string CommentedFilesNoFileAttached {
             get {
                 return ResourceManager.GetString("CommentedFilesNoFileAttached", resourceCulture);
             }
@@ -1060,7 +1060,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No commented files were uploaded to.
         /// </summary>
-        internal static string CommentedFilesNoFilesUploaded {
+        internal  string CommentedFilesNoFilesUploaded {
             get {
                 return ResourceManager.GetString("CommentedFilesNoFilesUploaded", resourceCulture);
             }
@@ -1069,7 +1069,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Use this page to upload the assignment commented files..
         /// </summary>
-        internal static string CommentedFilesPageDescription {
+        internal  string CommentedFilesPageDescription {
             get {
                 return ResourceManager.GetString("CommentedFilesPageDescription", resourceCulture);
             }
@@ -1078,7 +1078,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Commented File(s).
         /// </summary>
-        internal static string CommentedFilesPageTitle {
+        internal  string CommentedFilesPageTitle {
             get {
                 return ResourceManager.GetString("CommentedFilesPageTitle", resourceCulture);
             }
@@ -1087,7 +1087,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to and.
         /// </summary>
-        internal static string CommentedFilesStatusMessage {
+        internal  string CommentedFilesStatusMessage {
             get {
                 return ResourceManager.GetString("CommentedFilesStatusMessage", resourceCulture);
             }
@@ -1096,7 +1096,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Commented  File(s).
         /// </summary>
-        internal static string CommentedFilesTitleinTitlePage {
+        internal  string CommentedFilesTitleinTitlePage {
             get {
                 return ResourceManager.GetString("CommentedFilesTitleinTitlePage", resourceCulture);
             }
@@ -1105,7 +1105,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No assignment folder exists for .
         /// </summary>
-        internal static string CommentedFilesUploadFailed {
+        internal  string CommentedFilesUploadFailed {
             get {
                 return ResourceManager.GetString("CommentedFilesUploadFailed", resourceCulture);
             }
@@ -1114,7 +1114,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to commented file(s) uploaded.
         /// </summary>
-        internal static string CommentedFilesUploadMessage {
+        internal  string CommentedFilesUploadMessage {
             get {
                 return ResourceManager.GetString("CommentedFilesUploadMessage", resourceCulture);
             }
@@ -1123,7 +1123,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
-        internal static string ConfigureBtnOKText {
+        internal  string ConfigureBtnOKText {
             get {
                 return ResourceManager.GetString("ConfigureBtnOKText", resourceCulture);
             }
@@ -1132,7 +1132,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Create a new database.
         /// </summary>
-        internal static string ConfigureChkCreateDatabaseLabelText {
+        internal  string ConfigureChkCreateDatabaseLabelText {
             get {
                 return ResourceManager.GetString("ConfigureChkCreateDatabaseLabelText", resourceCulture);
             }
@@ -1141,7 +1141,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Create permissions.
         /// </summary>
-        internal static string ConfigureChkCreatePermissionsLabelText {
+        internal  string ConfigureChkCreatePermissionsLabelText {
             get {
                 return ResourceManager.GetString("ConfigureChkCreatePermissionsLabelText", resourceCulture);
             }
@@ -1150,7 +1150,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Use this page to configure SharePoint Learning Kit (SLK) for one or more Site Collections..
         /// </summary>
-        internal static string ConfigureDescription {
+        internal  string ConfigureDescription {
             get {
                 return ResourceManager.GetString("ConfigureDescription", resourceCulture);
             }
@@ -1159,7 +1159,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Configuration complete..
         /// </summary>
-        internal static string ConfigureImageConfigurationComplete {
+        internal  string ConfigureImageConfigurationComplete {
             get {
                 return ResourceManager.GetString("ConfigureImageConfigurationComplete", resourceCulture);
             }
@@ -1168,7 +1168,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Please wait while your changes are processed..
         /// </summary>
-        internal static string ConfigureImagePleaseWait {
+        internal  string ConfigureImagePleaseWait {
             get {
                 return ResourceManager.GetString("ConfigureImagePleaseWait", resourceCulture);
             }
@@ -1177,7 +1177,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Database server:.
         /// </summary>
-        internal static string ConfigureInputDatabaseServerLabelText {
+        internal  string ConfigureInputDatabaseServerLabelText {
             get {
                 return ResourceManager.GetString("ConfigureInputDatabaseServerLabelText", resourceCulture);
             }
@@ -1186,7 +1186,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SLK Database.
         /// </summary>
-        internal static string ConfigureInputDatabaseTitle {
+        internal  string ConfigureInputDatabaseTitle {
             get {
                 return ResourceManager.GetString("ConfigureInputDatabaseTitle", resourceCulture);
             }
@@ -1195,7 +1195,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Instructor permission:.
         /// </summary>
-        internal static string ConfigureInputInstructorPermissionsLabelText {
+        internal  string ConfigureInputInstructorPermissionsLabelText {
             get {
                 return ResourceManager.GetString("ConfigureInputInstructorPermissionsLabelText", resourceCulture);
             }
@@ -1204,7 +1204,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Learner permission:.
         /// </summary>
-        internal static string ConfigureInputLearnerPermissionsLabelText {
+        internal  string ConfigureInputLearnerPermissionsLabelText {
             get {
                 return ResourceManager.GetString("ConfigureInputLearnerPermissionsLabelText", resourceCulture);
             }
@@ -1213,7 +1213,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Observer Permission:.
         /// </summary>
-        internal static string ConfigureInputObserverPermissionsLabelText {
+        internal  string ConfigureInputObserverPermissionsLabelText {
             get {
                 return ResourceManager.GetString("ConfigureInputObserverPermissionsLabelText", resourceCulture);
             }
@@ -1222,7 +1222,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SLK Permissions.
         /// </summary>
-        internal static string ConfigureInputPermissionsTitle {
+        internal  string ConfigureInputPermissionsTitle {
             get {
                 return ResourceManager.GetString("ConfigureInputPermissionsTitle", resourceCulture);
             }
@@ -1231,7 +1231,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Select a Site Collection to configure..
         /// </summary>
-        internal static string ConfigureInputSiteSelectorDescription {
+        internal  string ConfigureInputSiteSelectorDescription {
             get {
                 return ResourceManager.GetString("ConfigureInputSiteSelectorDescription", resourceCulture);
             }
@@ -1240,7 +1240,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Site Collection.
         /// </summary>
-        internal static string ConfigureInputSiteSelectorTitle {
+        internal  string ConfigureInputSiteSelectorTitle {
             get {
                 return ResourceManager.GetString("ConfigureInputSiteSelectorTitle", resourceCulture);
             }
@@ -1249,7 +1249,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to New SLK Settings file:.
         /// </summary>
-        internal static string ConfigureInputSlkSettingsFileLabelText {
+        internal  string ConfigureInputSlkSettingsFileLabelText {
             get {
                 return ResourceManager.GetString("ConfigureInputSlkSettingsFileLabelText", resourceCulture);
             }
@@ -1258,7 +1258,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SLK Settings.
         /// </summary>
-        internal static string ConfigureInputSlkSettingsTitle {
+        internal  string ConfigureInputSlkSettingsTitle {
             get {
                 return ResourceManager.GetString("ConfigureInputSlkSettingsTitle", resourceCulture);
             }
@@ -1267,7 +1267,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Configuration complete..
         /// </summary>
-        internal static string ConfigureLabelConfigurationComplete {
+        internal  string ConfigureLabelConfigurationComplete {
             get {
                 return ResourceManager.GetString("ConfigureLabelConfigurationComplete", resourceCulture);
             }
@@ -1276,7 +1276,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;p style=&quot;margin-bottom: 6pt&quot;&gt;Specify the SLK database that will contain e-learning assignments for the selected site collection.&lt;/p&gt;&lt;p style=&quot;margin-top: 0pt; margin-bottom: 0pt;&quot;&gt;&lt;ul style=&quot;margin-top: 0pt; margin-bottom: 0pt;&quot;&gt;&lt;li style=&quot;margin-bottom: 6pt&quot;&gt;Multiple site collections can share the same SLK database.  To use an existing SLK database, enter the server and database name.&lt;/li&gt;&lt;li&gt;To create a new database, enter an existing database server and a new database name, and select &lt;b&gt;Create a new da [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ConfigureLabelDatabaseDescriptionText {
+        internal  string ConfigureLabelDatabaseDescriptionText {
             get {
                 return ResourceManager.GetString("ConfigureLabelDatabaseDescriptionText", resourceCulture);
             }
@@ -1285,7 +1285,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;p style=&quot;margin-bottom: 6pt&quot;&gt;Specify the SharePoint permissions that will identify instructors and learners in SLK.&lt;/p&gt;&lt;p style=&quot;margin-top: 0pt; margin-bottom: 0pt;&quot;&gt;&lt;ul style=&quot;margin-top: 0pt; margin-bottom: 0pt;&quot;&gt;&lt;li style=&quot;margin-bottom: 6pt&quot;&gt;To use existing SharePoint permissions to identify instructors and learners, enter the permission names; for example, &quot;Contribute&quot; and &quot;Read&quot;.&lt;/li&gt;&lt;li&gt;To create new permissions, enter the permission names and select &lt;b&gt;Create permissions&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;&lt;p style= [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ConfigureLabelPermissionsDescriptionText {
+        internal  string ConfigureLabelPermissionsDescriptionText {
             get {
                 return ResourceManager.GetString("ConfigureLabelPermissionsDescriptionText", resourceCulture);
             }
@@ -1294,7 +1294,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Please wait while your changes are processed..
         /// </summary>
-        internal static string ConfigureLabelPleaseWait {
+        internal  string ConfigureLabelPleaseWait {
             get {
                 return ResourceManager.GetString("ConfigureLabelPleaseWait", resourceCulture);
             }
@@ -1303,7 +1303,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;p style=&quot;margin-bottom: 6pt&quot;&gt;Optionally, upload a new SLK Settings XML file. This XML file specifies the queries that are available within Assignment List Web Part, as well as other settings.&lt;/p&gt;.
         /// </summary>
-        internal static string ConfigureLabelSlkSettingDescriptionText {
+        internal  string ConfigureLabelSlkSettingDescriptionText {
             get {
                 return ResourceManager.GetString("ConfigureLabelSlkSettingDescriptionText", resourceCulture);
             }
@@ -1312,7 +1312,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Configure another Site Collection.
         /// </summary>
-        internal static string ConfigureLinkConfigureAnother {
+        internal  string ConfigureLinkConfigureAnother {
             get {
                 return ResourceManager.GetString("ConfigureLinkConfigureAnother", resourceCulture);
             }
@@ -1321,7 +1321,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Click here to download the current SLK Settings file.
         /// </summary>
-        internal static string ConfigureLinkCurrentSettingsFileText {
+        internal  string ConfigureLinkCurrentSettingsFileText {
             get {
                 return ResourceManager.GetString("ConfigureLinkCurrentSettingsFileText", resourceCulture);
             }
@@ -1330,7 +1330,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Click here to download the default SLK Settings file used in new installations.
         /// </summary>
-        internal static string ConfigureLinkDefaultSettingsFileText {
+        internal  string ConfigureLinkDefaultSettingsFileText {
             get {
                 return ResourceManager.GetString("ConfigureLinkDefaultSettingsFileText", resourceCulture);
             }
@@ -1339,7 +1339,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Configure SharePoint Learning Kit.
         /// </summary>
-        internal static string ConfigureTitle {
+        internal  string ConfigureTitle {
             get {
                 return ResourceManager.GetString("ConfigureTitle", resourceCulture);
             }
@@ -1348,7 +1348,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Database Name.
         /// </summary>
-        internal static string ConfigureTxtDatabaseNameToolTip {
+        internal  string ConfigureTxtDatabaseNameToolTip {
             get {
                 return ResourceManager.GetString("ConfigureTxtDatabaseNameToolTip", resourceCulture);
             }
@@ -1357,7 +1357,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Database Server.
         /// </summary>
-        internal static string ConfigureTxtDatabaseServerToolTip {
+        internal  string ConfigureTxtDatabaseServerToolTip {
             get {
                 return ResourceManager.GetString("ConfigureTxtDatabaseServerToolTip", resourceCulture);
             }
@@ -1366,7 +1366,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Instructor Permission.
         /// </summary>
-        internal static string ConfigureTxtInstructorPermissionToolTip {
+        internal  string ConfigureTxtInstructorPermissionToolTip {
             get {
                 return ResourceManager.GetString("ConfigureTxtInstructorPermissionToolTip", resourceCulture);
             }
@@ -1375,7 +1375,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Learner Permission.
         /// </summary>
-        internal static string ConfigureTxtLearnerPermissionToolTip {
+        internal  string ConfigureTxtLearnerPermissionToolTip {
             get {
                 return ResourceManager.GetString("ConfigureTxtLearnerPermissionToolTip", resourceCulture);
             }
@@ -1384,7 +1384,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Observer Permission.
         /// </summary>
-        internal static string ConfigureTxtObserverPermissionToolTip {
+        internal  string ConfigureTxtObserverPermissionToolTip {
             get {
                 return ResourceManager.GetString("ConfigureTxtObserverPermissionToolTip", resourceCulture);
             }
@@ -1395,7 +1395,7 @@ namespace Resources.Properties {
         ///
         ///{0}.
         /// </summary>
-        internal static string CreateDatabaseException {
+        internal  string CreateDatabaseException {
             get {
                 return ResourceManager.GetString("CreateDatabaseException", resourceCulture);
             }
@@ -1404,7 +1404,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Automatically return learner assignments when they are submitted..
         /// </summary>
-        internal static string CtrlChkBoxTextAutoReturnAssignments {
+        internal  string CtrlChkBoxTextAutoReturnAssignments {
             get {
                 return ResourceManager.GetString("CtrlChkBoxTextAutoReturnAssignments", resourceCulture);
             }
@@ -1413,7 +1413,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Show learners the correct answers to autograded questions when the assignment is final (Class Server learning resources only).
         /// </summary>
-        internal static string CtrlChkBoxTextShowAnswers {
+        internal  string CtrlChkBoxTextShowAnswers {
             get {
                 return ResourceManager.GetString("CtrlChkBoxTextShowAnswers", resourceCulture);
             }
@@ -1422,7 +1422,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to What would you like to do next?.
         /// </summary>
-        internal static string CtrlLabelAPPWhatNextText {
+        internal  string CtrlLabelAPPWhatNextText {
             get {
                 return ResourceManager.GetString("CtrlLabelAPPWhatNextText", resourceCulture);
             }
@@ -1434,7 +1434,7 @@ namespace Resources.Properties {
         ///    automatically be returned, and whether learners can see the correct answers when they review the assignment.
         ///    .
         /// </summary>
-        internal static string CtrlLabelAssignmentPropDesc {
+        internal  string CtrlLabelAssignmentPropDesc {
             get {
                 return ResourceManager.GetString("CtrlLabelAssignmentPropDesc", resourceCulture);
             }
@@ -1443,7 +1443,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Specify Assignment Properties.
         /// </summary>
-        internal static string CtrlLabelAssignmentPropHeader {
+        internal  string CtrlLabelAssignmentPropHeader {
             get {
                 return ResourceManager.GetString("CtrlLabelAssignmentPropHeader", resourceCulture);
             }
@@ -1452,7 +1452,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
-        internal static string CtrlLabelDescriptionText {
+        internal  string CtrlLabelDescriptionText {
             get {
                 return ResourceManager.GetString("CtrlLabelDescriptionText", resourceCulture);
             }
@@ -1461,7 +1461,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Choose instructors and learners for the assignment..
         /// </summary>
-        internal static string CtrlLabelDistributeAssignmentDesc {
+        internal  string CtrlLabelDistributeAssignmentDesc {
             get {
                 return ResourceManager.GetString("CtrlLabelDistributeAssignmentDesc", resourceCulture);
             }
@@ -1470,7 +1470,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Distribute the Assignment.
         /// </summary>
-        internal static string CtrlLabelDistributeAssignmentHeader {
+        internal  string CtrlLabelDistributeAssignmentHeader {
             get {
                 return ResourceManager.GetString("CtrlLabelDistributeAssignmentHeader", resourceCulture);
             }
@@ -1479,7 +1479,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Due.
         /// </summary>
-        internal static string CtrlLabelDueText {
+        internal  string CtrlLabelDueText {
             get {
                 return ResourceManager.GetString("CtrlLabelDueText", resourceCulture);
             }
@@ -1488,7 +1488,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Error string goes here..
         /// </summary>
-        internal static string CtrlLabelGenericErrorMsg {
+        internal  string CtrlLabelGenericErrorMsg {
             get {
                 return ResourceManager.GetString("CtrlLabelGenericErrorMsg", resourceCulture);
             }
@@ -1497,7 +1497,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Groups:.
         /// </summary>
-        internal static string CtrlLabelGroupsText {
+        internal  string CtrlLabelGroupsText {
             get {
                 return ResourceManager.GetString("CtrlLabelGroupsText", resourceCulture);
             }
@@ -1506,7 +1506,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Instructors can grade, edit and change users for the assignment..
         /// </summary>
-        internal static string CtrlLabelInstructorDesc {
+        internal  string CtrlLabelInstructorDesc {
             get {
                 return ResourceManager.GetString("CtrlLabelInstructorDesc", resourceCulture);
             }
@@ -1515,7 +1515,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Instructors.
         /// </summary>
-        internal static string CtrlLabelInstructorsText {
+        internal  string CtrlLabelInstructorsText {
             get {
                 return ResourceManager.GetString("CtrlLabelInstructorsText", resourceCulture);
             }
@@ -1524,7 +1524,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Learners can launch and interact with the assignment, and will be listed in the grading view..
         /// </summary>
-        internal static string CtrlLabelLearnerDesc {
+        internal  string CtrlLabelLearnerDesc {
             get {
                 return ResourceManager.GetString("CtrlLabelLearnerDesc", resourceCulture);
             }
@@ -1533,7 +1533,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Learners:.
         /// </summary>
-        internal static string CtrlLabelLearnersText {
+        internal  string CtrlLabelLearnersText {
             get {
                 return ResourceManager.GetString("CtrlLabelLearnersText", resourceCulture);
             }
@@ -1542,7 +1542,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to points possible.
         /// </summary>
-        internal static string CtrlLabelPointsPossible {
+        internal  string CtrlLabelPointsPossible {
             get {
                 return ResourceManager.GetString("CtrlLabelPointsPossible", resourceCulture);
             }
@@ -1551,7 +1551,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Points.
         /// </summary>
-        internal static string CtrlLabelPointsText {
+        internal  string CtrlLabelPointsText {
             get {
                 return ResourceManager.GetString("CtrlLabelPointsText", resourceCulture);
             }
@@ -1560,7 +1560,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SharePoint Site.
         /// </summary>
-        internal static string CtrlLabelSharePointSiteText {
+        internal  string CtrlLabelSharePointSiteText {
             get {
                 return ResourceManager.GetString("CtrlLabelSharePointSiteText", resourceCulture);
             }
@@ -1569,7 +1569,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
-        internal static string CtrlLabelStartText {
+        internal  string CtrlLabelStartText {
             get {
                 return ResourceManager.GetString("CtrlLabelStartText", resourceCulture);
             }
@@ -1578,7 +1578,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
-        internal static string CtrlLabelStatusText {
+        internal  string CtrlLabelStatusText {
             get {
                 return ResourceManager.GetString("CtrlLabelStatusText", resourceCulture);
             }
@@ -1587,7 +1587,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
-        internal static string CtrlLabelTitleText {
+        internal  string CtrlLabelTitleText {
             get {
                 return ResourceManager.GetString("CtrlLabelTitleText", resourceCulture);
             }
@@ -1596,7 +1596,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Upload Document (Optional).
         /// </summary>
-        internal static string CtrlLabelUploadDocumentHeader {
+        internal  string CtrlLabelUploadDocumentHeader {
             get {
                 return ResourceManager.GetString("CtrlLabelUploadDocumentHeader", resourceCulture);
             }
@@ -1605,7 +1605,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Document Library.
         /// </summary>
-        internal static string CtrlLabelUploadDocumentLibrary {
+        internal  string CtrlLabelUploadDocumentLibrary {
             get {
                 return ResourceManager.GetString("CtrlLabelUploadDocumentLibrary", resourceCulture);
             }
@@ -1614,7 +1614,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to File.
         /// </summary>
-        internal static string CtrlLabelUploadDocumentName {
+        internal  string CtrlLabelUploadDocumentName {
             get {
                 return ResourceManager.GetString("CtrlLabelUploadDocumentName", resourceCulture);
             }
@@ -1623,7 +1623,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Optionally choose a document to upload to distribute and choose the document library to place it in..
         /// </summary>
-        internal static string CtrlLabelUploadDocumentText {
+        internal  string CtrlLabelUploadDocumentText {
             get {
                 return ResourceManager.GetString("CtrlLabelUploadDocumentText", resourceCulture);
             }
@@ -1632,7 +1632,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
-        internal static string CtrlOKButtonText {
+        internal  string CtrlOKButtonText {
             get {
                 return ResourceManager.GetString("CtrlOKButtonText", resourceCulture);
             }
@@ -1641,7 +1641,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to doc;pdf.
         /// </summary>
-        internal static string DefaultDropBoxFilesExtensions {
+        internal  string DefaultDropBoxFilesExtensions {
             get {
                 return ResourceManager.GetString("DefaultDropBoxFilesExtensions", resourceCulture);
             }
@@ -1650,7 +1650,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SharePointLearningKit.
         /// </summary>
-        internal static string DefaultSlkDatabaseName {
+        internal  string DefaultSlkDatabaseName {
             get {
                 return ResourceManager.GetString("DefaultSlkDatabaseName", resourceCulture);
             }
@@ -1659,7 +1659,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SLK Instructor.
         /// </summary>
-        internal static string DefaultSlkInstructorPermissionName {
+        internal  string DefaultSlkInstructorPermissionName {
             get {
                 return ResourceManager.GetString("DefaultSlkInstructorPermissionName", resourceCulture);
             }
@@ -1668,7 +1668,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SLK Learner.
         /// </summary>
-        internal static string DefaultSlkLearnerPermissionName {
+        internal  string DefaultSlkLearnerPermissionName {
             get {
                 return ResourceManager.GetString("DefaultSlkLearnerPermissionName", resourceCulture);
             }
@@ -1677,7 +1677,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SLK Observer.
         /// </summary>
-        internal static string DefaultSlkObserverPermissionName {
+        internal  string DefaultSlkObserverPermissionName {
             get {
                 return ResourceManager.GetString("DefaultSlkObserverPermissionName", resourceCulture);
             }
@@ -1688,7 +1688,7 @@ namespace Resources.Properties {
         ///
         ///{0}.
         /// </summary>
-        internal static string DeleteDatabaseException {
+        internal  string DeleteDatabaseException {
             get {
                 return ResourceManager.GetString("DeleteDatabaseException", resourceCulture);
             }
@@ -1697,7 +1697,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot use NT AUTHORITY\Authenticated users group for assigning work in SLK..
         /// </summary>
-        internal static string DomainGroupAuthenticatedUsers {
+        internal  string DomainGroupAuthenticatedUsers {
             get {
                 return ResourceManager.GetString("DomainGroupAuthenticatedUsers", resourceCulture);
             }
@@ -1706,7 +1706,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot use Domain Users group for assigning work in SLK..
         /// </summary>
-        internal static string DomainGroupDomainUsers {
+        internal  string DomainGroupDomainUsers {
             get {
                 return ResourceManager.GetString("DomainGroupDomainUsers", resourceCulture);
             }
@@ -1715,7 +1715,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Failed to load type {0}. {1}.
         /// </summary>
-        internal static string DomainGroupEnumeratorFailure {
+        internal  string DomainGroupEnumeratorFailure {
             get {
                 return ResourceManager.GetString("DomainGroupEnumeratorFailure", resourceCulture);
             }
@@ -1724,7 +1724,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Domain group enumeration failed for path &quot;{0}&quot;.
         /// </summary>
-        internal static string DomainGroupEnumFailed {
+        internal  string DomainGroupEnumFailed {
             get {
                 return ResourceManager.GetString("DomainGroupEnumFailed", resourceCulture);
             }
@@ -1733,7 +1733,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Enumeration of the members of domain group &quot;{0}&quot; skipped due to timeout.
         /// </summary>
-        internal static string DomainGroupEnumSkippedDueToTimeout {
+        internal  string DomainGroupEnumSkippedDueToTimeout {
             get {
                 return ResourceManager.GetString("DomainGroupEnumSkippedDueToTimeout", resourceCulture);
             }
@@ -1742,7 +1742,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Domain group enumeration timed out.
         /// </summary>
-        internal static string DomainGroupEnumTimeout {
+        internal  string DomainGroupEnumTimeout {
             get {
                 return ResourceManager.GetString("DomainGroupEnumTimeout", resourceCulture);
             }
@@ -1751,7 +1751,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Domain group &quot;{0}&quot;: {1}.
         /// </summary>
-        internal static string DomainGroupError {
+        internal  string DomainGroupError {
             get {
                 return ResourceManager.GetString("DomainGroupError", resourceCulture);
             }
@@ -1760,7 +1760,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot determine group in AD.
         /// </summary>
-        internal static string DomainGroupInvalid {
+        internal  string DomainGroupInvalid {
             get {
                 return ResourceManager.GetString("DomainGroupInvalid", resourceCulture);
             }
@@ -1769,7 +1769,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot determine group in AD. Invalid SID {0}..
         /// </summary>
-        internal static string DomainGroupInvalidSid {
+        internal  string DomainGroupInvalidSid {
             get {
                 return ResourceManager.GetString("DomainGroupInvalidSid", resourceCulture);
             }
@@ -1778,7 +1778,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Domain group &quot;{0}&quot; has no backslash (\).
         /// </summary>
-        internal static string DomainGroupNameHasNoBackslash {
+        internal  string DomainGroupNameHasNoBackslash {
             get {
                 return ResourceManager.GetString("DomainGroupNameHasNoBackslash", resourceCulture);
             }
@@ -1787,7 +1787,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not find group {0}..
         /// </summary>
-        internal static string DomainGroupNotFound {
+        internal  string DomainGroupNotFound {
             get {
                 return ResourceManager.GetString("DomainGroupNotFound", resourceCulture);
             }
@@ -1796,7 +1796,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to xxx.
         /// </summary>
-        internal static string DomainGroupxxx {
+        internal  string DomainGroupxxx {
             get {
                 return ResourceManager.GetString("DomainGroupxxx", resourceCulture);
             }
@@ -1805,7 +1805,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Done.
         /// </summary>
-        internal static string Done {
+        internal  string Done {
             get {
                 return ResourceManager.GetString("Done", resourceCulture);
             }
@@ -1814,7 +1814,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Error in DownloadSettings.aspx: {0}.
         /// </summary>
-        internal static string DownloadSettingsError {
+        internal  string DownloadSettingsError {
             get {
                 return ResourceManager.GetString("DownloadSettingsError", resourceCulture);
             }
@@ -1823,7 +1823,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The URL is incorrect..
         /// </summary>
-        internal static string DownloadSettingsIncorrectUrl {
+        internal  string DownloadSettingsIncorrectUrl {
             get {
                 return ResourceManager.GetString("DownloadSettingsIncorrectUrl", resourceCulture);
             }
@@ -1832,7 +1832,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment Date.
         /// </summary>
-        internal static string DropBoxColumnAssignmentDate {
+        internal  string DropBoxColumnAssignmentDate {
             get {
                 return ResourceManager.GetString("DropBoxColumnAssignmentDate", resourceCulture);
             }
@@ -1841,7 +1841,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment Id.
         /// </summary>
-        internal static string DropBoxColumnAssignmentId {
+        internal  string DropBoxColumnAssignmentId {
             get {
                 return ResourceManager.GetString("DropBoxColumnAssignmentId", resourceCulture);
             }
@@ -1850,7 +1850,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment.
         /// </summary>
-        internal static string DropBoxColumnAssignmentKey {
+        internal  string DropBoxColumnAssignmentKey {
             get {
                 return ResourceManager.GetString("DropBoxColumnAssignmentKey", resourceCulture);
             }
@@ -1859,7 +1859,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment Name.
         /// </summary>
-        internal static string DropBoxColumnAssignmentName {
+        internal  string DropBoxColumnAssignmentName {
             get {
                 return ResourceManager.GetString("DropBoxColumnAssignmentName", resourceCulture);
             }
@@ -1868,7 +1868,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Is Latest.
         /// </summary>
-        internal static string DropBoxColumnIsLatest {
+        internal  string DropBoxColumnIsLatest {
             get {
                 return ResourceManager.GetString("DropBoxColumnIsLatest", resourceCulture);
             }
@@ -1877,7 +1877,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Learner.
         /// </summary>
-        internal static string DropBoxColumnLearner {
+        internal  string DropBoxColumnLearner {
             get {
                 return ResourceManager.GetString("DropBoxColumnLearner", resourceCulture);
             }
@@ -1886,7 +1886,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Learner Id.
         /// </summary>
-        internal static string DropBoxColumnLearnerId {
+        internal  string DropBoxColumnLearnerId {
             get {
                 return ResourceManager.GetString("DropBoxColumnLearnerId", resourceCulture);
             }
@@ -1895,7 +1895,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to My Assignments.
         /// </summary>
-        internal static string DropBoxDefaultViewTitle {
+        internal  string DropBoxDefaultViewTitle {
             get {
                 return ResourceManager.GetString("DropBoxDefaultViewTitle", resourceCulture);
             }
@@ -1904,7 +1904,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to DropBox Document.
         /// </summary>
-        internal static string DropBoxDocLibName {
+        internal  string DropBoxDocLibName {
             get {
                 return ResourceManager.GetString("DropBoxDocLibName", resourceCulture);
             }
@@ -1913,7 +1913,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Failed to create Drop Box. {0}.
         /// </summary>
-        internal static string DropBoxListCreateFailure {
+        internal  string DropBoxListCreateFailure {
             get {
                 return ResourceManager.GetString("DropBoxListCreateFailure", resourceCulture);
             }
@@ -1922,7 +1922,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot find role {0}. This is required to set Drop Box permissions..
         /// </summary>
-        internal static string DropBoxManagerNoRole {
+        internal  string DropBoxManagerNoRole {
             get {
                 return ResourceManager.GetString("DropBoxManagerNoRole", resourceCulture);
             }
@@ -1931,7 +1931,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Instructor user {0} not found..
         /// </summary>
-        internal static string DropBoxManagerUploadFilesNoInstructor {
+        internal  string DropBoxManagerUploadFilesNoInstructor {
             get {
                 return ResourceManager.GetString("DropBoxManagerUploadFilesNoInstructor", resourceCulture);
             }
@@ -1940,7 +1940,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Drop Box.
         /// </summary>
-        internal static string DropBoxTitle {
+        internal  string DropBoxTitle {
             get {
                 return ResourceManager.GetString("DropBoxTitle", resourceCulture);
             }
@@ -1949,7 +1949,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Currently the Drop Box is unavailable. Try again later, if the problem persists contact the system administrator..
         /// </summary>
-        internal static string DropBoxUnavailableError {
+        internal  string DropBoxUnavailableError {
             get {
                 return ResourceManager.GetString("DropBoxUnavailableError", resourceCulture);
             }
@@ -1958,7 +1958,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to There are one or more problems on this page. Additional information is displayed in each section with a problem..
         /// </summary>
-        internal static string ErrorBannerValidationWarning {
+        internal  string ErrorBannerValidationWarning {
             get {
                 return ResourceManager.GetString("ErrorBannerValidationWarning", resourceCulture);
             }
@@ -1967,7 +1967,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Error creating one or more users in site collection &quot;{0}&quot;: {1}.
         /// </summary>
-        internal static string ErrorCreatingSPSiteUser {
+        internal  string ErrorCreatingSPSiteUser {
             get {
                 return ResourceManager.GetString("ErrorCreatingSPSiteUser", resourceCulture);
             }
@@ -1976,7 +1976,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to File not found.
         /// </summary>
-        internal static string FileNotFound {
+        internal  string FileNotFound {
             get {
                 return ResourceManager.GetString("FileNotFound", resourceCulture);
             }
@@ -1985,7 +1985,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The Assignment file(s) submission was completed successfully..
         /// </summary>
-        internal static string FilesSubmissionResultLblMsg {
+        internal  string FilesSubmissionResultLblMsg {
             get {
                 return ResourceManager.GetString("FilesSubmissionResultLblMsg", resourceCulture);
             }
@@ -1994,7 +1994,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to File(s) Submission Result.
         /// </summary>
-        internal static string FilesSubmissionResultPageTitle {
+        internal  string FilesSubmissionResultPageTitle {
             get {
                 return ResourceManager.GetString("FilesSubmissionResultPageTitle", resourceCulture);
             }
@@ -2003,7 +2003,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to File(s) Submission Result.
         /// </summary>
-        internal static string FilesSubmissionResultPageTitleInTitle {
+        internal  string FilesSubmissionResultPageTitleInTitle {
             get {
                 return ResourceManager.GetString("FilesSubmissionResultPageTitleInTitle", resourceCulture);
             }
@@ -2012,7 +2012,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The assignment folder is unavailable. Try again later, if the problem persists contact the system administrator..
         /// </summary>
-        internal static string FilesUploadAssFolderUnavailableErr {
+        internal  string FilesUploadAssFolderUnavailableErr {
             get {
                 return ResourceManager.GetString("FilesUploadAssFolderUnavailableErr", resourceCulture);
             }
@@ -2021,7 +2021,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Once the assignment is submitted to the instructor, it will not be accessible..
         /// </summary>
-        internal static string FilesUploadAssInaccessible {
+        internal  string FilesUploadAssInaccessible {
             get {
                 return ResourceManager.GetString("FilesUploadAssInaccessible", resourceCulture);
             }
@@ -2030,7 +2030,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The assignment has been submitted to the instructor and is not accessible..
         /// </summary>
-        internal static string FilesUploadAssIsInaccessible {
+        internal  string FilesUploadAssIsInaccessible {
             get {
                 return ResourceManager.GetString("FilesUploadAssIsInaccessible", resourceCulture);
             }
@@ -2039,7 +2039,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Upload Document.
         /// </summary>
-        internal static string FilesUploadDocumentUpload {
+        internal  string FilesUploadDocumentUpload {
             get {
                 return ResourceManager.GetString("FilesUploadDocumentUpload", resourceCulture);
             }
@@ -2048,7 +2048,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Browse to the document you intend to upload..
         /// </summary>
-        internal static string FilesUploadDocumentUploadDescription {
+        internal  string FilesUploadDocumentUploadDescription {
             get {
                 return ResourceManager.GetString("FilesUploadDocumentUploadDescription", resourceCulture);
             }
@@ -2057,7 +2057,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to One or more of the files you are trying to upload has an disallowed file extension. Permitted file extensions are {0}..
         /// </summary>
-        internal static string FilesUploadInvalidExtensions {
+        internal  string FilesUploadInvalidExtensions {
             get {
                 return ResourceManager.GetString("FilesUploadInvalidExtensions", resourceCulture);
             }
@@ -2066,7 +2066,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Name:.
         /// </summary>
-        internal static string FilesUploadName {
+        internal  string FilesUploadName {
             get {
                 return ResourceManager.GetString("FilesUploadName", resourceCulture);
             }
@@ -2075,7 +2075,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Your learner folder does not exist, please contact your instructor..
         /// </summary>
-        internal static string FilesUploadNoLearnerFolder {
+        internal  string FilesUploadNoLearnerFolder {
             get {
                 return ResourceManager.GetString("FilesUploadNoLearnerFolder", resourceCulture);
             }
@@ -2084,7 +2084,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to At least one file should be uploaded to submit the assignment.If you are not ready yet to submit the assignment click Cancel..
         /// </summary>
-        internal static string FilesUploadOrCancel {
+        internal  string FilesUploadOrCancel {
             get {
                 return ResourceManager.GetString("FilesUploadOrCancel", resourceCulture);
             }
@@ -2093,7 +2093,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Failed to upload files [{0}]. Invalid extensions..
         /// </summary>
-        internal static string FilesUploadPageFailureMessage {
+        internal  string FilesUploadPageFailureMessage {
             get {
                 return ResourceManager.GetString("FilesUploadPageFailureMessage", resourceCulture);
             }
@@ -2102,7 +2102,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The Assignment file(s) submission was completed successfully..
         /// </summary>
-        internal static string FilesUploadPageSuccessMsg {
+        internal  string FilesUploadPageSuccessMsg {
             get {
                 return ResourceManager.GetString("FilesUploadPageSuccessMsg", resourceCulture);
             }
@@ -2111,7 +2111,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submit File(s).
         /// </summary>
-        internal static string FilesUploadPageTitle {
+        internal  string FilesUploadPageTitle {
             get {
                 return ResourceManager.GetString("FilesUploadPageTitle", resourceCulture);
             }
@@ -2120,7 +2120,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submit File(s).
         /// </summary>
-        internal static string FilesUploadPageTitleInTitle {
+        internal  string FilesUploadPageTitleInTitle {
             get {
                 return ResourceManager.GetString("FilesUploadPageTitleInTitle", resourceCulture);
             }
@@ -2129,7 +2129,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Allows the learner to re-do the assignment..
         /// </summary>
-        internal static string GradingActionFinalToolTip {
+        internal  string GradingActionFinalToolTip {
             get {
                 return ResourceManager.GetString("GradingActionFinalToolTip", resourceCulture);
             }
@@ -2138,7 +2138,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
-        internal static string GradingActionHeaderText {
+        internal  string GradingActionHeaderText {
             get {
                 return ResourceManager.GetString("GradingActionHeaderText", resourceCulture);
             }
@@ -2147,7 +2147,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Prevents the learner from continuing to work on the assignment, and allows you to grade it.
         /// </summary>
-        internal static string GradingActionNotSubmittedToolTip {
+        internal  string GradingActionNotSubmittedToolTip {
             get {
                 return ResourceManager.GetString("GradingActionNotSubmittedToolTip", resourceCulture);
             }
@@ -2156,7 +2156,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Returns the assignment to the learner for review.
         /// </summary>
-        internal static string GradingActionSubmittedToolTip {
+        internal  string GradingActionSubmittedToolTip {
             get {
                 return ResourceManager.GetString("GradingActionSubmittedToolTip", resourceCulture);
             }
@@ -2165,7 +2165,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Reactivate.
         /// </summary>
-        internal static string GradingActionTextFinal {
+        internal  string GradingActionTextFinal {
             get {
                 return ResourceManager.GetString("GradingActionTextFinal", resourceCulture);
             }
@@ -2174,7 +2174,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Collect.
         /// </summary>
-        internal static string GradingActionTextNotSubmitted {
+        internal  string GradingActionTextNotSubmitted {
             get {
                 return ResourceManager.GetString("GradingActionTextNotSubmitted", resourceCulture);
             }
@@ -2183,7 +2183,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Return.
         /// </summary>
-        internal static string GradingActionTextSubmitted {
+        internal  string GradingActionTextSubmitted {
             get {
                 return ResourceManager.GetString("GradingActionTextSubmitted", resourceCulture);
             }
@@ -2192,7 +2192,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
-        internal static string GradingClose {
+        internal  string GradingClose {
             get {
                 return ResourceManager.GetString("GradingClose", resourceCulture);
             }
@@ -2201,7 +2201,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to C.
         /// </summary>
-        internal static string GradingCollectAccessKey {
+        internal  string GradingCollectAccessKey {
             get {
                 return ResourceManager.GetString("GradingCollectAccessKey", resourceCulture);
             }
@@ -2210,7 +2210,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Collecting assignments will prevent learners from continuing to work on them..
         /// </summary>
-        internal static string GradingCollectMessage {
+        internal  string GradingCollectMessage {
             get {
                 return ResourceManager.GetString("GradingCollectMessage", resourceCulture);
             }
@@ -2219,7 +2219,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Collect All.
         /// </summary>
-        internal static string GradingCollectText {
+        internal  string GradingCollectText {
             get {
                 return ResourceManager.GetString("GradingCollectText", resourceCulture);
             }
@@ -2228,7 +2228,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Collect assignments from all learners (Alt+C).
         /// </summary>
-        internal static string GradingCollectToolTip {
+        internal  string GradingCollectToolTip {
             get {
                 return ResourceManager.GetString("GradingCollectToolTip", resourceCulture);
             }
@@ -2237,7 +2237,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
-        internal static string GradingCommentsHeaderText {
+        internal  string GradingCommentsHeaderText {
             get {
                 return ResourceManager.GetString("GradingCommentsHeaderText", resourceCulture);
             }
@@ -2246,7 +2246,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You previously cleared the final score for this learner. Click OK to overwrite the blank score with the new score of {0}. Click Cancel to leave the final score blank..
         /// </summary>
-        internal static string GradingConfirmOverrideFinalPoints {
+        internal  string GradingConfirmOverrideFinalPoints {
             get {
                 return ResourceManager.GetString("GradingConfirmOverrideFinalPoints", resourceCulture);
             }
@@ -2255,7 +2255,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to X.
         /// </summary>
-        internal static string GradingDeleteAccessKey {
+        internal  string GradingDeleteAccessKey {
             get {
                 return ResourceManager.GetString("GradingDeleteAccessKey", resourceCulture);
             }
@@ -2264,7 +2264,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Deleting an assignment will delete all the associated learner data, including learner work and grades for the assignment. You cannot recover deleted information..
         /// </summary>
-        internal static string GradingDeleteMessage {
+        internal  string GradingDeleteMessage {
             get {
                 return ResourceManager.GetString("GradingDeleteMessage", resourceCulture);
             }
@@ -2273,7 +2273,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Delete Assignment.
         /// </summary>
-        internal static string GradingDeleteText {
+        internal  string GradingDeleteText {
             get {
                 return ResourceManager.GetString("GradingDeleteText", resourceCulture);
             }
@@ -2282,7 +2282,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Delete this assignment and all learner work (Alt+X).
         /// </summary>
-        internal static string GradingDeleteToolTip {
+        internal  string GradingDeleteToolTip {
             get {
                 return ResourceManager.GetString("GradingDeleteToolTip", resourceCulture);
             }
@@ -2291,7 +2291,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to D.
         /// </summary>
-        internal static string GradingDownloadAccessKey {
+        internal  string GradingDownloadAccessKey {
             get {
                 return ResourceManager.GetString("GradingDownloadAccessKey", resourceCulture);
             }
@@ -2300,7 +2300,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Download All Files.
         /// </summary>
-        internal static string GradingDownloadText {
+        internal  string GradingDownloadText {
             get {
                 return ResourceManager.GetString("GradingDownloadText", resourceCulture);
             }
@@ -2309,7 +2309,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Download a zipped file for all students&apos; submissions for this assignment.
         /// </summary>
-        internal static string GradingDownloadToolTip {
+        internal  string GradingDownloadToolTip {
             get {
                 return ResourceManager.GetString("GradingDownloadToolTip", resourceCulture);
             }
@@ -2318,7 +2318,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to I.
         /// </summary>
-        internal static string GradingEditAccessKey {
+        internal  string GradingEditAccessKey {
             get {
                 return ResourceManager.GetString("GradingEditAccessKey", resourceCulture);
             }
@@ -2327,7 +2327,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Edit Properties.
         /// </summary>
-        internal static string GradingEditText {
+        internal  string GradingEditText {
             get {
                 return ResourceManager.GetString("GradingEditText", resourceCulture);
             }
@@ -2336,7 +2336,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Edit properties of the assignment, or change instructors or learners (Alt+I).
         /// </summary>
-        internal static string GradingEditToolTip {
+        internal  string GradingEditToolTip {
             get {
                 return ResourceManager.GetString("GradingEditToolTip", resourceCulture);
             }
@@ -2345,7 +2345,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to File Submission.
         /// </summary>
-        internal static string GradingFileSubmissionHeaderText {
+        internal  string GradingFileSubmissionHeaderText {
             get {
                 return ResourceManager.GetString("GradingFileSubmissionHeaderText", resourceCulture);
             }
@@ -2354,7 +2354,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Not Available.
         /// </summary>
-        internal static string GradingFileSubmissionNA {
+        internal  string GradingFileSubmissionNA {
             get {
                 return ResourceManager.GetString("GradingFileSubmissionNA", resourceCulture);
             }
@@ -2363,7 +2363,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Not Submitted.
         /// </summary>
-        internal static string GradingFileSubmissionNotSubmitted {
+        internal  string GradingFileSubmissionNotSubmitted {
             get {
                 return ResourceManager.GetString("GradingFileSubmissionNotSubmitted", resourceCulture);
             }
@@ -2372,7 +2372,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submitted.
         /// </summary>
-        internal static string GradingFileSubmissionSubmitted {
+        internal  string GradingFileSubmissionSubmitted {
             get {
                 return ResourceManager.GetString("GradingFileSubmissionSubmitted", resourceCulture);
             }
@@ -2381,7 +2381,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Final Score.
         /// </summary>
-        internal static string GradingFinalScoreHeaderText {
+        internal  string GradingFinalScoreHeaderText {
             get {
                 return ResourceManager.GetString("GradingFinalScoreHeaderText", resourceCulture);
             }
@@ -2390,7 +2390,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The score must be a number..
         /// </summary>
-        internal static string GradingFinalScoreNaNError {
+        internal  string GradingFinalScoreNaNError {
             get {
                 return ResourceManager.GetString("GradingFinalScoreNaNError", resourceCulture);
             }
@@ -2399,7 +2399,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The learner has not submitted the assignment. To assign a grade, you must collect it..
         /// </summary>
-        internal static string GradingFinalScoreNotSubmittedToolTip {
+        internal  string GradingFinalScoreNotSubmittedToolTip {
             get {
                 return ResourceManager.GetString("GradingFinalScoreNotSubmittedToolTip", resourceCulture);
             }
@@ -2408,7 +2408,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to To override autograding, enter a final score here..
         /// </summary>
-        internal static string GradingFinalScoreSubmittedToolTip {
+        internal  string GradingFinalScoreSubmittedToolTip {
             get {
                 return ResourceManager.GetString("GradingFinalScoreSubmittedToolTip", resourceCulture);
             }
@@ -2417,7 +2417,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0:F2}.
         /// </summary>
-        internal static string GradingGradedScore {
+        internal  string GradingGradedScore {
             get {
                 return ResourceManager.GetString("GradingGradedScore", resourceCulture);
             }
@@ -2426,7 +2426,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Graded Score.
         /// </summary>
-        internal static string GradingGradedScoreHeaderText {
+        internal  string GradingGradedScoreHeaderText {
             get {
                 return ResourceManager.GetString("GradingGradedScoreHeaderText", resourceCulture);
             }
@@ -2435,7 +2435,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0:R} {1}.
         /// </summary>
-        internal static string GradingGradedScoreToolTip {
+        internal  string GradingGradedScoreToolTip {
             get {
                 return ResourceManager.GetString("GradingGradedScoreToolTip", resourceCulture);
             }
@@ -2444,7 +2444,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Grade.
         /// </summary>
-        internal static string GradingGradeHeaderText {
+        internal  string GradingGradeHeaderText {
             get {
                 return ResourceManager.GetString("GradingGradeHeaderText", resourceCulture);
             }
@@ -2453,7 +2453,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The assignment (ID {0}) does not exist or you may not have permission to access it..
         /// </summary>
-        internal static string GradingInvalidAssignmentId {
+        internal  string GradingInvalidAssignmentId {
             get {
                 return ResourceManager.GetString("GradingInvalidAssignmentId", resourceCulture);
             }
@@ -2462,7 +2462,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Correct answers are shown to the learner when the assignment is returned (Class Server content only)..
         /// </summary>
-        internal static string GradinglblAnswers {
+        internal  string GradinglblAnswers {
             get {
                 return ResourceManager.GetString("GradinglblAnswers", resourceCulture);
             }
@@ -2471,7 +2471,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The assignment will be returned to the learner automatically..
         /// </summary>
-        internal static string GradinglblAutoReturn {
+        internal  string GradinglblAutoReturn {
             get {
                 return ResourceManager.GetString("GradinglblAutoReturn", resourceCulture);
             }
@@ -2480,7 +2480,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Due.
         /// </summary>
-        internal static string GradinglblDue {
+        internal  string GradinglblDue {
             get {
                 return ResourceManager.GetString("GradinglblDue", resourceCulture);
             }
@@ -2489,7 +2489,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Grade the Assignment.
         /// </summary>
-        internal static string GradinglblGradeAssignment {
+        internal  string GradinglblGradeAssignment {
             get {
                 return ResourceManager.GetString("GradinglblGradeAssignment", resourceCulture);
             }
@@ -2499,7 +2499,7 @@ namespace Resources.Properties {
         ///   Looks up a localized string similar to Enter grades and comments for individual learners. When you&apos;re done, click Save or OK. To exit without
         ///saving, click Cancel..
         /// </summary>
-        internal static string GradinglblGradeAssignmentDescription {
+        internal  string GradinglblGradeAssignmentDescription {
             get {
                 return ResourceManager.GetString("GradinglblGradeAssignmentDescription", resourceCulture);
             }
@@ -2508,7 +2508,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Points.
         /// </summary>
-        internal static string GradinglblPoints {
+        internal  string GradinglblPoints {
             get {
                 return ResourceManager.GetString("GradinglblPoints", resourceCulture);
             }
@@ -2517,7 +2517,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
-        internal static string GradinglblStart {
+        internal  string GradinglblStart {
             get {
                 return ResourceManager.GetString("GradinglblStart", resourceCulture);
             }
@@ -2526,7 +2526,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Learner.
         /// </summary>
-        internal static string GradingLearnerHeaderText {
+        internal  string GradingLearnerHeaderText {
             get {
                 return ResourceManager.GetString("GradingLearnerHeaderText", resourceCulture);
             }
@@ -2535,7 +2535,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to One or more learners did not complete the assignment yet.
         /// </summary>
-        internal static string GradingNotAllLearnersSubmitted {
+        internal  string GradingNotAllLearnersSubmitted {
             get {
                 return ResourceManager.GetString("GradingNotAllLearnersSubmitted", resourceCulture);
             }
@@ -2544,7 +2544,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You cannot grade the assignment because you are not an instructor for it..
         /// </summary>
-        internal static string GradingNotInstructor {
+        internal  string GradingNotInstructor {
             get {
                 return ResourceManager.GetString("GradingNotInstructor", resourceCulture);
             }
@@ -2553,7 +2553,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Use this page to grade assignments you&apos;ve assigned. You can also edit an assignment&apos;s properties to change its description, due dates, who it&apos;s assigned to, etc..
         /// </summary>
-        internal static string GradingPageDescription {
+        internal  string GradingPageDescription {
             get {
                 return ResourceManager.GetString("GradingPageDescription", resourceCulture);
             }
@@ -2562,7 +2562,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Grade Assignment.
         /// </summary>
-        internal static string GradingPageTitle {
+        internal  string GradingPageTitle {
             get {
                 return ResourceManager.GetString("GradingPageTitle", resourceCulture);
             }
@@ -2571,7 +2571,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Grade Assignment.
         /// </summary>
-        internal static string GradingPageTitleinTitlePage {
+        internal  string GradingPageTitleinTitlePage {
             get {
                 return ResourceManager.GetString("GradingPageTitleinTitlePage", resourceCulture);
             }
@@ -2580,7 +2580,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Reactivating this assignment erases any scoring changes made by instructors and returns the assignment to the learner to complete again..
         /// </summary>
-        internal static string GradingReactivateMessage {
+        internal  string GradingReactivateMessage {
             get {
                 return ResourceManager.GetString("GradingReactivateMessage", resourceCulture);
             }
@@ -2589,7 +2589,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to R.
         /// </summary>
-        internal static string GradingReturnAccessKey {
+        internal  string GradingReturnAccessKey {
             get {
                 return ResourceManager.GetString("GradingReturnAccessKey", resourceCulture);
             }
@@ -2598,7 +2598,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to All learner assignments will be returned to the learners. If you have not graded all the assignments, some learners may receive zero points..
         /// </summary>
-        internal static string GradingReturnMessage {
+        internal  string GradingReturnMessage {
             get {
                 return ResourceManager.GetString("GradingReturnMessage", resourceCulture);
             }
@@ -2607,7 +2607,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Return All.
         /// </summary>
-        internal static string GradingReturnText {
+        internal  string GradingReturnText {
             get {
                 return ResourceManager.GetString("GradingReturnText", resourceCulture);
             }
@@ -2616,7 +2616,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Return assignments to all learners (Alt+R).
         /// </summary>
-        internal static string GradingReturnToolTip {
+        internal  string GradingReturnToolTip {
             get {
                 return ResourceManager.GetString("GradingReturnToolTip", resourceCulture);
             }
@@ -2625,7 +2625,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
-        internal static string GradingSave {
+        internal  string GradingSave {
             get {
                 return ResourceManager.GetString("GradingSave", resourceCulture);
             }
@@ -2634,7 +2634,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Points.
         /// </summary>
-        internal static string GradingScoreToolTip {
+        internal  string GradingScoreToolTip {
             get {
                 return ResourceManager.GetString("GradingScoreToolTip", resourceCulture);
             }
@@ -2643,7 +2643,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to View and Grade returned work.
         /// </summary>
-        internal static string GradingStatusFinalToolTip {
+        internal  string GradingStatusFinalToolTip {
             get {
                 return ResourceManager.GetString("GradingStatusFinalToolTip", resourceCulture);
             }
@@ -2652,7 +2652,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
-        internal static string GradingStatusHeaderText {
+        internal  string GradingStatusHeaderText {
             get {
                 return ResourceManager.GetString("GradingStatusHeaderText", resourceCulture);
             }
@@ -2661,7 +2661,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to View learner work in progress.
         /// </summary>
-        internal static string GradingStatusInProgressToolTip {
+        internal  string GradingStatusInProgressToolTip {
             get {
                 return ResourceManager.GetString("GradingStatusInProgressToolTip", resourceCulture);
             }
@@ -2670,7 +2670,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The learner has not started the assignment.
         /// </summary>
-        internal static string GradingStatusNotStartedToolTip {
+        internal  string GradingStatusNotStartedToolTip {
             get {
                 return ResourceManager.GetString("GradingStatusNotStartedToolTip", resourceCulture);
             }
@@ -2679,7 +2679,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Grade learner work.
         /// </summary>
-        internal static string GradingStatusSubmittedToolTip {
+        internal  string GradingStatusSubmittedToolTip {
             get {
                 return ResourceManager.GetString("GradingStatusSubmittedToolTip", resourceCulture);
             }
@@ -2688,7 +2688,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Primary objective satisfied.
         /// </summary>
-        internal static string GradingSuccessStatusSatisfiedToolTip {
+        internal  string GradingSuccessStatusSatisfiedToolTip {
             get {
                 return ResourceManager.GetString("GradingSuccessStatusSatisfiedToolTip", resourceCulture);
             }
@@ -2697,7 +2697,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
-        internal static string GradingSuccessStatusUnKnownToolTip {
+        internal  string GradingSuccessStatusUnKnownToolTip {
             get {
                 return ResourceManager.GetString("GradingSuccessStatusUnKnownToolTip", resourceCulture);
             }
@@ -2706,7 +2706,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Primary objective not satisfied.
         /// </summary>
-        internal static string GradingSuccessStatusUnSatisfiedToolTip {
+        internal  string GradingSuccessStatusUnSatisfiedToolTip {
             get {
                 return ResourceManager.GetString("GradingSuccessStatusUnSatisfiedToolTip", resourceCulture);
             }
@@ -2715,7 +2715,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to U.
         /// </summary>
-        internal static string GradingUploadAccessKey {
+        internal  string GradingUploadAccessKey {
             get {
                 return ResourceManager.GetString("GradingUploadAccessKey", resourceCulture);
             }
@@ -2724,7 +2724,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Upload Commented Files.
         /// </summary>
-        internal static string GradingUploadText {
+        internal  string GradingUploadText {
             get {
                 return ResourceManager.GetString("GradingUploadText", resourceCulture);
             }
@@ -2733,7 +2733,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Upload the assignment back with comments.
         /// </summary>
-        internal static string GradingUploadToolTip {
+        internal  string GradingUploadToolTip {
             get {
                 return ResourceManager.GetString("GradingUploadToolTip", resourceCulture);
             }
@@ -2742,7 +2742,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not get the members of group {0}..
         /// </summary>
-        internal static string GroupEnumerationFail {
+        internal  string GroupEnumerationFail {
             get {
                 return ResourceManager.GetString("GroupEnumerationFail", resourceCulture);
             }
@@ -2751,7 +2751,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Incorrect location string syntax.
         /// </summary>
-        internal static string IncorrectLocationStringSyntax {
+        internal  string IncorrectLocationStringSyntax {
             get {
                 return ResourceManager.GetString("IncorrectLocationStringSyntax", resourceCulture);
             }
@@ -2760,7 +2760,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Internal error {0}.
         /// </summary>
-        internal static string InternalError {
+        internal  string InternalError {
             get {
                 return ResourceManager.GetString("InternalError", resourceCulture);
             }
@@ -2769,7 +2769,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Invalid database name &quot;{0}&quot;.  Database names may only contain letters, digits, and underscores..
         /// </summary>
-        internal static string InvalidDatabaseName {
+        internal  string InvalidDatabaseName {
             get {
                 return ResourceManager.GetString("InvalidDatabaseName", resourceCulture);
             }
@@ -2778,7 +2778,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Invalid database server name &quot;{0}&quot;.  Server names may only contain letters, digits, and underscores..
         /// </summary>
-        internal static string InvalidDatabaseServerName {
+        internal  string InvalidDatabaseServerName {
             get {
                 return ResourceManager.GetString("InvalidDatabaseServerName", resourceCulture);
             }
@@ -2787,7 +2787,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You must set the location of an assignment before creating one..
         /// </summary>
-        internal static string InvalidNewAssignment {
+        internal  string InvalidNewAssignment {
             get {
                 return ResourceManager.GetString("InvalidNewAssignment", resourceCulture);
             }
@@ -2796,7 +2796,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Organization not found in e-learning package.
         /// </summary>
-        internal static string InvalidOrganizationIndex {
+        internal  string InvalidOrganizationIndex {
             get {
                 return ResourceManager.GetString("InvalidOrganizationIndex", resourceCulture);
             }
@@ -2805,7 +2805,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Invalid self assignment..
         /// </summary>
-        internal static string InvalidSelfAssignment {
+        internal  string InvalidSelfAssignment {
             get {
                 return ResourceManager.GetString("InvalidSelfAssignment", resourceCulture);
             }
@@ -2814,7 +2814,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Invalid or unsupported SlkRole.
         /// </summary>
-        internal static string InvalidSlkRole {
+        internal  string InvalidSlkRole {
             get {
                 return ResourceManager.GetString("InvalidSlkRole", resourceCulture);
             }
@@ -2823,7 +2823,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The SLK Settings file path specified does not exist..
         /// </summary>
-        internal static string InvalidSlkSettingsFilePath {
+        internal  string InvalidSlkSettingsFilePath {
             get {
                 return ResourceManager.GetString("InvalidSlkSettingsFilePath", resourceCulture);
             }
@@ -2832,7 +2832,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The assignment (ID {0}) does not exist or you may not have permission to access it..
         /// </summary>
-        internal static string LearnerAssignmentNotFoundInDatabase {
+        internal  string LearnerAssignmentNotFoundInDatabase {
             get {
                 return ResourceManager.GetString("LearnerAssignmentNotFoundInDatabase", resourceCulture);
             }
@@ -2841,7 +2841,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to LearnerAssignment is in the wrong state or doesn&apos;t have a valid attempt for this operation.
         /// </summary>
-        internal static string LearnerAssignmentNotInCorrectStateForFinish {
+        internal  string LearnerAssignmentNotInCorrectStateForFinish {
             get {
                 return ResourceManager.GetString("LearnerAssignmentNotInCorrectStateForFinish", resourceCulture);
             }
@@ -2850,7 +2850,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to In Progress.
         /// </summary>
-        internal static string LearnerAssignmentStatusActive {
+        internal  string LearnerAssignmentStatusActive {
             get {
                 return ResourceManager.GetString("LearnerAssignmentStatusActive", resourceCulture);
             }
@@ -2859,7 +2859,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submitted.
         /// </summary>
-        internal static string LearnerAssignmentStatusCompleted {
+        internal  string LearnerAssignmentStatusCompleted {
             get {
                 return ResourceManager.GetString("LearnerAssignmentStatusCompleted", resourceCulture);
             }
@@ -2868,7 +2868,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Final.
         /// </summary>
-        internal static string LearnerAssignmentStatusFinal {
+        internal  string LearnerAssignmentStatusFinal {
             get {
                 return ResourceManager.GetString("LearnerAssignmentStatusFinal", resourceCulture);
             }
@@ -2877,7 +2877,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Not Started.
         /// </summary>
-        internal static string LearnerAssignmentStatusNotStarted {
+        internal  string LearnerAssignmentStatusNotStarted {
             get {
                 return ResourceManager.GetString("LearnerAssignmentStatusNotStarted", resourceCulture);
             }
@@ -2886,7 +2886,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Requested learner assignment state transition is not supported. {0} to {1}..
         /// </summary>
-        internal static string LearnerAssignmentTransitionNotSupported {
+        internal  string LearnerAssignmentTransitionNotSupported {
             get {
                 return ResourceManager.GetString("LearnerAssignmentTransitionNotSupported", resourceCulture);
             }
@@ -2895,7 +2895,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to I.
         /// </summary>
-        internal static string LobbyBeginAccessKey {
+        internal  string LobbyBeginAccessKey {
             get {
                 return ResourceManager.GetString("LobbyBeginAccessKey", resourceCulture);
             }
@@ -2904,7 +2904,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Begin Assignment.
         /// </summary>
-        internal static string LobbyBeginAssignmentText {
+        internal  string LobbyBeginAssignmentText {
             get {
                 return ResourceManager.GetString("LobbyBeginAssignmentText", resourceCulture);
             }
@@ -2913,7 +2913,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Begin assignment (Alt+I).
         /// </summary>
-        internal static string LobbyBeginAssignmentToolTip {
+        internal  string LobbyBeginAssignmentToolTip {
             get {
                 return ResourceManager.GetString("LobbyBeginAssignmentToolTip", resourceCulture);
             }
@@ -2922,7 +2922,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The current assignment status does not allow the requested action..
         /// </summary>
-        internal static string LobbyCannotChangeState {
+        internal  string LobbyCannotChangeState {
             get {
                 return ResourceManager.GetString("LobbyCannotChangeState", resourceCulture);
             }
@@ -2931,7 +2931,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to X.
         /// </summary>
-        internal static string LobbyDeleteAccessKey {
+        internal  string LobbyDeleteAccessKey {
             get {
                 return ResourceManager.GetString("LobbyDeleteAccessKey", resourceCulture);
             }
@@ -2940,7 +2940,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Delete Assignment.
         /// </summary>
-        internal static string LobbyDeleteAssignmentText {
+        internal  string LobbyDeleteAssignmentText {
             get {
                 return ResourceManager.GetString("LobbyDeleteAssignmentText", resourceCulture);
             }
@@ -2949,7 +2949,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete the assignment. More information may be available in the server event log..
         /// </summary>
-        internal static string LobbyDeleteException {
+        internal  string LobbyDeleteException {
             get {
                 return ResourceManager.GetString("LobbyDeleteException", resourceCulture);
             }
@@ -2958,7 +2958,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Deleting an assignment will delete all the associated learner data, including learner work and grades for the assignment. You cannot recover deleted information. Click OK to delete the assignment..
         /// </summary>
-        internal static string LobbyDeleteMessage {
+        internal  string LobbyDeleteMessage {
             get {
                 return ResourceManager.GetString("LobbyDeleteMessage", resourceCulture);
             }
@@ -2967,7 +2967,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Delete this assignment and all learner work (Alt+X).
         /// </summary>
-        internal static string LobbyDeleteToolTip {
+        internal  string LobbyDeleteToolTip {
             get {
                 return ResourceManager.GetString("LobbyDeleteToolTip", resourceCulture);
             }
@@ -2976,7 +2976,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The learner assignment (ID {0}) does not exist or you may not have permission to access it..
         /// </summary>
-        internal static string LobbyInvalidLearnerAssignmentId {
+        internal  string LobbyInvalidLearnerAssignmentId {
             get {
                 return ResourceManager.GetString("LobbyInvalidLearnerAssignmentId", resourceCulture);
             }
@@ -2985,7 +2985,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to This Web site is not accessible..
         /// </summary>
-        internal static string LobbyInvalidSite {
+        internal  string LobbyInvalidSite {
             get {
                 return ResourceManager.GetString("LobbyInvalidSite", resourceCulture);
             }
@@ -2994,7 +2994,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Grade.
         /// </summary>
-        internal static string LobbyLabelGrade {
+        internal  string LobbyLabelGrade {
             get {
                 return ResourceManager.GetString("LobbyLabelGrade", resourceCulture);
             }
@@ -3003,7 +3003,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The assignment will be returned to the learner automatically..
         /// </summary>
-        internal static string LobbylblAutoReturn {
+        internal  string LobbylblAutoReturn {
             get {
                 return ResourceManager.GetString("LobbylblAutoReturn", resourceCulture);
             }
@@ -3012,7 +3012,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
-        internal static string LobbylblComments {
+        internal  string LobbylblComments {
             get {
                 return ResourceManager.GetString("LobbylblComments", resourceCulture);
             }
@@ -3021,7 +3021,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Due.
         /// </summary>
-        internal static string LobbylblDue {
+        internal  string LobbylblDue {
             get {
                 return ResourceManager.GetString("LobbylblDue", resourceCulture);
             }
@@ -3030,7 +3030,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Score.
         /// </summary>
-        internal static string LobbylblScore {
+        internal  string LobbylblScore {
             get {
                 return ResourceManager.GetString("LobbylblScore", resourceCulture);
             }
@@ -3039,7 +3039,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Site.
         /// </summary>
-        internal static string LobbylblSite {
+        internal  string LobbylblSite {
             get {
                 return ResourceManager.GetString("LobbylblSite", resourceCulture);
             }
@@ -3048,7 +3048,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
-        internal static string LobbylblStart {
+        internal  string LobbylblStart {
             get {
                 return ResourceManager.GetString("LobbylblStart", resourceCulture);
             }
@@ -3057,7 +3057,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
-        internal static string LobbylblStatus {
+        internal  string LobbylblStatus {
             get {
                 return ResourceManager.GetString("LobbylblStatus", resourceCulture);
             }
@@ -3066,7 +3066,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Once you mark an assignment as complete, you will no longer be able to work on it..
         /// </summary>
-        internal static string LobbyMarkasCompleteMessage {
+        internal  string LobbyMarkasCompleteMessage {
             get {
                 return ResourceManager.GetString("LobbyMarkasCompleteMessage", resourceCulture);
             }
@@ -3075,7 +3075,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Mark as Complete.
         /// </summary>
-        internal static string LobbyMarkasCompleteText {
+        internal  string LobbyMarkasCompleteText {
             get {
                 return ResourceManager.GetString("LobbyMarkasCompleteText", resourceCulture);
             }
@@ -3084,7 +3084,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Mark as Complete (Alt+S).
         /// </summary>
-        internal static string LobbyMarkasCompleteToolTip {
+        internal  string LobbyMarkasCompleteToolTip {
             get {
                 return ResourceManager.GetString("LobbyMarkasCompleteToolTip", resourceCulture);
             }
@@ -3093,7 +3093,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Use this page to complete and submit your assignment..
         /// </summary>
-        internal static string LobbyPageDescription {
+        internal  string LobbyPageDescription {
             get {
                 return ResourceManager.GetString("LobbyPageDescription", resourceCulture);
             }
@@ -3102,7 +3102,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Complete Assignment.
         /// </summary>
-        internal static string LobbyPageTitle {
+        internal  string LobbyPageTitle {
             get {
                 return ResourceManager.GetString("LobbyPageTitle", resourceCulture);
             }
@@ -3111,7 +3111,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Complete Assignment.
         /// </summary>
-        internal static string LobbyPageTitleinTitlePage {
+        internal  string LobbyPageTitleinTitlePage {
             get {
                 return ResourceManager.GetString("LobbyPageTitleinTitlePage", resourceCulture);
             }
@@ -3120,7 +3120,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to --.
         /// </summary>
-        internal static string LobbyPointsNoValue {
+        internal  string LobbyPointsNoValue {
             get {
                 return ResourceManager.GetString("LobbyPointsNoValue", resourceCulture);
             }
@@ -3129,7 +3129,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to --/{0:R}.
         /// </summary>
-        internal static string LobbyPointsNoValuePointsPossible {
+        internal  string LobbyPointsNoValuePointsPossible {
             get {
                 return ResourceManager.GetString("LobbyPointsNoValuePointsPossible", resourceCulture);
             }
@@ -3138,7 +3138,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0:R}.
         /// </summary>
-        internal static string LobbyPointsValue {
+        internal  string LobbyPointsValue {
             get {
                 return ResourceManager.GetString("LobbyPointsValue", resourceCulture);
             }
@@ -3147,7 +3147,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0:R}/{1:R}.
         /// </summary>
-        internal static string LobbyPointsValuePointsPossible {
+        internal  string LobbyPointsValuePointsPossible {
             get {
                 return ResourceManager.GetString("LobbyPointsValuePointsPossible", resourceCulture);
             }
@@ -3156,7 +3156,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Resume Assignment.
         /// </summary>
-        internal static string LobbyResumeAssignmentText {
+        internal  string LobbyResumeAssignmentText {
             get {
                 return ResourceManager.GetString("LobbyResumeAssignmentText", resourceCulture);
             }
@@ -3165,7 +3165,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Resume Assignment (Alt+I).
         /// </summary>
-        internal static string LobbyResumeAssignmentToolTip {
+        internal  string LobbyResumeAssignmentToolTip {
             get {
                 return ResourceManager.GetString("LobbyResumeAssignmentToolTip", resourceCulture);
             }
@@ -3174,7 +3174,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Review Assignment.
         /// </summary>
-        internal static string LobbyReviewAssignmentText {
+        internal  string LobbyReviewAssignmentText {
             get {
                 return ResourceManager.GetString("LobbyReviewAssignmentText", resourceCulture);
             }
@@ -3183,7 +3183,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Review Assignment (Alt+I).
         /// </summary>
-        internal static string LobbyReviewAssignmentToolTip {
+        internal  string LobbyReviewAssignmentToolTip {
             get {
                 return ResourceManager.GetString("LobbyReviewAssignmentToolTip", resourceCulture);
             }
@@ -3192,7 +3192,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You cannot review the assignment until it has been returned..
         /// </summary>
-        internal static string LobbyReviewAssignmentToolTipCompleted {
+        internal  string LobbyReviewAssignmentToolTipCompleted {
             get {
                 return ResourceManager.GetString("LobbyReviewAssignmentToolTipCompleted", resourceCulture);
             }
@@ -3201,7 +3201,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Review Submitted File(s).
         /// </summary>
-        internal static string LobbyReviewSubmittedText {
+        internal  string LobbyReviewSubmittedText {
             get {
                 return ResourceManager.GetString("LobbyReviewSubmittedText", resourceCulture);
             }
@@ -3210,7 +3210,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to View assignment submitted files updated with instructor(s) comments..
         /// </summary>
-        internal static string LobbyReviewSubmittedToolTip {
+        internal  string LobbyReviewSubmittedToolTip {
             get {
                 return ResourceManager.GetString("LobbyReviewSubmittedToolTip", resourceCulture);
             }
@@ -3219,7 +3219,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to S.
         /// </summary>
-        internal static string LobbySubmitAccessKey {
+        internal  string LobbySubmitAccessKey {
             get {
                 return ResourceManager.GetString("LobbySubmitAccessKey", resourceCulture);
             }
@@ -3228,7 +3228,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Failed to submit the assignment. More information may be available in the server event log..
         /// </summary>
-        internal static string LobbySubmitException {
+        internal  string LobbySubmitException {
             get {
                 return ResourceManager.GetString("LobbySubmitException", resourceCulture);
             }
@@ -3237,7 +3237,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to F.
         /// </summary>
-        internal static string LobbySubmitFilesAccessKey {
+        internal  string LobbySubmitFilesAccessKey {
             get {
                 return ResourceManager.GetString("LobbySubmitFilesAccessKey", resourceCulture);
             }
@@ -3246,7 +3246,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submit File(s).
         /// </summary>
-        internal static string LobbySubmitFilesText {
+        internal  string LobbySubmitFilesText {
             get {
                 return ResourceManager.GetString("LobbySubmitFilesText", resourceCulture);
             }
@@ -3255,7 +3255,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submit your solution for this assignment..
         /// </summary>
-        internal static string LobbySubmitFilesToolTip {
+        internal  string LobbySubmitFilesToolTip {
             get {
                 return ResourceManager.GetString("LobbySubmitFilesToolTip", resourceCulture);
             }
@@ -3264,7 +3264,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submitting an assignment will send it to the instructor. Once it is submitted, you will no longer be able to work on it..
         /// </summary>
-        internal static string LobbySubmitMessage {
+        internal  string LobbySubmitMessage {
             get {
                 return ResourceManager.GetString("LobbySubmitMessage", resourceCulture);
             }
@@ -3273,7 +3273,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
-        internal static string LobbySubmitText {
+        internal  string LobbySubmitText {
             get {
                 return ResourceManager.GetString("LobbySubmitText", resourceCulture);
             }
@@ -3282,7 +3282,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submit (Alt+S).
         /// </summary>
-        internal static string LobbySubmitToolTip {
+        internal  string LobbySubmitToolTip {
             get {
                 return ResourceManager.GetString("LobbySubmitToolTip", resourceCulture);
             }
@@ -3291,7 +3291,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to This assignment is already open in another window..
         /// </summary>
-        internal static string LobbyWindowAlreadyOpen {
+        internal  string LobbyWindowAlreadyOpen {
             get {
                 return ResourceManager.GetString("LobbyWindowAlreadyOpen", resourceCulture);
             }
@@ -3300,7 +3300,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0:D}, {0:t}.
         /// </summary>
-        internal static string LongDateShortTime {
+        internal  string LongDateShortTime {
             get {
                 return ResourceManager.GetString("LongDateShortTime", resourceCulture);
             }
@@ -3311,7 +3311,7 @@ namespace Resources.Properties {
         ///&lt;p&gt;%description%&lt;/p&gt;
         ///&lt;p&gt;&lt;a href=&apos;%url%&apos;&gt;%url%&lt;/a&gt;&lt;/p&gt;.
         /// </summary>
-        internal static string NewAssignmentEmailDefaultBody {
+        internal  string NewAssignmentEmailDefaultBody {
             get {
                 return ResourceManager.GetString("NewAssignmentEmailDefaultBody", resourceCulture);
             }
@@ -3320,7 +3320,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to New Assignment: %title%.
         /// </summary>
-        internal static string NewAssignmentEmailDefaultSubject {
+        internal  string NewAssignmentEmailDefaultSubject {
             get {
                 return ResourceManager.GetString("NewAssignmentEmailDefaultSubject", resourceCulture);
             }
@@ -3329,7 +3329,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot access site..
         /// </summary>
-        internal static string NoAccessToSite {
+        internal  string NoAccessToSite {
             get {
                 return ResourceManager.GetString("NoAccessToSite", resourceCulture);
             }
@@ -3338,7 +3338,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No assembly value given for the domain group enumerator..
         /// </summary>
-        internal static string NoDomainGroupEnumeratorAssembly {
+        internal  string NoDomainGroupEnumeratorAssembly {
             get {
                 return ResourceManager.GetString("NoDomainGroupEnumeratorAssembly", resourceCulture);
             }
@@ -3347,7 +3347,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Quick Assignment..
         /// </summary>
-        internal static string NoPackageTitle {
+        internal  string NoPackageTitle {
             get {
                 return ResourceManager.GetString("NoPackageTitle", resourceCulture);
             }
@@ -3356,7 +3356,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Current user is not a SharePoint administrator.
         /// </summary>
-        internal static string NotSharePointAdmin {
+        internal  string NotSharePointAdmin {
             get {
                 return ResourceManager.GetString("NotSharePointAdmin", resourceCulture);
             }
@@ -3365,7 +3365,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SLK Assignment List Web Part.
         /// </summary>
-        internal static string ObserverRoleCommunicationInterfaceTitle {
+        internal  string ObserverRoleCommunicationInterfaceTitle {
             get {
                 return ResourceManager.GetString("ObserverRoleCommunicationInterfaceTitle", resourceCulture);
             }
@@ -3374,7 +3374,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The e-learning package with identifier {0} does not exist or is inaccessible.
         /// </summary>
-        internal static string PackageNotFoundInDatabase {
+        internal  string PackageNotFoundInDatabase {
             get {
                 return ResourceManager.GetString("PackageNotFoundInDatabase", resourceCulture);
             }
@@ -3383,7 +3383,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The learning resource is not valid. {0}.
         /// </summary>
-        internal static string PackageNotValid {
+        internal  string PackageNotValid {
             get {
                 return ResourceManager.GetString("PackageNotValid", resourceCulture);
             }
@@ -3392,7 +3392,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Failed to retrieve learner ids..
         /// </summary>
-        internal static string PopulateLearnerAssignmentIdsInvalidException {
+        internal  string PopulateLearnerAssignmentIdsInvalidException {
             get {
                 return ResourceManager.GetString("PopulateLearnerAssignmentIdsInvalidException", resourceCulture);
             }
@@ -3401,7 +3401,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to --.
         /// </summary>
-        internal static string QueryColumnNullDisplayDash {
+        internal  string QueryColumnNullDisplayDash {
             get {
                 return ResourceManager.GetString("QueryColumnNullDisplayDash", resourceCulture);
             }
@@ -3410,7 +3410,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Untitled.
         /// </summary>
-        internal static string QueryColumnNullDisplayUntitled {
+        internal  string QueryColumnNullDisplayUntitled {
             get {
                 return ResourceManager.GetString("QueryColumnNullDisplayUntitled", resourceCulture);
             }
@@ -3419,7 +3419,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment.
         /// </summary>
-        internal static string QueryColumnTitleAssignment {
+        internal  string QueryColumnTitleAssignment {
             get {
                 return ResourceManager.GetString("QueryColumnTitleAssignment", resourceCulture);
             }
@@ -3428,7 +3428,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Average.
         /// </summary>
-        internal static string QueryColumnTitleAverage {
+        internal  string QueryColumnTitleAverage {
             get {
                 return ResourceManager.GetString("QueryColumnTitleAverage", resourceCulture);
             }
@@ -3437,7 +3437,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Due.
         /// </summary>
-        internal static string QueryColumnTitleDue {
+        internal  string QueryColumnTitleDue {
             get {
                 return ResourceManager.GetString("QueryColumnTitleDue", resourceCulture);
             }
@@ -3446,7 +3446,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to File Submission.
         /// </summary>
-        internal static string QueryColumnTitleFileSubmission {
+        internal  string QueryColumnTitleFileSubmission {
             get {
                 return ResourceManager.GetString("QueryColumnTitleFileSubmission", resourceCulture);
             }
@@ -3455,7 +3455,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Score.
         /// </summary>
-        internal static string QueryColumnTitleScore {
+        internal  string QueryColumnTitleScore {
             get {
                 return ResourceManager.GetString("QueryColumnTitleScore", resourceCulture);
             }
@@ -3464,7 +3464,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Site.
         /// </summary>
-        internal static string QueryColumnTitleSite {
+        internal  string QueryColumnTitleSite {
             get {
                 return ResourceManager.GetString("QueryColumnTitleSite", resourceCulture);
             }
@@ -3473,7 +3473,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
-        internal static string QueryColumnTitleStatus {
+        internal  string QueryColumnTitleStatus {
             get {
                 return ResourceManager.GetString("QueryColumnTitleStatus", resourceCulture);
             }
@@ -3482,7 +3482,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submitted.
         /// </summary>
-        internal static string QueryColumnTitleSubmitted {
+        internal  string QueryColumnTitleSubmitted {
             get {
                 return ResourceManager.GetString("QueryColumnTitleSubmitted", resourceCulture);
             }
@@ -3491,7 +3491,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Average: {0}.
         /// </summary>
-        internal static string QueryColumnToolTipAverage {
+        internal  string QueryColumnToolTipAverage {
             get {
                 return ResourceManager.GetString("QueryColumnToolTipAverage", resourceCulture);
             }
@@ -3500,7 +3500,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Due: {0:D}, {0:t}.
         /// </summary>
-        internal static string QueryColumnToolTipDue {
+        internal  string QueryColumnToolTipDue {
             get {
                 return ResourceManager.GetString("QueryColumnToolTipDue", resourceCulture);
             }
@@ -3509,7 +3509,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Score: {0}.
         /// </summary>
-        internal static string QueryColumnToolTipScore {
+        internal  string QueryColumnToolTipScore {
             get {
                 return ResourceManager.GetString("QueryColumnToolTipScore", resourceCulture);
             }
@@ -3518,7 +3518,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Instructor Query Set.
         /// </summary>
-        internal static string QuerySetTitleInstructor {
+        internal  string QuerySetTitleInstructor {
             get {
                 return ResourceManager.GetString("QuerySetTitleInstructor", resourceCulture);
             }
@@ -3527,7 +3527,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Learner Query Set.
         /// </summary>
-        internal static string QuerySetTitleLearner {
+        internal  string QuerySetTitleLearner {
             get {
                 return ResourceManager.GetString("QuerySetTitleLearner", resourceCulture);
             }
@@ -3536,7 +3536,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Observer Query Set.
         /// </summary>
-        internal static string QuerySetTitleObserver {
+        internal  string QuerySetTitleObserver {
             get {
                 return ResourceManager.GetString("QuerySetTitleObserver", resourceCulture);
             }
@@ -3545,7 +3545,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Active.
         /// </summary>
-        internal static string QueryTitleActive {
+        internal  string QueryTitleActive {
             get {
                 return ResourceManager.GetString("QueryTitleActive", resourceCulture);
             }
@@ -3554,7 +3554,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to All Assignments.
         /// </summary>
-        internal static string QueryTitleAllAssignments {
+        internal  string QueryTitleAllAssignments {
             get {
                 return ResourceManager.GetString("QueryTitleAllAssignments", resourceCulture);
             }
@@ -3563,7 +3563,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Due Next Week.
         /// </summary>
-        internal static string QueryTitleDueNextWeek {
+        internal  string QueryTitleDueNextWeek {
             get {
                 return ResourceManager.GetString("QueryTitleDueNextWeek", resourceCulture);
             }
@@ -3572,7 +3572,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Due This Week.
         /// </summary>
-        internal static string QueryTitleDueThisWeek {
+        internal  string QueryTitleDueThisWeek {
             get {
                 return ResourceManager.GetString("QueryTitleDueThisWeek", resourceCulture);
             }
@@ -3581,7 +3581,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Due Today.
         /// </summary>
-        internal static string QueryTitleDueToday {
+        internal  string QueryTitleDueToday {
             get {
                 return ResourceManager.GetString("QueryTitleDueToday", resourceCulture);
             }
@@ -3590,7 +3590,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Overdue.
         /// </summary>
-        internal static string QueryTitleOverdue {
+        internal  string QueryTitleOverdue {
             get {
                 return ResourceManager.GetString("QueryTitleOverdue", resourceCulture);
             }
@@ -3599,7 +3599,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Ready To Grade.
         /// </summary>
-        internal static string QueryTitleReadyToGrade {
+        internal  string QueryTitleReadyToGrade {
             get {
                 return ResourceManager.GetString("QueryTitleReadyToGrade", resourceCulture);
             }
@@ -3608,7 +3608,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Returned.
         /// </summary>
-        internal static string QueryTitleReturned {
+        internal  string QueryTitleReturned {
             get {
                 return ResourceManager.GetString("QueryTitleReturned", resourceCulture);
             }
@@ -3617,7 +3617,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to To Do.
         /// </summary>
-        internal static string QueryTitleToDo {
+        internal  string QueryTitleToDo {
             get {
                 return ResourceManager.GetString("QueryTitleToDo", resourceCulture);
             }
@@ -3626,7 +3626,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Always show the web part even if not an instructor on the site..
         /// </summary>
-        internal static string QuickAssignmentAlwaysShowDescription {
+        internal  string QuickAssignmentAlwaysShowDescription {
             get {
                 return ResourceManager.GetString("QuickAssignmentAlwaysShowDescription", resourceCulture);
             }
@@ -3635,7 +3635,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Always Show.
         /// </summary>
-        internal static string QuickAssignmentAlwaysShowDisplayName {
+        internal  string QuickAssignmentAlwaysShowDisplayName {
             get {
                 return ResourceManager.GetString("QuickAssignmentAlwaysShowDisplayName", resourceCulture);
             }
@@ -3644,7 +3644,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assign.
         /// </summary>
-        internal static string QuickAssignmentAssignText {
+        internal  string QuickAssignmentAssignText {
             get {
                 return ResourceManager.GetString("QuickAssignmentAssignText", resourceCulture);
             }
@@ -3653,7 +3653,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Site.
         /// </summary>
-        internal static string QuickAssignmentLabelSite {
+        internal  string QuickAssignmentLabelSite {
             get {
                 return ResourceManager.GetString("QuickAssignmentLabelSite", resourceCulture);
             }
@@ -3662,7 +3662,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
-        internal static string QuickAssignmentLabelTitle {
+        internal  string QuickAssignmentLabelTitle {
             get {
                 return ResourceManager.GetString("QuickAssignmentLabelTitle", resourceCulture);
             }
@@ -3671,7 +3671,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Controls how the control is used..
         /// </summary>
-        internal static string QuickAssignmentTypeDescription {
+        internal  string QuickAssignmentTypeDescription {
             get {
                 return ResourceManager.GetString("QuickAssignmentTypeDescription", resourceCulture);
             }
@@ -3680,7 +3680,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Display Mode.
         /// </summary>
-        internal static string QuickAssignmentTypeDisplayName {
+        internal  string QuickAssignmentTypeDisplayName {
             get {
                 return ResourceManager.GetString("QuickAssignmentTypeDisplayName", resourceCulture);
             }
@@ -3689,7 +3689,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment cannot be reactivated as it is still active..
         /// </summary>
-        internal static string ReactivateAssignmentActive {
+        internal  string ReactivateAssignmentActive {
             get {
                 return ResourceManager.GetString("ReactivateAssignmentActive", resourceCulture);
             }
@@ -3699,7 +3699,7 @@ namespace Resources.Properties {
         ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; has been reactivated for you to try again.&lt;/p&gt;
         ///          &lt;p&gt;&lt;a href=&apos;%url%&apos;&gt;%url%&lt;/a&gt;&lt;/p&gt;.
         /// </summary>
-        internal static string ReactivateAssignmentEmailDefaultBody {
+        internal  string ReactivateAssignmentEmailDefaultBody {
             get {
                 return ResourceManager.GetString("ReactivateAssignmentEmailDefaultBody", resourceCulture);
             }
@@ -3708,7 +3708,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment %title% has been reactivated.
         /// </summary>
-        internal static string ReactivateAssignmentEmailDefaultSubject {
+        internal  string ReactivateAssignmentEmailDefaultSubject {
             get {
                 return ResourceManager.GetString("ReactivateAssignmentEmailDefaultSubject", resourceCulture);
             }
@@ -3717,7 +3717,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment cannot be reactivated as it is not yet started..
         /// </summary>
-        internal static string ReactivateAssignmentNotStarted {
+        internal  string ReactivateAssignmentNotStarted {
             get {
                 return ResourceManager.GetString("ReactivateAssignmentNotStarted", resourceCulture);
             }
@@ -3726,7 +3726,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SharePoint Learning Kit Reminder Emails.
         /// </summary>
-        internal static string ReminderEmailsJobTitle {
+        internal  string ReminderEmailsJobTitle {
             get {
                 return ResourceManager.GetString("ReminderEmailsJobTitle", resourceCulture);
             }
@@ -3735,7 +3735,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment cannot be returned as it is still active..
         /// </summary>
-        internal static string ReturnAssignmentActive {
+        internal  string ReturnAssignmentActive {
             get {
                 return ResourceManager.GetString("ReturnAssignmentActive", resourceCulture);
             }
@@ -3745,7 +3745,7 @@ namespace Resources.Properties {
         ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; has been returned.&lt;/p&gt;
         ///          &lt;p&gt;&lt;a href=&apos;%url%&apos;&gt;%url%&lt;/a&gt;&lt;/p&gt;.
         /// </summary>
-        internal static string ReturnAssignmentEmailDefaultBody {
+        internal  string ReturnAssignmentEmailDefaultBody {
             get {
                 return ResourceManager.GetString("ReturnAssignmentEmailDefaultBody", resourceCulture);
             }
@@ -3754,7 +3754,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment %title% has been returned.
         /// </summary>
-        internal static string ReturnAssignmentEmailDefaultSubject {
+        internal  string ReturnAssignmentEmailDefaultSubject {
             get {
                 return ResourceManager.GetString("ReturnAssignmentEmailDefaultSubject", resourceCulture);
             }
@@ -3763,7 +3763,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment cannot be returned as it is not yet started..
         /// </summary>
-        internal static string ReturnAssignmentNotStarted {
+        internal  string ReturnAssignmentNotStarted {
             get {
                 return ResourceManager.GetString("ReturnAssignmentNotStarted", resourceCulture);
             }
@@ -3772,7 +3772,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Please select a Site Collection.
         /// </summary>
-        internal static string SelectSiteCollectionHtml {
+        internal  string SelectSiteCollectionHtml {
             get {
                 return ResourceManager.GetString("SelectSiteCollectionHtml", resourceCulture);
             }
@@ -3781,7 +3781,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The List Name property is set to an invalid list..
         /// </summary>
-        internal static string SelfAssignInvalidList {
+        internal  string SelfAssignInvalidList {
             get {
                 return ResourceManager.GetString("SelfAssignInvalidList", resourceCulture);
             }
@@ -3790,7 +3790,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The View Name property is set to an invalid view..
         /// </summary>
-        internal static string SelfAssignInvalidView {
+        internal  string SelfAssignInvalidView {
             get {
                 return ResourceManager.GetString("SelfAssignInvalidView", resourceCulture);
             }
@@ -3799,7 +3799,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The name of the list hosting the documents..
         /// </summary>
-        internal static string SelfAssignListNameDescription {
+        internal  string SelfAssignListNameDescription {
             get {
                 return ResourceManager.GetString("SelfAssignListNameDescription", resourceCulture);
             }
@@ -3808,7 +3808,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to List Name.
         /// </summary>
-        internal static string SelfAssignListNameDisplayName {
+        internal  string SelfAssignListNameDisplayName {
             get {
                 return ResourceManager.GetString("SelfAssignListNameDisplayName", resourceCulture);
             }
@@ -3817,7 +3817,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The List Name property is required..
         /// </summary>
-        internal static string SelfAssignListNameRequired {
+        internal  string SelfAssignListNameRequired {
             get {
                 return ResourceManager.GetString("SelfAssignListNameRequired", resourceCulture);
             }
@@ -3826,7 +3826,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No packages to show..
         /// </summary>
-        internal static string SelfAssignPartNoItems {
+        internal  string SelfAssignPartNoItems {
             get {
                 return ResourceManager.GetString("SelfAssignPartNoItems", resourceCulture);
             }
@@ -3835,7 +3835,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The url of the site hosting the list to get the documents from. Leave blank for current site..
         /// </summary>
-        internal static string SelfAssignSiteUrlDescription {
+        internal  string SelfAssignSiteUrlDescription {
             get {
                 return ResourceManager.GetString("SelfAssignSiteUrlDescription", resourceCulture);
             }
@@ -3844,7 +3844,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Site Url.
         /// </summary>
-        internal static string SelfAssignSiteUrlDisplayName {
+        internal  string SelfAssignSiteUrlDisplayName {
             get {
                 return ResourceManager.GetString("SelfAssignSiteUrlDisplayName", resourceCulture);
             }
@@ -3853,7 +3853,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The name of the view hosting the documents. Leave blank to use the default view..
         /// </summary>
-        internal static string SelfAssignViewNameDescription {
+        internal  string SelfAssignViewNameDescription {
             get {
                 return ResourceManager.GetString("SelfAssignViewNameDescription", resourceCulture);
             }
@@ -3862,7 +3862,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to View Name.
         /// </summary>
-        internal static string SelfAssignViewNameDisplayName {
+        internal  string SelfAssignViewNameDisplayName {
             get {
                 return ResourceManager.GetString("SelfAssignViewNameDisplayName", resourceCulture);
             }
@@ -3871,7 +3871,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to A serious error occurred.  Please contact your system administrator.  More information has been written to the server event log..
         /// </summary>
-        internal static string SeriousErrorInEventLog {
+        internal  string SeriousErrorInEventLog {
             get {
                 return ResourceManager.GetString("SeriousErrorInEventLog", resourceCulture);
             }
@@ -3880,7 +3880,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to To use the observor role session state must be enabled for the web application..
         /// </summary>
-        internal static string SessionNotConfigured {
+        internal  string SessionNotConfigured {
             get {
                 return ResourceManager.GetString("SessionNotConfigured", resourceCulture);
             }
@@ -3889,7 +3889,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Microsoft-SharePoint Products-SharePoint Foundation.
         /// </summary>
-        internal static string SharePoint2010LogSource {
+        internal  string SharePoint2010LogSource {
             get {
                 return ResourceManager.GetString("SharePoint2010LogSource", resourceCulture);
             }
@@ -3898,7 +3898,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SharePoint farm not found.
         /// </summary>
-        internal static string SharePointFarmNotFound {
+        internal  string SharePointFarmNotFound {
             get {
                 return ResourceManager.GetString("SharePointFarmNotFound", resourceCulture);
             }
@@ -3907,7 +3907,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0:D}, {0:t}.
         /// </summary>
-        internal static string SlkDateFormatSpecifier {
+        internal  string SlkDateFormatSpecifier {
             get {
                 return ResourceManager.GetString("SlkDateFormatSpecifier", resourceCulture);
             }
@@ -3916,7 +3916,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
-        internal static string SlkErrorTypeErrorToolTip {
+        internal  string SlkErrorTypeErrorToolTip {
             get {
                 return ResourceManager.GetString("SlkErrorTypeErrorToolTip", resourceCulture);
             }
@@ -3925,7 +3925,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Note.
         /// </summary>
-        internal static string SlkErrorTypeInfoToolTip {
+        internal  string SlkErrorTypeInfoToolTip {
             get {
                 return ResourceManager.GetString("SlkErrorTypeInfoToolTip", resourceCulture);
             }
@@ -3934,7 +3934,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Warning.
         /// </summary>
-        internal static string SlkErrorTypeWarningToolTip {
+        internal  string SlkErrorTypeWarningToolTip {
             get {
                 return ResourceManager.GetString("SlkErrorTypeWarningToolTip", resourceCulture);
             }
@@ -3943,7 +3943,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SharePoint Learning Kit.
         /// </summary>
-        internal static string SlkEventLogSource {
+        internal  string SlkEventLogSource {
             get {
                 return ResourceManager.GetString("SlkEventLogSource", resourceCulture);
             }
@@ -3952,7 +3952,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The server is currently busy. Please refresh your browser..
         /// </summary>
-        internal static string SlkExAlwpSqlDeadLockError {
+        internal  string SlkExAlwpSqlDeadLockError {
             get {
                 return ResourceManager.GetString("SlkExAlwpSqlDeadLockError", resourceCulture);
             }
@@ -3961,7 +3961,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You cannot perform this operation because you are not an instructor on this site ({0})..
         /// </summary>
-        internal static string SlkExInstructorPermissonNotFound {
+        internal  string SlkExInstructorPermissonNotFound {
             get {
                 return ResourceManager.GetString("SlkExInstructorPermissonNotFound", resourceCulture);
             }
@@ -3970,7 +3970,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The value ({0}) is not valid for the {1} parameter..
         /// </summary>
-        internal static string SlkExQueryStringFormatError {
+        internal  string SlkExQueryStringFormatError {
             get {
                 return ResourceManager.GetString("SlkExQueryStringFormatError", resourceCulture);
             }
@@ -3979,7 +3979,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The {0} parameter is missing or empty..
         /// </summary>
-        internal static string SlkExQueryStringNotFound {
+        internal  string SlkExQueryStringNotFound {
             get {
                 return ResourceManager.GetString("SlkExQueryStringNotFound", resourceCulture);
             }
@@ -3988,7 +3988,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You must sign in to use SharePoint Learning Kit..
         /// </summary>
-        internal static string SlkExUserNotFound {
+        internal  string SlkExUserNotFound {
             get {
                 return ResourceManager.GetString("SlkExUserNotFound", resourceCulture);
             }
@@ -3997,7 +3997,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The server is currently busy. Please retry your operation..
         /// </summary>
-        internal static string SlkExWorkFlowSqlDeadLockError {
+        internal  string SlkExWorkFlowSqlDeadLockError {
             get {
                 return ResourceManager.GetString("SlkExWorkFlowSqlDeadLockError", resourceCulture);
             }
@@ -4006,7 +4006,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to An error occurred. More information may be available in the server event log..
         /// </summary>
-        internal static string SlkGenericError {
+        internal  string SlkGenericError {
             get {
                 return ResourceManager.GetString("SlkGenericError", resourceCulture);
             }
@@ -4015,7 +4015,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Can use SharePoint Learning Kit features to assign e-learning content to learners..
         /// </summary>
-        internal static string SlkInstructorPermissionDescription {
+        internal  string SlkInstructorPermissionDescription {
             get {
                 return ResourceManager.GetString("SlkInstructorPermissionDescription", resourceCulture);
             }
@@ -4024,7 +4024,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Appears as a potential learner when new assignments are created using SharePoint Learning Kit..
         /// </summary>
-        internal static string SlkLearnerPermissionDescription {
+        internal  string SlkLearnerPermissionDescription {
             get {
                 return ResourceManager.GetString("SlkLearnerPermissionDescription", resourceCulture);
             }
@@ -4033,7 +4033,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to This site is not configured to use SharePoint Learning Kit. Administrators can use SharePoint Central Administration to configure SharePoint Learning Kit..
         /// </summary>
-        internal static string SlkNotEnabled {
+        internal  string SlkNotEnabled {
             get {
                 return ResourceManager.GetString("SlkNotEnabled", resourceCulture);
             }
@@ -4042,7 +4042,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You must specify a valid date within the range of 1/1/1900 and 12/31/8900..
         /// </summary>
-        internal static string SlkNotValidDate {
+        internal  string SlkNotValidDate {
             get {
                 return ResourceManager.GetString("SlkNotValidDate", resourceCulture);
             }
@@ -4051,7 +4051,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Appears as a potential observer when new assignments are created using the SharePoint Learning Kit.
         /// </summary>
-        internal static string SlkObserverPermissionDescription {
+        internal  string SlkObserverPermissionDescription {
             get {
                 return ResourceManager.GetString("SlkObserverPermissionDescription", resourceCulture);
             }
@@ -4060,7 +4060,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} - {1}.
         /// </summary>
-        internal static string SlkPackageAndOrganizationTitle {
+        internal  string SlkPackageAndOrganizationTitle {
             get {
                 return ResourceManager.GetString("SlkPackageAndOrganizationTitle", resourceCulture);
             }
@@ -4082,7 +4082,7 @@ namespace Resources.Properties {
         ///    RETURN
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string SlkSchemaSql {
+        internal  string SlkSchemaSql {
             get {
                 return ResourceManager.GetString("SlkSchemaSql", resourceCulture);
             }
@@ -4097,7 +4097,7 @@ namespace Resources.Properties {
         ///    MaxAttachmentKilobytes=&quot;10240&quot;
         ///	NonELearningIisCompatibilityModeExtensions=&quot;&quot; [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string SlkSettingsFile {
+        internal  string SlkSettingsFile {
             get {
                 return ResourceManager.GetString("SlkSettingsFile", resourceCulture);
             }
@@ -4106,7 +4106,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Problem found in SLK Settings file: {0}.
         /// </summary>
-        internal static string SlkSettingsFileError {
+        internal  string SlkSettingsFileError {
             get {
                 return ResourceManager.GetString("SlkSettingsFileError", resourceCulture);
             }
@@ -4115,7 +4115,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite {0}.).
         /// </summary>
-        internal static string SlkSettingsNotFound {
+        internal  string SlkSettingsNotFound {
             get {
                 return ResourceManager.GetString("SlkSettingsNotFound", resourceCulture);
             }
@@ -4130,7 +4130,7 @@ namespace Resources.Properties {
         ///			&lt;xs:enumeration value=&quot;GreaterThan&quot; /&gt;
         ///			&lt;xs:e [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string SlkSettingsSchema {
+        internal  string SlkSettingsSchema {
             get {
                 return ResourceManager.GetString("SlkSettingsSchema", resourceCulture);
             }
@@ -4139,7 +4139,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The site {0} does not exist or is not a valid SharePoint site..
         /// </summary>
-        internal static string SlkSiteNotFound {
+        internal  string SlkSiteNotFound {
             get {
                 return ResourceManager.GetString("SlkSiteNotFound", resourceCulture);
             }
@@ -4148,7 +4148,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot sort on a column of type: {0}.
         /// </summary>
-        internal static string SlkUtilitiesCannotSortColumnType {
+        internal  string SlkUtilitiesCannotSortColumnType {
             get {
                 return ResourceManager.GetString("SlkUtilitiesCannotSortColumnType", resourceCulture);
             }
@@ -4157,7 +4157,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to columnIndex out of range.
         /// </summary>
-        internal static string SlkUtilitiesColumnIndexOutOfRange {
+        internal  string SlkUtilitiesColumnIndexOutOfRange {
             get {
                 return ResourceManager.GetString("SlkUtilitiesColumnIndexOutOfRange", resourceCulture);
             }
@@ -4166,7 +4166,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Column &quot;{0}&quot; not defined in LearningStore view &quot;{1}&quot;.
         /// </summary>
-        internal static string SlkUtilitiesColumnNotDefined {
+        internal  string SlkUtilitiesColumnNotDefined {
             get {
                 return ResourceManager.GetString("SlkUtilitiesColumnNotDefined", resourceCulture);
             }
@@ -4175,7 +4175,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} column returned NULL.
         /// </summary>
-        internal static string SlkUtilitiesColumnReturnedNull {
+        internal  string SlkUtilitiesColumnReturnedNull {
             get {
                 return ResourceManager.GetString("SlkUtilitiesColumnReturnedNull", resourceCulture);
             }
@@ -4184,7 +4184,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} column returned type {1}, expecting type {2}.
         /// </summary>
-        internal static string SlkUtilitiesColumnReturnedUnexpectedType {
+        internal  string SlkUtilitiesColumnReturnedUnexpectedType {
             get {
                 return ResourceManager.GetString("SlkUtilitiesColumnReturnedUnexpectedType", resourceCulture);
             }
@@ -4193,7 +4193,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to At most one of the attributes &quot;Value&quot; or &quot;MacroName&quot; may be provided, and neither may be provided if &quot;Operator&quot; is &quot;IsNull&quot; or &quot;IsNotNull&quot;; &quot;MacroName&quot; must be provided if &quot;NoConditionOnNull&quot; is &quot;true&quot;.
         /// </summary>
-        internal static string SlkUtilitiesConditionException {
+        internal  string SlkUtilitiesConditionException {
             get {
                 return ResourceManager.GetString("SlkUtilitiesConditionException", resourceCulture);
             }
@@ -4202,7 +4202,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Duplicate query name: {0}.
         /// </summary>
-        internal static string SlkUtilitiesDuplicateQueryName {
+        internal  string SlkUtilitiesDuplicateQueryName {
             get {
                 return ResourceManager.GetString("SlkUtilitiesDuplicateQueryName", resourceCulture);
             }
@@ -4211,7 +4211,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Duplicate query set name: {0}.
         /// </summary>
-        internal static string SlkUtilitiesDuplicateQuerySetName {
+        internal  string SlkUtilitiesDuplicateQuerySetName {
             get {
                 return ResourceManager.GetString("SlkUtilitiesDuplicateQuerySetName", resourceCulture);
             }
@@ -4220,7 +4220,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to if noConditionOnNull is true, macroName must be provided.
         /// </summary>
-        internal static string SlkUtilitiesMacroNameNotProvided {
+        internal  string SlkUtilitiesMacroNameNotProvided {
             get {
                 return ResourceManager.GetString("SlkUtilitiesMacroNameNotProvided", resourceCulture);
             }
@@ -4229,7 +4229,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Macro not defined: {0}.
         /// </summary>
-        internal static string SlkUtilitiesMacroNotDefined {
+        internal  string SlkUtilitiesMacroNotDefined {
             get {
                 return ResourceManager.GetString("SlkUtilitiesMacroNotDefined", resourceCulture);
             }
@@ -4238,7 +4238,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to at most one of value and macroName arguments can be non-null.
         /// </summary>
-        internal static string SlkUtilitiesOneValueNonNull {
+        internal  string SlkUtilitiesOneValueNonNull {
             get {
                 return ResourceManager.GetString("SlkUtilitiesOneValueNonNull", resourceCulture);
             }
@@ -4247,7 +4247,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to --.
         /// </summary>
-        internal static string SlkUtilitiesPointsNoValue {
+        internal  string SlkUtilitiesPointsNoValue {
             get {
                 return ResourceManager.GetString("SlkUtilitiesPointsNoValue", resourceCulture);
             }
@@ -4256,7 +4256,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to --/{0:R}.
         /// </summary>
-        internal static string SlkUtilitiesPointsNoValuePointsPossible {
+        internal  string SlkUtilitiesPointsNoValuePointsPossible {
             get {
                 return ResourceManager.GetString("SlkUtilitiesPointsNoValuePointsPossible", resourceCulture);
             }
@@ -4265,7 +4265,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0}/{1:R}.
         /// </summary>
-        internal static string SlkUtilitiesPointsPossible {
+        internal  string SlkUtilitiesPointsPossible {
             get {
                 return ResourceManager.GetString("SlkUtilitiesPointsPossible", resourceCulture);
             }
@@ -4274,7 +4274,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0:R}.
         /// </summary>
-        internal static string SlkUtilitiesPointsValue {
+        internal  string SlkUtilitiesPointsValue {
             get {
                 return ResourceManager.GetString("SlkUtilitiesPointsValue", resourceCulture);
             }
@@ -4283,7 +4283,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0:R}/{1:R}.
         /// </summary>
-        internal static string SlkUtilitiesPointsValuePointsPossible {
+        internal  string SlkUtilitiesPointsValuePointsPossible {
             get {
                 return ResourceManager.GetString("SlkUtilitiesPointsValuePointsPossible", resourceCulture);
             }
@@ -4292,7 +4292,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Query set name cannot be the same as a query name: {0}.
         /// </summary>
-        internal static string SlkUtilitiesQuerySetSameAsQuery {
+        internal  string SlkUtilitiesQuerySetSameAsQuery {
             get {
                 return ResourceManager.GetString("SlkUtilitiesQuerySetSameAsQuery", resourceCulture);
             }
@@ -4301,7 +4301,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to line {0}: {1}.
         /// </summary>
-        internal static string SlkUtilitiesSettingsException {
+        internal  string SlkUtilitiesSettingsException {
             get {
                 return ResourceManager.GetString("SlkUtilitiesSettingsException", resourceCulture);
             }
@@ -4310,7 +4310,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0}.
         /// </summary>
-        internal static string SlkUtilitiesSettingsExceptionDefaultFormat {
+        internal  string SlkUtilitiesSettingsExceptionDefaultFormat {
             get {
                 return ResourceManager.GetString("SlkUtilitiesSettingsExceptionDefaultFormat", resourceCulture);
             }
@@ -4319,7 +4319,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0}/{1}.
         /// </summary>
-        internal static string SlkUtilitiesSubmitted {
+        internal  string SlkUtilitiesSubmitted {
             get {
                 return ResourceManager.GetString("SlkUtilitiesSubmitted", resourceCulture);
             }
@@ -4328,7 +4328,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Undefined query: {0}.
         /// </summary>
-        internal static string SlkUtilitiesUndefinedQuery {
+        internal  string SlkUtilitiesUndefinedQuery {
             get {
                 return ResourceManager.GetString("SlkUtilitiesUndefinedQuery", resourceCulture);
             }
@@ -4337,7 +4337,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Unknown RenderAs value: {0}.
         /// </summary>
-        internal static string SlkUtilitiesUnknownRenderAsValue {
+        internal  string SlkUtilitiesUnknownRenderAsValue {
             get {
                 return ResourceManager.GetString("SlkUtilitiesUnknownRenderAsValue", resourceCulture);
             }
@@ -4346,7 +4346,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to value and macroName arguments must be null if oper is &quot;IsNotNull&quot;.
         /// </summary>
-        internal static string SlkUtilitiesValueNullifIsNotNull {
+        internal  string SlkUtilitiesValueNullifIsNotNull {
             get {
                 return ResourceManager.GetString("SlkUtilitiesValueNullifIsNotNull", resourceCulture);
             }
@@ -4355,7 +4355,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to value and macroName arguments must be null if oper is &quot;IsNull&quot;.
         /// </summary>
-        internal static string SlkUtilitiesValueNullifIsNull {
+        internal  string SlkUtilitiesValueNullifIsNull {
             get {
                 return ResourceManager.GetString("SlkUtilitiesValueNullifIsNull", resourceCulture);
             }
@@ -4364,7 +4364,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to RenderAs=&quot;UtcAsLocalDateTime&quot; but ViewColumnName specifies a non-date/time column.
         /// </summary>
-        internal static string SlkUtilitiesViewColumnNameNonDateTime {
+        internal  string SlkUtilitiesViewColumnNameNonDateTime {
             get {
                 return ResourceManager.GetString("SlkUtilitiesViewColumnNameNonDateTime", resourceCulture);
             }
@@ -4373,7 +4373,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Some learners&apos; assignments could not be saved: {0}.
         /// </summary>
-        internal static string SomeLearnerAssignmentsNotSaved {
+        internal  string SomeLearnerAssignmentsNotSaved {
             get {
                 return ResourceManager.GetString("SomeLearnerAssignmentsNotSaved", resourceCulture);
             }
@@ -4382,7 +4382,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The SPWeb does not match the site specified in the constructor of the SlkStore..
         /// </summary>
-        internal static string SPWebDoesNotMatchSlkSPSite {
+        internal  string SPWebDoesNotMatchSlkSPSite {
             get {
                 return ResourceManager.GetString("SPWebDoesNotMatchSlkSPSite", resourceCulture);
             }
@@ -4391,7 +4391,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Configuring SLK for web application: {0} ({1}).
         /// </summary>
-        internal static string StsConfiguringSlkForApplication {
+        internal  string StsConfiguringSlkForApplication {
             get {
                 return ResourceManager.GetString("StsConfiguringSlkForApplication", resourceCulture);
             }
@@ -4400,7 +4400,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Configuring SLK for site: {0} ({1}).
         /// </summary>
-        internal static string StsConfiguringSlkForSite {
+        internal  string StsConfiguringSlkForSite {
             get {
                 return ResourceManager.GetString("StsConfiguringSlkForSite", resourceCulture);
             }
@@ -4409,7 +4409,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} ({1}) --&gt; Server={2};Database={3}.
         /// </summary>
-        internal static string StsEnumMappingLine {
+        internal  string StsEnumMappingLine {
             get {
                 return ResourceManager.GetString("StsEnumMappingLine", resourceCulture);
             }
@@ -4423,7 +4423,7 @@ namespace Resources.Properties {
         ///   Learner Permission:      {3}
         ///      .
         /// </summary>
-        internal static string StsGetSiteConfiguration {
+        internal  string StsGetSiteConfiguration {
             get {
                 return ResourceManager.GetString("StsGetSiteConfiguration", resourceCulture);
             }
@@ -4444,7 +4444,7 @@ namespace Resources.Properties {
         ///* By default, integrated authentication is used to connect to the database.
         ///To use a SQL [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string StsHelpConfigure {
+        internal  string StsHelpConfigure {
             get {
                 return ResourceManager.GetString("StsHelpConfigure", resourceCulture);
             }
@@ -4457,7 +4457,7 @@ namespace Resources.Properties {
         ///    Deletes a mapping.
         ///    .
         /// </summary>
-        internal static string StsHelpDeleteMapping {
+        internal  string StsHelpDeleteMapping {
             get {
                 return ResourceManager.GetString("StsHelpDeleteMapping", resourceCulture);
             }
@@ -4468,7 +4468,7 @@ namespace Resources.Properties {
         ///    Enumerates all mappings
         ///    .
         /// </summary>
-        internal static string StsHelpEnumMappings {
+        internal  string StsHelpEnumMappings {
             get {
                 return ResourceManager.GetString("StsHelpEnumMappings", resourceCulture);
             }
@@ -4483,7 +4483,7 @@ namespace Resources.Properties {
         ///   Use either url or guid.
         ///    .
         /// </summary>
-        internal static string StsHelpGetConfiguration {
+        internal  string StsHelpGetConfiguration {
             get {
                 return ResourceManager.GetString("StsHelpGetConfiguration", resourceCulture);
             }
@@ -4492,7 +4492,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SLK mapping not found for GUID {0}..
         /// </summary>
-        internal static string StsInvalidGuid {
+        internal  string StsInvalidGuid {
             get {
                 return ResourceManager.GetString("StsInvalidGuid", resourceCulture);
             }
@@ -4501,7 +4501,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SLK mapping deleted for GUID {0}.
         /// </summary>
-        internal static string StsMappingDeleted {
+        internal  string StsMappingDeleted {
             get {
                 return ResourceManager.GetString("StsMappingDeleted", resourceCulture);
             }
@@ -4510,7 +4510,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} is a required parameter..
         /// </summary>
-        internal static string StsMissingParameter {
+        internal  string StsMissingParameter {
             get {
                 return ResourceManager.GetString("StsMissingParameter", resourceCulture);
             }
@@ -4519,7 +4519,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Either {0} or {1} are required parameters..
         /// </summary>
-        internal static string StsMissingParameters {
+        internal  string StsMissingParameters {
             get {
                 return ResourceManager.GetString("StsMissingParameters", resourceCulture);
             }
@@ -4528,7 +4528,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Only one of {0} or {1} is allowed..
         /// </summary>
-        internal static string StsSettingsError {
+        internal  string StsSettingsError {
             get {
                 return ResourceManager.GetString("StsSettingsError", resourceCulture);
             }
@@ -4537,7 +4537,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No sub folder was found for this assignment for the given student name.
         /// </summary>
-        internal static string SubFolderNotFound {
+        internal  string SubFolderNotFound {
             get {
                 return ResourceManager.GetString("SubFolderNotFound", resourceCulture);
             }
@@ -4547,7 +4547,7 @@ namespace Resources.Properties {
         ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; had been submitted by %name%.&lt;/p&gt;
         ///          &lt;p&gt;&lt;a href=&apos;%gradingUrl%&apos;&gt;%gradingUrl%&lt;/a&gt;&lt;/p&gt;.
         /// </summary>
-        internal static string SubmitAssignmentEmailDefaultBody {
+        internal  string SubmitAssignmentEmailDefaultBody {
             get {
                 return ResourceManager.GetString("SubmitAssignmentEmailDefaultBody", resourceCulture);
             }
@@ -4556,7 +4556,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment %title% submitted by %name%.
         /// </summary>
-        internal static string SubmitAssignmentEmailDefaultSubject {
+        internal  string SubmitAssignmentEmailDefaultSubject {
             get {
                 return ResourceManager.GetString("SubmitAssignmentEmailDefaultSubject", resourceCulture);
             }
@@ -4565,7 +4565,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Only the learner can submit the assignment..
         /// </summary>
-        internal static string SubmitAssignmentNotLearner {
+        internal  string SubmitAssignmentNotLearner {
             get {
                 return ResourceManager.GetString("SubmitAssignmentNotLearner", resourceCulture);
             }
@@ -4574,7 +4574,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Assignment cannot be submitted as it is not yet started..
         /// </summary>
-        internal static string SubmitAssignmentNotStarted {
+        internal  string SubmitAssignmentNotStarted {
             get {
                 return ResourceManager.GetString("SubmitAssignmentNotStarted", resourceCulture);
             }
@@ -4583,7 +4583,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} : {1} Files.
         /// </summary>
-        internal static string SubmittedFilesHeader {
+        internal  string SubmittedFilesHeader {
             get {
                 return ResourceManager.GetString("SubmittedFilesHeader", resourceCulture);
             }
@@ -4592,7 +4592,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Click here to view all files submitted by {0} for this assignment..
         /// </summary>
-        internal static string SubmittedFilesInstructorMessage {
+        internal  string SubmittedFilesInstructorMessage {
             get {
                 return ResourceManager.GetString("SubmittedFilesInstructorMessage", resourceCulture);
             }
@@ -4601,7 +4601,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You don&apos;t have access to this page because the assignment is still not returned by the instructor..
         /// </summary>
-        internal static string SubmittedFilesLearnerNoAccessException {
+        internal  string SubmittedFilesLearnerNoAccessException {
             get {
                 return ResourceManager.GetString("SubmittedFilesLearnerNoAccessException", resourceCulture);
             }
@@ -4610,7 +4610,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No files were found for this assignment..
         /// </summary>
-        internal static string SubmittedFilesNoAssignmentFilesException {
+        internal  string SubmittedFilesNoAssignmentFilesException {
             get {
                 return ResourceManager.GetString("SubmittedFilesNoAssignmentFilesException", resourceCulture);
             }
@@ -4619,7 +4619,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No folder was found for this assignment..
         /// </summary>
-        internal static string SubmittedFilesNoAssignmentFolderException {
+        internal  string SubmittedFilesNoAssignmentFolderException {
             get {
                 return ResourceManager.GetString("SubmittedFilesNoAssignmentFolderException", resourceCulture);
             }
@@ -4628,7 +4628,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No sub folder was found for this assignment for the given student name..
         /// </summary>
-        internal static string SubmittedFilesNoAssignmentSubFolderException {
+        internal  string SubmittedFilesNoAssignmentSubFolderException {
             get {
                 return ResourceManager.GetString("SubmittedFilesNoAssignmentSubFolderException", resourceCulture);
             }
@@ -4637,7 +4637,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Use this page to view the assignment submitted files..
         /// </summary>
-        internal static string SubmittedFilesPageDescription {
+        internal  string SubmittedFilesPageDescription {
             get {
                 return ResourceManager.GetString("SubmittedFilesPageDescription", resourceCulture);
             }
@@ -4646,7 +4646,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submitted File(s).
         /// </summary>
-        internal static string SubmittedFilesPageTitle {
+        internal  string SubmittedFilesPageTitle {
             get {
                 return ResourceManager.GetString("SubmittedFilesPageTitle", resourceCulture);
             }
@@ -4655,7 +4655,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You don&apos;t have access to this page because the assignment is still not submitted by the student..
         /// </summary>
-        internal static string SubmittedFilesTeacherNoAccessException {
+        internal  string SubmittedFilesTeacherNoAccessException {
             get {
                 return ResourceManager.GetString("SubmittedFilesTeacherNoAccessException", resourceCulture);
             }
@@ -4664,7 +4664,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Submitted File(s).
         /// </summary>
-        internal static string SubmittedFilesTitleinTitlePage {
+        internal  string SubmittedFilesTitleinTitlePage {
             get {
                 return ResourceManager.GetString("SubmittedFilesTitleinTitlePage", resourceCulture);
             }
@@ -4673,7 +4673,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Unexpected DBNull value.
         /// </summary>
-        internal static string UnexpectedDBNull {
+        internal  string UnexpectedDBNull {
             get {
                 return ResourceManager.GetString("UnexpectedDBNull", resourceCulture);
             }
@@ -4682,7 +4682,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SharePoint Learning Kit.
         /// </summary>
-        internal static string WebPartCategory {
+        internal  string WebPartCategory {
             get {
                 return ResourceManager.GetString("WebPartCategory", resourceCulture);
             }
@@ -4691,7 +4691,7 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Windows SharePoint Services 3.
         /// </summary>
-        internal static string WssEventLogSource {
+        internal  string WssEventLogSource {
             get {
                 return ResourceManager.GetString("WssEventLogSource", resourceCulture);
             }
