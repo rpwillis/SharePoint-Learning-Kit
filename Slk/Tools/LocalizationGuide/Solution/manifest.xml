@@ -6,4 +6,7 @@
 		<Assembly DeploymentTarget="GlobalAssemblyCache" Location="Microsoft.SharePointLearningKit.resources.dll">
 		</Assembly>
 	</Assemblies>
+    <RootFiles>
+        <RootFile Location="Resources\SLK.Culture.resx"/>
+    </RootFiles>
 </Solution>

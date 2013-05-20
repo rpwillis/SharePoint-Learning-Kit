@@ -1,14 +1,14 @@
 ;
-.OPTION EXPLICIT     ; Generate errors 
 .Set CabinetNameTemplate=LangPack\SharePointLearningKit.wsp
 .set DiskDirectoryTemplate=CDROM ; All cabinets go in a single directory
 .Set CompressionType=MSZIP;** All files are compressed in cabinet files
 .Set UniqueFiles="ON"
 .Set Cabinet=on
 .Set DiskDirectory1=.
-Microsoft.LearningComponents.resources.dll               Microsoft.LearningComponents.resources.dll
-Microsoft.LearningComponents.SharePoint.resources.dll    Microsoft.LearningComponents.SharePoint.resources.dll
-Microsoft.LearningComponents.Storage.resources.dll       Microsoft.LearningComponents.Storage.resources.dll
-Microsoft.SharePointLearningKit.resources.dll            Microsoft.SharePointLearningKit.resources.dll
-manifest.xml                                         manifest.xml
+Microsoft.LearningComponents.resources.dll              Microsoft.LearningComponents.resources.dll
+Microsoft.LearningComponents.SharePoint.resources.dll   Microsoft.LearningComponents.SharePoint.resources.dll
+Microsoft.LearningComponents.Storage.resources.dll      Microsoft.LearningComponents.Storage.resources.dll
+Microsoft.SharePointLearningKit.resources.dll           Microsoft.SharePointLearningKit.resources.dll
+manifest.%Culture%.xml                                            manifest.xml
+slk.resx                                                SLK.%Culture%.resx
 ;*** <the end>
