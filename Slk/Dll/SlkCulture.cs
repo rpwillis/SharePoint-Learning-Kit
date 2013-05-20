@@ -12,7 +12,15 @@ namespace Microsoft.SharePointLearningKit
     {
 #region constructors
         /// <summary>Initializes a new instance of <see cref="SlkCulture"/>.</summary>
-        public SlkCulture() : this(null)
+        public SlkCulture(CultureInfo culture)
+        {
+            Culture = culture;
+            Resources = new AppResourcesLocal();
+            Resources.Culture = Culture;
+        }
+
+        /// <summary>Initializes a new instance of <see cref="SlkCulture"/>.</summary>
+        public SlkCulture() : this((SPWeb)null)
         {
         }
 
@@ -42,6 +50,8 @@ namespace Microsoft.SharePointLearningKit
                 Culture = web.Locale;
 #endif
 
+                Resources = new AppResourcesLocal();
+                Resources.Culture = Culture;
                 AppResources.Culture = Culture;
             }
         }
@@ -51,6 +61,8 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>The culture to use.</summary>
         /// <value></value>
         public CultureInfo Culture { get; private set; }
+
+        internal AppResourcesLocal Resources { get; private set; }
 #endregion properties
 
 #region public methods

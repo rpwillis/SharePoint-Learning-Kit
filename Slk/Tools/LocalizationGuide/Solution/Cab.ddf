@@ -9,6 +9,6 @@ Microsoft.LearningComponents.resources.dll              Microsoft.LearningCompon
 Microsoft.LearningComponents.SharePoint.resources.dll   Microsoft.LearningComponents.SharePoint.resources.dll
 Microsoft.LearningComponents.Storage.resources.dll      Microsoft.LearningComponents.Storage.resources.dll
 Microsoft.SharePointLearningKit.resources.dll           Microsoft.SharePointLearningKit.resources.dll
-manifest.%Culture%.xml                                            manifest.xml
-slk.resx                                                SLK.%Culture%.resx
+manifest.%Culture%.xml                                  manifest.xml
+slk.resx                                                Resources\SLK.%Culture%.resx
 ;*** <the end>

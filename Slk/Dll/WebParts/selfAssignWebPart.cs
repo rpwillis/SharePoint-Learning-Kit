@@ -14,6 +14,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
     public class SelfAssignWebPart : WebPart
     {
         List<string> errors = new List<string>();
+        SlkCulture culture = new SlkCulture();
 
 #region constructors
 #endregion constructors
@@ -82,7 +83,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 }
                 else
                 {
-                    writer.Write("<p class=\"ms-vb\">{0}</p>", HttpUtility.HtmlEncode(AppResources.SelfAssignPartNoItems));
+                    writer.Write("<p class=\"ms-vb\">{0}</p>", HttpUtility.HtmlEncode(culture.Resources.SelfAssignPartNoItems));
                 }
             }
 
@@ -96,7 +97,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             if (string.IsNullOrEmpty(ListName))
             {
-                errors.Add(AppResources.SelfAssignListNameRequired);
+                errors.Add(culture.Resources.SelfAssignListNameRequired);
                 return false;
             }
 
@@ -146,7 +147,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
             catch (SPException)
             {
-                errors.Add(AppResources.SelfAssignInvalidList);
+                errors.Add(culture.Resources.SelfAssignInvalidList);
                 return null;
             }
 
@@ -164,12 +165,12 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 }
                 catch (ArgumentException)
                 {
-                    errors.Add(AppResources.SelfAssignInvalidView);
+                    errors.Add(culture.Resources.SelfAssignInvalidView);
                     return null;
                 }
                 catch (SPException)
                 {
-                    errors.Add(AppResources.SelfAssignInvalidView);
+                    errors.Add(culture.Resources.SelfAssignInvalidView);
                     return null;
                 }
             }

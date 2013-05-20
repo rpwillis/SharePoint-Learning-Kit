@@ -113,7 +113,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
         /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         protected override void OnInit(EventArgs e)
         {
-            culture = new SlkCulture(null);
+            culture = new SlkCulture();
             base.OnInit(e);
         }
 

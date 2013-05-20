@@ -221,11 +221,11 @@ More information has been written to the server event log.</value>
     <comment>{0} = SPSite url</comment>
   </data>
   <data name="AlwpWepPartTitle" xml:space="preserve">
-    <value>Assignment List</value>
-    <comment>Title for Assignment List Wep Part</comment>
+    <value>Assignment List Web Part</value>
+    <comment>Title for Assignment List Web Part</comment>
   </data>
   <data name="AlwpWepPartDescription" xml:space="preserve">
-    <value>Use this web part to keep track of your SharePoint Learning Kit assignments.</value>
+    <value>Display the assignments for an instructor or learner.</value>
     <comment>Description for Assignment List Wep Part</comment>
   </data>
   <data name="SlkExUserNotFound" xml:space="preserve">
