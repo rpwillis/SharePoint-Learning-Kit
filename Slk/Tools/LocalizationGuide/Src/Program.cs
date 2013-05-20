@@ -10,7 +10,8 @@ namespace SharePointLearningKit.Localization
     enum Task
     {
         Extract = 0,
-        Generate
+        Generate,
+        Replace
     }
 
     class Program
@@ -19,6 +20,7 @@ namespace SharePointLearningKit.Localization
         private Task task;
         private string source;
         private string target;
+        private string culture;
 
         static void Main(string[] args)
         {
@@ -48,35 +50,44 @@ namespace SharePointLearningKit.Localization
             if (!ParseArgs(args))
             {
                 Console.WriteLine();
-                Console.WriteLine(entryAssembly.GetName().Name+@" <Extract|Generate> <source file> [<target file>]");
+                Console.WriteLine(entryAssembly.GetName().Name+@" <Extract|Generate|Replace> <source file> [<target file>]");
                 Console.WriteLine();
             }
             else
             {
-                if (task == Task.Extract)
+                switch (task)
                 {
-                    Extractor resourceExtractor = new Extractor();
-                    Console.WriteLine("Processing for output to {0}", target);
-                    resourceExtractor.Extract(source);
-                    try
-                    {
-                        resourceExtractor.Save(target);
+                    case Task.Extract:
+                        Extractor resourceExtractor = new Extractor();
+                        Console.WriteLine("Processing for output to {0}", target);
+                        resourceExtractor.Extract(source);
+                        try
+                        {
+                            resourceExtractor.Save(target);
+                            Success();
+                        }
+                        catch (ArgumentException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Fail();
+                        }
+                        break;
+
+                    case Task.Generate:
+                        Generator resourceGenerator = new Generator();
+                        resourceGenerator.LoadXML(source);
+                        resourceGenerator.Save();
                         Success();
-                    }
-                    catch (ArgumentException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        Fail();
-                    }
+                        break;
 
-                }
-                else
-                {
-                    Generator resourceGenerator = new Generator();
-                    resourceGenerator.LoadXML(source);
-                    resourceGenerator.Save();
+                    case Task.Replace:
+                        Replacer replace = new Replacer(culture);
+                        replace.Load(source);
+                        replace.Save(target);
+                        break;
 
-                    Success();
+                    default:
+                        throw new InvalidOperationException("Invalid task type.");
                 }
             }
         }
@@ -117,40 +128,45 @@ namespace SharePointLearningKit.Localization
                 {
                     case "e":
                         task = Task.Extract;
+                        if (args.Length != 3)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            target = args[2];
+                        }
                         break;
+
                     case "g":
                         task = Task.Generate;
+                        if (args.Length != 2)
+                        {
+                            return false;
+                        }
                         break;
+
+                    case "r":
+                        task = Task.Replace;
+                        if (args.Length != 4)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            target = args[2];
+                            culture = args[3];
+                        }
+                        break;
+
                     default:
                         return false;
 
                 }
 
-                if (task == Task.Extract)
-                {
-                    if (args.Length != 3)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        source = args[1];
-                        target = args[2];
-                    }
-                }
-                else
-                {
-                    if (args.Length != 2)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        source = args[1];
-                    }
-                }
+                source = args[1];
+                return true;
             }
-            return true;
         }
 
 

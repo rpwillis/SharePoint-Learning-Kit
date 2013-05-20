@@ -9,10 +9,15 @@ goto :end
 del /f/s/q LangPack
 mkdir LangPack
 echo %1 > LangPack\lcid.txt
-makecab /f cab.ddf
+For /F "Tokens=*" %%I in ('more culture.txt') Do Set StrCulture=%%I
+
+REM Set up culture specific resource file
+..\Localize r manifest.xml manifest.%StrCulture%.xml %StrCulture%
+
+makecab /f cab.ddf /D Culture=%StrCulture%
+del manifest.%StrCulture%.xml 2> nul
 xcopy *solution.cmd LangPack /y/r
 xcopy *solutions.cmd LangPack /y/r
-For /F "Tokens=*" %%I in ('more culture.txt') Do Set StrCulture=%%I
 Set langPacksDir=..\..\..\..\drop\LanguagePacks
 if not exist %langPacksDir% mkdir %langPacksDir%
 if exist %langPacksDir%\%1 del /f/s/q %langPacksDir%\%1
