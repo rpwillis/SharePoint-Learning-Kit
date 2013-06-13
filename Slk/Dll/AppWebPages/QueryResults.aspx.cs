@@ -152,109 +152,116 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected void Page_Load(object sender, EventArgs e)
         {
-            String queryCount = String.Empty;
-            // render the HTML for the page
-            using (HtmlTextWriter hw = new HtmlTextWriter(Response.Output, "  "))
+            try
             {
-                // render the "<html>" element and its contents
-                using (new HtmlBlock(HtmlTextWriterTag.Html, 0, hw))
+                String queryCount = String.Empty;
+                // render the HTML for the page
+                using (HtmlTextWriter hw = new HtmlTextWriter(Response.Output, "  "))
                 {
-                    // render the "<head>" element and its contents
-                    using (new HtmlBlock(HtmlTextWriterTag.Head, 1, hw))
+                    // render the "<html>" element and its contents
+                    using (new HtmlBlock(HtmlTextWriterTag.Html, 0, hw))
                     {
-                        // create a link to "core.css";
-                        // "/_layouts/1033/styles/core.css" except with "1033" replaced with the
-                        // current SPWeb language code
-
-                        hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Href,
-                                        String.Format(CultureInfo.InvariantCulture , 
-                                                      "/_layouts/{0}/styles/core.css", 
-                                                      SPWeb.Language));
-                        HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 1, hw);
-
-                        //Adds the Theme Css Url to Enable Theming in the frame.
-                        hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Href, SPWeb.ThemeCssUrl);
-                        HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 0, hw);
-
-                        // create a link to ALWP's "Styles.css"
-                        hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Href, "Include/Styles.css");
-                        HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 0, hw);
-                    }
-
-                    // render the "<body>" element and its contents
-                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%; overflow-y: auto; overflow-x: auto;");
-
-                    using (new HtmlBlock(HtmlTextWriterTag.Body, 0, hw))
-                    {
-                        // render the outer table -- this contains only one row and one column, which
-                        // in turn contains the entire query results table
-                        hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
-                        using (new HtmlBlock(HtmlTextWriterTag.Table, 0, hw))
+                        // render the "<head>" element and its contents
+                        using (new HtmlBlock(HtmlTextWriterTag.Head, 1, hw))
                         {
-                            // render the single row and column of the outer table
-                            using (new HtmlBlock(HtmlTextWriterTag.Tr, 0, hw))
+                            // create a link to "core.css";
+                            // "/_layouts/1033/styles/core.css" except with "1033" replaced with the
+                            // current SPWeb language code
+
+                            hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Href,
+                                            String.Format(CultureInfo.InvariantCulture , 
+                                                          "/_layouts/{0}/styles/core.css", 
+                                                          SPWeb.Language));
+                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 1, hw);
+
+                            //Adds the Theme Css Url to Enable Theming in the frame.
+                            hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Href, SPWeb.ThemeCssUrl);
+                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 0, hw);
+
+                            // create a link to ALWP's "Styles.css"
+                            hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Href, "Include/Styles.css");
+                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 0, hw);
+                        }
+
+                        // render the "<body>" element and its contents
+                        hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%; overflow-y: auto; overflow-x: auto;");
+
+                        using (new HtmlBlock(HtmlTextWriterTag.Body, 0, hw))
+                        {
+                            // render the outer table -- this contains only one row and one column, which
+                            // in turn contains the entire query results table
+                            hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
+                            using (new HtmlBlock(HtmlTextWriterTag.Table, 0, hw))
                             {
-                                using (new HtmlBlock(HtmlTextWriterTag.Td, 0, hw))
+                                // render the single row and column of the outer table
+                                using (new HtmlBlock(HtmlTextWriterTag.Tr, 0, hw))
                                 {
-                                    hw.WriteLine();
-
-                                    try
+                                    using (new HtmlBlock(HtmlTextWriterTag.Td, 0, hw))
                                     {
-                                        // set <queryDef> to the QueryDefinition named <queryName>
-                                        QueryDefinition queryDef 
-                                                    = SlkStore.Settings.FindQueryDefinition(Query);
+                                        hw.WriteLine();
 
-                                        if (queryDef == null)
+                                        try
                                         {
-                                            throw new SafeToDisplayException
-                                                               (AppResources.AlwpQuerySetNotFound, Query);
+                                            // set <queryDef> to the QueryDefinition named <queryName>
+                                            QueryDefinition queryDef 
+                                                        = SlkStore.Settings.FindQueryDefinition(Query);
+
+                                            if (queryDef == null)
+                                            {
+                                                throw new SafeToDisplayException
+                                                                   (AppResources.AlwpQuerySetNotFound, Query);
+                                            }
+
+
+                                            List<RenderedCell[]> renderedRows = PerformQuery(queryDef);
+
+                                            //Set the QueryCount 
+                                            queryCount = renderedRows.Count.ToString(CultureInfo.InvariantCulture);
+                                            //Renders the Result
+                                            RenderQueryResults(queryDef, renderedRows, hw);
                                         }
-
-
-                                        List<RenderedCell[]> renderedRows = PerformQuery(queryDef);
-
-                                        //Set the QueryCount 
-                                        queryCount = renderedRows.Count.ToString(CultureInfo.InvariantCulture);
-                                        //Renders the Result
-                                        RenderQueryResults(queryDef, renderedRows, hw);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        queryCount = AppResources.AlwpQueryResultError;
-                                        SlkError slkError;
-                                        //Handles SqlException separate to capture the deadlock 
-                                        //and treat it differently
-                                        SqlException sqlEx = ex as SqlException;
-                                        if (sqlEx != null)
+                                        catch (Exception ex)
                                         {
-                                            WebParts.ErrorBanner.WriteException(sqlEx, out slkError);
-                                        }
-                                        else
-                                        {
-                                            SlkError.WriteException(ex, out slkError);
-                                        }
+                                            queryCount = AppResources.AlwpQueryResultError;
+                                            SlkError slkError;
+                                            //Handles SqlException separate to capture the deadlock 
+                                            //and treat it differently
+                                            SqlException sqlEx = ex as SqlException;
+                                            if (sqlEx != null)
+                                            {
+                                                WebParts.ErrorBanner.WriteException(sqlEx, out slkError);
+                                            }
+                                            else
+                                            {
+                                                SlkError.WriteException(ex, out slkError);
+                                            }
 
-                                        WebParts.ErrorBanner.RenderErrorItems(hw, slkError);
-                                    }
-                                    finally
-                                    {
-                                        //Renders the JavaScript to set the Query Count.
-                                        RenderQueryCount(queryCount);
+                                            WebParts.ErrorBanner.RenderErrorItems(hw, slkError);
+                                        }
+                                        finally
+                                        {
+                                            //Renders the JavaScript to set the Query Count.
+                                            RenderQueryCount(queryCount);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Response.Write(e.ToString());
             }
         }
         #endregion

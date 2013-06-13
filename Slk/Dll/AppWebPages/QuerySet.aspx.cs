@@ -70,241 +70,248 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         protected void Page_Load(object sender, EventArgs e)
         {
-            // render the HTML for the page
-            using (HtmlTextWriter hw = new HtmlTextWriter(Response.Output, "  "))
+            try
             {
-                // render the "<html>" element and its contents
-                using (new HtmlBlock(HtmlTextWriterTag.Html, 0, hw))
+                // render the HTML for the page
+                using (HtmlTextWriter hw = new HtmlTextWriter(Response.Output, "  "))
                 {
-                    // render the "<head>" element and its contents
-                    using (new HtmlBlock(HtmlTextWriterTag.Head, 1, hw))
+                    // render the "<html>" element and its contents
+                    using (new HtmlBlock(HtmlTextWriterTag.Html, 0, hw))
                     {
-                        // create a link to "core.css"; 
-                        
-                        // "/_layouts/1033/styles/core.css" except with "1033" replaced with the
-                        // current SPWeb language code
-
-                        hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Href, 
-                                        String.Format(CultureInfo.InvariantCulture,
-                                                      "/_layouts/{0}/styles/core.css", 
-                                                      SPWeb.Language));
-                        HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 1, hw);
-
-                        //Adds the Theme Css Url to Enable Theming in the frame.
-                        if (!string.IsNullOrEmpty(SPWeb.ThemeCssUrl))
+                        // render the "<head>" element and its contents
+                        using (new HtmlBlock(HtmlTextWriterTag.Head, 1, hw))
                         {
+                            // create a link to "core.css"; 
+                            
+                            // "/_layouts/1033/styles/core.css" except with "1033" replaced with the
+                            // current SPWeb language code
+
                             hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
                             hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Href, SPWeb.ThemeCssUrl);
-                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 0, hw);
-                        }
+                            hw.AddAttribute(HtmlTextWriterAttribute.Href, 
+                                            String.Format(CultureInfo.InvariantCulture,
+                                                          "/_layouts/{0}/styles/core.css", 
+                                                          SPWeb.Language));
+                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 1, hw);
 
-                        // create a link to ALWP's "Styles.css"
-                        hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Href, "Include/Styles.css");
-                        HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 0, hw);
-
-                        // write a "<script>" element that loads "QuerySet.js"
-                        hw.AddAttribute(HtmlTextWriterAttribute.Src, "Include/QuerySet.js");
-                        HtmlBlock.WriteFullTag(HtmlTextWriterTag.Script, 0, hw);
-                    }
-
-                    try
-                    {
-                        string querySetName = QueryString.ParseString(QueryStringKeys.QuerySet);
-
-                        // set <querySetDef> to the QuerySetDefinition named <querySetName>
-                        QuerySetDefinition querySetDef
-                           = SlkStore.Settings.FindQuerySetDefinition(querySetName, true);
-                        if (querySetDef == null)
-                        {
-                            throw new SafeToDisplayException
-                                      (AppResources.AlwpQuerySetNotFound, querySetName);
-                        }
-
-                        // render the "<body>" element and its contents
-                        //hw.AddAttribute(HtmlTextWriterAttribute.Style, "overflow: hidden;");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%; overflow-y: auto;");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Id, "SlkAlwpQuerySet");
-                        using (new HtmlBlock(HtmlTextWriterTag.Body, 0, hw))
-                        {
-                            // begin the query set
-                            hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-toolbar");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Style,
-                                                        "border: none; background-image: none; ");
-                            using (new HtmlBlock(HtmlTextWriterTag.Table, 1, hw))
+                            //Adds the Theme Css Url to Enable Theming in the frame.
+                            if (!string.IsNullOrEmpty(SPWeb.ThemeCssUrl))
                             {
-                                using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, hw))
-                                {
-                                    hw.AddAttribute(HtmlTextWriterAttribute.Valign, "top");
-                                    hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
-                                    {
+                                hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
+                                hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
+                                hw.AddAttribute(HtmlTextWriterAttribute.Href, SPWeb.ThemeCssUrl);
+                                HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 0, hw);
+                            }
 
-                                        hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
-                                        hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
-                                        hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
-                                        hw.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
-                                        hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
-                                        hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-toolbar");
-                                        hw.AddAttribute(HtmlTextWriterAttribute.Style,
+                            // create a link to ALWP's "Styles.css"
+                            hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Href, "Include/Styles.css");
+                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 0, hw);
+
+                            // write a "<script>" element that loads "QuerySet.js"
+                            hw.AddAttribute(HtmlTextWriterAttribute.Src, "Include/QuerySet.js");
+                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Script, 0, hw);
+                        }
+
+                        try
+                        {
+                            string querySetName = QueryString.ParseString(QueryStringKeys.QuerySet);
+
+                            // set <querySetDef> to the QuerySetDefinition named <querySetName>
+                            QuerySetDefinition querySetDef
+                               = SlkStore.Settings.FindQuerySetDefinition(querySetName, true);
+                            if (querySetDef == null)
+                            {
+                                throw new SafeToDisplayException
+                                          (AppResources.AlwpQuerySetNotFound, querySetName);
+                            }
+
+                            // render the "<body>" element and its contents
+                            //hw.AddAttribute(HtmlTextWriterAttribute.Style, "overflow: hidden;");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%; overflow-y: auto;");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Id, "SlkAlwpQuerySet");
+                            using (new HtmlBlock(HtmlTextWriterTag.Body, 0, hw))
+                            {
+                                // begin the query set
+                                hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
+                                hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
+                                hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                                hw.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
+                                hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
+                                hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-toolbar");
+                                hw.AddAttribute(HtmlTextWriterAttribute.Style,
                                                             "border: none; background-image: none; ");
-                                        using (new HtmlBlock(HtmlTextWriterTag.Table, 1, hw))
+                                using (new HtmlBlock(HtmlTextWriterTag.Table, 1, hw))
+                                {
+                                    using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, hw))
+                                    {
+                                        hw.AddAttribute(HtmlTextWriterAttribute.Valign, "top");
+                                        hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
+                                        using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
                                         {
-                                            // write "<col>" tags:
-                                            // column 1: spacer
-                                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Col, 1, hw);
-                                            // column 2: left pseudo-border
-                                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Col, 1, hw);
-                                            // column 3: label
-                                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Col, 1, hw);
-                                            // column 4: count
-                                            hw.AddAttribute(HtmlTextWriterAttribute.Style, "text-align: right;");
-                                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Col, 1, hw);
 
-                                            // write a spacer row
-                                            hw.AddAttribute(HtmlTextWriterAttribute.Height, "8");
-                                            using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, hw))
-                                            {
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 3px;");
-                                                using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
-                                                    HtmlBlock.WriteBlankGif("8", "1", hw);
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 3px;");
-                                                HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
-                                                HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Style,
-                                                                        "border-right: solid 1px #E0E0E0; ");
-                                                using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
-                                                    HtmlBlock.WriteBlankGif("1", "1", hw);
-                                            }
-
-                                            // write the query link rows
-                                            int queryIndex = 0;
-                                            foreach (QueryDefinition queryDef in querySetDef.Queries)
-                                            {
-                                                RenderQueryLinkRow(queryDef, queryIndex, hw);
-                                                queryIndex++;
-                                            }
-
-                                            // write a row that consumes the remaining space 
+                                            hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
+                                            hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
+                                            hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
                                             hw.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
-                                            using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, hw))
+                                            hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
+                                            hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-toolbar");
+                                            hw.AddAttribute(HtmlTextWriterAttribute.Style,
+                                                                "border: none; background-image: none; ");
+                                            using (new HtmlBlock(HtmlTextWriterTag.Table, 1, hw))
                                             {
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 3px;");
-                                                using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
-                                                    HtmlBlock.WriteBlankGif("8", "1", hw);
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 3px;");
-                                                HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
-                                                HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                                                hw.AddAttribute(HtmlTextWriterAttribute.Style,
-                                                    "border-right: solid 1px #E0E0E0; ");
-                                                using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
-                                                    HtmlBlock.WriteBlankGif("1", "1", hw);
+                                                // write "<col>" tags:
+                                                // column 1: spacer
+                                                HtmlBlock.WriteFullTag(HtmlTextWriterTag.Col, 1, hw);
+                                                // column 2: left pseudo-border
+                                                HtmlBlock.WriteFullTag(HtmlTextWriterTag.Col, 1, hw);
+                                                // column 3: label
+                                                HtmlBlock.WriteFullTag(HtmlTextWriterTag.Col, 1, hw);
+                                                // column 4: count
+                                                hw.AddAttribute(HtmlTextWriterAttribute.Style, "text-align: right;");
+                                                HtmlBlock.WriteFullTag(HtmlTextWriterTag.Col, 1, hw);
+
+                                                // write a spacer row
+                                                hw.AddAttribute(HtmlTextWriterAttribute.Height, "8");
+                                                using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, hw))
+                                                {
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 3px;");
+                                                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
+                                                        HtmlBlock.WriteBlankGif("8", "1", hw);
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 3px;");
+                                                    HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                                                    HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Style,
+                                                                            "border-right: solid 1px #E0E0E0; ");
+                                                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
+                                                        HtmlBlock.WriteBlankGif("1", "1", hw);
+                                                }
+
+                                                // write the query link rows
+                                                int queryIndex = 0;
+                                                foreach (QueryDefinition queryDef in querySetDef.Queries)
+                                                {
+                                                    RenderQueryLinkRow(queryDef, queryIndex, hw);
+                                                    queryIndex++;
+                                                }
+
+                                                // write a row that consumes the remaining space 
+                                                hw.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
+                                                using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, hw))
+                                                {
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 3px;");
+                                                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
+                                                        HtmlBlock.WriteBlankGif("8", "1", hw);
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 3px;");
+                                                    HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                                                    HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
+                                                    hw.AddAttribute(HtmlTextWriterAttribute.Style,
+                                                        "border-right: solid 1px #E0E0E0; ");
+                                                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
+                                                        HtmlBlock.WriteBlankGif("1", "1", hw);
+                                                }
                                             }
                                         }
                                     }
-                                }
-                                using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, hw))
-                                {
-                                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
+                                    using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, hw))
                                     {
-                                        // write a hidden iframe that loads QuerySummary.aspx which, 
-                                        // when loaded, will
-                                        // call the SetQueryCounts() JScript method in QuerySet.js to update the
-                                        // query counts that are initially displayed as hourglasses
-                                        hw.AddAttribute(HtmlTextWriterAttribute.Width, "1");
-                                        hw.AddAttribute(HtmlTextWriterAttribute.Height, "1");
-                                        hw.AddAttribute("frameborder", "0");
-
-                                        // Get the ServerRelativeUrl for QuerySummary Page
-                                        string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl,
-                                                                Constants.SlkUrlPath,
-                                                                Constants.QuerySummaryPage);
-
-                                        urlString
-                                            = String.Format(CultureInfo.InvariantCulture, "{0}?{1}", urlString,
-                                                            HttpContext.Current.Request.QueryString.ToString());
-                                        
-                                        hw.Write("<iframe width=\"1\" height=\"1\" frameborder=\"0\" src=\"");
-                                        hw.Write(urlString);
-                                        hw.Write("\"></iframe>");
-
-                                        // write script code that begins loading the query counts,
-                                        // and provides other information to QuerySet.js
-
-                                        using (new HtmlBlock(HtmlTextWriterTag.Script, 1, hw))
+                                        using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
                                         {
-                                            // Register SelectQuery Client Click JavaScript Method.
-                                           
-                                            RegisterQuerySetClientScriptBlock(hw);
-                                            hw.WriteLine();
-                                            // tell QuerySet.js the names of the queries
-                                            hw.WriteEncodedText("var QueryNames = new Array();");
-                                            hw.WriteLine();
-                                            int queryIndex = 0;
-                                            int selectedQueryIndex = 0;
-                                            foreach (QueryDefinition queryDef in querySetDef.Queries)
+                                            // write a hidden iframe that loads QuerySummary.aspx which, 
+                                            // when loaded, will
+                                            // call the SetQueryCounts() JScript method in QuerySet.js to update the
+                                            // query counts that are initially displayed as hourglasses
+                                            hw.AddAttribute(HtmlTextWriterAttribute.Width, "1");
+                                            hw.AddAttribute(HtmlTextWriterAttribute.Height, "1");
+                                            hw.AddAttribute("frameborder", "0");
+
+                                            // Get the ServerRelativeUrl for QuerySummary Page
+                                            string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl,
+                                                                    Constants.SlkUrlPath,
+                                                                    Constants.QuerySummaryPage);
+
+                                            urlString
+                                                = String.Format(CultureInfo.InvariantCulture, "{0}?{1}", urlString,
+                                                                HttpContext.Current.Request.QueryString.ToString());
+                                            
+                                            hw.Write("<iframe width=\"1\" height=\"1\" frameborder=\"0\" src=\"");
+                                            hw.Write(urlString);
+                                            hw.Write("\"></iframe>");
+
+                                            // write script code that begins loading the query counts,
+                                            // and provides other information to QuerySet.js
+
+                                            using (new HtmlBlock(HtmlTextWriterTag.Script, 1, hw))
                                             {
-                                                hw.Write(String.Format(CultureInfo.InvariantCulture, 
-                                                                       "QueryNames[{0}] = \"{1}\";", 
-                                                                       queryIndex,
-                                                                       queryDef.Name));
+                                                // Register SelectQuery Client Click JavaScript Method.
+                                               
+                                                RegisterQuerySetClientScriptBlock(hw);
                                                 hw.WriteLine();
-                                                if (queryDef.Name == querySetDef.DefaultQueryName)
-                                                    selectedQueryIndex = queryIndex;
-                                                queryIndex++;
+                                                // tell QuerySet.js the names of the queries
+                                                hw.WriteEncodedText("var QueryNames = new Array();");
+                                                hw.WriteLine();
+                                                int queryIndex = 0;
+                                                int selectedQueryIndex = 0;
+                                                foreach (QueryDefinition queryDef in querySetDef.Queries)
+                                                {
+                                                    hw.Write(String.Format(CultureInfo.InvariantCulture, 
+                                                                           "QueryNames[{0}] = \"{1}\";", 
+                                                                           queryIndex,
+                                                                           queryDef.Name));
+                                                    hw.WriteLine();
+                                                    if (queryDef.Name == querySetDef.DefaultQueryName)
+                                                        selectedQueryIndex = queryIndex;
+                                                    queryIndex++;
+                                                }
+
+                                                // tell QuerySet.js to start loading the selected query results
+                                                hw.WriteEncodedText(
+                                                                    String.Format(CultureInfo.InvariantCulture,                                                                                      "SelectQuery({0});",
+                                                                                  selectedQueryIndex)
+                                                                   );
                                             }
 
-                                            // tell QuerySet.js to start loading the selected query results
-                                            hw.WriteEncodedText(
-                                                                String.Format(CultureInfo.InvariantCulture,                                                                                      "SelectQuery({0});",
-                                                                              selectedQueryIndex)
-                                                               );
                                         }
-
                                     }
                                 }
                             }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        SlkError slkError;                        
-                        //Handles SqlException separately to capture the deadlock 
-                        //and treat it differently
-                        SqlException sqlEx = ex as SqlException;
-                        if (sqlEx != null)
-                        {                           
-                            WebParts.ErrorBanner.WriteException(sqlEx, out slkError);
-                        }
-                        else
+                        catch (Exception ex)
                         {
-                            SlkError.WriteException(ex, out slkError);
-                        }                        
-                        WebParts.ErrorBanner.RenderErrorItems(hw, slkError);
-                    }
+                            SlkError slkError;                        
+                            //Handles SqlException separately to capture the deadlock 
+                            //and treat it differently
+                            SqlException sqlEx = ex as SqlException;
+                            if (sqlEx != null)
+                            {                           
+                                WebParts.ErrorBanner.WriteException(sqlEx, out slkError);
+                            }
+                            else
+                            {
+                                SlkError.WriteException(ex, out slkError);
+                            }                        
+                            WebParts.ErrorBanner.RenderErrorItems(hw, slkError);
+                        }
 
-                }
-            }           
-            
+                    }
+                }           
+                
+            }
+            catch (Exception e)
+            {
+                Response.Write(e.ToString());
+            }
         }
         #endregion
 
