@@ -398,7 +398,6 @@ namespace Microsoft.SharePointLearningKit
 
             try
             {
-
                 AddFields();
                 ChangeToInternationalNames();
 
@@ -419,15 +418,18 @@ namespace Microsoft.SharePointLearningKit
             catch (SPException e)
             {
                 // Error creating list - delete it
-                dropBoxList.Delete();
                 dropBoxList = null;
+                dropBoxList.Delete();
+                web.Update();
+                Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(AppResources.DropBoxListCreateFailure, e);
                 throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), AppResources.DropBoxListCreateFailure, e.Message));
             }
             catch (Exception)
             {
                 // Error creating list - delete it
-                dropBoxList.Delete();
                 dropBoxList = null;
+                dropBoxList.Delete();
+                web.Update();
                 throw;
             }
         }

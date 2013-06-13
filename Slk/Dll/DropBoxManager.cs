@@ -462,25 +462,6 @@ namespace Microsoft.SharePointLearningKit
             return assignmentFolder;
         }
 
-        /// <summary>Sets the correct permissions when the item is submitted.</summary>
-        /// <param name="web">The web the assignment is for.</param>
-        public void ApplySubmittedPermissions(SPWeb web)
-        {
-            DropBox dropBox = new DropBox(web);
-            AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
-            AssignmentFolder learnerSubFolder = null;
-
-            if (assignmentFolder == null)
-            {
-                assignmentFolder = dropBox.CreateAssignmentFolder(assignmentProperties);
-            }
-            else
-            {
-                learnerSubFolder = assignmentFolder.FindLearnerFolder(CurrentUser);
-                ApplySubmittedPermissions(assignmentFolder, learnerSubFolder);
-            }
-        }
-
         /// <summary>Generate the drop box edit details.</summary>
         /// <param name="file">The file to edit.</param>
         /// <param name="web">The web the file is in.</param>
@@ -532,10 +513,23 @@ namespace Microsoft.SharePointLearningKit
 #endregion public methods
 
 #region private methods
-        SPList DropBoxLibrary (SPWeb web)
+        /// <summary>Sets the correct permissions when the item is submitted.</summary>
+        /// <param name="web">The web the assignment is for.</param>
+        void ApplySubmittedPermissions(SPWeb web)
         {
             DropBox dropBox = new DropBox(web);
-            return dropBox.DropBoxList;
+            AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
+            AssignmentFolder learnerSubFolder = null;
+
+            if (assignmentFolder == null)
+            {
+                assignmentFolder = dropBox.CreateAssignmentFolder(assignmentProperties);
+            }
+            else
+            {
+                learnerSubFolder = assignmentFolder.FindLearnerFolder(CurrentUser);
+                ApplySubmittedPermissions(assignmentFolder, learnerSubFolder);
+            }
         }
 
         void CheckExtensions(SPSite site, AssignmentUpload[] files)
