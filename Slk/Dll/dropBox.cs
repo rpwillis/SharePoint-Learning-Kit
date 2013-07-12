@@ -21,6 +21,7 @@ namespace Microsoft.SharePointLearningKit
         const string propertyKey = "SLKDropBox";
         const string noPermissionsFolderName = "NoPermissions";
         SPWeb web;
+        SlkCulture culture;
         SPList dropBoxList;
 
 #region constructors
@@ -29,6 +30,7 @@ namespace Microsoft.SharePointLearningKit
         public DropBox(SPWeb web)
         {
             this.web = web;
+            culture = new SlkCulture(web);
         }
 #endregion constructors
 
@@ -220,7 +222,7 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
-                throw new SafeToDisplayException(AppResources.AssFolderNotFound);
+                throw new SafeToDisplayException(culture.Resources.AssFolderNotFound);
             }
         }
 
@@ -379,16 +381,21 @@ namespace Microsoft.SharePointLearningKit
         void ChangeToInternationalNames()
         {
             //This is done separately so the internal names are consistent.
-            DropBoxManager.Debug("Change international names");
             // Change name to internationalized name
-            DropBoxList.Title = AppResources.DropBoxTitle;
-            ChangeColumnTitle(ColumnAssignmentKey, AppResources.DropBoxColumnAssignmentKey);
-            ChangeColumnTitle(ColumnAssignmentName, AppResources.DropBoxColumnAssignmentName);
-            ChangeColumnTitle(ColumnAssignmentDate, AppResources.DropBoxColumnAssignmentDate);
-            ChangeColumnTitle(ColumnAssignmentId, AppResources.DropBoxColumnAssignmentId);
-            ChangeColumnTitle(ColumnIsLatest, AppResources.DropBoxColumnIsLatest);
-            ChangeColumnTitle(ColumnLearner, AppResources.DropBoxColumnLearner);
-            ChangeColumnTitle(ColumnLearnerId, AppResources.DropBoxColumnLearnerId);
+            foreach (CultureInfo uiCulture in web.SupportedUICultures)
+            {
+                AppResourcesLocal resources = new AppResourcesLocal();
+                resources.Culture = uiCulture;
+
+                DropBoxList.TitleResource.SetValueForUICulture(uiCulture, resources.DropBoxTitle);
+                ChangeColumnTitle(ColumnAssignmentKey, resources.DropBoxColumnAssignmentKey, uiCulture);
+                ChangeColumnTitle(ColumnAssignmentName, resources.DropBoxColumnAssignmentName, uiCulture);
+                ChangeColumnTitle(ColumnAssignmentDate, resources.DropBoxColumnAssignmentDate, uiCulture);
+                ChangeColumnTitle(ColumnAssignmentId, resources.DropBoxColumnAssignmentId, uiCulture);
+                ChangeColumnTitle(ColumnIsLatest, resources.DropBoxColumnIsLatest, uiCulture);
+                ChangeColumnTitle(ColumnLearner, resources.DropBoxColumnLearner, uiCulture);
+                ChangeColumnTitle(ColumnLearnerId, resources.DropBoxColumnLearnerId, uiCulture);
+            }
             DropBoxList.Update();
         }
 
@@ -421,8 +428,8 @@ namespace Microsoft.SharePointLearningKit
                 dropBoxList = null;
                 dropBoxList.Delete();
                 web.Update();
-                Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(AppResources.DropBoxListCreateFailure, e);
-                throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), AppResources.DropBoxListCreateFailure, e.Message));
+                Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(culture.Resources.DropBoxListCreateFailure, e);
+                throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), culture.Resources.DropBoxListCreateFailure, e.Message));
             }
             catch (Exception)
             {
@@ -453,10 +460,10 @@ namespace Microsoft.SharePointLearningKit
         }
 
 
-        void ChangeColumnTitle(string columnKey, string newName)
+        void ChangeColumnTitle(string columnKey, string newName, CultureInfo uiCulture)
         {
             SPField field = DropBoxList.Fields[columnKey];
-            field.Title = newName;
+            field.TitleResource.SetValueForUICulture(uiCulture, newName);
             field.Update();
         }
 
@@ -504,7 +511,7 @@ namespace Microsoft.SharePointLearningKit
         {
             DropBoxManager.Debug("ModifyDefaultView");
             SPView defaultView = DropBoxList.DefaultView;
-            defaultView.Title = AppResources.DropBoxDefaultViewTitle;
+            defaultView.Title = culture.Resources.DropBoxDefaultViewTitle;
             string query = "<GroupBy Collapse=\"TRUE\" GroupLimit=\"100\"><FieldRef Name=\"{0}\" /><FieldRef Name=\"{1}\" /></GroupBy>";
             defaultView.Query = string.Format(CultureInfo.InvariantCulture, query, ColumnAssignmentKey, ColumnLearner);
 

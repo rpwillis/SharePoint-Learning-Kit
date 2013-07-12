@@ -28,79 +28,79 @@ using Schema = BasicWebPlayer.Schema;
 // based on this class.
 // </summary>
 //
-public class PageHelper : System.Web.UI.Page 
+public class PageHelper : System.Web.UI.Page
 {
-	///////////////////////////////////////////////////////////////////////////
-	// Private Fields
-	//
+    ///////////////////////////////////////////////////////////////////////////
+    // Private Fields
+    //
 
-	/// <summary>
-	/// Holds the value of the <c>UserKey</c> property.
-	/// </summary>
-	///
+    /// <summary>
+    /// Holds the value of the <c>UserKey</c> property.
+    /// </summary>
+    ///
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	string m_userKey;
+    string m_userKey;
 
     /// <summary>
     /// Holds the value of the <c>UserName</c> property.
     /// </summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     string m_userName;
-    
-	/// <summary>
-	/// Holds the value of the <c>LStoreConnectionString</c> property.
-	/// </summary>
-	///
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	string m_lstoreConnectionString;
 
-	/// <summary>
-	/// Holds the value of the <c>LStore</c> property.
-	/// </summary>
-	///
+    /// <summary>
+    /// Holds the value of the <c>LStoreConnectionString</c> property.
+    /// </summary>
+    ///
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	LearningStore m_lstore;
+    string m_lstoreConnectionString;
 
-	/// <summary>
-	/// Holds the value of the <c>PStoreDirectoryPath</c> property.
-	/// </summary>
-	///
+    /// <summary>
+    /// Holds the value of the <c>LStore</c> property.
+    /// </summary>
+    ///
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	string m_pstoreDirectoryPath;
+    LearningStore m_lstore;
 
-	/// <summary>
-	/// Holds the value of the <c>PStore</c> property.
-	/// </summary>
-	///
+    /// <summary>
+    /// Holds the value of the <c>PStoreDirectoryPath</c> property.
+    /// </summary>
+    ///
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    string m_pstoreDirectoryPath;
+
+    /// <summary>
+    /// Holds the value of the <c>PStore</c> property.
+    /// </summary>
+    ///
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     FileSystemPackageStore m_pstore;
 
-	///////////////////////////////////////////////////////////////////////////
-	// Public Properties
-	//
+    ///////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    //
 
-	/// <summary>
-	/// Gets the string provided by the operating environment which uniquely
-	/// identifies this user.  Since this application uses Windows
-	/// authentication, we'll use the user's security ID (e.g.
-	/// "S-1-5-21-2127521184-...") as the user key.
-	/// </summary>
-	///
-	public virtual string UserKey
-	{
-		get
-		{
-		    if (m_userKey == null)
-		    {
-		        using(WindowsIdentity userIdentity = WindowsIdentity.GetCurrent())
-		        {
-		            m_userKey = userIdentity.User.ToString();
-		        }
-		    }
+    /// <summary>
+    /// Gets the string provided by the operating environment which uniquely
+    /// identifies this user.  Since this application uses Windows
+    /// authentication, we'll use the user's security ID (e.g.
+    /// "S-1-5-21-2127521184-...") as the user key.
+    /// </summary>
+    ///
+    public virtual string UserKey
+    {
+        get
+        {
+            if (m_userKey == null)
+            {
+                using(WindowsIdentity userIdentity = WindowsIdentity.GetCurrent())
+                {
+                    m_userKey = userIdentity.User.ToString();
+                }
+            }
 
-			return m_userKey;
-		}
-	}
+            return m_userKey;
+        }
+    }
 
 
     /// <summary>
@@ -124,88 +124,88 @@ public class PageHelper : System.Web.UI.Page
     }
 
     /// <summary>
-	/// Gets the SQL Server connection string that LearningStore will use to
-	/// access this application's database.  The string is stored in
-	/// "appSettings" section of Web.config.
-	/// </summary>
-	///
-	public string LStoreConnectionString
-	{
-		get
-		{
-			if (m_lstoreConnectionString == null)
-			{
-				m_lstoreConnectionString = WebConfigurationManager.AppSettings
-					["learningComponentsConnnectionString"];
-			}
-			return m_lstoreConnectionString;
-		}
-	}
+    /// Gets the SQL Server connection string that LearningStore will use to
+    /// access this application's database.  The string is stored in
+    /// "appSettings" section of Web.config.
+    /// </summary>
+    ///
+    public string LStoreConnectionString
+    {
+        get
+        {
+            if (m_lstoreConnectionString == null)
+            {
+                m_lstoreConnectionString = WebConfigurationManager.AppSettings
+                    ["learningComponentsConnnectionString"];
+            }
+            return m_lstoreConnectionString;
+        }
+    }
 
-	/// <summary>
-	/// Gets a reference to this application's LearningStore database.
-	/// </summary>
-	///
-	public LearningStore LStore
-	{
-		get
-		{
-			if (m_lstore == null)
-			{
-				m_lstore = new LearningStore(
+    /// <summary>
+    /// Gets a reference to this application's LearningStore database.
+    /// </summary>
+    ///
+    public LearningStore LStore
+    {
+        get
+        {
+            if (m_lstore == null)
+            {
+                m_lstore = new LearningStore(
                     LStoreConnectionString, UserKey, ImpersonationBehavior.UseOriginalIdentity);
-			}
-			return m_lstore;
-		}
-	}
+            }
+            return m_lstore;
+        }
+    }
 
-	/// <summary>
-	/// The full path to the directory which contains the unzipped package
-	/// files stored in PackageStore.
-	/// </summary>
-	///
-	public string PStoreDirectoryPath
-	{
-		get
-		{
-			if (m_pstoreDirectoryPath == null)
-			{
-				// set <m_pstoreDirectoryPath> to the full path to the
-				// directory
-				m_pstoreDirectoryPath = WebConfigurationManager.AppSettings
-					["packageStoreDirectoryPath"];
-			}
-			return m_pstoreDirectoryPath;
-		}
-	}
+    /// <summary>
+    /// The full path to the directory which contains the unzipped package
+    /// files stored in PackageStore.
+    /// </summary>
+    ///
+    public string PStoreDirectoryPath
+    {
+        get
+        {
+            if (m_pstoreDirectoryPath == null)
+            {
+                // set <m_pstoreDirectoryPath> to the full path to the
+                // directory
+                m_pstoreDirectoryPath = WebConfigurationManager.AppSettings
+                    ["packageStoreDirectoryPath"];
+            }
+            return m_pstoreDirectoryPath;
+        }
+    }
 
-	/// <summary>
-	/// Gets a reference to this application's PackageStore, which consists of
-	/// the "PackageFiles" subdirectory (within this application's directory)
-	/// containing unzipped package files, plus information about these
-	/// packages stored in the LearningStore database.  
-	/// </summary>
-	///
-	public FileSystemPackageStore PStore
-	{
-		get
-		{
-			if (m_pstore == null)
-			{
-				m_pstore = new FileSystemPackageStore( LStore, 
-					PStoreDirectoryPath, ImpersonationBehavior.UseOriginalIdentity);
-			}
-			return m_pstore;
-		}
-	}
+    /// <summary>
+    /// Gets a reference to this application's PackageStore, which consists of
+    /// the "PackageFiles" subdirectory (within this application's directory)
+    /// containing unzipped package files, plus information about these
+    /// packages stored in the LearningStore database.  
+    /// </summary>
+    ///
+    public FileSystemPackageStore PStore
+    {
+        get
+        {
+            if (m_pstore == null)
+            {
+                m_pstore = new FileSystemPackageStore(LStore,
+                    PStoreDirectoryPath, ImpersonationBehavior.UseOriginalIdentity);
+            }
+            return m_pstore;
+        }
+    }
 
-	///////////////////////////////////////////////////////////////////////////
-	// Public Methods
-	//
+    ///////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    //
 
     /// <summary>
     /// Requests that information about the current user be retrieved from the
-	/// LearningStore database.  Adds the request to a given
+    /// LearningStore database.  Adds the request to a given
     /// <c>LearningStoreJob</c> for later execution.
     /// </summary>
     /// 
@@ -219,7 +219,7 @@ public class PageHelper : System.Web.UI.Page
     /// </remarks>
     ///
     protected void RequestCurrentUserInfo(LearningStoreJob job)
-	{
+    {
         // look up the user in the UserItem table in the database using their
         // user key, and set <userId> to the LearningStore numeric identifier
         // of the user (i.e. UserItem.Id -- the "Id" column of the UserItem
@@ -231,21 +231,21 @@ public class PageHelper : System.Web.UI.Page
         query.AddColumn(Schema.Me.UserId);
         query.AddColumn(Schema.Me.UserName);
         job.PerformQuery(query);
-	}
+    }
 
     /// <summary>
     /// Reads a <c>DataTable</c>, returned by <c>Job.Execute</c>, containing
     /// the results requested by a previous call to
-	/// <c>RequestCurrentUserInfo</c>.  Returns an <c>LStoreUserInfo</c>
-	/// object containing information about the user.  If the user isn't
-	/// already listed in LearningStore, a separate call to the database is
-	/// made to add them.
+    /// <c>RequestCurrentUserInfo</c>.  Returns an <c>LStoreUserInfo</c>
+    /// object containing information about the user.  If the user isn't
+    /// already listed in LearningStore, a separate call to the database is
+    /// made to add them.
     /// </summary>
     ///
     /// <param name="dataTable">A <c>DataTable</c> returned from
     ///     <c>Job.Execute</c>.</param>
     ///
-	protected LStoreUserInfo GetCurrentUserInfoResults(DataTable dataTable)
+    protected LStoreUserInfo GetCurrentUserInfoResults(DataTable dataTable)
     {
         DataRowCollection results = dataTable.Rows;
         LearningStoreJob job = LStore.CreateJob();
@@ -266,7 +266,7 @@ public class PageHelper : System.Web.UI.Page
             using (DirectoryEntry de = new DirectoryEntry(adsiPath))
                 userName = (string)de.Properties["FullName"].Value;
 #else
-			// the following code uses the "name" portion of the user's
+            // the following code uses the "name" portion of the user's
             // "domain\name" network account name as the name of the user
             userName = UserName;
             int backslash = userName.IndexOf('\\');
@@ -300,17 +300,17 @@ public class PageHelper : System.Web.UI.Page
         return new LStoreUserInfo(userId, userName);
     }
 
-	/// <summary>
-	/// Retrieves information about the current user from the LearningStore
-	/// database.
-	/// </summary>
-	///
-	public LStoreUserInfo GetCurrentUserInfo()
-	{
+    /// <summary>
+    /// Retrieves information about the current user from the LearningStore
+    /// database.
+    /// </summary>
+    ///
+    public LStoreUserInfo GetCurrentUserInfo()
+    {
         LearningStoreJob job = LStore.CreateJob();
-		RequestCurrentUserInfo(job);
-		return GetCurrentUserInfoResults(job.Execute<DataTable>());
-	}
+        RequestCurrentUserInfo(job);
+        return GetCurrentUserInfoResults(job.Execute<DataTable>());
+    }
 
     /// <summary>
     /// A delegate with no parameters and no return value.
@@ -378,69 +378,69 @@ public class PageHelper : System.Web.UI.Page
 //
 public class LStoreUserInfo
 {
-	///////////////////////////////////////////////////////////////////////////
-	// Private Fields
-	//
+    ///////////////////////////////////////////////////////////////////////////
+    // Private Fields
+    //
 
-	/// <summary>
-	/// Holds the value of the <c>Id</c> property.
-	/// </summary>
-	///
+    /// <summary>
+    /// Holds the value of the <c>Id</c> property.
+    /// </summary>
+    ///
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	UserItemIdentifier m_id;
+    UserItemIdentifier m_id;
 
-	/// <summary>
-	/// Holds the value of the <c>Name</c> property.
-	/// </summary>
-	///
+    /// <summary>
+    /// Holds the value of the <c>Name</c> property.
+    /// </summary>
+    ///
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	string m_name;
+    string m_name;
 
-	///////////////////////////////////////////////////////////////////////////
-	// Public Properties
-	//
+    ///////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    //
 
-	/// <summary>
-	/// Gets the UserItem.Id of this user, i.e. LearningStore's numeric
-	/// identifier for this user.
-	/// </summary>
-	///
-	public UserItemIdentifier Id
-	{
-		get
-		{
-			return m_id;
-		}
-	}
+    /// <summary>
+    /// Gets the UserItem.Id of this user, i.e. LearningStore's numeric
+    /// identifier for this user.
+    /// </summary>
+    ///
+    public UserItemIdentifier Id
+    {
+        get
+        {
+            return m_id;
+        }
+    }
 
-	/// <summary>
-	/// Gets the full name of the user; for example, "Karen Berg".
-	/// </summary>
-	///
-	public string Name
-	{
-		get
-		{
-			return m_name;
-		}
-	}
+    /// <summary>
+    /// Gets the full name of the user; for example, "Karen Berg".
+    /// </summary>
+    ///
+    public string Name
+    {
+        get
+        {
+            return m_name;
+        }
+    }
 
-	///////////////////////////////////////////////////////////////////////////
-	// Public Methods
-	//
+    ///////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    //
 
-	// <summary>
-	// Initializes an instance of this class.
-	// </summary>
-	//
-	// <param name="id">The value to use for the <c>Id</c> property.</param>
-	//
-	// <param name="name">The value to use for the <c>Name</c> property.</param>
-	//
-	public LStoreUserInfo(UserItemIdentifier id, string name)
-	{
-		m_id = id;
-		m_name = name;
-	}
+    // <summary>
+    // Initializes an instance of this class.
+    // </summary>
+    //
+    // <param name="id">The value to use for the <c>Id</c> property.</param>
+    //
+    // <param name="name">The value to use for the <c>Name</c> property.</param>
+    //
+    public LStoreUserInfo(UserItemIdentifier id, string name)
+    {
+        m_id = id;
+        m_name = name;
+    }
 }
 

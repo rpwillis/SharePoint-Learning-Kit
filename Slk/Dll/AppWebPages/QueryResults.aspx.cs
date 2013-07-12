@@ -259,9 +259,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Response.Write(e.ToString());
+                Response.Write(ex.ToString());
             }
         }
         #endregion

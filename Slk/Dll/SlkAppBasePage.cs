@@ -204,17 +204,27 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     {
         try
         {
-            if (SlkStore.Settings.UseMasterPageForApplicationPages)
+            if (OverrideMasterPage)
             {
-                if (OverrideMasterPage)
+                if (SlkStore.Settings.UseMasterPageForApplicationPages)
                 {
                     MasterPageFile = SPWeb.CustomMasterUrl;
                 }
             }
         }
+        catch (UserNotFoundException)
+        {
+            // No SPWeb.CurrentUser, so store need resetting
+            m_slkStore = null;
+        }
         catch (SafeToDisplayException)
         {
-            // Error will be handled elsewhere
+        }
+        catch (Exception)
+        {
+            // Don't let an error stop the page rendering. Let the error happen during the actual rendering and be handled there.
+            // Only issue this may cause is incorrect master page.
+            m_slkStore = null;
         }
 
         base.OnPreInit(e);
