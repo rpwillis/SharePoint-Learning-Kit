@@ -185,6 +185,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
             return m_slkStore;
         }
     }
+
     #endregion private properties
 
 
@@ -206,9 +207,13 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
         {
             if (OverrideMasterPage)
             {
-                if (SlkStore.Settings.UseMasterPageForApplicationPages)
+                if (SPWeb != null)
                 {
-                    MasterPageFile = SPWeb.CustomMasterUrl;
+                    AnonymousSlkStore store = AnonymousSlkStore.GetStore(SPWeb.Site);
+                    if (store.Settings.UseMasterPageForApplicationPages)
+                    {
+                        MasterPageFile = SPWeb.CustomMasterUrl;
+                    }
                 }
             }
         }
