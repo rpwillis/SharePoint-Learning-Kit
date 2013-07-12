@@ -75,14 +75,6 @@ namespace Microsoft.SharePointLearningKit
 #endregion fields
 
 #region internal constants
-        /// <summary>
-        /// Specifies for how many seconds <c>SlkStore</c> is cached within the current
-        /// <c>HttpContext</c>.  This many seconds after being loaded, the next time you create an
-        /// instance of <c>SlkStore</c>, information is reloaded from the SharePoint configuration
-        /// database, and <c>SlkSettings</c> information is reloaded from the SharePoint Learning Kit
-        /// database.
-        /// </summary>
-        internal const int HttpContextCacheTime = 60;
 #endregion internal constants
 
 #region properties
@@ -421,103 +413,21 @@ namespace Microsoft.SharePointLearningKit
             // set <httpContext> to the current HttpContext (null if none)
             HttpContext httpContext = HttpContext.Current;
 
-            // if an AnonymousSlkStore corresponding to <spSiteGuid> is cached, retrieve it, otherwise
-            // create one
-            string cacheItemName = null;
-            AnonymousSlkStore anonymousSlkStore;
-            LearningStore learningStore;
-            if (httpContext != null)
-            {
-                    cacheItemName = String.Format(CultureInfo.InvariantCulture, "SlkStore_{0}", spSiteGuid);
-                    anonymousSlkStore = (AnonymousSlkStore) httpContext.Cache.Get(cacheItemName);
-                    if (anonymousSlkStore != null)
-                    {
-                        // create a new SlkStore that wraps the cached AnonymousSlkStore plus a new
-                        // <currentUserKey>-specific LearningStore
-                        if (String.IsNullOrEmpty(learningStoreUserKey) == true)
-                        {
-                            learningStore = new LearningStore(anonymousSlkStore.Mapping.DatabaseConnectionString,
-                                currentUserKey, ImpersonationBehavior.UseOriginalIdentity);
-                        }
-                        else
-                        {
-                            learningStore = new LearningStore(anonymousSlkStore.Mapping.DatabaseConnectionString,
-                                learningStoreUserKey, ImpersonationBehavior.UseOriginalIdentity);
+            AnonymousSlkStore anonymousSlkStore = AnonymousSlkStore.GetStore(spWeb.Site);
+            LearningStore learningStore = null;
 
-                        }
-
-                        return new SlkStore(anonymousSlkStore, learningStore, currentUserName);
-                    }
-            }
-
-            // set <mapping> to the SlkSPSiteMapping corresponding to <spSiteGuid>; if no such
-            // mapping, exists, a SafeToDisplayException is thrown
-            SlkSPSiteMapping mapping = SlkSPSiteMapping.GetRequiredMapping(spWeb.Site);
-
-            // load "SlkSettings.xsd" from a resource into <xmlSchema>
-            XmlSchema xmlSchema;
-            using (StringReader schemaStringReader = new StringReader(AppResources.SlkSettingsSchema))
-            {
-                    xmlSchema = XmlSchema.Read(schemaStringReader,
-                            delegate(object sender2, ValidationEventArgs e2)
-                            {
-                                    // ignore warnings (already displayed when SLK Settings file was uploaded)
-                            });
-            }
-
-                    // create a LearningStore
             if (String.IsNullOrEmpty(learningStoreUserKey) == true)
             {
-                learningStore = new LearningStore(mapping.DatabaseConnectionString, currentUserKey,
-                    ImpersonationBehavior.UseOriginalIdentity);
+                learningStore = new LearningStore(anonymousSlkStore.Mapping.DatabaseConnectionString,
+                    currentUserKey, ImpersonationBehavior.UseOriginalIdentity);
             }
             else
             {
-                learningStore = new LearningStore(mapping.DatabaseConnectionString, learningStoreUserKey,
-                    ImpersonationBehavior.UseOriginalIdentity);
+                learningStore = new LearningStore(anonymousSlkStore.Mapping.DatabaseConnectionString,
+                    learningStoreUserKey, ImpersonationBehavior.UseOriginalIdentity);
+
             }
 
-            // read the SLK Settings file from the database into <settings>
-            SlkSettings settings;
-            using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
-            {
-                LearningStoreJob job = learningStore.CreateJob();
-                LearningStoreQuery query = learningStore.CreateQuery(Schema.SiteSettingsItem.ItemTypeName);
-                query.AddColumn(Schema.SiteSettingsItem.SettingsXml);
-                query.AddColumn(Schema.SiteSettingsItem.SettingsXmlLastModified);
-                query.AddCondition(Schema.SiteSettingsItem.SiteGuid, LearningStoreConditionOperator.Equal, mapping.SPSiteGuid);
-                job.PerformQuery(query);
-                DataRowCollection dataRows = job.Execute<DataTable>().Rows;
-                if (dataRows.Count != 1)
-                {
-                    throw new SafeToDisplayException(AppResources.SlkSettingsNotFound, spWeb.Site.Url);
-                }
-                DataRow dataRow = dataRows[0];
-                string settingsXml = (string)dataRow[0];
-                DateTime settingsXmlLastModified = ((DateTime)dataRow[1]);
-                using (StringReader stringReader = new StringReader(settingsXml))
-                {
-                        XmlReaderSettings xmlSettings = new XmlReaderSettings();
-                        xmlSettings.Schemas.Add(xmlSchema);
-                        xmlSettings.ValidationType = ValidationType.Schema;
-                        using (XmlReader xmlReader = XmlReader.Create(stringReader, xmlSettings))
-                        {
-                            settings = new SlkSettings(xmlReader, settingsXmlLastModified);
-                        }
-                }
-            }
-            
-            // create and (if possible) cache the new AnonymousSlkStore object
-            anonymousSlkStore = new AnonymousSlkStore(spSiteGuid, mapping, settings);
-            DateTime cacheExpirationTime = DateTime.Now.AddSeconds(HttpContextCacheTime);
-            if (httpContext != null)
-            {
-                    httpContext.Cache.Add(cacheItemName, anonymousSlkStore, null, cacheExpirationTime,
-                            System.Web.Caching.Cache.NoSlidingExpiration,
-                            System.Web.Caching.CacheItemPriority.Normal, null);
-            }
-
-            // return an SlkStore that wraps <anonymousSlkStore> and <learningStore>
             return new SlkStore(anonymousSlkStore, learningStore, currentUserName);
         }
 

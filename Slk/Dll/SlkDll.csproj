@@ -117,6 +117,7 @@
     -->
     <Compile Include="SlkApi.cs" />
     <Compile Include="api\SlkStore.cs" />
+    <Compile Include="api\AnonymousSlkStore.cs" />
     <Compile Include="api\PackageDetails.cs" />
     <Compile Include="api\Package.cs" />
     <Compile Include="api\PackageInformation.cs" />
@@ -309,10 +310,8 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-      <!--
       <Copy SourceFiles="bin/release/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/release/Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
-      -->
   </Target>
   <PropertyGroup>
     <PostBuildEvent>
