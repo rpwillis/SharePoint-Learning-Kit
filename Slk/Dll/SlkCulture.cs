@@ -28,8 +28,9 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="web">The web to localize.</param>
         public SlkCulture(SPWeb web)
         {
+            Resources = new AppResourcesLocal();
             Culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
-            if (web == null)
+            if (web == null && HttpContext.Current != null)
             {
                 web = SPControl.GetContextWeb(HttpContext.Current);
             }
@@ -49,11 +50,10 @@ namespace Microsoft.SharePointLearningKit
 #else
                 Culture = web.Locale;
 #endif
-
-                Resources = new AppResourcesLocal();
-                Resources.Culture = Culture;
-                AppResources.Culture = Culture;
             }
+
+            Resources.Culture = Culture;
+            AppResources.Culture = Culture;
         }
 #endregion constructors
 
