@@ -648,7 +648,15 @@ function LoadContentFrame ( url )
         return;
        
     var fr = GetContentFrame();
-    fr.contentWindow.location.href =url;
+    var navigateTo = url;
+    var currentUrl = fr.contentWindow.location.href.toLowerCase();
+    var index = currentUrl.indexOf("content.aspx");
+    if (index > -1)
+    {
+        navigateTo = currentUrl.substring(0,index) + url;
+    }
+
+    fr.contentWindow.location.href = navigateTo;
     g_frameMgr.DebugLog("SetContentFrameUrl: End. Navigation complete. ");
 }
 
