@@ -166,7 +166,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="users">The users to send to.</param>
         public void SendNewEmail(IEnumerable<SlkUser> users)
         {
-            SendEmail(users, NewBodyText(), NewBodyText());
+            SendEmail(users, NewSubjectText(), NewBodyText());
         }
 #endregion public methods
 
@@ -390,7 +390,6 @@ namespace Microsoft.SharePointLearningKit
         }
 
 #endregion subject and body text
-
 
 #region Email class
         class Email
