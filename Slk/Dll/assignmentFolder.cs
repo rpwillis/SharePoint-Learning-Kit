@@ -115,6 +115,12 @@ namespace Microsoft.SharePointLearningKit
                 try
                 {
                     web.AllowUnsafeUpdates = true;
+
+                    if (assignmentFolder.HasUniqueRoleAssignments == false)
+                    {
+                        assignmentFolder.BreakRoleInheritance(false);
+                    }
+
                     assignmentFolder.RoleAssignments.Remove(user);
                     assignmentFolder.Update();
                 }
