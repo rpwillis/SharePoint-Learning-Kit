@@ -650,10 +650,10 @@ function LoadContentFrame ( url )
     var fr = GetContentFrame();
     var navigateTo = url;
     var currentUrl = fr.contentWindow.location.href.toLowerCase();
-    var index = currentUrl.indexOf("content.aspx");
+    var index = currentUrl.indexOf("/frameset/");
     if (index > -1)
     {
-        navigateTo = currentUrl.substring(0,index) + url;
+        navigateTo = currentUrl.substring(0,index + 10) + url;
     }
 
     fr.contentWindow.location.href = navigateTo;
