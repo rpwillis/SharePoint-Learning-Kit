@@ -595,7 +595,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="title">The starting point.</param>
         public static string MakeTitleSafe(string title)
         {
-            return nameRegex.Replace(title, "-");
+            return nameRegex.Replace(title, "-").Replace("\"", "-");
         }
 
 #endregion static members
