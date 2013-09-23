@@ -1415,6 +1415,19 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 string destinationUrl = library.RootFolder.Url + "/" + FileUploadDocument.FileName;
                 SPFile file = library.RootFolder.Files.Add(destinationUrl, FileUploadDocument.FileBytes, false);
                 file.Update();
+
+                if (file.CheckOutType != SPFile.SPCheckOutType.None)
+                {
+                    file.CheckIn(string.Empty, SPCheckinType.MajorCheckIn);
+                    file.Update();
+                }
+
+                if (file.Level != SPFileLevel.Published)
+                {
+                    file.Publish(string.Empty);
+                    file.Update();
+                }
+
                 location = Package.CreateFileLocation(SPWeb, file);
                 AssignmentProperties.SetLocation(Location, OrgIndex);
             }
