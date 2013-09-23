@@ -552,57 +552,64 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             if (gradingListItems.Count > 0)
             {
-                AssignmentProperties.StartResultSaving();
-
-                try
+                using (AssignmentSaver saver = AssignmentProperties.CreateSaver())
                 {
-                    foreach (GradingItem item in gradingListItems.Values)
+                    bool hasSaved = false;
+                    try
                     {
-                        bool moveStatusForward = false;
-                        bool returnAssignment = false;
-                        LearnerAssignmentProperties gradingProperties = AssignmentProperties[item.LearnerAssignmentId];
-                        gradingProperties.FinalPoints = item.FinalScore;
-                        gradingProperties.Grade = item.Grade;
-                        gradingProperties.InstructorComments = item.InstructorComments;
-
-                        // Ignore the FinalScore Update if the Status is NotStarted or Active
-                        if (item.Status == LearnerAssignmentState.NotStarted || item.Status == LearnerAssignmentState.Active)
+                        foreach (GradingItem item in gradingListItems.Values)
                         {
-                            gradingProperties.IgnoreFinalPoints = true;
+                            bool moveStatusForward = false;
+                            bool returnAssignment = false;
+                            LearnerAssignmentProperties gradingProperties = AssignmentProperties[item.LearnerAssignmentId];
+                            gradingProperties.FinalPoints = item.FinalScore;
+                            gradingProperties.Grade = item.Grade;
+                            gradingProperties.InstructorComments = item.InstructorComments;
+
+                            // Ignore the FinalScore Update if the Status is NotStarted or Active
+                            if (item.Status == LearnerAssignmentState.NotStarted || item.Status == LearnerAssignmentState.Active)
+                            {
+                                gradingProperties.IgnoreFinalPoints = true;
+                            }
+
+                            switch (action)
+                            {
+                                case SaveAction.SaveOnly:
+                                    // The Save or OK button was clicked
+                                    moveStatusForward = item.ActionState;
+                                    break;
+
+                                case SaveAction.CollectAll:
+                                    // The Collect All button was clicked
+                                    if (item.Status == LearnerAssignmentState.NotStarted || item.Status == LearnerAssignmentState.Active)
+                                    {
+                                        moveStatusForward = true;
+                                    }
+                                    break;
+
+                                case SaveAction.ReturnAll:
+                                    if (item.Status != LearnerAssignmentState.Final)
+                                    {
+                                        returnAssignment = true;
+                                    }
+                                    break;
+                            }
+
+                            gradingProperties.Save(moveStatusForward, returnAssignment, saver);
                         }
 
-                        switch (action)
-                        {
-                            case SaveAction.SaveOnly:
-                                // The Save or OK button was clicked
-                                moveStatusForward = item.ActionState;
-                                break;
-
-                            case SaveAction.CollectAll:
-                                // The Collect All button was clicked
-                                if (item.Status == LearnerAssignmentState.NotStarted || item.Status == LearnerAssignmentState.Active)
-                                {
-                                    moveStatusForward = true;
-                                }
-                                break;
-
-                            case SaveAction.ReturnAll:
-                                if (item.Status != LearnerAssignmentState.Final)
-                                {
-                                    returnAssignment = true;
-                                }
-                                break;
-                        }
-
-                        gradingProperties.Save(moveStatusForward, returnAssignment);
+                        hasSaved = true;
+                        saver.Save();
                     }
+                    catch
+                    {
+                        if (hasSaved == false)
+                        {
+                            saver.Cancel();
+                        }
 
-                    AssignmentProperties.EndResultSaving();
-                }
-                catch
-                {
-                    AssignmentProperties.ErrorOnResultSaving();
-                    throw;
+                        throw;
+                    }
                 }
             }
         }

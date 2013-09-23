@@ -229,6 +229,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
+                        spWeb.AllowUnsafeUpdates = true;
                         DropBox dropBox = new DropBox(spWeb);
 
                         string oldAssignmentFolderName = GenerateFolderName(oldAssignmentProperties);

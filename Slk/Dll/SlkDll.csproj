@@ -125,6 +125,8 @@
     <Compile Include="api\IEmailSender.cs" />
     <Compile Include="api\SharePointEmailer.cs" />
     <Compile Include="api\AssignmentEmailer.cs" />
+    <Compile Include="api\AssignmentSaver.cs" />
+    <Compile Include="api\ICurrentJob.cs" />
     <Compile Include="api\slkMemberships.cs" />
     <Compile Include="api\LearnerAssignmentProperties.cs" />
     <Compile Include="api\assignmentProperties.cs" />

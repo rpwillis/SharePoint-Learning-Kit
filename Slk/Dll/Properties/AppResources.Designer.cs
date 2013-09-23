@@ -1974,6 +1974,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to change Drop Box permissions to {0} for {0}..
+        /// </summary>
+        internal static string ErrorSavingDropBoxPermissions {
+            get {
+                return ResourceManager.GetString("ErrorSavingDropBoxPermissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File not found.
         /// </summary>
         internal static string FileNotFound {
