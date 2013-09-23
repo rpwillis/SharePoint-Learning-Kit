@@ -692,41 +692,44 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 foreach (SlkUser slkUser in slkUserCollection)
                 {
-                    string userName = slkUser.Name;
-                    string userKey = slkUser.UserId.GetKey().ToString(CultureInfo.InvariantCulture);
-
-                    //Create a Slk CheckBox Item
-                    SlkCheckBoxItem item = new SlkCheckBoxItem(userName, userKey, false, String.Empty);
-
-                    //Check If Current User is Instructor
-                    if (customChkBoxList.ID == chkListInstructors.ID)
+                    if (slkUser.SPUser != null)
                     {
-                        if (CurrentSlkUserKey == userKey)
-                        {
-                            item.Selected = true;
-                        }
-                    }
+                        string userName = slkUser.Name;
+                        string userKey = slkUser.UserId.GetKey().ToString(CultureInfo.InvariantCulture);
 
-                    //If the Page Mode is Edit Check Items Added in the Create Mode
-                    if (AppMode == PageMode.Edit)
-                    {
+                        //Create a Slk CheckBox Item
+                        SlkCheckBoxItem item = new SlkCheckBoxItem(userName, userKey, false, slkUser.SPUser.LoginName);
+
+                        //Check If Current User is Instructor
                         if (customChkBoxList.ID == chkListInstructors.ID)
                         {
-                            if (AssignmentProperties.Instructors.Contains(slkUser.UserId))
+                            if (CurrentSlkUserKey == userKey)
                             {
                                 item.Selected = true;
                             }
                         }
-                        else if (customChkBoxList.ID == chkListLearners.ID)
-                        {
-                            if (AssignmentProperties.Learners.Contains(slkUser.UserId))
-                            {
-                                item.Selected = true;
-                            }
-                        }
-                    }
 
-                    itemCollection.Add(item);
+                        //If the Page Mode is Edit Check Items Added in the Create Mode
+                        if (AppMode == PageMode.Edit)
+                        {
+                            if (customChkBoxList.ID == chkListInstructors.ID)
+                            {
+                                if (AssignmentProperties.Instructors.Contains(slkUser.UserId))
+                                {
+                                    item.Selected = true;
+                                }
+                            }
+                            else if (customChkBoxList.ID == chkListLearners.ID)
+                            {
+                                if (AssignmentProperties.Learners.Contains(slkUser.UserId))
+                                {
+                                    item.Selected = true;
+                                }
+                            }
+                        }
+
+                        itemCollection.Add(item);
+                    }
                 }
 
                 customChkBoxList.DataSource = itemCollection;
@@ -743,8 +746,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// This method will be called once when the page loads, to initialize the list of
         /// learner group checkboxes.
         /// </remarks>
-        private void BindCheckBoxItems(CustomCheckBoxList customChkBoxList,
-                                       ReadOnlyCollection<SlkGroup> slkGroupCollection)
+        private void BindCheckBoxItems(CustomCheckBoxList customChkBoxList, ReadOnlyCollection<SlkGroup> slkGroupCollection)
         {
             //Adding Items to the CheckBox List Control
 

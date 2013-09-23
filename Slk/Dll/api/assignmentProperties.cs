@@ -24,12 +24,9 @@ namespace Microsoft.SharePointLearningKit
         bool hasInstructors;
         bool hasInstructorsIsSet;
         bool isSelfAssigned;
-        AssignmentEmailer emailSender;
         SlkUserCollection instructors;
-        List<DropBoxUpdate> cachedDropBoxUpdates;
         Dictionary<long, LearnerAssignmentProperties> keyedResults = new Dictionary<long, LearnerAssignmentProperties>();
         Dictionary<long, LearnerAssignmentProperties> userResults = new Dictionary<long, LearnerAssignmentProperties>();
-        DropBoxManager dropBoxManager;
 
 #region properties
         /// <summary>The ISlkStore to use.</summary>
@@ -289,31 +286,6 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        /// <summary>Starts the batch for saving the results.</summary>
-        public void StartResultSaving()
-        {
-            cachedDropBoxUpdates = new List<DropBoxUpdate>();
-            Store.StartBatchJobs();
-            emailSender = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid);
-            emailSender.CacheEmails = true;
-        }
-
-        /// <summary>Completes the batch for saving results.</summary>
-        public void EndResultSaving()
-        {
-            Store.EndBatchJobs();
-            UpdateCachedDropBox();
-            emailSender.Dispose();
-        }
-
-        /// <summary>Error action on result saving.</summary>
-        public void ErrorOnResultSaving()
-        {
-            emailSender.ClearCachedEmails();
-            Store.CancelBatchJobs();
-            emailSender.Dispose();
-        }
-
         /// <summary>Sends and email when a learner submits an assignment.</summary>
         /// <param name="name">The name of the learner.</param>
         public void SendSubmitEmail(string name)
@@ -323,45 +295,6 @@ namespace Microsoft.SharePointLearningKit
                 using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid))
                 {
                     emailer.SendSubmitEmail(name);
-                }
-            }
-        }
-
-        /// <summary>Sends an email when an assignment is reactivated.</summary>
-        /// <param name="learner">The learner being reactivated.</param>
-        public void SendReactivateEmail(SlkUser learner)
-        {
-            if (EmailChanges)
-            {
-                using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid))
-                {
-                    emailer.SendReactivateEmail(learner);
-                }
-            }
-        }
-
-        /// <summary>Sends an email when an assignment is returned.</summary>
-        /// <param name="learner">The learner being returned.</param>
-        public void SendReturnEmail(SlkUser learner)
-        {
-            if (EmailChanges)
-            {
-                using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid))
-                {
-                    emailer.SendReturnEmail(learner);
-                }
-            }
-        }
-
-        /// <summary>Sends an email when an assignment is collected.</summary>
-        /// <param name="learner">The learner being collected.</param>
-        public void SendCollectEmail(SlkUser learner)
-        {
-            if (EmailChanges)
-            {
-                using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid))
-                {
-                    emailer.SendCollectEmail(learner);
                 }
             }
         }
@@ -577,62 +510,15 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        /// <summary>Updates the drop box permissions.</summary>
-        /// <param name="state">The state the assignment is moving to.</param>
-        /// <param name="user">The SLK user.</param>
-        public void UpdateDropBoxPermissions(LearnerAssignmentState state, SlkUser user)
+        /// <summary>Creates an AssignmentSaver to save the assignment.</summary>
+        public AssignmentSaver CreateSaver()
         {
-            if (IsNonELearning)
-            {
-                if (cachedDropBoxUpdates != null)
-                {
-                    cachedDropBoxUpdates.Add(new DropBoxUpdate(state, user.SPUser));
-                }
-                else
-                {
-                    UpdateDropBoxPermissionsNow(state, user.SPUser);
-                }
-            }
+            return new AssignmentSaver(Store, this);
         }
+
 #endregion public methods
 
 #region private methods
-        /// <summary>Updates the drop box permissions.</summary>
-        /// <param name="state">The state the assignment is moving to.</param>
-        /// <param name="user">The user.</param>
-        void UpdateDropBoxPermissionsNow(LearnerAssignmentState state, SPUser user)
-        {
-            bool createdManager = false;
-            if (dropBoxManager == null)
-            {
-                dropBoxManager = new DropBoxManager(this);
-                createdManager = true;
-            }
-
-            switch (state)
-            {
-                case LearnerAssignmentState.Active:
-                    // Reactivated
-                    dropBoxManager.ApplyReactivateAssignmentPermission(user);
-                    break;
-
-                case LearnerAssignmentState.Completed:
-                    // Collected
-                    dropBoxManager.ApplyCollectAssignmentPermissions(user);
-                    break;
-
-                case LearnerAssignmentState.Final:
-                    // Return
-                    dropBoxManager.ApplyReturnAssignmentPermission(user);
-                    break;
-            }
-
-            if (createdManager)
-            {
-                dropBoxManager = null;
-            }
-        }
-
         void CopyInvariantProperties(AssignmentProperties properties)
         {
             SPSiteGuid = properties.SPSiteGuid;
@@ -682,17 +568,6 @@ namespace Microsoft.SharePointLearningKit
                     }
                 }
             }
-        }
-
-        void UpdateCachedDropBox()
-        {
-            dropBoxManager = new DropBoxManager(this);
-            foreach (DropBoxUpdate update in cachedDropBoxUpdates)
-            {
-                UpdateDropBoxPermissionsNow(update.State, update.User);
-            }
-
-            dropBoxManager = null;
         }
 
         void SaveNewAssignment(SPWeb web, SlkRole slkRole)

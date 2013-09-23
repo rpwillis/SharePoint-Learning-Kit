@@ -228,17 +228,9 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="grade">The grade.</param>
         /// <param name="isFinal">Whether the assignment is final or not. Null is do not set.</param>
         /// <param name="nonELearningStatus">The Non ELearning Status to set. Null is do not set.</param>
+        /// <param name="currentJob">The current transaction.</param>
         void SaveLearnerAssignment(LearnerAssignmentItemIdentifier learnerAssignmentId, bool ignoreFinalPoints, float? finalPoints, string instructorComments, 
-                            string grade, bool? isFinal, AttemptStatus? nonELearningStatus);
-
-        /// <summary>Starts a set of batch jobs.</summary>
-        void StartBatchJobs();
-
-        /// <summary>Completes a set of batch jobs.</summary>
-        void EndBatchJobs();
-
-        /// <summary>Cancels the batch jobs.</summary>
-        void CancelBatchJobs();
+                            string grade, bool? isFinal, AttemptStatus? nonELearningStatus, ICurrentJob currentJob);
 
         /// <summary>Loads all possible assignment reminders.</summary>
         /// <param name="minDueDate">The minimum due date to return.</param>
@@ -260,6 +252,13 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="location">The package location.</param>
         /// <returns></returns>
         PackageReader CreatePackageReader(SPFile file, SharePointFileLocation location);
+
+        /// <summary>Logs an exception.</summary>
+        /// <param name="exception"></param>
+        void LogException(Exception exception);
+
+        /// <summary>Starts a transaction.</summary>
+        ICurrentJob CreateCurrentJob();
     }
 }
 

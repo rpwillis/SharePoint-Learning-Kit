@@ -131,12 +131,13 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Saves changes to the assignment.</summary>
         /// <param name="moveStatusForward">True if move the status forward from an instructor's point of view.</param>
         /// <param name="returnAssignment">True if assignment should be returned.</param>
-        public void Save(bool moveStatusForward, bool returnAssignment)
+        /// <param name="saver">The <see cref="AssignmentSaver"/> to use.</param>
+        public void Save(bool moveStatusForward, bool returnAssignment, AssignmentSaver saver)
         {
             if (returnAssignment)
             {
                 fullSave = true;
-                Return();
+                Return(saver);
             }
             else if (moveStatusForward)
             {
@@ -148,22 +149,22 @@ namespace Microsoft.SharePointLearningKit
                     {
                         case LearnerAssignmentState.NotStarted:
                             // Collect as instructor is calling
-                            Collect();
+                            Collect(saver);
                             break;
 
                         case LearnerAssignmentState.Active:
                             // Collect
-                            Collect();
+                            Collect(saver);
                             break;
 
                         case LearnerAssignmentState.Completed:
                             // Make Final
-                            Return();
+                            Return(saver);
                             break;
 
                         case LearnerAssignmentState.Final:
                             // Reactivate
-                            Reactivate();
+                            Reactivate(saver);
                             break;
                     }
                 }
@@ -175,7 +176,7 @@ namespace Microsoft.SharePointLearningKit
             else
             {
                 // Just save
-                Assignment.Store.SaveLearnerAssignment(LearnerAssignmentId, IgnoreFinalPoints, FinalPoints, InstructorComments, Grade, null, null);
+                Assignment.Store.SaveLearnerAssignment(LearnerAssignmentId, IgnoreFinalPoints, FinalPoints, InstructorComments, Grade, null, null, saver.CurrentJob);
             }
         }
 
@@ -210,18 +211,18 @@ namespace Microsoft.SharePointLearningKit
 
             if (session == null)
             {
-                Save(newStatus, null, NonELearningStatus(AttemptStatus.Active), null);
+                Save(newStatus, null, NonELearningStatus(AttemptStatus.Active), null, null);
             }
             else
             {
-                Save(newStatus, null, NonELearningStatus(AttemptStatus.Active), null);
+                Save(newStatus, null, NonELearningStatus(AttemptStatus.Active), null, null);
             }
 
             Status = newStatus;
         }
 
         /// <summary>Returns the assignment.</summary>
-        public void Return()
+        public void Return(AssignmentSaver saver)
         {
             CheckUserIsInstructor();
 
@@ -255,28 +256,28 @@ namespace Microsoft.SharePointLearningKit
 
             if (session == null)
             {
-                Save(newStatus, true, NonELearningStatus(AttemptStatus.Completed), null);
+                Save(newStatus, true, NonELearningStatus(AttemptStatus.Completed), null, saver);
             }
             else
             {
-                Save(newStatus, true, NonELearningStatus(AttemptStatus.Completed), session.TotalPoints);
+                Save(newStatus, true, NonELearningStatus(AttemptStatus.Completed), session.TotalPoints, saver);
             }
 
             Status = newStatus;
 
             if (Assignment.EmailChanges)
             {
-                Assignment.SendReturnEmail(User);
+                saver.SendReturnEmail(User);
             }
 
             if (Assignment.IsNonELearning)
             {
-                Assignment.UpdateDropBoxPermissions(newStatus, User);
+                saver.UpdateDropBoxPermissions(newStatus, User);
             }
         }
 
         /// <summary>Collects the assignment.</summary>
-        public void Collect()
+        public void Collect(AssignmentSaver saver)
         {
             CheckUserIsInstructor();
             StoredLearningSession session = null;
@@ -304,21 +305,21 @@ namespace Microsoft.SharePointLearningKit
                     break;
             }
 
-            CompleteAssignment(session);
+            CompleteAssignment(session, saver);
 
             if (Assignment.EmailChanges)
             {
-                Assignment.SendCollectEmail(User);
+                saver.SendCollectEmail(User);
             }
 
             if (Assignment.IsNonELearning)
             {
-                Assignment.UpdateDropBoxPermissions(LearnerAssignmentState.Completed, User);
+                saver.UpdateDropBoxPermissions(LearnerAssignmentState.Completed, User);
             }
         }
 
         /// <summary>reactivates the assignment.</summary>
-        public void Reactivate()
+        public void Reactivate(AssignmentSaver saver)
         {
             CheckUserIsInstructor();
 
@@ -350,15 +351,15 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
-                Assignment.UpdateDropBoxPermissions(newStatus, User);
+                saver.UpdateDropBoxPermissions(newStatus, User);
             }
 
-            Save(newStatus, false, NonELearningStatus(AttemptStatus.Active), null);
+            Save(newStatus, false, NonELearningStatus(AttemptStatus.Active), null, saver);
             Status = newStatus;
 
             if (Assignment.EmailChanges)
             {
-                Assignment.SendReactivateEmail(User);
+                saver.SendReactivateEmail(User);
             }
         }
 
@@ -400,7 +401,7 @@ namespace Microsoft.SharePointLearningKit
                     break;
             }
 
-            CompleteAssignment(null);
+            CompleteAssignment(null, null);
 
             if (Assignment.IsNonELearning)
             {
@@ -425,7 +426,7 @@ namespace Microsoft.SharePointLearningKit
 #endregion public methods
 
 #region private methods
-        void CompleteAssignment(StoredLearningSession newSession)
+        void CompleteAssignment(StoredLearningSession newSession, AssignmentSaver saver)
         {
             LearnerAssignmentState newStatus = LearnerAssignmentState.Completed;
             bool? isFinal = false;
@@ -444,11 +445,11 @@ namespace Microsoft.SharePointLearningKit
                     finalPoints = FinishSession();
                 }
 
-                Save(newStatus, isFinal, NonELearningStatus(AttemptStatus.Completed), finalPoints);
+                Save(newStatus, isFinal, NonELearningStatus(AttemptStatus.Completed), finalPoints, saver);
             }
             else
             {
-                Save(newStatus, isFinal, NonELearningStatus(AttemptStatus.Completed), newSession.TotalPoints);
+                Save(newStatus, isFinal, NonELearningStatus(AttemptStatus.Completed), newSession.TotalPoints, saver);
             }
 
             Status = newStatus;
@@ -570,13 +571,18 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        void Save(LearnerAssignmentState newStatus, bool? isFinal, AttemptStatus? nonELearningStatus, float? finalPoints)
+        void Save(LearnerAssignmentState newStatus, bool? isFinal, AttemptStatus? nonELearningStatus, float? finalPoints, AssignmentSaver saver)
         {
             if (fullSave)
             {
+                if (saver == null)
+                {
+                    throw new ArgumentNullException("saver");
+                }
+
                 bool ignoreFinalPoints = finalPoints != null ? false : IgnoreFinalPoints;
                 float? pointsToSend = IgnoreFinalPoints == false ? FinalPoints : finalPoints;
-                Assignment.Store.SaveLearnerAssignment(LearnerAssignmentId, ignoreFinalPoints, pointsToSend, InstructorComments, Grade, isFinal, nonELearningStatus);
+                Assignment.Store.SaveLearnerAssignment(LearnerAssignmentId, ignoreFinalPoints, pointsToSend, InstructorComments, Grade, isFinal, nonELearningStatus, saver.CurrentJob);
             }
             else
             {

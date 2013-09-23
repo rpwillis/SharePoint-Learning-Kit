@@ -33,7 +33,6 @@ namespace Microsoft.SharePointLearningKit
     {
 #region fields
         SlkCulture culture = new SlkCulture();
-        CurrentJob currentJob;
         UserItemIdentifier currentUserId;
 
         /// <summary>
@@ -197,28 +196,22 @@ namespace Microsoft.SharePointLearningKit
 #endregion properties
 
 #region internal methods
-        /// <summary>See <see cref="ISlkStore.StartBatchJobs"/>.</summary>
-        public void StartBatchJobs()
+        /// <summary>Starts a transaction.</summary>
+        public ICurrentJob CreateCurrentJob()
         {
-            currentJob = new CurrentJob(LearningStore);
+            return new CurrentJob(LearningStore);
         }
 
-        /// <summary>See <see cref="ISlkStore.EndBatchJobs"/>.</summary>
-        public void EndBatchJobs()
-        {
-            currentJob.Complete();
-            currentJob.Dispose();
-        }
-
-        /// <summary>See <see cref="ISlkStore.EndBatchJobs"/>.</summary>
-        public void CancelBatchJobs()
-        {
-            currentJob.Cancel();
-            currentJob.Dispose();
-        }
 #endregion internal methods
 
 #region public methods
+        /// <summary>Logs an exception.</summary>
+        /// <param name="exception">The Exception to log.</param>
+        public void LogException(Exception exception)
+        {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(exception);
+        }
+
         /// <summary>See <see cref="ISlkStore.CreatePackageReader"/>.</summary>
         public PackageReader CreatePackageReader(SPFile file, SharePointFileLocation location)
         {
@@ -1692,7 +1685,7 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>See <see cref="ISlkStore.SaveLearnerAssignment"/>.</summary>
         public void SaveLearnerAssignment(LearnerAssignmentItemIdentifier learnerAssignmentId, bool ignoreFinalPoints, float? finalPoints, string instructorComments, 
-                            string grade, bool? isFinal, AttemptStatus? nonELearningStatus)
+                            string grade, bool? isFinal, AttemptStatus? nonELearningStatus, ICurrentJob currentJob)
         {
             // Call will be wrapped within a transaction
             
@@ -1719,8 +1712,9 @@ namespace Microsoft.SharePointLearningKit
                 properties[Schema.LearnerAssignmentItem.NonELearningStatus] = nonELearningStatus.Value;
             }
 
-            currentJob.Job.UpdateItem(learnerAssignmentId, properties);
-            currentJob.Job.Execute();
+            CurrentJob current = (CurrentJob)currentJob;
+            current.Job.UpdateItem(learnerAssignmentId, properties);
+            current.Job.Execute();
         }
 
         /// <summary>See <see cref="ISlkStore.ChangeLearnerAssignmentState"/>.</summary>
@@ -2598,7 +2592,7 @@ namespace Microsoft.SharePointLearningKit
 #endregion private methods
 
 #region CurrentJob
-        class CurrentJob : IDisposable
+        class CurrentJob : ICurrentJob
         {
             LearningStoreTransactionScope currentTransaction;
             LearningStorePrivilegedScope privilegedScope;
