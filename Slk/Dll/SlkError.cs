@@ -85,86 +85,6 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
 
         #endregion
 
-        #region WriteToEventLog
-        /// <summary>
-        /// Formats a message using <c>String.Format</c> and writes to the event
-        /// log.
-        /// </summary>    
-        /// <param name="format">A string containing zero or more format items;
-        ///     for example, "An exception occurred: {0}".</param>
-        /// 
-        /// <param name="args">Formatting arguments.</param>
-        ///
-        public static void WriteToEventLog(string format, params object[] args)
-        {
-            SlkUtilities.ImpersonateAppPool(delegate()
-            {
-                string message = String.Format(CultureInfo.InvariantCulture, AppResources.AppError, String.Format(CultureInfo.InvariantCulture, format, args));
-                message = message.Replace(@"\n", "\r\n");
-                WriteEvent(message);
-            });
-        }
-
-        static string source;
-        static object lockObject = new object();
-
-        static void WriteEvent(string message)
-        {
-            WriteEvent(message, new string[] {AppResources.SlkEventLogSource, AppResources.WssEventLogSource, AppResources.SharePoint2010LogSource});
-        }
-
-        static void WriteEvent(string message, string[] possibleSources)
-        {
-            using (EventLog eventLog = new EventLog())
-            {
-                if (string.IsNullOrEmpty(source))
-                {
-                    eventLog.Source = possibleSources[0];
-                }
-                else
-                {
-                    eventLog.Source = source;
-                }
-
-                bool errorOccurred = false;
-
-                try
-                {
-                    eventLog.WriteEntry(message, EventLogEntryType.Error);
-
-                    if (string.IsNullOrEmpty(source))
-                    {
-                        lock (lockObject)
-                        {
-                            source = eventLog.Source;
-                        }
-                    }
-                }
-                catch (InvalidOperationException)
-                {
-                    errorOccurred = true;
-                }
-                catch (ArgumentException)
-                {
-                    errorOccurred = true;
-                }
-                catch (System.Security.SecurityException)
-                {
-                    errorOccurred = true;
-                }
-
-                if (errorOccurred)
-                {
-                    if (possibleSources.Length > 1)
-                    {
-                        string[] newPossible = new string[possibleSources.Length - 1];
-                        Array.Copy(possibleSources, 1, newPossible, 0, possibleSources.Length - 1);
-                        WriteEvent(message, newPossible);
-                    }
-                }
-            }
-        }
-        #endregion
 
         #region WriteException
         /// <summary>
@@ -210,38 +130,6 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
             }           
 
             return slkError;
-        }
-        #endregion
-
-        public static void Debug (Exception e)
-        {
-            Debug(e.ToString());
-        }
-
-        public static void Debug (string message, params object[] arguments)
-        {
-            try
-            {
-                /*
-                using (System.IO.StreamWriter writer = new System.IO.StreamWriter("c:\\temp\\slkDebug.txt", true))
-                {
-                    writer.WriteLine(message, arguments);
-                }
-                */
-            }
-            catch
-            {
-            }
-        }
-
-        #region WriteToEventLog
-        /// <summary>
-        /// writes the exeception to the event Log 
-        /// </summary>    
-        /// <param name="ex">Exception</param>  
-        public static void WriteToEventLog(Exception ex)
-        {
-            SlkError.WriteToEventLog("{0}", ex.ToString());
         }
         #endregion
 

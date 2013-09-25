@@ -136,8 +136,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 Response.Clear();
                 Response.ContentType = "text/html";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Write(culture.Format(AppResources.AdminErrorPageHtml, Server.HtmlEncode(AppResources.SeriousErrorInEventLog)));
-                Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(ex);
+                Response.Write(culture.Format(AppResources.AdminErrorPageHtml, Server.HtmlEncode(string.Format(CultureInfo.CurrentUICulture, AppResources.SeriousErrorDownloadSettings, ex))));
                 Response.End();
             }
         }

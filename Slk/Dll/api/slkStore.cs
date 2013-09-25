@@ -208,7 +208,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>See <see cref="ISlkStore.LogException"/>.</summary>
         public void LogException(Exception exception)
         {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(exception);
+            LogError(exception.ToString());
         }
 
         /// <summary>Logs an error.</summary>
@@ -216,7 +216,10 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="arguments">The arguments.</param>
         public void LogError(string format, params object[] arguments)
         {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(format, arguments);
+            if (string.IsNullOrEmpty(format) == false)
+            {
+                WriteToEventLog(format, arguments);
+            }
         }
 
         /// <summary>See <see cref="ISlkStore.CreatePackageReader"/>.</summary>
@@ -2636,5 +2639,86 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 #endregion CurrentJob
+
+        #region WriteToEventLog
+        /// <summary>
+        /// Formats a message using <c>String.Format</c> and writes to the event
+        /// log.
+        /// </summary>    
+        /// <param name="format">A string containing zero or more format items;
+        ///     for example, "An exception occurred: {0}".</param>
+        /// 
+        /// <param name="args">Formatting arguments.</param>
+        ///
+        public static void WriteToEventLog(string format, params object[] args)
+        {
+            SlkUtilities.ImpersonateAppPool(delegate()
+            {
+                string message = String.Format(CultureInfo.InvariantCulture, AppResources.AppError, String.Format(CultureInfo.InvariantCulture, format, args));
+                message = message.Replace(@"\n", "\r\n");
+                WriteEvent(message);
+            });
+        }
+
+        static string source;
+        static object lockObject = new object();
+
+        static void WriteEvent(string message)
+        {
+            WriteEvent(message, new string[] {AppResources.SlkEventLogSource, AppResources.WssEventLogSource, AppResources.SharePoint2010LogSource});
+        }
+
+        static void WriteEvent(string message, string[] possibleSources)
+        {
+            using (EventLog eventLog = new EventLog())
+            {
+                if (string.IsNullOrEmpty(source))
+                {
+                    eventLog.Source = possibleSources[0];
+                }
+                else
+                {
+                    eventLog.Source = source;
+                }
+
+                bool errorOccurred = false;
+
+                try
+                {
+                    eventLog.WriteEntry(message, EventLogEntryType.Error);
+
+                    if (string.IsNullOrEmpty(source))
+                    {
+                        lock (lockObject)
+                        {
+                            source = eventLog.Source;
+                        }
+                    }
+                }
+                catch (InvalidOperationException)
+                {
+                    errorOccurred = true;
+                }
+                catch (ArgumentException)
+                {
+                    errorOccurred = true;
+                }
+                catch (System.Security.SecurityException)
+                {
+                    errorOccurred = true;
+                }
+
+                if (errorOccurred)
+                {
+                    if (possibleSources.Length > 1)
+                    {
+                        string[] newPossible = new string[possibleSources.Length - 1];
+                        Array.Copy(possibleSources, 1, newPossible, 0, possibleSources.Length - 1);
+                        WriteEvent(message, newPossible);
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }
