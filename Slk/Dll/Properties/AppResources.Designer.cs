@@ -388,17 +388,6 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}
-        ///
-        ///More information has been written to the server event log..
-        /// </summary>
-        internal static string AdminGenericException {
-            get {
-                return ResourceManager.GetString("AdminGenericException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Show the control for selecting a query to display in the assignment list..
         /// </summary>
         internal static string AlwpDisplaySummaryDescription {
@@ -3878,11 +3867,13 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A serious error occurred.  Please contact your system administrator.  More information has been written to the server event log..
+        ///   Looks up a localized string similar to A serious error occurred.  Please contact your system administrator.
+        ///      
+        ///{0}.
         /// </summary>
-        internal static string SeriousErrorInEventLog {
+        internal static string SeriousErrorDownloadSettings {
             get {
-                return ResourceManager.GetString("SeriousErrorInEventLog", resourceCulture);
+                return ResourceManager.GetString("SeriousErrorDownloadSettings", resourceCulture);
             }
         }
         

@@ -159,8 +159,10 @@
   <data name="PopulateLearnerAssignmentIdsInvalidException" xml:space="preserve">
     <value>Failed to retrieve learner ids.</value>
   </data>
-  <data name="SeriousErrorInEventLog" xml:space="preserve">
-    <value>A serious error occurred.  Please contact your system administrator.  More information has been written to the server event log.</value>
+  <data name="SeriousErrorDownloadSettings" xml:space="preserve">
+      <value>A serious error occurred.  Please contact your system administrator.
+      
+{0}</value>
   </data>
   <data name="SlkEventLogSource" xml:space="preserve">
     <value>SharePoint Learning Kit</value>
@@ -205,12 +207,6 @@
   </data>
   <data name="SlkSettingsFileError" xml:space="preserve">
     <value>Problem found in SLK Settings file: {0}</value>
-    <comment>{0} = exception message</comment>
-  </data>
-  <data name="AdminGenericException" xml:space="preserve">
-    <value>{0}
-
-More information has been written to the server event log.</value>
     <comment>{0} = exception message</comment>
   </data>
   <data name="SlkNotEnabled" xml:space="preserve">
