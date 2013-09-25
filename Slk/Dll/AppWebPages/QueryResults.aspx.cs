@@ -524,21 +524,28 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             // WebNameRenderedCell, i.e. which refers to a SharePoint Web site,
                             // or null if none
                             WebNameRenderedCell webNameRenderedCell = null;
+                            Guid learnerAssignmentGUID = Guid.Empty;
                             foreach (RenderedCell renderedCell in renderedRow)
                             {
                                 if (webNameRenderedCell == null)
                                 {
                                     webNameRenderedCell = renderedCell as WebNameRenderedCell;
                                 }
-                            }
 
-                            // TODO:Relies on being 2nd column. Need to iterate over if needed, so move to below where used
-                            Guid learnerAssignmentGUID = Guid.Empty;
-                            if (renderedRow[1].Id != null)
-                            {
-                                if (renderedRow[1].Id.ItemTypeName == Schema.LearnerAssignmentItem.ItemTypeName)
+                                if (learnerAssignmentGUID == Guid.Empty)
                                 {
-                                    learnerAssignmentGUID = SlkStore.GetLearnerAssignmentGuidId(renderedRow[1].Id);
+                                    if (renderedCell.Id != null)
+                                    {
+                                        if (renderedCell.Id.ItemTypeName == Schema.LearnerAssignmentItem.ItemTypeName)
+                                        {
+                                            learnerAssignmentGUID = SlkStore.GetLearnerAssignmentGuidId(renderedCell.Id);
+                                        }
+                                    }
+                                }
+
+                                if (webNameRenderedCell != null && learnerAssignmentGUID != Guid.Empty)
+                                {
+                                    break;
                                 }
                             }
 
@@ -717,7 +724,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         void RenderFileSubmissionCellAsSubmittedLink(string fileURL, WebNameRenderedCell webNameRenderedCell, Guid learnerAssignmentGUID, 
             string renderedCellValue, HtmlTextWriter hw)
         {
-            string url = CheckSubmittedFilesNumber(learnerAssignmentGUID);
+            // Optimise to always to to submitted files. The check involves
+            // 1.   Loading the assignment properties which required opening the web.
+            // 2.   Loading all the submitted files via drop box manager which required opening the web.
+            // 3.   Then if there's only 1 of them, having a link direct to that.
+            // That's a lot of work just to create a link.
+            string url = string.Empty;
+            //string url = CheckSubmittedFilesNumber(learnerAssignmentGUID);
 
             if (url.Equals(string.Empty))
             {
@@ -789,23 +802,17 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 hw.AddAttribute(HtmlTextWriterAttribute.Title, renderedCell.ToolTip);
             using (new HtmlBlock(HtmlTextWriterTag.Span, 0, hw))
             {
-                if (renderedCell.Id != null)
+                if (webNameRenderedCell == renderedCell)
+                {
+                    RenderCellWithLink(webNameRenderedCell, hw, renderedCell.ToString(), "#", "_parent");
+                }
+                else if (renderedCell.Id != null)
                 {
                     if (renderedCell.Id.ItemTypeName == Schema.AssignmentItem.ItemTypeName)
                     {
                         // render a link to the Instructor Assignment Properties page
                         string url = "Grading.aspx?AssignmentId={0}";
-                        if ((webNameRenderedCell != null) && (webNameRenderedCell.SPWebUrl != null))
-                        {
-                            url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
-                        }
-
-                        hw.AddAttribute(HtmlTextWriterAttribute.Target, "_parent");
-                        hw.AddAttribute(HtmlTextWriterAttribute.Href, String.Format(CultureInfo.InvariantCulture, url, renderedCell.Id.GetKey()));
-                        using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
-                        {
-                            hw.WriteEncodedText(renderedCell.ToString());
-                        }
+                        RenderCellWithLink(webNameRenderedCell, hw, renderedCell.ToString(), url, "_parent", renderedCell.Id.GetKey().ToString(CultureInfo.InvariantCulture));
                     }
                     else if (renderedCell.Id.ItemTypeName == Schema.LearnerAssignmentItem.ItemTypeName)
                     {
@@ -814,34 +821,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
                             // Display this cell as an url and clicking this url will launch frameset in StudentReview mode
                             string url = "Frameset/Frameset.aspx?SlkView=StudentReview&{0}={1}";
-                            if ((webNameRenderedCell != null) && (webNameRenderedCell.SPWebUrl != null))
-                            {
-                                url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
-                            }
-                            hw.AddAttribute(HtmlTextWriterAttribute.Target, "_blank");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Href,
-                            String.Format(CultureInfo.InvariantCulture, url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString()));
-                            using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
-                            {
-                                hw.WriteEncodedText(renderedCell.ToString());
-                            }
-
+                            RenderCellWithLink(webNameRenderedCell, hw, renderedCell.ToString(), url, "_blank", FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
                         }
                         else
                         {
                             // render a link to the Learner Assignment Properties page
                             string url = "Lobby.aspx?{0}={1}";
-                            if ((webNameRenderedCell != null) && (webNameRenderedCell.SPWebUrl != null))
-                            {
-                                url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
-                            }
-                            hw.AddAttribute(HtmlTextWriterAttribute.Target, "_parent");
-                            string href = String.Format(CultureInfo.InvariantCulture, url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
-                            hw.AddAttribute(HtmlTextWriterAttribute.Href, href);
-                            using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
-                            {
-                                hw.WriteEncodedText(renderedCell.ToString());
-                            }
+                            RenderCellWithLink(webNameRenderedCell, hw, renderedCell.ToString(), url, "_parent", FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
                         }
                     }
                     else
@@ -856,6 +842,28 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
         #endregion
+
+        private void RenderCellWithLink(WebNameRenderedCell webNameRenderedCell, HtmlTextWriter writer, string text, string url, string target, params string[] urlArguments)
+        {
+            if ((webNameRenderedCell != null) && (webNameRenderedCell.SPWebUrl != null))
+            {
+                if (url == "#")
+                {
+                    url = webNameRenderedCell.SPWebUrl;
+                }
+                else
+                {
+                    url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
+                }
+            }
+
+            writer.AddAttribute(HtmlTextWriterAttribute.Target, target);
+            writer.AddAttribute(HtmlTextWriterAttribute.Href, String.Format(CultureInfo.InvariantCulture, url, urlArguments));
+            using (new HtmlBlock(HtmlTextWriterTag.A, 0, writer))
+            {
+                writer.WriteEncodedText(text);
+            }
+        }
 
         #region RenderQueryCount
         /// <summary>
