@@ -21,12 +21,14 @@ namespace Microsoft.SharePointLearningKit
     {
         AssignmentProperties assignmentProperties;
         DropBoxSettings settings;
+        ISlkStore store;
 
 #region constructors
         /// <summary>Initializes a new instance of <see cref="DropBoxManager"/>.</summary>
         public DropBoxManager(AssignmentProperties assignmentProperties)
         {
             this.assignmentProperties = assignmentProperties;
+            store = assignmentProperties.Store;
             this.settings = assignmentProperties.Store.Settings.DropBoxSettings;
         }
 #endregion constructors
@@ -110,7 +112,7 @@ namespace Microsoft.SharePointLearningKit
                                     try
                                     {
                                         SPUser learner = CurrentUser;
-                                        DropBox dropBox = new DropBox(destinationWeb);
+                                        DropBox dropBox = new DropBox(store, destinationWeb);
                                         AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
                                         AssignmentFolder learnerSubFolder = null;
 
@@ -153,7 +155,7 @@ namespace Microsoft.SharePointLearningKit
                     spSite.CatchAccessDeniedException = false;
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        DropBox dropBox = new DropBox(spWeb);
+                        DropBox dropBox = new DropBox(store, spWeb);
                         AssignmentFolder assignmentFolder = dropBox.GetOrCreateAssignmentFolder(assignmentProperties);
                         assignmentFolder.ApplyPermission(CurrentUser, SPRoleType.Reader);
 
@@ -212,7 +214,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 using (SPWeb web = site.OpenWeb(assignmentProperties.SPWebGuid))
                 {
-                    DropBox dropBox = new DropBox(web);
+                    DropBox dropBox = new DropBox(store, web);
                     return dropBox.AllFiles(assignmentProperties.Id.GetKey());
                 }
             }
@@ -230,7 +232,7 @@ namespace Microsoft.SharePointLearningKit
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
                         spWeb.AllowUnsafeUpdates = true;
-                        DropBox dropBox = new DropBox(spWeb);
+                        DropBox dropBox = new DropBox(store, spWeb);
 
                         string oldAssignmentFolderName = GenerateFolderName(oldAssignmentProperties);
                         string newAssignmentFolderName = FolderName;
@@ -338,7 +340,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        DropBox dropBox = new DropBox(spWeb);
+                        DropBox dropBox = new DropBox(store, spWeb);
                         toReturn = dropBox.LastSubmittedFiles(new SlkUser(user), assignmentProperties.Id.GetKey());
                     }
                 }
@@ -362,7 +364,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        DropBox dropBox = new DropBox(spWeb);
+                        DropBox dropBox = new DropBox(store, spWeb);
 
                         //Get the folder if it exists 
                         AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
@@ -398,7 +400,7 @@ namespace Microsoft.SharePointLearningKit
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
                         Debug("DropBoxManager.CreateAssignmentFolder: Have opened web {0}", spWeb.Url);
-                        DropBox dropBox = new DropBox(spWeb);
+                        DropBox dropBox = new DropBox(store, spWeb);
 
                         //Get the folder if it exists 
                         if (dropBox.GetAssignmentFolder(assignmentProperties) != null)
@@ -441,7 +443,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        DropBox dropBox = new DropBox(spWeb);
+                        DropBox dropBox = new DropBox(store, spWeb);
 
                         //Get the folder if it exists 
                         assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
@@ -518,7 +520,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="web">The web the assignment is for.</param>
         void ApplySubmittedPermissions(SPWeb web)
         {
-            DropBox dropBox = new DropBox(web);
+            DropBox dropBox = new DropBox(store, web);
             AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
             AssignmentFolder learnerSubFolder = null;
 
@@ -624,7 +626,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        DropBox dropBox = new DropBox(spWeb);
+                        DropBox dropBox = new DropBox(store, spWeb);
                         AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
 
                         if (assignmentFolder != null)

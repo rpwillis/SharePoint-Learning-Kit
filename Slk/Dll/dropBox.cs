@@ -23,13 +23,16 @@ namespace Microsoft.SharePointLearningKit
         SPWeb web;
         SlkCulture culture;
         SPList dropBoxList;
+        ISlkStore store;
 
 #region constructors
         /// <summary>Initializes a new instance of <see cref="DropBox"/>.</summary>
+        /// <param name="store">The ISlkStore to use.</param>
         /// <param name="web">The web to create the drop box in.</param>
-        public DropBox(SPWeb web)
+        public DropBox(ISlkStore store, SPWeb web)
         {
             this.web = web;
+            this.store = store;
             culture = new SlkCulture(web);
         }
 #endregion constructors
@@ -428,7 +431,7 @@ namespace Microsoft.SharePointLearningKit
                 dropBoxList = null;
                 dropBoxList.Delete();
                 web.Update();
-                Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(culture.Resources.DropBoxListCreateFailure, e);
+                store.LogError(culture.Resources.DropBoxListCreateFailure, e);
                 throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), culture.Resources.DropBoxListCreateFailure, e.Message));
             }
             catch (Exception)

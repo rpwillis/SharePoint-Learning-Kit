@@ -137,7 +137,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             {
                 // Do not set response codes
 
-                SlkError.WriteToEventLog(ex);
+                SlkStore.LogException(ex);
                 RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle, SlkFrameset.FRM_AssignmentNotAvailableMsgHtml, false);
             }
             catch (Exception ex)
@@ -145,7 +145,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 Response.StatusCode = 500;
                 Response.StatusDescription = "Internal Server Error";
 
-                SlkError.WriteToEventLog(ex);
+                SlkStore.LogException(ex);
                 RegisterError(SlkFrameset.FRM_AssignmentNotAvailableTitle, SlkFrameset.FRM_AssignmentNotAvailableMsgHtml, false);
             }
         }

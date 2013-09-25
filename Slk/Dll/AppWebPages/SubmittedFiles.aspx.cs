@@ -201,7 +201,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     this.contentPanel.Visible = false;
                     this.errorBanner.Clear();
-                    this.errorBanner.AddException(ex);
+                    this.errorBanner.AddException(SlkStore, ex);
                 }
             }
         }

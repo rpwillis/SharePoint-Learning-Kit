@@ -144,7 +144,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         throw;
                     }
 
-                    // don't need SlkError.WriteToEventLog(ex) because we'll write to the event log again
+                    // don't need SlkStore.LogException(ex) because we'll write to the event log again
                     // in RenderQueryCounts
                     results = null;
                 }
@@ -158,7 +158,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 Response.Write(ex.ToString());
                 try
                 {
-                    SlkError.WriteToEventLog(ex);
+                    SlkStore.LogException(ex);
                 }
                 catch (Exception exe)
                 {
@@ -325,7 +325,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             catch (SqlException ex)
             {
-                SlkError.WriteToEventLog(ex);
+                SlkStore.LogException(ex);
                 return -1;
             }
         }

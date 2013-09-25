@@ -268,7 +268,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (SafeToDisplayException exception)
             {
                 errorBanner.Clear();
-                errorBanner.AddException(exception);
+                errorBanner.AddException(SlkStore, exception);
             }
         }
 
@@ -325,7 +325,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (UserNotFoundException ex)
             {
                 errorBanner.Clear();
-                errorBanner.AddException(ex);
+                errorBanner.AddException(SlkStore, ex);
             }
 
             catch (SafeToDisplayException ex)
@@ -335,12 +335,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     DocLibLink.Text = Server.HtmlEncode(SPList.Title);
                     ResourceFileName.Text = Server.HtmlEncode(SPListItem.Name);
                 }
-                errorBanner.AddException(ex);
+                errorBanner.AddException(SlkStore, ex);
             }
 
             catch (Exception ex)
             {
-                errorBanner.AddException(ex);
+                errorBanner.AddException(SlkStore, ex);
             }
         }
 
@@ -469,7 +469,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (Exception ex)
             {
                 contentPanel.Visible = false;
-                errorBanner.AddException(ex);
+                errorBanner.AddException(SlkStore, ex);
             }
         }
 
@@ -498,7 +498,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (Exception ex)
             {
                 contentPanel.Visible = false;
-                errorBanner.AddException(ex);
+                errorBanner.AddException(SlkStore, ex);
             }
         }
 

@@ -1841,7 +1841,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             SetAppVisible(isAppVisible);
             //Enable the Error Block
             //Log the Exception 
-            errorBanner.AddException(ex);
+            errorBanner.AddException(SlkStore, ex);
         }
         #endregion
 
@@ -1904,7 +1904,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 //Log the Exception 
                 WriteError(ex, true);
-                SlkError.WriteToEventLog(ex);
+                SlkStore.LogException(ex);
             }
         }
 
@@ -1993,7 +1993,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             if (groupFailureDetails != null)
             {
-                SlkError.WriteToEventLog("{0}", groupFailureDetails);
+                SlkStore.LogError("{0}", groupFailureDetails);
             }
         }
     }

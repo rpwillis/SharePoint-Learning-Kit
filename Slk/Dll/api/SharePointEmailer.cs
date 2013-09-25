@@ -12,12 +12,15 @@ namespace Microsoft.SharePointLearningKit
     {
         List<Email> cachedEmails = new List<Email>();
         SPWeb web;
+        ISlkStore store;
 
 #region constructors
         /// <summary>Initializes a new instance of <see cref="SharePointEmailer"/>.</summary>
+        /// <param name="store">The ISlkStore to log errors to.</param>
         /// <param name="web">The <see cref="SPWeb"/> to use.</param>
-        public SharePointEmailer(SPWeb web)
+        public SharePointEmailer(ISlkStore store, SPWeb web)
         {
+            this.store = store;
             this.web = web;
         }
 #endregion constructors
@@ -66,8 +69,7 @@ namespace Microsoft.SharePointLearningKit
             }
             catch (Exception e)
             {
-                SlkError error;
-                SlkError.WriteException(e, out error);
+                SlkError.WriteException(store, e);
                 throw;
             }
         }
