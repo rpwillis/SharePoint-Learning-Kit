@@ -416,7 +416,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 else
                 {
                     AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
-                    if (files.Length > 0)
+                    if (files != null && files.Length > 0)
                     {
                         SetUpSubmittedFileHyperLink(lnkLearnerItem, files, item);
                     }

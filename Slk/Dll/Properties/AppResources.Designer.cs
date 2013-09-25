@@ -1974,7 +1974,7 @@ namespace Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to change Drop Box permissions to {0} for {0}..
+        ///   Looks up a localized string similar to Failed to change Drop Box permissions to {0} for {1}..
         /// </summary>
         internal static string ErrorSavingDropBoxPermissions {
             get {
