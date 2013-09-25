@@ -257,6 +257,9 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="exception"></param>
         void LogException(Exception exception);
 
+        /// <summary>Logs an exception.</summary>
+        void LogError(string format, params object[] arguments);
+
         /// <summary>Starts a transaction.</summary>
         ICurrentJob CreateCurrentJob();
     }

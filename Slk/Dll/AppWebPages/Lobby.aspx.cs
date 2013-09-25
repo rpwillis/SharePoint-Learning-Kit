@@ -436,8 +436,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             catch (InvalidOperationException ex)
             {
-                SlkError.WriteToEventLog(ex);
-                errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyInvalidLearnerAssignmentId, LearnerAssignmentGuidId.ToString()));
+                SlkStore.LogException(ex);
+                errorBanner.AddException(SlkStore, new SafeToDisplayException(AppResources.LobbyInvalidLearnerAssignmentId, LearnerAssignmentGuidId.ToString()));
                 contentPanel.Visible = false;
             }
             catch (ThreadAbortException)
@@ -447,7 +447,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             catch (Exception exception)
             {
-                errorBanner.AddException(exception);
+                errorBanner.AddException(SlkStore, exception);
                 contentPanel.Visible = false;
             }
         }
@@ -649,7 +649,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 catch (InvalidOperationException)
                 {
                     // state transition isn't supported
-                    errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyCannotChangeState));
+                    errorBanner.AddException(SlkStore, new SafeToDisplayException(AppResources.LobbyCannotChangeState));
                 }
                 // Clear the object so it will refresh from the database
                 LearnerAssignmentProperties = null;
@@ -657,8 +657,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (LearningStoreConstraintViolationException exception)
             {
                 // any exceptions here will be handled in PreRender
-                errorBanner.AddException(new SafeToDisplayException(AppResources.LobbySubmitException));
-                SlkError.WriteToEventLog(exception);
+                errorBanner.AddException(SlkStore, new SafeToDisplayException(AppResources.LobbySubmitException));
+                SlkStore.LogException(exception);
             }
         }
 
@@ -690,8 +690,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             catch (Exception exception)
             {
-                errorBanner.AddException(new SafeToDisplayException(AppResources.LobbyDeleteException));
-                SlkError.WriteToEventLog(exception);
+                errorBanner.AddException(SlkStore, new SafeToDisplayException(AppResources.LobbyDeleteException));
+                SlkStore.LogException(exception);
             }
         }
 

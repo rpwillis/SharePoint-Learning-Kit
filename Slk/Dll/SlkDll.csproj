@@ -189,6 +189,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="WebParts\AssignmentListWebPart.cs" />
+    <Compile Include="WebParts\ErrorBanner.cs" />
     <Compile Include="WebParts\QuickAssignmentWebPart.cs" />
     <Compile Include="WebParts\selfAssignWebPart.cs" />
     <Compile Include="WebParts\slkMembersWebPart.cs" />

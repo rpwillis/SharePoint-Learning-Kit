@@ -224,7 +224,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 this.contentPanel.Visible = false;
                 this.errorBanner.Clear();
-                this.errorBanner.AddException(ex);
+                this.errorBanner.AddException(SlkStore, ex);
                 
             }
         }
@@ -470,7 +470,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 this.contentPanel.Visible = false;
                 this.errorBanner.Clear();
-                this.errorBanner.AddException(ex);
+                this.errorBanner.AddException(SlkStore, ex);
                
             }
 
@@ -595,7 +595,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 this.contentPanel.Visible = false;
                 this.errorBanner.Clear();
-                this.errorBanner.AddException(displayEx);
+                this.errorBanner.AddException(SlkStore, displayEx);
             }
         }
 

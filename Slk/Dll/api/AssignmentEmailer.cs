@@ -27,7 +27,7 @@ namespace Microsoft.SharePointLearningKit
         {
             site = new SPSite(siteId);
             web = site.OpenWeb(webId);
-            InitializeEmailSender(emailSender);
+            InitializeEmailSender(emailSender, assignment.Store);
         }
 
         /// <summary>Initializes a new instance of <see cref="AssignmentEmailer"/>.</summary>
@@ -55,7 +55,7 @@ namespace Microsoft.SharePointLearningKit
         public AssignmentEmailer(AssignmentProperties assignment, EmailSettings settings, SPWeb web, IEmailSender emailSender) : this(assignment, settings)
         {
             this.web = web;
-            InitializeEmailSender(emailSender);
+            InitializeEmailSender(emailSender, assignment.Store);
         }
 
         /// <summary>Initializes a new instance of <see cref="AssignmentEmailer"/>.</summary>
@@ -171,11 +171,11 @@ namespace Microsoft.SharePointLearningKit
 #endregion public methods
 
 #region private methods
-        private void InitializeEmailSender(IEmailSender emailSender)
+        private void InitializeEmailSender(IEmailSender emailSender, ISlkStore store)
         {
             if (emailSender == null)
             {
-                this.emailSender = new SharePointEmailer(web);
+                this.emailSender = new SharePointEmailer(store, web);
             }
             else
             {

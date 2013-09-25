@@ -216,7 +216,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (Exception ex)
             {
                 contentPanel.Visible = false;
-                errorBanner.AddException(ex);
+                errorBanner.AddException(SlkStore, ex);
             }
         }
         #endregion
@@ -277,7 +277,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (Exception ex)
             {
                 pageHasErrors = true;
-                errorBanner.AddException(ex);
+                errorBanner.AddException(SlkStore, ex);
             }
         }
         /// <summary>
@@ -317,7 +317,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (Exception ex)
             {
                 pageHasErrors = true;
-                errorBanner.AddException(ex);
+                errorBanner.AddException(SlkStore, ex);
             }
         }
         /// <summary>
@@ -343,7 +343,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (Exception ex)
             {
                 pageHasErrors = true;
-                errorBanner.AddException(ex);
+                errorBanner.AddException(SlkStore, ex);
             }
         }
         /// <summary>
@@ -369,7 +369,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (Exception ex)
             {
                 pageHasErrors = true;
-                errorBanner.AddException(ex);
+                errorBanner.AddException(SlkStore, ex);
             }
         }
         /// <summary>
@@ -408,7 +408,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 pageHasErrors = true;
                 contentPanel.Visible = false;
-                errorBanner.AddException(ex);
+                errorBanner.AddException(SlkStore, ex);
             }
         }
 
@@ -629,7 +629,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             catch (InvalidOperationException exception)
             {
-                SlkError.WriteToEventLog(exception);
+                SlkStore.LogException(exception);
                 throw new SafeToDisplayException(AppResources.GradingInvalidAssignmentId, AssignmentId);
             }
         }

@@ -205,11 +205,18 @@ namespace Microsoft.SharePointLearningKit
 #endregion internal methods
 
 #region public methods
-        /// <summary>Logs an exception.</summary>
-        /// <param name="exception">The Exception to log.</param>
+        /// <summary>See <see cref="ISlkStore.LogException"/>.</summary>
         public void LogException(Exception exception)
         {
             Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(exception);
+        }
+
+        /// <summary>Logs an error.</summary>
+        /// <param name="format">The message format string.</param>
+        /// <param name="arguments">The arguments.</param>
+        public void LogError(string format, params object[] arguments)
+        {
+            Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(format, arguments);
         }
 
         /// <summary>See <see cref="ISlkStore.CreatePackageReader"/>.</summary>
@@ -1059,7 +1066,7 @@ namespace Microsoft.SharePointLearningKit
             }
             catch (InvalidOperationException e)
             {
-                LogError(e);
+                LogException(e);
                 throw new SafeToDisplayException(AppResources.PopulateLearnerAssignmentIdsInvalidException);
             }
         }
@@ -2585,10 +2592,6 @@ namespace Microsoft.SharePointLearningKit
             return query;
         }
 
-        void LogError(Exception e)
-        {
-            Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(e);
-        }
 #endregion private methods
 
 #region CurrentJob

@@ -345,10 +345,9 @@ namespace Microsoft.SharePointLearningKit
                     ProcessSearchResults(searcher, users);
                 }
             }
-            catch (COMException e)
+            catch (COMException)
             {
                 errors.Add(string.Format(SlkCulture.GetCulture(), AppResources.GroupEnumerationFail, group.Name));
-                Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(e);
             }
 
             return users;

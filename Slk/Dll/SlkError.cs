@@ -169,11 +169,13 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
         #region WriteException
         /// <summary>
         /// writes the exeception to the event Log and outs the SlkError Object. 
-        /// </summary>    
-        /// <param name="ex">Exception</param>       
-        /// <param name="slkError">SlkError Object.</param>
-        public static void WriteException(Exception ex, out SlkError slkError)
+        /// </summary>
+        /// <param name="store">The ISlkStore to write exceptions to.</param>
+        /// <param name="ex">Exception</param>
+        /// <returns></returns>
+        public static SlkError WriteException(ISlkStore store, Exception ex)
         {           
+            SlkError slkError = null;
             //Check for Exception Type. For all Handled Exceptions
             //Add the Exception Message in Error 
             //Or Add the Standard Error Message  and 
@@ -202,10 +204,12 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
                 }     
 
 
-                slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(errorText));
                 //log the exception in EventLog. 
-                SlkError.WriteToEventLog(ex);
+                store.LogException(ex);
+                slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(errorText));
             }           
+
+            return slkError;
         }
         #endregion
 

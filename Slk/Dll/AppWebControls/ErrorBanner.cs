@@ -144,18 +144,15 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>
         /// Adds the Exeception to the Error Collection and log        
         /// the Exeception details in event Log
-		/// The Exception message will be HtmlEncoded.
-		/// </summary>
-        /// <param name="ex">Exception</param> 
-        public void AddException(Exception ex)
+                /// The Exception message will be HtmlEncoded.
+                /// </summary>
+                /// <param name="store">The ISlkStore to log to.</param>
+                /// <param name="ex">Exception</param>
+        public void AddException(ISlkStore store, Exception ex)
         {
-            //adds the Error to the Error Collection
-           
-            SlkError slkError;
-            
             //Call the WriteException to Add the Error Message 
             //to collection and log the exception in EventLog as needed.                    
-            SlkError.WriteException(ex, out slkError);
+            SlkError slkError = SlkError.WriteException(store, ex);
 
             //Add the Error object to collection
             AddError(slkError);

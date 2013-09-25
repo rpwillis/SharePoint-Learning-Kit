@@ -295,12 +295,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             SqlException sqlEx = ex as SqlException;
                             if (sqlEx != null)
                             {                           
-                                WebParts.ErrorBanner.WriteException(sqlEx, out slkError);
+                                slkError = WebParts.ErrorBanner.WriteException(SlkStore, sqlEx);
                             }
                             else
                             {
-                                SlkError.WriteException(ex, out slkError);
+                                slkError = SlkError.WriteException(SlkStore, ex);
                             }                        
+
                             WebParts.ErrorBanner.RenderErrorItems(hw, slkError);
                         }
 
