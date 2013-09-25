@@ -294,6 +294,11 @@ namespace Microsoft.SharePointLearningKit
             try
             {
                 roleAssignment.RoleDefinitionBindings.Add(roleDefinition);
+
+                if (folder.HasUniqueRoleAssignments == false)
+                {
+                    folder.BreakRoleInheritance(false);
+                }
 #if SP2010
                 folder.RoleAssignments.AddToCurrentScopeOnly(roleAssignment);
 #else

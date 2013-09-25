@@ -1885,6 +1885,6 @@ For security reasons, integrated authentication is strongly recommended.
       <value>Failed to create Drop Box. {0}</value>
   </data>
   <data name="ErrorSavingDropBoxPermissions" xml:space="preserve">
-      <value>Failed to change Drop Box permissions to {0} for {0}.</value>
+      <value>Failed to change Drop Box permissions to {0} for {1}.</value>
   </data>
 </root>

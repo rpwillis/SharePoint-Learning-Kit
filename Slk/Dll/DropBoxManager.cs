@@ -328,7 +328,7 @@ namespace Microsoft.SharePointLearningKit
         {
             if (user == null)
             {
-                throw new ArgumentNullException();
+                return null;
             }
 
             AssignmentFile[] toReturn = null;
