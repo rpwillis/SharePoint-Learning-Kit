@@ -287,23 +287,64 @@ namespace Microsoft.SharePointLearningKit
                 throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), AppResources.DropBoxManagerNoRole, roleType));
             }
 
-            SPRoleAssignment roleAssignment = new SPRoleAssignment(user);
+            SPRoleAssignment roleAssignment = null;
 
             bool currentUnsafeUpdates = web.AllowUnsafeUpdates;
             web.AllowUnsafeUpdates = true;
             try
             {
-                roleAssignment.RoleDefinitionBindings.Add(roleDefinition);
+                bool isNewRoleDefintion = true;
 
                 if (folder.HasUniqueRoleAssignments == false)
                 {
                     folder.BreakRoleInheritance(false);
+                    roleAssignment = new SPRoleAssignment(user);
                 }
+                else
+                {
+                    try
+                    {
+                        roleAssignment = folder.RoleAssignments.GetAssignmentByPrincipal(user);
+                    }
+                    catch (ArgumentException)
+                    {
+                        // No role assignments for user
+                    }
+
+                    if (roleAssignment == null)
+                    {
+                        roleAssignment = new SPRoleAssignment(user);
+                    }
+                    else
+                    {
+                        isNewRoleDefintion = false;
+                        bool needsRoleAdding = true;
+                        foreach (SPRoleDefinition iterator in roleAssignment.RoleDefinitionBindings)
+                        {
+                            if (iterator.Id == roleDefinition.Id)
+                            {
+                                needsRoleAdding = false;
+                                break;
+                            }
+                        }
+
+                        if (needsRoleAdding)
+                        {
+                            roleAssignment.RoleDefinitionBindings.Add(roleDefinition);
+                            roleAssignment.Update();
+                        }
+                    }
+                }
+
+                if (isNewRoleDefintion)
+                {
+                    roleAssignment.RoleDefinitionBindings.Add(roleDefinition);
 #if SP2010
-                folder.RoleAssignments.AddToCurrentScopeOnly(roleAssignment);
-#else
-                folder.RoleAssignments.Add(roleAssignment);
+                    folder.RoleAssignments.AddToCurrentScopeOnly(roleAssignment);
+    #else
+                    folder.RoleAssignments.Add(roleAssignment);
 #endif
+                }
             }
             finally
             {

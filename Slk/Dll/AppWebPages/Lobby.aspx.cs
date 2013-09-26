@@ -233,7 +233,22 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                     else
                     {
-                        CopyDocumentToDropBox();
+                        try
+                        {
+                            CopyDocumentToDropBox();
+                        }
+                        catch (SPException)
+                        {
+                            // Sometimes fails first time
+                            try
+                            {
+                                CopyDocumentToDropBox();
+                            }
+                            catch (SPException exception)
+                            {
+                                SlkStore.LogException(exception);
+                            }
+                        }
 
                         if (assignmentFile != null && assignmentFile.IsOffice2010File && SlkStore.Settings.DropBoxSettings.UseOfficeWebApps)
                         {
@@ -745,7 +760,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
            DropBoxManager manager = new DropBoxManager(AssignmentProperties);
            AssignmentFile[] files = manager.LastSubmittedFiles();
-           if (files.Length > 0)
+           if (files.Length == 0)
+           {
+               // Intial copy must have failed.
+               CopyDocumentToDropBox();
+           }
+           else if (files.Length > 0)
            {
                assignmentFile = files[0];
            }

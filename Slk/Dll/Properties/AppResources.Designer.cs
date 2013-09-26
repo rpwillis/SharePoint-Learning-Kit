@@ -856,6 +856,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file {0} for assignment {1} does not exist..
+        /// </summary>
+        internal static string AssignmentFileDoesNotExist {
+            get {
+                return ResourceManager.GetString("AssignmentFileDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This name is already used for another assignment..
         /// </summary>
         internal static string AssignmentNameAlreadyUsed {
