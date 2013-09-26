@@ -566,6 +566,10 @@ namespace Microsoft.SharePointLearningKit
 
             SPRoleAssignmentCollection roleAssigns = securable.RoleAssignments;
 
+            while (roleAssigns.Count > 0)
+            {
+                roleAssigns.Remove(0);
+            }
             for (int i = roleAssigns.Count-1; i >= 0; i--)
             {
                 roleAssigns.Remove(i);

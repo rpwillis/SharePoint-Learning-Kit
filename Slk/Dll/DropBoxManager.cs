@@ -93,11 +93,17 @@ namespace Microsoft.SharePointLearningKit
                     throw new SafeToDisplayException(SlkFrameset.FRM_DocumentNotFound);
                 }
 
-                using (SPSite sourceSite = new SPSite(fileLocation.SiteId,SPContext.Current.Site.Zone))
+                using (SPSite sourceSite = new SPSite(fileLocation.SiteId))
                 {
                     using (SPWeb sourceWeb = sourceSite.OpenWeb(fileLocation.WebId))
                     {
                         SPFile file = sourceWeb.GetFile(fileLocation.FileId);
+                        if (file.Exists == false)
+                        {
+                            string message = string.Format(CultureInfo.CurrentUICulture, AppResources.AssignmentFileDoesNotExist, file.Name, assignmentProperties.Title);
+                            store.LogError(message);
+                            throw new SafeToDisplayException(message);
+                        }
 
                         if (MustCopyFileToDropBox(file.Name))
                         {
@@ -269,7 +275,7 @@ namespace Microsoft.SharePointLearningKit
                                 if (learnerSubFolder == null)
                                 {
                                     // Create a new subfolder for this learner
-                                    assignmentFolder.CreateLearnerAssignmentFolder(learner.SPUser);
+                                    learnerSubFolder = assignmentFolder.CreateLearnerAssignmentFolder(learner.SPUser);
                                 }
 
                                 if (result != null)
@@ -634,21 +640,18 @@ namespace Microsoft.SharePointLearningKit
                             // Get the learner sub folder
                             AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(user);
 
-                            //For Course Manager assignments, if the folder is not created yet
                             if (learnerSubFolder == null)
                             {
                                 learnerSubFolder = assignmentFolder.CreateLearnerAssignmentFolder(user);
                             }
                             
                             // Apply learner permissions
-                            assignmentFolder.RemovePermissions(user);
                             if (learnerPermissions == SPRoleType.None)
                             {
                                 learnerSubFolder.RemovePermissions(user);
                             }
                             else
                             {
-                                assignmentFolder.ApplyPermission(user, SPRoleType.Reader);
                                 learnerSubFolder.ApplyPermission(user, learnerPermissions);
                             }
 
@@ -675,7 +678,6 @@ namespace Microsoft.SharePointLearningKit
             // otherwise, learner permissions will be removed from the learner's subfolder in the Drop Box document library
             if (assignmentProperties.AutoReturn == false)
             {
-                assignmentFolder.RemovePermissions(CurrentUser);
                 learnerSubFolder.RemovePermissions(CurrentUser);
             }
 

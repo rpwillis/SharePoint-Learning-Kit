@@ -1991,7 +1991,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.AppEnumerationWarning, enumerationWarning.ToString()));
             }
 
-            if (groupFailureDetails != null)
+            if (string.IsNullOrEmpty(groupFailureDetails) == false)
             {
                 SlkStore.LogError("{0}", groupFailureDetails);
             }

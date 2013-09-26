@@ -2650,7 +2650,7 @@ namespace Microsoft.SharePointLearningKit
         /// 
         /// <param name="args">Formatting arguments.</param>
         ///
-        public static void WriteToEventLog(string format, params object[] args)
+        static void WriteToEventLog(string format, params object[] args)
         {
             SlkUtilities.ImpersonateAppPool(delegate()
             {
