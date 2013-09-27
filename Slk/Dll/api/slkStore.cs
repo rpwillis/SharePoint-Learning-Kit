@@ -205,6 +205,28 @@ namespace Microsoft.SharePointLearningKit
 #endregion internal methods
 
 #region public methods
+        /// <summary>See <see cref="ISlkStore.VersionLibrary"/>.</summary>
+        public void VersionLibrary(SPDocumentLibrary list)
+        {
+            if (list.EnableVersioning == false)
+            {
+
+                SPSecurity.RunWithElevatedPrivileges(delegate{
+                    using (SPSite site = new SPSite(list.ParentWeb.Site.ID))
+                    {
+                        using (SPWeb web = site.OpenWeb(list.ParentWeb.ID))
+                        {
+                            web.AllowUnsafeUpdates = true;
+                            SPList listToChange = web.Lists[list.ID];
+                            listToChange.EnableVersioning = true;
+                            listToChange.Update();
+                        }
+                    }
+                });
+
+            }
+        }
+
         /// <summary>See <see cref="ISlkStore.LogException"/>.</summary>
         public void LogException(Exception exception)
         {

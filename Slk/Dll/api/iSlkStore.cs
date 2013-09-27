@@ -262,6 +262,10 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Starts a transaction.</summary>
         ICurrentJob CreateCurrentJob();
+
+        /// <summary>Versions a library if not already versioned.</summary>
+        /// <param name="list">The library to version.</param>
+        void VersionLibrary(SPDocumentLibrary list);
     }
 }
 

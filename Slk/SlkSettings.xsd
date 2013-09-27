@@ -151,6 +151,7 @@
 			<xs:attribute name="PackageCacheExpirationMinutes" type="xs:int" use="optional" />
 			<xs:attribute name="PackageCacheLocation" type="xs:string" use="required" />
 			<xs:attribute name="UseMasterPageForApplicationPages" type="xs:boolean" use="optional" />
+			<xs:attribute name="AutoVersionLibrariesIfUnversioned" type="xs:boolean" use="optional" />
 			<xs:attribute name="UserWebListMruSize" type="xs:int" use="required" />
 		</xs:complexType>
 	</xs:element>
