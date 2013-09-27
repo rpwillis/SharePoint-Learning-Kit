@@ -145,6 +145,9 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         public int UserWebListMruSize { get; private set; }
 
+        ///<summary>Indicates whether to automatically version document libraries if they are unversioned.</summary>
+        public bool AutoVersionLibrariesIfUnversioned { get; private set; }
+
         ///<summary>Indicates whether to use the standard master page for the SLK application pages.</summary>
         public bool UseMasterPageForApplicationPages { get; private set; }
 
@@ -425,10 +428,6 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        void ParseEmailSettings(XmlReader reader)
-        {
-        }
-
         void ParseSettingsAttributes(XmlReader xmlReader)
         {
             // parse "ApprovedAttachmentTypes" attribute
@@ -479,6 +478,7 @@ namespace Microsoft.SharePointLearningKit
             MaxAttachmentKilobytes = xmlReader.ReadContentAsInt();
             HideDisabledUsers = ParseAttributeAsBoolean(xmlReader, "HideDisabledUsers");
             UseMasterPageForApplicationPages = ParseAttributeAsBoolean(xmlReader, "UseMasterPageForApplicationPages");
+            AutoVersionLibrariesIfUnversioned = ParseAttributeAsBoolean(xmlReader, "AutoVersionLibrariesIfUnversioned");
             UseGrades = ParseAttributeAsBoolean(xmlReader, "UseGrades");
             LearnerReportUrl = ParseAttributeAsString(xmlReader, "LearnerReportUrl");
 

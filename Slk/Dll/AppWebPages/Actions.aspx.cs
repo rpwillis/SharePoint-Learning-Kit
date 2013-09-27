@@ -338,6 +338,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 errorBanner.AddException(SlkStore, ex);
             }
 
+            catch (ThreadAbortException)
+            {
+                // Calling Response.Redirect throws a ThreadAbortException
+            }
             catch (Exception ex)
             {
                 errorBanner.AddException(SlkStore, ex);
@@ -759,7 +763,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // no minor versions or limited version number warnings
             if (!SPList.EnableVersioning || SPList.MajorVersionLimit != 0 || SPList.MajorWithMinorVersionsLimit != 0)
             {
-                errorBanner.AddError(ErrorType.Warning, PageCulture.Format(AppResources.ActionsVersioningOff, Server.HtmlEncode(SPList.Title)));
+                if (SlkStore.Settings.AutoVersionLibrariesIfUnversioned)
+                {
+                    SlkStore.VersionLibrary((SPDocumentLibrary)SPList);
+                    Response.Redirect(Request.RawUrl, true);
+                }
+                else
+                {
+                    errorBanner.AddError(ErrorType.Warning, PageCulture.Format(AppResources.ActionsVersioningOff, Server.HtmlEncode(SPList.Title)));
+                }
             }
 
             // If the current file isn't a published version, show a warning.

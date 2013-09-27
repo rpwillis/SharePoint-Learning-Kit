@@ -8,6 +8,7 @@
     PackageCacheExpirationMinutes="4320"
     PackageCacheLocation="%TEMP%\SLK_PC"
     UseMasterPageForApplicationPages="false"
+    AutoVersionLibrariesIfUnversioned="false"
     UserWebListMruSize="6">
 
   <MimeTypeMapping Extension=".css" MimeType="text/css" />
