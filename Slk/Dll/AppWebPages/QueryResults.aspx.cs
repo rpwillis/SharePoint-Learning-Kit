@@ -641,10 +641,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 }
                                 else
                                     newSort = columnIndex + 1;
-                                hw.AddAttribute(HtmlTextWriterAttribute.Title,
-                                    String.Format(CultureInfo.InvariantCulture,
-                                                  "Sort by {0}", 
-                                                  columnDef.Title));
+                                hw.AddAttribute(HtmlTextWriterAttribute.Title, PageCulture.Format(AppResources.QueryResultsSortBy, columnDef.Title));
                                 hw.AddAttribute(HtmlTextWriterAttribute.Href,
                                     GetAdjustedQueryString(QueryStringKeys.Sort, 
                                                            newSort.ToString(CultureInfo.InvariantCulture)));
@@ -685,23 +682,33 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <param name="hw">The HtmlTextWriter to write to.</param>
         void RenderFileSubmissionCell(RenderedCell renderedCell, WebNameRenderedCell webNameRenderedCell, Guid learnerAssignmentGUID, HtmlTextWriter hw)
         {
-            if (renderedCell.ToString().Equals(AppResources.AlwpFileSubmissionSubmitText))
+            // This is a bit of a hack since the query returns an unlocalized string. Next time the schema is changed would be best
+            // to change to return integer values representing these. No point making a sql change just for this though.
+            if (renderedCell.ToString() == "Submit File(s)")
             {
                 RenderFileSubmissionCellAsSubmitLink(
                     "{0}/_layouts/SharePointLearningKit/FilesUploadPage.aspx?LearnerAssignmentId={1}",
                     webNameRenderedCell,
                     learnerAssignmentGUID,
-                    renderedCell.ToString(),
+                    PageCulture.Format(AppResources.AlwpFileSubmissionSubmitText),
                     hw);
             }
-            else if (renderedCell.ToString().Equals(AppResources.AlwpFileSubmissionSubmittedText))
+            else if (renderedCell.ToString() == "Submitted LINK")
             {
                 RenderFileSubmissionCellAsSubmittedLink(
                     "{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}",
                     webNameRenderedCell,
                     learnerAssignmentGUID,
-                    renderedCell.ToString().Replace(" LINK",string.Empty),
+                    PageCulture.Format(AppResources.LearnerAssignmentStatusCompleted),
                     hw);
+            }
+            else if (renderedCell.ToString() == "Submitted")
+            {
+                hw.WriteEncodedText(PageCulture.Format(AppResources.LearnerAssignmentStatusCompleted));
+            }
+            else if (renderedCell.ToString() == "Not Available")
+            {
+                hw.WriteEncodedText(PageCulture.Format(AppResources.GradingFileSubmissionNA));
             }
             else
             {

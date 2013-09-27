@@ -1886,5 +1886,8 @@ For security reasons, integrated authentication is strongly recommended.
   <data name="AssignmentFileDoesNotExist" xml:space="preserve">
       <value>The file {0} for assignment {1} does not exist.</value>
   </data>
+  <data name="QueryResultsSortBy" xml:space="preserve">
+      <value>Sort by {0}.</value>
+  </data>
 AssignmentFileDoesNotExist
 </root>

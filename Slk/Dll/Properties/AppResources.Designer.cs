@@ -3523,6 +3523,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sort by {0}..
+        /// </summary>
+        internal static string QueryResultsSortBy {
+            get {
+                return ResourceManager.GetString("QueryResultsSortBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Instructor Query Set.
         /// </summary>
         internal static string QuerySetTitleInstructor {
