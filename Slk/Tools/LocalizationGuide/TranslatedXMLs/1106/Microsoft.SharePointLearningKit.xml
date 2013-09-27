@@ -3290,6 +3290,12 @@ For security reasons, integrated authentication is strongly recommended.
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
+        <ID>QueryResultsSortBy</ID>
+        <Source>Sort by {0}.</Source>
+        <Translation>Trefnu yn ôl {0}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
         <ID>AlwpWepPartDescription</ID>
         <Source>Display the assignments for an instructor or learner.</Source>
         <Translation>Dangos yr aseiniadau ar gyfer hyfforddwr neu ddysgwr.</Translation>

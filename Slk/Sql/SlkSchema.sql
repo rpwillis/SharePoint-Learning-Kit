@@ -26,6 +26,8 @@ CREATE FUNCTION GetLearnerFileSubmissionState(
 @NonELearningStatus int)
 RETURNS varchar(20)
 AS
+-- Do not change these string values without changing QueryResults.RenderFileSubmissionCell.
+-- Make the change next time the schema changes.
 BEGIN
 RETURN CASE WHEN @RootActivityId IS NOT NULL -- e-learning content
 THEN 'Not Available'
