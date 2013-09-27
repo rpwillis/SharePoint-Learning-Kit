@@ -1448,10 +1448,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             lblAssignmentDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description);
 
             // say e.g.: {0:D}, {1:t} where {0} = date, {1} = time;
-            lblAssignmentStartText.Text = PageCulture.Format(AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate);
+            lblAssignmentStartText.Text = PageCulture.Format(AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate.ToLocalTime());
             if (AssignmentProperties.DueDate != null)
             {
-                lblAssignmentDueText.Text = PageCulture.Format(AppResources.SlkDateFormatSpecifier, AssignmentProperties.DueDate.Value);
+                lblAssignmentDueText.Text = PageCulture.Format(AppResources.SlkDateFormatSpecifier, AssignmentProperties.DueDate.Value.ToLocalTime());
             }
 
             if (AssignmentProperties.PointsPossible != null)

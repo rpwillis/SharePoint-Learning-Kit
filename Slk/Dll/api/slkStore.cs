@@ -976,9 +976,9 @@ namespace Microsoft.SharePointLearningKit
                     if (corePropertiesChanged)
                     {
                         properties[Schema.AssignmentItem.Title] = assignment.Title;
-                        properties[Schema.AssignmentItem.StartDate] = assignment.StartDate.ToUniversalTime();
+                        properties[Schema.AssignmentItem.StartDate] = assignment.StartDate;
                         DateTime sd = assignment.StartDate;
-                        DateTime? dueDate = (assignment.DueDate == null) ? (DateTime?) null : assignment.DueDate.Value.ToUniversalTime();
+                        DateTime? dueDate = (assignment.DueDate == null) ? (DateTime?) null : assignment.DueDate.Value;
                         properties[Schema.AssignmentItem.DueDate] = dueDate;
                         properties[Schema.AssignmentItem.PointsPossible] = assignment.PointsPossible;
                         properties[Schema.AssignmentItem.Description] = assignment.Description;
@@ -1125,8 +1125,8 @@ namespace Microsoft.SharePointLearningKit
                     dbProperties[Schema.AssignmentItem.SPSiteGuid] = properties.SPSiteGuid;
                     dbProperties[Schema.AssignmentItem.SPWebGuid] = properties.SPWebGuid;
                     dbProperties[Schema.AssignmentItem.Title] = properties.Title;
-                    dbProperties[Schema.AssignmentItem.StartDate] = properties.StartDate.ToUniversalTime();
-                    dbProperties[Schema.AssignmentItem.DueDate] = ((properties.DueDate == null) ? null : (object) properties.DueDate.Value.ToUniversalTime());
+                    dbProperties[Schema.AssignmentItem.StartDate] = properties.StartDate;
+                    dbProperties[Schema.AssignmentItem.DueDate] = ((properties.DueDate == null) ? null : (object) properties.DueDate.Value);
                     dbProperties[Schema.AssignmentItem.PointsPossible] = properties.PointsPossible;
                     dbProperties[Schema.AssignmentItem.RootActivityId] = properties.RootActivityId;
                     if (properties.IsNonELearning)
