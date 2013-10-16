@@ -1401,6 +1401,9 @@ More information may be available in the server event log.</value>
   <data name="GradingFileSubmissionSubmitted" xml:space="preserve">
     <value>Submitted</value>
   </data>
+  <data name="GradingFileSubmissionSubmittedNoFiles" xml:space="preserve">
+    <value>Submitted with no files</value>
+  </data>
   <data name="AlwpFileSubmissionColumnTitle" xml:space="preserve">
     <value>File Submission</value>
   </data>

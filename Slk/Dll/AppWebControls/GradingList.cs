@@ -167,31 +167,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         }
         #endregion
 
-        #region GetFileSubmissionValue
-        /// <summary>
-        /// Gets the assignment's File Submission Column value.
-        /// </summary>
-        /// <param name="gradingProperties">Grading Properties</param>
-        /// <returns>File Submission State to be displayed in the File Submission Column</returns>
-        public string GetFileSubmissionValue(LearnerAssignmentProperties gradingProperties)
-        {
-            //The package is e-learning content
-            if (AssignmentProperties.IsELearning)
-            {
-                return AppResources.GradingFileSubmissionNA;
-            }
-            else if (gradingProperties.Status == LearnerAssignmentState.Completed || gradingProperties.Status == LearnerAssignmentState.Final)
-            {
-                return AppResources.GradingFileSubmissionSubmitted;
-            }
-            else
-            {
-                return AppResources.GradingFileSubmissionNotSubmitted;
-            }
-        }
-
-        #endregion
-
         #region OnPreRender
         /// <summary>
         ///  Over rides OnPreRender to Render APP 
@@ -441,10 +416,10 @@ namespace Microsoft.SharePointLearningKit.WebControls
             {
                 AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
 
-                if (files.Length == 0)
+                if (files == null || files.Length == 0)
                 {
                     control = new Label();
-                    ((Label)control).Text = AppResources.GradingFileSubmissionSubmitted;
+                    ((Label)control).Text = AppResources.GradingFileSubmissionSubmittedNoFiles;
                 }
                 else
                 {

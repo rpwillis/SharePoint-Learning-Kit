@@ -2386,6 +2386,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Submitted with no files.
+        /// </summary>
+        internal static string GradingFileSubmissionSubmittedNoFiles {
+            get {
+                return ResourceManager.GetString("GradingFileSubmissionSubmittedNoFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Final Score.
         /// </summary>
         internal static string GradingFinalScoreHeaderText {
