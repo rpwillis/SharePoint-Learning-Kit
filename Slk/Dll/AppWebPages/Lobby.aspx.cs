@@ -261,7 +261,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
                 else if (AssignmentProperties.IsNonELearning)
                 {
-                    FindDocumentUrl();
+                    if (AssignmentProperties.IsNoPackageAssignment == false)
+                    {
+                        FindDocumentUrl();
+                    }
                 }
 
                 if (startAssignment && learnerAssignmentStatus == LearnerAssignmentState.NotStarted)
