@@ -37,7 +37,9 @@ namespace Microsoft.SharePointLearningKit
 
             if (web != null)
             {
-#if SP2010
+#if SP2007
+                Culture = web.Locale;
+#else
                 if (web.IsMultilingual)
                 {
                     // Just use the current UI culture as set above
@@ -47,8 +49,6 @@ namespace Microsoft.SharePointLearningKit
                     // Not a multi-lingual site so return the web's locale
                     Culture = web.Locale;
                 }
-#else
-                Culture = web.Locale;
 #endif
             }
 

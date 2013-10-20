@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Version Condition=" '$(Version)' == '' ">2010</Version>
+    <SPVersion Condition=" '$(SPVersion)' == '' ">2010</SPVersion>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D4ECA47D-2E5D-4ACF-B713-37BC4BB585B7}</ProjectGuid>
@@ -16,18 +16,13 @@
     <DelaySign>false</DelaySign>
     <GenerateFullPaths>true</GenerateFullPaths>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SP$(Version)</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SP$(SPVersion)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Microsoft.SharePointLearningKit.XML</DocumentationFile>
@@ -39,7 +34,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;SP$(Version)</DefineConstants>
+    <DefineConstants>TRACE;SP$(SPVersion)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Microsoft.SharePointLearningKit.XML</DocumentationFile>
@@ -51,7 +46,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="..\..\References\$(Version)\Microsoft.SharePoint.dll"/>
+    <Reference Include="..\..\References\$(SPVersion)\Microsoft.SharePoint.dll"/>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -313,8 +308,10 @@
   </Target>
   -->
   <Target Name="AfterBuild">
+      <!--
       <Copy SourceFiles="bin/release/Microsoft.SharePointLearningKit.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
       <Copy SourceFiles="bin/release/Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+      -->
   </Target>
   <PropertyGroup>
     <PostBuildEvent>

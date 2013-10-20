@@ -112,8 +112,13 @@ namespace Microsoft.SharePointLearningKit
         public const string GradingPage = "Grading.aspx";
         public const string FrameSetPage = "Frameset/Frameset.aspx";
 
+#if SP2013
+        public const string SlkUrlPath = "/_layouts/15/SharePointLearningKit/";
+#else
         public const string SlkUrlPath = "/_layouts/SharePointLearningKit/";
-        public const string ImagePath = "/_layouts/SharePointLearningKit/Images/";
+#endif
+
+        public const string ImagePath = SlkUrlPath + "Images/";
         
         public const string InfoIcon = "InfoIcon.gif";
         public const string ErrorIcon = "ErrorIcon.gif";

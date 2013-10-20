@@ -144,7 +144,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             try
             {
                 string webUrl = FindSelectedWeb();
-                string urlFormat = "{0}/_layouts/SharePointLearningKit/{1}.aspx?Location={2}&Title={3}";
+                string urlFormat = "{0}{1}{2}.aspx?Location={3}&Title={4}";
                 string encodedTitle = HttpUtility.UrlEncode(titleBox.Text);
                 string page = "assignmentproperties";
 
@@ -153,7 +153,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                     page = "actions";
                 }
 
-                string url = String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, page, Package.NoPackageLocation, encodedTitle);
+                string url = String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, Constants.SlkUrlPath, page, Package.NoPackageLocation, encodedTitle);
 
                 Page.Response.Redirect(url, true);
             }

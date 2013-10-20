@@ -88,10 +88,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                             hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
                             hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Href, 
-                                            String.Format(CultureInfo.InvariantCulture,
-                                                          "/_layouts/{0}/styles/core.css", 
-                                                          SPWeb.Language));
+                            SlkCulture culture = new SlkCulture(SPWeb);
+                            string cssUrl = String.Format(CultureInfo.InvariantCulture, "/_layouts/{0}/styles/core.css", culture.Culture.LCID);
+                            hw.AddAttribute(HtmlTextWriterAttribute.Href, cssUrl);
                             HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 1, hw);
 
                             //Adds the Theme Css Url to Enable Theming in the frame.

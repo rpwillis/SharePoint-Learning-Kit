@@ -65,9 +65,9 @@ namespace Microsoft.SharePointLearningKit.WebParts
                     {
                         if (item.File != null)
                         {
-                            string url = "{0}/_layouts/SharePointLearningKit/frameset/frameset.aspx?ListId={1}&ItemId={2}&SlkView=Execute&play=true";
+                            string url = "{0}{1}frameset/frameset.aspx?ListId={2}&ItemId={3}&SlkView=Execute&play=true";
                             string serverRelativeUrl = SPControl.GetContextWeb(Context).ServerRelativeUrl;
-                            url = string.Format(CultureInfo.InvariantCulture, url, serverRelativeUrl, item.ParentList.ID.ToString("B"), item.ID);
+                            url = string.Format(CultureInfo.InvariantCulture, url, serverRelativeUrl, Constants.SlkUrlPath, item.ParentList.ID.ToString("B"), item.ID);
 
                             string title = item.Title;
                             if (string.IsNullOrEmpty(title))

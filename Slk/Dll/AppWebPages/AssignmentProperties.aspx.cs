@@ -1416,7 +1416,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 SPFile file = library.RootFolder.Files.Add(destinationUrl, FileUploadDocument.FileBytes, false);
                 file.Update();
 
+#if SP2007
+                if (file.CheckOutStatus != SPFile.SPCheckOutStatus.None)
+#else
                 if (file.CheckOutType != SPFile.SPCheckOutType.None)
+#endif
                 {
                     file.CheckIn(string.Empty, SPCheckinType.MajorCheckIn);
                     file.Update();

@@ -333,7 +333,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="site">The SPSite to retrieve a mapping for.</param>
         ///
         /// <exception cref="SlkNotConfiguredException">
-        /// SLK is not configured for SharePoint site collection <paramref name="spSiteGuid"/>.
+        /// SLK is not configured for SharePoint site collection.
         /// (This configuration is performed in SharePoint Central Administration.)
         /// </exception>
         ///

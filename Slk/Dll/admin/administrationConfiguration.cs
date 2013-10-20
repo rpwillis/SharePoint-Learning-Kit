@@ -23,17 +23,17 @@ namespace Microsoft.SharePointLearningKit
 #region properties
         /// <summary>Set to the name of the database server associated with
         ///     the specified SPSite.  If no database is currently associated with
-        ///     <paramref name="spSiteGuid"/>, this parameter is set to the name of the database
+        ///     the site collection, this parameter is set to the name of the database
         ///     server containing the SharePoint configuration database.
         ///     </summary>
         public string DatabaseServer { get; set; }
         /// <summary>Set to the name of the database associated with the
         ///     specified SPSite.  If no database is currently associated with
-        ///     <paramref name="spSiteGuid"/>, this parameter is set to a default database name.
+        ///     the site collection, this parameter is set to a default database name.
         ///     </summary>
         public string DatabaseName { get; set; }
         /// <summary>Set to <c>true</c> if the database specified by the values
-        ///     returned in <paramref name="databaseServer"/> and <paramref name="databaseName"/>
+        ///     returned in DatabaseServer and DatabaseName
         ///     currently exists, <c>false</c> if not.  This can be used as the default value for the
         ///     "Create a new database" checkbox in Configure.aspx.</summary>
         public bool CreateDatabase { get; set; }
@@ -50,8 +50,8 @@ namespace Microsoft.SharePointLearningKit
         ///     SPSite, this is set to a default value such as "SLK Observer".</summary>
         public string ObserverPermission { get; set; }
         /// <summary>Set to <c>false</c> if both the permission values returned
-        ///     in parameters <paramref name="instructorPermission"/> and
-        ///     <paramref name="learnerPermission"/> already exist in the root SPWeb of the
+        ///     in parameters InstructorPermission and
+        ///     LearnerPermission already exist in the root SPWeb of the
         ///     specified SPSite, <c>true</c> otherwise.  This can be used as the default value
         ///     for the "Create permissions" checkbox in Configure.aspx.</summary>
         public bool CreatePermissions 

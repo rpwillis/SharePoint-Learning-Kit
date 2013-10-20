@@ -55,7 +55,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             // The url to the frameset page is appended with the filename. This allows the browser to interpret the file 
             // type based on the URL, ending in, for instance, .doc.
-            sb.Append(UrlCombine(SPWeb.Url, "_layouts/SharePointLearningKit/Frameset/Frameset.aspx", HttpUtility.UrlPathEncode(fileName)));
+            sb.Append(UrlCombine(SPWeb.Url, Constants.SlkUrlPath, "Frameset/Frameset.aspx", HttpUtility.UrlPathEncode(fileName)));
 
             // Append query parameters
             sb.AppendFormat(CultureInfo.InvariantCulture, "?{0}={1}&{2}={3}", 
@@ -661,7 +661,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             get
             {
                 PlainTextString text = new PlainTextString(ResHelper.GetMessage(SlkFrameset.FRM_Title));
-                HtmlString html = new HtmlString(text);
+                Microsoft.LearningComponents.Frameset.HtmlString html = new Microsoft.LearningComponents.Frameset.HtmlString(text);
                 return html.ToString();
             }
         }

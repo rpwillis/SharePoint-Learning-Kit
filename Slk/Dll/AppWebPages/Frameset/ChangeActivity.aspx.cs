@@ -196,18 +196,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             m_helper.WriteFrameMgrInit();
         }
-
-        /// <summary>Gets url path to the SLK folder that contains our images, theme, etc.</summary>
-        /// <value></value>
-        [SuppressMessage("Microsoft.Usage", "CA2234:PassSystemUriObjectsInsteadOfStrings")]
-        public Uri SlkEmbeddedUIPath
-        {
-            get
-            {
-                return new Uri(Request.Url, "/_layouts/SharePointLearningKit/Frameset/");
-            }
-        }
         #endregion
-
     }
 }

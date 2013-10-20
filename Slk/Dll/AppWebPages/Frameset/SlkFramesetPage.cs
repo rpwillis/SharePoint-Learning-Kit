@@ -80,6 +80,16 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
         }
 
+        /// <summary>Gets url path to the SLK folder that contains our images, theme, etc.</summary>
+        [SuppressMessage("Microsoft.Usage", "CA2234:PassSystemUriObjectsInsteadOfStrings")]
+        public Uri SlkEmbeddedUIPath
+        {
+            get
+            {
+                return new Uri(Request.Url, Constants.SlkUrlPath + "Frameset/");
+            }
+        }
+
         /// <summary>Process a request for a view. If not allowed, register an error and return false.</summary>
         public bool ProcessViewRequest(SessionView view, LearningSession session)
         {

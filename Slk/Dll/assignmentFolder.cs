@@ -339,10 +339,10 @@ namespace Microsoft.SharePointLearningKit
                 if (isNewRoleDefintion)
                 {
                     roleAssignment.RoleDefinitionBindings.Add(roleDefinition);
-#if SP2010
-                    folder.RoleAssignments.AddToCurrentScopeOnly(roleAssignment);
-    #else
+#if SP2007
                     folder.RoleAssignments.Add(roleAssignment);
+#else
+                    folder.RoleAssignments.AddToCurrentScopeOnly(roleAssignment);
 #endif
                 }
             }

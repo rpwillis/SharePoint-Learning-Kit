@@ -125,7 +125,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (currentUrl == null)
                 {
-                    currentUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
+                    currentUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, "Lobby.aspx");
                     currentUrl = String.Format(CultureInfo.InvariantCulture, "{0}?{1}", currentUrl, Request.QueryString);
                 }
                 return currentUrl;
@@ -556,7 +556,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (enableSubmitFiles)
                 {
                     string url = string.Format(CultureInfo.InvariantCulture, 
-                            "{0}/_layouts/SharePointLearningKit/FilesUploadPage.aspx?LearnerAssignmentId={1}", SPWeb.Url, LearnerAssignmentGuidId.ToString());
+                            "{0}{1}FilesUploadPage.aspx?LearnerAssignmentId={2}", SPWeb.Url, Constants.SlkUrlPath, LearnerAssignmentGuidId.ToString());
 
                     slkButtonSubmitFiles.NavigateUrl = url;
                     slkButtonSubmitFiles.Target = "_self";
@@ -594,7 +594,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 if (assignmentFiles.Length != 1)
                 {
-                    string onClickUrl = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", SPWeb.Url, LearnerAssignmentGuidId.ToString());
+                    string onClickUrl = string.Format("{0}{1}SubmittedFiles.aspx?LearnerAssignmentId={2}", SPWeb.Url, Constants.SlkUrlPath, LearnerAssignmentGuidId.ToString());
                     slkButtonReviewSubmitted.OnClientClick = String.Format(CultureInfo.InvariantCulture, "window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable'); ", onClickUrl);
                 }
                 else
@@ -745,7 +745,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             if (assignmentFiles.Length != 1)
             {
-                return string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", SPWeb.Url, LearnerAssignmentGuidId.ToString());
+                return string.Format("{0}{1}SubmittedFiles.aspx?LearnerAssignmentId={2}", SPWeb.Url, Constants.SlkUrlPath, LearnerAssignmentGuidId.ToString());
             }
             else
             {

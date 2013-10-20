@@ -189,15 +189,15 @@ namespace Microsoft.SharePointLearningKit
 
             if (text.Contains("%url%"))
             {
-                string url = "{0}/_layouts/SharePointLearningKit/Lobby.aspx?LearnerAssignmentId={1}";
-                url = string.Format(CultureInfo.InvariantCulture, url, web.Url, user.AssignmentUserGuidId);
+                string url = "{0}{1}Lobby.aspx?LearnerAssignmentId={1}";
+                url = string.Format(CultureInfo.InvariantCulture, url, web.Url, Constants.SlkUrlPath, user.AssignmentUserGuidId);
                 text = text.Replace("%url%", url);
             }
 
             if (text.Contains("%gradingUrl%"))
             {
-                string url = "{0}/_layouts/SharePointLearningKit/grading.aspx?AssignmentId={1}";
-                url = string.Format(CultureInfo.InvariantCulture, url, web.Url, assignment.Id.GetKey());
+                string url = "{0}{1}grading.aspx?AssignmentId={1}";
+                url = string.Format(CultureInfo.InvariantCulture, url, web.Url, Constants.SlkUrlPath, assignment.Id.GetKey());
                 text = text.Replace("%gradingUrl%", url);
             }
 

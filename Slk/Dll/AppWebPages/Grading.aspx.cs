@@ -303,7 +303,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 SaveGradingList(SaveAction.SaveOnly);
 
-                string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/AssignmentProperties.aspx");
+                string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, "AssignmentProperties.aspx");
                 url = String.Format(CultureInfo.InvariantCulture, "{0}?AssignmentId={1}", url, AssignmentId.ToString());
 
                 Response.Redirect(url, true);
@@ -418,43 +418,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             string redirectUrl = web.ServerRelativeUrl;
             Response.Redirect(redirectUrl, true);
         }
-
-        #region DisplayUploadAndDownloadButtons
-
-        /// <summary>
-        /// This function checks if all learners have completed their assignment in order
-        /// to display the "upload commented files" and "Download All Files" buttons for the instructor
-        /// </summary>
-        private void DisplayUploadAndDownloadButtons()
-        {
-            if (AssignmentProperties.IsCompleted)
-            {
-                slkButtonUpload.Enabled = true;
-                string uploadUrl = LayoutUrlForAssignmentId("CommentedFiles");
-                string uploadClick = "window.open('" + uploadUrl + "','File','toolbar=0,location=0,directories=0,status=1,menubar=no,scrollbars=yes,resizable=yes,width=750,height=350');";
-                slkButtonUpload.OnClientClick = uploadClick;
-
-                slkButtonDownload.Enabled = true;
-                slkButtonDownload.NavigateUrl = LayoutUrlForAssignmentId("DownloadDialog");
-            }
-            else
-            {
-                slkButtonUpload.Enabled = false;
-                slkButtonUpload.ToolTip = AppResources.GradingNotAllLearnersSubmitted;
-
-                slkButtonDownload.Enabled = false;
-                slkButtonDownload.ToolTip = AppResources.GradingNotAllLearnersSubmitted;
-            }
-        }
-
-        /// <summary>Builds a url in the layouts directory which the Assignment ID as a query string paramenter.</summary>
-        string LayoutUrlForAssignmentId(string page)
-        {
-            string baseUrl = "{0}/_layouts/SharePointLearningKit/{1}.aspx?{2}={3}";
-            return string.Format(CultureInfo.InvariantCulture, baseUrl, SPWeb.Url, page, QueryStringKeys.AssignmentId, AssignmentId);
-        }
-
-        #endregion DisplayUploadAndDownloadButtons
 
         #region SetResourceText
         /// <summary>

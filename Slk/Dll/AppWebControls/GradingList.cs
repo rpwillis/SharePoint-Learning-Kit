@@ -443,7 +443,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
             if (files.Length > 1)
             {
-                string url = string.Format("{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}", slkAppBasePage.SPWeb.Url, item.LearnerAssignmentGuidId);
+                string url = string.Format("{0}{1}SubmittedFiles.aspx?LearnerAssignmentId={2}", slkAppBasePage.SPWeb.Url, Constants.SlkUrlPath, item.LearnerAssignmentGuidId);
                 string script = string.Format("window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable');return false;", url);
                 link.Attributes.Add("onclick", script);
                 link.NavigateUrl = "#";
