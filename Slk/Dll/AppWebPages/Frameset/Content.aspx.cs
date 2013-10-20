@@ -631,16 +631,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
         }
 
         #region Called from aspx
-        /// <summary>Gets url path to the SLK folder that contains our images, theme, etc.</summary>
-        [SuppressMessage("Microsoft.Usage", "CA2234:PassSystemUriObjectsInsteadOfStrings")]
-        public Uri SlkEmbeddedUIPath
-        {
-            get
-            {
-                return new Uri(Request.Url, "/_layouts/SharePointLearningKit/Frameset/");
-            }
-        }
-
         /// <summary>The title html for an error.</summary>
         public string ErrorTitleHtml
         {

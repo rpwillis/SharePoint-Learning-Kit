@@ -296,14 +296,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 }
             }
         }
-
-        private Uri SlkEmbeddedUIPath
-        {
-            get
-            {
-                return new Uri(Request.Url, "/_layouts/SharePointLearningKit/Frameset/");
-            }
-        }
     }
 
     // Hidden field names that are unique to SLK.

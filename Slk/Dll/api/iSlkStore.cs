@@ -66,7 +66,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Creates a new SharePoint Learning Kit assignment. </summary>
         /// <param name="properties">Properties of the new assignment.  Note that, within
         ///     <c>AssignmentProperties.Instructors</c> and <c>AssignmentProperties.Learners</c>, all
-        ///     properties except <c>UserId</c> are ignored.  Also, if <paramref name="slkRole"/> is
+        ///     properties except <c>UserId</c> are ignored.  Also, if slkRole is
         ///     <c>SlkRole.Learner</c>, then <c>AssignmentProperties.Instructors</c> must be
         ///     empty, and <c>AssignmentProperties.Learners</c> must contain only the current user.
         ///  </param>

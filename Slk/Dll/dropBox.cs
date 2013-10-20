@@ -385,12 +385,20 @@ namespace Microsoft.SharePointLearningKit
         {
             //This is done separately so the internal names are consistent.
             // Change name to internationalized name
+#if SP2007
+            CultureInfo uiCulture = CultureInfo.CurrentUICulture;
+#else
             foreach (CultureInfo uiCulture in web.SupportedUICultures)
+#endif
             {
                 AppResourcesLocal resources = new AppResourcesLocal();
                 resources.Culture = uiCulture;
 
+#if SP2007
+                DropBoxList.Title = resources.DropBoxTitle;
+#else
                 DropBoxList.TitleResource.SetValueForUICulture(uiCulture, resources.DropBoxTitle);
+#endif
                 ChangeColumnTitle(ColumnAssignmentKey, resources.DropBoxColumnAssignmentKey, uiCulture);
                 ChangeColumnTitle(ColumnAssignmentName, resources.DropBoxColumnAssignmentName, uiCulture);
                 ChangeColumnTitle(ColumnAssignmentDate, resources.DropBoxColumnAssignmentDate, uiCulture);
@@ -399,6 +407,7 @@ namespace Microsoft.SharePointLearningKit
                 ChangeColumnTitle(ColumnLearner, resources.DropBoxColumnLearner, uiCulture);
                 ChangeColumnTitle(ColumnLearnerId, resources.DropBoxColumnLearnerId, uiCulture);
             }
+
             DropBoxList.Update();
         }
 
@@ -466,7 +475,11 @@ namespace Microsoft.SharePointLearningKit
         void ChangeColumnTitle(string columnKey, string newName, CultureInfo uiCulture)
         {
             SPField field = DropBoxList.Fields[columnKey];
+#if SP2007
+            field.Title = newName;
+#else
             field.TitleResource.SetValueForUICulture(uiCulture, newName);
+#endif
             field.Update();
         }
 
@@ -550,10 +563,10 @@ namespace Microsoft.SharePointLearningKit
             folder.Update();
         }
 
-#if SP2010
-        static void RemoveRoleAssignments(SPSecurableObject securable, SPWeb web)
-#else
+#if SP2007
         static void RemoveRoleAssignments(ISecurableObject securable, SPWeb web)
+#else
+        static void RemoveRoleAssignments(SPSecurableObject securable, SPWeb web)
 #endif
         {
             // There's a bug with BreakRoleInheritance which means that passing false resets AllowUnsafeUpdates to

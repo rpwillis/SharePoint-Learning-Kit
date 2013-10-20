@@ -482,7 +482,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             try
             {
                 Guid learnerAssignmentGuidId = AssignmentProperties.CreateSelfAssignment(SlkStore, SPWeb, package.Location, OrganizationIndex);
-                string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, "_layouts/SharePointLearningKit/Lobby.aspx");
+                string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, "Lobby.aspx");
                 url = String.Format(CultureInfo.InvariantCulture, 
                         "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
 
@@ -508,7 +508,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         string AssignmentSiteUrl(string webUrl)
         {
-            string urlFormat = "{0}/_layouts/SharePointLearningKit/AssignmentProperties.aspx?Location={1}{2}{3}";
+            string urlFormat = "{0}{1}AssignmentProperties.aspx?Location={2}{3}{4}";
             string orgIndex = null;
             string titleValue = null;
             SharePointFileLocation location = null;
@@ -533,7 +533,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 titleValue = "&Title=" + title;
             }
 
-            return String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, location.ToString(), orgIndex, titleValue);
+            return String.Format(CultureInfo.InvariantCulture, urlFormat, webUrl, Constants.SlkUrlPath, location.ToString(), orgIndex, titleValue);
         }
 
         private void PopulateSiteListControl(List<WebListItem> webList)
@@ -750,10 +750,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             // Make sure that the package isn't checked out.
             //Using LoginName instead of Sid as Sid may be empty while using FBA
-#if SP2010
-            if (SPFile.CheckOutType != SPFile.SPCheckOutType.None && SPFile.CheckedOutBy.LoginName.Equals(SPWeb.CurrentUser.LoginName))
-#else
+#if SP2007
             if (SPFile.CheckOutStatus != SPFile.SPCheckOutStatus.None && SPFile.CheckedOutBy.LoginName.Equals(SPWeb.CurrentUser.LoginName))
+#else
+            if (SPFile.CheckOutType != SPFile.SPCheckOutType.None && SPFile.CheckedOutBy.LoginName.Equals(SPWeb.CurrentUser.LoginName))
 #endif
             {
                 // If it's checked out by the current user, show an error.

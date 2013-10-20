@@ -170,10 +170,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                             hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
                             hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Href,
-                                            String.Format(CultureInfo.InvariantCulture , 
-                                                          "/_layouts/{0}/styles/core.css", 
-                                                          SPWeb.Language));
+                            SlkCulture culture = new SlkCulture(SPWeb);
+                            string cssUrl = String.Format(CultureInfo.InvariantCulture, "/_layouts/{0}/styles/core.css", culture.Culture.LCID);
+                            hw.AddAttribute(HtmlTextWriterAttribute.Href, cssUrl);
                             HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 1, hw);
 
                             //Adds the Theme Css Url to Enable Theming in the frame.
@@ -687,7 +686,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             if (renderedCell.ToString() == "Submit File(s)")
             {
                 RenderFileSubmissionCellAsSubmitLink(
-                    "{0}/_layouts/SharePointLearningKit/FilesUploadPage.aspx?LearnerAssignmentId={1}",
+                    "{0}" + Constants.SlkUrlPath + "FilesUploadPage.aspx?LearnerAssignmentId={1}",
                     webNameRenderedCell,
                     learnerAssignmentGUID,
                     PageCulture.Format(AppResources.AlwpFileSubmissionSubmitText),
@@ -696,7 +695,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             else if (renderedCell.ToString() == "Submitted LINK")
             {
                 RenderFileSubmissionCellAsSubmittedLink(
-                    "{0}/_layouts/SharePointLearningKit/SubmittedFiles.aspx?LearnerAssignmentId={1}",
+                    "{0}" + Constants.SlkUrlPath + "SubmittedFiles.aspx?LearnerAssignmentId={1}",
                     webNameRenderedCell,
                     learnerAssignmentGUID,
                     PageCulture.Format(AppResources.LearnerAssignmentStatusCompleted),
@@ -860,7 +859,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
                 else
                 {
-                    url = webNameRenderedCell.SPWebUrl + "/_layouts/SharePointLearningKit/" + url;
+                    url = webNameRenderedCell.SPWebUrl + Constants.SlkUrlPath + url;
                 }
             }
 
