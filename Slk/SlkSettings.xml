@@ -23,6 +23,7 @@
   <MimeTypeMapping Extension=".jpeg" MimeType="image/jpeg" />
   <MimeTypeMapping Extension=".jpg" MimeType="image/jpeg" />
   <MimeTypeMapping Extension=".js" MimeType="application/x-javascript" />
+  <MimeTypeMapping Extension=".mp4" MimeType="video/mp4" />
   <MimeTypeMapping Extension=".pdf" MimeType="application/pdf" />
   <MimeTypeMapping Extension=".png" MimeType="image/x-png" />
   <MimeTypeMapping Extension=".potm" MimeType="application/vnd.ms-powerpoint.template.macroEnabled.12" />
