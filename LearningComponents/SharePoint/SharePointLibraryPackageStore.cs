@@ -46,7 +46,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// Registers a package with the SharePointLibraryPackageStore. Any changes to the original file after the package is 
         /// registered are not reflected in the store.        
         /// </summary>
-        /// <param name="packageLocation">The location of the package to be registered.</param>
+        /// <param name="packageReader">A reader positioned on the package.</param>
         /// <param name="packageEnforcement">The settings to determine whether the package should be modified to 
         /// allow it to be added to the store.</param>
         /// <returns>The results of adding the package, including a log of any warnings or errors that occurred in the process.
@@ -81,6 +81,10 @@ namespace Microsoft.LearningComponents.SharePoint
             return GetPackageReader(packageId, packageLocation);
         }
 
+        /// <summary>Gets a <see cref="PackageReader"/> for an item.</summary>
+        /// <param name="packageId">the id of the package.</param>
+        /// <param name="packageLocation">The locatoin of the package.</param>
+        /// <returns>A <see cref="PackageReader"/>.</returns>
         protected internal override PackageReader GetPackageReader(PackageItemIdentifier packageId, string packageLocation)
         {
             return new SharePointLibraryPackageReader(CacheSettings, new SharePointFileLocation(packageLocation), null);
@@ -90,6 +94,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <summary>Creates a package reader for a package without accessing the store.</summary>
         /// <param name="file">The package.</param>
         /// <param name="location">The package location.</param>
+        /// <param name="runWithElevatedPrivileges">Whether to run with elevated privileges or not.</param>
         /// <returns></returns>
         public PackageReader CreatePackageReader(SPFile file, SharePointFileLocation location, bool runWithElevatedPrivileges)
         {

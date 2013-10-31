@@ -155,7 +155,6 @@ namespace Microsoft.LearningComponents
         /// </summary>
         /// <param name="fileContents">The zipped package (.zip or .ims) or .lrm package.</param>
         /// <returns>A <Typ>PackageReader</Typ> that reads the supplied package.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="package"/> is null.</exception>
         /// <remarks>The contents are analyzed to determine if it is a zipped file.  If it is not, it is assumed to
         /// be an .lrm package.  In either case, the correctness of the package is not checked here, but rather
         /// in subsequent calls to e.g. <Mth>CreateManifestNavigator</Mth>.
@@ -992,7 +991,7 @@ namespace Microsoft.LearningComponents
         private Stream m_stream;
 
         /// <summary>
-        /// The path into which the files in <paramref name="m_lrm"/> should be exploded.
+        /// The path into which the files in m_lrm should be exploded.
         /// </summary>
         private DirectoryInfo m_unbundlePath;
 
@@ -1458,7 +1457,7 @@ namespace Microsoft.LearningComponents
         private Stream m_stream;
 
         /// <summary>
-        /// The path into which the files in <paramref name="m_zip"/> should be exploded.
+        /// The path into which the files in m_zip should be exploded.
         /// </summary>
         private DirectoryInfo m_unzipPath;
 

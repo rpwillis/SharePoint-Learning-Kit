@@ -38,11 +38,9 @@ namespace Microsoft.LearningComponents.SharePoint
         /// Constructor. Accesses all SharePoint files with elevated privilege.
         /// </summary>
         /// <param name="packageStore">The PackageStore that contains information about the package.</param>
-        /// <param name="cachePath">The absolute path to the location of the package files.</param>
         /// <param name="packageId">The package id of the package to load.</param>
         /// <param name="packageLocation">The location of the package, as defined in 
         /// LearningStore PackageItem.Location column. This cannot be null.</param>
-        /// <param name="spIdentity">The user who has access to the package related to the store.</param>
         /// <remarks></remarks>
         internal SharePointPackageStoreReader(SharePointPackageStore packageStore, PackageItemIdentifier packageId, string packageLocation)
         {
@@ -205,8 +203,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// would be cached into. 
         /// </summary>
         /// <param name="cachePath">The folder to use for a cache of all SharePoint files.</param>
-        /// <param name="identity">The user identity that has read/write permissions to the
-        /// <paramref name="cachePath"/> location.</param>
+        /// <param name="impersonationBehavior">The impersonation behaviour to use.</param>
         /// <param name="packageLocation">The package loacation in LearningStore format.</param>
         /// <returns>The directory path to the cached package.</returns>
         internal static string GetCacheDirectory(string cachePath, ImpersonationBehavior impersonationBehavior, string packageLocation)

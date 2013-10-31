@@ -246,7 +246,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// indicate to fix a value.</param>
         /// <param name="log">Where errors and warnings are logged.</param>
         /// <exception cref="ArgumentNullException"><paramref name="node"/> is null. The parameter name thrown is not "node",
-        /// however.  Instead, it is the string value of <paramref name="localName"/> + "Node".  E.g. the <Typ>ManifestReader</Typ>
+        /// however.  Instead, it is the string value of localName + "Node".  E.g. the <Typ>ManifestReader</Typ>
         /// class constructor would call this, and the throw would have the parameter name "manifestNode". </exception>
         /// <exception cref="InvalidPackageException"><paramref name="node"/> does not point to the expected node.</exception>
         internal static Helper CreateManifestHelper(XPathNavigator node, ManifestReaderSettings readerSettings, PackageValidatorSettings validatorSettings, 
@@ -2167,7 +2167,7 @@ namespace Microsoft.LearningComponents.Manifest
         /// indicate to fix a value.</param>
         /// <param name="log">The log in which to write error and warning log entries.  Cannot be null if
         /// a <c>ValidationBehavior.LogWarning</c> or <c>ValidationBehavior.LogError</c> is chosen
-        /// for one of the settings in <paramref name="validatorSettings"/></param>
+        /// for one of the settings in <paramref name="packageValidatorSettings"/></param>
         /// <param name="manifestNode">The <Typ>XPathNavigator</Typ>, pointing to the &lt;manifest&gt; node.</param>
         internal ManifestReader(PackageReader packageReader, ManifestReaderSettings manifestSettings, PackageValidatorSettings packageValidatorSettings,
             bool logReplacement, ValidationResults log, XPathNavigator manifestNode)
@@ -2200,7 +2200,6 @@ namespace Microsoft.LearningComponents.Manifest
         /// <returns>
         /// <Typ>ManifestReader</Typ>.
         /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="stream"/> is null.</exception>
         /// <exception cref="InvalidPackageException">There is no valid manifest..</exception>
         /// <exception cref="XmlException">An error was encountered in the XML data.</exception>
         internal static ManifestReader Create(PackageReader packageReader, ManifestReaderSettings manifestSettings, PackageValidatorSettings validatorSettings,
@@ -5909,8 +5908,6 @@ namespace Microsoft.LearningComponents.Manifest
         /// <param name="logReplacement">Write message that 'x was replaced by y' when the <Typ>ManifestReaderSettings</Typ>
         /// indicate to fix a value.</param>
         /// <param name="log">Where errors and warnings are logged.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="mapInfoNode"/> is null.</exception>
-        /// <exception cref="InvalidPackageException"><paramref name="mapInfoNode"/> does not point to a &lt;imsss:mapInfo&gt; node.</exception>
         internal SequencingRuleNodeReader(XPathNavigator sequencingRuleNode, ManifestReader manifest, ActivityNodeReader activity,
             ManifestReaderSettings manifestSettings, PackageValidatorSettings validatorSettings, bool logReplacement, ValidationResults log)
         {
@@ -6229,8 +6226,6 @@ namespace Microsoft.LearningComponents.Manifest
         /// <param name="logReplacement">Write message that 'x was replaced by y' when the <Typ>ManifestReaderSettings</Typ>
         /// indicate to fix a value.</param>
         /// <param name="log">Where errors and warnings are logged.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="rollupRuleNode"/> is null.</exception>
-        /// <exception cref="InvalidPackageException"><paramref name="rollupRuleNode"/> does not point to a &lt;imsss:rollupRule2&gt; node.</exception>
         internal SequencingRuleConditionNodeReader(XPathNavigator ruleConditionNode, ManifestReader manifest, ActivityNodeReader activity,
             ManifestReaderSettings manifestSettings, PackageValidatorSettings validatorSettings,
             bool logReplacement, ValidationResults log)

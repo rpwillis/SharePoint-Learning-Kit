@@ -679,7 +679,7 @@
       <Resources>
         <ID>LobbySubmitFilesText</ID>
         <Source>Submit File(s)</Source>
-        <Translation>Submit File(s)</Translation>
+        <Translation>Legg ved fil(er)</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -961,7 +961,13 @@
       <Resources>
         <ID>GradingFileSubmissionSubmitted</ID>
         <Source>Submitted</Source>
-        <Translation>Submitted</Translation>
+        <Translation>Innlevert</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>GradingFileSubmissionSubmittedNoFiles</ID>
+        <Source>Submitted with no files</Source>
+        <Translation>Ingen vedlegg</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -1189,7 +1195,7 @@
       <Resources>
         <ID>CtrlChkBoxTextShowAnswers</ID>
         <Source>Show learners the correct answers to autograded questions when the assignment is final (Class Server learning resources only)</Source>
-        <Translation>Vis eleven de rette svarene for automatisk vurderte sporsmal nar oppgaven (Kunn for Class Server undervisningsopplegg)</Translation>
+        <Translation>Vis eleven de rette svarene for automatisk vurderte sporsmal nar oppgaven (Gjelder kun for Class Server)</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
@@ -1513,7 +1519,7 @@ More information may be available in the server event log.</Translation>
       <Resources>
         <ID>GradingReturnText</ID>
         <Source>Return All</Source>
-        <Translation>Return All</Translation>
+        <Translation>Send tilbake oppgavene</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
@@ -1531,7 +1537,7 @@ More information may be available in the server event log.</Translation>
       <Resources>
         <ID>GradingFileSubmissionHeaderText</ID>
         <Source>File Submission</Source>
-        <Translation>File Submission</Translation>
+        <Translation>Vedlegg</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -1651,7 +1657,7 @@ More information may be available in the server event log.</Translation>
       <Resources>
         <ID>GradingLearnerHeaderText</ID>
         <Source>Learner</Source>
-        <Translation>elev</Translation>
+        <Translation>Elev</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
@@ -2005,7 +2011,7 @@ More information may be available in the server event log.</Translation>
       <Resources>
         <ID>CheckBoxEmailAssignment</ID>
         <Source>Email learners on creation or when changed.</Source>
-        <Translation>Email learners on creation or when changed.</Translation>
+        <Translation>Send epost til elever ved utsendelse og endring av status.</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
@@ -2627,7 +2633,7 @@ More information may be available in the server event log.</Translation>
       <Resources>
         <ID>ErrorBannerValidationWarning</ID>
         <Source>There are one or more problems on this page. Additional information is displayed in each section with a problem.</Source>
-        <Translation>There are one or more problems on this page. Additional information is displayed in each section with a problem.</Translation>
+        <Translation>Feil under lagring pga manglende informasjon. Se mer informasjon markert i rødt.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -3887,7 +3893,7 @@ ga ut uten a lagre trykk Avbryt.</Translation>
       <Resources>
         <ID>GradingActionHeaderText</ID>
         <Source>Action</Source>
-        <Translation>Action</Translation>
+        <Translation>Aktivitet</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>

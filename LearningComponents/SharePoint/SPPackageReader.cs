@@ -39,6 +39,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// object after the SharePointPackageReader is created are not reflected in the behavior of this object.</param>
         /// <param name="runWithElevatedPrivileges">If true, files in SharePoint are accessed using elevated privileges.
         /// If false, the current user credentials are used to access SharePoint files.</param>
+        /// <param name="file">The SPFile to read.</param>
         /// <remarks>
         /// <para>
         /// In addition to the exceptions listed below, this method may throw exceptions caused by the 
@@ -181,8 +182,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// would be cached into. 
         /// </summary>
         /// <param name="cachePath">The folder to use for a cache of all SharePoint files.</param>
-        /// <param name="identity">The user identity that has read/write permissions to the
-        /// <paramref name="cachePath"/> location.</param>
+        /// <param name="impersonationBehavior">The impersonation behaviour to use.</param>
         /// <param name="packageLocation">The location of the package in SharePoint.</param>
         /// <returns>The directory path to the cached package.</returns>
         internal static string GetCacheDirectory(string cachePath, ImpersonationBehavior impersonationBehavior, SharePointFileLocation packageLocation)

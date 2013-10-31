@@ -11,20 +11,25 @@
     <AssemblyName>Microsoft.LearningComponents.SharePoint</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyOriginatorKeyFile>..\Shared\SlkKey.snk</AssemblyOriginatorKeyFile>
     <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
+    <SharePointVersion>2010</SharePointVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(SharePointVersion)' == '2007' ">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(SharePointVersion)' == '2010' ">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(SharePointVersion)' == '2014' ">
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MLCDEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;MLCDEBUG;SP$(SharePointVersion)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>false</RunCodeAnalysis>
@@ -34,17 +39,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;SP$(SharePointVersion)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRules>-Microsoft.MSInternal#CA905;-Microsoft.MSInternal#CA908;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703</CodeAnalysisRules>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
+  <PropertyGroup>
+    <OutputPath>bin\$(SharePointVersion)\$(Configuration)\</OutputPath>
+    <DocumentationFile>$(OutputPath)Microsoft.LearningComponents.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.SharePoint.dll">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\References\Microsoft.SharePoint.dll</HintPath>
+      <HintPath>..\..\References\$(SharePointVersion)\Microsoft.SharePoint.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <SpecificVersion>False</SpecificVersion>
@@ -83,14 +91,14 @@
     <Compile Include="SharePointLocationPackageReader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LearningComponents\LearningComponents.csproj">
-      <Project>{AE610073-6C2F-4789-BAF9-8CF1769EC6D7}</Project>
-      <Name>LearningComponents</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Storage\Storage.csproj">
-      <Project>{7E83613A-27E0-49D5-B1B7-9E0DB2942A67}</Project>
-      <Name>Storage</Name>
-    </ProjectReference>
+    <Reference Include="Microsoft.LearningComponents, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(MSBuildProjectDirectory)\..\LearningComponents\bin\$(TargetFrameworkVersion)\$(Configuration)\Microsoft.LearningComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents.Storage, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(MSBuildProjectDirectory)\..\Storage\bin\$(TargetFrameworkVersion)\$(Configuration)\Microsoft.LearningComponents.Storage.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

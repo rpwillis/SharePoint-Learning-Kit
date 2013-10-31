@@ -55,7 +55,7 @@ namespace Microsoft.LearningComponents
         public bool HasWarnings { get { return m_hasWarnings; } }
 
         /// <summary>
-        /// Adds a warning to the <paramref name="log"/>, if provided.
+        /// Adds a warning to the log, if provided.
         /// </summary>
         /// <param name="message">The message to log.</param>
         internal void LogWarning(string message)
@@ -65,7 +65,7 @@ namespace Microsoft.LearningComponents
         }
 
         /// <summary>
-        /// Adds an error to the <paramref name="log"/>, if provided.  Throws a <Typ>InvalidPackageException</Typ> if the
+        /// Adds an error to the log, if provided.  Throws a <Typ>InvalidPackageException</Typ> if the
         /// <paramref name="throwInvalidPackageException"/> is <c>true</c>.
         /// </summary>
         /// <param name="throwInvalidPackageException">True to throw a <Typ>InvalidPackageException</Typ> containing the <paramref name="message"/>.
@@ -107,7 +107,7 @@ namespace Microsoft.LearningComponents
         /// <summary>
         /// Adds a new <Typ>ValidationResult</Typ> item to the log.  
         /// </summary>
-        /// <param name="result">The <Typ>ValidationResult</Typ> log item to add to the <paramref name="log"/>.</param>
+        /// <param name="result">The <Typ>ValidationResult</Typ> log item to add to the log.</param>
         internal void AddResult(ValidationResult result)
         {
             m_results.Add(result);

@@ -31,7 +31,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <remarks>
         /// <para>
         /// In addition to the exceptions listed below, this method may throw exceptions caused by the 
-        /// identity not having access to the <paramref name="cacheSettings"/> CachePath location.
+        /// identity not having access to the cacheSettings CachePath location.
         /// </para>
         /// <para>
         /// The contents of the package are not read in the constructor.  The contents of the package are read

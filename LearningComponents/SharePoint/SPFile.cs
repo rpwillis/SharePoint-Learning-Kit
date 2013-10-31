@@ -196,7 +196,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <summary>
         /// Save the FileName value. This just saves some time if the file is cached before the filename is requested.
         /// </summary>
-        /// <param name="packagePath">The root folder of the cache directory where the file is saved.</param>
+        /// <param name="filePath">The root folder of the cache directory where the file is saved.</param>
         private void SetFileName(string filePath)
         {
             // Only need to set this once. It cannot change.
