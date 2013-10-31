@@ -36,6 +36,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// A subdirectory will be created in the cacheSettings.CachePath location with a cached version of this package.</param>
         /// <param name="packageLocation">The location of the package to be read. Any changes to this SharePointFileLocation
         /// object after the SharePointLibraryPackageReader is created are not reflected in the behavior of this object.</param>
+        /// <param name="file">The file to create the reader for.</param>
         /// <remarks>
         /// <para>
         /// In addition to the exceptions listed below, this method may throw exceptions caused by the 

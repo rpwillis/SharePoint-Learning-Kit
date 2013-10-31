@@ -109,7 +109,9 @@ namespace Microsoft.LearningComponents.SharePoint
         /// populates the cache directory. When this constructor returns, the package is cached and locked.
         /// The code must be called within an elevated privileges state in case it needs to call SharePoint.
         /// </summary>
-        /// <param name="cachedPackageSettings">Flags that indicate how to deal with caching packages as files.</param>
+        /// <param name="settings">Flags that indicate how to deal with caching packages as files.</param>
+        /// <param name="packageLocation">The location of the package.</param>
+        /// <param name="cacheAsPackage">Whether to cache as the package.</param>
         /// <remarks>
         /// The constructor has minimal error checking (since it's an internal class) It does not explicitly verify:
         /// &lt;ul&gt;
@@ -273,6 +275,8 @@ namespace Microsoft.LearningComponents.SharePoint
         /// it and return.
         /// </summary>
         /// <param name="lockFileName">The filename of the lockfile for the 
+        /// <param name="cacheDir">The cache directory.</param>
+        /// <param name="fileInfo">The information about the cached file.</param>
         /// package in question</param>
         /// <returns>True of the cache directory was successfully locked,
         /// false if a lock couldn't be obtained</returns>
@@ -309,6 +313,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// cacheDir.</param>
         /// <param name="cacheDir">The cache directory to contain the package. This directory should not exist prior to calling 
         /// this method.</param>
+        /// <param name="fileInfo">The information about the cached file.</param>
         /// <returns>Returns true if the directory was created.</returns>
         /// <exception cref="UnauthorizedAccessException">Thrown if the user does not have read and write permissions to 
         /// cacheDir.</exception>
@@ -461,7 +466,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// Write the contents of the lock file. The file is closed and lockFile set to null on successful return from 
         /// this method.
         /// </summary>
-        /// <param name="writtenAsFile">If true, contents was written as a single file.</param>
+        /// <param name="cachedFileState"></param>
         /// <param name="lockFile">The lock file to write to. The caller needs to close this if the method does not succeed.</param>
         /// <param name="lengthOfFile">The length of the SPFile, in bytes.</param>
         /// <param name="dateTimeLastModified">The time the SPFile was last modified.</param>
@@ -507,8 +512,6 @@ namespace Microsoft.LearningComponents.SharePoint
         /// Cache a file into cacheDir without modification. The directory is locked before calling 
         /// this method. This method does not impersonate.
         /// </summary>
-        /// <param name="cacheDir"></param>
-        /// <param name="stream"></param>
         private static void CacheAsFile(string cacheDir, string filename, byte[] fileContents)
         {
             // Create cache directory
@@ -598,8 +601,8 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <summary>
         /// Get information, including the file contents, about a file stored in SharePoint. This method does not impersonate.
         /// </summary>
-        /// <param name="spFile">The file to retrieve.</param>
-        /// <param name="versionId">The version of the file to retrieve.</param>
+        /// <param name="fileInfo">Information about the file.</param>
+        /// <param name="filename">The name the file is saved as.</param>
         /// <param name="fileContents">A Stream open onto the file.</param>
         /// <param name="lastModified">The time the file was last modified in SharePoint.</param>
         private static void GetSharePointFileData(CachedFileInfo fileInfo, out byte[] fileContents, out DateTime lastModified, out string filename)
@@ -679,6 +682,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <summary>
         /// Performs the actual tasks involved with just locking a cache directory
         /// </summary>
+        /// <param name="fileInfo">Information about the file.</param>
         /// <param name="lockFileName">The full path of the lockfile for the package.</param>
         /// <param name="cacheDir">The directory containing the cached spFile.</param>
         /// <returns>True if the cache directory was successfully locked, 

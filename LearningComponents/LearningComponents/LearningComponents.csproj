@@ -13,24 +13,19 @@
     <AssemblyOriginatorKeyFile>..\Shared\SlkKey.snk</AssemblyOriginatorKeyFile>
     <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
     <DelaySign>false</DelaySign>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateFullPaths>true</GenerateFullPaths>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRules>-Microsoft.MSInternal#CA905;-Microsoft.MSInternal#CA908;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703</CodeAnalysisRules>
   </PropertyGroup>
@@ -38,22 +33,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Microsoft.LearningComponents.XML</DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRules>-Microsoft.MSInternal#CA905;-Microsoft.MSInternal#CA908;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703</CodeAnalysisRules>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputPath>bin\$(TargetFrameworkVersion)\$(Configuration)\</OutputPath>
+    <DocumentationFile>$(OutputPath)Microsoft.LearningComponents.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.LearningComponents.Compression, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SharePoint">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\References\Microsoft.SharePoint.dll</HintPath>
+      <HintPath>$(MSBuildProjectDirectory)\..\Compression\bin\$(TargetFrameworkVersion)\$(Configuration)\Microsoft.LearningComponents.Compression.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

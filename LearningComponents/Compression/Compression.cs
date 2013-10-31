@@ -163,7 +163,6 @@ namespace Microsoft.LearningComponents
         /// </summary>
         /// <param name="lrmFile">The .lrm file to uncompress</param>
         /// <param name="destinationDirectory">The directory that the contents are uncompressed to</param>
-  
         public static void Unbundle(FileInfo lrmFile, DirectoryInfo destinationDirectory)
         {
             // The LRM stream is read in as Strings assuming a UTF-8 encoding

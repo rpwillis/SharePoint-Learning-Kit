@@ -27,12 +27,14 @@ namespace Microsoft.LearningComponents
             string destdir = null;
 
 #region intitialization
+            /// <summary>Initializes a new instance of <see cref="CompressionTest"/>.</summary>
             public CompressionTest()
             {
                 unittestdir =  "..\\CompressionUnitTest\\UnitTestData";
                 destdir = unittestdir + "\\UnbundleFolder";
             }
 
+            /// <summary>See <see cref="IDisposable.Dispose"/>.</summary>
             public void Dispose()
             {
                 if (Directory.Exists(destdir))
@@ -57,6 +59,7 @@ namespace Microsoft.LearningComponents
 
             }
 
+            /// <summary>Test for unbundling a non-existant file.</summary>
             [Fact]
             public void UnbundleNonExistingFile()
             {
@@ -75,6 +78,7 @@ namespace Microsoft.LearningComponents
                 }
             }
 
+            /// <summary></summary>
             [Fact]
             public void BoundaryStringMissing()
             {
@@ -94,6 +98,7 @@ namespace Microsoft.LearningComponents
 
             }
 
+            /// <summary></summary>
             [Fact]
             public void ContentLocationMissing()
             {
@@ -112,6 +117,7 @@ namespace Microsoft.LearningComponents
 
             }
 
+            /// <summary></summary>
             [Fact]
             public void CorruptMessagePart()
             {
@@ -129,6 +135,7 @@ namespace Microsoft.LearningComponents
                 }
             }
 
+            /// <summary></summary>
             [Fact]
             public void IncorrectEncodingLength()
             {
@@ -147,6 +154,7 @@ namespace Microsoft.LearningComponents
 
             }
 
+            /// <summary></summary>
             [Fact]
             public void InvalidLRMVersion()
             {
@@ -167,6 +175,7 @@ namespace Microsoft.LearningComponents
             }
 
 
+            /// <summary></summary>
             [Fact]
             public void PrematureFileEnd()
             {
@@ -186,6 +195,7 @@ namespace Microsoft.LearningComponents
             }
 
 
+            /// <summary></summary>
             [Fact]
             public void TerminatingBSMissing()
             {
@@ -217,6 +227,7 @@ namespace Microsoft.LearningComponents
 
             }
 
+            /// <summary></summary>
             [Fact]
             public void UnzipNonExistingFile()
             {
@@ -235,6 +246,7 @@ namespace Microsoft.LearningComponents
                 }
             }
 
+            /// <summary></summary>
             [Fact]
             public void UnzipCorruptFile()
             {

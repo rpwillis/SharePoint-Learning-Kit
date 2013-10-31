@@ -107,6 +107,8 @@ namespace Microsoft.LearningComponents.SharePoint
             Timestamp = file.TimeLastModified;
         }
 
+        /// <summary>Initializes a new instance of <see cref="SharePointFileLocation"/>.</summary>
+        /// <param name="location">The location of the file.</param>
         public SharePointFileLocation(string location)
         {
             string[] parts = location.Split('_');

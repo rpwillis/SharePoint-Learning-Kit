@@ -109,6 +109,10 @@ namespace Microsoft.LearningComponents.SharePoint
             return GetPackageReader(packageId, packageLocation);
         }
 
+        /// <summary>Gets a <see cref="PackageReader"/> for an item.</summary>
+        /// <param name="packageId">the id of the package.</param>
+        /// <param name="packageLocation">The locatoin of the package.</param>
+        /// <returns>A <see cref="PackageReader"/>.</returns>
         protected internal override PackageReader GetPackageReader(PackageItemIdentifier packageId, string packageLocation)
         {
             return new SharePointPackageStoreReader(this, packageId, packageLocation);
@@ -118,7 +122,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <summary>Creates a package reader for a package without accessing the store.</summary>
         /// <param name="file">The package.</param>
         /// <param name="location">The package location.</param>
-        /// <returns></returns>
+        /// <param name="runWithElevatedPrivileges">Whether to run with elevated privileges or not.</param>
         public PackageReader CreatePackageReader(SPFile file, SharePointFileLocation location, bool runWithElevatedPrivileges)
         {
             if (SPContentTypeId.FindCommonParent(file.Item.ContentType.Id, permanentCacheContentType) == permanentCacheContentType)

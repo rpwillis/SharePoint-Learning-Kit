@@ -36,7 +36,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// <remarks>
         /// <para>
         /// In addition to the exceptions listed below, this method may throw exceptions caused by the 
-        /// identity not having access to the <paramref name="cacheSettings"/> CachePath location.
+        /// identity not having access to the CachePath location.
         /// </para>
         /// <para>
         /// The contents of the package are not read in the constructor. The contents of the package are read
@@ -46,7 +46,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// </para>
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown if any argument is null.</exception>
-        /// <exception cref="DirectoryNotFoundException">Thrown if the CachePath property of <paramref name="cacheDirectory"/>
+        /// <exception cref="DirectoryNotFoundException">Thrown if the CachePath property 
         /// does not exist prior to calling this constructor.</exception>
         /// <exception cref="FileNotFoundException">Thrown if the requested file does not exist.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown if the identity doesn't have access to the CachePath provided in the 
@@ -121,6 +121,8 @@ namespace Microsoft.LearningComponents.SharePoint
 #endregion protected methods
 
 #region Required Overrides
+        /// <summary>Opens a stream.</summary>
+        /// <param name="filePath">The file to open the stream on.</param>
         public override Stream GetFileStream(string filePath)
         {
             CheckDisposed();

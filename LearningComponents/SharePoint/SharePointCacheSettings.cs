@@ -112,7 +112,6 @@ namespace Microsoft.LearningComponents.SharePoint
 
 
         /// <summary>Clones the settings.</summary>
-        /// <param name="copyFrom"></param>
         public SharePointCacheSettings Clone()
         {
             return new SharePointCacheSettings(CachePath, ExpirationTime, ImpersonationBehavior, CacheInvalidPackageAsFile);

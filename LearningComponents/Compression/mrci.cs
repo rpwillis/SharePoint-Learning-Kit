@@ -79,7 +79,7 @@ namespace Microsoft.LearningComponents
 #endregion algorithm
 
 #region constructors
-        /// <summary>Initializes a new instance of <see cref="Mrci"/>.</summary>
+        /// <summary>Initializes a new instance of <see cref="MrciCompression"/>.</summary>
         /// <param name="compressed">The compressed data.</param>
         /// <param name="messageLength">The length of the output data. The LRM header tells us this so we
         /// can use it to optimise memory allocation.</param>
@@ -198,6 +198,10 @@ namespace Microsoft.LearningComponents
         void Write(int length, byte additionalValue)
         {
             byte toWrite = (byte)((byte)Read(length) + additionalValue);
+            if (outputPosition > output.Length - 1)
+            {
+                throw new CompressionException(Properties.CompressionResources.LRMCorruptFile);
+            }
             output[outputPosition] = toWrite;
             outputPosition++;
         }
@@ -292,8 +296,15 @@ namespace Microsoft.LearningComponents
         /// <param name="count">The number of bytes to copy.</param>
         void CopyOutput(int displacement, int count)
         {
-            Array.Copy(output,outputPosition - displacement, output, outputPosition, count);
-            outputPosition += count;
+            try
+            {
+                Array.Copy(output,outputPosition - displacement, output, outputPosition, count);
+                outputPosition += count;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                throw new CompressionException(Properties.CompressionResources.LRMCorruptFile);
+            }
         }
 
         /// <summary>Processes a displacement.</summary>
