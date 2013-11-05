@@ -175,11 +175,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             hw.AddAttribute(HtmlTextWriterAttribute.Href, cssUrl);
                             HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 1, hw);
 
+#if SP2007
                             //Adds the Theme Css Url to Enable Theming in the frame.
                             hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
                             hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
                             hw.AddAttribute(HtmlTextWriterAttribute.Href, SPWeb.ThemeCssUrl);
                             HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 0, hw);
+#endif
 
                             // create a link to ALWP's "Styles.css"
                             hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");

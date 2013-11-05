@@ -753,7 +753,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 #if SP2007
             if (SPFile.CheckOutStatus != SPFile.SPCheckOutStatus.None && SPFile.CheckedOutBy.LoginName.Equals(SPWeb.CurrentUser.LoginName))
 #else
-            if (SPFile.CheckOutType != SPFile.SPCheckOutType.None && SPFile.CheckedOutBy.LoginName.Equals(SPWeb.CurrentUser.LoginName))
+            if (SPFile.CheckOutType != SPFile.SPCheckOutType.None && SPFile.CheckedOutByUser.LoginName.Equals(SPWeb.CurrentUser.LoginName))
 #endif
             {
                 // If it's checked out by the current user, show an error.

@@ -1,4 +1,4 @@
-<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Release" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
     <ItemGroup>
         <Samples Include="Samples/AddInstructors/AddInstructorsSample.csproj"/>
@@ -9,8 +9,25 @@
         <Samples Include="Samples/SimulateJobTraining/SimulateJobTraining.csproj"/>
         <WebSamples Include="Samples/ReportPages/"/>
         <WebSamples Include="Samples/WebService/"/>
+
+        <!--
         <Projects Include="dll/slkdll.csproj"/>
         <Projects Include="solution/solution.proj"/>
+        -->
+
+        <Projects Include="dll/slkdll.csproj">
+            <SPVersion>2007</SPVersion>
+            <DotNetVersion>3.5</DotNetVersion>
+        </Projects>
+        <Projects Include="dll/slkdll.csproj">
+            <SPVersion>2010</SPVersion>
+            <DotNetVersion>3.5</DotNetVersion>
+        </Projects>
+        <Projects Include="dll/slkdll.csproj">
+            <SPVersion>2013</SPVersion>
+            <DotNetVersion>4.0</DotNetVersion>
+        </Projects>
+
     </ItemGroup>
 
     <Target Name="All" DependsOnTargets="Debug;Release;Samples"/>
@@ -22,9 +39,7 @@
     </Target>
 
     <Target Name="Release" >
-        <MSBuild Projects="@(Projects)" Targets="Build" StopOnFirstFailure="true" Properties="Configuration=Release;Platform=AnyCPU">
-            <Output TaskParameter="TargetOutputs" ItemName="BuildAssemblies" />
-        </MSBuild>
+        <MSBuild Projects="@(Projects)" Targets="Build" StopOnFirstFailure="true" ToolsVersion="%(DotNetVersion)" Properties="Configuration=Release;Platform=AnyCPU;TargetFrameworkVersion=v%(DotNetVersion);SharePointVersion=%(SPVersion)"/>
     </Target>
 
     <Target Name="Debug" >
