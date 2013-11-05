@@ -1,60 +1,26 @@
-<Project DefaultTargets="Build"  xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build"  xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
 
     <PropertyGroup>
         <Configuration>Release</Configuration>
     </PropertyGroup>
 
     <ItemGroup>
-        <DebugFiles Include="..\..\LearningComponents\Compression\bin\Debug\Microsoft.LearningComponents.Compression.dll"/>
-        <DebugFiles Include="..\..\LearningComponents\LearningComponents\bin\Debug\Microsoft.LearningComponents.dll"/>
-        <DebugFiles Include="..\..\LearningComponents\SharePoint\bin\Debug\Microsoft.LearningComponents.SharePoint.dll"/>
-        <DebugFiles Include="..\..\LearningComponents\Storage\bin\Debug\Microsoft.LearningComponents.Storage.dll"/>
-        <DebugFiles Include="..\Dll\bin\Debug\Microsoft.SharePointLearningKit.dll"/>
-        <ReleaseFiles Include="..\..\LearningComponents\Compression\bin\Release\Microsoft.LearningComponents.Compression.dll"/>
-        <ReleaseFiles Include="..\..\LearningComponents\LearningComponents\bin\Release\Microsoft.LearningComponents.dll"/>
-        <ReleaseFiles Include="..\..\LearningComponents\SharePoint\bin\Release\Microsoft.LearningComponents.SharePoint.dll"/>
-        <ReleaseFiles Include="..\..\LearningComponents\Storage\bin\Release\Microsoft.LearningComponents.Storage.dll"/>
-        <ReleaseFiles Include="..\Dll\bin\Release\Microsoft.SharePointLearningKit.dll"/>
-
-        <VersionedAspx Include="..\App\AssignmentProperties.aspx"/>
-        <VersionedAspx Include="..\App\SubmittedFiles.aspx"/>
-        <VersionedAspx Include="..\Admin\Configure.aspx"/>
-
-        <SPVersion Include="cab.ddf">
-            <Version>2007</Version>
-        </SPVersion>
-        <SPVersion Include="cab.ddf">
-            <Version>2010</Version>
-        </SPVersion>
+        <Versions Include="solution.proj">
+            <SPVersion>2007</SPVersion>
+            <DotNetVersion>3.5</DotNetVersion>
+        </Versions>
+        <Versions Include="solution.proj">
+            <SPVersion>2010</SPVersion>
+            <DotNetVersion>3.5</DotNetVersion>
+        </Versions>
+        <Versions Include="solution.proj">
+            <SPVersion>2013</SPVersion>
+            <DotNetVersion>4.0</DotNetVersion>
+        </Versions>
     </ItemGroup>
 
-    <Target Name="Build" DependsOnTargets="VersionFiles">
-        <CallTarget Targets="Debug" Condition="$(Configuration) == 'Debug'"/>
-        <CallTarget Targets="Release" Condition="$(Configuration) == 'Release'"/>
-    </Target>
-
-    <Target Name="VersionFiles">
-        <MakeDir Directories="Build"/>
-        <MakeDir Directories="Build\2007"/>
-        <MakeDir Directories="Build\2010"/>
-        <Copy SourceFiles="@(VersionedAspx)" DestinationFolder="Build\2007"/>
-        <Copy SourceFiles="Features\AdminFeature\2010elements.xml" DestinationFiles="Build\2010\elements.xml"/>
-        <Copy SourceFiles="Features\AdminFeature\2007elements.xml" DestinationFiles="Build\2007\elements.xml"/>
-
-        <MSBuild Projects="../Tools/ChangeVersion/build.proj" Targets="Build" StopOnFirstFailure="true"/>
-        <Exec Command="..\Tools\ChangeVersion\ChangeVersion Build\2010 @(VersionedAspx, ' ')" WorkingDirectory="."/>
-    </Target>
-
-    <Target Name="Release">
-        <MakeDir Directories="Build"/>
-        <Copy SourceFiles="@(ReleaseFiles)" DestinationFolder="Build" SkipUnchangedFiles="false"/>
-        <CallTarget Targets="MakeWsp"/>
-    </Target>
-
-    <Target Name="Debug">
-        <MakeDir Directories="Build"/>
-        <Copy SourceFiles="@(DebugFiles)" DestinationFolder="Build" SkipUnchangedFiles="false"/>
-        <CallTarget Targets="MakeWsp"/>
+    <Target Name="Build" >
+        <CallTarget Targets="MakeWsp" />
     </Target>
 
     <Target Name="Clean">
@@ -62,10 +28,10 @@
         <RemoveDir Directories="Output"/>
     </Target>
 
-    <Target Name="MakeWsp" Outputs="Output\%(SPVersion.Version)\SharePointLearningKit.wsp">
+    <Target Name="MakeWsp" Outputs="@(Versions)">
         <MakeDir Directories="Output"/>
-        <MakeDir Directories="Output\%(SPVersion.Version)"/>
-        <Exec Command="makecab /F cab.ddf /D SPVersion=%(SPVersion.Version)"/>
+        <MakeDir Directories="Output\%(Versions.SPVersion)"/>
+        <Exec Command="makecab /F cab.ddf /D SPVersion=%(Versions.SPVersion) /D DotNetVersion=v%(Versions.DotNetVersion) /D Configuration=$(Configuration)"/>
         <Delete Files="setup.inf"/>
         <Delete Files="setup.rpt"/>
     </Target>

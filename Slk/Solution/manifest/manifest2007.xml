@@ -87,8 +87,6 @@
         <TemplateFile Location="Layouts\SharePointLearningKit\Grading.aspx" />
         <TemplateFile Location="Layouts\SharePointLearningKit\Lobby.aspx" />
         <TemplateFile Location="Layouts\SharePointLearningKit\SubmittedFiles.aspx" />
-        <TemplateFile Location="Layouts\SharePointLearningKit\DownloadDialog.aspx" />
-        <TemplateFile Location="Layouts\SharePointLearningKit\CommentedFiles.aspx" />
         <TemplateFile Location="Layouts\SharePointLearningKit\FilesUploadPage.aspx" />
         <TemplateFile Location="Layouts\SharePointLearningKit\QueryResults.aspx" />
         <TemplateFile Location="Layouts\SharePointLearningKit\QuerySet.aspx" />

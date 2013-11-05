@@ -2,7 +2,6 @@
 bin
 obj
 Drop
-Slk/Solution/Build
 Slk/Solution/Output
 .sln.cache
 ChangeVersion.exe
