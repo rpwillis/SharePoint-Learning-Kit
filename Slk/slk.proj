@@ -10,10 +10,7 @@
         <WebSamples Include="Samples/ReportPages/"/>
         <WebSamples Include="Samples/WebService/"/>
 
-        <!--
-        <Projects Include="dll/slkdll.csproj"/>
-        <Projects Include="solution/solution.proj"/>
-        -->
+        <SolutionProject Include="solution/solution.proj"/>
 
         <Projects Include="dll/slkdll.csproj">
             <SPVersion>2007</SPVersion>
@@ -40,6 +37,7 @@
 
     <Target Name="Release" >
         <MSBuild Projects="@(Projects)" Targets="Build" StopOnFirstFailure="true" ToolsVersion="%(DotNetVersion)" Properties="Configuration=Release;Platform=AnyCPU;TargetFrameworkVersion=v%(DotNetVersion);SharePointVersion=%(SPVersion)"/>
+        <MSBuild Projects="@(SolutionProject)" Targets="Release" StopOnFirstFailure="true" />
     </Target>
 
     <Target Name="Debug" >

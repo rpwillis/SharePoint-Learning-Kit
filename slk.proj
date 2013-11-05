@@ -19,6 +19,9 @@
         <SPVersion Include="slk.proj">
             <Version>2010</Version>
         </SPVersion>
+        <SPVersion Include="slk.proj">
+            <Version>2013</Version>
+        </SPVersion>
     </ItemGroup>
 
     <Target Name="All" DependsOnTargets="BuildDebug;BuildRelease;BuildSamplesDebug;BuildSamplesRelease;Localization;Drop">
@@ -30,7 +33,9 @@
         </MSBuild>
     </Target>
 
-    <Target Name="Release" >
+    <Target Name="Release" DependsOnTargets="BuildRelease;Localization;Drop"/>
+
+    <Target Name="BuildRelease" >
         <MSBuild Projects="@(Projects)" Targets="Release" StopOnFirstFailure="true" Properties="Configuration=Release;Platform=AnyCPU"/>
     </Target>
 
