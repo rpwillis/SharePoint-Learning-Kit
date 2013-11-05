@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <SPVersion Condition=" '$(SPVersion)' == '' ">2010</SPVersion>
+    <SharePointVersion Condition=" '$(SharePointVersion)' == '' ">2010</SharePointVersion>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D4ECA47D-2E5D-4ACF-B713-37BC4BB585B7}</ProjectGuid>
@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SP$(SPVersion)</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SP$(SharePointVersion)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Microsoft.SharePointLearningKit.XML</DocumentationFile>
@@ -34,19 +34,38 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;SP$(SPVersion)</DefineConstants>
+    <DefineConstants>TRACE;SP$(SharePointVersion)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Microsoft.SharePointLearningKit.XML</DocumentationFile>
     <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.MSInternal#CA905;-Microsoft.MSInternal#CA908;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703</CodeAnalysisRules>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(SharePointVersion)' == '2007' ">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(SharePointVersion)' == '2010' ">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(SharePointVersion)' == '2013' ">
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputPath>bin\$(SharePointVersion)\$(Configuration)\</OutputPath>
+    <DocumentationFile>$(OutputPath)Microsoft.SharePointLearningKit.XML</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="..\..\References\$(SPVersion)\Microsoft.SharePoint.dll"/>
+    <Reference Include="..\..\References\$(SharePointVersion)\Microsoft.SharePoint.dll"/>
+    <Reference Include="$(MSBuildProjectDirectory)\..\..\LearningComponents\LearningComponents\bin\$(TargetFrameworkVersion)\$(Configuration)\Microsoft.LearningComponents.dll"/>
+    <Reference Include="$(MSBuildProjectDirectory)\..\..\LearningComponents\Storage\bin\$(TargetFrameworkVersion)\$(Configuration)\Microsoft.LearningComponents.Storage.dll"/>
+    <Reference Include="$(MSBuildProjectDirectory)\..\..\LearningComponents\SharePoint\bin\$(SharePointVersion)\$(Configuration)\Microsoft.LearningComponents.SharePoint.dll"/>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -57,6 +76,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
+
   <ItemGroup>
       <Compile Include="Admin\stsCommands.cs" />
       <Compile Include="Admin\slkAdministration.cs" />
@@ -98,18 +118,6 @@
     <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorResults.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LearningStoreHelper.cs" />
-    <!--
-    <Compile Include="Properties\AppResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\SlkFrameset.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SlkFrameset.resx</DependentUpon>
-    </Compile>
-    -->
     <Compile Include="SlkApi.cs" />
     <Compile Include="api\SlkStore.cs" />
     <Compile Include="api\AnonymousSlkStore.cs" />
@@ -233,22 +241,6 @@
     <Compile Include="SlkCulture.cs"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\LearningComponents\LearningComponents\LearningComponents.csproj">
-      <Project>{AE610073-6C2F-4789-BAF9-8CF1769EC6D7}</Project>
-      <Name>LearningComponents</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\LearningComponents\SharePoint\SharePoint.csproj">
-      <Project>{FACFE4F7-FDF5-46A6-8FB7-76811932C2C8}</Project>
-      <Name>SharePoint</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\LearningComponents\Storage\Storage.csproj">
-      <Project>{7E83613A-27E0-49D5-B1B7-9E0DB2942A67}</Project>
-      <Name>Storage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\LearningComponents\Compression\Compression.csproj">
-      <Project>{561657B4-176B-4112-A692-D18521C6BA11}</Project>
-      <Name>Compression</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\..\samples\basicwebplayer\app_globalresources\FramesetResources.resx">

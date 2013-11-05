@@ -759,7 +759,7 @@ namespace Microsoft.LearningComponents.Frameset
 
         /// <summary>
         /// Helper function to convert float? to RTE form. Empty string is returned if 
-        /// <paramref name="floatVal"/> is null.
+        /// <paramref name="value"/> is null.
         /// </summary>
         public static string GetRteFloat(float? value)
         {

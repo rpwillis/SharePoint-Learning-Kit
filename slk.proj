@@ -1,4 +1,4 @@
-<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Release" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
     <PropertyGroup>
         <DropDirectory>Drop</DropDirectory>
@@ -6,11 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Projects Include="LearningComponents\compression\compression.csproj"/>
-        <Projects Include="LearningComponents\learningcomponents\learningcomponents.csproj"/>
-        <Projects Include="LearningComponents\storage\storage.csproj"/>
-        <Projects Include="LearningComponents\sharepoint\sharepoint.csproj"/>
+        <!--
+        <Projects Include="LearningComponents\learningcomponents.proj"/>
+        -->
         <Projects Include="slk\slk.proj"/>
+
         <InstallFiles Include="doc\root\*"/>
         <InstallFiles Include="doc\install\*.txt"/>
         <SPVersion Include="slk.proj">
@@ -30,10 +30,8 @@
         </MSBuild>
     </Target>
 
-    <Target Name="BuildRelease" >
-        <MSBuild Projects="@(Projects)" Targets="Build" StopOnFirstFailure="true" Properties="Configuration=Release;Platform=AnyCPU">
-            <Output TaskParameter="TargetOutputs" ItemName="AssembliesBuiltByChildProjects" />
-        </MSBuild>
+    <Target Name="Release" >
+        <MSBuild Projects="@(Projects)" Targets="Release" StopOnFirstFailure="true" Properties="Configuration=Release;Platform=AnyCPU"/>
     </Target>
 
     <Target Name="BuildSamplesDebug" >
@@ -157,12 +155,6 @@
         </MSBuild>
         <RemoveDir Directories="@(CleanDirectories)"/>
         <RemoveDir Directories="$(DropDirectory)"/>
-    </Target>
-
-    <Target Name="CleanAll" >
-        <!--
-$(SRCDIRS:CMD=cleanall): cleancommon
--->
     </Target>
 
 </Project>
