@@ -38,7 +38,7 @@ namespace Microsoft.SharePointLearningKit
         }
 
         /// <summary>Detemines if the file is an office file.</summary>
-        public bool IsOffice2010File
+        public bool IsOwaCompatible
         {
             get
             {
@@ -110,6 +110,9 @@ namespace Microsoft.SharePointLearningKit
         {
             string formatString = null;
 
+#if SP2013
+            formatString = "{0}/_layouts/15/WopiFrame.aspx?sourcedoc={1}&action=default";
+#else
             switch (Extension.ToUpperInvariant())
             {
                 case ".DOCX":
@@ -127,6 +130,7 @@ namespace Microsoft.SharePointLearningKit
                 default:
                     throw new ArgumentOutOfRangeException(Extension.ToUpperInvariant());
             }
+#endif
 
             return string.Format(CultureInfo.InvariantCulture, formatString, web.Url, HttpUtility.UrlEncode(Url), HttpUtility.UrlEncode(sourceUrl));
         }
@@ -139,6 +143,9 @@ namespace Microsoft.SharePointLearningKit
         {
             string formatString = null;
 
+#if SP2013
+            formatString = "{0}/_layouts/15/WopiFrame.aspx?sourcedoc={1}&action=default";
+#else
             switch (Extension.ToUpperInvariant())
             {
                 case ".DOC":
@@ -158,6 +165,7 @@ namespace Microsoft.SharePointLearningKit
                 default:
                     throw new ArgumentOutOfRangeException(Extension.ToUpperInvariant());
             }
+#endif
 
             return string.Format(CultureInfo.InvariantCulture, formatString, web.Url, HttpUtility.UrlEncode(Url), HttpUtility.UrlEncode(sourceUrl));
         }

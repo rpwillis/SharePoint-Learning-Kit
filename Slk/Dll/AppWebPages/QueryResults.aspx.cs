@@ -144,6 +144,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region Page_Load
+        private void AddCoreCss(HtmlTextWriter writer, int lcid)
+        {
+            writer.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
+            writer.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
+            string cssUrl = String.Format(CultureInfo.InvariantCulture, "/_layouts/{0}/styles/core.css", lcid);
+            writer.AddAttribute(HtmlTextWriterAttribute.Href, cssUrl);
+            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 1, writer);
+        }
+
         /// <summary>
         ///  Page Load for AlwpQueryResults. 
         /// </summary> 
@@ -167,13 +176,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             // create a link to "core.css";
                             // "/_layouts/1033/styles/core.css" except with "1033" replaced with the
                             // current SPWeb language code
-
-                            hw.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
+                            // Include 1033 one as a back up
+                            AddCoreCss(hw, 1033);
                             SlkCulture culture = new SlkCulture(SPWeb);
-                            string cssUrl = String.Format(CultureInfo.InvariantCulture, "/_layouts/{0}/styles/core.css", culture.Culture.LCID);
-                            hw.AddAttribute(HtmlTextWriterAttribute.Href, cssUrl);
-                            HtmlBlock.WriteFullTag(HtmlTextWriterTag.Link, 1, hw);
+                            AddCoreCss(hw, culture.Culture.LCID);
 
 #if SP2007
                             //Adds the Theme Css Url to Enable Theming in the frame.

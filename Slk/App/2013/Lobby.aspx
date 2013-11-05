@@ -93,6 +93,7 @@ function SlkOpenFramesetWindow(navigateUrl)
 <td Width="615">
 <slk:ErrorBanner ID="errorBanner" Visible="false" EnableViewState="false" runat="server" />
 <asp:Panel ID="contentPanel" Visible="false" runat="server">
+<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
 <slk:ButtonToolbar runat="server" ID="buttonToolbarTop" EnableViewState="false">
 	<slk:SlkButton ID="slkButtonBegin" runat="server" />
 	<slk:SlkButton ID="slkButtonSubmitFiles" runat="server" />
@@ -189,6 +190,7 @@ function SlkOpenFramesetWindow(navigateUrl)
 </slk:TableGridRow>
 </slk:TableGrid>
 <img height=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif" width=590> 
+<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
 </asp:Panel>
 </td>
 </tr>

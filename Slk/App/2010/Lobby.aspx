@@ -3,6 +3,7 @@
 <%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
 <%@ Page Language="C#" Inherits="Microsoft.SharePointLearningKit.ApplicationPages.LobbyPage" DynamicMasterPageFile="~masterurl/default.master" ValidateRequest="False" %>
 <%@ Register TagPrefix="slk" Namespace="Microsoft.SharePointLearningKit.WebControls" assembly="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
+<%@ Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderPageTitle" runat="server">
    <asp:Literal runat="server" ID="pageTitle" EnableViewState="false" />
@@ -93,6 +94,7 @@ function SlkOpenFramesetWindow(navigateUrl)
 <td Width="615">
 <slk:ErrorBanner ID="errorBanner" Visible="false" EnableViewState="false" runat="server" />
 <asp:Panel ID="contentPanel" Visible="false" runat="server">
+<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
 <slk:ButtonToolbar runat="server" ID="buttonToolbarTop" EnableViewState="false">
 	<slk:SlkButton ID="slkButtonBegin" runat="server" />
 	<slk:SlkButton ID="slkButtonSubmitFiles" runat="server" />
@@ -189,6 +191,7 @@ function SlkOpenFramesetWindow(navigateUrl)
 </slk:TableGridRow>
 </slk:TableGrid>
 <img height=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif" width=590> 
+<SharePoint:DelegateControl ControlId="SlkEndContent" runat="server"/>
 </asp:Panel>
 </td>
 </tr>

@@ -45,6 +45,7 @@
 <td Width="615">
 <slk:ErrorBanner ID="errorBanner" Visible="false" EnableViewState="false" runat="server" />
 <asp:Panel ID="contentPanel" Visible="false" runat="server">
+<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
 <slk:TableGrid runat="server" Width="100%" CellPadding="0" CellSpacing="0">
 <slk:TableGridRow><slk:TableGridColumn ColumnType="FormBreak" /></slk:TableGridRow>
 <slk:TableGridRow><slk:TableGridColumn ColumnType="SectionLine" /></slk:TableGridRow>
@@ -125,6 +126,7 @@
 </slk:TableGridRow>
 </slk:TableGrid>
 <img height=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif" width=590> 
+<SharePoint:DelegateControl ControlId="SlkEndContent" runat="server"/>
 </asp:Panel>
 </td>
 </tr>

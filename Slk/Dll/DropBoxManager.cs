@@ -494,7 +494,7 @@ namespace Microsoft.SharePointLearningKit
                         if (mode == DropBoxEditMode.Edit)
                         {
                             // Document must be 2010 format to be edited in office web apps
-                            if (file.IsOffice2010File)
+                            if (file.IsOwaCompatible)
                             {
                                 details.Url = file.GenerateOfficeAppsEditUrl(web, sourceUrl);
                                 details.OnClick = null;
