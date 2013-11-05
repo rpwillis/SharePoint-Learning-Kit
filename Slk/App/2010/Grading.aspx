@@ -3,6 +3,7 @@
 <%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
 <%@ Page Language="C#" Inherits="Microsoft.SharePointLearningKit.ApplicationPages.Grading" DynamicMasterPageFile="~masterurl/default.master" ValidateRequest="False" %>
 <%@ Register TagPrefix="slk" Namespace="Microsoft.SharePointLearningKit.WebControls" assembly="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
+<%@ Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderPageTitle" runat="server">
 	<asp:Literal runat="server" ID="pageTitle" EnableViewState="false" />
@@ -43,6 +44,7 @@
 <slk:ErrorBanner ID="errorBanner" Visible="false" EnableViewState="false" runat="server" />
 <asp:Label ID = "lblError" Visible ="false" runat ="server" ForeColor="Red"></asp:Label>
 <asp:Panel ID="contentPanel" runat="server">
+<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
 <slk:TableGrid ID="TableGrid1" runat="server" Width="100%" CellPadding="0" CellSpacing="0">
 	<slk:TableGridRow><slk:TableGridColumn ColumnType="FormBreak" /></slk:TableGridRow>
 </slk:TableGrid>
@@ -153,7 +155,8 @@
 	<asp:Button ID="btnBottomSave" CssClass="ms-ButtonHeightWidth" runat="server" OnClick="btnSave_Click" EnableViewState="false" />
 	<asp:Button ID="btnBottomClose" CssClass="ms-ButtonHeightWidth" runat="server" OnClick="btnClose_Click" EnableViewState="false" />
 </slk:SimpleButtonToolbar>
-<img height=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif" width=590> 
+<img height=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif" width=590>
+<SharePoint:DelegateControl ControlId="SlkEndContent" runat="server"/>
 </asp:Panel>
 </td>
 </tr>

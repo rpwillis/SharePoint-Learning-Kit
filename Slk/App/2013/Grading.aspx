@@ -37,6 +37,7 @@
 </asp:Content>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderMain" runat="server">
+<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
 <table cellpadding="0" cellspacing="0">
 <tr>
 <td Width="715">
@@ -158,4 +159,5 @@
 </td>
 </tr>
 </table>
+<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
 </asp:Content>

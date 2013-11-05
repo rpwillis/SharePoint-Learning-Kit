@@ -250,7 +250,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             }
                         }
 
-                        if (assignmentFile != null && assignmentFile.IsOffice2010File && SlkStore.Settings.DropBoxSettings.UseOfficeWebApps)
+                        if (assignmentFile != null && assignmentFile.IsOwaCompatible && SlkStore.Settings.DropBoxSettings.UseOfficeWebApps)
                         {
                             // If using office web apps need to change the status of the assignment as the begin button is just a url rather than a script 
                             // which opens the document in another application

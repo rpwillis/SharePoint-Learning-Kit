@@ -41,6 +41,7 @@
                                     <td>
                                         <slk:ErrorBanner ID="errorBanner" Visible="false" EnableViewState="false" runat="server" />
                                         <asp:Panel ID="contentPanel" runat="server">
+<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
                                             <slk:TableGrid ID="TableGrid1" runat="server" Width="100%" CellPadding="0" CellSpacing="0">
                                                 <slk:TableGridRow>
                                                     <slk:TableGridColumn BorderStyle="None" ColumnType="FormBody">
@@ -54,6 +55,7 @@
                                                     </slk:TableGridColumn>
                                                 </slk:TableGridRow>
                                             </slk:TableGrid>
+<SharePoint:DelegateControl ControlId="SlkEndContent" runat="server"/>
                                         </asp:Panel>
                                     </td>
                                 </tr>

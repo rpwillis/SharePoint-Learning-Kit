@@ -25,6 +25,7 @@
     <asp:Literal ID="pageDescription" runat="server"></asp:Literal>
 </asp:Content>
 <asp:Content ContentPlaceHolderID="PlaceHolderMain" runat="server">
+<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
     <!--// this table contains two columns: the first holds the actual content, the second contains a
   // blank GIF whose purpose is to impose a minimum width on the form -->
     <table cellpadding="0" cellspacing="0">
@@ -378,5 +379,5 @@
     </table>
     <!-- end -->
     <!--END_CONTENT-->
-    
+<SharePoint:DelegateControl ControlId="SlkEndContent" runat="server"/>
 </asp:Content>
