@@ -599,7 +599,8 @@ namespace Microsoft.SharePointLearningKit
             return fullDate.ToString("yyyy-MM-dd");
         }
 
-        static string GenerateFolderName(AssignmentProperties properties)
+        /// <summary>Generates the name for a assignment folder.</summary>
+        internal static string GenerateFolderName(AssignmentProperties properties)
         {
             string title = MakeTitleSafe(properties.Title.Trim());
             return string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", GetDateOnly(properties.StartDate), title, properties.Id.GetKey());
