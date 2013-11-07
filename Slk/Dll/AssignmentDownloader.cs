@@ -12,7 +12,6 @@ namespace Microsoft.SharePointLearningKit
     /// <summary>Encapsulates the creation of the download zip file.</summary>
     public class AssignmentDownloader : IDisposable
     {
-        DropBoxManager manager;
         string tempFolder;
         string zippedFileName;
         string zippedFilePath;
@@ -22,21 +21,20 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="assignmentProperties">The assignment properties</param>
         public AssignmentDownloader(AssignmentProperties assignmentProperties)
         {
-            manager = new DropBoxManager(assignmentProperties);
 
             // Create temporary folder
             tempFolder = Path.Combine(Path.Combine(Path.GetTempPath(), "SLK_Temp"), Guid.NewGuid().ToString());
             Directory.CreateDirectory(tempFolder);
 
             // Create assignment folder
-            string assignmentFolderName = manager.FolderName;
+            string assignmentFolderName = DropBox.GenerateFolderName(assignmentProperties);
             string assignmentFolderPath = Path.Combine(tempFolder, assignmentFolderName);
             Directory.CreateDirectory(assignmentFolderPath);
 
             // TODO: Potential clash here if 2 people download at same time
             zippedFilePath = Path.Combine(tempFolder, assignmentFolderName + ".zip");
 
-            ExtractAssignmentsFromSharePoint(assignmentFolderPath);
+            ExtractAssignmentsFromSharePoint(assignmentProperties, assignmentFolderPath);
 
             FastZip zipper = new FastZip();
             zipper.CreateZip(zippedFilePath, assignmentFolderPath, true, null);
@@ -76,8 +74,9 @@ namespace Microsoft.SharePointLearningKit
 #endregion public methods
 
 #region private methods
-        void ExtractAssignmentsFromSharePoint(string assignmentFolderPath)
+        void ExtractAssignmentsFromSharePoint(AssignmentProperties assignmentProperties, string assignmentFolderPath)
         {
+            DropBoxManager manager = new DropBoxManager(assignmentProperties);
             Dictionary<string, List<SPFile>> files = manager.AllFiles();
 
             foreach (string learner in files.Keys)

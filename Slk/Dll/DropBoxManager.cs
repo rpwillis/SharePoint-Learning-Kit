@@ -34,15 +34,6 @@ namespace Microsoft.SharePointLearningKit
 #endregion constructors
 
 #region properties
-        /// <summary>The name of the assignment folder in the drop box library.</summary>
-        public string FolderName
-        {
-            get
-            {
-                return GenerateFolderName(assignmentProperties);
-            }
-        }
-
         SPUser CurrentUser
         {
             get { return SPContext.Current.Web.CurrentUser ;}
@@ -240,8 +231,8 @@ namespace Microsoft.SharePointLearningKit
                         spWeb.AllowUnsafeUpdates = true;
                         DropBox dropBox = new DropBox(store, spWeb);
 
-                        string oldAssignmentFolderName = GenerateFolderName(oldAssignmentProperties);
-                        string newAssignmentFolderName = FolderName;
+                        string oldAssignmentFolderName = DropBox.GenerateFolderName(oldAssignmentProperties);
+                        string newAssignmentFolderName = DropBox.GenerateFolderName(assignmentProperties);
 
                         // If assignment title has been changed, create a new assignment folder and move old assignment folder contents to it
                         if (string.Compare(oldAssignmentFolderName,  newAssignmentFolderName, true, CultureInfo.InvariantCulture) != 0)
@@ -716,11 +707,6 @@ namespace Microsoft.SharePointLearningKit
             {
                 return string.Empty;
             }
-        }
-
-        static string GenerateFolderName(AssignmentProperties properties)
-        {
-            return string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", GetDateOnly(properties.StartDate), properties.Title.Trim(), properties.Id.GetKey());
         }
 
         /// <summary>
