@@ -47,6 +47,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <OutputPath>bin\$(SharePointVersion)\$(Configuration)\</OutputPath>
+    <BaseIntermediateOutputPath>obj\$(SharePointVersion)\</BaseIntermediateOutputPath>
     <DocumentationFile>$(OutputPath)Microsoft.LearningComponents.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>

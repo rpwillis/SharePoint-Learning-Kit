@@ -39,6 +39,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <OutputPath>bin\$(TargetFrameworkVersion)\$(Configuration)\</OutputPath>
+    <BaseIntermediateOutputPath>obj\$(TargetFrameworkVersion)\</BaseIntermediateOutputPath>
     <DocumentationFile>$(OutputPath)Microsoft.LearningComponents.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
