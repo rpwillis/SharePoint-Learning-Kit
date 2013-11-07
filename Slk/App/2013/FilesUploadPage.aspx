@@ -1,6 +1,7 @@
 ﻿<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
 <%@ Page Language="C#" Inherits="Microsoft.SharePointLearningKit.ApplicationPages.FilesUploadPage" DynamicMasterPageFile="~masterurl/default.master" AutoEventWireup ="true" %>
 <%@ Register TagPrefix="slk" Namespace="Microsoft.SharePointLearningKit.WebControls" assembly="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
+<%@ Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderPageTitle" runat="server">
 	<asp:Literal runat="server" ID="pageTitle" EnableViewState="false" />
