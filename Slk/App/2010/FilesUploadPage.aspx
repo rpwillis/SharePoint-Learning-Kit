@@ -116,8 +116,8 @@
                                     <td>   </td>
                                     <td nowrap="">
                                         <br />
-                                        <asp:Button ID = "btnOK" runat ="server" Text = 'OK' OnClick = "btnOK_Click" Width="80px" Height="20px" Font-Size="11px" />
-                                        <asp:Button ID = "btnCancel" runat ="server" Text='Cancel' OnClick = "btnCancel_Click" Width="80px" Height="20px" Font-Size="11px" />
+                                        <asp:Button ID = "btnOK" runat ="server" CssClass="ms-ButtonHeightWidth" Text = 'OK' OnClick = "btnOK_Click" />
+                                        <asp:Button ID = "btnCancel" runat ="server" CssClass="ms-ButtonHeightWidth" Text='Cancel' OnClick = "btnCancel_Click" />
                                     </td>
                                 </tr>
                             </table>
