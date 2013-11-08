@@ -766,11 +766,18 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 {
                     TextBox txtInstructorComments = new TextBox();
                     txtInstructorComments.CssClass = "ms-long";
-                    txtInstructorComments.ID
-                        = CommentsId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
+                    txtInstructorComments.ID = CommentsId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                     txtInstructorComments.TextMode = TextBoxMode.MultiLine;
-
-                    txtInstructorComments.Style.Value = "width: 100%; height:40px; overflow:visible";
+                    /* box model width doesn't include border or padding so setting textarea width to 100% makes it bigger than the cell it is in
+                     * to resolve
+                     *  -webkit-box-sizing: border-box;  <=iOS4, <= Android  2.3 
+                     *  -moz-box-sizing: border-box;  FF1+ 
+                     *  box-sizing: border-box;  Chrome, IE8, Opera, Safari 5.1
+                     *
+                     *  Really needs breaking out into own css class, as do all the slk styles
+                     */
+                    string style = "width: 100%; height:40px; overflow:visible;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;";
+                    txtInstructorComments.Style.Value = style;
                     txtInstructorComments.Text = item.InstructorComments;
                     txtInstructorComments.Attributes.Add("onfocus", focusScript);
                     txtInstructorComments.RenderControl(htmlTextWriter);
