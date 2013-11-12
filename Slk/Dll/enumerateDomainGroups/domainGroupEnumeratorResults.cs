@@ -14,6 +14,7 @@ namespace Microsoft.SharePointLearningKit
         {
             Users = new List<SPUser>();
             Errors = new List<string>();
+            DetailedExceptions = new List<Exception>();
             IncludeGroup = true;
         }
 #endregion constructors
@@ -27,6 +28,9 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>A list of errors.</summary>
         public List<string> Errors { get; private set; }
+
+        /// <summary>A list of exceptions.</summary>
+        public List<Exception> DetailedExceptions { get; private set; }
 #endregion properties
 
 #region public methods
