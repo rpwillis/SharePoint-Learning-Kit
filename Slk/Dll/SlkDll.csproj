@@ -237,7 +237,17 @@
     <Compile Include="settings\EmailSettings.cs" />
     <Compile Include="settings\dropBoxSettings.cs" />
     <Compile Include="settings\quickAssignmentSettings.cs" />
-    <Compile Include="QuerySetClasses.cs" />
+    <Compile Include="querySet\columnDefinition.cs"/>
+    <Compile Include="querySet\columnRenderAs.cs"/>
+    <Compile Include="querySet\conditionDefinition.cs"/>
+    <Compile Include="querySet\queryDefinition.cs"/>
+    <Compile Include="querySet\querySetClasses.cs"/>
+    <Compile Include="querySet\querySetDefinition.cs"/>
+    <Compile Include="querySet\querySetLocalization.cs"/>
+    <Compile Include="querySet\renderedCell.cs"/>
+    <Compile Include="querySet\sortDefinition.cs"/>
+    <Compile Include="querySet\webNameRenderedCell.cs"/>
+    <Compile Include="querySet\xmlValue.cs"/>
     <Compile Include="SlkUtilities.cs"/>
     <Compile Include="SlkCulture.cs"/>
   </ItemGroup>
