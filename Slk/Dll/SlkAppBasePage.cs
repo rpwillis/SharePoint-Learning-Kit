@@ -308,8 +308,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     /// <param name="columnMap">See QueryDefinition.CreateQuery.</param>
     ///
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#")]
-    protected LearningStoreQuery CreateStandardQuery(QueryDefinition queryDef, bool countOnly,
-        Guid? spWebScopeMacro, out int[,] columnMap)
+    protected LearningStoreQuery CreateStandardQuery(QueryDefinition queryDef, bool countOnly, Guid? spWebScopeMacro, out int[,] columnMap)
     {
         return queryDef.CreateQuery(SlkStore.LearningStore, countOnly, delegate(string macroName)
         {
