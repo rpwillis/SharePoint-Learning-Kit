@@ -139,7 +139,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 else
                 {
-                    throw new DomainGroupEnumerationException(string.Format(SlkCulture.GetCulture(), AppResources.DomainGroupNotFound, group.Name));
+                    throw new DomainGroupEnumerationException(string.Format(SlkCulture.GetCulture(), AppResources.DomainGroupNotFound, group.Name), e);
                 }
             }
         }

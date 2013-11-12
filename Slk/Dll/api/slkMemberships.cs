@@ -35,6 +35,7 @@ namespace Microsoft.SharePointLearningKit
         DomainGroupEnumerator domainGroupEnumerator;
         string domainGroupEnumeratorType;
         string domainGroupEnumeratorAssembly;
+        ISlkStore store;
         static readonly TimeSpan DomainGroupEnumerationTotalTimeout = new TimeSpan(0, 5, 0);
 
 #region fields
@@ -232,6 +233,8 @@ namespace Microsoft.SharePointLearningKit
             {
                 throw new ArgumentNullException("web");
             }
+
+            this.store = store;
 
             // keep track of when this method started, for timeout purposes
             startTime = DateTime.Now;
@@ -441,6 +444,15 @@ namespace Microsoft.SharePointLearningKit
                 {
                     AddGroupFailureDetail(AppResources.DomainGroupError, domainGroup.LoginName, error);
                 }
+
+                StringBuilder detailedErrorBuilder = new StringBuilder();
+                foreach (Exception e in results.DetailedExceptions)
+                {
+                    detailedErrorBuilder.Append(e.ToString());
+                    detailedErrorBuilder.Append(Environment.NewLine);
+                }
+
+                store.LogError(detailedErrorBuilder.ToString());
             }
 
             // If a learner then create a new learner group and add to the collection of learner groups

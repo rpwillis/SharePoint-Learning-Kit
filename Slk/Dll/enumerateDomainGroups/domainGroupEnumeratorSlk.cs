@@ -34,6 +34,10 @@ namespace Microsoft.SharePointLearningKit
             catch (DomainGroupEnumerationException exception)
             {
                 results.Errors.Add(exception.Message);
+                if (exception.InnerException != null)
+                {
+                    results.DetailedExceptions.Add(exception.InnerException);
+                }
             }
 
             foreach (SPUserInfo spUserInfo in spUserInfos)
