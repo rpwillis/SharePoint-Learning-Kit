@@ -156,8 +156,8 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="fileName">The name of the file.</param>
         /// <param name="fileStream">The contents of the file.</param>
         /// <param name="learner">The learner the file is for.</param>
-        /// <returns>The url of the saved file.</returns>
-        public string SaveFile(string fileName, Stream fileStream, SlkUser learner)
+        /// <returns>The saved file.</returns>
+        public AssignmentFile SaveFile(string fileName, Stream fileStream, SlkUser learner)
         {
             SPFolder folder = assignmentFolder.Folder;
             string fileUrl = folder.Url + '/' + fileName;
@@ -171,7 +171,7 @@ namespace Microsoft.SharePointLearningKit
             file.Item[DropBox.ColumnLearner] = learner.SPUser;
             file.Item[DropBox.ColumnIsLatest] = true; 
             file.Item.Update();
-            return file.ServerRelativeUrl;
+            return new AssignmentFile(file.Name, file.ServerRelativeUrl, (string)file.Item["PermMask"]);
         }
 
         /// <summary>Removes all permissions on the folder.</summary>

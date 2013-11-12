@@ -74,8 +74,8 @@ namespace Microsoft.SharePointLearningKit
         /// <returns>The url of the file.</returns>
         public AssignmentFile CopyFileToDropBox()
         {
-            string url = null;
-            string name = null;
+            AssignmentFile assignmentFile = null;
+
             SPSecurity.RunWithElevatedPrivileges(delegate()
             {
                 SharePointFileLocation fileLocation;
@@ -98,7 +98,6 @@ namespace Microsoft.SharePointLearningKit
 
                         if (MustCopyFileToDropBox(file.Name))
                         {
-                            name = file.Name;
                             using (SPSite destinationSite = new SPSite(assignmentProperties.SPSiteGuid))
                             {
                                 destinationSite.CatchAccessDeniedException = false;
@@ -124,7 +123,7 @@ namespace Microsoft.SharePointLearningKit
 
                                         using (Stream stream = file.OpenBinaryStream())
                                         {
-                                            url = learnerSubFolder.SaveFile(file.Name, stream, new SlkUser(learner));
+                                            assignmentFile = learnerSubFolder.SaveFile(file.Name, stream, new SlkUser(learner));
                                         }
                                     }
                                     finally
@@ -138,7 +137,7 @@ namespace Microsoft.SharePointLearningKit
                 }
             });
 
-            return new AssignmentFile(name, url);
+            return assignmentFile;
         }
 
         /// <summary>Uploads files to the learner's drop box.</summary>
@@ -699,14 +698,55 @@ namespace Microsoft.SharePointLearningKit
         {
             if (file.IsEditable)
             {
-                //string script = "return DispEx(this,event,'TRUE','FALSE','TRUE','','0','SharePoint.OpenDocuments','','','', '21','0','0','0x7fffffffffffffff');return false;";
+#if SP2007
                 string script = "editDocumentWithProgID2('{0}', '', 'SharePoint.OpenDocuments','0','{1}','0');";
                 return string.Format(CultureInfo.InvariantCulture, script, Microsoft.SharePoint.Utilities.SPHttpUtility.UrlPathEncode(file.Url, false), web.Url);
+#else
+                return CreateDispExFunctionCall(file, web);
+#endif
             }
             else
             {
                 return string.Empty;
             }
+        }
+
+        static string CreateDispExFunctionCall(AssignmentFile file, SPWeb web)
+        {
+            string text = Microsoft.SharePoint.Utilities.SPUtility.MapToControl(web, file.Name, string.Empty);
+            // string openInBrowser = (file.Item.ParentList.DefaultItemOpen == DefaultItemOpen.Browser) ? "1" : "0";
+            string openInBrowser = "0"; // Always 0 as want to open in client application
+            // string forceCheckout = file.Item.ParentList.ForceCheckout ? "1" : "0";
+            string forceCheckout = "0"; // Drop box doesn't support check in/out.
+            string currentUser = (web.CurrentUser != null) ? web.CurrentUser.ID.ToString(CultureInfo.InvariantCulture) : string.Empty;
+            // string isCheckedOutToLocal =  (string)file.Item["IsCheckedoutToLocal"],
+            string isCheckedOutToLocal = "0";  // Drop box doesn't support check in/out.
+            string permMask = file.PermMask;
+
+            /*
+            SPFieldLookupValue sPFieldLookupValue = file.Item["CheckedOutUserId"] as SPFieldLookupValue;
+            string scriptLiteralToEncode = (sPFieldLookupValue == null) ? string.Empty : sPFieldLookupValue.LookupValue;
+            scriptLiteralToEncode = SPHttpUtility.EcmaScriptStringLiteralEncode(scriptLiteralToEncode);
+            */
+            string scriptLiteralToEncode = string.Empty;  // Drop box doesn't support check in/out.
+
+            return string.Format(CultureInfo.InvariantCulture, "DispEx(this,event,'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}');", new object[]
+            {
+                "TRUE",
+                "FALSE",
+                "TRUE",
+                text,
+                openInBrowser,
+                text,
+                string.Empty,
+                string.Empty,
+                scriptLiteralToEncode,
+                currentUser,
+                forceCheckout,
+                isCheckedOutToLocal,
+                permMask
+            });
+
         }
 
         /// <summary>
