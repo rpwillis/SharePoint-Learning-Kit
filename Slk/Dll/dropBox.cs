@@ -546,6 +546,7 @@ namespace Microsoft.SharePointLearningKit
 
 #region static members
         static readonly System.Text.RegularExpressions.Regex nameRegex = new System.Text.RegularExpressions.Regex(@"[\*#%\&:<>\?/{|}\\]");
+        static readonly System.Text.RegularExpressions.Regex repeatedDotRegex = new System.Text.RegularExpressions.Regex(@"\.\.");
         static void RemoveFieldNameFromGroupHeader(SPView view)
         {
             string fieldNameHtml = "<GetVar Name=\"GroupByField\" HTMLEncode=\"TRUE\" /><HTML><![CDATA[</a> :&nbsp;]]></HTML>";
@@ -616,7 +617,8 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="title">The starting point.</param>
         public static string MakeTitleSafe(string title)
         {
-            return nameRegex.Replace(title, "-").Replace("\"", "-");
+            string modified = nameRegex.Replace(title, "-").Replace("\"", "-");
+            return repeatedDotRegex.Replace(modified, "__");
         }
 
 #endregion static members
