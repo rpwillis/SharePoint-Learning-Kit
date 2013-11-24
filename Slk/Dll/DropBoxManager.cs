@@ -761,7 +761,7 @@ namespace Microsoft.SharePointLearningKit
 
         static bool MustCopyFileToDropBox(string fileName)
         {
-            return AssignmentFile.IsOfficeFileByExtension(Path.GetExtension(fileName));
+            return AssignmentFile.MustCopyFileToDropBox(Path.GetExtension(fileName));
         }
 #endregion static methods
 

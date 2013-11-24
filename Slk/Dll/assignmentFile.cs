@@ -86,6 +86,8 @@ namespace Microsoft.SharePointLearningKit
                         return false;
                     case ".TXT":
                         return true;
+                    case ".RTF":
+                        return true;
                     default:
                         return false;
                 }
@@ -173,6 +175,25 @@ namespace Microsoft.SharePointLearningKit
 #endif
 
             return string.Format(CultureInfo.InvariantCulture, formatString, web.Url, HttpUtility.UrlEncode(Url), HttpUtility.UrlEncode(sourceUrl));
+        }
+
+        /// <summary>Detemines if a file needs copying to the drop box.</summary>
+        public static bool MustCopyFileToDropBox(string extension)
+        {
+            if (IsOfficeFileByExtension(extension))
+            {
+                return true;
+            }
+            else
+            {
+                switch (extension.ToUpperInvariant())
+                {
+                    case ".RTF":
+                        return true;
+                    default:
+                        return false;
+                }
+            }
         }
 
         /// <summary>Detemines if the file is an office file.</summary>
