@@ -189,14 +189,14 @@ namespace Microsoft.SharePointLearningKit
 
             if (text.Contains("%url%"))
             {
-                string url = "{0}{1}Lobby.aspx?LearnerAssignmentId={1}";
+                string url = "{0}{1}Lobby.aspx?LearnerAssignmentId={2}";
                 url = string.Format(CultureInfo.InvariantCulture, url, web.Url, Constants.SlkUrlPath, user.AssignmentUserGuidId);
                 text = text.Replace("%url%", url);
             }
 
             if (text.Contains("%gradingUrl%"))
             {
-                string url = "{0}{1}grading.aspx?AssignmentId={1}";
+                string url = "{0}{1}grading.aspx?AssignmentId={2}";
                 url = string.Format(CultureInfo.InvariantCulture, url, web.Url, Constants.SlkUrlPath, assignment.Id.GetKey());
                 text = text.Replace("%gradingUrl%", url);
             }
