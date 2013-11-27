@@ -40,7 +40,7 @@ SharePoint Learning Kit is a community source project. This means that it is mad
 
 4.  Installing SLK
 
-    3.a.    For SharePoint 2010
+    3.a.    For SharePoint 2010 & 2013
 
         i.      Unzip the installation package on a web front end server.
         ii.     Right click on AddSolution.ps1 and choose properties. Then click the unblock button.
