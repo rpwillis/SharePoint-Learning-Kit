@@ -104,7 +104,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
         private LearnerAssignmentProperties learnerAssignmentProperties;
         AssignmentFile assignmentFile;
-        const string startQueryStringName = "start";
+        const string startQueryStringName = "slkStart";
 
         /// <summary>
         /// Holds AssignmentProperties value.
