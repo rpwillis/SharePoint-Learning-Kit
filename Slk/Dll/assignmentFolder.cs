@@ -84,7 +84,7 @@ namespace Microsoft.SharePointLearningKit
             try
             {
                 SPListItem subFolder = CreateSubFolder(LearnerFolderName(user));
-                ApplyPermissionInternal(subFolder, user, SPRoleType.Reader, new UpdateListItem(assignmentFolder));
+                ApplySharePointPermission(subFolder, user, SPRoleType.Reader);
                 return new AssignmentFolder(subFolder, true, properties);
             }
             finally
@@ -101,7 +101,7 @@ namespace Microsoft.SharePointLearningKit
         {
             if (assignmentFolder != null)
             {
-                ApplyPermission(user, roleType, new UpdateListItem(assignmentFolder));
+                ApplySharePointPermission(assignmentFolder, user, roleType);
             }
         }
 
@@ -264,12 +264,50 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        void ApplyPermission(SPUser user, SPRoleType roleType, UpdateItem updateItem)
+        private void ApplySharePointPermission(SPSecurableObject folder, SPUser user, SPRoleType roleType)
         {
-            ApplyPermissionInternal(assignmentFolder, user, roleType, updateItem);
+            ApplySharePointPermission(web, folder, user, roleType);
         }
 
-        void ApplyPermissionInternal(SPListItem folder, SPUser user, SPRoleType roleType, UpdateItem updateItem)
+        /// <summary>
+        /// Creates sub folder under a specific assignment folder, it is being named after the specified learner's name.
+        /// </summary>
+        SPListItem CreateSubFolder(string newFolderName)
+        {
+            SPFolder folder = assignmentFolder.Folder;
+            bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
+            try
+            {
+                web.AllowUnsafeUpdates = true;
+                SPFolder learnerSubFolder = folder.SubFolders.Add(newFolderName);
+                learnerSubFolder.Update();
+                DropBox.ClearPermissions(learnerSubFolder.Item);
+                return learnerSubFolder.Item;
+            }
+            finally
+            {
+                web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
+            }
+        }
+#endregion private methods
+
+#region static members
+        static string LearnerFolderName(SPUser learner)
+        {
+            string folderName = learner.LoginName;
+            return DropBox.MakeTitleSafe(folderName);
+        }
+
+        /// <summary>Assigns a permission to a securable object.</summary>
+        /// <param name="web">The SPWeb containing the object.</param>
+        /// <param name="securableObject">The securable object.</param>
+        /// <param name="user">The user to assign permissions.</param>
+        /// <param name="roleType">The type of permission to add.</param>
+#if SP2007
+        public static void ApplySharePointPermission(SPWeb web, ISecurableObject securableObject, SPUser user, SPRoleType roleType)
+#else
+        public static void ApplySharePointPermission(SPWeb web, SPSecurableObject securableObject, SPUser user, SPRoleType roleType)
+#endif
         {
             if (user == null)
             {
@@ -295,16 +333,16 @@ namespace Microsoft.SharePointLearningKit
             {
                 bool isNewRoleDefintion = true;
 
-                if (folder.HasUniqueRoleAssignments == false)
+                if (securableObject.HasUniqueRoleAssignments == false)
                 {
-                    folder.BreakRoleInheritance(false);
+                    securableObject.BreakRoleInheritance(false);
                     roleAssignment = new SPRoleAssignment(user);
                 }
                 else
                 {
                     try
                     {
-                        roleAssignment = folder.RoleAssignments.GetAssignmentByPrincipal(user);
+                        roleAssignment = securableObject.RoleAssignments.GetAssignmentByPrincipal(user);
                     }
                     catch (ArgumentException)
                     {
@@ -340,9 +378,9 @@ namespace Microsoft.SharePointLearningKit
                 {
                     roleAssignment.RoleDefinitionBindings.Add(roleDefinition);
 #if SP2007
-                    folder.RoleAssignments.Add(roleAssignment);
+                    securableObject.RoleAssignments.Add(roleAssignment);
 #else
-                    folder.RoleAssignments.AddToCurrentScopeOnly(roleAssignment);
+                    securableObject.RoleAssignments.AddToCurrentScopeOnly(roleAssignment);
 #endif
                 }
             }
@@ -352,74 +390,7 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        /// <summary>
-        /// Creates sub folder under a specific assignment folder, it is being named after the specified learner's name.
-        /// </summary>
-        SPListItem CreateSubFolder(string newFolderName)
-        {
-            SPFolder folder = assignmentFolder.Folder;
-            bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
-            try
-            {
-                web.AllowUnsafeUpdates = true;
-                SPFolder learnerSubFolder = folder.SubFolders.Add(newFolderName);
-                learnerSubFolder.Update();
-                DropBox.ClearPermissions(learnerSubFolder.Item);
-                return learnerSubFolder.Item;
-            }
-            finally
-            {
-                web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
-            }
-        }
-#endregion private methods
-
-#region static members
-        static string LearnerFolderName(SPUser learner)
-        {
-            string folderName = learner.LoginName;
-            return DropBox.MakeTitleSafe(folderName);
-        }
-
 #endregion static members
-
-#region UpdateItem classes
-        abstract class UpdateItem
-        {
-            public abstract void Update();
-        }
-
-        class UpdateList : UpdateItem
-        {
-            SPList list;
-
-            public UpdateList(SPList list)
-            {
-                this.list = list;
-            }
-
-            public override void Update()
-            {
-                list.Update();
-            }
-        }
-
-        class UpdateListItem : UpdateItem
-        {
-            SPListItem listItem;
-
-            public UpdateListItem(SPListItem listItem)
-            {
-                this.listItem = listItem;
-            }
-
-            public override void Update()
-            {
-                listItem.Update();
-            }
-        }
-#endregion UpdateItem classes
-
     }
 }
 
