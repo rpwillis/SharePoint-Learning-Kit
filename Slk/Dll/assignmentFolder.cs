@@ -264,7 +264,11 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+#if SP2007
+        private void ApplySharePointPermission(ISecurableObject folder, SPUser user, SPRoleType roleType)
+#else
         private void ApplySharePointPermission(SPSecurableObject folder, SPUser user, SPRoleType roleType)
+#endif
         {
             ApplySharePointPermission(web, folder, user, roleType);
         }
