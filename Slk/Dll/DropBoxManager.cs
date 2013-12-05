@@ -604,7 +604,7 @@ namespace Microsoft.SharePointLearningKit
 #if SP2013
             // In one instance had an issue that instructors couldn't see uploaded assignments in OWA if they
             // didn't have read access on the drop box.
-            ApplyInstructorsReadAccessPermissionsToDropBox(spWeb, dropBox);
+            ApplyInstructorsReadAccessPermissionsToDropBox(web, dropBox);
 #endif
             ApplyInstructorsReadAccessPermissions(folder);
         }
