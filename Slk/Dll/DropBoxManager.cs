@@ -249,7 +249,7 @@ namespace Microsoft.SharePointLearningKit
                             assignmentFolder.RemoveAllPermissions();
 
                             // Grant assignment instructors Read permission on the assignment folder
-                            ApplyInstructorsReadAccessPermissions(assignmentFolder);
+                            ApplyInstructorsReadAccessPermissions(assignmentFolder, spWeb, dropBox);
 
                             // Delete subfolders of the learners who have been removed from the assignment
                             DeleteRemovedLearnerFolders(assignmentFolder, oldAssignmentProperties);
@@ -386,7 +386,6 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Creates an assignment folder.</summary>
         public void CreateAssignmentFolder()
         {
-            Debug("Starting DropBoxManager.CreateAssignmentFolder");
             Microsoft.SharePoint.Utilities.SPUtility.ValidateFormDigest();
 
             SPSecurity.RunWithElevatedPrivileges(delegate
@@ -395,32 +394,23 @@ namespace Microsoft.SharePointLearningKit
                 {
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        Debug("DropBoxManager.CreateAssignmentFolder: Have opened web {0}", spWeb.Url);
                         DropBox dropBox = new DropBox(store, spWeb);
 
                         //Get the folder if it exists 
                         if (dropBox.GetAssignmentFolder(assignmentProperties) != null)
                         {
-                            Debug("DropBoxManager.CreateAssignmentFolder: assignment folder  already exists");
                             throw new SafeToDisplayException(AppResources.AssFolderAlreadyExists);
                         }
 
-                        Debug("DropBoxManager.CreateAssignmentFolder: assignment folder does not exist");
-
                         AssignmentFolder assignmentFolder = dropBox.CreateAssignmentFolder(assignmentProperties);
-                        Debug("DropBoxManager.CreateAssignmentFolder: have created assignment folder");
                         ApplyInstructorsReadAccessPermissions(assignmentFolder);
-                        Debug("DropBoxManager.CreateAssignmentFolder: have applied instructor permission");
 
                         //Create a Subfolder for each learner
                         foreach (SlkUser learner in assignmentProperties.Learners)
                         {
                             SPUser spLearner = learner.SPUser;
-                            Debug("DropBoxManager.CreateAssignmentFolder: create folder for {0}", spLearner.Name);
                             assignmentFolder.ApplyPermission(spLearner, SPRoleType.Reader);
-                            Debug("DropBoxManager.CreateAssignmentFolder: have have set permission on assignment folder");
                             assignmentFolder.CreateLearnerAssignmentFolder(spLearner);
-                            Debug("DropBoxManager.CreateAssignmentFolder: have created folder for {0}", spLearner.Name);
                         }
                     }
                 }
@@ -599,6 +589,24 @@ namespace Microsoft.SharePointLearningKit
             {
                 folder.ApplyPermission(instructor.SPUser, SPRoleType.Contributor);
             }
+        }
+
+        void ApplyInstructorsReadAccessPermissionsToDropBox(SPWeb web, DropBox dropBox)
+        {
+            foreach (SlkUser instructor in assignmentProperties.Instructors)
+            {
+                AssignmentFolder.ApplySharePointPermission(web, dropBox.DropBoxList, instructor.SPUser, SPRoleType.Reader);
+            }
+        }
+
+        void ApplyInstructorsReadAccessPermissions(AssignmentFolder folder, SPWeb web, DropBox dropBox)
+        {
+#if SP2013
+            // In one instance had an issue that instructors couldn't see uploaded assignments in OWA if they
+            // didn't have read access on the drop box.
+            ApplyInstructorsReadAccessPermissionsToDropBox(spWeb, dropBox);
+#endif
+            ApplyInstructorsReadAccessPermissions(folder);
         }
 
         void ApplyInstructorsReadAccessPermissions(AssignmentFolder folder)
