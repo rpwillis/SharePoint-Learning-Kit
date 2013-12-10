@@ -90,37 +90,23 @@
     <Compile Include="AppWebControls\SimpleButtonToolbar.cs" />
     <Compile Include="AppWebControls\SlkButton.cs"/>
     <Compile Include="AppWebControls\GradingItem.cs"/>
-    <Compile Include="AppWebPages\CommentedFiles.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AppWebPages\DownloadDialog.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AppWebPages\FilesUploadPage.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AppWebPages\Frameset\ChangeActivity.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AppWebPages\SubmittedFiles.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="AssignmentDownloader.cs" />
-    <Compile Include="DropBoxManager.cs" />
-    <Compile Include="DropBoxEditDetails.cs" />
-    <Compile Include="DropBox.cs" />
     <Compile Include="ReminderEmails.cs" />
-    <Compile Include="AssignmentFolder.cs" />
-    <Compile Include="AssignmentFile.cs" />
+    <Compile Include="DropBox\DropBoxManager.cs" />
+    <Compile Include="DropBox\DropBoxEditDetails.cs" />
+    <Compile Include="DropBox\DropBox.cs" />
+    <Compile Include="DropBox\AssignmentFolder.cs" />
+    <Compile Include="DropBox\AssignmentFile.cs" />
     <Compile Include="EnumerateDomainGroups\EnumerateDomainGroups.cs" />
     <Compile Include="EnumerateDomainGroups\domainGroupEnumerator.cs" />
     <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorSlk.cs" />
     <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorNoGroups.cs" />
     <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorResults.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LearningStoreHelper.cs" />
-    <Compile Include="SlkApi.cs" />
     <Compile Include="api\SlkStore.cs" />
+    <Compile Include="api\SlkRole.cs" />
+    <Compile Include="api\SlkUserWebListItem.cs" />
+    <Compile Include="api\SlkGroup.cs" />
     <Compile Include="api\AnonymousSlkStore.cs" />
     <Compile Include="api\PackageDetails.cs" />
     <Compile Include="api\Package.cs" />
@@ -139,13 +125,26 @@
     <Compile Include="api\slkUserCollectionChanges.cs" />
     <Compile Include="api\userWebList.cs" />
     <Compile Include="api\webListItem.cs" />
-    <Compile Include="FramesetResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FramesetResources.resx</DependentUpon>
-    </Compile>
     <Compile Include="SlkError.cs" />
     <Compile Include="AppWebControls\TableGrid.cs" />
+    <Compile Include="AppWebPages\SlkAppBasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\CommentedFiles.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\DownloadDialog.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\FilesUploadPage.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\Frameset\ChangeActivity.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AppWebPages\SubmittedFiles.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="AppWebPages\assignmentObjectsFromQueryString.cs"/>
     <Compile Include="AppWebPages\Actions.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -192,6 +191,9 @@
     <Compile Include="AppWebPages\QuerySummary.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="AppWebPages\Frameset\SlkFramesetPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="WebParts\AssignmentListWebPart.cs" />
     <Compile Include="WebParts\ErrorBanner.cs" />
     <Compile Include="WebParts\QuickAssignmentWebPart.cs" />
@@ -205,9 +207,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Constants.cs" />
-    <Compile Include="AppWebPages\Frameset\SlkFramesetPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\ChangeActivityHelper.cs" />
     <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\ContentHelper.cs" />
     <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\Encoding.cs" />
@@ -226,9 +225,6 @@
     <Compile Include="..\..\Samples\BasicWebPlayer\App_Code\Frameset\TocHelper.cs"/>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AppResourcesLocal.cs" />
-    <Compile Include="SlkAppBasePage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="SlkFramesetQueryParam.cs" />
     <Compile Include="SlkQueryString.cs" />
     <Compile Include="SlkSchema.cs" />
@@ -258,6 +254,10 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FramesetResources.Designer.cs</LastGenOutput>
+      <StronglyTypedClassName>FramesetResources</StronglyTypedClassName>
+      <StronglyTypedFilename>properties\FramesetResources.Designer.cs</StronglyTypedFilename>
+      <StronglyTypedLanguage>C#</StronglyTypedLanguage>
+      <StronglyTypedNamespace>Resources</StronglyTypedNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\AppResources.resx">
       <SubType>Designer</SubType>

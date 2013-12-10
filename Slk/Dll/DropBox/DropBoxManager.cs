@@ -403,7 +403,7 @@ namespace Microsoft.SharePointLearningKit
                         }
 
                         AssignmentFolder assignmentFolder = dropBox.CreateAssignmentFolder(assignmentProperties);
-                        ApplyInstructorsReadAccessPermissions(assignmentFolder);
+                        ApplyInstructorsReadAccessPermissions(assignmentFolder, spWeb, dropBox);
 
                         //Create a Subfolder for each learner
                         foreach (SlkUser learner in assignmentProperties.Learners)
