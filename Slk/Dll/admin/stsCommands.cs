@@ -16,6 +16,7 @@ namespace Microsoft.SharePointLearningKit
         const string commandEnumMappings = "slk-enummappings";
         const string commandConfiguration = "slk-getconfiguration";
         StringDictionary keyValues;
+        SlkCulture culture = new SlkCulture();
 #region constructors
 #endregion constructors
 
@@ -29,16 +30,16 @@ namespace Microsoft.SharePointLearningKit
             switch (command.ToLower(CultureInfo.InvariantCulture))
             {
                 case commandConfigure:
-                    return AppResources.StsHelpConfigure;
+                    return culture.Resources.StsHelpConfigure;
 
                 case commandConfiguration:
-                    return AppResources.StsHelpGetConfiguration;
+                    return culture.Resources.StsHelpGetConfiguration;
 
                 case commandEnumMappings:
-                    return AppResources.StsHelpEnumMappings;
+                    return culture.Resources.StsHelpEnumMappings;
 
                 case commandDeleteMapping:
-                    return AppResources.StsHelpDeleteMapping;
+                    return culture.Resources.StsHelpDeleteMapping;
 
                 default:
                     throw new ArgumentOutOfRangeException("command");
@@ -84,7 +85,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (string.IsNullOrEmpty(guidValue) && string.IsNullOrEmpty(url))
             {
-                output = FormatString(AppResources.StsMissingParameters, "guid", "url");
+                output = FormatString(culture.Resources.StsMissingParameters, "guid", "url");
                 return (int)ErrorCodes.SyntaxError;
             }
             else if (string.IsNullOrEmpty(url))
@@ -115,12 +116,12 @@ namespace Microsoft.SharePointLearningKit
                 AdministrationConfiguration configuration = SlkAdministration.LoadConfiguration(guid);
                 if (configuration.IsNewConfiguration)
                 {
-                    output = FormatString(AppResources.StsInvalidGuid, guid);
+                    output = FormatString(culture.Resources.StsInvalidGuid, guid);
                     return (int)ErrorCodes.GeneralError;
                 }
                 else
                 {
-                    output = FormatString(AppResources.StsGetSiteConfiguration,
+                    output = FormatString(culture.Resources.StsGetSiteConfiguration,
                                             configuration.DatabaseServer,
                                             configuration.DatabaseName,
                                             configuration.InstructorPermission,
@@ -151,7 +152,7 @@ namespace Microsoft.SharePointLearningKit
                     siteLabel = webApp.Name;
                 }
 
-                builder.AppendFormat(AppResources.StsEnumMappingLine, siteLabel, mapping.SPSiteGuid, mapping.DatabaseServer, mapping.DatabaseName);
+                builder.AppendFormat(culture.Resources.StsEnumMappingLine, siteLabel, mapping.SPSiteGuid, mapping.DatabaseServer, mapping.DatabaseName);
                 builder.AppendLine();
             }
 
@@ -165,7 +166,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (string.IsNullOrEmpty(guidValue))
             {
-                output = FormatString(AppResources.StsMissingParameter, "guid");
+                output = FormatString(culture.Resources.StsMissingParameter, "guid");
                 return (int)ErrorCodes.SyntaxError;
             }
 
@@ -175,13 +176,13 @@ namespace Microsoft.SharePointLearningKit
             SlkSPSiteMapping mapping= SlkSPSiteMapping.GetMapping(guid);
             if (mapping == null)
             {
-                output = FormatString(AppResources.StsInvalidGuid, guid);
+                output = FormatString(culture.Resources.StsInvalidGuid, guid);
                 return (int)ErrorCodes.GeneralError;
             }
             else
             {
                 mapping.Delete();
-                output = FormatString(AppResources.StsMappingDeleted, guid);
+                output = FormatString(culture.Resources.StsMappingDeleted, guid);
                 return 0;
             }
         }
@@ -203,14 +204,14 @@ namespace Microsoft.SharePointLearningKit
 
             if (string.IsNullOrEmpty(url))
             {
-                output = FormatString(AppResources.StsMissingParameter, "url");
+                output = FormatString(culture.Resources.StsMissingParameter, "url");
                 return (int)ErrorCodes.SyntaxError;
             }
 
             //   -- can't specify both -uploadslksettings and -defaultslksettings
             if (settingsFileName != null && defaultSlkSettings)
             {
-                output = FormatString(AppResources.StsSettingsError, "settingsFileName", "defaultSlkSettings");
+                output = FormatString(culture.Resources.StsSettingsError, "settingsFileName", "defaultSlkSettings");
                 return (int)ErrorCodes.SyntaxError;
             }
 
@@ -246,11 +247,11 @@ namespace Microsoft.SharePointLearningKit
             string schemaFileContents = null;
             if (createDatabase)
             {
-                schemaFileContents = AppResources.SlkSchemaSql;
+                schemaFileContents = culture.Resources.SlkSchemaSql;
             }
 
             // load the default SLK Settings file into <defaultSettingsFileContents>
-            string defaultSettingsFileContents = AppResources.SlkSettingsFile;
+            string defaultSettingsFileContents = culture.Resources.SlkSettingsFile;
 
             // load the SLK Settings file to upload into <settingsFileContents> if specified by the parameters.
             string settingsFileContents = null;
@@ -270,11 +271,11 @@ namespace Microsoft.SharePointLearningKit
 
             if (forApplication)
             {
-                output = FormatString(AppResources.StsConfiguringSlkForApplication, url, id);
+                output = FormatString(culture.Resources.StsConfiguringSlkForApplication, url, id);
             }
             else
             {
-                output = FormatString(AppResources.StsConfiguringSlkForSite, url, id);
+                output = FormatString(culture.Resources.StsConfiguringSlkForSite, url, id);
             }
 
             return 0;

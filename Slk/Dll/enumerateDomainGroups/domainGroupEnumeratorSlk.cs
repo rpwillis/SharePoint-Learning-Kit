@@ -49,7 +49,8 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (SPException exception)
                 {
-                    results.Errors.Add(string.Format(SlkCulture.GetCulture(), Resources.Properties.AppResources.ErrorCreatingSPSiteUser, web.Site.Url, exception));
+                    SlkCulture culture = new SlkCulture();
+                    results.Errors.Add(string.Format(culture.Culture, culture.Resources.ErrorCreatingSPSiteUser, web.Site.Url, exception));
                 }
             }
 

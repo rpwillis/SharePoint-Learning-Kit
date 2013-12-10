@@ -53,7 +53,6 @@ namespace Microsoft.SharePointLearningKit
             }
 
             Resources.Culture = Culture;
-            AppResources.Culture = Culture;
         }
 #endregion constructors
 
@@ -86,6 +85,22 @@ namespace Microsoft.SharePointLearningKit
         {
             SlkCulture culture = new SlkCulture();
             return culture.Culture;
+        }
+
+        /// <summary>Gets the default resources for the invariant culture.</summary>
+        /// <returns></returns>
+        internal static AppResourcesLocal GetResources()
+        {
+            SlkCulture culture = new SlkCulture();
+            return culture.Resources;
+        }
+
+        /// <summary>Gets the default resources for the invariant culture.</summary>
+        /// <returns></returns>
+        internal static AppResourcesLocal GetDefaultResources()
+        {
+            SlkCulture culture = new SlkCulture(CultureInfo.InvariantCulture);
+            return culture.Resources;
         }
 #endregion static members
     }

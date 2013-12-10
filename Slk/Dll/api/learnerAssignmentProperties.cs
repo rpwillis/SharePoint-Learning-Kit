@@ -459,7 +459,7 @@ namespace Microsoft.SharePointLearningKit
         {
             if (Assignment.Store.CurrentUserId != LearnerId)
             {
-                throw new SafeToDisplayException(AppResources.SubmitAssignmentNotLearner);
+                throw new SafeToDisplayException(SlkCulture.GetResources().SubmitAssignmentNotLearner);
             }
         }
 
@@ -475,7 +475,7 @@ namespace Microsoft.SharePointLearningKit
                 }
             }
 
-            throw new SafeToDisplayException(AppResources.ChangeLearnerAssignmentNotInstructor);
+            throw new SafeToDisplayException(SlkCulture.GetResources().ChangeLearnerAssignmentNotInstructor);
         }
 
         StoredLearningSession CreateAttemptIfRequired(bool transitionToComplete)
@@ -555,7 +555,7 @@ namespace Microsoft.SharePointLearningKit
         Exception InvalidTransitionException(LearnerAssignmentState oldStatus, LearnerAssignmentState newStatus)
         {
             SlkCulture culture = new SlkCulture();
-            string message = culture.Format(AppResources.LearnerAssignmentTransitionNotSupported, oldStatus, newStatus);
+            string message = culture.Format(culture.Resources.LearnerAssignmentTransitionNotSupported, oldStatus, newStatus);
             return new InvalidOperationException(message);
         }
 

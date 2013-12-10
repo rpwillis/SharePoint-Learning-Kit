@@ -349,7 +349,7 @@ namespace Microsoft.SharePointLearningKit
             // Verify that the web is in the site
             if (web.Site.ID != Store.SPSiteGuid)
             {
-                throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
+                throw new InvalidOperationException(SlkCulture.GetResources().SPWebDoesNotMatchSlkSPSite);
             }
 
             if (Id == null)
@@ -370,7 +370,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 if (string.IsNullOrEmpty(title))
                 {
-                    Title = AppResources.NoPackageTitle;
+                    Title = SlkCulture.GetResources().NoPackageTitle;
                 }
                 else
                 {
@@ -450,7 +450,7 @@ namespace Microsoft.SharePointLearningKit
                     // validate <organizationIndex>
                     if ((organizationIndex.Value < 0) || (organizationIndex.Value >= package.Organizations.Count))
                     {
-                        throw new SafeToDisplayException(AppResources.InvalidOrganizationIndex);
+                        throw new SafeToDisplayException(SlkCulture.GetResources().InvalidOrganizationIndex);
                     }
 
                     PackageFormat = package.PackageFormat;
@@ -464,7 +464,7 @@ namespace Microsoft.SharePointLearningKit
                         if (!String.IsNullOrEmpty(organizationNodeReader.Title))
                         {
                             SlkCulture culture = new SlkCulture();
-                            Title = culture.Format(AppResources.SlkPackageAndOrganizationTitle, Title, organizationNodeReader.Title);
+                            Title = culture.Format(culture.Resources.SlkPackageAndOrganizationTitle, Title, organizationNodeReader.Title);
                         }
                     }
 
@@ -581,7 +581,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (PackageFormat == null && Location == null)
             {
-                throw new InvalidOperationException(AppResources.InvalidNewAssignment);
+                throw new InvalidOperationException(SlkCulture.GetResources().InvalidNewAssignment);
             }
 
             SPSiteGuid = web.Site.ID;
@@ -641,12 +641,12 @@ namespace Microsoft.SharePointLearningKit
             // only learner
             if (Instructors.Count != 0)
             {
-                throw new UnauthorizedAccessException(AppResources.InvalidSelfAssignment);
+                throw new UnauthorizedAccessException(SlkCulture.GetResources().InvalidSelfAssignment);
             }
 
             if ((Learners.Count != 1) || (Learners[0].UserId != currentUserId))
             {
-                throw new UnauthorizedAccessException(AppResources.InvalidSelfAssignment);
+                throw new UnauthorizedAccessException(SlkCulture.GetResources().InvalidSelfAssignment);
             }
         }
 #endregion private methods
@@ -714,7 +714,7 @@ namespace Microsoft.SharePointLearningKit
             // Verify that the web is in the site
             if (destinationSPWeb.Site.ID != store.SPSiteGuid)
             {
-                throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
+                throw new InvalidOperationException(SlkCulture.GetResources().SPWebDoesNotMatchSlkSPSite);
             }
 
             UserItemIdentifier currentUserId = store.CurrentUserId;
@@ -737,7 +737,7 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
-                throw new ArgumentException(AppResources.InvalidSlkRole, "slkRole");
+                throw new ArgumentException(SlkCulture.GetResources().InvalidSlkRole, "slkRole");
             }
 
             assignment.ShowAnswersToLearners = isSelfAssigned;

@@ -130,7 +130,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
             // if the user didn't select an SPSite, just display an error message and quit
             if (String.IsNullOrEmpty(SPSiteSelector.CurrentId))
             {
-                LabelErrorMessage.Text = AppResources.SelectSiteCollectionHtml;
+                LabelErrorMessage.Text = culture.Resources.SelectSiteCollectionHtml;
                 return;
             }
 
@@ -167,7 +167,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 {
                     if (FileUploadSlkSettings.FileName.Length > 0)
                     {
-                        throw new SafeToDisplayException(AppResources.InvalidSlkSettingsFilePath);
+                        throw new SafeToDisplayException(culture.Resources.InvalidSlkSettingsFilePath);
                     }
                 }
 
@@ -269,37 +269,37 @@ namespace Microsoft.SharePointLearningKit.AdminPages
         /// </summary>
         private void SetResourceText()
         {
-            pageTitle.Text = AppResources.ConfigureTitle;
-            pageTitleInTitlePage.Text = AppResources.ConfigureTitle;
-            pageDescription.Text = AppResources.ConfigureDescription;
-            imagePleaseWait.ToolTip = AppResources.ConfigureImagePleaseWait;
-            labelPleaseWait.Text = AppResources.ConfigureLabelPleaseWait;
-            imageConfigurationComplete.ToolTip = AppResources.ConfigureImageConfigurationComplete;
-            labelConfigurationComplete.Text = AppResources.ConfigureLabelConfigurationComplete;
-            linkConfigureAnother.Text = AppResources.ConfigureLinkConfigureAnother;
-            inputSiteSelector.Title = AppResources.ConfigureInputSiteSelectorTitle;
-            inputSiteSelector.Description = AppResources.ConfigureInputSiteSelectorDescription;
-            inputDatabase.Title = AppResources.ConfigureInputDatabaseTitle;
-            labelDatabaseDescription.Text = AppResources.ConfigureLabelDatabaseDescriptionText;
-            inputDatabaseServer.LabelText = AppResources.ConfigureInputDatabaseServerLabelText;
-            TxtDatabaseServer.ToolTip = AppResources.ConfigureTxtDatabaseServerToolTip;
-            TxtDatabaseName.ToolTip = AppResources.ConfigureTxtDatabaseNameToolTip;
-            ChkCreateDatabase.LabelText = AppResources.ConfigureChkCreateDatabaseLabelText;
-            inputPermissions.Title = AppResources.ConfigureInputPermissionsTitle;
-            labelPermissionsDescription.Text = AppResources.ConfigureLabelPermissionsDescriptionText;
-            inputInstructorPermissions.LabelText = AppResources.ConfigureInputInstructorPermissionsLabelText;
-            TxtInstructorPermission.ToolTip = AppResources.ConfigureTxtInstructorPermissionToolTip;
-            inputLearnerPermissions.LabelText = AppResources.ConfigureInputLearnerPermissionsLabelText;
-            TxtLearnerPermission.ToolTip = AppResources.ConfigureTxtLearnerPermissionToolTip;
-            inputObserverPermissions.LabelText = AppResources.ConfigureInputObserverPermissionsLabelText;
-            TxtObserverPermission.ToolTip = AppResources.ConfigureTxtObserverPermissionToolTip;
-            ChkCreatePermissions.LabelText = AppResources.ConfigureChkCreatePermissionsLabelText;
-            inputSlkSettings.Title = AppResources.ConfigureInputSlkSettingsTitle;
-            labelSlkSettingDescription.Text = AppResources.ConfigureLabelSlkSettingDescriptionText;
-            LinkCurrentSettingsFile.Text = AppResources.ConfigureLinkCurrentSettingsFileText;
-            LinkDefaultSettingsFile.Text = AppResources.ConfigureLinkDefaultSettingsFileText;
-            inputSlkSettingsFile.LabelText = AppResources.ConfigureInputSlkSettingsFileLabelText;
-            BtnOK.Text = AppResources.ConfigureBtnOKText;
+            pageTitle.Text = culture.Resources.ConfigureTitle;
+            pageTitleInTitlePage.Text = culture.Resources.ConfigureTitle;
+            pageDescription.Text = culture.Resources.ConfigureDescription;
+            imagePleaseWait.ToolTip = culture.Resources.ConfigureImagePleaseWait;
+            labelPleaseWait.Text = culture.Resources.ConfigureLabelPleaseWait;
+            imageConfigurationComplete.ToolTip = culture.Resources.ConfigureImageConfigurationComplete;
+            labelConfigurationComplete.Text = culture.Resources.ConfigureLabelConfigurationComplete;
+            linkConfigureAnother.Text = culture.Resources.ConfigureLinkConfigureAnother;
+            inputSiteSelector.Title = culture.Resources.ConfigureInputSiteSelectorTitle;
+            inputSiteSelector.Description = culture.Resources.ConfigureInputSiteSelectorDescription;
+            inputDatabase.Title = culture.Resources.ConfigureInputDatabaseTitle;
+            labelDatabaseDescription.Text = culture.Resources.ConfigureLabelDatabaseDescriptionText;
+            inputDatabaseServer.LabelText = culture.Resources.ConfigureInputDatabaseServerLabelText;
+            TxtDatabaseServer.ToolTip = culture.Resources.ConfigureTxtDatabaseServerToolTip;
+            TxtDatabaseName.ToolTip = culture.Resources.ConfigureTxtDatabaseNameToolTip;
+            ChkCreateDatabase.LabelText = culture.Resources.ConfigureChkCreateDatabaseLabelText;
+            inputPermissions.Title = culture.Resources.ConfigureInputPermissionsTitle;
+            labelPermissionsDescription.Text = culture.Resources.ConfigureLabelPermissionsDescriptionText;
+            inputInstructorPermissions.LabelText = culture.Resources.ConfigureInputInstructorPermissionsLabelText;
+            TxtInstructorPermission.ToolTip = culture.Resources.ConfigureTxtInstructorPermissionToolTip;
+            inputLearnerPermissions.LabelText = culture.Resources.ConfigureInputLearnerPermissionsLabelText;
+            TxtLearnerPermission.ToolTip = culture.Resources.ConfigureTxtLearnerPermissionToolTip;
+            inputObserverPermissions.LabelText = culture.Resources.ConfigureInputObserverPermissionsLabelText;
+            TxtObserverPermission.ToolTip = culture.Resources.ConfigureTxtObserverPermissionToolTip;
+            ChkCreatePermissions.LabelText = culture.Resources.ConfigureChkCreatePermissionsLabelText;
+            inputSlkSettings.Title = culture.Resources.ConfigureInputSlkSettingsTitle;
+            labelSlkSettingDescription.Text = culture.Resources.ConfigureLabelSlkSettingDescriptionText;
+            LinkCurrentSettingsFile.Text = culture.Resources.ConfigureLinkCurrentSettingsFileText;
+            LinkDefaultSettingsFile.Text = culture.Resources.ConfigureLinkDefaultSettingsFileText;
+            inputSlkSettingsFile.LabelText = culture.Resources.ConfigureInputSlkSettingsFileLabelText;
+            BtnOK.Text = culture.Resources.ConfigureBtnOKText;
         }
 #endregion private members
     }

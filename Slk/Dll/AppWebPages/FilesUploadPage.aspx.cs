@@ -129,11 +129,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             if (!Page.IsPostBack)
             {
-                pageTitle.Text = AppResources.FilesUploadPageTitle;
-                pageTitleInTitlePage.Text = AppResources.FilesUploadPageTitleInTitle;
-                documentUpload.Text = AppResources.FilesUploadDocumentUpload;
-                documentUploadDescription.Text = AppResources.FilesUploadDocumentUploadDescription;
-                name.Text = AppResources.FilesUploadName;
+                pageTitle.Text = PageCulture.Resources.FilesUploadPageTitle;
+                pageTitleInTitlePage.Text = PageCulture.Resources.FilesUploadPageTitleInTitle;
+                documentUpload.Text = PageCulture.Resources.FilesUploadDocumentUpload;
+                documentUploadDescription.Text = PageCulture.Resources.FilesUploadDocumentUploadDescription;
+                name.Text = PageCulture.Resources.FilesUploadName;
 
                 contentPanel = new Panel();
                 contentPanel.Visible = false;
@@ -142,14 +142,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (LearnerAssignmentProperties.Status == LearnerAssignmentState.Completed || LearnerAssignmentProperties.Status == LearnerAssignmentState.Final)
                 {
                     contentPanel.Visible = false;
-                    errorBanner.AddError(ErrorType.Error, AppResources.FilesUploadAssIsInaccessible);
+                    errorBanner.AddError(ErrorType.Error, PageCulture.Resources.FilesUploadAssIsInaccessible);
                 }
                 else
                 {
                     DisplayLastAssignmentAttempt();
                 }
 
-                lblMessage.Text = AppResources.FilesUploadAssInaccessible;
+                lblMessage.Text = PageCulture.Resources.FilesUploadAssInaccessible;
             }
         }
 
@@ -180,7 +180,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                     //Redirect to the SLk ALWP Page
                     HttpContext.Current.Response.Write(
-                    "<script>var x = '" + AppResources.FilesUploadPageSuccessMsg + "';" + 
+                    "<script>var x = '" + PageCulture.Resources.FilesUploadPageSuccessMsg + "';" + 
                     "var url = '" + SPWeb.Url+ "';" + 
                     "if (x != ''){alert(x);window.location=url;};</script>");
                 }
@@ -202,7 +202,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             else
             {
                 errorBanner.Clear();
-                errorBanner.AddError(ErrorType.Info, AppResources.FilesUploadOrCancel);
+                errorBanner.AddError(ErrorType.Info, PageCulture.Resources.FilesUploadOrCancel);
                 errorBanner.Visible = true;
             }
         }

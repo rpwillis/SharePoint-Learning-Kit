@@ -22,6 +22,7 @@ namespace Microsoft.SharePointLearningKit
         AssignmentProperties assignmentProperties;
         DropBoxSettings settings;
         ISlkStore store;
+        SlkCulture culture;
 
 #region constructors
         /// <summary>Initializes a new instance of <see cref="DropBoxManager"/>.</summary>
@@ -30,6 +31,7 @@ namespace Microsoft.SharePointLearningKit
             this.assignmentProperties = assignmentProperties;
             store = assignmentProperties.Store;
             this.settings = assignmentProperties.Store.Settings.DropBoxSettings;
+            culture = new SlkCulture();
         }
 #endregion constructors
 
@@ -91,7 +93,7 @@ namespace Microsoft.SharePointLearningKit
                         SPFile file = sourceWeb.GetFile(fileLocation.FileId);
                         if (file.Exists == false)
                         {
-                            string message = string.Format(CultureInfo.CurrentUICulture, AppResources.AssignmentFileDoesNotExist, file.Name, assignmentProperties.Title);
+                            string message = string.Format(CultureInfo.CurrentUICulture, culture.Resources.AssignmentFileDoesNotExist, file.Name, assignmentProperties.Title);
                             store.LogError(message);
                             throw new SafeToDisplayException(message);
                         }
@@ -399,7 +401,7 @@ namespace Microsoft.SharePointLearningKit
                         //Get the folder if it exists 
                         if (dropBox.GetAssignmentFolder(assignmentProperties) != null)
                         {
-                            throw new SafeToDisplayException(AppResources.AssFolderAlreadyExists);
+                            throw new SafeToDisplayException(culture.Resources.AssFolderAlreadyExists);
                         }
 
                         AssignmentFolder assignmentFolder = dropBox.CreateAssignmentFolder(assignmentProperties);
@@ -536,7 +538,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (failures.Count > 0)
             {
-                string message = string.Format(SlkCulture.GetCulture(), AppResources.FilesUploadPageFailureMessage, string.Join(", ", failures.ToArray()));
+                string message = string.Format(culture.Culture, culture.Resources.FilesUploadPageFailureMessage, string.Join(", ", failures.ToArray()));
                 throw new SafeToDisplayException(message);
             }
         }
@@ -684,7 +686,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 if (instructor.SPUser == null)
                 {
-                    throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), AppResources.DropBoxManagerUploadFilesNoInstructor, instructor.Name));
+                    throw new SafeToDisplayException(string.Format(culture.Culture, culture.Resources.DropBoxManagerUploadFilesNoInstructor, instructor.Name));
                 }
                 learnerSubFolder.RemovePermissions(instructor.SPUser);
                 learnerSubFolder.ApplyPermission(instructor.SPUser, SPRoleType.Contributor);

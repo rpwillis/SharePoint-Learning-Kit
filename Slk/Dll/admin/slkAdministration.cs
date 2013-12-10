@@ -75,23 +75,26 @@ namespace Microsoft.SharePointLearningKit
                 // 'SLK without Observer role' to 'SLK with Observer role' implementation
                 if (mapping.ObserverPermission == null)
                 {
-                    mapping.ObserverPermission = AppResources.DefaultSlkObserverPermissionName;                
+                    mapping.ObserverPermission = LoadCulture(spSiteGuid).Resources.DefaultSlkObserverPermissionName;                
                 }
                 configuration.ObserverPermission = mapping.ObserverPermission;
             }
             else
             {
+                SlkCulture siteCulture = LoadCulture(spSiteGuid);
+                AppResourcesLocal adminResources = SlkCulture.GetResources();
+
                 configuration.IsNewConfiguration = true;
                 mapping = SlkSPSiteMapping.CreateMapping(spSiteGuid);
                 // the mapping doesn't exist -- set "out" parameters to default values
                 SPWebService adminWebService = SlkAdministration.GetAdminWebService();
                 configuration.DatabaseServer = adminWebService.DefaultDatabaseInstance.Server.Address;
-                configuration.DatabaseName = AppResources.DefaultSlkDatabaseName;
+                configuration.DatabaseName = adminResources.DefaultSlkDatabaseName;
                 mapping.DatabaseServer = configuration.DatabaseServer;
                 mapping.DatabaseName = configuration.DatabaseName;
-                configuration.InstructorPermission = AppResources.DefaultSlkInstructorPermissionName;
-                configuration.LearnerPermission = AppResources.DefaultSlkLearnerPermissionName;
-                configuration.ObserverPermission = AppResources.DefaultSlkObserverPermissionName;
+                configuration.InstructorPermission = siteCulture.Resources.DefaultSlkInstructorPermissionName;
+                configuration.LearnerPermission = siteCulture.Resources.DefaultSlkLearnerPermissionName;
+                configuration.ObserverPermission = siteCulture.Resources.DefaultSlkObserverPermissionName;
             }
 
             // set "out" parameters that need to be computed
@@ -203,10 +206,12 @@ namespace Microsoft.SharePointLearningKit
             // create permissions if specified
             if (createPermissions)
             {
+                SlkCulture culture = LoadCulture(spSiteGuid);
+
                 // create the permissions if they don't exist yet
-                CreatePermission(spSiteGuid, instructorPermission, AppResources.SlkInstructorPermissionDescription, 0);
-                CreatePermission(spSiteGuid, learnerPermission, AppResources.SlkLearnerPermissionDescription, 0);
-                CreatePermission(spSiteGuid, observerPermission, AppResources.SlkObserverPermissionDescription, 0);
+                CreatePermission(spSiteGuid, instructorPermission, culture.Resources.SlkInstructorPermissionDescription, 0);
+                CreatePermission(spSiteGuid, learnerPermission, culture.Resources.SlkLearnerPermissionDescription, 0);
+                CreatePermission(spSiteGuid, observerPermission, culture.Resources.SlkObserverPermissionDescription, 0);
             }
 
             UpdateSlkSettings(mapping.DatabaseConnectionString, spSiteGuid, settingsFileContents, defaultSettingsFileContents);
@@ -259,7 +264,7 @@ namespace Microsoft.SharePointLearningKit
                 DataRowCollection dataRows = job.Execute<DataTable>().Rows;
                 if (dataRows.Count != 1)
                 {
-                    throw new SafeToDisplayException(AppResources.SlkSettingsNotFound, spSiteGuid);
+                    throw new SafeToDisplayException(LoadCulture(spSiteGuid).Resources.SlkSettingsNotFound, spSiteGuid);
                 }
                 DataRow dataRow = dataRows[0];
                 return (string) dataRow[0];
@@ -274,11 +279,11 @@ namespace Microsoft.SharePointLearningKit
             SPFarm farm = SPFarm.Local;
             if (farm == null)
             {
-                throw new InvalidOperationException(AppResources.SharePointFarmNotFound);
+                throw new InvalidOperationException(SlkCulture.GetResources().SharePointFarmNotFound);
             }
             else if (!farm.CurrentUserIsAdministrator())
             {
-                throw new SafeToDisplayException(AppResources.NotSharePointAdmin);
+                throw new SafeToDisplayException(SlkCulture.GetResources().NotSharePointAdmin);
             }
         }
 
@@ -330,8 +335,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 // load "SlkSettings.xsd" from a resource into <xmlSchema>
                 XmlSchema xmlSchema;
-                using (StringReader schemaStringReader = new StringReader(
-                    AppResources.SlkSettingsSchema))
+                using (StringReader schemaStringReader = new StringReader(SlkCulture.GetDefaultResources().SlkSettingsSchema))
                 {
                     xmlSchema = XmlSchema.Read(schemaStringReader,
                         delegate(object sender2, ValidationEventArgs e2)
@@ -354,7 +358,7 @@ namespace Microsoft.SharePointLearningKit
                         }
                         catch (SlkSettingsException ex)
                         {
-                            throw new SafeToDisplayException(AppResources.SlkSettingsFileError, ex.Message);
+                            throw new SafeToDisplayException(LoadCulture(spSiteGuid).Resources.SlkSettingsFileError, ex.Message);
                         }
                     }
                 }
@@ -424,7 +428,7 @@ namespace Microsoft.SharePointLearningKit
             // restrict the characters in <databaseName>
             if (!Regex.Match(databaseName, @"^\w+$").Success)
             {
-                throw new SafeToDisplayException(AppResources.InvalidDatabaseName, databaseName);
+                throw new SafeToDisplayException(SlkCulture.GetResources().InvalidDatabaseName, databaseName);
             }
 
             // if <appPoolAccountName> is null, set it to the name of the application pool account
@@ -615,6 +619,14 @@ namespace Microsoft.SharePointLearningKit
             if (defaultSettingsFileContents == null)
             {
                 throw new ArgumentNullException("defaultSettingsFileContents");
+            }
+        }
+
+        private static SlkCulture LoadCulture(Guid siteId)
+        {
+            using (SPSite site = new SPSite(siteId))
+            {
+                return new SlkCulture(site.RootWeb);
             }
         }
     #endregion private methods

@@ -32,7 +32,7 @@ namespace Microsoft.SharePointLearningKit
     public class SlkStore : ISlkStore
     {
 #region fields
-        SlkCulture culture = new SlkCulture();
+        SlkCulture culture;
         UserItemIdentifier currentUserId;
 
         /// <summary>
@@ -75,6 +75,28 @@ namespace Microsoft.SharePointLearningKit
 
 #region internal constants
 #endregion internal constants
+
+#region constructors
+        /// <summary>
+        /// Initializes an instance of this class.
+        /// </summary>
+        /// <param name="anonymousSlkStore">Information about the connection to the SharePoint
+        ///     Learning Kit store that doesn't include any "current user" information.</param>
+        /// <param name="learningStore">The <c>LearningStore</c> that connects to the SharePoint
+        ///     Learning Kit store database, configured with a specified "current user" identity.
+        ///     </param>
+        /// <param name="currentUserName">The name of the current user.  Use <c>String.Empty</c> if
+        ///     <c>String.Empty</c> is specified as the user key of <paramref name="learningStore"/>.
+        ///     </param>
+        /// <param name="culture">The <see cref="SlkCulture"/> to use for messages.</param>
+        SlkStore(AnonymousSlkStore anonymousSlkStore, LearningStore learningStore, string currentUserName, SlkCulture culture)
+        {
+            m_anonymousSlkStore = anonymousSlkStore;
+            m_learningStore = learningStore;
+            m_currentUserName = currentUserName;
+            this.culture = culture;
+        }
+#endregion constructors
 
 #region properties
         /// <summary>See <see cref="ISlkStore.SPSiteGuid"/>.</summary>
@@ -413,7 +435,7 @@ namespace Microsoft.SharePointLearningKit
         /// <returns></returns>
         public static SlkStore GetStore(SPWeb spWeb, string learningStoreUserKey)
         {
-                // Security checks: None
+            SlkCulture culture = new SlkCulture(spWeb);
 
             // Check parameters
             if(spWeb == null)
@@ -427,7 +449,7 @@ namespace Microsoft.SharePointLearningKit
             //If the User not signed in throw user not found exception
             if (spWeb.CurrentUser == null)
             {
-                throw new UserNotFoundException(AppResources.SlkExUserNotFound);
+                throw new UserNotFoundException(culture.Resources.SlkExUserNotFound);
             }
 
             //Use SPUser LoginName if Sid is Null or Empty.
@@ -453,7 +475,7 @@ namespace Microsoft.SharePointLearningKit
 
             }
 
-            return new SlkStore(anonymousSlkStore, learningStore, currentUserName);
+            return new SlkStore(anonymousSlkStore, learningStore, currentUserName, culture);
         }
 
         /// <summary>
@@ -591,33 +613,6 @@ namespace Microsoft.SharePointLearningKit
             return package;
         }
 
-        //////////////////////////////////////////////////////////////////////////////////////////////
-            // Private Methods
-            //
-            /// <summary>
-            /// Initializes an instance of this class.
-            /// </summary>
-            ///
-            /// <param name="anonymousSlkStore">Information about the connection to the SharePoint
-            ///     Learning Kit store that doesn't include any "current user" information.</param>
-            ///
-            /// <param name="learningStore">The <c>LearningStore</c> that connects to the SharePoint
-            ///     Learning Kit store database, configured with a specified "current user" identity.
-            ///     </param>
-            ///
-        /// <param name="currentUserName">The name of the current user.  Use <c>String.Empty</c> if
-            ///     <c>String.Empty</c> is specified as the user key of <paramref name="learningStore"/>.
-            ///     </param>
-            ///
-            SlkStore(AnonymousSlkStore anonymousSlkStore, LearningStore learningStore,
-                    string currentUserName)
-            {
-            // Security checks: None
-
-            m_anonymousSlkStore = anonymousSlkStore;
-                    m_learningStore = learningStore;
-                    m_currentUserName = currentUserName;
-            }
 
         /// <summary>See <see cref="ISlkStore.EnsureInstructor"/>.</summary>
         public void EnsureInstructor(SPWeb spWeb)
@@ -628,13 +623,13 @@ namespace Microsoft.SharePointLearningKit
             // Verify that the web is in the site
             if (spWeb.Site.ID != m_anonymousSlkStore.SPSiteGuid)
             {
-                throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
+                throw new InvalidOperationException(culture.Resources.SPWebDoesNotMatchSlkSPSite);
             }
 
             // Verify that the user is an instructor
             if (!IsInstructor(spWeb))
             {
-                throw new NotAnInstructorException(culture.Format(AppResources.SlkExInstructorPermissonNotFound, spWeb.Title));
+                throw new NotAnInstructorException(culture.Format(culture.Resources.SlkExInstructorPermissonNotFound, spWeb.Title));
             }
         }
 
@@ -649,7 +644,7 @@ namespace Microsoft.SharePointLearningKit
 
             // Verify that the web is in the site
             if (spWeb.Site.ID != m_anonymousSlkStore.SPSiteGuid)
-                throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
+                throw new InvalidOperationException(culture.Resources.SPWebDoesNotMatchSlkSPSite);
 
             try
             {
@@ -907,7 +902,7 @@ namespace Microsoft.SharePointLearningKit
                 // this error message includes the assignment ID, but that's okay since
                 // the information we provide does not allow the user to distinguish between the
                 // assignment not existing and the user not having access to it
-                throw new SafeToDisplayException(culture.Format(AppResources.AssignmentNotFoundInDatabase, id.GetKey()));
+                throw new SafeToDisplayException(culture.Format(culture.Resources.AssignmentNotFoundInDatabase, id.GetKey()));
             }
         }
 
@@ -945,7 +940,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 // this error message includes the assignment ID, but that's okay since the information we provide does not allow the user to distinguish between the
                 // assignment not existing and the user not having access to it
-                throw new SafeToDisplayException(culture.Format(AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+                throw new SafeToDisplayException(culture.Format(culture.Resources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
             }
 
             // retrieve from <resultEnumerator> information requested by BeginGetAssignmentProperties()
@@ -1055,12 +1050,12 @@ namespace Microsoft.SharePointLearningKit
                 {
                     // this error message includes the package ID, but that package ID came from
                     // another API call (above) -- it's pretty unlikely the user will see it
-                    throw new SafeToDisplayException(culture.Format(AppResources.PackageNotFoundInDatabase, packageId.GetKey()));
+                    throw new SafeToDisplayException(culture.Format(culture.Resources.PackageNotFoundInDatabase, packageId.GetKey()));
                 }
 
                 if ((organizationIndex < 0) || (organizationIndex >= result.Count))
                 {
-                    throw new SafeToDisplayException(AppResources.InvalidOrganizationIndex);
+                    throw new SafeToDisplayException(culture.Resources.InvalidOrganizationIndex);
                 }
 
                 return CastNonNullIdentifier<ActivityPackageItemIdentifier>( result[organizationIndex][Schema.ActivityPackageItemView.Id]);
@@ -1092,7 +1087,7 @@ namespace Microsoft.SharePointLearningKit
             catch (InvalidOperationException e)
             {
                 LogException(e);
-                throw new SafeToDisplayException(AppResources.PopulateLearnerAssignmentIdsInvalidException);
+                throw new SafeToDisplayException(culture.Resources.PopulateLearnerAssignmentIdsInvalidException);
             }
         }
 
@@ -1104,8 +1099,6 @@ namespace Microsoft.SharePointLearningKit
                 throw new ArgumentNullException("properties");
             }
 
-            AssignmentItemIdentifier assignmentId;
-                
             // create the assignment; set <assignmentId> to its AssignmentItemIdentifier
             TransactionOptions options = new TransactionOptions();
             options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
@@ -1173,16 +1166,16 @@ namespace Microsoft.SharePointLearningKit
 
                     // execute the job; set <assignmentId> to the "real" (permanent)
                     // AssignmentItemIdentifier of the newly-created assignment
-                    LearningStoreHelper.CastNonNull(results[0], out assignmentId);
+                    AssignmentItemIdentifier assignmentId = CastNonNullIdentifier<AssignmentItemIdentifier>(results[0]);
 
                     PopulateLearnerAssignmentIds(properties.Learners, assignmentId);
 
                     // finish the transaction
                     scope.Complete();
+                    return assignmentId;
                 }
             }
 
-            return assignmentId;
         }
 
         /// <summary>See <see cref="ISlkStore.DeleteAssignment"/>.</summary>
@@ -1207,12 +1200,12 @@ namespace Microsoft.SharePointLearningKit
             {
                 // if the user doesn't have access, LearningStoreItemNotFoundException isn't thrown --
                 // instead, LearningStoreSecurityException is thrown            
-                throw new SafeToDisplayException(culture.Format(AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+                throw new SafeToDisplayException(culture.Format(culture.Resources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
             }
             catch (LearningStoreSecurityException)
             {
                 //User doesn't have access
-                throw new SafeToDisplayException(culture.Format(AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+                throw new SafeToDisplayException(culture.Format(culture.Resources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
             }
         }
 
@@ -1266,6 +1259,8 @@ namespace Microsoft.SharePointLearningKit
         /// </exception>
         public AttemptItemIdentifier StartAttemptOnLearnerAssignment(Guid learnerAssignmentGuidId)
         {
+            AttemptItemIdentifier attemptId = null;
+
             // Security checks: Fails if the user doesn't have the right to create an
             // attempt on the assignment (checked using a rule in the schema)
 
@@ -1276,8 +1271,6 @@ namespace Microsoft.SharePointLearningKit
             // create a LearningStore job
             LearningStoreJob job = LearningStore.CreateJob();
 
-            AttemptItemIdentifier attemptId = null;
-            
             TransactionOptions options = new TransactionOptions();
             options.IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead;
             using (LearningStoreTransactionScope scope = new LearningStoreTransactionScope(options))
@@ -1309,7 +1302,7 @@ namespace Microsoft.SharePointLearningKit
                     }
                     catch(LearningStoreSecurityException)
                     {
-                        throw new SafeToDisplayException(culture.Format(AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
+                        throw new SafeToDisplayException(culture.Format(culture.Resources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                     }
                     if (dataRows.Count != 1)
                     {
@@ -1317,7 +1310,7 @@ namespace Microsoft.SharePointLearningKit
                         // very unlikely the user will see this since security rules would have
                         // prevented code from getting this far if the learner assignment couldn't
                         // be found in the database
-                        throw new SafeToDisplayException(culture.Format(AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
+                        throw new SafeToDisplayException(culture.Format(culture.Resources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                     }
                     DataRow dataRow = dataRows[0];
                 
@@ -1326,9 +1319,7 @@ namespace Microsoft.SharePointLearningKit
                     UserItemIdentifier learnerId = CastIdentifier<UserItemIdentifier>(dataRow[Schema.LearnerAssignmentView.LearnerId]);
                         
                     ActivityPackageItemIdentifier rootActivityId = CastIdentifier<ActivityPackageItemIdentifier>(dataRow[Schema.LearnerAssignmentView.RootActivityId]);
-
-                    LearningStoreHelper.Cast(dataRow[Schema.LearnerAssignmentView.AttemptId],
-                        out attemptId);
+                    attemptId = CastIdentifier<AttemptItemIdentifier>(dataRow[Schema.LearnerAssignmentView.AttemptId]);
 
                     // Verify that there isn't already an attempt
                     if(attemptId != null)
@@ -1367,9 +1358,9 @@ namespace Microsoft.SharePointLearningKit
                 }
                     
                 scope.Complete();
+                return attemptId;
             }
             
-            return attemptId;
         }
 
         /// <summary>
@@ -1400,7 +1391,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (LearningStoreSecurityException)
                 {
-                    throw new SafeToDisplayException(culture.Format(AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentId.GetKey()));
+                    throw new SafeToDisplayException(culture.Format(culture.Resources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentId.GetKey()));
                 }
 
                 if (dataRows.Count != 1)
@@ -1408,7 +1399,7 @@ namespace Microsoft.SharePointLearningKit
                     // this error message includes the learner assignment ID, but that's okay since
                     // the information we provide does not allow the user to distinguish between the
                     // learner assignment not existing and the user not having access to it
-                    throw new SafeToDisplayException(culture.Format(AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentId.GetKey()));
+                    throw new SafeToDisplayException(culture.Format(culture.Resources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentId.GetKey()));
                 }
                 DataRow dataRow = dataRows[0];
                 return CastNonNull<Guid>(dataRow[0]);
@@ -1495,7 +1486,7 @@ namespace Microsoft.SharePointLearningKit
                 // this error message includes the assignment ID, but that's okay since
                 // the information we provide does not allow the user to distinguish between the
                 // assignment not existing and the user not having access to it
-                throw new SafeToDisplayException(culture.Format(AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+                throw new SafeToDisplayException(culture.Format(culture.Resources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
             }        
 
             IEnumerator<object> resultEnumerator = results.GetEnumerator();
@@ -1571,24 +1562,23 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (LearningStoreSecurityException)
                 {
-                    throw new SafeToDisplayException(culture.Format(AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
+                    throw new SafeToDisplayException(culture.Format(culture.Resources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                 }
                 if (dataRows.Count != 1)
                 {
                     // this error message includes the learner assignment ID, but that's okay since
                     // the information we provide does not allow the user to distinguish between the
                     // learner assignment not existing and the user not having access to it
-                    throw new SafeToDisplayException(culture.Format(AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
+                    throw new SafeToDisplayException(culture.Format(culture.Resources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                 }
                 DataRow dataRow = dataRows[0];
                 LearnerAssignmentState status = CastNonNull<LearnerAssignmentState>(dataRow[0]);
 
-                LearningStoreItemIdentifier learnerAssignmentId;
-                LearningStoreHelper.CastNonNull(dataRow[1], out learnerAssignmentId);
+                LearnerAssignmentItemIdentifier learnerAssignmentId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[1]);
 
                 // Only valid if we are in the completed or final state
                 if ((status != LearnerAssignmentState.Completed) && (status != LearnerAssignmentState.Final))
-                    throw new SafeToDisplayException(AppResources.LearnerAssignmentNotInCorrectStateForFinish);
+                    throw new SafeToDisplayException(culture.Resources.LearnerAssignmentNotInCorrectStateForFinish);
 
                 // We've verified that the user has the correct right, so do everything else
                 // with security checks turned off
@@ -1668,25 +1658,24 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (LearningStoreSecurityException)
                 {
-                    throw new SafeToDisplayException(culture.Format(AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
+                    throw new SafeToDisplayException(culture.Format(culture.Resources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                 }
                 if (dataRows.Count != 1)
                 {
                     // this error message includes the learner assignment ID, but that's okay since
                     // the information we provide does not allow the user to distinguish between the
                     // learner assignment not existing and the user not having access to it
-                    throw new SafeToDisplayException(culture.Format(AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
+                    throw new SafeToDisplayException(culture.Format(culture.Resources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                 }
                 DataRow dataRow = dataRows[0];
                 LearnerAssignmentState status = CastNonNull<LearnerAssignmentState>(dataRow[0]);
                 float? finalPoints = Cast<float>(dataRow[1]);
-                LearnerAssignmentItemIdentifier learnerAssignmentId;
-                LearningStoreHelper.CastNonNull(dataRow[2], out learnerAssignmentId);
+                LearnerAssignmentItemIdentifier learnerAssignmentId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[2]);
 
                 // Only valid if we are in the completed or final state
                 if ((status != LearnerAssignmentState.Completed) && (status != LearnerAssignmentState.Final))
                 {
-                    throw new SafeToDisplayException(AppResources.LearnerAssignmentNotInCorrectStateForFinish);
+                    throw new SafeToDisplayException(culture.Resources.LearnerAssignmentNotInCorrectStateForFinish);
                 }
 
                 // Increment final points
@@ -1858,26 +1847,25 @@ namespace Microsoft.SharePointLearningKit
                     }
                     catch(LearningStoreSecurityException)
                     {
-                        throw new SafeToDisplayException(culture.Format(AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
+                        throw new SafeToDisplayException(culture.Format(culture.Resources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                     }
                     if (dataRows.Count != 1)
                     {
                         // this error message includes the learner assignment ID, but that's okay since
                         // the information we provide does not allow the user to distinguish between the
                         // learner assignment not existing and the user not having access to it
-                        throw new SafeToDisplayException(culture.Format(AppResources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
+                        throw new SafeToDisplayException(culture.Format(culture.Resources.LearnerAssignmentNotFoundInDatabase, learnerAssignmentGuidId.ToString()));
                     }
                     DataRow dataRow = dataRows[0];
                     LearnerAssignmentState status = CastNonNull<LearnerAssignmentState>(dataRow[0]);
                     ActivityPackageItemIdentifier rootActivityId = CastIdentifier<ActivityPackageItemIdentifier>(dataRow[1]);
                     bool isAutoReturn = CastNonNull<bool>(dataRow[3]);
-                    LearningStoreItemIdentifier learnerAssignmentId;
-                    LearningStoreHelper.CastNonNull(dataRow[4], out learnerAssignmentId);
+                    LearnerAssignmentItemIdentifier learnerAssignmentId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[4]);
 
                     // Only valid if there's an attempt and we are in the completed state
                     if((rootActivityId == null) || (status != LearnerAssignmentState.Completed))                
                     {
-                        throw new SafeToDisplayException(AppResources.LearnerAssignmentNotInCorrectStateForFinish); 
+                        throw new SafeToDisplayException(culture.Resources.LearnerAssignmentNotInCorrectStateForFinish); 
                     }
 
                     // create another LearningStore job
@@ -2018,8 +2006,7 @@ namespace Microsoft.SharePointLearningKit
 
         LearnerAssignmentProperties PopulateLearnerAssignmentProperties(DataRow dataRow, AssignmentProperties properties, SPWeb web, bool coreOnly)
         {
-            LearnerAssignmentItemIdentifier learnerAssignmentId;
-            LearningStoreHelper.CastNonNull(dataRow[LearnerAssignmentListForInstructors.LearnerAssignmentId], out learnerAssignmentId);
+            LearnerAssignmentItemIdentifier learnerAssignmentId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[LearnerAssignmentListForInstructors.LearnerAssignmentId]);
             LearnerAssignmentProperties lap = new LearnerAssignmentProperties(learnerAssignmentId, properties);
             lap.LearnerId = CastNonNullIdentifier<UserItemIdentifier>( dataRow[LearnerAssignmentListForInstructors.LearnerId]);
             lap.LearnerName = CastNonNull<string>(dataRow[LearnerAssignmentListForInstructors.LearnerName]);
@@ -2137,7 +2124,7 @@ namespace Microsoft.SharePointLearningKit
                 // this error message includes the assignment ID, but that's okay since
                 // the information we provide does not allow the user to distinguish between the
                 // assignment not existing and the user not having access to it
-                throw new SafeToDisplayException(culture.Format(AppResources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
+                throw new SafeToDisplayException(culture.Format(culture.Resources.AssignmentNotFoundInDatabase, assignmentId.GetKey()));
             }
             DataRow dataRow = dataRows[0];
 
@@ -2399,11 +2386,11 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Converts a value returned from a LearningStore query to a given type.  Throws an exception if the value is <c>DBNull</c>.</summary>
         /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c> returned from a LearningStore query.</param>
-        static T CastNonNull<T>(object value)
+        private T CastNonNull<T>(object value)
         {
             if (value is DBNull)
             {
-                throw new ArgumentException(AppResources.UnexpectedDBNull);
+                throw new ArgumentException(culture.Resources.UnexpectedDBNull);
             }
             else
             {
@@ -2420,14 +2407,13 @@ namespace Microsoft.SharePointLearningKit
         ///     returned from a LearningStore query.</param>
         static T CastIdentifier<T>(object value) where T : LearningStoreItemIdentifier, new()
         {
-            LearningStoreItemIdentifier id;
-            LearningStoreHelper.Cast(value, out id);
-            if (id == null)
+            if (value is DBNull)
             {
                 return null;
             }
             else
             {
+                LearningStoreItemIdentifier id = (LearningStoreItemIdentifier)value;
                 T result = new T();
                 result.AssignIdentifier(id);
                 return result;
@@ -2441,13 +2427,19 @@ namespace Microsoft.SharePointLearningKit
         ///
         /// <param name="value">A value from a <c>DataRow</c> within a <c>DataTable</c>
         ///     returned from a LearningStore query.</param>
-        static T CastNonNullIdentifier<T>(object value) where T : LearningStoreItemIdentifier, new()
+        private T CastNonNullIdentifier<T>(object value) where T : LearningStoreItemIdentifier, new()
         {
-            LearningStoreItemIdentifier id;
-            LearningStoreHelper.CastNonNull(value, out id);
-            T result = new T();
-            result.AssignIdentifier(id);
-            return result;
+            if (value is DBNull)
+            {
+                throw new ArgumentException(culture.Resources.UnexpectedDBNull);
+            }
+            else
+            {
+                LearningStoreItemIdentifier id = (LearningStoreItemIdentifier) value;
+                T result = new T();
+                result.AssignIdentifier(id);
+                return result;
+            }
         }
 #endregion conversion methods
 
@@ -2480,7 +2472,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     // this error message includes the learner assignment ID, but that's okay since the information we provide does not allow the user to distinguish between the
                     // learner assignment not existing and the user not having access to it
-                    throw new SafeToDisplayException(AppResources.LearnerAssignmentNotFoundInDatabase);
+                    throw new SafeToDisplayException(culture.Resources.LearnerAssignmentNotFoundInDatabase);
                 }
             }
             else
@@ -2548,7 +2540,7 @@ namespace Microsoft.SharePointLearningKit
             return properties;
         }
 
-        static LearnerAssignmentProperties PopulateLearnerAssignmentProperties(DataRow dataRow, AssignmentProperties properties)
+        private LearnerAssignmentProperties PopulateLearnerAssignmentProperties(DataRow dataRow, AssignmentProperties properties)
         {
             LearnerAssignmentItemIdentifier learnerId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[LearnerAssignmentList.LearnerAssignmentId]);
             LearnerAssignmentProperties learnerProperties = new LearnerAssignmentProperties(learnerId, properties);
@@ -2672,11 +2664,11 @@ namespace Microsoft.SharePointLearningKit
         /// 
         /// <param name="args">Formatting arguments.</param>
         ///
-        static void WriteToEventLog(string format, params object[] args)
+        private void WriteToEventLog(string format, params object[] args)
         {
             SlkUtilities.ImpersonateAppPool(delegate()
             {
-                string message = String.Format(CultureInfo.InvariantCulture, AppResources.AppError, String.Format(CultureInfo.InvariantCulture, format, args));
+                string message = String.Format(CultureInfo.InvariantCulture, culture.Resources.AppError, String.Format(CultureInfo.InvariantCulture, format, args));
                 message = message.Replace(@"\n", "\r\n");
                 WriteEvent(message);
             });
@@ -2685,9 +2677,9 @@ namespace Microsoft.SharePointLearningKit
         static string source;
         static object lockObject = new object();
 
-        static void WriteEvent(string message)
+        private void WriteEvent(string message)
         {
-            WriteEvent(message, new string[] {AppResources.SlkEventLogSource, AppResources.WssEventLogSource, AppResources.SharePoint2010LogSource});
+            WriteEvent(message, new string[] {culture.Resources.SlkEventLogSource, culture.Resources.WssEventLogSource, culture.Resources.SharePoint2010LogSource});
         }
 
         static void WriteEvent(string message, string[] possibleSources)

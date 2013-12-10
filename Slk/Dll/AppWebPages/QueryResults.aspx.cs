@@ -225,7 +225,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                             if (queryDef == null)
                                             {
                                                 throw new SafeToDisplayException
-                                                                   (AppResources.AlwpQuerySetNotFound, Query);
+                                                                   (PageCulture.Resources.AlwpQuerySetNotFound, Query);
                                             }
 
 
@@ -238,7 +238,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                         }
                                         catch (Exception ex)
                                         {
-                                            queryCount = AppResources.AlwpQueryResultError;
+                                            queryCount = PageCulture.Resources.AlwpQueryResultError;
                                             SlkError slkError;
                                             //Handles SqlException separate to capture the deadlock 
                                             //and treat it differently
@@ -413,7 +413,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //The database the site is in is not accessible
                 //Add the site to unknown site collection
                 m_unknownSiteCount++; //increment the Site Count by 1;
-                spWebName = PageCulture.Format(AppResources.AlwpUnknownSite, m_unknownSiteCount);
+                spWebName = PageCulture.Format(PageCulture.Resources.AlwpUnknownSite, m_unknownSiteCount);
                 spWebUrl = null;
             }
             catch (FileNotFoundException)
@@ -421,7 +421,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //The Site  does not exist : SPWeb not available. 
                 //Add the site to unknown site collection
                 m_unknownSiteCount++; //increment the Site Count by 1;
-                spWebName = PageCulture.Format(AppResources.AlwpUnknownSite, m_unknownSiteCount);
+                spWebName = PageCulture.Format(PageCulture.Resources.AlwpUnknownSite, m_unknownSiteCount);
                 spWebUrl = null;
             }
             catch (UnauthorizedAccessException)
@@ -429,7 +429,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // the user doesn't have permission to access this site.
                 //Set the SPWeb Title as Unknown Site #
                 m_unknownSiteCount++; //increment the Site Count by 1;
-                spWebName = PageCulture.Format(AppResources.AlwpUnknownSite, m_unknownSiteCount);
+                spWebName = PageCulture.Format(PageCulture.Resources.AlwpUnknownSite, m_unknownSiteCount);
                 spWebUrl = null;
             }
             finally
@@ -511,7 +511,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 = new SlkError(ErrorType.Info,
                                                 Constants.Space +
                                                 Constants.Space +
-                                                AppResources.AlwpNoItemFound);
+                                                PageCulture.Resources.AlwpNoItemFound);
                             WebParts.ErrorBanner.RenderErrorItems(hw, slkError);
                         }
                     }
@@ -568,7 +568,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 }
                                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, hw))
                                 {
-                                    if (columnDef.Title.Equals(AppResources.AlwpFileSubmissionColumnTitle))
+                                    if (columnDef.Title.Equals(PageCulture.Resources.AlwpFileSubmissionColumnTitle))
                                     {
                                         RenderFileSubmissionCell(renderedCell, webNameRenderedCell, learnerAssignmentGUID, hw);
                                     }
@@ -648,7 +648,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 }
                                 else
                                     newSort = columnIndex + 1;
-                                hw.AddAttribute(HtmlTextWriterAttribute.Title, PageCulture.Format(AppResources.QueryResultsSortBy, columnDef.Title));
+                                hw.AddAttribute(HtmlTextWriterAttribute.Title, PageCulture.Format(PageCulture.Resources.QueryResultsSortBy, columnDef.Title));
                                 hw.AddAttribute(HtmlTextWriterAttribute.Href,
                                     GetAdjustedQueryString(QueryStringKeys.Sort, 
                                                            newSort.ToString(CultureInfo.InvariantCulture)));
@@ -697,7 +697,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     "{0}" + Constants.SlkUrlPath + "FilesUploadPage.aspx?LearnerAssignmentId={1}",
                     webNameRenderedCell,
                     learnerAssignmentGUID,
-                    PageCulture.Format(AppResources.AlwpFileSubmissionSubmitText),
+                    PageCulture.Format(PageCulture.Resources.AlwpFileSubmissionSubmitText),
                     hw);
             }
             else if (renderedCell.ToString() == "Submitted LINK")
@@ -706,16 +706,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     "{0}" + Constants.SlkUrlPath + "SubmittedFiles.aspx?LearnerAssignmentId={1}",
                     webNameRenderedCell,
                     learnerAssignmentGUID,
-                    PageCulture.Format(AppResources.LearnerAssignmentStatusCompleted),
+                    PageCulture.Format(PageCulture.Resources.LearnerAssignmentStatusCompleted),
                     hw);
             }
             else if (renderedCell.ToString() == "Submitted")
             {
-                hw.WriteEncodedText(PageCulture.Format(AppResources.LearnerAssignmentStatusCompleted));
+                hw.WriteEncodedText(PageCulture.Format(PageCulture.Resources.LearnerAssignmentStatusCompleted));
             }
             else if (renderedCell.ToString() == "Not Available")
             {
-                hw.WriteEncodedText(PageCulture.Format(AppResources.GradingFileSubmissionNA));
+                hw.WriteEncodedText(PageCulture.Format(PageCulture.Resources.GradingFileSubmissionNA));
             }
             else
             {

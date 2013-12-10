@@ -69,7 +69,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                     if ((uri.Segments.Length < 3) ||
                         !String.Equals(uri.Segments[uri.Segments.Length - 1], "SlkSettings.xml",
                             StringComparison.OrdinalIgnoreCase))
-                        throw new SafeToDisplayException(AppResources.DownloadSettingsIncorrectUrl);
+                        throw new SafeToDisplayException(culture.Resources.DownloadSettingsIncorrectUrl);
                     string siteGuidOrDefault = uri.Segments[uri.Segments.Length - 2];
                                     siteGuidOrDefault = siteGuidOrDefault.Substring(0, siteGuidOrDefault.Length - 1);
                                     Guid? spSiteGuid;
@@ -85,12 +85,12 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                         catch (FormatException)
                         {
                             throw new SafeToDisplayException(
-                                AppResources.DownloadSettingsIncorrectUrl);
+                                culture.Resources.DownloadSettingsIncorrectUrl);
                         }
                         catch (OverflowException)
                         {
                             throw new SafeToDisplayException(
-                                AppResources.DownloadSettingsIncorrectUrl);
+                                culture.Resources.DownloadSettingsIncorrectUrl);
                         }
                     }
 
@@ -121,7 +121,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                     Response.Clear();
                     Response.ContentType = "text/html";
                                     Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                    Response.Write(culture.Format(AppResources.AdminErrorPageHtml, ex.Message));
+                    Response.Write(culture.Format(culture.Resources.AdminErrorPageHtml, ex.Message));
                     Response.End();
                 }
             }
@@ -136,7 +136,7 @@ namespace Microsoft.SharePointLearningKit.AdminPages
                 Response.Clear();
                 Response.ContentType = "text/html";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Write(culture.Format(AppResources.AdminErrorPageHtml, Server.HtmlEncode(string.Format(CultureInfo.CurrentUICulture, AppResources.SeriousErrorDownloadSettings, ex))));
+                Response.Write(culture.Format(culture.Resources.AdminErrorPageHtml, Server.HtmlEncode(string.Format(CultureInfo.CurrentUICulture, culture.Resources.SeriousErrorDownloadSettings, ex))));
                 Response.End();
             }
         }

@@ -169,7 +169,7 @@ namespace Microsoft.SharePointLearningKit
 
             // load "SlkSettings.xsd" from a resource into <xmlSchema>
             XmlSchema xmlSchema;
-            using (StringReader schemaStringReader = new StringReader(AppResources.SlkSettingsSchema))
+            using (StringReader schemaStringReader = new StringReader(SlkCulture.GetDefaultResources().SlkSettingsSchema))
             {
                     xmlSchema = XmlSchema.Read(schemaStringReader,
                             delegate(object sender2, ValidationEventArgs e2)
@@ -196,7 +196,7 @@ namespace Microsoft.SharePointLearningKit
                 DataRowCollection dataRows = job.Execute<DataTable>().Rows;
                 if (dataRows.Count != 1)
                 {
-                    throw new SafeToDisplayException(AppResources.SlkSettingsNotFound, site.Url);
+                    throw new SafeToDisplayException(SlkCulture.GetResources().SlkSettingsNotFound, site.Url);
                 }
                 DataRow dataRow = dataRows[0];
                 string settingsXml = (string)dataRow[0];

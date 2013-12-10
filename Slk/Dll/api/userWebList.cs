@@ -41,7 +41,7 @@ namespace Microsoft.SharePointLearningKit
                                 if (item.SPWebGuid == currentSite.ID)
                                 {
                                     addCurrentToList = false;
-                                    string title = culture.Format("{0} {1}", web.Title, AppResources.ActionslblMRUCurrentSite);
+                                    string title = culture.Format("{0} {1}", web.Title, culture.Resources.ActionslblMRUCurrentSite);
                                     listItem = new WebListItem(item, web.Url, title);
                                 }
                                 else
@@ -66,7 +66,7 @@ namespace Microsoft.SharePointLearningKit
 
                     if (addCurrentToList)
                     {
-                        string title = culture.Format("{0} {1}", currentSite.Title, AppResources.ActionslblMRUCurrentSite);
+                        string title = culture.Format("{0} {1}", currentSite.Title, culture.Resources.ActionslblMRUCurrentSite);
                         webList.Add(new WebListItem(currentSite.Site.ID, currentSite.ID, DateTime.Now, currentSite.Url, title));
                     }
                 }
@@ -78,7 +78,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (addCurrentToList)
             {
-                string title = culture.Format("{0} {1}", currentSite.Title, AppResources.ActionslblMRUCurrentSite);
+                string title = culture.Format("{0} {1}", currentSite.Title, culture.Resources.ActionslblMRUCurrentSite);
                 webList.Add(new WebListItem(currentSite.Site.ID, currentSite.ID, DateTime.Now, currentSite.Url, title));
             }
         }

@@ -191,25 +191,26 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="learnerAssignmentState">The <c>LearnerAssignmentState</c> value.</param>
         public static string GetLearnerAssignmentState(LearnerAssignmentState? learnerAssignmentState)
         {
+            SlkCulture culture = new SlkCulture();
             if (learnerAssignmentState == null)
             {
-                return AppResources.LearnerAssignmentStatusNotStarted;
+                return culture.Resources.LearnerAssignmentStatusNotStarted;
             }
             else
             {
                 switch (learnerAssignmentState.Value)
                 {
                     case LearnerAssignmentState.NotStarted:
-                        return AppResources.LearnerAssignmentStatusNotStarted;
+                        return culture.Resources.LearnerAssignmentStatusNotStarted;
                         
                     case LearnerAssignmentState.Active:
-                        return AppResources.LearnerAssignmentStatusActive;
+                        return culture.Resources.LearnerAssignmentStatusActive;
                         
                     case LearnerAssignmentState.Completed:
-                        return AppResources.LearnerAssignmentStatusCompleted;
+                        return culture.Resources.LearnerAssignmentStatusCompleted;
                         
                     case LearnerAssignmentState.Final:
-                        return AppResources.LearnerAssignmentStatusFinal;
+                        return culture.Resources.LearnerAssignmentStatusFinal;
                         
                     default:
                         return learnerAssignmentState.ToString();

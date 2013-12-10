@@ -51,7 +51,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     case ".ZIP":
                     case ".LRM":
-                        throw new SafeToDisplayException(culture.Format(Resources.Properties.AppResources.PackageNotValid, ex.Message));
+                        throw new SafeToDisplayException(culture.Format(culture.Resources.PackageNotValid, ex.Message));
                     default:
                         IsNonELearning = true;
                         break;
@@ -185,7 +185,7 @@ namespace Microsoft.SharePointLearningKit
                 if (log.HasErrors)
                 {
                     // Shouldn't have any since enforcing errors.
-                    throw new SafeToDisplayException(log, culture.Format(Resources.Properties.AppResources.PackageNotValid, string.Empty));
+                    throw new SafeToDisplayException(log, culture.Format(culture.Resources.PackageNotValid, string.Empty));
                 }
                 else if (log.HasWarnings)
                 {

@@ -9,6 +9,7 @@ namespace Microsoft.SharePointLearningKit
     /// <summary>Uses SPUtility to send emails.</summary>
     sealed class AssignmentEmailer : IDisposable
     {
+        SlkCulture culture;
         List<Email> cachedEmails = new List<Email>();
         AssignmentProperties assignment;
         IEmailSender emailSender;
@@ -173,6 +174,7 @@ namespace Microsoft.SharePointLearningKit
 #region private methods
         private void InitializeEmailSender(IEmailSender emailSender)
         {
+            culture = new SlkCulture(web);
             if (emailSender == null)
             {
                 this.emailSender = new SharePointEmailer(web);
@@ -228,7 +230,7 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
-                subject = AppResources.SubmitAssignmentEmailDefaultSubject;
+                subject = culture.Resources.SubmitAssignmentEmailDefaultSubject;
             }
 
             return EmailText(subject, name);
@@ -271,42 +273,42 @@ namespace Microsoft.SharePointLearningKit
 
         string ReturnSubjectText()
         {
-            return SubjectText(EmailType.Return, AppResources.ReturnAssignmentEmailDefaultSubject);
+            return SubjectText(EmailType.Return, culture.Resources.ReturnAssignmentEmailDefaultSubject);
         }
 
         string ReturnBodyText()
         {
-            return BodyText(EmailType.Return, AppResources.ReturnAssignmentEmailDefaultBody);
+            return BodyText(EmailType.Return, culture.Resources.ReturnAssignmentEmailDefaultBody);
         }
 
         string ReactivateSubjectText()
         {
-            return SubjectText(EmailType.Reactivate, AppResources.ReactivateAssignmentEmailDefaultSubject);
+            return SubjectText(EmailType.Reactivate, culture.Resources.ReactivateAssignmentEmailDefaultSubject);
         }
 
         string ReactivateBodyText()
         {
-            return BodyText(EmailType.Reactivate, AppResources.ReactivateAssignmentEmailDefaultBody);
+            return BodyText(EmailType.Reactivate, culture.Resources.ReactivateAssignmentEmailDefaultBody);
         }
 
         string CollectSubjectText()
         {
-            return SubjectText(EmailType.Collect, AppResources.CollectAssignmentEmailDefaultSubject);
+            return SubjectText(EmailType.Collect, culture.Resources.CollectAssignmentEmailDefaultSubject);
         }
 
         string CollectBodyText()
         {
-            return BodyText(EmailType.Collect, AppResources.CollectAssignmentEmailDefaultBody);
+            return BodyText(EmailType.Collect, culture.Resources.CollectAssignmentEmailDefaultBody);
         }
 
         string ReminderSubjectText()
         {
-            return SubjectText(EmailType.Reminder, AppResources.AssignmentReminderEmailDefaultSubject);
+            return SubjectText(EmailType.Reminder, culture.Resources.AssignmentReminderEmailDefaultSubject);
         }
 
         string ReminderBodyText()
         {
-            string body = BodyText(EmailType.Reminder, AppResources.AssignmentReminderEmailDefaultBody);
+            string body = BodyText(EmailType.Reminder, culture.Resources.AssignmentReminderEmailDefaultBody);
             if (assignment.DueDate != null)
             {
                 body = body.Replace("%due%", assignment.DueDate.Value.ToString("f", web.Locale));
@@ -318,12 +320,12 @@ namespace Microsoft.SharePointLearningKit
 
         string CancelSubjectText()
         {
-            return SubjectText(EmailType.Cancel, AppResources.CancelAssignmentEmailDefaultSubject);
+            return SubjectText(EmailType.Cancel, culture.Resources.CancelAssignmentEmailDefaultSubject);
         }
 
         string CancelBodyText()
         {
-            return BodyText(EmailType.Cancel, AppResources.CancelAssignmentEmailDefaultBody);
+            return BodyText(EmailType.Cancel, culture.Resources.CancelAssignmentEmailDefaultBody);
         }
 
         string SubmitBodyText(string name)
@@ -335,7 +337,7 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
-                body = AppResources.SubmitAssignmentEmailDefaultBody;
+                body = culture.Resources.SubmitAssignmentEmailDefaultBody;
             }
 
             return EmailText(body, name);
@@ -350,7 +352,7 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
-                subject = AppResources.NewAssignmentEmailDefaultSubject;
+                subject = culture.Resources.NewAssignmentEmailDefaultSubject;
             }
 
             return EmailText(subject);
@@ -365,7 +367,7 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
-                body = AppResources.NewAssignmentEmailDefaultBody;
+                body = culture.Resources.NewAssignmentEmailDefaultBody;
             }
 
             return EmailText(body);
