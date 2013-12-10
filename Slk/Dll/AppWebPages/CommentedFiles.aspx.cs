@@ -177,7 +177,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             //The zip file does not contain any commented files
                             UploadErrorStatusLabel.Text = string.Empty;
                             UploadStatusLabel.Text = string.Empty;
-                            UploadErrorStatusLabel.Text = AppResources.CommentedFilesExtractionFailed;
+                            UploadErrorStatusLabel.Text = PageCulture.Resources.CommentedFilesExtractionFailed;
                         }
                     }
                     finally
@@ -194,7 +194,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     //Invaild file extention
                     UploadErrorStatusLabel.Text = string.Empty;
                     UploadStatusLabel.Text = string.Empty;
-                    UploadErrorStatusLabel.Text = AppResources.CommentedFilesInvalidExtenstion;
+                    UploadErrorStatusLabel.Text = PageCulture.Resources.CommentedFilesInvalidExtenstion;
                 }
             }
             else
@@ -202,7 +202,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //No file was uploaded
                 UploadErrorStatusLabel.Text = string.Empty;
                 UploadStatusLabel.Text = string.Empty;
-                UploadErrorStatusLabel.Text = AppResources.CommentedFilesNoFileAttached;
+                UploadErrorStatusLabel.Text = PageCulture.Resources.CommentedFilesNoFileAttached;
             }
         }
 
@@ -249,7 +249,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     using (SPWeb web = site.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        SPList dropBoxList = web.Lists[AppResources.DropBoxDocLibName];
+                        SPList dropBoxList = web.Lists[PageCulture.Resources.DropBoxDocLibName];
 
                         //Gets the name of the assignment folder.
                         string assignmentFolderName = zippedFileName.Split('.')[0];
@@ -266,7 +266,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             if (assignmentFolders.Count == 0)
                             {
                                 // The assignment folder does not exits on the dropbox list.
-                                throw new Exception(assignmentFolderName + " " + AppResources.CommentedFilesNoAssignmentFolderException);
+                                throw new Exception(assignmentFolderName + " " + PageCulture.Resources.CommentedFilesNoAssignmentFolderException);
                             }
                         }
                         catch (Exception assignmetNotFoundEx)
@@ -324,7 +324,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                     //Tracking the upload operation: The student folder does not exists
                                     currentUploadTracker.IsCompleted = false;
 
-                                    //throw new Exception(AppResources.SubmittedFilesNoAssignmentSubFolderException);
+                                    //throw new Exception(PageCulture.Resources.SubmittedFilesNoAssignmentSubFolderException);
                                 }
                                 else
                                 {
@@ -501,7 +501,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         if (!(SlkStore.IsInstructor(web)))
                         {
-                            exceptionMessage = AppResources.CommentedFilesNoAccessException;
+                            exceptionMessage = PageCulture.Resources.CommentedFilesNoAccessException;
 
                             throw new SafeToDisplayException(exceptionMessage);
                         }
@@ -523,7 +523,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                     if (!isAssignmentsCompleted)
                     {
-                        exceptionMessage = AppResources.CommentedFilesAssignmnetsNotCompleted;
+                        exceptionMessage = PageCulture.Resources.CommentedFilesAssignmnetsNotCompleted;
 
                         throw new SafeToDisplayException(exceptionMessage);
                     }
@@ -555,37 +555,37 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         if (uploadTracker.UploadedFilesCount == -1)
                         {
                             UploadErrorStatusLabel.Text +=
-                                AppResources.CommentedFilesNoFilesUploaded + " " + uploadTracker.StudentFolderName + "<br>";
+                                PageCulture.Resources.CommentedFilesNoFilesUploaded + " " + uploadTracker.StudentFolderName + "<br>";
                         }
                         else
                         {
                             UploadErrorStatusLabel.Text +=
-                                AppResources.CommentedFilesUploadFailed + uploadTracker.StudentFolderName + "<br>";
+                                PageCulture.Resources.CommentedFilesUploadFailed + uploadTracker.StudentFolderName + "<br>";
                         }
                     }
                     else
                     {
                         //UploadStatusLabel.Text +=
-                        //    uploadTracker.UploadedFilesCount + " " + AppResources.CommentedFilesUploadMessage + " "
+                        //    uploadTracker.UploadedFilesCount + " " + PageCulture.Resources.CommentedFilesUploadMessage + " "
                         //    + uploadTracker.StudentFolderName; 
 
                         ////check if files were ignored
                         //if (uploadTracker.IgnoredFilesCount != 0)
                         //{
                         //    UploadStatusLabel.Text +=
-                        //        ", " + uploadTracker.IgnoredFilesCount + " " + AppResources.CommentedFilesIgnoredMessage;
+                        //        ", " + uploadTracker.IgnoredFilesCount + " " + PageCulture.Resources.CommentedFilesIgnoredMessage;
 
                         //}
                         UploadStatusLabel.Text += uploadTracker.StudentFolderName + ": "
                             + uploadTracker.UploadedFilesCount + " "
-                            + AppResources.CommentedFilesUploadMessage + ", "
+                            + PageCulture.Resources.CommentedFilesUploadMessage + ", "
 
                             + uploadTracker.MissedFilesCount + " "
-                            + AppResources.CommentedFilesMissedMessage + " "
-                            + AppResources.CommentedFilesStatusMessage + " "
+                            + PageCulture.Resources.CommentedFilesMissedMessage + " "
+                            + PageCulture.Resources.CommentedFilesStatusMessage + " "
 
                             + uploadTracker.IgnoredFilesCount + " "
-                            + AppResources.CommentedFilesIgnoredMessage;
+                            + PageCulture.Resources.CommentedFilesIgnoredMessage;
 
                         UploadStatusLabel.Text += "<br>";
                     }
@@ -605,9 +605,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void SetResourceText()
         {
-            this.pageTitle.Text = AppResources.CommentedFilesPageTitle;
-            this.pageTitleInTitlePage.Text = AppResources.CommentedFilesTitleinTitlePage;
-            this.pageDescription.Text = AppResources.CommentedFilesPageDescription;
+            this.pageTitle.Text = PageCulture.Resources.CommentedFilesPageTitle;
+            this.pageTitleInTitlePage.Text = PageCulture.Resources.CommentedFilesTitleinTitlePage;
+            this.pageDescription.Text = PageCulture.Resources.CommentedFilesPageDescription;
         }
         
        #endregion

@@ -102,7 +102,6 @@
     <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorSlk.cs" />
     <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorNoGroups.cs" />
     <Compile Include="EnumerateDomainGroups\domainGroupEnumeratorResults.cs" />
-    <Compile Include="LearningStoreHelper.cs" />
     <Compile Include="api\SlkStore.cs" />
     <Compile Include="api\SlkRole.cs" />
     <Compile Include="api\SlkUserWebListItem.cs" />

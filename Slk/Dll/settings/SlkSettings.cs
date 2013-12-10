@@ -296,11 +296,11 @@ namespace Microsoft.SharePointLearningKit
             }
             catch (XmlException ex)
             {
-                throw new SlkSettingsException(xmlReader, AppResources.SlkUtilitiesSettingsExceptionDefaultFormat, ex.Message);
+                throw new SlkSettingsException(xmlReader, Resources.SlkUtilitiesSettingsExceptionDefaultFormat, ex.Message);
             }
             catch (XmlSchemaValidationException ex)
             {
-                throw new SlkSettingsException(xmlReader, AppResources.SlkUtilitiesSettingsExceptionDefaultFormat, ex.Message);
+                throw new SlkSettingsException(xmlReader, Resources.SlkUtilitiesSettingsExceptionDefaultFormat, ex.Message);
             }
         }
 
@@ -507,8 +507,7 @@ namespace Microsoft.SharePointLearningKit
             string queryName = xmlReader.GetAttribute("Name");
             if (queryDictionary.TryGetValue(queryName, out unused))
             {
-                throw new SlkSettingsException(xmlReader, AppResources.SlkUtilitiesDuplicateQueryName,
-                    queryName);
+                throw new SlkSettingsException(xmlReader, Resources.SlkUtilitiesDuplicateQueryName, queryName);
             }
             QueryDefinition queryDefinition = new QueryDefinition(queryName,
                 xmlReader.GetAttribute("Title"), xmlReader.GetAttribute("ViewName"),
@@ -562,8 +561,7 @@ namespace Microsoft.SharePointLearningKit
                     }
                     catch (ArgumentException)
                     {
-                        throw new SlkSettingsException(xmlReader,
-                            AppResources.SlkUtilitiesConditionException);
+                        throw new SlkSettingsException(xmlReader, Resources.SlkUtilitiesConditionException);
                     }
                 }
                 else if (xmlReader.Name == "Sort")
@@ -585,21 +583,18 @@ namespace Microsoft.SharePointLearningKit
             QuerySetDefinition toFind;
             if (querySetDictionary.TryGetValue(querySetName, out toFind))
             {
-                throw new SlkSettingsException(xmlReader, AppResources.SlkUtilitiesDuplicateQuerySetName,
-                    querySetName);
+                throw new SlkSettingsException(xmlReader, Resources.SlkUtilitiesDuplicateQuerySetName, querySetName);
             }
 
             QueryDefinition unused;
             if (queryDictionary.TryGetValue(querySetName, out unused))
             {
-                throw new SlkSettingsException(xmlReader, AppResources.SlkUtilitiesQuerySetSameAsQuery,
-                    querySetName);
+                throw new SlkSettingsException(xmlReader, Resources.SlkUtilitiesQuerySetSameAsQuery, querySetName);
             }
             string defaultQueryName = xmlReader.GetAttribute("DefaultQueryName");
             if (!queryDictionary.TryGetValue(defaultQueryName, out unused))
             {
-                throw new SlkSettingsException(xmlReader, AppResources.SlkUtilitiesUndefinedQuery,
-                    defaultQueryName);
+                throw new SlkSettingsException(xmlReader, Resources.SlkUtilitiesUndefinedQuery, defaultQueryName);
             }
             QuerySetDefinition querySetDefinition = new QuerySetDefinition(querySetName,
                 xmlReader.GetAttribute("Title"), defaultQueryName);
@@ -621,14 +616,18 @@ namespace Microsoft.SharePointLearningKit
                     }
                     catch (KeyNotFoundException)
                     {
-                        throw new SlkSettingsException(xmlReader, AppResources.SlkUtilitiesUndefinedQuery,
-                            queryName);
+                        throw new SlkSettingsException(xmlReader, Resources.SlkUtilitiesUndefinedQuery, queryName);
                     }
                     querySetDefinition.AddIncludeQuery(queryDef);
                 }
             }
             querySetDefinitions.Add(querySetDefinition);
             querySetDictionary.Add(querySetName, querySetDefinition);
+        }
+
+        private static AppResourcesLocal Resources
+        {
+            get { return SlkCulture.GetResources() ;}
         }
 
     }

@@ -300,7 +300,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (NoFileAssignment)
                 {
                     // non-file assignment
-                    DocLibLink.Text = AppResources.ActionsDocLibLinkNoFile;
+                    DocLibLink.Text = PageCulture.Resources.ActionsDocLibLinkNoFile;
                     ResourceFileName.Text = Request.QueryString["Title"];
                     lblTitle.Text = ResourceFileName.Text;
                     selfAssignRow.Visible = false;
@@ -318,7 +318,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 // the "addSiteUrl" JScript local variable will contain the unique client-side ID of the "Add a site" text box
                 ClientScript.RegisterClientScriptBlock(this.GetType(), "addSiteUrl", "var addSiteUrl = \"" + txtNewSite.ClientID + "\";", true);
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "addSiteUrlMessage", "var addSiteUrlMessage = \"" + AppResources.ActionsSiteRequired + "\";", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "addSiteUrlMessage", "var addSiteUrlMessage = \"" + PageCulture.Resources.ActionsSiteRequired + "\";", true);
 
                 contentPanel.Visible = true;
             }
@@ -386,7 +386,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         }
                         catch (SlkNotConfiguredException)
                         {
-                            errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.ActionsNotEnabled, Server.HtmlEncode(destinationUrl)));
+                            errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(PageCulture.Resources.ActionsNotEnabled, Server.HtmlEncode(destinationUrl)));
                             DisplayAddSite();
                             return;
                         }
@@ -394,7 +394,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         // check if the user is an instructor on that site
                         if (!destinationSlkStore.IsInstructor(destinationWeb))
                         {
-                            errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.ActionsNotInstructor, Server.HtmlEncode(destinationUrl)));
+                            errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(PageCulture.Resources.ActionsNotInstructor, Server.HtmlEncode(destinationUrl)));
                             DisplayAddSite();
                             return;
                         }
@@ -405,7 +405,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
                             if (destinationWeb.ID.Equals(webListItem.SPWebGuid))
                             {
-                                errorBanner.AddHtmlErrorText(ErrorType.Info, PageCulture.Format(AppResources.ActionsAlreadyInList, Server.HtmlEncode(destinationWeb.Title)));
+                                errorBanner.AddHtmlErrorText(ErrorType.Info, PageCulture.Format(PageCulture.Resources.ActionsAlreadyInList, Server.HtmlEncode(destinationWeb.Title)));
                                 break;
                             }
                         }
@@ -422,16 +422,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (UriFormatException)
             {
                 // the url is an invalid format
-                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
+                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(PageCulture.Resources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
             }
             catch (UnauthorizedAccessException)
             {
                 // the user doesn't have permission to access this site, so show an error message
-                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
+                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(PageCulture.Resources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
             }
             catch (FileNotFoundException)
             {
-                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
+                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(PageCulture.Resources.ActionsInvalidSite, Server.HtmlEncode(txtNewSite.Text)));
             }
             finally
             {
@@ -546,7 +546,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 foreach (WebListItem webListItem in webList)
                 {
                     li = new HtmlGenericControl("li");
-                    li.Attributes.Add("title", PageCulture.Format(AppResources.ActionsMRUToolTip, Server.HtmlEncode(webListItem.Title)));
+                    li.Attributes.Add("title", PageCulture.Format(PageCulture.Resources.ActionsMRUToolTip, Server.HtmlEncode(webListItem.Title)));
                     hl = new HyperLink();
                     hl.NavigateUrl = AssignmentSiteUrl(webListItem.Url);
 
@@ -619,29 +619,29 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void SetResourceText()
         {
-            pageTitle.Text = AppResources.ActionsPageTitle;
-            lblOrganization.Text = AppResources.ActionslblOrganization;
+            pageTitle.Text = PageCulture.Resources.ActionsPageTitle;
+            lblOrganization.Text = PageCulture.Resources.ActionslblOrganization;
             if (NoFileAssignment)
             {
-                lblWhatHeader.Text = AppResources.ActionslblWhatHeaderNoFile;
-                lblSelfAssignAssign.Text = AppResources.ActionslblSelfAssignAssignNoFile;
-                pageDescription.Text = AppResources.ActionsPageDescriptionNoFile;
+                lblWhatHeader.Text = PageCulture.Resources.ActionslblWhatHeaderNoFile;
+                lblSelfAssignAssign.Text = PageCulture.Resources.ActionslblSelfAssignAssignNoFile;
+                pageDescription.Text = PageCulture.Resources.ActionsPageDescriptionNoFile;
             }
             else
             {
-                lblWhatHeader.Text = AppResources.ActionslblWhatHeader;
-                lblSelfAssignAssign.Text = AppResources.ActionslblSelfAssignAssign;
-                pageDescription.Text = AppResources.ActionsPageDescription;
+                lblWhatHeader.Text = PageCulture.Resources.ActionslblWhatHeader;
+                lblSelfAssignAssign.Text = PageCulture.Resources.ActionslblSelfAssignAssign;
+                pageDescription.Text = PageCulture.Resources.ActionsPageDescription;
             }
-            lblSelfAssignHeader.Text = AppResources.ActionslblSelfAssignHeader;
-            lnkAssignSelf.Text = AppResources.ActionslnkAssignSelf;
-            lblAssignSelf.Text = AppResources.ActionslblAssignSelf;
-            lblChoose.Text = AppResources.ActionslblChoose;
-            lnkMRUAddSite.Text = AppResources.ActionslnkMRUAddSite;
-            lblMRUAddress.Text = AppResources.ActionslblMRUAddress;
-            lnkMRUTestLink.Text = AppResources.ActionslnkMRUTestLink;
-            addButton.Text = AppResources.ActionsbtnAdd;
-            newSiteRequired.ErrorMessage = AppResources.ActionsSiteRequired;
+            lblSelfAssignHeader.Text = PageCulture.Resources.ActionslblSelfAssignHeader;
+            lnkAssignSelf.Text = PageCulture.Resources.ActionslnkAssignSelf;
+            lblAssignSelf.Text = PageCulture.Resources.ActionslblAssignSelf;
+            lblChoose.Text = PageCulture.Resources.ActionslblChoose;
+            lnkMRUAddSite.Text = PageCulture.Resources.ActionslnkMRUAddSite;
+            lblMRUAddress.Text = PageCulture.Resources.ActionslblMRUAddress;
+            lnkMRUTestLink.Text = PageCulture.Resources.ActionslnkMRUTestLink;
+            addButton.Text = PageCulture.Resources.ActionsbtnAdd;
+            newSiteRequired.ErrorMessage = PageCulture.Resources.ActionsSiteRequired;
         }
 
         void showWarnings_Click(object sender, EventArgs e)
@@ -676,7 +676,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 itemMax = mruItems;
                 lnkMRUShowAll.Visible = true;
-                lnkMRUShowAll.Text = AppResources.ActionslnkMRUShowAll;
+                lnkMRUShowAll.Text = PageCulture.Resources.ActionslnkMRUShowAll;
             }
             else
             {
@@ -702,7 +702,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
                             if (SPWeb.ID.Equals(item.SPWebGuid))
                             {
-                                webList.Add(new WebListItem(item, web.Url, PageCulture.Format("{0} {1}", web.Title, AppResources.ActionslblMRUCurrentSite)));
+                                webList.Add(new WebListItem(item, web.Url, PageCulture.Format("{0} {1}", web.Title, PageCulture.Resources.ActionslblMRUCurrentSite)));
                             }
                             else
                             {
@@ -735,7 +735,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             if (addCurrentToList)
             {
                 webList.Add(new WebListItem(SPWeb.Site.ID, SPWeb.ID, DateTime.Now, SPWeb.Url,
-                    PageCulture.Format("{0} {1}", SPWeb.Title, AppResources.ActionslblMRUCurrentSite)));
+                    PageCulture.Format("{0} {1}", SPWeb.Title, PageCulture.Resources.ActionslblMRUCurrentSite)));
             }
             webList.Sort();
 
@@ -757,7 +757,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 #endif
             {
                 // If it's checked out by the current user, show an error.
-                throw new SafeToDisplayException(AppResources.ActionsCheckedOutError);
+                throw new SafeToDisplayException(PageCulture.Resources.ActionsCheckedOutError);
             }
 
             // no minor versions or limited version number warnings
@@ -770,7 +770,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
                 else
                 {
-                    errorBanner.AddError(ErrorType.Warning, PageCulture.Format(AppResources.ActionsVersioningOff, Server.HtmlEncode(SPList.Title)));
+                    errorBanner.AddError(ErrorType.Warning, PageCulture.Format(PageCulture.Resources.ActionsVersioningOff, Server.HtmlEncode(SPList.Title)));
                 }
             }
 
@@ -780,7 +780,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (SPFile.Level == SPFileLevel.Draft)
                 {
-                    errorBanner.AddError(ErrorType.Warning, AppResources.ActionsDraftVersion);
+                    errorBanner.AddError(ErrorType.Warning, PageCulture.Resources.ActionsDraftVersion);
                 }
             }
 
@@ -845,13 +845,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             if (package.Warnings != null)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append(AppResources.ActionsWarning);
+                sb.Append(PageCulture.Resources.ActionsWarning);
                 sb.AppendLine("<br />");
                 sb.Append("<a href=\"javascript: __doPostBack('showWarnings','');\">");
                 if (ShowWarnings)
-                    sb.Append(AppResources.ActionsHideDetails);
+                    sb.Append(PageCulture.Resources.ActionsHideDetails);
                 else
-                    sb.Append(AppResources.ActionsShowDetails);
+                    sb.Append(PageCulture.Resources.ActionsShowDetails);
                 sb.AppendLine("</a>");
 
                 if (ShowWarnings)

@@ -177,7 +177,7 @@ namespace Microsoft.SharePointLearningKit
                 catch (Exception e)
                 {
                     properties.Store.LogException(e);
-                    errors.AppendFormat(AppResources.ErrorSavingDropBoxPermissions, update.State, update.User.LoginName);
+                    errors.AppendFormat(SlkCulture.GetResources().ErrorSavingDropBoxPermissions, update.State, update.User.LoginName);
                 }
             }
 

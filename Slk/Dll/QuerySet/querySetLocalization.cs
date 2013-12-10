@@ -39,11 +39,12 @@ namespace Microsoft.SharePointLearningKit
             {
                 if (value.Length > 11 && value.Substring(0, 11) == "$Resources:")
                 {
+                    SlkCulture culture = new SlkCulture();
                     if (value.Length > 18 && value.Substring(0, 18) == "$Resources:SlkDll,")
                     {
                         // Resource string from Slk dll resource
                         string key = value.Substring(18);
-                        return AppResources.ResourceManager.GetString(key, AppResources.Culture);;
+                        return culture.Resources.ResourceManager.GetString(key, culture.Culture);;
                     }
                     else
                     {
@@ -53,7 +54,7 @@ namespace Microsoft.SharePointLearningKit
                         {
                             string source = value.Substring(11, index - 11);
                             string key = value.Substring(index + 1);
-                            return Microsoft.SharePoint.Utilities.SPUtility.GetLocalizedString("$Resources:" + key, source, (uint)AppResources.Culture.LCID);
+                            return Microsoft.SharePoint.Utilities.SPUtility.GetLocalizedString("$Resources:" + key, source, (uint)culture.Culture.LCID);
                         }
                     }
                 }

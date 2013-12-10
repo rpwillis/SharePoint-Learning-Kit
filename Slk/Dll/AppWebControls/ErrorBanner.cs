@@ -225,34 +225,35 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Align, "left");
                 using (new HtmlBlock(HtmlTextWriterTag.Td, 0, htmlTextWriter))
                 {
+                    SlkCulture culture = new SlkCulture();
                     switch (item.ErrorType)
                     {
                         case ErrorType.Error:
                             {
                                 //Error Image Tag
                                 imgErrorType.ImageUrl = Constants.ImagePath + Constants.ErrorIcon;
-                                imgErrorType.ToolTip = AppResources.SlkErrorTypeErrorToolTip;
+                                imgErrorType.ToolTip = culture.Resources.SlkErrorTypeErrorToolTip;
                                 break;
                             }
                         case ErrorType.Info:
                             {
                                 //Info Image Tag
                                 imgErrorType.ImageUrl = Constants.ImagePath + Constants.InfoIcon;
-                                imgErrorType.ToolTip = AppResources.SlkErrorTypeInfoToolTip;
+                                imgErrorType.ToolTip = culture.Resources.SlkErrorTypeInfoToolTip;
                                 break;
                             }
                         case ErrorType.Warning:
                             {
                                 //ErrorType Image Tag
                                 imgErrorType.ImageUrl = Constants.ImagePath + Constants.WarningIcon;
-                                imgErrorType.ToolTip = AppResources.SlkErrorTypeWarningToolTip;
+                                imgErrorType.ToolTip = culture.Resources.SlkErrorTypeWarningToolTip;
                                 break;
                             }
                         default:
                             {
                                 //Error Image Tag                       
                                 imgErrorType.ImageUrl = Constants.ImagePath + Constants.ErrorIcon;
-                                imgErrorType.ToolTip = AppResources.SlkErrorTypeErrorToolTip;
+                                imgErrorType.ToolTip = culture.Resources.SlkErrorTypeErrorToolTip;
                                 break;
                             }
                     }

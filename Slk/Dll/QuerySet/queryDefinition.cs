@@ -245,9 +245,7 @@ namespace Microsoft.SharePointLearningKit
                             }
                             catch (InvalidOperationException)
                             {
-                                throw new SlkSettingsException(column.LineNumber,
-                                    AppResources.SlkUtilitiesColumnNotDefined,
-                                    viewColumnName, ViewName);
+                                throw new SlkSettingsException(column.LineNumber, culture.Resources.SlkUtilitiesColumnNotDefined, viewColumnName, ViewName);
                             }
                             iQueryColumn = viewColumnsAdded.Count;
                             viewColumnsAdded.Add(viewColumnName, iQueryColumn);
@@ -274,8 +272,7 @@ namespace Microsoft.SharePointLearningKit
                         }
                         else
                         {
-                            throw new SlkSettingsException(condition.LineNumber,
-                                AppResources.SlkUtilitiesMacroNotDefined, condition.MacroName);
+                            throw new SlkSettingsException(condition.LineNumber, culture.Resources.SlkUtilitiesMacroNotDefined, condition.MacroName);
                         }
                     }
                 }
@@ -398,8 +395,7 @@ namespace Microsoft.SharePointLearningKit
                         }
                         catch (InvalidCastException)
                         {
-                            throw new SlkSettingsException(columnDefinition.LineNumber,
-                                AppResources.SlkUtilitiesViewColumnNameNonDateTime);
+                            throw new SlkSettingsException(columnDefinition.LineNumber, culture.Resources.SlkUtilitiesViewColumnNameNonDateTime);
                         }
                         cellValue = cellSortKey = dateTime;
                         if (columnDefinition.CellFormat != null)
@@ -414,23 +410,34 @@ namespace Microsoft.SharePointLearningKit
 
                 case ColumnRenderAs.SPWebName:
 
-                    cellWebGuid = GetQueryCell<Guid>(dataRow, columnMap, columnDefinition,
-                        iColumnDefinition, 0);
-                    cellSiteGuid = GetQueryCell<Guid>(dataRow, columnMap, columnDefinition,
-                        iColumnDefinition, 1);
+                    cellWebGuid = GetQueryCell<Guid>(dataRow, columnMap, columnDefinition, iColumnDefinition, 0);
+                    cellSiteGuid = GetQueryCell<Guid>(dataRow, columnMap, columnDefinition, iColumnDefinition, 1);
                     if (spWebResolver != null)
+                    {
                         spWebResolver(cellWebGuid.Value, cellSiteGuid.Value, out text, out cellWebUrl);
+                    }
                     else
+                    {
                         text = null;
+                    }
+
                     if (text == null)
+                    {
                         text = cellWebGuid.Value.ToString();
+                    }
+
                     cellValue = text;
                     cellSortKey = text.ToLower(culture.Culture);
                     cellId = null;
                     if (columnDefinition.ToolTipFormat != null)
+                    {
                         cellToolTip = culture.Format(columnDefinition.ToolTipFormat, text);
+                    }
                     else
+                    {
                         cellToolTip = null;
+                    }
+
                     break;
 
                 case ColumnRenderAs.Link:
@@ -481,21 +488,21 @@ namespace Microsoft.SharePointLearningKit
                     if (!noFinalPoints)
                     {
                         // FinalPoints is not NULL
-                        text = culture.Format(AppResources.SlkUtilitiesPointsValue, FormatValue(finalPointsRounded, columnDefinition.CellFormat));
-                        textNotRounded = culture.Format(AppResources.SlkUtilitiesPointsValue, finalPoints);
+                        text = culture.Format(culture.Resources.SlkUtilitiesPointsValue, FormatValue(finalPointsRounded, columnDefinition.CellFormat));
+                        textNotRounded = culture.Format(culture.Resources.SlkUtilitiesPointsValue, finalPoints);
                     }
                     else
                     {
                         // FinalPoints is NULL
-                        text = AppResources.SlkUtilitiesPointsNoValue;
-                        textNotRounded = AppResources.SlkUtilitiesPointsNoValue;
+                        text = culture.Resources.SlkUtilitiesPointsNoValue;
+                        textNotRounded = culture.Resources.SlkUtilitiesPointsNoValue;
                     }
                     if (!noPointsPossible)
                     {
                         // PointsPossible is not NULL
-                        text = culture.Format(AppResources.SlkUtilitiesPointsPossible, text,
+                        text = culture.Format(culture.Resources.SlkUtilitiesPointsPossible, text,
                             FormatValue(pointsPossibleRounded, columnDefinition.CellFormat));
-                        textNotRounded = culture.Format(AppResources.SlkUtilitiesPointsPossible, textNotRounded,
+                        textNotRounded = culture.Format(culture.Resources.SlkUtilitiesPointsPossible, textNotRounded,
                             pointsPossible);
                     }
                     cellValue = text;
@@ -526,7 +533,7 @@ namespace Microsoft.SharePointLearningKit
                         iColumnDefinition, 0);
                     int countTotal = GetQueryCell<int>(dataRow, columnMap, columnDefinition,
                         iColumnDefinition, 1);
-                    text = culture.Format(AppResources.SlkUtilitiesSubmitted, countCompletedOrFinal, countTotal);
+                    text = culture.Format(culture.Resources.SlkUtilitiesSubmitted, countCompletedOrFinal, countTotal);
                     cellValue = text;
                     cellId = null;
                     cellToolTip = null;
@@ -535,8 +542,7 @@ namespace Microsoft.SharePointLearningKit
 
                 default:
 
-                    throw new SlkSettingsException(columnDefinition.LineNumber,
-                        AppResources.SlkUtilitiesUnknownRenderAsValue, columnDefinition.RenderAs);
+                    throw new SlkSettingsException(columnDefinition.LineNumber, culture.Resources.SlkUtilitiesUnknownRenderAsValue, columnDefinition.RenderAs);
                 }
 
                 // add to <renderedCells>
@@ -607,7 +613,7 @@ namespace Microsoft.SharePointLearningKit
 
                 // check if <columnIndex> is out of range
                 if ((columnIndex >= rowX.Length) || (columnIndex >= rowY.Length))
-                    throw new ArgumentException(AppResources.SlkUtilitiesColumnIndexOutOfRange, "columnIndex");
+                    throw new ArgumentException(culture.Resources.SlkUtilitiesColumnIndexOutOfRange, "columnIndex");
 
                 // get the sort keys for the rows being compared
                 object sortKeyX = rowX[columnIndex].SortKey;
@@ -641,7 +647,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (InvalidCastException)
                 {
-                    throw new InvalidOperationException(culture.Format(AppResources.SlkUtilitiesCannotSortColumnType, sortKeyX.GetType().Name));
+                    throw new InvalidOperationException(culture.Format(culture.Resources.SlkUtilitiesCannotSortColumnType, sortKeyX.GetType().Name));
                 }
 
                 // do the comparison; if equal, maintain the original order of the rows
@@ -718,16 +724,14 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="iViewName">The index of the "ViewColumnName*" attribute: 0 for
         ///     "ViewColumnName", 1 for "ViewColumnName2", and so on.</param>
         ///
-        static T GetQueryCell<T>(DataRow dataRow, int[,] columnMap, ColumnDefinition columnDefinition,
-            int iColumnDefinition, int iViewName)
+        private T GetQueryCell<T>(DataRow dataRow, int[,] columnMap, ColumnDefinition columnDefinition, int iColumnDefinition, int iViewName)
         {
             bool isNull;
             T value = GetQueryCell<T>(dataRow, columnMap, columnDefinition, iColumnDefinition,
                 iViewName, out isNull);
             if (isNull)
             {
-                throw new SlkSettingsException(columnDefinition.LineNumber,
-                    AppResources.SlkUtilitiesColumnReturnedNull, GetViewColumnName(iColumnDefinition));
+                throw new SlkSettingsException(columnDefinition.LineNumber, culture.Resources.SlkUtilitiesColumnReturnedNull, GetViewColumnName(iColumnDefinition));
             }
             else
                 return value;
@@ -758,8 +762,7 @@ namespace Microsoft.SharePointLearningKit
         ///     to <c>true</c> and <c>default(T)</c> is returned.  Otherwise,
         ///     <paramref name="isNull"/> is set to <c>false</c>.</param>
         ///
-        static T GetQueryCell<T>(DataRow dataRow, int[,] columnMap, ColumnDefinition columnDefinition,
-            int iColumnDefinition, int iViewName, out bool isNull)
+        private T GetQueryCell<T>(DataRow dataRow, int[,] columnMap, ColumnDefinition columnDefinition, int iColumnDefinition, int iViewName, out bool isNull)
         {
             object value = dataRow[columnMap[iColumnDefinition, iViewName]];
             if (value is DBNull)
@@ -770,7 +773,7 @@ namespace Microsoft.SharePointLearningKit
             if (!(value is T))
             {
                 throw new SlkSettingsException(columnDefinition.LineNumber,
-                    AppResources.SlkUtilitiesColumnReturnedUnexpectedType,
+                    culture.Resources.SlkUtilitiesColumnReturnedUnexpectedType,
                     GetViewColumnName(iColumnDefinition), value.GetType().Name, typeof(T).Name);
             }
             isNull = false;

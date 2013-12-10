@@ -112,7 +112,8 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    throw new SafeToDisplayException(AppResources.NoAccessToSite);
+                    SlkCulture culture = new SlkCulture();
+                    throw new SafeToDisplayException(culture.Resources.NoAccessToSite);
                 }
                 finally
                 {

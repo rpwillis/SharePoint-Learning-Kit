@@ -210,18 +210,14 @@ namespace Microsoft.SharePointLearningKit
                 m_operator = LearningStoreConditionOperator.Equal;
                 if ((value != null) || (macroName != null))
                 {
-                    throw new ArgumentException(
-                        AppResources.SlkUtilitiesValueNullifIsNull,
-                        "operator");
+                    throw new ArgumentException(SlkCulture.GetResources().SlkUtilitiesValueNullifIsNull, "operator");
                 }
                 break;
             case "IsNotNull":
                 m_operator = LearningStoreConditionOperator.NotEqual;
                 if ((value != null) || (macroName != null))
                 {
-                    throw new ArgumentException(
-                        AppResources.SlkUtilitiesValueNullifIsNotNull,
-                        "operator");
+                    throw new ArgumentException(SlkCulture.GetResources().SlkUtilitiesValueNullifIsNotNull, "operator");
                 }
                 break;
             }
@@ -233,17 +229,13 @@ namespace Microsoft.SharePointLearningKit
             // only one of <value> and <macroName> may be provided
             if ((value != null) && (macroName != null))
             {
-                throw new ArgumentException(
-                    AppResources.SlkUtilitiesOneValueNonNull,
-                    "value");
+                throw new ArgumentException(SlkCulture.GetResources().SlkUtilitiesOneValueNonNull, "value");
             }
 
             // if <noConditionOnNull> is true, <macroName> must be provided
             if (noConditionOnNull && (macroName == null))
             {
-                throw new ArgumentException(
-                    AppResources.SlkUtilitiesMacroNameNotProvided,
-                    "noConditionOnNull");
+                throw new ArgumentException(SlkCulture.GetResources().SlkUtilitiesMacroNameNotProvided, "noConditionOnNull");
             }
         }
     }

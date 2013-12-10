@@ -106,12 +106,13 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
             }
             else if (ex is UnauthorizedAccessException || ex is LearningStoreSecurityException)
             {
-                slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(AppResources.AccessDenied));
+                slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(SlkCulture.GetResources().AccessDenied));
             }
             else
             {
                 //Set the Standard Error text 
-                string errorText = AppResources.SlkGenericError;
+                SlkCulture culture = new SlkCulture();
+                string errorText = culture.Resources.SlkGenericError;
 
                 SqlException sqlEx = ex as SqlException;
                 if (sqlEx != null)
@@ -119,7 +120,7 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
                     //check whether deadlock occured
                     if (sqlEx.Number == 1205)
                     {
-                        errorText = AppResources.SlkExWorkFlowSqlDeadLockError ;
+                        errorText = culture.Resources.SlkExWorkFlowSqlDeadLockError ;
                     }
                 }     
 
@@ -259,9 +260,7 @@ namespace Microsoft.SharePointLearningKit
         ///
         /// <param name="internalErrorCode">An internal error code, e.g. "APP1001".</param>
         ///
-        internal InternalErrorException(string internalErrorCode)
-            :
-            base(String.Format(SlkCulture.GetCulture(), AppResources.InternalError, internalErrorCode))
+        internal InternalErrorException(string internalErrorCode) : base(String.Format(SlkCulture.GetCulture(), SlkCulture.GetResources().InternalError, internalErrorCode))
         {
         }
     }

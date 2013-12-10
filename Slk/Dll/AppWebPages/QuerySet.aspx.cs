@@ -131,7 +131,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             if (querySetDef == null)
                             {
                                 throw new SafeToDisplayException
-                                          (AppResources.AlwpQuerySetNotFound, querySetName);
+                                          (PageCulture.Resources.AlwpQuerySetNotFound, querySetName);
                             }
 
                             // render the "<body>" element and its contents

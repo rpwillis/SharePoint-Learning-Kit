@@ -470,7 +470,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         if (AssignmentProperties.PackageWarnings != null)
                         {
                             //Add the Package Warning in the Error Banner
-                            errorBanner.AddHtmlErrorText(ErrorType.Warning, AppResources.ActionsWarning);
+                            errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Resources.ActionsWarning);
                         }
 
                         if (AssignmentProperties.IsNoPackageAssignment)
@@ -577,14 +577,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 //Catch the exception to not to restrict the user to access the content 
                 //if user does not have access to SPWeb. 
                 //Set the Sharepoint Site Title similar to Web Site not accessible.
-                lnkSharePointSite.Text = AppResources.APPInvalidSite;
+                lnkSharePointSite.Text = PageCulture.Resources.APPInvalidSite;
 
             }
             catch (FileNotFoundException)
             {
                 // Catch the exception to not to restrict the user to access the content if SPWeb does not exist.
                 //Set the Sharepoint Site Title similar to Web Site not accessible.
-                lnkSharePointSite.Text = AppResources.APPInvalidSite;
+                lnkSharePointSite.Text = PageCulture.Resources.APPInvalidSite;
             }
             finally
             {
@@ -757,7 +757,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             int groupCount = 0;
 
-            SlkCheckBoxItem item = new SlkCheckBoxItem(AppResources.AppAllLearnersGroup,
+            SlkCheckBoxItem item = new SlkCheckBoxItem(PageCulture.Resources.AppAllLearnersGroup,
                                              groupCount.ToString(CultureInfo.InvariantCulture),
                                              false, string.Empty);
             itemCollection.Add(item);
@@ -823,47 +823,47 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void SetResourceText()
         {
             //Set the Display Text for all APP page controls from Resources
-            btnBottomOK.Text = AppResources.CtrlOKButtonText;
-            btnTopOK.Text = AppResources.CtrlOKButtonText;
+            btnBottomOK.Text = PageCulture.Resources.CtrlOKButtonText;
+            btnTopOK.Text = PageCulture.Resources.CtrlOKButtonText;
 
-            lblTitle.Text = AppResources.CtrlLabelTitleText;
-            lblDescription.Text = AppResources.CtrlLabelDescriptionText;
-            lblPoints.Text = AppResources.CtrlLabelPointsText;
-            lblStart.Text = AppResources.CtrlLabelStartText;
-            lblDue.Text = AppResources.CtrlLabelDueText;
-            lblSharePointSite.Text = AppResources.CtrlLabelSharePointSiteText;
-            lblInstructorsHeader.Text = AppResources.CtrlLabelInstructorsText;
-            lblLearnersHeader.Text = AppResources.AppLearnersHeaderText;
-            lblLearnersText.Text = AppResources.CtrlLabelLearnerDesc;
-            lblInstructorsText.Text = AppResources.CtrlLabelInstructorDesc;
-            lblDistributeAssignmentText.Text = AppResources.CtrlLabelDistributeAssignmentDesc;
-            lblDistributeAssignmentHeader.Text = AppResources.CtrlLabelDistributeAssignmentHeader;
-            LabelUploadDocumentText.Text = AppResources.CtrlLabelUploadDocumentText;
-            LabelUploadDocumentHeader.Text = AppResources.CtrlLabelUploadDocumentHeader;
-            LabelUploadDocumentName.Text = AppResources.CtrlLabelUploadDocumentName;
-            LabelUploadDocumentLibrary.Text = AppResources.CtrlLabelUploadDocumentLibrary;
+            lblTitle.Text = PageCulture.Resources.CtrlLabelTitleText;
+            lblDescription.Text = PageCulture.Resources.CtrlLabelDescriptionText;
+            lblPoints.Text = PageCulture.Resources.CtrlLabelPointsText;
+            lblStart.Text = PageCulture.Resources.CtrlLabelStartText;
+            lblDue.Text = PageCulture.Resources.CtrlLabelDueText;
+            lblSharePointSite.Text = PageCulture.Resources.CtrlLabelSharePointSiteText;
+            lblInstructorsHeader.Text = PageCulture.Resources.CtrlLabelInstructorsText;
+            lblLearnersHeader.Text = PageCulture.Resources.AppLearnersHeaderText;
+            lblLearnersText.Text = PageCulture.Resources.CtrlLabelLearnerDesc;
+            lblInstructorsText.Text = PageCulture.Resources.CtrlLabelInstructorDesc;
+            lblDistributeAssignmentText.Text = PageCulture.Resources.CtrlLabelDistributeAssignmentDesc;
+            lblDistributeAssignmentHeader.Text = PageCulture.Resources.CtrlLabelDistributeAssignmentHeader;
+            LabelUploadDocumentText.Text = PageCulture.Resources.CtrlLabelUploadDocumentText;
+            LabelUploadDocumentHeader.Text = PageCulture.Resources.CtrlLabelUploadDocumentHeader;
+            LabelUploadDocumentName.Text = PageCulture.Resources.CtrlLabelUploadDocumentName;
+            LabelUploadDocumentLibrary.Text = PageCulture.Resources.CtrlLabelUploadDocumentLibrary;
 
-            lblPointsPossible.Text = AppResources.CtrlLabelPointsPossible;
-            lblAssignmentPropText.Text = AppResources.CtrlLabelAssignmentPropDesc;
-            lblAssignmentPropHeader.Text = AppResources.CtrlLabelAssignmentPropHeader;
+            lblPointsPossible.Text = PageCulture.Resources.CtrlLabelPointsPossible;
+            lblAssignmentPropText.Text = PageCulture.Resources.CtrlLabelAssignmentPropDesc;
+            lblAssignmentPropHeader.Text = PageCulture.Resources.CtrlLabelAssignmentPropHeader;
 
             //Show Answer and Auto Return Label Text
-            lblAutoReturnLearners.Text = AppResources.CtrlChkBoxTextAutoReturnAssignments;
-            lblShowAnswersToLearners.Text = AppResources.CtrlChkBoxTextShowAnswers;
-            labelEmail.Text = AppResources.CheckBoxEmailAssignment;
+            lblAutoReturnLearners.Text = PageCulture.Resources.CtrlChkBoxTextAutoReturnAssignments;
+            lblShowAnswersToLearners.Text = PageCulture.Resources.CtrlChkBoxTextShowAnswers;
+            labelEmail.Text = PageCulture.Resources.CheckBoxEmailAssignment;
 
             //Confirmation Panel Label Text 
-            lblAssignmentPoints.Text = AppResources.CtrlLabelPointsText;
-            lblAssignmentStart.Text = AppResources.CtrlLabelStartText;
-            lblAssignmentDue.Text = AppResources.CtrlLabelDueText;
-            lblAPPConfirmWhatNext.Text = AppResources.CtrlLabelAPPWhatNextText;
+            lblAssignmentPoints.Text = PageCulture.Resources.CtrlLabelPointsText;
+            lblAssignmentStart.Text = PageCulture.Resources.CtrlLabelStartText;
+            lblAssignmentDue.Text = PageCulture.Resources.CtrlLabelDueText;
+            lblAPPConfirmWhatNext.Text = PageCulture.Resources.CtrlLabelAPPWhatNextText;
 
-            chkListLearners.HeaderText = AppResources.CtrlLabelLearnersText;
-            chkListGroups.HeaderText = AppResources.CtrlLabelGroupsText;
+            chkListLearners.HeaderText = PageCulture.Resources.CtrlLabelLearnersText;
+            chkListGroups.HeaderText = PageCulture.Resources.CtrlLabelGroupsText;
 
             //Tool Tip for Calendar Controls
-            spDateTimeStart.ToolTip = AppResources.AppCalendarToolTip;
-            spDateTimeDue.ToolTip = AppResources.AppCalendarToolTip;
+            spDateTimeStart.ToolTip = PageCulture.Resources.AppCalendarToolTip;
+            spDateTimeDue.ToolTip = PageCulture.Resources.AppCalendarToolTip;
 
             //Set Server Relative Url for Start Date Picker Control 
             spDateTimeStart.DatePickerFrameUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, spDateTimeStart.DatePickerFrameUrl);
@@ -904,13 +904,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //Add a ValidationSummary Control in Error Banner
 
             //AppTitle Required Field Error 
-            rfvAppTitle.ErrorMessage = AppResources.AppTitleBlankError;
+            rfvAppTitle.ErrorMessage = PageCulture.Resources.AppTitleBlankError;
             rfvAppTitle.ControlToValidate = txtTitle.ID;
             rfvAppTitle.Display = ValidatorDisplay.Dynamic;
             rfvAppTitle.CssClass = "ms-formvalidation";
 
             //AppTitle Range Check Error 
-            regexAppTitle.ErrorMessage = AppResources.AppTitleMaxLengthError;
+            regexAppTitle.ErrorMessage = PageCulture.Resources.AppTitleMaxLengthError;
             regexAppTitle.ControlToValidate = txtTitle.ID;
             regexAppTitle.Display = ValidatorDisplay.Dynamic;
             regexAppTitle.ValidationExpression = @"[\s\S]{1,1000}";
@@ -918,7 +918,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             //Points Possible  Check
 
-            rvPointsPossible.ErrorMessage = AppResources.AppPointsPossibleNaNError;
+            rvPointsPossible.ErrorMessage = PageCulture.Resources.AppPointsPossibleNaNError;
             rvPointsPossible.ControlToValidate = txtPoints.ID;
             rvPointsPossible.Type = ValidationDataType.Double;
             rvPointsPossible.Display = ValidatorDisplay.Dynamic;
@@ -931,27 +931,27 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             rvPointsPossible.MaximumValue = float.MaxValue.ToString(Constants.FixedPoint, NumberFormatInfo);
 
             //Formatting appValidationSummary Control
-            appValidationSummary.HeaderText = AppResources.ErrorBannerValidationWarning;
+            appValidationSummary.HeaderText = PageCulture.Resources.ErrorBannerValidationWarning;
             appValidationSummary.DisplayMode = ValidationSummaryDisplayMode.BulletList;
             appValidationSummary.CssClass = "ms-formvalidation";
 
             //Validaton Error Message for Learners and Instructors Group and  Enable as Required Field
-            chkListLearners.ErrorMessage = AppResources.AppLearnersRequiredError;
+            chkListLearners.ErrorMessage = PageCulture.Resources.AppLearnersRequiredError;
             chkListLearners.IsRequired = true;
 
-            chkListInstructors.ErrorMessage = AppResources.AppInstructorRequiredError;
+            chkListInstructors.ErrorMessage = PageCulture.Resources.AppInstructorRequiredError;
             chkListInstructors.IsRequired = true;
 
             //Validation Error Message for Start Date and Due Date
             //You must specify a valid date within the range of 1/1/1900 and 12/31/8900.
             spDateTimeStart.MinDate = new DateTime(1900, 1, 1);
             spDateTimeStart.MaxDate = new DateTime(8900, 12, 31);
-            spDateTimeStart.ErrorMessage = AppResources.SlkNotValidDate;
+            spDateTimeStart.ErrorMessage = PageCulture.Resources.SlkNotValidDate;
 
 
             spDateTimeDue.MinDate = new DateTime(1900, 1, 1);
             spDateTimeDue.MaxDate = new DateTime(8900, 12, 31);
-            spDateTimeDue.ErrorMessage = AppResources.SlkNotValidDate;
+            spDateTimeDue.ErrorMessage = PageCulture.Resources.SlkNotValidDate;
 
         }
         #endregion
@@ -985,18 +985,18 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             switch (AppMode)
             {
                 case PageMode.Create:
-                    SetLiteralText(title, AppResources.AppPageCreationTitle);
-                    SetLiteralText(titleArea, AppResources.AppPageCreationTitleInTitleArea);
-                    SetLiteralText(pageDescription, AppResources.AppPageCreationDescription);
+                    SetLiteralText(title, PageCulture.Resources.AppPageCreationTitle);
+                    SetLiteralText(titleArea, PageCulture.Resources.AppPageCreationTitleInTitleArea);
+                    SetLiteralText(pageDescription, PageCulture.Resources.AppPageCreationDescription);
                     break;
                 case PageMode.Edit:
-                    SetLiteralText(title, AppResources.AppPageEditTitle);
-                    SetLiteralText(titleArea, AppResources.AppPageEditTitleInTitleArea);
-                    SetLiteralText(pageDescription, AppResources.AppPageEditDescription);
+                    SetLiteralText(title, PageCulture.Resources.AppPageEditTitle);
+                    SetLiteralText(titleArea, PageCulture.Resources.AppPageEditTitleInTitleArea);
+                    SetLiteralText(pageDescription, PageCulture.Resources.AppPageEditDescription);
                     break;
                 case PageMode.Confirmation:
-                    SetLiteralText(title, AppResources.AppPageCreateConfirmationTitle);
-                    SetLiteralText(titleArea, AppResources.AppPageCreateConfirmationTitle);
+                    SetLiteralText(title, PageCulture.Resources.AppPageCreateConfirmationTitle);
+                    SetLiteralText(titleArea, PageCulture.Resources.AppPageCreateConfirmationTitle);
                     SetLiteralText(pageDescription, String.Empty);
                     break;
             }
@@ -1026,7 +1026,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //If No learners on SPWeb
             if (SlkMembers.Learners.Count == 0)
             {
-                throw new SafeToDisplayException(AppResources.AppLearnersNotFound);
+                throw new SafeToDisplayException(PageCulture.Resources.AppLearnersNotFound);
             }
 
             // copy information from <assignmentProperties> to the UI
@@ -1046,7 +1046,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 lnkSharePointSite.Target = Constants.TargetBlank;
                 lnkSharePointSite.NavigateUrl = SPWeb.ServerRelativeUrl;
                 //Tool Tip for Sharepoint Site
-                lnkSharePointSite.ToolTip = AppResources.AppSharePointSiteToolTip;
+                lnkSharePointSite.ToolTip = PageCulture.Resources.AppSharePointSiteToolTip;
             }
 
             //Set DateTime Start and Due Date 
@@ -1304,7 +1304,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         isDateValid = false;
                         spDateTimeDue.IsValid = false;
-                        spDateTimeDue.ErrorMessage = AppResources.AppDueDateError;
+                        spDateTimeDue.ErrorMessage = PageCulture.Resources.AppDueDateError;
                     }
                 }
 
@@ -1452,10 +1452,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             lblAssignmentDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description);
 
             // say e.g.: {0:D}, {1:t} where {0} = date, {1} = time;
-            lblAssignmentStartText.Text = PageCulture.Format(AppResources.SlkDateFormatSpecifier, AssignmentProperties.StartDate.ToLocalTime());
+            lblAssignmentStartText.Text = PageCulture.Format(PageCulture.Resources.SlkDateFormatSpecifier, AssignmentProperties.StartDate.ToLocalTime());
             if (AssignmentProperties.DueDate != null)
             {
-                lblAssignmentDueText.Text = PageCulture.Format(AppResources.SlkDateFormatSpecifier, AssignmentProperties.DueDate.Value.ToLocalTime());
+                lblAssignmentDueText.Text = PageCulture.Format(PageCulture.Resources.SlkDateFormatSpecifier, AssignmentProperties.DueDate.Value.ToLocalTime());
             }
 
             if (AssignmentProperties.PointsPossible != null)
@@ -1463,20 +1463,20 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 lblAssignmentPointsText.Text = AssignmentProperties.PointsPossible.Value.  ToString(Constants.RoundTrip, NumberFormatInfo); }
 
             //Add items to the What Next list
-            lstNavigateBulletedList.Items.Add(new ListItem( AppResources.AppNavigateToSite + Constants.Space + SPWeb.Title, SPWeb.ServerRelativeUrl));
+            lstNavigateBulletedList.Items.Add(new ListItem( PageCulture.Resources.AppNavigateToSite + Constants.Space + SPWeb.Title, SPWeb.ServerRelativeUrl));
 
             // Get the ServerRelativeUrl for Grading Page
             string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, Constants.GradingPage);
             // Append the AssignmentId QueryString key for Grading Page
             urlString = String.Format(CultureInfo.InvariantCulture,"{0}?{1}={2}", urlString, QueryStringKeys.AssignmentId, assignmentId);
 
-            lstNavigateBulletedList.Items.Add(new ListItem( AppResources.AppGradeOrManage, urlString));
+            lstNavigateBulletedList.Items.Add(new ListItem( PageCulture.Resources.AppGradeOrManage, urlString));
 
             if (AssignmentProperties.IsNoPackageAssignment == false)
             {
                 //Add Doclib Url
                 SPFile spFile = Location.LoadFile();
-                string message = PageCulture.Format(AppResources.AppNavigateToDocLib, spFile.ParentFolder.Name);
+                string message = PageCulture.Format(PageCulture.Resources.AppNavigateToDocLib, spFile.ParentFolder.Name);
                 lstNavigateBulletedList.Items.Add(new ListItem(message, spFile.ParentFolder.ServerRelativeUrl));
             }
 
@@ -1709,7 +1709,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                            if(isAssigned)
                            {
                              var isUnAssign = confirm(""" +
-                                                AppResources.AppConfirmUnAssigning + @""");");
+                                                PageCulture.Resources.AppConfirmUnAssigning + @""");");
                     csAppClientScript.AppendLine(@"
                             if(!isUnAssign)
                             {
@@ -1753,7 +1753,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 csAppClientScript.AppendLine(@"
                         if(slkCurrentUserId == selectedId)
                         {
-                            var isUnCheck = confirm(""" + AppResources.AppConfirmUnCheckCurrentUser
+                            var isUnCheck = confirm(""" + PageCulture.Resources.AppConfirmUnCheckCurrentUser
                                                       + @""");");
                 csAppClientScript.AppendLine(@"
                             if(!isUnCheck)
@@ -1784,7 +1784,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                    if(isAssigned)
                                    {
                                      var isUnAssign = confirm("""
-                                                + AppResources.AppConfirmUnAssigning + @""");");
+                                                + PageCulture.Resources.AppConfirmUnAssigning + @""");");
                     csAppClientScript.AppendLine(@"
                                     if(!isUnAssign)
                                     {
@@ -1960,7 +1960,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             //but that instructor is still an instructor on an assignment on that SPWeb, 
                             //then when the instructor navigates to APP (Edit Mode) 
                             //for that assignment they  see a warning 
-                            SlkError slkError = new SlkError(ErrorType.Warning, AppResources.AppNotAnInstructorInCurrentSiteError);
+                            SlkError slkError = new SlkError(ErrorType.Warning, PageCulture.Resources.AppNotAnInstructorInCurrentSiteError);
                             errorBanner.AddError(slkError);
                             break;
                         }
@@ -1992,7 +1992,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     enumerationWarning.AppendLine("</li>");
                     enumerationWarning.Append("</ul>\n");
                 }
-                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(AppResources.AppEnumerationWarning, enumerationWarning.ToString()));
+                errorBanner.AddHtmlErrorText(ErrorType.Warning, PageCulture.Format(PageCulture.Resources.AppEnumerationWarning, enumerationWarning.ToString()));
             }
 
             if (string.IsNullOrEmpty(groupFailureDetails) == false)

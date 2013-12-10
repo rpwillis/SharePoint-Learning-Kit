@@ -36,7 +36,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
     [ToolboxData("<{0}:GradingList runat=server></{0}:GradingList>")]
     public class GradingList : WebControl, INamingContainer
     {
-        SlkCulture culture = new SlkCulture();
+        SlkCulture culture;
 
         #region Private Fields
         /// <summary>
@@ -129,6 +129,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="savedState">savedState</param>
         protected override void LoadControlState(object savedState)
         {
+            culture = new SlkCulture();
             if (savedState != null)
             {
                 Pair p = (Pair)savedState;
@@ -219,29 +220,29 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                 using (new HtmlBlock(HtmlTextWriterTag.Tr, 0, writer))
                                 {
                                     // render the Learner column headers
-                                    RenderColumnHeader(AppResources.GradingLearnerHeaderText, writer);
+                                    RenderColumnHeader(culture.Resources.GradingLearnerHeaderText, writer);
                                     // render the Status column headers
-                                    RenderColumnHeader(AppResources.GradingStatusHeaderText, writer);
+                                    RenderColumnHeader(culture.Resources.GradingStatusHeaderText, writer);
 
                                     if (AssignmentProperties.IsNonELearning)
                                     {
                                         // render the File Submission column headers
-                                        RenderColumnHeader(AppResources.GradingFileSubmissionHeaderText, writer);
+                                        RenderColumnHeader(culture.Resources.GradingFileSubmissionHeaderText, writer);
                                     }
                                     else
                                     {
-                                        RenderColumnHeader(AppResources.GradingGradedScoreHeaderText, writer);
+                                        RenderColumnHeader(culture.Resources.GradingGradedScoreHeaderText, writer);
                                     }
                                     // render the Final Score column headers
-                                    RenderColumnHeader(AppResources.GradingFinalScoreHeaderText, writer);
+                                    RenderColumnHeader(culture.Resources.GradingFinalScoreHeaderText, writer);
                                     if (UseGrades)
                                     {
-                                        RenderColumnHeader(AppResources.GradingGradeHeaderText, writer);
+                                        RenderColumnHeader(culture.Resources.GradingGradeHeaderText, writer);
                                     }
                                     // render the Comments column headers
-                                    RenderColumnHeader(AppResources.GradingCommentsHeaderText, writer);
+                                    RenderColumnHeader(culture.Resources.GradingCommentsHeaderText, writer);
                                     // render the Action column headers
-                                    RenderColumnHeader(AppResources.GradingActionHeaderText, writer);
+                                    RenderColumnHeader(culture.Resources.GradingActionHeaderText, writer);
                                 }
                                 foreach (GradingItem item in Items.Values)
                                 {
@@ -339,7 +340,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 Label lblLearnerItem = new Label();
                 lblLearnerItem.ID = "lblLearner" + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                 lblLearnerItem.Text = item.LearnerName;
-                lblLearnerItem.ToolTip = AppResources.GradingStatusNotStartedToolTip;
+                lblLearnerItem.ToolTip = culture.Resources.GradingStatusNotStartedToolTip;
                 lblLearnerItem.RenderControl(htmlTextWriter);
             }
             else
@@ -360,18 +361,18 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     switch (item.Status)
                     {
                         case LearnerAssignmentState.Active:
-                           lnkLearnerItem.ToolTip = AppResources.GradingStatusInProgressToolTip;
+                           lnkLearnerItem.ToolTip = culture.Resources.GradingStatusInProgressToolTip;
                            view = Frameset.AssignmentView.InstructorReview;
                            break;
 
                         case LearnerAssignmentState.Completed:
-                            lnkLearnerItem.ToolTip = AppResources.GradingStatusSubmittedToolTip;
+                            lnkLearnerItem.ToolTip = culture.Resources.GradingStatusSubmittedToolTip;
                             view = Frameset.AssignmentView.Grading;
                             extraQueryString = string.Format(CultureInfo.InvariantCulture, "&{0}={1}", FramesetQueryParameter.Src, "Grading");
                             break;
 
                         case LearnerAssignmentState.Final:
-                            lnkLearnerItem.ToolTip = AppResources.GradingStatusFinalToolTip;
+                            lnkLearnerItem.ToolTip = culture.Resources.GradingStatusFinalToolTip;
                             view = Frameset.AssignmentView.Grading;
                             extraQueryString = string.Format(CultureInfo.InvariantCulture, "&{0}={1}", FramesetQueryParameter.Src, "Grading");
                             break;
@@ -419,19 +420,19 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 if (files == null || files.Length == 0)
                 {
                     control = new Label();
-                    ((Label)control).Text = AppResources.GradingFileSubmissionSubmittedNoFiles;
+                    ((Label)control).Text = culture.Resources.GradingFileSubmissionSubmittedNoFiles;
                 }
                 else
                 {
                     control = new HyperLink();
-                    ((HyperLink)control).Text = AppResources.GradingFileSubmissionSubmitted;
+                    ((HyperLink)control).Text = culture.Resources.GradingFileSubmissionSubmitted;
                     SetUpSubmittedFileHyperLink((HyperLink)control, files, item);
                 }
             }
             else
             {
                 control = new Label();
-                ((Label)control).Text = AppResources.GradingFileSubmissionNotSubmitted;
+                ((Label)control).Text = culture.Resources.GradingFileSubmissionNotSubmitted;
             }
 
             control.ID = "lnkFileSubmissionState" + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
@@ -507,10 +508,10 @@ namespace Microsoft.SharePointLearningKit.WebControls
                         gradedScore.ID = GradingScoreId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                         //Add the ToolTipText to get the localized Text while 
                         //Changing the Tool Tip from Client Side 
-                        gradedScore.Attributes.Add("ToolTipText", AppResources.GradingScoreToolTip);
+                        gradedScore.Attributes.Add("ToolTipText", culture.Resources.GradingScoreToolTip);
                         if (item.GradedScore != null)
                         {
-                            string text = culture.Format(AppResources.GradingGradedScore, item.GradedScore.Value);
+                            string text = culture.Format(culture.Resources.GradingGradedScore, item.GradedScore.Value);
                             if (isHyperLink)
                             {
                                 HyperLink link = (HyperLink)gradedScore;
@@ -524,7 +525,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
                             //Tool Tip for Graded Score 
                             //Similar to <Computed points with full precision> Points.
-                            gradedScore.ToolTip = culture.Format(AppResources.GradingGradedScoreToolTip, item.GradedScore.Value, AppResources.GradingScoreToolTip);
+                            gradedScore.ToolTip = culture.Format(culture.Resources.GradingGradedScoreToolTip, item.GradedScore.Value, culture.Resources.GradingScoreToolTip);
                         }
                         else
                         {
@@ -549,12 +550,12 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                 break;
                             case SuccessStatus.Failed:
                                 imgGraded.ImageUrl = Constants.ImagePath + Constants.GradingUnSatisfiedIcon;
-                                imgGraded.ToolTip = AppResources.GradingSuccessStatusUnSatisfiedToolTip;
+                                imgGraded.ToolTip = culture.Resources.GradingSuccessStatusUnSatisfiedToolTip;
                                 break;
                             case SuccessStatus.Passed:
 
                                 imgGraded.ImageUrl = Constants.ImagePath + Constants.GradingSatisfiedIcon;
-                                imgGraded.ToolTip = AppResources.GradingSuccessStatusSatisfiedToolTip;
+                                imgGraded.ToolTip = culture.Resources.GradingSuccessStatusSatisfiedToolTip;
                                 break;
                         }
                         //Render the Image Control
@@ -596,7 +597,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     txtFinalScore.Text = item.FinalScore.Value.ToString(CultureInfo.CurrentCulture);
                 }
 
-                txtFinalScore.ToolTip = AppResources.GradingFinalScoreSubmittedToolTip;
+                txtFinalScore.ToolTip = culture.Resources.GradingFinalScoreSubmittedToolTip;
                 txtFinalScore.RenderControl(htmlTextWriter);
             }
 
@@ -622,24 +623,24 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 //Tooltip is "Prevents the learner from  continuing to work on the assignment, 
                 //and allows you to grade it".
                 case LearnerAssignmentState.NotStarted:
-                    item.ActionText = AppResources.GradingActionTextNotSubmitted;
-                    actionToolTip = AppResources.GradingActionNotSubmittedToolTip;
+                    item.ActionText = culture.Resources.GradingActionTextNotSubmitted;
+                    actionToolTip = culture.Resources.GradingActionNotSubmittedToolTip;
                     break;
                 case LearnerAssignmentState.Active:
-                    item.ActionText = AppResources.GradingActionTextNotSubmitted;
-                    actionToolTip = AppResources.GradingActionNotSubmittedToolTip;
+                    item.ActionText = culture.Resources.GradingActionTextNotSubmitted;
+                    actionToolTip = culture.Resources.GradingActionNotSubmittedToolTip;
                     break;
                 //If LearnerAssignmentState is Completed, checkbox label is "Return", 
                 //Tooltip is "Returns the assignment to the learner for  review"
                 case LearnerAssignmentState.Completed:
-                    item.ActionText = AppResources.GradingActionTextSubmitted;
-                    actionToolTip = AppResources.GradingActionSubmittedToolTip;
+                    item.ActionText = culture.Resources.GradingActionTextSubmitted;
+                    actionToolTip = culture.Resources.GradingActionSubmittedToolTip;
                     break;
                 //If LearnerAssignmentState is Final, checkbox label is "Reactivate",
                 //  Tooltip is "Allows the learner to re-do the assignment."
                 case LearnerAssignmentState.Final:
-                    item.ActionText = AppResources.GradingActionTextFinal;
-                    actionToolTip = AppResources.GradingActionFinalToolTip;
+                    item.ActionText = culture.Resources.GradingActionTextFinal;
+                    actionToolTip = culture.Resources.GradingActionFinalToolTip;
                     break;
                 default:
                     break;
@@ -1149,7 +1150,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                           break    
                         case 6:
                             var isOverride = confirm(""" +
-                culture.Format(AppResources.GradingConfirmOverrideFinalPoints, "\"+ modifiedGradedPoints +\"") + @""");");
+                culture.Format(culture.Resources.GradingConfirmOverrideFinalPoints, "\"+ modifiedGradedPoints +\"") + @""");");
                 csGradingClientScript.AppendLine(@"
                             if(isOverride)
                             {
@@ -1252,7 +1253,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                             {");
                 csGradingClientScript.Append(@"
                                 alert(""");
-                csGradingClientScript.Append(AppResources.GradingFinalScoreNaNError);
+                csGradingClientScript.Append(culture.Resources.GradingFinalScoreNaNError);
                 csGradingClientScript.Append(@""");                         
                                 obj.select();
                             }

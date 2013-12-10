@@ -14,6 +14,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         public SPList List { get; private set; }
         public SPListItem ListItem { get; private set; }
         public SPFile File { get; private set; }
+
+        private AppResourcesLocal Resources
+        {
+            get { return SlkCulture.GetResources() ;}
+        }
 #endregion properties
 
 #region public methods
@@ -35,12 +40,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // reject folders
                 if (ListItem.FileSystemObjectType == SPFileSystemObjectType.Folder)
                 {
-                    throw new SafeToDisplayException(AppResources.ActionsItemIsFolder);
+                    throw new SafeToDisplayException(Resources.ActionsItemIsFolder);
                 }
                 // reject anything but a file
                 else if (ListItem.FileSystemObjectType != SPFileSystemObjectType.File)
                 {
-                    throw new SafeToDisplayException(AppResources.ActionsItemNotFound);
+                    throw new SafeToDisplayException(Resources.ActionsItemNotFound);
                 }
 
                 File = ListItem.File;
@@ -48,12 +53,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (SPException)
             {
                 // The list isn't found
-                throw new SafeToDisplayException(AppResources.ActionsItemNotFound);
+                throw new SafeToDisplayException(Resources.ActionsItemNotFound);
             }
             catch (ArgumentException)
             {
                 // The file isn't found
-                throw new SafeToDisplayException(AppResources.ActionsItemNotFound);
+                throw new SafeToDisplayException(Resources.ActionsItemNotFound);
             }
         }
 #endregion private methods

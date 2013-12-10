@@ -72,7 +72,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="args">Formatting arguments.</param>
         ///
         internal SlkSettingsException(XmlReader xmlReader, string format, params object[] args) :
-            base(String.Format(SlkCulture.GetCulture(), AppResources.SlkUtilitiesSettingsException, ((IXmlLineInfo)xmlReader).LineNumber,
+            base(String.Format(SlkCulture.GetCulture(), SlkCulture.GetResources().SlkUtilitiesSettingsException, ((IXmlLineInfo)xmlReader).LineNumber,
                 String.Format(SlkCulture.GetCulture(), format, args)))
         {
         }
@@ -90,7 +90,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="args">Formatting arguments.</param>
         ///
         internal SlkSettingsException(int lineNumber, string format, params object[] args) :
-            base(String.Format(SlkCulture.GetCulture(), AppResources.SlkUtilitiesSettingsException, lineNumber,
+            base(String.Format(SlkCulture.GetCulture(), SlkCulture.GetResources().SlkUtilitiesSettingsException, lineNumber,
                 String.Format(SlkCulture.GetCulture(), format, args)))
         {
         }

@@ -29,6 +29,7 @@ namespace Microsoft.SharePointLearningKit
         Dictionary<string, string> domainNames = new Dictionary<string, string>();
         List<string> errors = new List<string>();
         string[] searchAttributes = new string[]{"member", "distinguishedName", "objectClass", "sAMAccountName", "userPrincipalName" , "mail", "name", "displayName", "userAccountControl", "objectSid"};
+        SlkCulture culture;
 
     #region Native Methods
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -90,7 +91,7 @@ namespace Microsoft.SharePointLearningKit
                 TimeSpan remainingTime = timeoutTime - DateTime.Now;
                 if (remainingTime <= TimeSpan.Zero)
                 {
-                    throw new DomainGroupEnumerationException(AppResources.DomainGroupEnumTimeout);
+                    throw new DomainGroupEnumerationException(culture.Resources.DomainGroupEnumTimeout);
                 }
                 else
                 {
@@ -109,6 +110,7 @@ namespace Microsoft.SharePointLearningKit
             timeoutTime = DateTime.Now + timeout;
             this.timeout = timeout;
             this.hideDisabledUsers = hideDisabledUsers;
+            culture = new SlkCulture();
         }
     #endregion constructors
 
@@ -139,7 +141,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 else
                 {
-                    throw new DomainGroupEnumerationException(string.Format(SlkCulture.GetCulture(), AppResources.DomainGroupNotFound, group.Name), e);
+                    throw new DomainGroupEnumerationException(string.Format(culture.Culture, culture.Resources.DomainGroupNotFound, group.Name), e);
                 }
             }
         }
@@ -228,29 +230,29 @@ namespace Microsoft.SharePointLearningKit
                 }
                 catch (COMException ex)
                 {
-                    throw new DomainGroupEnumerationException(String.Format(SlkCulture.GetCulture(), AppResources.DomainGroupEnumFailed, "LDAP://" + names.Domain), ex);
+                    throw new DomainGroupEnumerationException(String.Format(culture.Culture, culture.Resources.DomainGroupEnumFailed, "LDAP://" + names.Domain), ex);
                 }
             }
         }
 
-        static void CheckSid(byte[] sid)
+        void CheckSid(byte[] sid)
         {
             SecurityIdentifier identifier = new SecurityIdentifier(sid, 0);
             CheckSid(identifier.Value);
         }
 
-        static void CheckSid(string sddl)
+        void CheckSid(string sddl)
         {
             if (sddl == "S-1-5-11")
             {
-                throw new DomainGroupEnumerationException(AppResources.DomainGroupAuthenticatedUsers);
+                throw new DomainGroupEnumerationException(culture.Resources.DomainGroupAuthenticatedUsers);
             }
             else if (sddl.StartsWith("S-1-5-21-"))
             {
                 if (sddl.EndsWith("-513"))
                 {
                     // Domain users group
-                    throw new DomainGroupEnumerationException(AppResources.DomainGroupDomainUsers);
+                    throw new DomainGroupEnumerationException(culture.Resources.DomainGroupDomainUsers);
                 }
             }
         }
@@ -258,7 +260,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Returns the groups SID in octet format.</summary>
         /// <remarks>Required for Windows 2000.</remarks>
         /// <returns>The SID in octet format.</returns>
-        static string SidToOctetString(SPUser group)
+        string SidToOctetString(SPUser group)
         {
             string sddl = group.Sid;
             if (string.IsNullOrEmpty(sddl))
@@ -268,7 +270,7 @@ namespace Microsoft.SharePointLearningKit
                 int index = loginName.IndexOf("|");
                 if (index == -1)
                 {
-                    throw new DomainGroupEnumerationException(AppResources.DomainGroupInvalid);
+                    throw new DomainGroupEnumerationException(culture.Resources.DomainGroupInvalid);
                 }
                 else
                 {
@@ -292,7 +294,7 @@ namespace Microsoft.SharePointLearningKit
             }
             catch (ArgumentException)
             {
-                throw new DomainGroupEnumerationException(string.Format(SlkCulture.GetCulture(), AppResources.DomainGroupInvalidSid, sddl));
+                throw new DomainGroupEnumerationException(string.Format(culture.Culture, culture.Resources.DomainGroupInvalidSid, sddl));
             }
         }
 
@@ -347,7 +349,7 @@ namespace Microsoft.SharePointLearningKit
             }
             catch (COMException)
             {
-                errors.Add(string.Format(SlkCulture.GetCulture(), AppResources.GroupEnumerationFail, group.Name));
+                errors.Add(string.Format(culture.Culture, culture.Resources.GroupEnumerationFail, group.Name));
             }
 
             return users;

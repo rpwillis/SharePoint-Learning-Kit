@@ -69,7 +69,8 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
-                throw new SafeToDisplayException(AppResources.AssignmentNameAlreadyUsed);
+                SlkCulture culture = new SlkCulture();
+                throw new SafeToDisplayException(culture.Resources.AssignmentNameAlreadyUsed);
             }
         }
 
@@ -326,7 +327,8 @@ namespace Microsoft.SharePointLearningKit
             }
             catch (ArgumentException)
             {
-                throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), AppResources.DropBoxManagerNoRole, roleType));
+                SlkCulture culture = new SlkCulture();
+                throw new SafeToDisplayException(string.Format(culture.Culture, culture.Resources.DropBoxManagerNoRole, roleType));
             }
 
             SPRoleAssignment roleAssignment = null;

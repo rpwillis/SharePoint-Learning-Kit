@@ -43,7 +43,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (!isValidQueryString && !isOptional)
             {
-                throw new SafeToDisplayException(AppResources.SlkExQueryStringNotFound, queryStringName);
+                throw new SafeToDisplayException(Resources.SlkExQueryStringNotFound, queryStringName);
             }
 
             return queryStringValue;
@@ -100,8 +100,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     //The value is not valid for the given parameter.
 
-                    throw new SafeToDisplayException(AppResources.SlkExQueryStringFormatError,
-                                                     queryStringText, queryStringName);
+                    throw new SafeToDisplayException(Resources.SlkExQueryStringFormatError, queryStringText, queryStringName);
                 }
             }
         }
@@ -126,8 +125,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 //The value is not valid for the given parameter.
 
-                throw new SafeToDisplayException(AppResources.SlkExQueryStringFormatError,
-                                                 queryStringText, queryStringName);
+                throw new SafeToDisplayException(Resources.SlkExQueryStringFormatError, queryStringText, queryStringName);
             }
         }
 
@@ -160,8 +158,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     //The value is not valid for the given parameter.
 
-                    throw new SafeToDisplayException(AppResources.SlkExQueryStringFormatError,
-                                                     queryStringText, queryStringName);
+                    throw new SafeToDisplayException(Resources.SlkExQueryStringFormatError, queryStringText, queryStringName);
                 }
             }
         }
@@ -196,8 +193,7 @@ namespace Microsoft.SharePointLearningKit
                 }
                 else
                 {
-                    throw new SafeToDisplayException(AppResources.SlkExQueryStringFormatError,
-                                                     queryStringText, queryStringName);
+                    throw new SafeToDisplayException(Resources.SlkExQueryStringFormatError, queryStringText, queryStringName);
                 }
             }
         }
@@ -222,13 +218,17 @@ namespace Microsoft.SharePointLearningKit
             }
             catch
             {
-                throw new SafeToDisplayException(AppResources.SlkExQueryStringFormatError,
-                                                 queryStringText, queryStringName);
+                throw new SafeToDisplayException(Resources.SlkExQueryStringFormatError, queryStringText, queryStringName);
             }
 
         }
 
         #endregion
+
+        private static AppResourcesLocal Resources
+        {
+            get { return SlkCulture.GetResources() ;}
+        }
     }
 
     internal static class QueryStringKeys

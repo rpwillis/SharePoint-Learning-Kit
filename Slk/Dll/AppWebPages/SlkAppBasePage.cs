@@ -132,7 +132,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
                     }
                     catch (HttpException)
                     {
-                        throw new SafeToDisplayException(AppResources.SessionNotConfigured);
+                        throw new SafeToDisplayException(PageCulture.Resources.SessionNotConfigured);
                     }
                 }
             }

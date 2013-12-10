@@ -117,7 +117,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (querySetDef == null)
                 {
                     throw new SafeToDisplayException
-                                            (AppResources.AlwpQuerySetNotFound, querySetName);
+                                            (PageCulture.Resources.AlwpQuerySetNotFound, querySetName);
                 }
 
                 // create queries corresponding to <querySetDef> and add them to <job>;
@@ -241,7 +241,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 queryCounts.AppendLine(
                                             String.Format(CultureInfo.InvariantCulture, "a[{0}] = \"{1}\";",
                                                           queryIndex,
-                                                          AppResources.AlwpQueryResultError));
+                                                          PageCulture.Resources.AlwpQueryResultError));
                             }
                             queryIndex++;
 
@@ -266,7 +266,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             {
                                 queryCounts.AppendLine(
                                                     String.Format(CultureInfo.InvariantCulture, "a[{0}] = \"{1}\";", i,
-                                                                  AppResources.AlwpQueryResultError));
+                                                                  PageCulture.Resources.AlwpQueryResultError));
                             }
                         }
 

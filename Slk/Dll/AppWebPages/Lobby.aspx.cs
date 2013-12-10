@@ -195,7 +195,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (String.IsNullOrEmpty(m_dropBoxDocLibName))
                 {
-                    m_dropBoxDocLibName = AppResources.DropBoxDocLibName;
+                    m_dropBoxDocLibName = PageCulture.Resources.DropBoxDocLibName;
                 }
                 return m_dropBoxDocLibName;
             }
@@ -216,8 +216,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             try
             {
                 // setting default title
-                pageTitle.Text = AppResources.LobbyBeginAssignmentText;
-                pageTitleInTitlePage.Text = AppResources.LobbyBeginAssignmentText;
+                pageTitle.Text = PageCulture.Resources.LobbyBeginAssignmentText;
+                pageTitleInTitlePage.Text = PageCulture.Resources.LobbyBeginAssignmentText;
 
                 SetResourceText();
 
@@ -314,12 +314,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    lblSiteValue.Text = AppResources.LobbyInvalidSite;
+                    lblSiteValue.Text = PageCulture.Resources.LobbyInvalidSite;
                     lblSiteValue.Visible = true;
                 }
                 catch (FileNotFoundException)
                 {
-                    lblSiteValue.Text = AppResources.LobbyInvalidSite;
+                    lblSiteValue.Text = PageCulture.Resources.LobbyInvalidSite;
                     lblSiteValue.Visible = true;
                 }
                 finally
@@ -341,23 +341,23 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     {
                         if (AssignmentProperties.PointsPossible.HasValue)
                         {
-                            lblScoreValue.Text = PageCulture.Format(AppResources.LobbyPointsNoValuePointsPossible, AssignmentProperties.PointsPossible);
+                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsNoValuePointsPossible, AssignmentProperties.PointsPossible);
                         }
                         else
                         {
-                            lblScoreValue.Text = PageCulture.Format(AppResources.LobbyPointsNoValue, LearnerAssignmentProperties.FinalPoints);
+                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsNoValue, LearnerAssignmentProperties.FinalPoints);
                         }
                     }
                     else
                     {
-                        string finalPoints = AppResources.LobbyPointsNoValue;
+                        string finalPoints = PageCulture.Resources.LobbyPointsNoValue;
                         if (LearnerAssignmentProperties.FinalPoints.HasValue)
                             finalPoints = LearnerAssignmentProperties.FinalPoints.Value.ToString(CultureInfo.CurrentCulture);
 
                         if (AssignmentProperties.PointsPossible.HasValue)
-                            lblScoreValue.Text = PageCulture.Format(AppResources.LobbyPointsValuePointsPossible, finalPoints, AssignmentProperties.PointsPossible);
+                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsValuePointsPossible, finalPoints, AssignmentProperties.PointsPossible);
                         else
-                            lblScoreValue.Text = PageCulture.Format(AppResources.LobbyPointsValue, finalPoints);
+                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsValue, finalPoints);
                     }
                 }
 
@@ -370,9 +370,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     rowGrade.Visible = false;
                 }
 
-                lblStartValue.Text = PageCulture.Format(AppResources.LongDateShortTime, AssignmentProperties.StartDate);
+                lblStartValue.Text = PageCulture.Format(PageCulture.Resources.LongDateShortTime, AssignmentProperties.StartDate);
                 if (AssignmentProperties.DueDate.HasValue)
-                    lblDueValue.Text = PageCulture.Format(AppResources.LongDateShortTime, AssignmentProperties.DueDate.Value);
+                    lblDueValue.Text = PageCulture.Format(PageCulture.Resources.LongDateShortTime, AssignmentProperties.DueDate.Value);
 
                 if (LearnerAssignmentProperties.InstructorComments.Length != 0)
                     lblCommentsValue.Text = SlkUtilities.GetCrlfHtmlEncodedText(LearnerAssignmentProperties.InstructorComments);
@@ -416,10 +416,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // Set up delete button
                 if (AssignmentProperties.CreatedById.Equals(LearnerAssignmentProperties.LearnerId) && !AssignmentProperties.HasInstructors)
                 {
-                    slkButtonDelete.Text = AppResources.LobbyDeleteAssignmentText;
-                    slkButtonDelete.ToolTip = AppResources.LobbyDeleteToolTip;
+                    slkButtonDelete.Text = PageCulture.Resources.LobbyDeleteAssignmentText;
+                    slkButtonDelete.ToolTip = PageCulture.Resources.LobbyDeleteToolTip;
                     slkButtonDelete.OnClientClick = PageCulture.Format("javascript: return confirm('{0}');",
-                        AppResources.LobbyDeleteMessage);
+                        PageCulture.Resources.LobbyDeleteMessage);
                     slkButtonDelete.ImageUrl = Constants.ImagePath + Constants.DeleteIcon;
                 }
                 else
@@ -430,22 +430,22 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 // Set up submit button
                 if (AssignmentProperties.HasInstructors)
                 {
-                    slkButtonSubmit.Text = AppResources.LobbySubmitText;
-                    slkButtonSubmit.ToolTip = AppResources.LobbySubmitToolTip;
-                    slkButtonSubmit.OnClientClick = PageCulture.Format("javascript: return confirm('{0}');", AppResources.LobbySubmitMessage);
+                    slkButtonSubmit.Text = PageCulture.Resources.LobbySubmitText;
+                    slkButtonSubmit.ToolTip = PageCulture.Resources.LobbySubmitToolTip;
+                    slkButtonSubmit.OnClientClick = PageCulture.Format("javascript: return confirm('{0}');", PageCulture.Resources.LobbySubmitMessage);
                     slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.SubmitIcon;
                 }
                 else
                 {
-                    slkButtonSubmit.Text = AppResources.LobbyMarkasCompleteText;
-                    slkButtonSubmit.ToolTip = AppResources.LobbyMarkasCompleteToolTip;
-                    slkButtonSubmit.OnClientClick = PageCulture.Format("javascript: return confirm('{0}');", AppResources.LobbyMarkasCompleteMessage);
+                    slkButtonSubmit.Text = PageCulture.Resources.LobbyMarkasCompleteText;
+                    slkButtonSubmit.ToolTip = PageCulture.Resources.LobbyMarkasCompleteToolTip;
+                    slkButtonSubmit.OnClientClick = PageCulture.Format("javascript: return confirm('{0}');", PageCulture.Resources.LobbyMarkasCompleteMessage);
                     slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.MarkCompleteIcon;
                 }
 
-                slkButtonBegin.AccessKey = AppResources.LobbyBeginAccessKey;
-                slkButtonDelete.AccessKey = AppResources.LobbyDeleteAccessKey;
-                slkButtonSubmit.AccessKey = AppResources.LobbySubmitAccessKey;
+                slkButtonBegin.AccessKey = PageCulture.Resources.LobbyBeginAccessKey;
+                slkButtonDelete.AccessKey = PageCulture.Resources.LobbyDeleteAccessKey;
+                slkButtonSubmit.AccessKey = PageCulture.Resources.LobbySubmitAccessKey;
 
                 tgrAutoReturn.Visible = AssignmentProperties.AutoReturn;
 
@@ -455,7 +455,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (InvalidOperationException ex)
             {
                 SlkStore.LogException(ex);
-                errorBanner.AddException(SlkStore, new SafeToDisplayException(AppResources.LobbyInvalidLearnerAssignmentId, LearnerAssignmentGuidId.ToString()));
+                errorBanner.AddException(SlkStore, new SafeToDisplayException(PageCulture.Resources.LobbyInvalidLearnerAssignmentId, LearnerAssignmentGuidId.ToString()));
                 contentPanel.Visible = false;
             }
             catch (ThreadAbortException)
@@ -548,10 +548,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             if (AssignmentProperties.RootActivityId == null)
             {
                 slkButtonSubmitFiles.Visible = true;
-                slkButtonSubmitFiles.Text = AppResources.LobbySubmitFilesText;
-                slkButtonSubmitFiles.ToolTip = AppResources.LobbySubmitFilesToolTip;
+                slkButtonSubmitFiles.Text = PageCulture.Resources.LobbySubmitFilesText;
+                slkButtonSubmitFiles.ToolTip = PageCulture.Resources.LobbySubmitFilesToolTip;
                 slkButtonSubmitFiles.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
-                slkButtonSubmitFiles.AccessKey = AppResources.LobbySubmitFilesAccessKey;
+                slkButtonSubmitFiles.AccessKey = PageCulture.Resources.LobbySubmitFilesAccessKey;
                 slkButtonSubmitFiles.Enabled = enableSubmitFiles;
                 if (enableSubmitFiles)
                 {
@@ -574,17 +574,17 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         void SetUpForFinal()
         {
-            slkButtonBegin.Text = AppResources.LobbyReviewAssignmentText;
-            slkButtonBegin.ToolTip = AppResources.LobbyReviewAssignmentToolTip;
+            slkButtonBegin.Text = PageCulture.Resources.LobbyReviewAssignmentText;
+            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyReviewAssignmentToolTip;
 
-            pageTitle.Text = AppResources.LobbyReviewAssignmentText;
-            pageTitleInTitlePage.Text = AppResources.LobbyReviewAssignmentText;
+            pageTitle.Text = PageCulture.Resources.LobbyReviewAssignmentText;
+            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyReviewAssignmentText;
 
             //Check if non-elearning content
             if (AssignmentProperties.RootActivityId == null)
             {
-                slkButtonReviewSubmitted.Text = AppResources.LobbyReviewSubmittedText;
-                slkButtonReviewSubmitted.ToolTip = AppResources.LobbyReviewSubmittedToolTip;
+                slkButtonReviewSubmitted.Text = PageCulture.Resources.LobbyReviewSubmittedText;
+                slkButtonReviewSubmitted.ToolTip = PageCulture.Resources.LobbyReviewSubmittedToolTip;
                 slkButtonReviewSubmitted.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
                 slkButtonReviewSubmitted.Visible = true;
 
@@ -610,11 +610,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         
         void SetUpForCompleted()
         {
-            slkButtonBegin.Text = AppResources.LobbyReviewAssignmentText;
-            slkButtonBegin.ToolTip = AppResources.LobbyReviewAssignmentToolTipCompleted;
+            slkButtonBegin.Text = PageCulture.Resources.LobbyReviewAssignmentText;
+            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyReviewAssignmentToolTipCompleted;
             slkButtonBegin.Enabled = false;
-            pageTitle.Text = AppResources.LobbyReviewAssignmentText;
-            pageTitleInTitlePage.Text = AppResources.LobbyReviewAssignmentText;
+            pageTitle.Text = PageCulture.Resources.LobbyReviewAssignmentText;
+            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyReviewAssignmentText;
 
             SetUpSubmitButtons(false);
 
@@ -625,11 +625,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         void SetUpForNotStarted()
         {
-            slkButtonBegin.Text = AppResources.LobbyBeginAssignmentText;
-            slkButtonBegin.ToolTip = AppResources.LobbyBeginAssignmentToolTip;
+            slkButtonBegin.Text = PageCulture.Resources.LobbyBeginAssignmentText;
+            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyBeginAssignmentToolTip;
 
-            pageTitle.Text = AppResources.LobbyBeginAssignmentText;
-            pageTitleInTitlePage.Text = AppResources.LobbyBeginAssignmentText;
+            pageTitle.Text = PageCulture.Resources.LobbyBeginAssignmentText;
+            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyBeginAssignmentText;
 
             SetUpSubmitButtons(false);
 
@@ -638,10 +638,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         void SetUpForActive()
         {
-            slkButtonBegin.Text = AppResources.LobbyResumeAssignmentText;
-            slkButtonBegin.ToolTip = AppResources.LobbyResumeAssignmentToolTip;
-            pageTitle.Text = AppResources.LobbyResumeAssignmentText;
-            pageTitleInTitlePage.Text = AppResources.LobbyResumeAssignmentText;
+            slkButtonBegin.Text = PageCulture.Resources.LobbyResumeAssignmentText;
+            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyResumeAssignmentToolTip;
+            pageTitle.Text = PageCulture.Resources.LobbyResumeAssignmentText;
+            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyResumeAssignmentText;
 
             SetUpSubmitButtons(true);
 
@@ -667,7 +667,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 catch (InvalidOperationException)
                 {
                     // state transition isn't supported
-                    errorBanner.AddException(SlkStore, new SafeToDisplayException(AppResources.LobbyCannotChangeState));
+                    errorBanner.AddException(SlkStore, new SafeToDisplayException(PageCulture.Resources.LobbyCannotChangeState));
                 }
                 // Clear the object so it will refresh from the database
                 LearnerAssignmentProperties = null;
@@ -675,7 +675,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (LearningStoreConstraintViolationException exception)
             {
                 // any exceptions here will be handled in PreRender
-                errorBanner.AddException(SlkStore, new SafeToDisplayException(AppResources.LobbySubmitException));
+                errorBanner.AddException(SlkStore, new SafeToDisplayException(PageCulture.Resources.LobbySubmitException));
                 SlkStore.LogException(exception);
             }
         }
@@ -708,7 +708,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             catch (Exception exception)
             {
-                errorBanner.AddException(SlkStore, new SafeToDisplayException(AppResources.LobbyDeleteException));
+                errorBanner.AddException(SlkStore, new SafeToDisplayException(PageCulture.Resources.LobbyDeleteException));
                 SlkStore.LogException(exception);
             }
         }
@@ -722,19 +722,19 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         private void SetResourceText()
         {
-            pageDescription.Text = AppResources.LobbyPageDescription;
+            pageDescription.Text = PageCulture.Resources.LobbyPageDescription;
 
-            lblSite.Text = AppResources.LobbylblSite;
-            lblScore.Text = AppResources.LobbylblScore;
-            labelGrade.Text = AppResources.LobbyLabelGrade;
-            lblStatus.Text = AppResources.LobbylblStatus;
-            lblStart.Text = AppResources.LobbylblStart;
-            lblDue.Text = AppResources.LobbylblDue;
-            lblComments.Text = AppResources.LobbylblComments;
-            lblAutoReturn.Text = AppResources.LobbylblAutoReturn;
-            infoImage.AlternateText = AppResources.SlkErrorTypeInfoToolTip;
+            lblSite.Text = PageCulture.Resources.LobbylblSite;
+            lblScore.Text = PageCulture.Resources.LobbylblScore;
+            labelGrade.Text = PageCulture.Resources.LobbyLabelGrade;
+            lblStatus.Text = PageCulture.Resources.LobbylblStatus;
+            lblStart.Text = PageCulture.Resources.LobbylblStart;
+            lblDue.Text = PageCulture.Resources.LobbylblDue;
+            lblComments.Text = PageCulture.Resources.LobbylblComments;
+            lblAutoReturn.Text = PageCulture.Resources.LobbylblAutoReturn;
+            infoImage.AlternateText = PageCulture.Resources.SlkErrorTypeInfoToolTip;
             ClientScript.RegisterClientScriptBlock(this.GetType(), "SlkWindowAlreadyOpen",
-            string.Format(CultureInfo.InvariantCulture, "var SlkWindowAlreadyOpen = \"{0}\";", AppResources.LobbyWindowAlreadyOpen), true);
+            string.Format(CultureInfo.InvariantCulture, "var SlkWindowAlreadyOpen = \"{0}\";", PageCulture.Resources.LobbyWindowAlreadyOpen), true);
         }
 
         /// <summary> Generates the url to view the submitted files. </summary>

@@ -66,7 +66,7 @@ namespace Microsoft.SharePointLearningKit
                             default:
                                 if (string.IsNullOrEmpty(domainGroupEnumeratorAssembly))
                                 {
-                                    throw new SafeToDisplayException(culture.Format(AppResources.NoDomainGroupEnumeratorAssembly, domainGroupEnumeratorType));
+                                    throw new SafeToDisplayException(culture.Format(culture.Resources.NoDomainGroupEnumeratorAssembly, domainGroupEnumeratorType));
                                 }
                                 else
                                 {
@@ -76,35 +76,35 @@ namespace Microsoft.SharePointLearningKit
                                     }
                                     catch (MissingMethodException e)
                                     {
-                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(culture.Resources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (TypeLoadException e)
                                     {
-                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(culture.Resources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (System.IO.FileNotFoundException e)
                                     {
-                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(culture.Resources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (MemberAccessException e)
                                     {
-                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(culture.Resources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (System.Reflection.TargetInvocationException e)
                                     {
-                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(culture.Resources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (System.Runtime.InteropServices.InvalidComObjectException e)
                                     {
-                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(culture.Resources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (NotSupportedException e)
                                     {
-                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(culture.Resources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                     catch (BadImageFormatException e)
                                     {
-                                        throw new SafeToDisplayException(culture.Format(AppResources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
+                                        throw new SafeToDisplayException(culture.Format(culture.Resources.DomainGroupEnumeratorFailure, domainGroupEnumeratorType, e.Message));
                                     }
                                 }
                                 break;
@@ -246,7 +246,7 @@ namespace Microsoft.SharePointLearningKit
             // the instructor permission "SLK Teacher"
             if (web.Site.ID != store.SPSiteGuid)
             {
-                throw new InvalidOperationException(AppResources.SPWebDoesNotMatchSlkSPSite);
+                throw new InvalidOperationException(culture.Resources.SPWebDoesNotMatchSlkSPSite);
             }
 
             // Security checks: Fails if the user isn't an instructor and a Reader (implemented by EnsureInstructor)
@@ -431,7 +431,7 @@ namespace Microsoft.SharePointLearningKit
             TimeSpan timeRemaining = DomainGroupEnumerationTotalTimeout - (DateTime.Now - startTime);
             if (timeRemaining <= TimeSpan.Zero)
             {
-                AddGroupFailureDetail(AppResources.DomainGroupEnumSkippedDueToTimeout, domainGroup.LoginName);
+                AddGroupFailureDetail(culture.Resources.DomainGroupEnumSkippedDueToTimeout, domainGroup.LoginName);
                 return;
             }
 
@@ -442,7 +442,7 @@ namespace Microsoft.SharePointLearningKit
                 groupFailuresList.Add(domainGroup.Name);
                 foreach (String error in results.Errors)
                 {
-                    AddGroupFailureDetail(AppResources.DomainGroupError, domainGroup.LoginName, error);
+                    AddGroupFailureDetail(culture.Resources.DomainGroupError, domainGroup.LoginName, error);
                 }
 
                 StringBuilder detailedErrorBuilder = new StringBuilder();

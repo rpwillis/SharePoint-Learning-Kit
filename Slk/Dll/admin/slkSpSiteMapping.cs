@@ -348,7 +348,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (mapping == null)
             {
-                throw new SlkNotConfiguredException(AppResources.SlkNotEnabled);
+                throw new SlkNotConfiguredException(SlkCulture.GetResources().SlkNotEnabled);
             }
             else
             {

@@ -234,7 +234,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             script.AppendLine("\t{");
             script.AppendLine("\t\tvar obj = document.forms[0].elements[i];");
             script.Append("\t\tif (obj.type == \"checkbox\" && obj.checked && obj.id.indexOf(\"chkAction\") > 0 && obj.parentElement.children[1].innerText == \"");
-            script.Append(AppResources.GradingActionTextFinal);
+            script.Append(PageCulture.Resources.GradingActionTextFinal);
             script.AppendLine("\")");
             script.AppendLine("\t\t{");
             script.AppendLine("\t\t\tshowMessage = true;");
@@ -242,7 +242,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             script.AppendLine("\t}");
             script.AppendLine("\tif (showMessage)");
             script.Append("\t\treturn confirm(\"");
-            script.Append(AppResources.GradingReactivateMessage);
+            script.Append(PageCulture.Resources.GradingReactivateMessage);
             script.AppendLine("\");");
             script.AppendLine("\telse");
             script.AppendLine("\t\treturn true;");
@@ -425,58 +425,58 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void SetResourceText()
         {
-            lblPoints.Text = AppResources.GradinglblPoints;
-            lblStart.Text = AppResources.GradinglblStart;
-            lblDue.Text = AppResources.GradinglblDue;
-            lblAutoReturn.Text = AppResources.GradinglblAutoReturn;
-            lblAnswers.Text = AppResources.GradinglblAnswers;
-            lblGradeAssignment.Text = AppResources.GradinglblGradeAssignment;
-            lblGradeAssignmentDescription.Text = AppResources.GradinglblGradeAssignmentDescription;
+            lblPoints.Text = PageCulture.Resources.GradinglblPoints;
+            lblStart.Text = PageCulture.Resources.GradinglblStart;
+            lblDue.Text = PageCulture.Resources.GradinglblDue;
+            lblAutoReturn.Text = PageCulture.Resources.GradinglblAutoReturn;
+            lblAnswers.Text = PageCulture.Resources.GradinglblAnswers;
+            lblGradeAssignment.Text = PageCulture.Resources.GradinglblGradeAssignment;
+            lblGradeAssignmentDescription.Text = PageCulture.Resources.GradinglblGradeAssignmentDescription;
 
-            pageTitle.Text = AppResources.GradingPageTitle;
-            pageTitleInTitlePage.Text = AppResources.GradingPageTitleinTitlePage;
-            pageDescription.Text = AppResources.GradingPageDescription;
+            pageTitle.Text = PageCulture.Resources.GradingPageTitle;
+            pageTitleInTitlePage.Text = PageCulture.Resources.GradingPageTitleinTitlePage;
+            pageDescription.Text = PageCulture.Resources.GradingPageDescription;
 
-            slkButtonEdit.Text = AppResources.GradingEditText;
-            slkButtonEdit.ToolTip = AppResources.GradingEditToolTip;
+            slkButtonEdit.Text = PageCulture.Resources.GradingEditText;
+            slkButtonEdit.ToolTip = PageCulture.Resources.GradingEditToolTip;
             slkButtonEdit.ImageUrl = Constants.ImagePath + Constants.EditIcon;
-            slkButtonEdit.AccessKey = AppResources.GradingEditAccessKey;
+            slkButtonEdit.AccessKey = PageCulture.Resources.GradingEditAccessKey;
 
-            slkButtonCollect.Text = AppResources.GradingCollectText;
-            slkButtonCollect.ToolTip = AppResources.GradingCollectToolTip;
-            slkButtonCollect.OnClientClick = String.Format(CultureInfo.InvariantCulture, "javascript: return confirm('{0}');", AppResources.GradingCollectMessage);
+            slkButtonCollect.Text = PageCulture.Resources.GradingCollectText;
+            slkButtonCollect.ToolTip = PageCulture.Resources.GradingCollectToolTip;
+            slkButtonCollect.OnClientClick = String.Format(CultureInfo.InvariantCulture, "javascript: return confirm('{0}');", PageCulture.Resources.GradingCollectMessage);
             slkButtonCollect.ImageUrl = Constants.ImagePath + Constants.CollectAllIcon;
-            slkButtonCollect.AccessKey = AppResources.GradingCollectAccessKey;
+            slkButtonCollect.AccessKey = PageCulture.Resources.GradingCollectAccessKey;
 
-            slkButtonReturn.Text = AppResources.GradingReturnText;
-            slkButtonReturn.ToolTip = AppResources.GradingReturnToolTip;
-            slkButtonReturn.OnClientClick = String.Format(CultureInfo.InvariantCulture, "javascript: return confirm('{0}');", AppResources.GradingReturnMessage);
+            slkButtonReturn.Text = PageCulture.Resources.GradingReturnText;
+            slkButtonReturn.ToolTip = PageCulture.Resources.GradingReturnToolTip;
+            slkButtonReturn.OnClientClick = String.Format(CultureInfo.InvariantCulture, "javascript: return confirm('{0}');", PageCulture.Resources.GradingReturnMessage);
             slkButtonReturn.ImageUrl = Constants.ImagePath + Constants.ReturnAllIcon;
-            slkButtonReturn.AccessKey = AppResources.GradingReturnAccessKey;
+            slkButtonReturn.AccessKey = PageCulture.Resources.GradingReturnAccessKey;
 
-            slkButtonDelete.Text = AppResources.GradingDeleteText;
-            slkButtonDelete.ToolTip = AppResources.GradingDeleteToolTip;
-            slkButtonDelete.OnClientClick = String.Format(CultureInfo.InvariantCulture, "javascript: return confirm('{0}');", AppResources.GradingDeleteMessage);
+            slkButtonDelete.Text = PageCulture.Resources.GradingDeleteText;
+            slkButtonDelete.ToolTip = PageCulture.Resources.GradingDeleteToolTip;
+            slkButtonDelete.OnClientClick = String.Format(CultureInfo.InvariantCulture, "javascript: return confirm('{0}');", PageCulture.Resources.GradingDeleteMessage);
             slkButtonDelete.ImageUrl = Constants.ImagePath + Constants.DeleteIcon;
-            slkButtonDelete.AccessKey = AppResources.GradingDeleteAccessKey;
+            slkButtonDelete.AccessKey = PageCulture.Resources.GradingDeleteAccessKey;
 
-            btnTopSave.Text = AppResources.GradingSave;
-            btnTopClose.Text = AppResources.GradingClose;
-            btnBottomSave.Text = AppResources.GradingSave;
-            btnBottomClose.Text = AppResources.GradingClose;
+            btnTopSave.Text = PageCulture.Resources.GradingSave;
+            btnTopClose.Text = PageCulture.Resources.GradingClose;
+            btnBottomSave.Text = PageCulture.Resources.GradingSave;
+            btnBottomClose.Text = PageCulture.Resources.GradingClose;
 
-            infoImageAnswers.AlternateText = AppResources.SlkErrorTypeInfoToolTip;
-            infoImageAutoReturn.AlternateText = AppResources.SlkErrorTypeInfoToolTip;
+            infoImageAnswers.AlternateText = PageCulture.Resources.SlkErrorTypeInfoToolTip;
+            infoImageAutoReturn.AlternateText = PageCulture.Resources.SlkErrorTypeInfoToolTip;
 
-            slkButtonUpload.Text = AppResources.GradingUploadText;
-            slkButtonUpload.ToolTip = AppResources.GradingUploadToolTip;
+            slkButtonUpload.Text = PageCulture.Resources.GradingUploadText;
+            slkButtonUpload.ToolTip = PageCulture.Resources.GradingUploadToolTip;
             slkButtonUpload.ImageUrl = Constants.ImagePath + Constants.UploadIcon;
-            slkButtonUpload.AccessKey = AppResources.GradingUploadAccessKey;
+            slkButtonUpload.AccessKey = PageCulture.Resources.GradingUploadAccessKey;
 
-            slkButtonDownload.Text = AppResources.GradingDownloadText;
-            slkButtonDownload.ToolTip = AppResources.GradingDownloadToolTip;
+            slkButtonDownload.Text = PageCulture.Resources.GradingDownloadText;
+            slkButtonDownload.ToolTip = PageCulture.Resources.GradingDownloadToolTip;
             slkButtonDownload.ImageUrl = Constants.ImagePath + Constants.DownloadIcon;
-            slkButtonDownload.AccessKey = AppResources.GradingDownloadAccessKey;
+            slkButtonDownload.AccessKey = PageCulture.Resources.GradingDownloadAccessKey;
         }
         #endregion
 
@@ -593,7 +593,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             catch (InvalidOperationException exception)
             {
                 SlkStore.LogException(exception);
-                throw new SafeToDisplayException(AppResources.GradingInvalidAssignmentId, AssignmentId);
+                throw new SafeToDisplayException(PageCulture.Resources.GradingInvalidAssignmentId, AssignmentId);
             }
         }
         #endregion

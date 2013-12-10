@@ -187,11 +187,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                         if (SlkStore.IsInstructor(SPWeb))
                         {
-                            exceptionMessage = AppResources.SubmittedFilesTeacherNoAccessException;
+                            exceptionMessage = PageCulture.Resources.SubmittedFilesTeacherNoAccessException;
                         }
                         else
                         {
-                            exceptionMessage = AppResources.SubmittedFilesLearnerNoAccessException;
+                            exceptionMessage = PageCulture.Resources.SubmittedFilesLearnerNoAccessException;
                         }
 
                         throw new SafeToDisplayException(exceptionMessage);
@@ -254,10 +254,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void SetResourceText()
         {
-            this.pageTitle.Text = AppResources.SubmittedFilesPageTitle;
-            this.pageDescription.Text = AppResources.SubmittedFilesPageDescription;
-            this.headerMessage.Text = string.Format(AppResources.SubmittedFilesHeader, AssignmentProperties.Title, LearnerAssignmentProperties.LearnerName);
-            this.instructorLink.Text = string.Format(AppResources.SubmittedFilesInstructorMessage, LearnerAssignmentProperties.LearnerName);
+            this.pageTitle.Text = PageCulture.Resources.SubmittedFilesPageTitle;
+            this.pageDescription.Text = PageCulture.Resources.SubmittedFilesPageDescription;
+            this.headerMessage.Text = string.Format(PageCulture.Resources.SubmittedFilesHeader, AssignmentProperties.Title, LearnerAssignmentProperties.LearnerName);
+            this.instructorLink.Text = string.Format(PageCulture.Resources.SubmittedFilesInstructorMessage, LearnerAssignmentProperties.LearnerName);
         }
 
        #endregion
