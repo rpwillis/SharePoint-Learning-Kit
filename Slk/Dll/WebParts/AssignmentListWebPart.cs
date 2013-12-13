@@ -341,7 +341,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
             get
             {
                 if (slkStore == null)
+                {
                     slkStore = SlkStore.GetStore(SPWeb);
+                }
+
                 return slkStore;
             }
         }
@@ -431,12 +434,30 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
             catch (SqlException e)
             {
-                SlkError slkError = SlkError.WriteException(SlkStore, e);
+                ISlkStore store = null;
+                try
+                {
+                    store = SlkStore;
+                }
+                catch (Exception)
+                {
+                }
+
+                SlkError slkError = SlkError.WriteException(store, e);
                 ErrorBanner.RenderErrorItems(writer, slkError);
             }
             catch (Exception ex)
             {
-                SlkError slkError = SlkError.WriteException(SlkStore, ex);
+                ISlkStore store = null;
+                try
+                {
+                    store = SlkStore;
+                }
+                catch (Exception)
+                {
+                }
+
+                SlkError slkError = SlkError.WriteException(store, ex);
                 ErrorBanner.RenderErrorItems(writer, slkError);
             }
         }

@@ -6,9 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <!--
         <Projects Include="LearningComponents\learningcomponents.proj"/>
-        -->
         <Projects Include="slk\slk.proj"/>
 
         <InstallFiles Include="doc\root\*"/>

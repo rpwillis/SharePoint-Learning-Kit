@@ -126,7 +126,11 @@ namespace Microsoft.SharePointLearningKit.WebControls // NOTE: SlkError isn't a 
 
 
                 //log the exception in EventLog. 
-                store.LogException(ex);
+                if (store != null)
+                {
+                    store.LogException(ex);
+                }
+
                 slkError = new SlkError(ErrorType.Error, SlkUtilities.GetHtmlEncodedText(errorText));
             }           
 
@@ -313,7 +317,7 @@ namespace Microsoft.SharePointLearningKit
     /// Indicates that SLK has not yet been configured in SharePoint Central Administraton.
     /// </summary>
     [Serializable]
-    public class SlkNotConfiguredException : Exception
+    public class SlkNotConfiguredException : SafeToDisplayException
     {
         /// <summary>
         /// Initializes a new instance of the <Typ>SlkNotConfiguredException</Typ> class.
