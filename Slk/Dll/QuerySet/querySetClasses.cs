@@ -45,7 +45,6 @@ namespace Microsoft.SharePointLearningKit
     /// <param name="webUrl">Where to store the URL of the SPWeb, or <c>null</c> if the SPWeb
     ///     cannot be found.</param>
     ///
-    public delegate void SPWebResolver(Guid spWebGuid, Guid spSiteGuid, out string webName,
-        out string webUrl);
+    public delegate void SPWebResolver(Guid spWebGuid, Guid spSiteGuid, out string webName, out string webUrl);
 
 }

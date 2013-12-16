@@ -126,6 +126,9 @@
     <Compile Include="api\webListItem.cs" />
     <Compile Include="SlkError.cs" />
     <Compile Include="AppWebControls\TableGrid.cs" />
+    <Compile Include="AppWebPages\QueryBasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="AppWebPages\SlkAppBasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

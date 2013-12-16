@@ -39,57 +39,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
     /// <summary>The assignment list web part query summary frame results.</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
-    public partial class AlwpQuerySummary : SlkAppBasePage
+    public partial class AlwpQuerySummary : QueryBasePage
     {
-
-        /// <summary>See <see cref="SlkAppBasePage.OverrideMasterPage"/>.</summary>
-        protected override bool OverrideMasterPage
-        {
-            get { return false ;}
-        }
-
-        #region Private Variable
-        /// <summary>
-        /// This is a parameter of CreateStandardQuery.  It's specifies the SPWeb that this
-        /// query set is scoped to, or null if there's no scope (i.e. retrieve results for
-        /// all SPWebs).
-        /// </summary>   
-        Guid? m_spWebScopeMacro;
-
-
-        SlkStore m_observerRoleLearnerStore;
-
-        #endregion
-
-        /// <summary>The SlkStore to use.</summary>
-        public override SlkStore SlkStore
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(ObserverRoleLearnerKey) == false)
-                {
-                    if (m_observerRoleLearnerStore == null)
-                    {
-                        m_observerRoleLearnerStore = SlkStore.GetStore(SPWeb, ObserverRoleLearnerKey);
-                    }
-                    return m_observerRoleLearnerStore;
-                }
-                return base.SlkStore;
-            }
-        }
-
-        #region Page_Init
-        /// <summary>
-        ///  Page Init for AlwpQueryResults. 
-        /// </summary> 
-        /// <param name="sender">an object referencing the source of the event</param>
-        /// <param name="e">An EventArgs that contains the event data.</param>
-        protected void Page_Init(object sender, EventArgs e)
-        {
-            //Setting Cache-Control = "no-cache" to prevent caching 
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-        }
-        #endregion
 
         #region Page_Load
         /// <summary>
@@ -103,10 +54,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             try
             {
                 string querySetName = QueryString.ParseString(QueryStringKeys.QuerySet);
-
-                //Get the Visibility 
-                string spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
-                m_spWebScopeMacro = (spWebScope == null) ? (Guid?)null : (new Guid(spWebScope));
 
                 // create a job for executing the queries specified by <querySetDef>
                 LearningStoreJob job = SlkStore.LearningStore.CreateJob();
@@ -296,7 +243,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             LearningStoreQuery query;
             int[,] columnMap; // see QueryDefinition.CreateQuery
 
-            query = CreateStandardQuery(queryDef, true, m_spWebScopeMacro, out columnMap);
+            query = CreateStandardQuery(queryDef, true, out columnMap);
 
             // add the query to the job
             job.PerformQuery(query);
