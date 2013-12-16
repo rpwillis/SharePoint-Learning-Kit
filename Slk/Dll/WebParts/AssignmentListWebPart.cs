@@ -409,6 +409,16 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
         #endregion
 
+        /// <summary>Adds the scope to the query.</summary>
+        /// <param name="url">The <see cref="StringBuilder"/> to add the scope to.</param>
+        protected virtual void AddScope(StringBuilder url)
+        {
+            if (ListScope)
+            {
+                url.AppendFormat("&{0}={1}", QueryStringKeys.SPWebScope, SPWeb.ID.ToString());
+            }
+        }
+
         #region RenderContents
         /// <summary>
         /// Render Assignment List WebPart Contents
@@ -560,10 +570,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 url.AppendFormat("&{0}={1}", QueryStringKeys.ForObserver, "true");
             }
 
-            if (ListScope)
-            {
-                url.AppendFormat("&{0}={1}", QueryStringKeys.SPWebScope, SPWeb.ID.ToString());
-            }
+            AddScope(url);
 
             return url;
         }
