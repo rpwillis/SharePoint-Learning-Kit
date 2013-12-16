@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	
+	<CustomAction Id="{00057003-c978-11da-ba52-00042350e42f}"
+			   Title="$Resources:SLK,ELearningCustomActionTitle"
+			   Location="DisplayFormToolbar"
+			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+			   RegistrationType="List"
+			   RegistrationId="101">
+		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?ListId={ListId}&amp;ItemId={ItemId}"/>
+	</CustomAction>
+	<CustomAction Id="{00057003-c978-11da-ba52-00042350e42h}"
+			   Title="$Resources:SLK,ELearningCustomActionTitle"
+			   Location="EditControlBlock"
+			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+			   RegistrationType="List"
+			   RegistrationId="101">
+		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?ListId={ListId}&amp;ItemId={ItemId}"/>
+	</CustomAction>
+</Elements>

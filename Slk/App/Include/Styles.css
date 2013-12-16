@@ -1,0 +1,20 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+	DIV.SlkError
+    {
+        color: red;        
+    }
+    DIV.SlkError UL
+    {
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
+    DIV.SlkError LI
+    {
+        margin-top: 4px;
+        margin-bottom: 4px;     
+    }
+    DIV.SlkGrading input
+    {
+		position: relative;
+		top: 2px;
+    }

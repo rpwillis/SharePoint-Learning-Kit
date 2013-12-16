@@ -1,0 +1,38 @@
+<%@ Master Language="C#" %>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>[Dev] <asp:ContentPlaceHolder ID="PlaceHolderPageTitle" runat="server" /></title>
+	<link rel="stylesheet" type="text/css" href="http://localhost/_layouts/1033/styles/core.css"/>
+	<style>
+	body
+	{
+	    font-size: 8pt;
+	    padding: 8px;
+	}
+	P.Mockup
+	{
+	    margin-top: 4pt;
+	    margin-bottom: 4pt;
+	}
+	</style>
+	<asp:ContentPlaceHolder ID="PlaceHolderAdditionalPageHead" runat="server" />
+</head>
+
+<body>
+
+	<form id="aspnetForm" runat="server">
+
+    <div style="background-color: #C0C0C0; padding-bottom: 4px; margin-bottom: 12px;">
+    <p class="Mockup">Title: <asp:ContentPlaceHolder ID="PlaceHolderPageTitleInTitleArea" runat="server" /></p>
+    <p class="Mockup">Description: <asp:ContentPlaceHolder ID="PlaceHolderPageDescription" runat="server" /></p>
+	</div>
+    <asp:ContentPlaceHolder ID="PlaceHolderMain" runat="server" />
+
+	</form>
+
+</body>
+
+</html>
+

@@ -1,0 +1,31 @@
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <!--
+    Adds the file SelfAssign.aspx to the SitePages (defined in the Module Url) library.
+    The AllUsersWebPart section adds the SelfAssignWebPart to the page in the Main zone and sets the list it points to to the Learning Objects doc library. The name of this is stored in the resources file.
+    -->
+    <Module Name="SelfAssignPackageWebPartPages" List="101" Url="SitePages">
+        <File
+            Url="SelfAssign.aspx" 
+            Name="Self Assign.aspx" 
+            Type="GhostableInLibrary">
+            <AllUsersWebPart WebPartZoneID="Main" WebPartOrder="0">
+                <![CDATA[<webParts>
+                            <webPart xmlns="http://schemas.microsoft.com/WebPart/v3" > 
+                                <metaData>
+                                    <type name="Microsoft.SharePointLearningKit.WebParts.SelfAssignWebPart,Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e"/>
+                                    <importErrorMessage>Cannot import this web part.</importErrorMessage>
+                                </metaData>
+                                <data>
+                                    <properties>
+                                        <property name="ListName" type="string">$Resources:LearningObjectsListTitle</property>
+                                        <property name="Title" type="string">$Resources:SelfAssignWebPartOnPageTitle</property>
+                                    </properties>
+                                </data>
+                        </webPart>
+                        </webParts>
+                        ]]>
+            </AllUsersWebPart>
+        </File>
+    </Module>
+</Elements> 
+

@@ -1,0 +1,3 @@
+<siteMap enableLocalization="true">
+  <siteMapNode title="Configure SharePoint Learning Kit" url="/_admin/SharePointLearningKit/Configure.aspx" parentUrl="/_admin/applications.aspx" />
+</siteMap>

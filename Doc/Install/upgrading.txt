@@ -1,0 +1,8 @@
+Upgrade to 1.7 from 1.6
+
+    To upgrade from 1.6 you need to: 
+        a.  Retract the SharePoint Learning Kit solution
+        b.  Once retraction has finished then remove the solution
+        c.  Then add solution as in installing SLK and then deploy it to the appropriate web applications
+
+    There are no database changes required.

@@ -1,0 +1,12 @@
+<Feature  xmlns="http://schemas.microsoft.com/sharepoint/"
+    Id="097e6750-e91c-4108-a2d6-d7490ab23201" 
+        Title="$Resources:QuickAssignmentWebPartFeatureTitle" 
+        Description="$Resources:QuickAssignmentWebPartFeatureDescription" 
+        DefaultResourceFile="SLK"
+        ImageUrl="slkFeature.gif"
+        Scope="Site">
+    <ElementManifests>
+        <ElementManifest Location="elements.xml"/>
+        <ElementFile Location="QuickAssignment.webpart"/>
+    </ElementManifests>
+</Feature>

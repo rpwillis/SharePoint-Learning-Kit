@@ -1,0 +1,1497 @@
+﻿<root>
+  <assembly culture="cy-GB" name="Microsoft.LearningComponents.resources" version="1.3.1.0" />
+  <resources name="Microsoft.LearningComponents.Properties.AIResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.AIResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CorrectAnswerSeparatorHtml</ID>
+        <Source> or </Source>
+        <Translation>neu</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentNotSelectedHtml</ID>
+        <Source>Not selected</Source>
+        <Translation>Heb ei ddewis</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ChooseFileToAttachHtml</ID>
+        <Source>Choose a file to attach:</Source>
+        <Translation>Dewiswch ffeil i’w hatodi:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MissingFormField</ID>
+        <Source>The form field, {0}, is missing.</Source>
+        <Translation>Mae maes y dosbarth cofrestru, {0}, yn wag.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedCorrectHtml</ID>
+        <Source>Correct answer</Source>
+        <Translation>Ateb cywir</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileNotFound</ID>
+        <Source>A requested file could not be found.</Source>
+        <Translation>Methu dod o hyd i ffeil y gofynnwyd amdani.</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NoFileAttachedHtml</ID>
+        <Source>No file attached.</Source>
+        <Translation>Dim ffeil wedi’i hatodi.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IncorrectAnswerHtml</ID>
+        <Source>Incorrect answer</Source>
+        <Translation>Ateb anghywir</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedIncorrectHtml</ID>
+        <Source>Incorrect answer</Source>
+        <Translation>Ateb anghywir</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DetachFileHtml</ID>
+        <Source>Detach File</Source>
+        <Translation>Datgysylltu’r Ffeil</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileAttachmentNotFound</ID>
+        <Source>A requested file attachment could not be found.</Source>
+        <Translation>Methu dod o hyd i atodiad ffeil y gofynnir amdano.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ViewFileHtml</ID>
+        <Source>View File</Source>
+        <Translation>Gweld y Ffeil</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BrowseHtml</ID>
+        <Source>Browse...</Source>
+        <Translation>Pori...</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidType</ID>
+        <Source>The type attribute has an invalid value in the assessment markup: {0}</Source>
+        <Translation>Mae gan nodwedd y math werth annilys yn yr asesiad: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InstructorCommentsColonHtml</ID>
+        <Source>Instructor comments:</Source>
+        <Translation>Sylwadau’r hyfforddwr:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>Unanswered</ID>
+        <Source>&lt;Unanswered&gt;</Source>
+        <Translation>&lt;Heb ei ateb&gt;</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InstructorCommentTooLong</ID>
+        <Source>"The text entered is formatted incorrectly or greater than the maximum {0} characters."</Source>
+        <Translation>" Mae'r testun a fewngofnodir wedi'i fformatio'n anghywir neu'n fwy na'r uchafswm {0} nodau.."</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidOptionValue</ID>
+        <Source>The posted &lt;option&gt; value, {0}, is out of range for the &lt;select&gt; tag with name="{1}".</Source>
+        <Translation>Mae’r &lt;opsiwn&gt; a bostiwyd, gwerth {0}, y tu allan i’r amrediad ar gyfer y tag &lt;dewis&gt; gyda’r enw="{1}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NoScoreHtml</ID>
+        <Source>--</Source>
+        <Translation>--</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CorrectAnswerHtml</ID>
+        <Source>Correct answer</Source>
+        <Translation>Ateb cywir</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ViewTheAttachedFileHtml</ID>
+        <Source>View the attached file.</Source>
+        <Translation>Gweld y ffeil a atodir.</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidFormFieldValue</ID>
+        <Source>The value, {0}, of the form field, {1}, is invalid.</Source>
+        <Translation>Mae gwerth, {0}, maes y dosbarth cofrestru, {1}, yn annilys.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ScoreOutOfRange</ID>
+        <Source>"The score entered is formatted incorrectly or outside the allowable range of -1000 to 1000."</Source>
+        <Translation>"Mae'r sgôr a fewngofnodir wedi'i fformatio'n anghywir neu y tu allan i'r amrediad a ganiateir sef -1000 i 1000."</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CorrectAnswerColonHtml</ID>
+        <Source>Correct answer:</Source>
+        <Translation>Ateb cywir:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedHtml</ID>
+        <Source>Selected</Source>
+        <Translation>Dewiswyd</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentNotSelectedIncorrectHtml</ID>
+        <Source>This is the correct answer but it was not selected</Source>
+        <Translation>Dyma'r ateb cywir ond ni chafodd ei ddewis</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>AttachedFileHtml</ID>
+        <Source>There is an attached {0} file.</Source>
+        <Translation>Mae ffeil {0} wedi’i hatodi.</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ReplaceFileHtml</ID>
+        <Source>Replace the attached file with another file:</Source>
+        <Translation> Rhoi ffeil newydd yn lle'r ffeil a atodir:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidId</ID>
+        <Source>The value of the id is invalid in the assessment markup: {0}</Source>
+        <Translation>Mae gwerth yr id yn annilys yn yr asesiad: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>DataModelElementTooLong</ID>
+        <Source>Data model element '{0}' was passed a value that exceeded the supported length.</Source>
+        <Translation>Roedd elfen y model data '{0}' y tu hwnt i werth a oedd yn fwy na'r hyd a gefnogir.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionBadZipFile</ID>
+        <Source>The package compression format is not supported.</Source>
+        <Translation>Ni chefnogir fformat cywasgu'r pecyn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingFlowingTo</ID>
+        <Source>Sequencing is flowing to activity '{0}'.</Source>
+        <Translation>Mae'r broses ddilyniannu yn llifo i weithgaredd '{0}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionNoFile</ID>
+        <Source>The .zip file cannot be found.</Source>
+        <Translation>Methu dod o hyd i'r ffeil .zip.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_PropertyCannotBeNull</ID>
+        <Source>The value cannot be set to null.</Source>
+        <Translation>Ni ellir pennu'r gwerth yn nwl.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UTIL_ParamIsEmptyString</ID>
+        <Source>A parameter contains an empty string, which is not allowed. </Source>
+        <Translation>Mae paramedr yn cynnwys llinyn gwag, na chaniateir hynny.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UnauthorizedAccess</ID>
+        <Source>The requested item, {0}, can not be accessed.</Source>
+        <Translation>Ni ellir cael mynediad i'r eitem {0} y gofynnwyd amdani.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UniqueIdNotSupported</ID>
+        <Source>No unique identifiers are defined for items in this list.</Source>
+        <Translation>Nid oes unrhyw ddangosydd unigryw wedi’i ddiffinio ar gyfer eitemau ar y rhestr hon.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__8</ID>
+        <Source>Choice Exit Sequencing Control Mode violation.</Source>
+        <Translation>Torrwyd y Dull Rheoli Dilyniannu Gadael Dewisol.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__9</ID>
+        <Source>No activities to consider.</Source>
+        <Translation>Dim gweithgareddau i’w hystyried.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__2</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Mae gweithgaredd presennol heb ei ddiffinio. Nid yw'r sesiwn ddilyniannu wedi'i dechrau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__3</ID>
+        <Source>A suspended activity is not defined.</Source>
+        <Translation>Mae gweithgaredd a ataliwyd heb ei ddiffinio.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__1</ID>
+        <Source>A current activity is already defined. The sequencing session has already begun.</Source>
+        <Translation>Mae gweithgaredd presennol eisoes wedi'i ddiffinio. Mae'r sesiwn ddilyniannu eisoes wedi'i dechrau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__6</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Nid oes unrhyw weithgaredd "blaenorol" i'r bôn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__7</ID>
+        <Source>Unsupported navigation request.</Source>
+        <Translation>Cais gwe-lywio heb ei gefnogi.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__4</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Torrwyd y Dull Rheoli Dilyniannu Llif.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__5</ID>
+        <Source>Flow or Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Torrwyd y Dull Rheoli Dilyniannu Llif neu Ymlaen yn unig.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupChildMissingPrimaryObjective</ID>
+        <Source>Rollup aborted because child activity '{0}' does not have a primary objective.</Source>
+        <Translation>Rhoddwyd y gorau i'r cam cyflwyno am nad oes gan yr epil-weithgaredd '{0}' brif amcan.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestRetryAll</ID>
+        <Source>RetryAll</Source>
+        <Translation>RetryAll</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_2__1</ID>
+        <Source>Identified activity is already active.</Source>
+        <Translation>Mae'r gweithgaredd a nodir eisoes yn weithredol.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ReadError</ID>
+        <Source>Read error.</Source>
+        <Translation>Gwall wrth ddarllen.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPreConditionSkipped</ID>
+        <Source>Activity '{0}' skipped because its pre-condition Skip rules evaluated as true.</Source>
+        <Translation>Hepgorwyd gweithgaredd '{0}' am fod ei reolau hepgor cyn cyflwr wedi'i werthuso'n wir.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageReaderErrorState</ID>
+        <Source>The ZipPackageReader has encountered an error and cannot continue.</Source>
+        <Translation>Mae'r ZipPackageReader wedi dod o hyd i wall ac ni ellir parhau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>AlreadyInList</ID>
+        <Source>The item specified is already added to this or another list belonging to this data model.</Source>
+        <Translation>Mae'r eitem a nodir eisoes wedi'i hychwanegu i'r rhestr hon neu restr arall sy'n perthyn i'r model data hwn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupInitiated</ID>
+        <Source>Rollup initiated for activity '{0}'.</Source>
+        <Translation>Cychwynnwyd y cam cyflwyno ar gyfer gweithgaredd '{0}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DRLO_CurrentActivityEntryPointIsAbsolute</ID>
+        <Source>The entry point of the current activity is not contained within this package.</Source>
+        <Translation>Nid yw pwynt mynediad y gweithgaredd presennol wedi'i gynnwys yn y pecyn hwn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestRetry</ID>
+        <Source>Retry</Source>
+        <Translation>Ailgynnig</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>EndOfStream</ID>
+        <Source>End of stream reached.</Source>
+        <Translation>Cyrhaeddwyd diwedd y llif.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NoIdentifier</ID>
+        <Source>A required identifier was not provided for this element.</Source>
+        <Translation>Ni roddwyd dangosydd gofynnol ar gyfer yr elfen hon.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestExitAll</ID>
+        <Source>ExitAll</Source>
+        <Translation>ExitAll</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StreamMustReadAndSeek</ID>
+        <Source>Stream must have read and seek capability.</Source>
+        <Translation>Rhaid i'r llif feddu ar y gallu i ddarllen a chwilio.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>KeyDoesNotMatchItem</ID>
+        <Source>The key specified '{0}' does not match the identifier within the item to be added to the dictionary '{1}'.</Source>
+        <Translation>Nid yw'r allwedd '{0}' a nodir yn cyfateb i'r dangosydd o fewn yr eitem i'w hychwanegu at y geiriadur '{1}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleResult</ID>
+        <Source>Sequencing Post Condition rule on activity '{0}' resulted in a {1} request.</Source>
+        <Translation>Arweiniodd y broses Rheoli Dilyniannu Ôl-Gyflwr at weithgaredd '{0}' at {1} o geisiadau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_StringCannotBeEmpty</ID>
+        <Source>The value cannot be set to an empty or null string.</Source>
+        <Translation>Ni ellir pennu'r gwerth yn llinyn gwag na nwl.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ReactivateNotValid</ID>
+        <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
+        <Translation>Nid yw'n ddilys ailactifadu'r sesiwn bresennol. Dim ond sesiwn wedi'i chwblhau neu sesiwn y rhoddwyd gorau iddi y gellir ei hailactifadu, a dim ond mewn golwg RandomAccess.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ExitNotValid</ID>
+        <Source>It is not valid to exit the current session. Only a session that has started may be exited, and only in Execute view.</Source>
+        <Translation>Nid yw'n ddilys gadael y sesiwn bresennol. Dim ond sesiwn wedi'i dechrau y gellir ei gadael, a dim ond mewn golwg Gweithredu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CannotDeletePrimaryObjective</ID>
+        <Source>Cannot remove or replace the primary objective.</Source>
+        <Translation>Ni ellir tynnu nac ailosod y prif amcan.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SLS_CurrentActiveActivityRequired</ID>
+        <Source>A CurrentActivity that is active is required to exist before requesting this operation.</Source>
+        <Translation>Mae angen i CurrentActivity fod yn weithredol cyn gofyn am y weithred hon.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CannotChangeId</ID>
+        <Source>Cannot change the identifier if an item in a dictionary.  Try removing the item, changing the identifier, then re-adding it.</Source>
+        <Translation>Ni ellir newid y dangosydd os yw eitem mewn geiriadur. Ceisiwch dynnu'r eitem, newid y dangosydd, ac yna ei hailychwanegu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OnlyValidForSCORMV1p3</ID>
+        <Source>The '{0}' data model element is only valid in SCORM 2004 packages.</Source>
+        <Translation>Dim ond mewn pecynnau SCORM 2004 y mae elfen y model data '{0}' yn ddilys.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OnlyValidForSCORMV1p2</ID>
+        <Source>The '{0}' data model element is only valid in SCORM 1.2 packages.</Source>
+        <Translation>Dim ond mewn pecynnau SCORM 1.2 y mae elfen y model data '{0}' yn ddilys.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IndexOutOfRange</ID>
+        <Source>The index is out of range.</Source>
+        <Translation>Mae'r mynegai y tu allan i'r amrediad.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestExitParent</ID>
+        <Source>ExitParent</Source>
+        <Translation>ExitParent</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ResourceNotInPackage</ID>
+        <Source>The current activity in the session defines an entry point that does not exist in the package. The content cannot be read.</Source>
+        <Translation>Mae'r gweithgaredd presennol yn y sesiwn yn diffinio pwynt mynediad nad yw'n bodoli yn y pecyn. Ni ellir darllen cynnwys y pecyn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>WrongDataModel</ID>
+        <Source>An object created for use by a different data model cannot be added to this data model.</Source>
+        <Translation>Ni ellir ychwanegu gwrthrych a grëwyd i'w ddefnyddio gan fodel data gwahanol at y model data hwn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ResumeNotValid</ID>
+        <Source>It is not valid to resume the current session. Only a suspended session may be resumed, and only in Execute view.</Source>
+        <Translation>Nid yw'n ddilys ailafael yn y sesiwn bresennol. Dim ond sesiwn a ataliwyd y gellir ailafael ynddi, a dim ond mewn golwg Gweithredu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_SuspendNotValid</ID>
+        <Source>It is not valid to suspend the current session. Only an active session may be suspended, and only in Execute view.</Source>
+        <Translation>Nid yw'n ddilys atal y sesiwn bresennol. Dim ond sesiwn weithredol y gellir ei hatal, a dim ond mewn golwg Gweithredu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ImsManifestXmlMissing</ID>
+        <Source>The package is missing the required file, imsmanifest.xml.</Source>
+        <Translation>Nid yw'r ffeil y gofynnwyd amdani, imsmanifest.xml, yn y pecyn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DirectoryNotFound</ID>
+        <Source>The requested directory, {0}, can not be found.</Source>
+        <Translation>Methu dod o hyd i'r cyfeiriadur {0} y gofynnwyd amdano.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ListCannotBeModified</ID>
+        <Source>The list cannot be modified.</Source>
+        <Translation>Ni ellir addasu'r rhestr..</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__13</ID>
+        <Source>Undefined navigation request.</Source>
+        <Translation>Cais gwe-lywio heb ei ddiffinio.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__12</ID>
+        <Source>The current activty is already terminated.</Source>
+        <Translation>Mae'r gweithgaredd presennol eisoes wedi dod i ben.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__11</ID>
+        <Source>Target activity does not exist.</Source>
+        <Translation>Nid yw'r gweithgaredd targed yn bodoli.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__10</ID>
+        <Source>Choice Sequencing Control Mode violation.</Source>
+        <Translation>Torrwyd y Dull Rheoli Dilyniannu Dewisol.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_RelativePathRequired</ID>
+        <Source>The RenderContext.RelativePath must have a value.</Source>
+        <Translation>Rhaid i'r RenderContext.RelativePath nodi gwerth.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrmNoManifest</ID>
+        <Source>An error occurred while unbundling the file. The Index.xml or imsmanifest.xml file cannot be found.</Source>
+        <Translation>Roedd gwall wrth ddatglymu'r ffeil. Methu dod o hyd i ffeil Index.xml nac imsmanifest.xml.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NonUniqueId</ID>
+        <Source>An item with the identifier '{0}' already exists in this list.</Source>
+        <Translation>Mae eitem gyda'r dangosydd '{0}' eisoes yn bodoli ar y rhestr hon.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PackageFileNotFound</ID>
+        <Source>The requested file was not found in the package.</Source>
+        <Translation>Methu dod o hyd i'r ffeil y gofynnwyd amdani yn y pecyn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidScormV1p3Value</ID>
+        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 2004 specifications.</Source>
+        <Translation>Roedd elfen y model data '{0}' y tu hwnt i werth a oedd y tu allan i’r amrediad yn ôl manylebau SCORM 2004.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestContinue</ID>
+        <Source>Continue</Source>
+        <Translation>Parhau</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrmUnknownFormat</ID>
+        <Source>An error occurred while unbundling the file. Unable to determine the file format.</Source>
+        <Translation>Roedd gwall wrth ddatglymu'r ffeil. Methu â phennu fformat y ffeil.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NavigationFinishedNewActivity</ID>
+        <Source>Navigation resulted in making '{0}' the current active activity.</Source>
+        <Translation>O ganlyniad i'r cam gwe-lywio, '{0}' yw'r gweithgaredd gweithredol presennol.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrmMultiNotSupported</ID>
+        <Source>An error occurred while unbundling the file. A file with multiple Learning Resources is not supported.</Source>
+        <Translation>Roedd gwall wrth ddatglymu'r ffeil. Ni chefnogir ffeil ag Adnoddau Dysgu Lluosog.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequredObjectiveNotFound</ID>
+        <Source>Sequencing cannot proceed because the required objective '{0}' was not found.</Source>
+        <Translation>Ni ellir parhau â'r cam dilyniannu am na ddaethpwyd o hyd i'r amcan gofynnol'{0}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidScormV1p2Value</ID>
+        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 1.2 specifications.</Source>
+        <Translation>Roedd elfen y model data '{0}' y tu hwnt i werth a oedd y tu allan i'r amrediad yn ôl manylebau SCORM 1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CantWriteToDataModel</ID>
+        <Source>This LearningDataModel object may not be written to.</Source>
+        <Translation>Ni ellir trosglwyddo data i'r gwrthrych LearningDataModel i.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidExtensionType</ID>
+        <Source>Unsupported type '{0}' added to extension data.</Source>
+        <Translation>Ychwanegwyd math heb ei gefnogi '{0}' i'r data estynedig.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupSettingNormalizedMeasure</ID>
+        <Source>Rollup setting normalized measure to {0} for activity '{1}'.</Source>
+        <Translation>Normaleiddiwyd mesur y gosodiad cyflwyno i {0} ar gyfer gweithgaredd '{1}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DRLO_InvalidRelativePath</ID>
+        <Source>The relativePath value '{0}' does not represent a valid, package-relative path.</Source>
+        <Translation>Nid yw'r relativePath '{0}' yn cynrychioli llwybr dilys, sy'n berthnasol i becyn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PackageDirectoryAlreadyExists</ID>
+        <Source>Cannot copy to '{0}' because a file or directory with the same name already exists. This operation can only copy to a destination that does not yet exist.  It will create the destination directory.</Source>
+        <Translation>Ni ellir copïo i '{0}' am fod ffeil neu gyfeiriadur o'r un enw eisoes yn bodoli. Dim ond i gyrchfan nad yw'n bodoli eisoes y gellir copïo'r weithred hon. Bydd yn creu cyfeiriadur y cyrchfan.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NavigationFinishedDone</ID>
+        <Source>Navigation complete.  No current activity.</Source>
+        <Translation>Mae'r cam gwe-lywio wedi'i gwblhau. Dim gweithgaredd ar hyn o bryd.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingExitRuleExecuted</ID>
+        <Source>Sequencing Exit rule requires that activity '{0}' terminate.</Source>
+        <Translation>Mae rheol dilyniannu Gadael yn gofyn i weithgaredd '{0}' ddod i ben.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UniqueIdNotFound</ID>
+        <Source>No item with the identifier '{0}' was found in this list.</Source>
+        <Translation>Methu dod o hyd i eitem gyda'r dangosydd '{0}' ar y rhestr hon.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionDefault</ID>
+        <Source>Error code: {0}</Source>
+        <Translation>Cod gwall: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SLS_CurrentActivityRequired</ID>
+        <Source>A CurrentActivity is required to exist before requesting this operation.</Source>
+        <Translation>Mae angen i CurrentActivity fod yn weithredol cyn gofyn am y weithred hon.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>WrongNameTable</ID>
+        <Source>The object is not in the correct NameTable.</Source>
+        <Translation>Nid yw'r Gwrthrych yn y NameTable cywir.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__3</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Torrwyd y Dull Rheoli Dilyniannu Llif.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__2</ID>
+        <Source>The current activity is active or suspended.</Source>
+        <Translation>Mae’r gweithgaredd presennol yn weithredol neu wedi'i atal.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Nid yw gweithgaredd presennol wedi'i ddiffinio. Nid yw'r sesiwn ddilyniannu wedi'i dechrau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_12__1</ID>
+        <Source>Undefined sequencing request.</Source>
+        <Translation>Cais dilyniannu heb ei gefnogi.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_11__2</ID>
+        <Source>The current activity has not been terminated.</Source>
+        <Translation>Nid yw'r gweithgaredd presennol wedi dod i ben.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_11__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Nid yw gweithgaredd presennol wedi'i ddiffinio. Nid yw'r sesiwn ddilyniannu wedi'i dechrau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestPrevious</ID>
+        <Source>Previous</Source>
+        <Translation>Blaenorol</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__2</ID>
+        <Source>The Current activity already terminated.</Source>
+        <Translation>Mae'r gweithgaredd presennol eisoes wedi dod i ben.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__3</ID>
+        <Source>Cannot suspend an inactive root.</Source>
+        <Translation>Ni ellir atal bôn anweithredol.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__1</ID>
+        <Source>A Current Activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Nid yw gweithgaredd presennol wedi'i ddiffinio. Nid yw'r sesiwn ddilyniannu wedi'i dechrau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__6</ID>
+        <Source>Nothing to abandon; no active activities.</Source>
+        <Translation>Dim byd i roi'r gorau iddo; dim gweithgareddau gweithredol.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__7</ID>
+        <Source>Undefined termination request.</Source>
+        <Translation>Cais dod i ben heb ei ddiffinio.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__4</ID>
+        <Source>Activity tree root has no parent.</Source>
+        <Translation>Nid oes gan fôn y goeden weithgaredd riant.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__5</ID>
+        <Source>Nothing to suspend; no active activities.</Source>
+        <Translation>Dim byd i'w atal, dim gweithgareddau gweithredol.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_6__1</ID>
+        <Source>A current activity is defined. The sequencing session already begun.</Source>
+        <Translation>Mae gweithgaredd presennol wedi'i ddiffinio. Mae'r sesiwn ddilyniannu eisoes wedi'i dechrau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_6__2</ID>
+        <Source>No Suspended Activity defined.</Source>
+        <Translation>Dim Gweithgaredd a ataliwyd wedi'i ddiffinio.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_5__1</ID>
+        <Source>A current activity is defined. The sequencing session already begun.</Source>
+        <Translation>Mae'r gweithgaredd presennol wedi'i ddiffinio. Mae'r sesiwn ddilyniannu eisoes wedi'i dechrau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_2__1</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Torrwyd y Dull Rheoli Dilyniannu Llif.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_2__2</ID>
+        <Source>Activity unavailable.</Source>
+        <Translation>Nid yw'r gweithgaredd ar gael.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_7__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Nid yw gweithgaredd presennol wedi'i ddiffinio. Nid yw'r sesiwn ddilyniannu wedi'i dechrau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_7__2</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Torrwyd y Dull Rheoli Dilyniannu Llif.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__2</ID>
+        <Source>Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Torrwyd y Dull Rheoli Dilyniannu Ymlaen yn unig.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__3</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Nid oes unrhyw weithgaredd "blaenorol" i'r bôn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__1</ID>
+        <Source>Forward Traversal Blocked.</Source>
+        <Translation>Mae teithio ymlaen wedi'i flocio.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__4</ID>
+        <Source>Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Torrwyd y Dull Rheoli Dilyniannu Ymlaen yn unig.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__3</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Nid oes unrhyw weithgaredd "blaenorol" i'r bôn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__2</ID>
+        <Source>Cluster has no available children.</Source>
+        <Translation>Nid oes unrhyw epil ar gael yn y clwstwr..</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__1</ID>
+        <Source>Last activity in the tree.</Source>
+        <Translation>Y gweithgaredd olaf yn y goeden.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__9</ID>
+        <Source>Choice request prevented by Flow-only activity.</Source>
+        <Translation>Cais am ddewis wedi'i atal gan weithgaredd Llif yn unig.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__8</ID>
+        <Source>Unable to choose target activity - constrained choice.</Source>
+        <Translation>Methu â dewis y gweithgaredd targed - dewis cyfyngedig.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__7</ID>
+        <Source>Choice Exit Sequencing Control Mode violation.</Source>
+        <Translation>Torrwyd y Dull Rheoli Dilyniannu Gadael Dewisol.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__6</ID>
+        <Source>Unable to activate target; target is not a child of the Current Activity.</Source>
+        <Translation>Methu ag actifadu'r targed; nid yw'r targed yn epil i'r Gweithgaredd Presennol.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__5</ID>
+        <Source>No activities to consider.</Source>
+        <Translation>Dim gweithgareddau i’w hystyried.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__4</ID>
+        <Source>Choice Sequencing Control Mode violation.</Source>
+        <Translation>Torrwyd y Dull Rheoli Dilyniannu Dewisol.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__3</ID>
+        <Source>Target activity hidden from choice.</Source>
+        <Translation>Mae'r gweithgaredd targed wedi'i guddio rhag dewis.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__2</ID>
+        <Source>Target activity does not exist or is unavailable.</Source>
+        <Translation>Nid yw'r gweithgaredd targed yn bodoli neu nid yw ar gael.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__1</ID>
+        <Source>No target for Choice.</Source>
+        <Translation>Dim targed i'w ddewis.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_8__2</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation> Torrwyd y Dull Rheoli Dilyniannu Llif.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_8__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Nid yw gweithgaredd presennol wedi'i ddiffinio. Nid yw'r sesiwn ddilyniannu wedi'i dechrau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__3</ID>
+        <Source>Activity unavailable.</Source>
+        <Translation>Nid yw'r gweithgaredd ar gael.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__2</ID>
+        <Source>Nothing to deliver.</Source>
+        <Translation>Dim byd i'w gyflawni.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__1</ID>
+        <Source>Cannot deliver a non-leaf activity.</Source>
+        <Translation>Ni ellir cyflawni gweithgaredd nad yw'n weithgaredd deilen.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_AbandonNotValid</ID>
+        <Source>It is not valid to abandon the current session. Only an active or suspended session may be abandoned, and only in Execute view.</Source>
+        <Translation>Nid yw'n ddilys rhoi'r gorau i'r sesiwn bresennol. Dim ond sesiwn weithredol neu sesiwn a ataliwyd y gellir rhoi'r gorau iddi, a dim ond mewn golwg Gweithredu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_CantRenderManifest</ID>
+        <Source>The requested manifest file cannot be rendered.</Source>
+        <Translation>Ni all y ffeil maniffest y gofynnwyd amdani gael ei hadfer.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Properties.ValidatorResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.ValidatorResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>LrLogCannotBeNullWhenRequired</ID>
+        <Source>The log parameter can not be null when the ValidationBehavior requires a log.</Source>
+        <Translation>Ni all paramedr y cofnod fod yn nwl pan fydd y ValidationBehavior yn gofyn am gofnod.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ElementRemoved</ID>
+        <Source>(element has been removed)</Source>
+        <Translation>(mae'r elfen wedi'i thynnu)</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceOrOrganizationNotFound</ID>
+        <Source>The referenced resource or organization can not be found.</Source>
+        <Translation>Methu dod o hyd i'r adnodd neu'r sefydliad y cyfeirir ato.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RuleConditionConditionMissing</ID>
+        <Source>The &lt;ruleCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
+        <Translation>Rhaid i'r nod &lt;ruleCondition&gt; feddu ar briodoledd cyflwr. Gweler SCORM 1.3 CAM 5.1.3.1.1.1</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcNodeViolationTruncated</ID>
+        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by MLC.  It has been truncated to {2} characters.</Source>
+        <Translation>Mae'r gwerth sy'n dechrau gyda "{0}" o'r nod, {1}, yn hirach na'r hyn a gefnogir gan MLC. Mae wedi'i gwtogi i {2} o nodau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ValueOutOfRange</ID>
+        <Source>The value is out of range.</Source>
+        <Translation>Mae’r gwerth y tu allan i’r amrediad.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidPresentationNode</ID>
+        <Source>A &lt;presentation&gt; node may only appear, if needed, as a child of a leaf &lt;item&gt;element that references a resource.</Source>
+        <Translation>Gall nod &lt;cyflwyniad&gt; ond ymddangos, os bydd angen, fel epil elfen &lt;item&gt; deilen sy'n cyfeirio at adnodd.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadValue</ID>
+        <Source>The value "{0}" of element &lt;{1}&gt; is an invalid value.  Extra information: {2}</Source>
+        <Translation>Mae gwerth "{0}" o elfen &lt;{1}&gt; yn werth annilys. Gwybodaeth ychwanegol: {2}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrMustHaveCorrectRoot</ID>
+        <Source>A valid index.xml begins with a &lt;LearningResource&gt; node in the "urn:schemas-microsoft-com:learning-resource" namespace.</Source>
+        <Translation>Mae mynegai.xml dilys yn dechrau gyda nod &lt;LearningResource&gt; yn y namespace "urn:schemas-microsoft-com:learning-resource".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceHrefMissing</ID>
+        <Source>The resource node is missing the required attribute, 'href'</Source>
+        <Translation>Nid yw’r nod adnodd yn cynnwys y briodoledd ofynnol, 'href' </Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ManifestMetaDataMissing</ID>
+        <Source>The &lt;metadata&gt; node is missing or in the wrong namespace on the &lt;manifest&gt;.  See SCORM 1.3 CAM 3.4.1.2.</Source>
+        <Translation>Mae'r nod &lt;metadata&gt; ar goll neu yn y namespace anghywir ar y &lt;maniffest&gt;. Gweler SCORM 1.3 CAM 3.4.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequiredAttributeMissing</ID>
+        <Source>The required attribute, {0}, is missing on element &lt;{1}&gt;. Extra information:{2}</Source>
+        <Translation>Mae'r briodoledd ofynnol, {0}, ar goll ar elfen &lt;{1}&gt;. Gwybodaeth ychwanegol:{2}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OutOfRangeNegOneToOne</ID>
+        <Source>The value is outside the valid range [-1 to 1].</Source>
+        <Translation>Mae’r gwerth y tu allan i’r amrediad dilys [-1 i 1].</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcNodeViolation</ID>
+        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by Microsoft Learning Components.</Source>
+        <Translation>Mae'r gwerth sy'n dechrau gyda "{0}" o'r nod {1}, yn hirach na'r hyn a gefnogir ar gyfer cynnwys a ddefnyddir gan Gydrannau Dysgu Microsoft.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NodeName</ID>
+        <Source>The name of the erroneous node is: {0}</Source>
+        <Translation>Enw’r nod gwallus yw: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadValueReplacement</ID>
+        <Source>The value "{0}" of element &lt;{1}&gt; is an invalid value.  It has been replaced by the default value "{2}".  Extra information: {3}</Source>
+        <Translation>Mae gwerth "{0}" o elfen &lt;{1}&gt; yn werth annilys. Mae wedi'i ddisodli gan y gwerth rhagosodedig "{2}". Gwybodaeth ychwanegol: {3}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrChildInLrmNamespaceNotFound</ID>
+        <Source>The node &lt;{0}&gt; can not be found in the correct namespace. Extra information:{1}</Source>
+        <Translation>Methu dod o hyd i'r nod &lt;{0}&gt; yn y namespace cywir. Gwybodaeth ychwanegol:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadUri</ID>
+        <Source>The value is an invalid URI.</Source>
+        <Translation>Mae'r gwerth yn URI annilys.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrDefaultAttributeUsed</ID>
+        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element's "{2}" attribute.</Source>
+        <Translation>Mae gwerth rhagosodedig o "{0}" wedi'i ddefnyddio yn lle'r gwerth sydd ar goll neu'n wallus ar gyfer elfen &lt;{1}&gt; o briodoledd "{2}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadXmlBase</ID>
+        <Source>The value is an invalid xml:base. xml:base must be a valid URI that does not begin with a "/" but does end with a "/".</Source>
+        <Translation>Mae'r gwerth yn xml:base annilys. Rhaid i'r xml:base fod yn URI dilys nad yw'n dechrau gyda "/" ond sy’n gorffen gyda "/".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>EmptyReferencedObjective</ID>
+        <Source>The referencedObjective attribute on the {0} node is whitespace only, which is invalid.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
+        <Translation>Mae'r briodoledd referencedObjective ar nod {0} yn ofod gwyn yn unig, sy'n annilys. Gweler SCORM 1.3 CAM 5.1.3.1.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrNodeLengthException</ID>
+        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long.</Source>
+        <Translation>Mae gan y nod &lt;{0}&gt; werth sy'n dechrau gyda "{1}" sy'n rhy hir.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ParentXml</ID>
+        <Source>The full XML of the parent node is: {0}</Source>
+        <Translation>XML llawn y rhiant-nod yw: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeValueException</ID>
+        <Source>The value of the &lt;{0}&gt; element's "{1}" attribute is missing or erroneous.</Source>
+        <Translation>Mae gwerth yr elfen &lt;{0}&gt; ar goll neu'n wallus.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRuleAction</ID>
+        <Source>The &lt;ruleAction&gt; node may occur 1 and only 1 time within a &lt;preConditionRule&gt;, &lt;postConditionRule&gt;, or &lt;exitConditionRule&gt;.  See SCORM 1.3 CAM 5.1.3.1.2.</Source>
+        <Translation>Dim ond unwaith ac unwaith yn unig y gall &lt;ruleAction&gt; godi mewn &lt;preConditionRule&gt;, &lt;postConditionRule&gt;, neu &lt;exitConditionRule&gt;. Gweler SCORM 1.3 CAM 5.1.3.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>GenericDuplicate</ID>
+        <Source>The parent node is {0}.</Source>
+        <Translation>Y rhiant-nod yw {0}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRollupConditions</ID>
+        <Source>The &lt;rollupCondition&gt; node can only appear once in the &lt;rollupRule&gt; node.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
+        <Translation>Dim ond unwaith y gall y nod &lt;ruleCondition&gt; ymddangos yn y nod &lt;rollupRule&gt;. Gweler SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrNodeLengthViolation</ID>
+        <Source>The node &lt;{0}&gt; has a value that is too long.  It has been truncated to "{1}".</Source>
+        <Translation>Mae gan y nod &lt;{0}&gt; werth sy'n rhy hir. Mae wedi'i gwtogi i "{1}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ItemMustRepresentSco</ID>
+        <Source>The parent node, {0}, must represent a SCO.</Source>
+        <Translation>Rhaid i'r rhiant-nod, {0}, gynrychioli SCO..</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ValueOutOfRangeToken</ID>
+        <Source>The value is not one of the permitted token values.</Source>
+        <Translation>Nid yw'r gwerth yn un o'r gwerthoedd tocyn a ganiateir.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NodeXml</ID>
+        <Source>The full XML of the erroneous node is: {0}</Source>
+        <Translation>XML llawn y nod gwallus yw: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MetadataLocationNotFound</ID>
+        <Source>The file, {0}, referenced by the location element inside of metadata in the manifest can not be found in the package.</Source>
+        <Translation>Methu dod o hyd i'r ffeil, {0}, y cyfeirir ati gan elfen y lleoliad y tu mewn i'r metadata yn y maniffest, yn y pecyn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrMultiLRNotSupported</ID>
+        <Source>The package is a multiple learning resource package, which is not supported.</Source>
+        <Translation>Mae'r pecyn yn becyn adnodd dysgu lluosog, na chaiff ei gefnogi.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrChildInLrmNamespaceNotFoundTryOther</ID>
+        <Source>The node &lt;{0}&gt; can not be found in the correct namespace  An attempt will be made to find a child node with that name in other namespaces. Extra information:{1}</Source>
+        <Translation>Methu dod o hyd i'r nod &lt;{0}&gt; yn y namespace cywir. Caiff cais ei wneud i ddod o hyd i epil-nod o'r un enw mewn namespaces eraill. Gwybodaeth ychwanegol:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRollupAction</ID>
+        <Source>The &lt;rollupAction&gt; node can only appear once in the &lt;rollupRule&gt;node.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
+        <Translation>Mae'r nod &lt;rollupAction&gt; ar goll ar&lt;rollupRule&gt;. Gweler SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ValueIncorrectType</ID>
+        <Source>The value is not the expected type.</Source>
+        <Translation>Nid yw'r gwerth o'r math a ddisgwylir.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrNodeValueException</ID>
+        <Source>The value of the &lt;{0}&gt; element is missing or erroneous.</Source>
+        <Translation>Mae gwerth yr elfen &lt;{0}&gt; ar goll neu'n wallus.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrPageNodeSkipped</ID>
+        <Source>The value of the PageID attribute of the {0} element is invalid. The element has been omitted from the conversion.</Source>
+        <Translation>Mae gwerth priodoledd PageID o'r elfen {0} yn annilys. Mae'r elfen wedi'i hepgor o'r trosiad.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidFileType</ID>
+        <Source>The file {0} is not a valid file type.</Source>
+        <Translation>Nid yw'r ffeil {0} yn fath o ffeil ddilys.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidNode</ID>
+        <Source>An element, &lt;{0}&gt;, is invalid because it is illegal or has illegal attribute values. Extra information: {1}</Source>
+        <Translation>Mae elfen, &lt;{0}&gt;, yn annilys am ei bod yn annilys neu fod ganddi werthoedd priodoledd anghyfreithlon. Gwybodaeth ychwanegol: {1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ConvertedUriReplacement</ID>
+        <Source>The "{0}" portion of attribute, {1}, on element &lt;{2}&gt; contains invalid URI characters.  These have been converted into valid characters automatically.  The new value is "{3}".  Extra information: {4}.</Source>
+        <Translation>Mae rhan "{0}" o briodoledd, {1}, ar elfen &lt;{2}&gt; yn cynnwys nodau URI annilys. Mae'r rhain wedi'u trosi'n nodau dilys yn awtomatig. Y gwerth newydd yw "{3}". Gwybodaeth ychwanegol: {4}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ItemTitleMissing</ID>
+        <Source>The &lt;title&gt; node is required on the {0} node in Content Aggregation manifests.  See SCORM 1.3 CAM 3.4.1.10, or SCORM 1.2 CAM 2.3.5.3.1.2.1.</Source>
+        <Translation>Mae angen y nod &lt;title&gt; ar y nod {0} mewn maniffestau Cydgasglu Cynnwys. Gweler SCORM 1.3 CAM 3.4.1.10, neu SCORM 1.2 CAM 2.3.5.3.1.2.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrRemoteContentNotSupported</ID>
+        <Source>Remote content is not supported.</Source>
+        <Translation>Ni chefnogir cynnwys o bell.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrLicensedContentNotSupported</ID>
+        <Source>This learning resource requires a license and licensed Learning Resources are not supported.</Source>
+        <Translation>Mae'r adnodd dysgu hwn yn gofyn am drwydded ac ni chefnogir Adnoddau Dysgu trwyddedig.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PrerequisitesTypeWrong</ID>
+        <Source>The value of the &lt;prerequisites&gt; type attribute must be "aicc_script".</Source>
+        <Translation>Rhaid i werth y math o briodoledd &lt;rhagofynion&gt; fod yn "aicc_script".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrDefaultValueUsed</ID>
+        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element.</Source>
+        <Translation>Mae gwerth rhagosodedig "{0}" wedi'i ddefnyddio yn lle'r gwerth sydd ar goll neu'n wallus ar gyfer elfen &lt;{1}&gt;.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeLengthException</ID>
+        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long for the "{2}" attribute.</Source>
+        <Translation>Mae gan y nod &lt;{0}&gt; werth sy'n dechrau gyda "{1}" sy'n rhy hir ar gyfer y briodoledd "{2}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ItemIdentifierMissing</ID>
+        <Source>The &lt;item&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.9, or SCORM 1.2 CAM 2.3.5.3.1.2.</Source>
+        <Translation>Rhaid i'r nod &lt;item&gt; feddu ar briodoledd dangosydd. Gweler SCORM 1.3 CAM 3.4.1.9, neu SCORM 1.2 CAM 2.3.5.3.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationActivityMissing</ID>
+        <Source>An Activity node is required for content used in Microsoft Learning Components.</Source>
+        <Translation>Mae angen nod Gweithgaredd ar gyfer cynnwys a ddefnyddir mewn Cydrannau Dysgu Microsoft.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SpmNodeViolation</ID>
+        <Source>The value that begins with "{0}" of the node, &lt;{1}&gt;, is longer than the smallest permitted maximum (SPM), {2}.</Source>
+        <Translation>Mae'r gwerth sy'n dechrau gyda "{0}" o'r nod, &lt;{1}&gt;, yn hirach na'r lleiafswm a ganiateir (SPM), {2}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadAttributeValue</ID>
+        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  Extra information: {3}</Source>
+        <Translation>Mae gwerth "{0}" o briodoledd, {1}, ar elfen &lt;{2}&gt;, yn werth annilys. Gwybodaeth ychwanegol: {3}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadAttributeValueReplacement</ID>
+        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  It has been replaced by the default value "{3}".  Extra information: {4}</Source>
+        <Translation>Mae gwerth "{0}" o briodoledd, {1}, ar elfen &lt;{2}&gt;, yn werth annilys. Mae wedi'i ddisodli gan y gwerth rhagosodedig "{3}". Gwybodaeth ychwanegol: {4}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolation</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by Microsoft Learning Components.  Extra information: {2}</Source>
+        <Translation>Mae'r gwerth sy'n dechrau gyda "{0}" o'r briodoledd, {1}, yn hirach na'r hyn a gefnogir ar gyfer cynnwys a ddefnyddir gan Gydrannau Dysgu Microsoft. Gwybodaeth ychwanegol: {2}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ManifestNodeMissing</ID>
+        <Source>A &lt;manifest&gt; node in the correct namespace is required.</Source>
+        <Translation>Mae angen nod &lt;manifest&gt; yn y namespace cywir.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ManifestMissing</ID>
+        <Source>A manifest is required and is not present in the package.</Source>
+        <Translation>Mae angen maniffest ond nid yw'n bresennol yn y pecyn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrPageIdDuplicate</ID>
+        <Source>The value of the PageID attribute, {0}, on a &lt;Page&gt; element is used more than once.  PageID's must be unique for each &lt;Page&gt; element.</Source>
+        <Translation>Defnyddir gwerth y briodoledd PageID, {0}, ar elfen &lt;Page&gt; fwy nag unwaith. Rhaid i PageID fod yn unigryw ar gyfer elfen pob &lt;Page&gt;.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceIdentifierMissing</ID>
+        <Source>The &lt;resource&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.21, or SCORM 1.2 CAM 2.3.5.4.1.</Source>
+        <Translation>Rhaid i'r nod &lt;resource&gt; feddu ar briodoledd dangosydd. Gweler SCORM 1.3 CAM 3.4.1.21, neu SCORM 1.2 CAM 2.3.5.4.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeLengthViolation</ID>
+        <Source>The node &lt;{0}&gt; has a value that is too long for the "{1}" attribute.  It has been truncated to "{2}".</Source>
+        <Translation>Mae gan y nod &lt;{0}&gt; werth sy'n rhy hir ar gyfer y briodoledd "{1}". Mae wedi'i gwtogi i "{2}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>EmptyString</ID>
+        <Source>(empty string)</Source>
+        <Translation>(llinyn gwag)</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidTrueValuesInMapInfo</ID>
+        <Source>In multiple &lt;mapInfo&gt; nodes, true values are restricted.  See SCORM 1.3 CAM 5.1.7.1.2.</Source>
+        <Translation>Mewn nodau &lt;mapInfo&gt; lluosog, cyfyngir ar wir werthoedd. Gweler SCORM 1.3 CAM 5.1.7.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ReferenceNotFound</ID>
+        <Source>The referenced node can not be found.</Source>
+        <Translation>Methu dod o hyd i'r nod y cyfeirir ato.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IllegalNegativeInteger</ID>
+        <Source>The value must be 0 or a positive integer.</Source>
+        <Translation>Rhaid i'r gwerth fod yn 0 neu'n gyfanrif positif.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ActivityResourceBadAttribute</ID>
+        <Source>A resource that belongs to an activity must have a type attribute set to "webcontent", an adlcp:scormType attribute set to "sco" or "asset", and a valid href attribute.  {0}</Source>
+        <Translation>Rhaid i adnodd sy'n perthyn i weithgaredd feddu ar fath o briodoledd wedi'i phennu i "webcontent", priodoledd adlcp:scormType wedi'i phennu i "sco" neu "asset", a phriodoledd href ddilys. {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceNotAllowedOnActivity</ID>
+        <Source>If an &lt;item&gt; element is a parent element, the &lt;item&gt; may not reference a &lt;resource&gt;.  See SCORM 1.3 CAM 3.4.1.9.  The full XML of the node is: {0}</Source>
+        <Translation>Os yw elfen &lt;item&gt; yn rhiant-elfen, ni all yr &lt;item&gt; gyfeirio at &lt;resource&gt;. Gweler SCORM 1.3 CAM 3.4.1.9. XML llawn y nod yw: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupConditionConditionMissing</ID>
+        <Source>The &lt;rollupCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.6.1.2.</Source>
+        <Translation>Rhaid i'r nod &lt;rollupCondition&gt; feddu ar briodoledd cyflwr. Gweler SCORM 1.3 CAM 5.1.6.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRuleConditions</ID>
+        <Source>The &lt;ruleConditions&gt; node can only appear once in the &lt;{0}&gt; node.  See SCORM 1.3 CAM 5.1.3.1.1.</Source>
+        <Translation>Dim ond unwaith y gall y nod &lt;ruleConditions&gt; ymddangos yn y nod &lt;{0}&gt;. Gweler SCORM 1.3 CAM 5.1.3.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PrimaryObjectiveMissingOrDuplicate</ID>
+        <Source>In a list of &lt;objectives&gt;, there must be one and only one &lt;primaryObjective&gt; node.</Source>
+        <Translation>Ar restr o &lt;objectives&gt;, rhaid i un nod &lt;primaryObjective&gt; fod yn bresennol ac un yn unig.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidDuplicateNodesIgnored</ID>
+        <Source>There are multiple instances of element, &lt;{0}&gt;. All but the first are ignored. Extra information:{1}</Source>
+        <Translation>Mae achosion lluosog o'r elfen, &lt;{0}&gt;. Anwybyddir pob un ond yr un gyntaf. Gwybodaeth ychwanegol: {1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdentifier</ID>
+        <Source>The identifier is not a valid xs:ID.</Source>
+        <Translation>Nid yw'r dangosydd yn xs:ID dilys.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateMinNormalizedMeasure</ID>
+        <Source>The &lt;minNormalizedMeasure&gt; node can only appear once in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>Dim ond unwaith y gall y nod &lt;minNormalizedMeasure&gt; ymddangos yn y nod &lt;{0} objectiveID="{1}"&gt;. Gweler SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationOrganizationMissing</ID>
+        <Source>An Organization node is required for content used in Microsoft Learning Components.</Source>
+        <Translation>Mae angen nod sefydliad ar gyfer cynnwys a ddefnyddir mewn Cydrannau Dysgu Microsoft.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IdenticalKeyValues</ID>
+        <Source>The duplicate nodes share the same {0} value, "{1}".  The values must be different.</Source>
+        <Translation>Mae'r nodau dyblyg yn rhannu'r un gwerth {0}, "{1}". Rhaid i'r gwerthoedd fod yn wahanol.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PackageCouldNotBeOpened</ID>
+        <Source>This package could not be opened. More information: {0}</Source>
+        <Translation>Nid oedd modd agor y pecyn hwn. Rhagor o wybodaeth: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadXmlInManifest</ID>
+        <Source>The package contains a manifest that contains badly formed XML.</Source>
+        <Translation>Mae’r pecyn yn cynnwys maniffest sy'n cynnwys XML wedi'i ffurfio'n wael.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ObjectiveIdMissing</ID>
+        <Source>The objective must have an objectiveID attribute.  Extra information: {0}</Source>
+        <Translation>Rhaid i amcan feddu ar briodoledd objectiveID. Gwybodaeth ychwanegol: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationTruncated</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by for content used in Microsoft Learning Components.  It has been truncated to {2} characters.  Extra information: {3}</Source>
+        <Translation>Mae'r gwerth sy'n dechrau gyda "{0}" o'r briodoledd, {1}, yn hirach na'r hyn a gefnogir ar gyfer cynnwys a ddefnyddir mewn Cydrannau Dysgu Microsoft. Mae wedi'i gwtogi i {2} o nodau. Gwybodaeth ychwanegol: {3}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PrerequisitesScriptInvalid</ID>
+        <Source>There are problems with the syntax of the prerequisite script, or a referenced identifier can not be found in the manifest.</Source>
+        <Translation>Mae problemau gyda chystrawen y sgript ragofynnol, neu ni ellir dod o hyd i'r dangosydd y cyfeirir ato yn y maniffest.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OrganizationIdentifierMissing</ID>
+        <Source>The &lt;organization&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.7, or SCORM 1.2 CAM 2.3.5.3.1.</Source>
+        <Translation>Rhaid i'r nod &lt;organization&gt; feddu ar briodoledd dangosydd. Gweler SCORM 1.3 CAM 3.4.1.7, neu SCORM 1.2 CAM 2.3.5.3.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MetadataLocationBadXml</ID>
+        <Source>The file, {0}, referenced by the location element inside of metadata in the manifest contains invalid metadata.</Source>
+        <Translation>Mae'r ffeil, {0}, y cyfeirir ati gan elfen y lleoliad y tu mewn i'r metadata yn y maniffest yn cynnwys data metadata annilys.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MinNormalizedMeasureOutOfRange</ID>
+        <Source>The value is out of range [-1 to 1] on the &lt;minNormalizedMeasure&gt; node in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>Mae'r gwerth y tu allan i'r amrediad [-1 i 1] ar y nod &lt;minNormalizedMeasure&gt; yn y nod &lt;{0} objectiveID="{1}"&gt;. Gweler SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupActionMissing</ID>
+        <Source>The &lt;rollupAction&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
+        <Translation>Mae'r nod &lt;rollupAction&gt; ar goll ar &lt;rollupRule&gt;. Gweler SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingIdMissing</ID>
+        <Source>The &lt;sequencing&gt; node in a &lt;sequencingCollection&gt; must have an ID attribute.  See SCORM 1.3 CAM 5.1.1.</Source>
+        <Translation>Rhaid i'r nod &lt;sequencing&gt; mewn &lt;sequencingCollection&gt; feddu ar briodoledd ID. Gweler SCORM 1.3 CAM 5.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrFixLmsViolationsNotSet</ID>
+        <Source>Unable to substitute a default value for the missing value of node &lt;{0}&gt; because the conversion process is not allowed to substitute default values for missing or erroneous values in the index.xml.</Source>
+        <Translation>Methu ag amnewid gwerth rhagosodedig ar gyfer gwerth y nod &lt;{0}&gt; sydd ar goll am na chaniateir i'r broses drosi amnewid gwerthoedd rhagosodedig ar gyfer gwerthoedd sydd ar goll neu'n wallus yn y fynegai.xml.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SpmViolation</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than the smallest permitted maximum (SPM), {2}.  Extra information: {3}</Source>
+        <Translation>Mae'r gwerth sy'n dechrau gyda "{0}" o'r briodoledd, {1}, yn hirach na'r lleiafswm a ganiateir (SPM), {2}. Gwybodaeth ychwanegol: {3} </Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequiredElementMissingDefault</ID>
+        <Source>The required element, &lt;{0}&gt;, is missing.  Default values will be used. Extra information:{1}</Source>
+        <Translation>Mae'r elfen ofynnol, &lt;{0}&gt;, ar goll. Defnyddir gwerthoedd rhagosodedig. Gwybodaeth ychwanegol:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileMissing</ID>
+        <Source>The file {0} does not exist.</Source>
+        <Translation>Nid yw’r ffeil {0} yn bodoli.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IllegalAttributeInResourcePackage</ID>
+        <Source>The attribute, {1}, containing the value "{0}" on node &lt;{2}&gt; is illegal in Resource packages.</Source>
+        <Translation>Mae'r briodoledd, {1}, sy'n cynnwys y gwerth "{0}" ar nod &lt;{2}&gt; yn anghyfreithlon mewn pecynnau Adnoddau.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IllegalPercentage</ID>
+        <Source>The value must be a decimal value from 0 to 1, inclusive.</Source>
+        <Translation>Rhaid i'r gwerth fod yn werth degol o 0 i 1, yn gynwysedig.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupConditionsMissing</ID>
+        <Source>The &lt;rollupConditions&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
+        <Translation>Mae'r nod &lt;rollupConditions&gt; ar goll ar &lt;rollupRule&gt;. Gweler SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingCollectionInResource</ID>
+        <Source>&lt;sequencingCollection&gt; nodes are not permitted in resource packages. This manifest is considered a resource package because it has no &lt;organization&gt; nodes.  See SCORM CAM 3.5.3.</Source>
+        <Translation>Ni chaniateir nodau &lt;sequencingCollection&gt; mewn pecynnau adnoddau. Ystyrir y maniffest hwn yn becyn adnodd am nad oes ganddo nodau &lt;organization&gt;. Gweler SCORM CAM 3.5.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileHrefMissing</ID>
+        <Source>The &lt;file&gt; node must have an href attribute.  See SCORM 1.3 CAM 3.4.1.23, or SCORM 1.2 CAM 2.3.5.4.3.</Source>
+        <Translation>Rhaid i'r nod &lt;file&gt; feddu ar briodoledd href. Gweler SCORM 1.3 CAM 3.4.1.23, neu SCORM 1.2 CAM 2.3.5.4.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OrganiztionTitleMissing</ID>
+        <Source>The &lt;title&gt; node is missing on the &lt;organization&gt; node with identifier="{0}".  See SCORM 1.3 CAM 3.4.1.8, or SCORM 1.2 CAM 2.3.5.3.1.1.</Source>
+        <Translation>Mae'r nod &lt;title&gt; ar goll ar y nod &lt;organization&gt; gyda'r dangosydd="{0}". Gweler SCORM 1.3 CAM 3.4.1.8, neu SCORM 1.2 CAM 2.3.5.3.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidDuplicateNodes</ID>
+        <Source>UA !There are multiple instances of element, &lt;{0}&gt;. Extra information:{1}</Source>
+        <Translation>UA !Mae achosion lluosog o'r elfen, &lt;{0}&gt;. Gwybodaeth ychwanegol:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ConvertedUriSpaces</ID>
+        <Source>The "{0}" value of attribute, {1}, on element &lt;{2}&gt; contains spaces, which are invalid URI characters.  This URI is still being allowed, but the package may not work as expected.</Source>
+        <Translation>Mae gwerth "{0}" o briodoledd, {1}, ar elfen &lt;{2}&gt; yn cynnwys lleoedd gwag, sef nodau URI annilys. Mae'r URI hwn wedi'i ganiatáu o hyd, ond efallai na fydd y pecyn yn gweithio yn ôl y disgwyl.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OrphanedFile</ID>
+        <Source>The file {0} is not referenced in the manifest.</Source>
+        <Translation>Ni chyfeirir at y ffeil {0} yn y manifest.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequiredElementMissing</ID>
+        <Source>The required element, &lt;{0}&gt;, is missing. Extra information:{1}</Source>
+        <Translation>Mae'r elfen ofynnol, &lt;{0}&gt;, ar goll. Gwybodaeth ychwanegol: {1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>

@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AttachmentTooLarge" xml:space="preserve">
+    <value>Attachment exceeds maximum size of {0} bytes.</value>
+    <comment>Tried to save an attachment that is too large, based on a MaxAttachmentSize saved as part of the database schema</comment>
+  </data>
+  <data name="AttemptAbandoned" xml:space="preserve">
+    <value>The requested operation cannot be performed because the session has been abandoned.</value>
+    <comment>Cannot perform requested operation because the attempt state is Abandoned</comment>
+  </data>
+  <data name="AttemptComplete" xml:space="preserve">
+    <value>The requested operation cannot be performed because the session has been completed.</value>
+    <comment>Cannot perform requested operation because the attempt state is Completed</comment>
+  </data>
+  <data name="AttemptHasNotEnded" xml:space="preserve">
+    <value>The requested operation cannot be performed because the session is not complete.</value>
+    <comment>Cannot perform requested operation because the attempt state is not Abandoned or Completed</comment>
+  </data>
+  <data name="GlobalObjectiveDatabaseStateNotValid" xml:space="preserve">
+    <value>Global Objective database contains non-unique entries.</value>
+    <comment>Should never happen, implies the application is mucking with the global objectives outside of the context of an Attempt.</comment>
+  </data>
+  <data name="InvalidActivity" xml:space="preserve">
+    <value>The requested activity cannot be found within the session.</value>
+    <comment>Activity was not found within the context of this activity tree/attempt.</comment>
+  </data>
+  <data name="InvalidAttemptId" xml:space="preserve">
+    <value>The attempt could not be accessed. You may not have access to it, the attempt may have been deleted or does not exist.</value>
+    <comment>Thrown when the database is first read if the attempt ID given to the navigator object does not exist in the database.</comment>
+  </data>
+  <data name="InvalidLearnerId" xml:space="preserve">
+    <value>The LearnerId could not be accessed. Either it does not exist or you do not have permission to access it.</value>
+    <comment>This means the LearnerId does not exist in LearningStore</comment>
+  </data>
+  <data name="InvalidRootActivityId" xml:space="preserve">
+    <value>The root activity id could not be accessed. Either it does not exist or you do not have permission to access it.</value>
+    <comment>This means the ActivityPackageId did exist, but was not a root activity.</comment>
+  </data>
+  <data name="NoCurrentActivity" xml:space="preserve">
+    <value>A current activity is required for this operation.</value>
+    <comment>Thrown if someone calls ProcessDataModelNavigation and there is no current activity.</comment>
+  </data>
+  <data name="SLS_SessionCannotBeActive" xml:space="preserve">
+    <value>This operation cannot be performed on a session with an AttemptStatus of Active.</value>
+  </data>
+  <data name="AutoGradingModeNotBegun" xml:space="preserve">
+    <value>This operation is only valid during auto-grading.</value>
+    <comment>Cannot perform requested operation because the attempt is not in auto-grading mode</comment>
+  </data>
+  <data name="NotAllowedWhileInAutoGradingMode" xml:space="preserve">
+    <value>This operation cannot be performed during the auto-grading process.</value>
+    <comment>Thrown during any number of calls while in auto-grading mode.</comment>
+  </data>
+  <data name="NotAllowedInReviewMode" xml:space="preserve">
+    <value>This operation cannot be performed in Review view.</value>
+    <comment>The requested operation cannot be performed in reviewmode.  Currently this only applies to Reactivate, but could apply to other things.</comment>
+  </data>
+  <data name="NotAllowedInExecuteMode" xml:space="preserve">
+    <value>This operation cannot be performed in Execute view.</value>
+    <comment>The requested operation cannot be performed in execute mode.  Currently this only applies to Reactivate, but could apply to other things.</comment>
+  </data>
+</root>

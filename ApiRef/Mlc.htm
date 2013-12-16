@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>
+	Microsoft Learning Components
+</title>
+
+<link rel="stylesheet" href="Doc.css" />
+
+<style type="text/css">
+TABLE.OverviewTable
+{
+	width: auto;
+	/*margin-left: 12pt;*/
+}
+TABLE.OverviewTable UL
+{
+	margin-left: 14pt;
+}
+TABLE.OverviewTable TD
+{
+	padding-right: 8pt;
+}
+TABLE.OverviewTable UL
+{
+	margin-top: 0pt;
+	margin-bottom: 0pt;
+}
+TABLE.OverviewTable LI
+{
+	margin-top: 0pt;
+	margin-bottom: 4pt;
+}
+OL.CompactList LI, UL.CompactList LI
+{
+	margin-top: 0pt;
+	margin-bottom: 0pt;
+}
+</style>
+
+</head>
+
+<body id="DocTopic">
+
+<div class="TopicHeader">
+	<div class="Supertitle_">
+		SLK/MLC SDK Documentation
+	</div>
+	Microsoft Learning Components
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="Summary">
+
+<p>Microsoft Learning Components (MLC) is a collection of software components that a Windows
+desktop- or server-based application can use to provide support for playback of e-learning content.
+MLC supports the industry-standard
+<a target="_blank" href="http://www.adlnet.gov/scorm">Sharable Content Object Reference Model</a>
+(SCORM) e-learning package format as well as the Microsoft Class Server LRM and IMS+ formats.</p>
+
+<p>One application built on MLC is <a href="default.htm">SharePoint Learning Kit</a> (SLK).
+SLK is a SharePoint 3.0 solution which implements an e-learning runtime for SCORM and Class Server
+content stored in SharPoint document libraries.</p>
+
+<p>The SLK/MLC software development kit (SDK) contains programming resources required to develop
+both SLK extensions and MLC applications.  For MLC development, the SLK/MLC SDK includes:</p>
+
+<ul class="CompactList">
+	<li>redistributable MLC assemblies (DLLs);</li>
+	<li>tools (such as the MLC LearningStore schema compiler);</li>
+	<li>sample code;</li>
+	<li>SDK documentation&mdash;--which you're now reading.</li>
+</ul>
+
+<p>This page begins the MLC overview documentation.  If you'd like to read this documentation in
+order, look for the "Next Topic" link at the bottom of this and subsequent pages.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">MLC Redistributable Components</div>
+<div class="Section">
+
+<p>Microsoft Learning Components includes several .NET assemblies, described below, as well as
+ASP.NET application code (the <a href="MlcFrameset.htm">session frameset</a>) which you may
+redistribute with your application provided that you comply with the terms of the SharePoint
+Learning Kit license (see License.txt in the SLK/MLC SDK).  Your application will typically
+install these assemblies either in the global assembly cache or in your application's "bin"
+directory.  The session frameset, on the other hand, is intended as "reusable code": you'll
+likely modify at least portions of it to suit the needs of your application.</p>
+
+<p>Since applications that leverage Microsoft Learning Components may be web-based, desktop, or
+console applications, functionality within MLC has been organized into assemblies with the goal of
+maximizing deployment flexibility.  For example, if your application only needs to validate an
+e-learning package, it need not include Microsoft.LearningComponents.Storage.dll (which has a
+dependency on SQL Server) or Microsoft.LearningComponents.SharePoint.dll (which has a dependency
+on SharePoint.</p>
+
+<p>The following diagram shows examples of three applications that leverage MLC.  The first
+depends only on Microsoft.LearningComponents.dll (like the example above), which provides basic
+support for reading and validating e-learning packages.  The second application
+also leverages Microsoft.LearningComponents.Storage.dll, which adds the ability to execute
+e-learning packages, with the results stored in a database.  The third application adds a
+dependency on Microsoft.LearningComponents.SharePoint.dll, which adds support for executing
+packages stored in SharePoint document libraries.  <a href="default.htm">SharePoint Learning
+Kit</a> is an example of the third type of application.</p>
+
+<p><img src="ThreeApps.gif" alt="" border="" galleryimg="no" /></p>
+
+<p>The following table provides an overview of the three public MLC assemblies plus the session
+frameset.</p>
+
+<table class="Grid OverviewTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<col class="Column3_" />
+	<tr class="Header_">
+		<td class="Header1_">Component</td>
+		<td class="Header2_">Features/Classes</td>
+		<td class="Header3_">Minimum Requirements</td>
+	</tr>
+	<tr>
+		<td>
+			<b>Microsoft.<u>LearningComponents</u>.dll</b>
+		</td>
+		<td>
+			<ul>
+				<li><a href="MlcPackages.htm#PackageReaders">Accessing E-Learning Packages</a>
+					<ul class="CompactList">
+						<li>PackageReader base class **</li>
+						<li>FileSystemPackageReader</li>
+						<li>ZipPackageReader</li>
+						<li>LrmPackageReader</li>
+						<li>ManifestReader</li>
+					</ul>
+				</li>
+				<li><a href="MlcPackages.htm#PackageValidator">Validating E-Learning Packages</a>
+					<ul class="CompactList">
+						<li>PackageValidator</li>
+					</ul>
+				</li>
+			</ul>
+		</td>
+		<td>
+			Windows XP
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<b>Microsoft.LearningComponents.<u>Storage</u>.dll</b>
+		</td>
+		<td>
+			<ul>
+				<li><a href="MlcLearningStore.htm">Accessing MLC Databases</a>
+					<ul class="CompactList">
+						<li>LearningStore</li>
+					</ul>
+				</li>
+				<li><a href="MlcPackageStores.htm">Registering E-Learning Packages</a>
+					<ul class="CompactList">
+						<li>PackageStore base class **</li>
+						<li>FileSystemPackageStore</li>
+					</ul>
+				</li>
+				<li><a href="MlcSessions.htm#StoredLearningSession">Executing E-Learning Packages</a>
+					<ul class="CompactList">
+						<li>StoredLearningSession</li>
+					</ul>
+				</li>
+			</ul>
+		</td>
+		<td>
+			Windows XP<br/>
+			SQL Server 2005
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<b>Microsoft.LearningComponents.<u>SharePoint</u>.dll</b>
+		</td>
+		<td>
+			<ul>
+				<li><a href="MlcPackages.htm#PackageReaders">Accessing E-Learning Packages</a>
+					<ul class="CompactList">
+						<li>SharePointPackageReader</li>
+					</ul>
+				</li>
+				<li><a href="MlcPackageStores.htm#SharePointPackageStore">Registering E-Learning Packages</a>
+					<ul class="CompactList">
+						<li>SharePointPackageStore</li>
+					</ul>
+				</li>
+			</ul>
+		</td>
+		<td>
+			Windows XP<br/>
+			SQL Server 2005<br/>
+			Windows SharePoint Services 3.0
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<b>Session Frameset</b>
+		</td>
+		<td>
+			<ul>
+				<li><a href="MlcFrameset.htm">ASP.NET E-Learning Package Runtime User Interface</a></li>
+			</ul>
+		</td>
+		<td>
+			Windows XP<br/>
+		</td>
+	</tr>
+</table>
+
+<p>** Applications may derive from these base classes to create custom implementations that can
+interoprate with other MLC classes.</p>
+
+<p><b>Note</b>&nbsp; MLC includes a fourth assembly,
+<b>Microsoft.LearningComponents.<u>Compression</u>.dll</b>, which is for internal use by MLC and
+should not be accessed directly by applications.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">MLC Namespaces</div>
+<div class="Section">
+
+<p>The following table shows how MLC functionality is divided among the namespaces implemented
+in its managed-code assemblies.  Click on a feature hyperlink (right column) for overview
+information; click on a namespace hyperlink (left column) for detailed API reference
+documentation.</p>
+
+<table class="Grid OverviewTable">
+	<col class="Column1_" />
+	<col class="Column2_" />
+	<tr class="Header_">
+		<td class="Header1_">Namespace</td>
+		<td class="Header2_">Features</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.Namespace.htm">Microsoft.LearningComponents</a></td>
+		<td>
+			<ul>
+				<li><a href="MlcPackages.htm">Unpackaging, parsing and validating e-learning
+					packages</a></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.DataModel.Namespace.htm">Microsoft.LearningComponents.DataModel</a></td>
+		<td>
+			<ul>
+				<li><a href="MlcDataModel.htm">SCORM data model access</a></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.Manifest.Namespace.htm">Microsoft.LearningComponents.Manifest</a></td>
+		<td>
+			<ul>
+				<li><a href="MlcPackages.htm">Parsing e-learning package manifests</a></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.SharePoint.Namespace.htm">Microsoft.LearningComponents.SharePoint</a></td>
+		<td>
+			<ul>
+				<li><a href="MlcPackages.htm">Retrieving information from packages stored in SharePoint document libraries</a></li>
+				<li><a href="MlcPackageStores.htm">Registering e-learning packages stored in SharePoint document libraries into LearningStore</a></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td><a href="Microsoft.LearningComponents.Storage.Namespace.htm">Microsoft.LearningComponents.Storage</a></td>
+		<td>
+			<ul>
+				<li><a href="MlcPackageStore.htm">Registering e-learning packages stored in the file system into LearningStore</a></li>
+				<li><a href="MlcLearningStore.htm">Executing registered e-learning packages</a></li>
+				<li><a href="MlcLearningStore.htm">Accessing the MLC database</a></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>Microsoft.LearningComponents.Storage.BaseSchema</td>
+		<td>
+			<ul>
+				<li><a href="MlcLearningStore.htm">Contains string constants used when accessing the MLC base schema common to all MLC-based applications</a></li>
+				<li>Contains documentation for the MLC base schema</li>
+				<li>See also: <a href="SlkSchema.htm">SLK+MLC Schema Overview</a></li>
+				<li>See also: <a href="Microsoft.SharePointLearningKit.Schema.Namespace.htm">SLK+MLC Schema Reference</a></li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">For More Information</div>
+<div class="Section">
+
+<div><a href="Microsoft.LearningComponents.Namespace.htm">Microsoft.LearningComponents Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.DataModel.Namespace.htm">Microsoft.LearningComponents.DataModel Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.Manifest.Namespace.htm">Microsoft.LearningComponents.Manifest Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.SharePoint.Namespace.htm">Microsoft.LearningComponents.SharePoint Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.Storage.Namespace.htm">Microsoft.LearningComponents.Storage Namespace (API Reference)</a></div>
+<div><a href="SlkSchema.htm">SLK+MLC Schema Overview</a></div>
+<div><a href="Microsoft.SharePointLearningKit.Schema.Namespace.htm">SLK+MLC Schema Reference</a></div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader"></div>
+<div class="Section">
+<b><a href="MlcPackages.htm">Next Topic: E-Learning Packages</a></b>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="TopicFooter">
+</div>
+
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div>
+
+</body>
+
+</html>
+

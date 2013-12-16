@@ -1,0 +1,46 @@
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+
+    <Field Type="Text" 
+            DisplayName="$Resources:SLK,CacheDirectoryFieldName" 
+            ID="{a76de874-b256-4fd6-8933-813aa8587163}" 
+            Name="CacheDirectory" 
+            Description="$Resources:SLK,CacheDirectoryFieldDescription" 
+            Group="$Resources:SLK,ContentTypesGroup"
+            Hidden="TRUE"
+            />
+
+    
+    <ContentType ID="0x010100CF3A5A3D3C324CF5876663C33D4EE8AA" Name="$Resources:SLK,BaseContentTypeName" Group="$Resources:SLK,ContentTypesGroup" Description="$Resources:SLK,BaseContentTypeDescription" >
+        <FieldRefs>
+        </FieldRefs>
+    </ContentType>
+
+    <ContentType ID="0x010100CF3A5A3D3C324CF5876663C33D4EE8AA01" Name="$Resources:SLK,AssignmentContentTypeName" Group="$Resources:SLK,ContentTypesGroup" Description="$Resources:SLK,AssignmentContentTypeDescription" >
+        <FieldRefs>
+        </FieldRefs>
+    </ContentType>
+
+    <ContentType ID="0x010100CF3A5A3D3C324CF5876663C33D4EE8AA0101" Name="$Resources:SLK,AssignmentPermanentCacheContentTypeName" Group="$Resources:SLK,ContentTypesGroup" Description="$Resources:SLK,AssignmentPermanentCacheContentTypeDescription" >
+        <FieldRefs>
+            <FieldRef ID="{a76de874-b256-4fd6-8933-813aa8587163}" Name="CacheDirectory"/>
+        </FieldRefs>
+    </ContentType>
+
+    <CustomAction Id="{f2b73c73-6504-446f-a07e-4d786fe25efd}"
+                       Title="$Resources:SLK,AssignmentActionTitle"
+                       Location="EditControlBlock"
+                       ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+                       RegistrationType="ContentType"
+                       RegistrationId="0x010100CF3A5A3D3C324CF5876663C33D4EE8AA01">
+		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?ListId={ListId}&amp;ItemId={ItemId}"/>
+    </CustomAction>
+    <CustomAction Id="{1d6b2e75-acf9-4247-80b9-b5d3b4a6ad9e}"
+                       Title="$Resources:SLK,AssignmentActionTitle"
+                       Location="DisplayFormToolbar"
+                       ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+                       RegistrationType="ContentType"
+                       RegistrationId="0x010100CF3A5A3D3C324CF5876663C33D4EE8AA01">
+		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?ListId={ListId}&amp;ItemId={ItemId}"/>
+    </CustomAction>
+
+</Elements>

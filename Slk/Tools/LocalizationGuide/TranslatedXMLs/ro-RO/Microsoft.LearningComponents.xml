@@ -1,0 +1,1502 @@
+﻿<root>
+  <assembly culture="ro" name="Microsoft.LearningComponents.resources" version="1.3.1.0" />
+  <resources name="Microsoft.LearningComponents.Properties.AIResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.AIResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CorrectAnswerSeparatorHtml</ID>
+        <Source> or </Source>
+        <Translation>sau</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentNotSelectedHtml</ID>
+        <Source>Not selected</Source>
+        <Translation>Neselectat</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ChooseFileToAttachHtml</ID>
+        <Source>Choose a file to attach:</Source>
+        <Translation>Alegeţi un fişier de ataşat:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MissingFormField</ID>
+        <Source>The form field, {0}, is missing.</Source>
+        <Translation>Câmpul formă, {0}, lipseşte.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedCorrectHtml</ID>
+        <Source>Correct answer</Source>
+        <Translation>Răspuns corect</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileNotFound</ID>
+        <Source>A requested file could not be found.</Source>
+        <Translation>Un fişier solicitat nu a putut fi găsit.</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NoFileAttachedHtml</ID>
+        <Source>No file attached.</Source>
+        <Translation>Niciun fişier ataşat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IncorrectAnswerHtml</ID>
+        <Source>Incorrect answer</Source>
+        <Translation>Răspuns incorect</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedIncorrectHtml</ID>
+        <Source>Incorrect answer</Source>
+        <Translation>Răspuns incorect</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DetachFileHtml</ID>
+        <Source>Detach File</Source>
+        <Translation>Detaşează fişierul</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileAttachmentNotFound</ID>
+        <Source>A requested file attachment could not be found.</Source>
+        <Translation>Un ataşament de fişier solicitat nu a a putut fi găsit.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ViewFileHtml</ID>
+        <Source>View File</Source>
+        <Translation>Vizualizare fişier</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BrowseHtml</ID>
+        <Source>Browse...</Source>
+        <Translation>Răsfoire...</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidType</ID>
+        <Source>The type attribute has an invalid value in the assessment markup: {0}</Source>
+        <Translation>Atributul de tip are o valoare invalidă în evaluarea markup: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InstructorCommentsColonHtml</ID>
+        <Source>Instructor comments:</Source>
+        <Translation>Comentariile instructorului:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>Unanswered</ID>
+        <Source>&lt;Unanswered&gt;</Source>
+        <Translation>&amp;lt;Unanswered&amp;gt;</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InstructorCommentTooLong</ID>
+        <Source>"The text entered is formatted incorrectly or greater than the maximum {0} characters."</Source>
+        <Translation>"Textul introdus este formatat incorect sau mai mare decât maximum de caractere {0}."</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidOptionValue</ID>
+        <Source>The posted &lt;option&gt; value, {0}, is out of range for the &lt;select&gt; tag with name="{1}".</Source>
+        <Translation>Valoarea postată &amp;lt;option&amp;gt; , {0}, este în afara domeniului pentru tagul &amp;lt;select&amp;gt; cu name="{1}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NoScoreHtml</ID>
+        <Source>--</Source>
+        <Translation>--</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CorrectAnswerHtml</ID>
+        <Source>Correct answer</Source>
+        <Translation>Răspuns corect</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ViewTheAttachedFileHtml</ID>
+        <Source>View the attached file.</Source>
+        <Translation>View the attached file.</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidFormFieldValue</ID>
+        <Source>The value, {0}, of the form field, {1}, is invalid.</Source>
+        <Translation>Valorea, {0}, din câmpul formă, {1}, este invalidă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ScoreOutOfRange</ID>
+        <Source>"The score entered is formatted incorrectly or outside the allowable range of -1000 to 1000."</Source>
+        <Translation>"Scorul introdus este incorect formatat sau în afara domeniului permis de la -1000 la 1000."</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CorrectAnswerColonHtml</ID>
+        <Source>Correct answer:</Source>
+        <Translation>Răspuns corect:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedHtml</ID>
+        <Source>Selected</Source>
+        <Translation>Selectat</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentNotSelectedIncorrectHtml</ID>
+        <Source>This is the correct answer but it was not selected</Source>
+        <Translation>Acesta este răspunsul corect dar nu a fost selectat</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>AttachedFileHtml</ID>
+        <Source>There is an attached {0} file.</Source>
+        <Translation>Există un fişier ataşat {0}.</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ReplaceFileHtml</ID>
+        <Source>Replace the attached file with another file:</Source>
+        <Translation>Înlocuiţi fişierul ataşat cu alt fişier:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidId</ID>
+        <Source>The value of the id is invalid in the assessment markup: {0}</Source>
+        <Translation>Valoarea id este invalidă în evaluarea markup: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>DataModelElementTooLong</ID>
+        <Source>Data model element '{0}' was passed a value that exceeded the supported length.</Source>
+        <Translation>În elementul model de date '{0}' a fost trecută o valoare care depăşeşte lungimea admisă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionBadZipFile</ID>
+        <Source>The package compression format is not supported.</Source>
+        <Translation>Formatul de compresie al pachetului nu este suportat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingFlowingTo</ID>
+        <Source>Sequencing is flowing to activity '{0}'.</Source>
+        <Translation>Secvenţierea curge către activitatea '{0}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionNoFile</ID>
+        <Source>The .zip file cannot be found.</Source>
+        <Translation>Fişierul .zip nu poate fi găsit.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_PropertyCannotBeNull</ID>
+        <Source>The value cannot be set to null.</Source>
+        <Translation>Valoarea nu poate fi setată la null.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UTIL_ParamIsEmptyString</ID>
+        <Source>A parameter contains an empty string, which is not allowed. </Source>
+        <Translation>Un parametru conţine un şir gol, care nu este permis. </Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UnauthorizedAccess</ID>
+        <Source>The requested item, {0}, can not be accessed.</Source>
+        <Translation>Item-ul solicitat, {0}, nu poate fi accesat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UniqueIdNotSupported</ID>
+        <Source>No unique identifiers are defined for items in this list.</Source>
+        <Translation>Niciun identificator unic nu este definit pentru obiectele din această listă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__8</ID>
+        <Source>Choice Exit Sequencing Control Mode violation.</Source>
+        <Translation>Modul de control al secvenţierii opţiunii de ieşire este încălcat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__9</ID>
+        <Source>No activities to consider.</Source>
+        <Translation>Nicio activitate de luat în considerare.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__2</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>O activitate curentă nu este definită. Sesiunea de secvenţiere nu a început.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__3</ID>
+        <Source>A suspended activity is not defined.</Source>
+        <Translation>O activitate suspendată nu este definită.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__1</ID>
+        <Source>A current activity is already defined. The sequencing session has already begun.</Source>
+        <Translation>O activitate curentă este deja definită. Sesiunea de secvenţiere a început deja.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__6</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Nicio activitate nu este "precedentă" pentru rădăcină.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__7</ID>
+        <Source>Unsupported navigation request.</Source>
+        <Translation>Cerere de navigare nesuportată.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__4</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Modul de control al secventierii fluxului este Încălcat</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__5</ID>
+        <Source>Flow or Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Modul de control al secvenţierii Flux sau Forward este încălcat</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupChildMissingPrimaryObjective</ID>
+        <Source>Rollup aborted because child activity '{0}' does not have a primary objective.</Source>
+        <Translation>Agregare nereuşită datorită faptului că activitatea copil '{0}' nu are un obiectiv principal.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestRetryAll</ID>
+        <Source>RetryAll</Source>
+        <Translation>RetryAll</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_2__1</ID>
+        <Source>Identified activity is already active.</Source>
+        <Translation>Activitatea identificată este deja activă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ReadError</ID>
+        <Source>Read error.</Source>
+        <Translation>Eroare de citire.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPreConditionSkipped</ID>
+        <Source>Activity '{0}' skipped because its pre-condition Skip rules evaluated as true.</Source>
+        <Translation>Activitatea '{0}' sărită deoarece pre-condiţia regulei de salt a fost evaluată ca adevărată.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageReaderErrorState</ID>
+        <Source>The ZipPackageReader has encountered an error and cannot continue.</Source>
+        <Translation>ZipPackageReader a întâlnit o eroare şi nu poate continua.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>AlreadyInList</ID>
+        <Source>The item specified is already added to this or another list belonging to this data model.</Source>
+        <Translation>Obiectul specificat este deja adăugat la acesta sau la altă listă aparţinând acestui model de date.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupInitiated</ID>
+        <Source>Rollup initiated for activity '{0}'.</Source>
+        <Translation>Agregare lansată pentru activitatea '{0}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DRLO_CurrentActivityEntryPointIsAbsolute</ID>
+        <Source>The entry point of the current activity is not contained within this package.</Source>
+        <Translation>Punctul de intrare al activităţii curente nu este conţinut în cadrul acestui pachet.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestRetry</ID>
+        <Source>Retry</Source>
+        <Translation>Retry</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>EndOfStream</ID>
+        <Source>End of stream reached.</Source>
+        <Translation>S-a încheiat fluxul de date.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NoIdentifier</ID>
+        <Source>A required identifier was not provided for this element.</Source>
+        <Translation>Nu a fost furnizat un identificator necesar pentru acest element.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestExitAll</ID>
+        <Source>ExitAll</Source>
+        <Translation>ExitAll</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StreamMustReadAndSeek</ID>
+        <Source>Stream must have read and seek capability.</Source>
+        <Translation>Fluxul de date trebuie să aibă capacităţi de citire şi căutare.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>KeyDoesNotMatchItem</ID>
+        <Source>The key specified '{0}' does not match the identifier within the item to be added to the dictionary '{1}'.</Source>
+        <Translation>Cheia specificată '{0}' nu se potriveşte cu identificatorul din cadrul obiectului care va fi adăugat la dicţionar '{1}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleResult</ID>
+        <Source>Sequencing Post Condition rule on activity '{0}' resulted in a {1} request.</Source>
+        <Translation>Regula de post condiţionare a secvenţierii asupra activităţii '{0}' a rezultat în cererea {1}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_StringCannotBeEmpty</ID>
+        <Source>The value cannot be set to an empty or null string.</Source>
+        <Translation>Valoarea nu poate fi setată la un şir gol sau nul.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ReactivateNotValid</ID>
+        <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
+        <Translation>Nu este valabil să reactivezi sesiunea curentă. Numai o sesiune completă sau abandonată poate fi reactivată, şi numai în mod RandomAccess view.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ExitNotValid</ID>
+        <Source>It is not valid to exit the current session. Only a session that has started may be exited, and only in Execute view.</Source>
+        <Translation>Nu este valabil să ieşi din sesiunea curentă. Numai dintr-o sesiune care a fost începută se poate ieşi, şi numai în mod Execute view.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CannotDeletePrimaryObjective</ID>
+        <Source>Cannot remove or replace the primary objective.</Source>
+        <Translation>Nu se poate şterge sau înlocui obiectivul primar.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SLS_CurrentActiveActivityRequired</ID>
+        <Source>A CurrentActivity that is active is required to exist before requesting this operation.</Source>
+        <Translation>O CurrentActivity care este activă este necesar să existe  înainte de a se solicita această operaţie.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CannotChangeId</ID>
+        <Source>Cannot change the identifier if an item in a dictionary.  Try removing the item, changing the identifier, then re-adding it.</Source>
+        <Translation>Nu pot schimba identificatorul dacă un obiect este în dicţionar.  Încercaţi să mutati obiectul, schimbând identificatorul, apoi re-adăugând-ul.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OnlyValidForSCORMV1p3</ID>
+        <Source>The '{0}' data model element is only valid in SCORM 2004 packages.</Source>
+        <Translation>Elementul model de date '{0}' este valid doar în pachetele SCORM 2004.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OnlyValidForSCORMV1p2</ID>
+        <Source>The '{0}' data model element is only valid in SCORM 1.2 packages.</Source>
+        <Translation>Elementul model de date '{0}' este valid doar în pachetele SCORM 1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IndexOutOfRange</ID>
+        <Source>The index is out of range.</Source>
+        <Translation>Indexul este în afara domeniului.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestExitParent</ID>
+        <Source>ExitParent</Source>
+        <Translation>ExitParent</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ResourceNotInPackage</ID>
+        <Source>The current activity in the session defines an entry point that does not exist in the package. The content cannot be read.</Source>
+        <Translation>Activitatea curentă în sesiune defineşte un punct de intrare care nu există în pachet. Conţinutul nu poate fi citit.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>WrongDataModel</ID>
+        <Source>An object created for use by a different data model cannot be added to this data model.</Source>
+        <Translation>Un obiect creat pentru utilizarea de către un model de date diferit  nu poate fi adăugat la acest model de date.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ResumeNotValid</ID>
+        <Source>It is not valid to resume the current session. Only a suspended session may be resumed, and only in Execute view.</Source>
+        <Translation>Nu este valid să reluaţi sesiunea curentă. Numai o sesiune suspendată poate fi reluată, şi numai în mod Execute view.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_SuspendNotValid</ID>
+        <Source>It is not valid to suspend the current session. Only an active session may be suspended, and only in Execute view.</Source>
+        <Translation>Nu este valid să suspenzi sesiunea curentă. Numai o sesiune activă poate fi suspendată, şi numai în mod Execute view.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ImsManifestXmlMissing</ID>
+        <Source>The package is missing the required file, imsmanifest.xml.</Source>
+        <Translation>Pachetului îi lipseşte fişierul solicitat, imsmanifest.xml.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DirectoryNotFound</ID>
+        <Source>The requested directory, {0}, can not be found.</Source>
+        <Translation>Directorul solicitat,{0}, nu poate fi găsit.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ListCannotBeModified</ID>
+        <Source>The list cannot be modified.</Source>
+        <Translation>Lista nu poate fi modificată.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__13</ID>
+        <Source>Undefined navigation request.</Source>
+        <Translation>Cerere de navigare nedefinită.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__12</ID>
+        <Source>The current activty is already terminated.</Source>
+        <Translation>Activitatea curentă este deja terminată.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__11</ID>
+        <Source>Target activity does not exist.</Source>
+        <Translation>Activitatea ţintă nu există.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__10</ID>
+        <Source>Choice Sequencing Control Mode violation.</Source>
+        <Translation>Modul de control al secvenţierii la alegere a fost încălcat</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_RelativePathRequired</ID>
+        <Source>The RenderContext.RelativePath must have a value.</Source>
+        <Translation>The RenderContext.RelativePath trebuie să aibă o valoare.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrmNoManifest</ID>
+        <Source>An error occurred while unbundling the file. The Index.xml or imsmanifest.xml file cannot be found.</Source>
+        <Translation>A apărut o eroare la despachetarea  fişierului. Fişierul Index.xml sau imsmanifest.xml nu poate fi găsit.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NonUniqueId</ID>
+        <Source>An item with the identifier '{0}' already exists in this list.</Source>
+        <Translation>Un obiect cu identificatorul '{0}' există deja în această listă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PackageFileNotFound</ID>
+        <Source>The requested file was not found in the package.</Source>
+        <Translation>Fişierul cerut nu a fost găsit în pachet.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidScormV1p3Value</ID>
+        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 2004 specifications.</Source>
+        <Translation>Elementul modelului de date '{0}'  a trecut printr-o valoare care era în afara domeniului  potrivit specificaţiilor SCORM 2004.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestContinue</ID>
+        <Source>Continue</Source>
+        <Translation>Continue</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrmUnknownFormat</ID>
+        <Source>An error occurred while unbundling the file. Unable to determine the file format.</Source>
+        <Translation>A apărut o eroare la  despachetarea fişierului. Incapabil să determine formatul fişierului.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NavigationFinishedNewActivity</ID>
+        <Source>Navigation resulted in making '{0}' the current active activity.</Source>
+        <Translation>Navigarea a rezultat în a face '{0}' activitatea curentă activă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrmMultiNotSupported</ID>
+        <Source>An error occurred while unbundling the file. A file with multiple Learning Resources is not supported.</Source>
+        <Translation>A apărut o eroare la  despachetarea fişierului. Un fişier cu multiple Learning Resources nu este acceptat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequredObjectiveNotFound</ID>
+        <Source>Sequencing cannot proceed because the required objective '{0}' was not found.</Source>
+        <Translation>Secvenţierea nu poate începe deoarece obiectul cerut '{0}' nu a fost găsit.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidScormV1p2Value</ID>
+        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 1.2 specifications.</Source>
+        <Translation>Elementul modelului de date '{0}' a trecut la o valoare care era în afara domeniului potrivit specificaţiilor SCORM 1.2 .</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CantWriteToDataModel</ID>
+        <Source>This LearningDataModel object may not be written to.</Source>
+        <Translation>În acest obiect LearningDataModel nu se poate scrie.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidExtensionType</ID>
+        <Source>Unsupported type '{0}' added to extension data.</Source>
+        <Translation>Tipul nesuportat '{0}' adăugat la extensia de date.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupSettingNormalizedMeasure</ID>
+        <Source>Rollup setting normalized measure to {0} for activity '{1}'.</Source>
+        <Translation>Agregarea seteaza măsura normalizată la {0} pentru activitatea '{1}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DRLO_InvalidRelativePath</ID>
+        <Source>The relativePath value '{0}' does not represent a valid, package-relative path.</Source>
+        <Translation>Valoarea relativePath '{0}' nu reprezintă o cale validă, relativ la pachet.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PackageDirectoryAlreadyExists</ID>
+        <Source>Cannot copy to '{0}' because a file or directory with the same name already exists. This operation can only copy to a destination that does not yet exist.  It will create the destination directory.</Source>
+        <Translation>Nu poate copia în '{0}' deoarece un fişier sau director cu acelaşi nume există deja. Această operaţie poate doar copia către o destinaţie care nu există încă. Se va crea directorul destinaţie.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NavigationFinishedDone</ID>
+        <Source>Navigation complete.  No current activity.</Source>
+        <Translation>Navigaţie completă.  Nicio activitate curentă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingExitRuleExecuted</ID>
+        <Source>Sequencing Exit rule requires that activity '{0}' terminate.</Source>
+        <Translation>Regula secvenţei de ieşire necesită ca activitatea '{0}' să se termine.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UniqueIdNotFound</ID>
+        <Source>No item with the identifier '{0}' was found in this list.</Source>
+        <Translation>Niciun item cu identificatorul '{0}' nu a fost găsit în această listă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionDefault</ID>
+        <Source>Error code: {0}</Source>
+        <Translation>Eroare de cod: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SLS_CurrentActivityRequired</ID>
+        <Source>A CurrentActivity is required to exist before requesting this operation.</Source>
+        <Translation>O activitate curenta este necesar să existe înainte de a se solicita această operaţie.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>WrongNameTable</ID>
+        <Source>The object is not in the correct NameTable.</Source>
+        <Translation>Obiectul nu este în NameTable-ul corect.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__3</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Încălcarea modului de control al secventierii fluxului.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__2</ID>
+        <Source>The current activity is active or suspended.</Source>
+        <Translation>Activitatea curentă este activă sau suspendată.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>O activitate curentă nu este definită. Sesiunea de secvenţiere nu a început.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_12__1</ID>
+        <Source>Undefined sequencing request.</Source>
+        <Translation>Cerere de secvenţiere nedefinită.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_11__2</ID>
+        <Source>The current activity has not been terminated.</Source>
+        <Translation>Activitatea curentă nu a fost terminată.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_11__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>O activitate curentă nu este definită. Sesiunea de secvenţiere nu a început.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestPrevious</ID>
+        <Source>Previous</Source>
+        <Translation>Previous</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__2</ID>
+        <Source>The Current activity already terminated.</Source>
+        <Translation>Activitatea curentă deja terminată.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__3</ID>
+        <Source>Cannot suspend an inactive root.</Source>
+        <Translation>Nu se poate suspenda o rădăcină inactivă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__1</ID>
+        <Source>A Current Activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>O activitate curentă nu este definită. Sesiunea de secvenţiere nu a început.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__6</ID>
+        <Source>Nothing to abandon; no active activities.</Source>
+        <Translation>Nimic de abandonat; nicio activitate activă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__7</ID>
+        <Source>Undefined termination request.</Source>
+        <Translation>Cerere de terminare nedefinită.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__4</ID>
+        <Source>Activity tree root has no parent.</Source>
+        <Translation>Rădăcina arborelui de activităţi nu are părinte.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__5</ID>
+        <Source>Nothing to suspend; no active activities.</Source>
+        <Translation>Nimic de suspendat; nicio activitate activă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_6__1</ID>
+        <Source>A current activity is defined. The sequencing session already begun.</Source>
+        <Translation>O activitate curentă este definită. Sesiunea de secvenţiere a început deja.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_6__2</ID>
+        <Source>No Suspended Activity defined.</Source>
+        <Translation>Nicio activitate suspendată definită.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_5__1</ID>
+        <Source>A current activity is defined. The sequencing session already begun.</Source>
+        <Translation>O activitate curentă este definită. Sesiunea de secvenţiere a început deja.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_2__1</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Încălcarea modului de control al secventierii fluxului.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_2__2</ID>
+        <Source>Activity unavailable.</Source>
+        <Translation>Activitate indisponibilă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_7__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>O activitate curentă nu este definită. Sesiunea de secvenţiere nu a început.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_7__2</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Încălcarea modului de control al secventierii fluxului.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__2</ID>
+        <Source>Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Încălcarea modului de control al secventierii numai înainte.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__3</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Nicio activitate "precedenta" faţă de rădăcină.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__1</ID>
+        <Source>Forward Traversal Blocked.</Source>
+        <Translation>Trecerea Inainte Blocată.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__4</ID>
+        <Source>Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Încălcarea modului de control al secventierii numai înainte.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__3</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Nicio activitate "precedenta" faţă de rădăcină.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__2</ID>
+        <Source>Cluster has no available children.</Source>
+        <Translation>Clusterul nu are copii disponibili.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__1</ID>
+        <Source>Last activity in the tree.</Source>
+        <Translation>Ultima activitate în arbore.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__9</ID>
+        <Source>Choice request prevented by Flow-only activity.</Source>
+        <Translation>Cererea de alegere împiedicată de activitatea Flow-only.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__8</ID>
+        <Source>Unable to choose target activity - constrained choice.</Source>
+        <Translation>Incapabil să aleagă activitatea ţintă  - alegere constrânsă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__7</ID>
+        <Source>Choice Exit Sequencing Control Mode violation.</Source>
+        <Translation>Încălcarea modului de control al secventierii de ieşire la alegere.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__6</ID>
+        <Source>Unable to activate target; target is not a child of the Current Activity.</Source>
+        <Translation>Incapabil de activat ţinta; ţinta nu este un copil al Activităţii Curente.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__5</ID>
+        <Source>No activities to consider.</Source>
+        <Translation>Nicio activitate de luat în considerare.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__4</ID>
+        <Source>Choice Sequencing Control Mode violation.</Source>
+        <Translation>Încălcarea modului de control al secventierii de ieşire la alegere.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__3</ID>
+        <Source>Target activity hidden from choice.</Source>
+        <Translation>Activitatea ţintă ascunsă de alegere.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__2</ID>
+        <Source>Target activity does not exist or is unavailable.</Source>
+        <Translation>Activitatea ţintă nu există sau nu este disponibilă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__1</ID>
+        <Source>No target for Choice.</Source>
+        <Translation>Nicio ţintă pentru Choice.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_8__2</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Încălcarea modului de control al secventierii fluxului.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_8__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>O activitate curentă nu este definită. Sesiunea de secvenţiere nu a început.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__3</ID>
+        <Source>Activity unavailable.</Source>
+        <Translation>Activitate indisponibilă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__2</ID>
+        <Source>Nothing to deliver.</Source>
+        <Translation>Nimic de livrat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__1</ID>
+        <Source>Cannot deliver a non-leaf activity.</Source>
+        <Translation>Nu pot livra o activitate non-frunză.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_AbandonNotValid</ID>
+        <Source>It is not valid to abandon the current session. Only an active or suspended session may be abandoned, and only in Execute view.</Source>
+        <Translation>Nu este valid să abandonezi sesiunea curentă. Numai o sesiune activă sau suspendată poate fi abandonată şi numai în mod Execute view.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_CantRenderManifest</ID>
+        <Source>The requested manifest file cannot be rendered.</Source>
+        <Translation>Fişierul manifest cerut nu poate fi reprodus.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Properties.ValidatorResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.ValidatorResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>LrLogCannotBeNullWhenRequired</ID>
+        <Source>The log parameter can not be null when the ValidationBehavior requires a log.</Source>
+        <Translation>Parametrul de log nu poate fi nul când ValidationBehavior necesită un log.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ElementRemoved</ID>
+        <Source>(element has been removed)</Source>
+        <Translation>(elementul a fost şters)</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceOrOrganizationNotFound</ID>
+        <Source>The referenced resource or organization can not be found.</Source>
+        <Translation>Resursa sau organizaţia referită nu poate fi găsită.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RuleConditionConditionMissing</ID>
+        <Source>The &lt;ruleCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
+        <Translation>Nodul &amp;lt;ruleCondition&amp;gt; trebuie să aibă un atribut de condiţie.  Vezi SCORM 1.3 CAM 5.1.3.1.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcNodeViolationTruncated</ID>
+        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by MLC.  It has been truncated to {2} characters.</Source>
+        <Translation>Valoarea care începe cu "{0}" din nodul, {1}, este mai lungă decât cea acceptată de MLC. A fost trunchiată la {2} caractere.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ValueOutOfRange</ID>
+        <Source>The value is out of range.</Source>
+        <Translation>Valoarea este în afara domeniului.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidPresentationNode</ID>
+        <Source>A &lt;presentation&gt; node may only appear, if needed, as a child of a leaf &lt;item&gt;element that references a resource.</Source>
+        <Translation>Un nod &amp;lt;presentation&amp;gt; poate apărea , la nevoie, ca un copil al unui element frunză &amp;lt;item&amp;gt; care face referire la o resursă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadValue</ID>
+        <Source>The value "{0}" of element &lt;{1}&gt; is an invalid value.  Extra information: {2}</Source>
+        <Translation>Valoarea "{0}" a elementului &amp;lt;{1}&amp;gt; este o valoare invalidă.  Informaţii suplimentare: {2}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrMustHaveCorrectRoot</ID>
+        <Source>A valid index.xml begins with a &lt;LearningResource&gt; node in the "urn:schemas-microsoft-com:learning-resource" namespace.</Source>
+        <Translation>Un index.xml valid începe cu un nod &amp;lt;LearningResource&amp;gt; în namespace-ul "urn:schemas-microsoft-com:learning-resource".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceHrefMissing</ID>
+        <Source>The resource node is missing the required attribute, 'href'</Source>
+        <Translation>Nodului resursă îi lipseşte  atributul necesar, 'href'</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ManifestMetaDataMissing</ID>
+        <Source>The &lt;metadata&gt; node is missing or in the wrong namespace on the &lt;manifest&gt;.  See SCORM 1.3 CAM 3.4.1.2.</Source>
+        <Translation>Nodul &amp;lt;metadata&amp;gt; lipseşte sau se află în namespace-ul greşit pe &amp;lt;manifest&amp;gt;.  Vezi SCORM 1.3 CAM 3.4.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequiredAttributeMissing</ID>
+        <Source>The required attribute, {0}, is missing on element &lt;{1}&gt;. Extra information:{2}</Source>
+        <Translation>Atributul necesar, {0}, lipseşte pe elementul &amp;lt;{1}&amp;gt;. Informaţii suplimentare:{2}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OutOfRangeNegOneToOne</ID>
+        <Source>The value is outside the valid range [-1 to 1].</Source>
+        <Translation>Valoarea este în afara domeniului valid [-1 pâna la 1].</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcNodeViolation</ID>
+        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by Microsoft Learning Components.</Source>
+        <Translation>Valoarea care începe cu "{0}" a nodului, {1}, este mai lungă decât cea acceptată de Microsoft Learning Components.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NodeName</ID>
+        <Source>The name of the erroneous node is: {0}</Source>
+        <Translation>Numele nodului eronat este: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadValueReplacement</ID>
+        <Source>The value "{0}" of element &lt;{1}&gt; is an invalid value.  It has been replaced by the default value "{2}".  Extra information: {3}</Source>
+        <Translation>Valoarea "{0}" a elementului &amp;lt;{1}&amp;gt;  este invalidă.  A fost înlocuită de valoarea implicită "{2}".  Informaţii suplimentare: {3}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrChildInLrmNamespaceNotFound</ID>
+        <Source>The node &lt;{0}&gt; can not be found in the correct namespace. Extra information:{1}</Source>
+        <Translation>Nodul &amp;lt;{0}&amp;gt;  nu poate fi găsit în namespace-ul corect. Informaţii suplimentare:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadUri</ID>
+        <Source>The value is an invalid URI.</Source>
+        <Translation>Valoarea este un URI invalid.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrDefaultAttributeUsed</ID>
+        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element's "{2}" attribute.</Source>
+        <Translation>O valoare implicită a "{0}"  a fost utilizată în locul valorii lipsă sau valorii eronate pentru &amp;lt;{1}&amp;gt; a atributului elementului "{2}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadXmlBase</ID>
+        <Source>The value is an invalid xml:base. xml:base must be a valid URI that does not begin with a "/" but does end with a "/".</Source>
+        <Translation>Valoarea este un xml:base invalid. xml:base trebuie să fie un URI valid care nu începe cu un "/" dar se încheie cu un "/".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>EmptyReferencedObjective</ID>
+        <Source>The referencedObjective attribute on the {0} node is whitespace only, which is invalid.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
+        <Translation>Atributul referencedObjective pentru nodul {0} este numai whitespace, care este invalid.  Vezi SCORM 1.3 CAM 5.1.3.1.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrNodeLengthException</ID>
+        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long.</Source>
+        <Translation>Nodul &amp;lt;{0}&amp;gt; are o valoare care începe cu "{1}" care este prea lungă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ParentXml</ID>
+        <Source>The full XML of the parent node is: {0}</Source>
+        <Translation>XML-ul complet al nodului părinte este: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeValueException</ID>
+        <Source>The value of the &lt;{0}&gt; element's "{1}" attribute is missing or erroneous.</Source>
+        <Translation>Valoarea lui &amp;lt;{0}&amp;gt; atributul elementului "{1}" lipseşte sau este eronat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRuleAction</ID>
+        <Source>The &lt;ruleAction&gt; node may occur 1 and only 1 time within a &lt;preConditionRule&gt;, &lt;postConditionRule&gt;, or &lt;exitConditionRule&gt;.  See SCORM 1.3 CAM 5.1.3.1.2.</Source>
+        <Translation>Nodul &amp;lt;ruleAction&amp;gt; poate apărea o dată şi numai o dată în cadrul &amp;lt;preConditionRule&amp;gt;, &amp;lt;postConditionRule&amp;gt;, sau &amp;lt;exitConditionRule&amp;gt;. Vezi SCORM 1.3 CAM 5.1.3.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>GenericDuplicate</ID>
+        <Source>The parent node is {0}.</Source>
+        <Translation>Nodul părinte este {0}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRollupConditions</ID>
+        <Source>The &lt;rollupCondition&gt; node can only appear once in the &lt;rollupRule&gt; node.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
+        <Translation>Nodul &amp;lt;rollupCondition&amp;gt; poate apărea doar odată în nodul &amp;lt;rollupRule&amp;gt;.  Vezi SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrNodeLengthViolation</ID>
+        <Source>The node &lt;{0}&gt; has a value that is too long.  It has been truncated to "{1}".</Source>
+        <Translation>Nodul &amp;lt;{0}&amp;gt; are o valoare care este prea lungă.  A fost trunchiată la "{1}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ItemMustRepresentSco</ID>
+        <Source>The parent node, {0}, must represent a SCO.</Source>
+        <Translation>Nodul părinte, {0}, trebuie să reprezinte un SCO.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ValueOutOfRangeToken</ID>
+        <Source>The value is not one of the permitted token values.</Source>
+        <Translation>Valoarea nu este una dintre valorile model permise.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NodeXml</ID>
+        <Source>The full XML of the erroneous node is: {0}</Source>
+        <Translation>XML-ul complet al nodului eronat este: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MetadataLocationNotFound</ID>
+        <Source>The file, {0}, referenced by the location element inside of metadata in the manifest can not be found in the package.</Source>
+        <Translation>Fişierul, {0}, referit de elementul locatie din metadata manifestului nu poate fi găsit în pachet.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrMultiLRNotSupported</ID>
+        <Source>The package is a multiple learning resource package, which is not supported.</Source>
+        <Translation>Pachetul este un pachet cu resurse de învăţare multiple, care nu este susţinut.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrChildInLrmNamespaceNotFoundTryOther</ID>
+        <Source>The node &lt;{0}&gt; can not be found in the correct namespace  An attempt will be made to find a child node with that name in other namespaces. Extra information:{1}</Source>
+        <Translation>Nodul &amp;lt;{0}&amp;gt; nu poate fi găsit în namespace-ul corect. Se va face o încercare de a găsi un nod copil cu acel nume în alte namespaces. Informaţii suplimentare:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRollupAction</ID>
+        <Source>The &lt;rollupAction&gt; node can only appear once in the &lt;rollupRule&gt;node.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
+        <Translation>Nodul &amp;lt;rollupAction&amp;gt; poate apărea doar odată în nodul &amp;lt;rollupRule&amp;gt;.  Vezi SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ValueIncorrectType</ID>
+        <Source>The value is not the expected type.</Source>
+        <Translation>Valoarea nu este de tipul aşteptat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrNodeValueException</ID>
+        <Source>The value of the &lt;{0}&gt; element is missing or erroneous.</Source>
+        <Translation>Valoarea elementului &amp;lt;{0}&amp;gt; lipseşte sau este eronată.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrPageNodeSkipped</ID>
+        <Source>The value of the PageID attribute of the {0} element is invalid. The element has been omitted from the conversion.</Source>
+        <Translation>Valoarea atributului PageID al elementului {0} este invalidă. Elementul a fost omis din conversie.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidFileType</ID>
+        <Source>The file {0} is not a valid file type.</Source>
+        <Translation>Fişierul {0} nu este un tip de fişier valid.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidNode</ID>
+        <Source>An element, &lt;{0}&gt;, is invalid because it is illegal or has illegal attribute values. Extra information: {1}</Source>
+        <Translation>Un element, &amp;lt;{0}&amp;gt;, este invalid deoarece este nepermis sau are valori nepermise ale atributului. Informaţii suplimentare: {1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ConvertedUriReplacement</ID>
+        <Source>The "{0}" portion of attribute, {1}, on element &lt;{2}&gt; contains invalid URI characters.  These have been converted into valid characters automatically.  The new value is "{3}".  Extra information: {4}.</Source>
+        <Translation>Porţiunea "{0}" a atributului, {1}, pe elementul &amp;lt;{2}&amp;gt; conţine caractere URI invalide.  Acestea au fost convertite automat în caractere valide. Noua valoare este "{3}".  Informaţii suplimentare: {4}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ItemTitleMissing</ID>
+        <Source>The &lt;title&gt; node is required on the {0} node in Content Aggregation manifests.  See SCORM 1.3 CAM 3.4.1.10, or SCORM 1.2 CAM 2.3.5.3.1.2.1.</Source>
+        <Translation>Nodul &amp;lt;title&amp;gt; este obligatoriu pentru nodul {0} în fişierele manifest Content Aggregation. Vezi SCORM 1.3 CAM 3.4.1.10, or SCORM 1.2 CAM 2.3.5.3.1.2.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrRemoteContentNotSupported</ID>
+        <Source>Remote content is not supported.</Source>
+        <Translation>Conţinutul la distanţă nu este acceptat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrLicensedContentNotSupported</ID>
+        <Source>This learning resource requires a license and licensed Learning Resources are not supported.</Source>
+        <Translation>Această resursa de învăţare necesită o licenţă iar licenţele Learning Resources nu sunt suportate.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PrerequisitesTypeWrong</ID>
+        <Source>The value of the &lt;prerequisites&gt; type attribute must be "aicc_script".</Source>
+        <Translation>Valoarea lui &amp;lt;prerequisites&amp;gt; tipul de atribut trebuie să fie "aicc_script".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrDefaultValueUsed</ID>
+        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element.</Source>
+        <Translation>O valoare implicită de "{0}"  a fost folosită în locul valorii lipsă sau eronate  pentru elementul &amp;lt;{1}&amp;gt;.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeLengthException</ID>
+        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long for the "{2}" attribute.</Source>
+        <Translation>Nodul &amp;lt;{0}&amp;gt; are o valoare care începe cu "{1}" care este prea lungă pentru atributul "{2}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ItemIdentifierMissing</ID>
+        <Source>The &lt;item&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.9, or SCORM 1.2 CAM 2.3.5.3.1.2.</Source>
+        <Translation>Nodul &amp;lt;item&amp;gt; trebuie să aibă un atribut de identificare.  Vezi SCORM 1.3 CAM 3.4.1.9, or SCORM 1.2 CAM 2.3.5.3.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationActivityMissing</ID>
+        <Source>An Activity node is required for content used in Microsoft Learning Components.</Source>
+        <Translation>Un nod de activitate este necesar pentru conţinutul utilizat în Microsoft Learning Components.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SpmNodeViolation</ID>
+        <Source>The value that begins with "{0}" of the node, &lt;{1}&gt;, is longer than the smallest permitted maximum (SPM), {2}.</Source>
+        <Translation>Valoarea care începe cu "{0}"  al nodului, &amp;lt;{1}&amp;gt;, este mai lungă decât cel mai mic maxim permis (SPM), {2}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadAttributeValue</ID>
+        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  Extra information: {3}</Source>
+        <Translation>Valoarea "{0}" a atributului, {1}, pe elementul &amp;lt;{2}&amp;gt;, este o valoare invalidă.  Informaţii suplimentare: {3}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadAttributeValueReplacement</ID>
+        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  It has been replaced by the default value "{3}".  Extra information: {4}</Source>
+        <Translation>Valoarea "{0}" a atributului, {1}, pe elementul &amp;lt;{2}&amp;gt;, este o valoare invalidă.  A fost înlocuită de valoarea implicită "{3}".  Informaţii suplimentare: {4}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolation</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by Microsoft Learning Components.  Extra information: {2}</Source>
+        <Translation>valoarea care începe cu "{0}" a atributului, {1}, este mai lungă decât cea suportată de  Microsoft Learning Components.  Informaţii suplimentare: {2}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ManifestNodeMissing</ID>
+        <Source>A &lt;manifest&gt; node in the correct namespace is required.</Source>
+        <Translation>Un nod &amp;lt;manifest&amp;gt; este obligatoriu în namespace-ul corect.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ManifestMissing</ID>
+        <Source>A manifest is required and is not present in the package.</Source>
+        <Translation>Un manifest este necesar şi nu este prezent în pachet.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrPageIdDuplicate</ID>
+        <Source>The value of the PageID attribute, {0}, on a &lt;Page&gt; element is used more than once.  PageID's must be unique for each &lt;Page&gt; element.</Source>
+        <Translation>Valoarea atributului PageID, {0}, pe un element &amp;lt;Page&amp;gt; este utilizată mai mult decât odată. PageID's trebuie să fie unic pentru fiecare  element &amp;lt;Page&amp;gt;.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceIdentifierMissing</ID>
+        <Source>The &lt;resource&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.21, or SCORM 1.2 CAM 2.3.5.4.1.</Source>
+        <Translation>Nodul &amp;lt;resource&amp;gt; trebuie să aibă un atribut de identificare.  Vezi SCORM 1.3 CAM 3.4.1.21, or SCORM 1.2 CAM 2.3.5.4.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeLengthViolation</ID>
+        <Source>The node &lt;{0}&gt; has a value that is too long for the "{1}" attribute.  It has been truncated to "{2}".</Source>
+        <Translation>Nodul &amp;lt;{0}&amp;gt; are o valoare care este prea lungă pentru atributul "{1}" . A fost trunchiată la "{2}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>EmptyString</ID>
+        <Source>(empty string)</Source>
+        <Translation>(şir gol)</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidTrueValuesInMapInfo</ID>
+        <Source>In multiple &lt;mapInfo&gt; nodes, true values are restricted.  See SCORM 1.3 CAM 5.1.7.1.2.</Source>
+        <Translation>În noduri multiple &amp;lt;mapInfo&amp;gt; valorile adevărate sunt restricţionate.  Vezi SCORM 1.3 CAM 5.1.7.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ReferenceNotFound</ID>
+        <Source>The referenced node can not be found.</Source>
+        <Translation>Nodul referit nu poate fi găsit.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IllegalNegativeInteger</ID>
+        <Source>The value must be 0 or a positive integer.</Source>
+        <Translation>Valoarea trebuie să fie 0 sau un întreg pozitiv.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ActivityResourceBadAttribute</ID>
+        <Source>A resource that belongs to an activity must have a type attribute set to "webcontent", an adlcp:scormType attribute set to "sco" or "asset", and a valid href attribute.  {0}</Source>
+        <Translation>O resursă care aparţine unei activităţi trebuie să aibe tipul atributului setat la "webcontent", un atribut adlcp:scormType setat la "sco" sau "asset", şi un atribut href valid.  {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceNotAllowedOnActivity</ID>
+        <Source>If an &lt;item&gt; element is a parent element, the &lt;item&gt; may not reference a &lt;resource&gt;.  See SCORM 1.3 CAM 3.4.1.9.  The full XML of the node is: {0}</Source>
+        <Translation>Dacă un element &amp;lt;item&amp;gt; este un element părinte, &amp;lt;item&amp;gt; nu poate referi un &amp;lt;resource&amp;gt;.  Vezi SCORM 1.3 CAM 3.4.1.9.  XML-ul complet al nodului este: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupConditionConditionMissing</ID>
+        <Source>The &lt;rollupCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.6.1.2.</Source>
+        <Translation>Nodul &amp;lt;rollupCondition&amp;gt; trebuie să aibă un atribut condiţie.  Vezi SCORM 1.3 CAM 5.1.6.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRuleConditions</ID>
+        <Source>The &lt;ruleConditions&gt; node can only appear once in the &lt;{0}&gt; node.  See SCORM 1.3 CAM 5.1.3.1.1.</Source>
+        <Translation>Nodul &amp;lt;ruleConditions&amp;gt; poate apare doar odată în nodul &amp;lt;{0}&amp;gt;.  Vezi SCORM 1.3 CAM 5.1.3.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PrimaryObjectiveMissingOrDuplicate</ID>
+        <Source>In a list of &lt;objectives&gt;, there must be one and only one &lt;primaryObjective&gt; node.</Source>
+        <Translation>Într-o listă de &amp;lt;objectives&amp;gt;, trebuie să fie unul şi numai un nod &amp;lt;primaryObjective&amp;gt;.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidDuplicateNodesIgnored</ID>
+        <Source>There are multiple instances of element, &lt;{0}&gt;. All but the first are ignored. Extra information:{1}</Source>
+        <Translation>Există multiple cazuri de element, &amp;lt;{0}&amp;gt;.  Toate mai puţin primul sunt ignorate. Informaţii suplimentare:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdentifier</ID>
+        <Source>The identifier is not a valid xs:ID.</Source>
+        <Translation>Identificatorul nu este un xs:ID valid.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateMinNormalizedMeasure</ID>
+        <Source>The &lt;minNormalizedMeasure&gt; node can only appear once in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>Nodul &amp;lt;minNormalizedMeasure&amp;gt; poate apărea doar odată în nodul &amp;lt;{0} objectiveID="{1}"&amp;gt;.  Vezi SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationOrganizationMissing</ID>
+        <Source>An Organization node is required for content used in Microsoft Learning Components.</Source>
+        <Translation>Un nod Organizaţie este necesar pentru conţinutul utilizat în Microsoft Learning Components.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IdenticalKeyValues</ID>
+        <Source>The duplicate nodes share the same {0} value, "{1}".  The values must be different.</Source>
+        <Translation>Nodurile duplicat împart aceeaşi valoare {0}, "{1}".  Valorile trebuie să fie diferite.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PackageCouldNotBeOpened</ID>
+        <Source>This package could not be opened. More information: {0}</Source>
+        <Translation>Acest pachet nu a putut fi deschis. Mai multe informaţii: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadXmlInManifest</ID>
+        <Source>The package contains a manifest that contains badly formed XML.</Source>
+        <Translation>Pachetul conţine un manifest care conţine XML format prost.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ObjectiveIdMissing</ID>
+        <Source>The objective must have an objectiveID attribute.  Extra information: {0}</Source>
+        <Translation>Obiectivul trebuie să aibă un atribut objectiveID.  Informaţii suplimentare: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationTruncated</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by for content used in Microsoft Learning Components.  It has been truncated to {2} characters.  Extra information: {3}</Source>
+        <Translation>Valoarea care începe cu "{0}" a atributului, {1}, este mai lungă decât cea suportată pentru conţinutul utilizat în Microsoft Learning Components.  A fost trunchiată la {2} caractere.  Informaţii suplimentare: {3}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PrerequisitesScriptInvalid</ID>
+        <Source>There are problems with the syntax of the prerequisite script, or a referenced identifier can not be found in the manifest.</Source>
+        <Translation>Există probleme cu sintaxa scriptului convenit în prealabil, sau  un identificator referit  nu poate fi găsit în manifest.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OrganizationIdentifierMissing</ID>
+        <Source>The &lt;organization&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.7, or SCORM 1.2 CAM 2.3.5.3.1.</Source>
+        <Translation>Nodul &amp;lt;organization&amp;gt; trebuie să aibă un atribut de identificare.  Vezi SCORM 1.3 CAM 3.4.1.7, sau SCORM 1.2 CAM 2.3.5.3.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MetadataLocationBadXml</ID>
+        <Source>The file, {0}, referenced by the location element inside of metadata in the manifest contains invalid metadata.</Source>
+        <Translation>Fişierul, {0}, referit de elementul locaţie din interiorul metadata în manifest conţine metadata invalidă.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MinNormalizedMeasureOutOfRange</ID>
+        <Source>The value is out of range [-1 to 1] on the &lt;minNormalizedMeasure&gt; node in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>Valoarea este în afara domeniului [-1 pâna la 1] pe nodul &amp;lt;minNormalizedMeasure&amp;gt; în nodul &amp;lt;{0} objectiveID="{1}"&amp;gt; .  Vezi SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupActionMissing</ID>
+        <Source>The &lt;rollupAction&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
+        <Translation>Nodul &amp;lt;rollupAction&amp;gt; lipseşte pe &amp;lt;rollupRule&amp;gt;.  Vezi SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingIdMissing</ID>
+        <Source>The &lt;sequencing&gt; node in a &lt;sequencingCollection&gt; must have an ID attribute.  See SCORM 1.3 CAM 5.1.1.</Source>
+        <Translation>Nodul &amp;lt;sequencing&amp;gt; într-un &amp;lt;sequencingCollection&amp;gt; trebuie să aibă un atribut ID.  Vezi SCORM 1.3 CAM 5.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrFixLmsViolationsNotSet</ID>
+        <Source>Unable to substitute a default value for the missing value of node &lt;{0}&gt; because the conversion process is not allowed to substitute default values for missing or erroneous values in the index.xml.</Source>
+        <Translation>Nu a putut să substituie o valoare implicită pentru valoarea lipsă a nodului &amp;lt;{0}&amp;gt; deoarece procesul de conversie nu permite să substituie valori implicite  pentru valori lipsă sau eronate în index.xml.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SpmViolation</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than the smallest permitted maximum (SPM), {2}.  Extra information: {3}</Source>
+        <Translation>Valoarea care începe cu "{0}" a atributului, {1}, este mai lungă decât cel mai mic maxim permis (SPM), {2}.  Informaţii suplimentare: {3}
+      &lt;/Resources&gt;
+      &lt;Resources&gt;
+        &lt;ID&gt;RequiredElementMissingDefault&lt;/ID&gt;
+        &lt;Source&gt;The required element, &amp;lt;{0}&amp;gt;, is missing.  Default values will be used. Extra information:{1}&lt;/Source&gt;
+        &lt;Translation&gt;&lt;![CDATA[Elementul solicitat, &amp;lt;{0}&amp;gt;, lipseşte.  Vor fi folosite valori implicite. Informaţii suplimentare:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequiredElementMissingDefault</ID>
+        <Source>The required element, &lt;{0}&gt;, is missing.  Default values will be used. Extra information:{1}</Source>
+        <Translation>The required element, &lt;{0}&gt;, is missing.  Default values will be used. Extra information:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileMissing</ID>
+        <Source>The file {0} does not exist.</Source>
+        <Translation>Fişierul{0} nu există.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IllegalAttributeInResourcePackage</ID>
+        <Source>The attribute, {1}, containing the value "{0}" on node &lt;{2}&gt; is illegal in Resource packages.</Source>
+        <Translation>Atributul, {1}, conţinând valoarea "{0}" pe nodul &amp;lt;{2}&amp;gt; nu este permisă în pachetele Resource.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IllegalPercentage</ID>
+        <Source>The value must be a decimal value from 0 to 1, inclusive.</Source>
+        <Translation>Valoarea trebuie să fie o valoare zecimală de la 0 la 1, inclusiv.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupConditionsMissing</ID>
+        <Source>The &lt;rollupConditions&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
+        <Translation>Nodul &amp;lt;rollupConditions&amp;gt; lipseşte pe un &amp;lt;rollupRule&amp;gt;.  Vezi SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingCollectionInResource</ID>
+        <Source>&lt;sequencingCollection&gt; nodes are not permitted in resource packages. This manifest is considered a resource package because it has no &lt;organization&gt; nodes.  See SCORM CAM 3.5.3.</Source>
+        <Translation>Nodurile &amp;lt;sequencingCollection&amp;gt; nu sunt permise în pachetele resurse. Acest manifest  este considerat un pachet resursă deoarece nu are noduri &amp;lt;organization&amp;gt;.  Vezi SCORM CAM 3.5.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileHrefMissing</ID>
+        <Source>The &lt;file&gt; node must have an href attribute.  See SCORM 1.3 CAM 3.4.1.23, or SCORM 1.2 CAM 2.3.5.4.3.</Source>
+        <Translation>Nodul &amp;lt;file&amp;gt; trebuie să aibă un atribut href.  Vezi SCORM 1.3 CAM 3.4.1.23, or SCORM 1.2 CAM 2.3.5.4.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OrganiztionTitleMissing</ID>
+        <Source>The &lt;title&gt; node is missing on the &lt;organization&gt; node with identifier="{0}".  See SCORM 1.3 CAM 3.4.1.8, or SCORM 1.2 CAM 2.3.5.3.1.1.</Source>
+        <Translation>Nodul &amp;lt;title&amp;gt; lipseşte pe nodul &amp;lt;organization&amp;gt; cu identifier="{0}".  Vezi SCORM 1.3 CAM 3.4.1.8, or SCORM 1.2 CAM 2.3.5.3.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidDuplicateNodes</ID>
+        <Source>UA !There are multiple instances of element, &lt;{0}&gt;. Extra information:{1}</Source>
+        <Translation>UA !Există cazuri multiple de element, &amp;lt;{0}&amp;gt;. Informaţii suplimentare:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ConvertedUriSpaces</ID>
+        <Source>The "{0}" value of attribute, {1}, on element &lt;{2}&gt; contains spaces, which are invalid URI characters.  This URI is still being allowed, but the package may not work as expected.</Source>
+        <Translation>Valoarea "{0}" a atributului, {1}, pe element &amp;lt;{2}&amp;gt; conţine spaţii, care sunt caractere URI invalide.  Acest URI este încă permis, dar pachetul s-ar putea să nu lucreze aşa cum ar trebui.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OrphanedFile</ID>
+        <Source>The file {0} is not referenced in the manifest.</Source>
+        <Translation>Fişierul {0} nu este referit în manifest.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequiredElementMissing</ID>
+        <Source>The required element, &lt;{0}&gt;, is missing. Extra information:{1}</Source>
+        <Translation>Elementul necesar, &lt;{0}&gt;, lipseşte. Informatii suplimentare: {1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>

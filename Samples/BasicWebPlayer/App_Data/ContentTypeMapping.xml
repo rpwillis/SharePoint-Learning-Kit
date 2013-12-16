@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<contentTypes>
+    <contentType extension=".css" mime="text/css" iiscompatmode="false"/>
+    <contentType extension=".doc" mime="application/msword" iiscompatmode="false"/>
+    <contentType extension=".docx" mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document" iiscompatmode="false"/>
+    <contentType extension=".htm" mime="text/html" iiscompatmode="false"/>
+    <contentType extension=".html" mime="text/html" iiscompatmode="false"/>
+    <contentType extension=".jpe" mime="image/jpeg" iiscompatmode="false"/>
+    <contentType extension=".jpeg" mime="image/jpeg" iiscompatmode="false"/>
+    <contentType extension=".jpg" mime="image/jpeg" iiscompatmode="false"/>
+    <contentType extension=".js" mime="application/x-javascript" iiscompatmode="false"/>
+    <contentType extension=".pdf" mime="application/pdf" iiscompatmode="false"/>
+    <contentType extension=".png" mime="image/x-png" iiscompatmode="false"/>
+    <contentType extension=".ppt" mime="application/vnd.ms-powerpoint" iiscompatmode="false"/>
+    <contentType extension=".pptx" mime="application/vnd.openxmlformats-officedocument.presentationml.presentation" iiscompatmode="false"/>
+    <contentType extension=".pub" mime="application/x-mspublisher" iiscompatmode="false"/>
+    <contentType extension=".swf" mime="application/x-shockwave-flash" iiscompatmode="true"/>            
+    <contentType extension=".tif" mime="image/tiff" iiscompatmode="false"/>
+    <contentType extension=".tiff" mime="image/tiff" iiscompatmode="false"/>
+    <contentType extension=".txt" mime="text/plain" iiscompatmode="false"/>
+    <contentType extension=".vsd" mime="application/vnd.visio" iiscompatmode="false"/>
+    <contentType extension=".xbm" mime="image/image/x-xbitmap" iiscompatmode="false"/>
+    <contentType extension=".xls" mime="application/vnd.ms-excel" iiscompatmode="false"/> 
+    <contentType extension=".xlsx" mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" iiscompatmode="false"/> 
+    <contentType extension=".xml" mime="text/xml" iiscompatmode="false"/> 
+</contentTypes>

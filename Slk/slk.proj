@@ -1,0 +1,62 @@
+<Project DefaultTargets="Release" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <ItemGroup>
+        <Samples Include="Samples/AddInstructors/AddInstructorsSample.csproj"/>
+        <Samples Include="Samples/AddToUserWebLists/AddToUserWebLists.csproj"/>
+        <Samples Include="Samples/CreateAssignments/CreateAssignments.csproj"/>
+        <Samples Include="Samples/ProvisionFromExcel/ProvisionFromExcel.csproj"/>
+        <Samples Include="Samples/SimulateClass/SimulateClass.csproj"/>
+        <Samples Include="Samples/SimulateJobTraining/SimulateJobTraining.csproj"/>
+        <WebSamples Include="Samples/ReportPages/"/>
+        <WebSamples Include="Samples/WebService/"/>
+
+        <SolutionProject Include="solution/solution.proj"/>
+
+        <Projects Include="dll/slkdll.csproj">
+            <SPVersion>2007</SPVersion>
+            <DotNetVersion>3.5</DotNetVersion>
+        </Projects>
+        <Projects Include="dll/slkdll.csproj">
+            <SPVersion>2010</SPVersion>
+            <DotNetVersion>3.5</DotNetVersion>
+        </Projects>
+        <Projects Include="dll/slkdll.csproj">
+            <SPVersion>2013</SPVersion>
+            <DotNetVersion>4.0</DotNetVersion>
+        </Projects>
+
+    </ItemGroup>
+
+    <Target Name="All" DependsOnTargets="Debug;Release;Samples"/>
+
+    <Target Name="Build" >
+        <MSBuild Projects="@(Projects)" Targets="Build" StopOnFirstFailure="true" Properties="Configuration=$(Configuration);Platform=$(Platform)">
+            <Output TaskParameter="TargetOutputs" ItemName="BuildAssemblies" />
+        </MSBuild>
+    </Target>
+
+    <Target Name="Release" >
+        <MSBuild Projects="@(Projects)" Targets="Build" StopOnFirstFailure="true" ToolsVersion="%(DotNetVersion)" Properties="Configuration=Release;Platform=AnyCPU;TargetFrameworkVersion=v%(DotNetVersion);SharePointVersion=%(SPVersion)"/>
+        <MSBuild Projects="@(SolutionProject)" Targets="Release" StopOnFirstFailure="true" />
+    </Target>
+
+    <Target Name="Debug" >
+        <MSBuild Projects="@(Projects)" Targets="Build" StopOnFirstFailure="true" Properties="Configuration=Debug;Platform=AnyCPU">
+            <Output TaskParameter="TargetOutputs" ItemName="BuildAssemblies" />
+        </MSBuild>
+    </Target>
+
+    <Target Name="Samples" >
+        <MSBuild Projects="@(Samples)" Targets="Build" StopOnFirstFailure="true" Properties="Configuration=Debug;Platform=AnyCPU">
+            <Output TaskParameter="TargetOutputs" ItemName="SampleAssemblies" />
+        </MSBuild>
+    </Target>
+
+    <Target Name="Clean">
+        <MSBuild Projects="@(Samples);@(Projects)" Targets="Clean" StopOnFirstFailure="true" Properties="Configuration=Debug;Platform=AnyCPU">
+        </MSBuild>
+        <MSBuild Projects="@(Samples);@(Projects)" Targets="Clean" StopOnFirstFailure="true" Properties="Configuration=Release;Platform=AnyCPU">
+        </MSBuild>
+    </Target>
+
+</Project>

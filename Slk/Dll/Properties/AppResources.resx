@@ -1,0 +1,1896 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="SlkSettingsFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\SlkSettings.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="SlkSettingsSchema" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\SlkSettings.xsd;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="SlkSchemaSql" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Sql\SlkSchema.sql;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="InvalidDatabaseName" xml:space="preserve">
+    <value>Invalid database name "{0}".  Database names may only contain letters, digits, and underscores.</value>
+    <comment>{0} = database name supplied by user</comment>
+  </data>
+  <data name="InvalidDatabaseServerName" xml:space="preserve">
+    <value>Invalid database server name "{0}".  Server names may only contain letters, digits, and underscores.</value>
+    <comment>{0} = server name supplied by user</comment>
+  </data>
+  <data name="AppError" xml:space="preserve">
+    <value>SharePoint Learning Kit Error
+
+{0}</value>
+    <comment>{0} = error text</comment>
+  </data>
+  <data name="CreateDatabaseException" xml:space="preserve">
+    <value>An exception occurred while creating a database:
+
+{0}</value>
+    <comment>{0} = exception message</comment>
+  </data>
+  <data name="DeleteDatabaseException" xml:space="preserve">
+    <value>An exception occurred while deleting a database:
+
+{0}</value>
+    <comment>{0} = exception message</comment>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="PopulateLearnerAssignmentIdsInvalidException" xml:space="preserve">
+    <value>Failed to retrieve learner ids.</value>
+  </data>
+  <data name="SeriousErrorDownloadSettings" xml:space="preserve">
+      <value>A serious error occurred.  Please contact your system administrator.
+      
+{0}</value>
+  </data>
+  <data name="SlkEventLogSource" xml:space="preserve">
+    <value>SharePoint Learning Kit</value>
+    <comment>used in Source column om Event Viewer if "SharePoint Learning Kit" event source is enabled</comment>
+  </data>
+  <data name="WssEventLogSource" xml:space="preserve">
+    <value>Windows SharePoint Services 3</value>
+    <comment>must be what appears in the Source column of Event Viewer for SharePoint event log entries</comment>
+  </data>
+  <data name="SharePoint2010LogSource" xml:space="preserve">
+    <value>Microsoft-SharePoint Products-SharePoint Foundation</value>
+    <comment>must be what appears in the Source column of Event Viewer for SharePoint event log entries. Possible doesn't need to be localised</comment>
+  </data>
+  <data name="SelectSiteCollectionHtml" xml:space="preserve">
+    <value>Please select a Site Collection</value>
+  </data>
+  <data name="NotSharePointAdmin" xml:space="preserve">
+    <value>Current user is not a SharePoint administrator</value>
+  </data>
+  <data name="SharePointFarmNotFound" xml:space="preserve">
+    <value>SharePoint farm not found</value>
+  </data>
+  <data name="DefaultSlkDatabaseName" xml:space="preserve">
+    <value>SharePointLearningKit</value>
+    <comment>This is the default SLK database name</comment>
+  </data>
+  <data name="DefaultSlkInstructorPermissionName" xml:space="preserve">
+    <value>SLK Instructor</value>
+    <comment>This is the default name of the SharePoint permission which identifies instructors</comment>
+  </data>
+  <data name="DefaultSlkLearnerPermissionName" xml:space="preserve">
+    <value>SLK Learner</value>
+    <comment>This is the default name of the SharePoint permission which identifies learners</comment>
+  </data>
+  <data name="SlkInstructorPermissionDescription" xml:space="preserve">
+    <value>Can use SharePoint Learning Kit features to assign e-learning content to learners.</value>
+    <comment>When the "SLK Instructor" permission is created, this is its description.</comment>
+  </data>
+  <data name="SlkLearnerPermissionDescription" xml:space="preserve">
+    <value>Appears as a potential learner when new assignments are created using SharePoint Learning Kit.</value>
+    <comment>When the "SLK Learner" permission is created, this is its description.</comment>
+  </data>
+  <data name="SlkSettingsFileError" xml:space="preserve">
+    <value>Problem found in SLK Settings file: {0}</value>
+    <comment>{0} = exception message</comment>
+  </data>
+  <data name="SlkNotEnabled" xml:space="preserve">
+    <value>This site is not configured to use SharePoint Learning Kit. Administrators can use SharePoint Central Administration to configure SharePoint Learning Kit.</value>
+  </data>
+  <data name="SlkSettingsNotFound" xml:space="preserve">
+    <value>SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite {0}.)</value>
+    <comment>{0} = SPSite url</comment>
+  </data>
+  <data name="AlwpWepPartTitle" xml:space="preserve">
+    <value>Assignment List Web Part</value>
+    <comment>Title for Assignment List Web Part</comment>
+  </data>
+  <data name="AlwpWepPartDescription" xml:space="preserve">
+    <value>Display the assignments for an instructor or learner.</value>
+    <comment>Description for Assignment List Wep Part</comment>
+  </data>
+  <data name="SlkExUserNotFound" xml:space="preserve">
+    <value>You must sign in to use SharePoint Learning Kit.</value>
+    <comment>Occurs if Current user not signed in.</comment>
+  </data>
+  <data name="AlwpQuerySetNotFound" xml:space="preserve">
+    <value>The query or query set, {0}, does not exist. Open the tool pane to specify a different query set override or remove the entry to use the default query set.</value>
+    <comment>QuerySet of Assignment List Wep Part is null or empty</comment>
+  </data>
+  <data name="CtrlOKButtonText" xml:space="preserve">
+    <value>OK</value>
+    <comment>Text for OK Button</comment>
+  </data>
+  <data name="CtrlLabelDescriptionText" xml:space="preserve">
+    <value>Description</value>
+    <comment>Label Text for Description</comment>
+  </data>
+  <data name="CtrlLabelDueText" xml:space="preserve">
+    <value>Due</value>
+    <comment>Label Text for Due</comment>
+  </data>
+  <data name="CtrlLabelGroupsText" xml:space="preserve">
+    <value>Groups:</value>
+    <comment>Label Text for Groups in APP</comment>
+  </data>
+  <data name="CtrlLabelInstructorsText" xml:space="preserve">
+    <value>Instructors</value>
+    <comment>Label Text for Instructors in APP</comment>
+  </data>
+  <data name="CtrlLabelLearnersText" xml:space="preserve">
+    <value>Learners:</value>
+    <comment>Label Text for Learners</comment>
+  </data>
+  <data name="CtrlLabelPointsText" xml:space="preserve">
+    <value>Points</value>
+    <comment>Label Text for Points</comment>
+  </data>
+  <data name="CtrlLabelSharePointSiteText" xml:space="preserve">
+    <value>SharePoint Site</value>
+    <comment>Label Text for SharePointSite</comment>
+  </data>
+  <data name="CtrlLabelStartText" xml:space="preserve">
+    <value>Start</value>
+    <comment>Label Text for Start</comment>
+  </data>
+  <data name="CtrlLabelTitleText" xml:space="preserve">
+    <value>Title</value>
+    <comment>Label Text for Title</comment>
+  </data>
+  <data name="CtrlChkBoxTextShowAnswers" xml:space="preserve">
+    <value>Show learners the correct answers to autograded questions when the assignment is final (Class Server learning resources only)</value>
+    <comment>Check Box Label Text for Show Answers to Learners.</comment>
+  </data>
+  <data name="CheckBoxEmailAssignment" xml:space="preserve">
+    <value>Email learners on creation or when changed.</value>
+    <comment>Check Box Label Text for Email Learners.</comment>
+  </data>
+  <data name="CtrlChkBoxTextAutoReturnAssignments" xml:space="preserve">
+    <value>Automatically return learner assignments when they are submitted.</value>
+    <comment>Check Box Label Text for Auto Return Learners Assignments</comment>
+  </data>
+  <data name="CtrlLabelAssignmentPropDesc" xml:space="preserve">
+    <value>Enter the title and description of the assignment, start and due dates, and the number of points
+    possible for the assignment. You can also specify whether learner assignments will 
+    automatically be returned, and whether learners can see the correct answers when they review the assignment.
+    </value>
+    <comment>Assignment Properities intro Text</comment>
+  </data>
+  <data name="CtrlLabelAssignmentPropHeader" xml:space="preserve">
+    <value>Specify Assignment Properties</value>
+    <comment>Specify Assignment Header</comment>
+  </data>
+  <data name="CtrlLabelDistributeAssignmentDesc" xml:space="preserve">
+    <value>Choose instructors and learners for the assignment.</value>
+    <comment>Distribute Assignment Intro Text</comment>
+  </data>
+  <data name="CtrlLabelDistributeAssignmentHeader" xml:space="preserve">
+    <value>Distribute the Assignment</value>
+    <comment>Distribute  Assignment Header Text</comment>
+  </data>
+  <data name="CtrlLabelUploadDocumentHeader" xml:space="preserve">
+    <value>Upload Document (Optional)</value>
+  </data>
+  <data name="CtrlLabelUploadDocumentText" xml:space="preserve">
+    <value>Optionally choose a document to upload to distribute and choose the document library to place it in.</value>
+  </data>
+  <data name="CtrlLabelUploadDocumentName" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="CtrlLabelUploadDocumentLibrary" xml:space="preserve">
+    <value>Document Library</value>
+  </data>
+  <data name="CtrlLabelGenericErrorMsg" xml:space="preserve">
+    <value>Error string goes here.</value>
+    <comment>Generic Error string </comment>
+  </data>
+  <data name="CtrlLabelInstructorDesc" xml:space="preserve">
+    <value>Instructors can grade, edit and change users for the assignment.</value>
+    <comment>Instructors Instruction Text in APP</comment>
+  </data>
+  <data name="CtrlLabelLearnerDesc" xml:space="preserve">
+    <value>Learners can launch and interact with the assignment, and will be listed in the grading view.</value>
+    <comment>Learners Instruction Text</comment>
+  </data>
+  <data name="InternalError" xml:space="preserve">
+    <value>Internal error {0}</value>
+    <comment>{0} = internal error code, e.g. "APP1001"</comment>
+  </data>
+  <data name="CtrlLabelStatusText" xml:space="preserve">
+    <value>Status</value>
+    <comment>Label Text for Status</comment>
+  </data>
+  <data name="CtrlLabelAPPWhatNextText" xml:space="preserve">
+    <value>What would you like to do next?</value>
+    <comment>APP Confirmation Page Message</comment>
+  </data>
+  <data name="AppGradeOrManage" xml:space="preserve">
+    <value>Grade or manage the assignment </value>
+    <comment>Grade or manage the assignment in APP Confirmation Page</comment>
+  </data>
+  <data name="AppNavigateToSite" xml:space="preserve">
+    <value>Navigate to site:</value>
+    <comment>Navigate to site in APP Confirmation Page</comment>
+  </data>
+  <data name="AppPageCreationDescription" xml:space="preserve">
+    <value>This page helps you create an assignment and deliver it to learners. You can specify
+    properties of your assignment such as start date, due date, and instructions to
+    the learner, and then choose who will be instructors or learners for this assignment.</value>
+    <comment>PlaceHolderPageDescription in APP</comment>
+  </data>
+  <data name="AppPageCreationTitle" xml:space="preserve">
+    <value>Create an Assignment</value>
+    <comment>APP Page Creation Title</comment>
+  </data>
+  <data name="AppPageCreationTitleInTitleArea" xml:space="preserve">
+    <value>Create an Assignment</value>
+    <comment>Page Title In TitleArea in APP</comment>
+  </data>
+  <data name="AppPageCreateConfirmationTitle" xml:space="preserve">
+    <value>Assignment Created</value>
+    <comment>APPPageCreate Confirmation Title</comment>
+  </data>
+  <data name="CtrlLabelPointsPossible" xml:space="preserve">
+    <value>points possible</value>
+    <comment>APP points possible display text near Text Box</comment>
+  </data>
+  <data name="SlkGenericError" xml:space="preserve">
+    <value>An error occurred. More information may be available in the server event log.</value>
+    <comment>Generic Error Message displayed for un handled exceptions.</comment>
+  </data>
+  <data name="SlkErrorTypeErrorToolTip" xml:space="preserve">
+    <value>Error</value>
+    <comment>ErrorType Error Image Tool Tip</comment>
+  </data>
+  <data name="SlkErrorTypeInfoToolTip" xml:space="preserve">
+    <value>Note</value>
+    <comment>ErrorType Info Image Tool Tip</comment>
+  </data>
+  <data name="SlkErrorTypeWarningToolTip" xml:space="preserve">
+    <value>Warning</value>
+    <comment>ErrorType Warning Image Tool Tip</comment>
+  </data>
+  <data name="AppRootActivityIDNotFound" xml:space="preserve">
+    <value>QueryString Missing RootActivityId: Activity Package Item Identifier cannot be empty or null.</value>
+    <comment>Query String RootActivityId Missing</comment>
+  </data>
+  <data name="AppPointsPossibleNaNError" xml:space="preserve">
+    <value>Points must be a number.
+
+ 
+</value>
+    <comment>NaN Check for Points Possible in APP</comment>
+  </data>
+  <data name="AppTitleBlankError" xml:space="preserve">
+    <value>The assignment must have a title.</value>
+    <comment>The assignment Blank Error Message.</comment>
+  </data>
+  <data name="WebPartCategory" xml:space="preserve">
+    <value>SharePoint Learning Kit</value>
+    <comment>The category for web part properties.</comment>
+  </data>
+  <data name="QuickAssignmentLabelTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="QuickAssignmentLabelSite" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="QuickAssignmentAssignText" xml:space="preserve">
+    <value>Assign</value>
+  </data>
+  <data name="ActionsItemNotFound" xml:space="preserve">
+    <value>The learning resource does not exist or you may not have permission to access it.</value>
+  </data>
+  <data name="ActionslblAssignSelf" xml:space="preserve">
+    <value>The assignment will appear with all your other assignments.</value>
+  </data>
+  <data name="ActionslblChoose" xml:space="preserve">
+    <value>Choose the site where you'd like to assign this learning resource:</value>
+  </data>
+  <data name="ActionslblMRUAddress" xml:space="preserve">
+    <value>Type the address of the SharePoint site you'd like to add.</value>
+  </data>
+  <data name="ActionslblMRUCurrentSite" xml:space="preserve">
+    <value>(Current Site)</value>
+  </data>
+  <data name="ActionslblOrganization" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="ActionslblSelfAssignAssignNoFile" xml:space="preserve">
+    <value>Assign it</value>
+  </data>
+  <data name="ActionslblSelfAssignAssign" xml:space="preserve">
+    <value>Assign it to someone else</value>
+  </data>
+  <data name="ActionslblSelfAssignHeader" xml:space="preserve">
+    <value>Use it myself</value>
+  </data>
+  <data name="ActionslblWhatHeaderNoFile" xml:space="preserve">
+    <value>Assign work</value>
+  </data>
+  <data name="ActionslblWhatHeader" xml:space="preserve">
+    <value>What would you like to do with this document?</value>
+  </data>
+  <data name="ActionslnkAssignSelf" xml:space="preserve">
+    <value>Assign this learning resource to yourself.</value>
+  </data>
+  <data name="ActionsDocLibLinkNoFile" xml:space="preserve">
+    <value>Assignment</value>
+  </data>
+  <data name="ActionslnkMRUAddSite" xml:space="preserve">
+    <value>Add a site to this list...</value>
+  </data>
+  <data name="ActionsPageDescriptionNoFile" xml:space="preserve">
+    <value>This page allows you to choose which site to assign a piece of work to.</value>
+  </data>
+  <data name="ActionsPageDescription" xml:space="preserve">
+    <value>This page allows you to use a document for e-learning. You can assign
+	the document to yourself or to someone else. When you assign a document to someone else, you can specify
+	a SharePoint site where the assignment will appear, and choose members of that site to be
+	instructors or learners.</value>
+  </data>
+  <data name="ActionsPageTitle" xml:space="preserve">
+    <value>E-Learning Actions</value>
+  </data>
+  <data name="ActionsPageTitleinTitlePage" xml:space="preserve">
+    <value>E-Learning Actions:</value>
+  </data>
+  <data name="LobbyBeginAssignmentText" xml:space="preserve">
+    <value>Begin Assignment</value>
+  </data>
+  <data name="LobbyBeginAssignmentToolTip" xml:space="preserve">
+    <value>Begin assignment (Alt+I)</value>
+  </data>
+  <data name="LobbyDeleteAssignmentText" xml:space="preserve">
+    <value>Delete Assignment</value>
+  </data>
+  <data name="LobbyDeleteMessage" xml:space="preserve">
+    <value>Deleting an assignment will delete all the associated learner data, including learner work and grades for the assignment. You cannot recover deleted information. Click OK to delete the assignment.</value>
+    <comment>Cannot contain single quotes, double quotes, or back slashes.</comment>
+  </data>
+  <data name="LobbyDeleteToolTip" xml:space="preserve">
+    <value>Delete this assignment and all learner work (Alt+X)</value>
+  </data>
+  <data name="LobbylblAutoReturn" xml:space="preserve">
+    <value>The assignment will be returned to the learner automatically.</value>
+  </data>
+  <data name="LobbylblComments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="LobbylblDue" xml:space="preserve">
+    <value>Due</value>
+  </data>
+  <data name="LobbyLabelGrade" xml:space="preserve">
+    <value>Grade</value>
+  </data>
+  <data name="LobbylblScore" xml:space="preserve">
+    <value>Score</value>
+  </data>
+  <data name="LobbylblSite" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="LobbylblStart" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="LobbylblStatus" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="LobbyMarkasCompleteMessage" xml:space="preserve">
+    <value>Once you mark an assignment as complete, you will no longer be able to work on it.</value>
+    <comment>Cannot contain single quotes, double quotes, or back slashes.</comment>
+  </data>
+  <data name="LobbyMarkasCompleteText" xml:space="preserve">
+    <value>Mark as Complete</value>
+  </data>
+  <data name="LobbyMarkasCompleteToolTip" xml:space="preserve">
+    <value>Mark as Complete (Alt+S)</value>
+  </data>
+  <data name="LobbyPageDescription" xml:space="preserve">
+    <value>Use this page to complete and submit your assignment.</value>
+  </data>
+  <data name="LobbyPageTitle" xml:space="preserve">
+    <value>Complete Assignment</value>
+  </data>
+  <data name="LobbyPageTitleinTitlePage" xml:space="preserve">
+    <value>Complete Assignment</value>
+  </data>
+  <data name="LobbyResumeAssignmentText" xml:space="preserve">
+    <value>Resume Assignment</value>
+  </data>
+  <data name="LobbyResumeAssignmentToolTip" xml:space="preserve">
+    <value>Resume Assignment (Alt+I)</value>
+  </data>
+  <data name="LobbyReviewAssignmentText" xml:space="preserve">
+    <value>Review Assignment</value>
+  </data>
+  <data name="LobbyReviewAssignmentToolTip" xml:space="preserve">
+    <value>Review Assignment (Alt+I)</value>
+  </data>
+  <data name="LobbyReviewAssignmentToolTipCompleted" xml:space="preserve">
+    <value>You cannot review the assignment until it has been returned.</value>
+  </data>
+  <data name="LearnerAssignmentStatusActive" xml:space="preserve">
+    <value>In Progress</value>
+  </data>
+  <data name="LearnerAssignmentStatusCompleted" xml:space="preserve">
+    <value>Submitted</value>
+  </data>
+  <data name="LearnerAssignmentStatusFinal" xml:space="preserve">
+    <value>Final</value>
+  </data>
+  <data name="LearnerAssignmentStatusNotStarted" xml:space="preserve">
+    <value>Not Started</value>
+  </data>
+  <data name="LobbySubmitMessage" xml:space="preserve">
+    <value>Submitting an assignment will send it to the instructor. Once it is submitted, you will no longer be able to work on it.</value>
+    <comment>Cannot contain single quotes, double quotes, or back slashes.</comment>
+  </data>
+  <data name="LobbySubmitText" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="LobbySubmitToolTip" xml:space="preserve">
+    <value>Submit (Alt+S)</value>
+  </data>
+  <data name="AppDescMaxLengthError" xml:space="preserve">
+    <value>The description exceeds the maximum length of 4096 characters.</value>
+    <comment>App description Max Length error message.</comment>
+  </data>
+  <data name="AppTitleMaxLengthError" xml:space="preserve">
+    <value>The title exceeds the maximum length of 1000 characters.</value>
+    <comment>App Title Max Length error message.</comment>
+  </data>
+  <data name="ActionsWarning" xml:space="preserve">
+    <value>Some errors in this learning resource were repaired, but the learning resource may not function as expected.</value>
+  </data>
+  <data name="ErrorBannerValidationWarning" xml:space="preserve">
+    <value>There are one or more problems on this page. Additional information is displayed in each section with a problem.</value>
+    <comment>Warning Message Displayed in the Error Banner.</comment>
+  </data>
+  <data name="ActionsHideDetails" xml:space="preserve">
+    <value>(hide details...)</value>
+  </data>
+  <data name="ActionsShowDetails" xml:space="preserve">
+    <value>(show details...)</value>
+  </data>
+  <data name="AppDueDateError" xml:space="preserve">
+    <value>The due date must be later than the start date.</value>
+    <comment>App  Due date : If non blank and  Due date &lt; Start Date Error</comment>
+  </data>
+  <data name="ActionsItemIsFolder" xml:space="preserve">
+    <value>You cannot assign a folder. To assign all the contents of a folder, you must package its contents into a single archive file.</value>
+  </data>
+  <data name="SlkExQueryStringFormatError" xml:space="preserve">
+    <value>The value ({0}) is not valid for the {1} parameter.</value>
+    <comment>Generic Query String Error If Query String is not in write format.</comment>
+  </data>
+  <data name="SlkExQueryStringNotFound" xml:space="preserve">
+    <value>The {0} parameter is missing or empty.</value>
+    <comment>Generic Query String Error If Query String is Missing.</comment>
+  </data>
+  <data name="AppInstructorPermissonNotFound" xml:space="preserve">
+    <value>You cannot assign to this site because you are not an instructor.</value>
+    <comment>Error Message if User doesn’t have instructor permission on the SPWeb.</comment>
+  </data>
+  <data name="AppSPWebNotEnabled" xml:space="preserve">
+    <value>The site {0} has not been enabled for e-learning.</value>
+    <comment>{0} SPWeb.Title . SPWeb is not part of an SLK-enabled SPSite</comment>
+  </data>
+  <data name="SlkSiteNotFound" xml:space="preserve">
+    <value>The site {0} does not exist or is not a valid SharePoint site.</value>
+    <comment>{0} SPWeb.Title . if Site doesn’t exist, or is not a SharePoint SPWeb.</comment>
+  </data>
+  <data name="AppInstructorRequiredError" xml:space="preserve">
+    <value>The assignment must have at least one instructor.</value>
+    <comment>Instructor  Required.</comment>
+  </data>
+  <data name="AppLearnersRequiredError" xml:space="preserve">
+    <value>The assignment must be assigned to at least one learner.</value>
+    <comment>Learners Required.</comment>
+  </data>
+  <data name="SlkNotValidDate" xml:space="preserve">
+    <value>You must specify a valid date within the range of 1/1/1900 and 12/31/8900.</value>
+    <comment>Standare Error Message for invalid Date.</comment>
+  </data>
+  <data name="GradingClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="GradingCollectText" xml:space="preserve">
+    <value>Collect All</value>
+  </data>
+  <data name="GradingCollectToolTip" xml:space="preserve">
+    <value>Collect assignments from all learners (Alt+C)</value>
+  </data>
+  <data name="GradingDeleteText" xml:space="preserve">
+    <value>Delete Assignment</value>
+  </data>
+  <data name="GradingDeleteToolTip" xml:space="preserve">
+    <value>Delete this assignment and all learner work (Alt+X)</value>
+  </data>
+  <data name="GradingEditText" xml:space="preserve">
+    <value>Edit Properties</value>
+  </data>
+  <data name="GradingEditToolTip" xml:space="preserve">
+    <value>Edit properties of the assignment, or change instructors or learners (Alt+I)</value>
+  </data>
+  <data name="GradingSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="GradingPageDescription" xml:space="preserve">
+    <value>Use this page to grade assignments you've assigned. You can also edit an assignment's properties to change its description, due dates, who it's assigned to, etc.</value>
+  </data>
+  <data name="GradingPageTitle" xml:space="preserve">
+    <value>Grade Assignment</value>
+  </data>
+  <data name="GradingPageTitleinTitlePage" xml:space="preserve">
+    <value>Grade Assignment</value>
+  </data>
+  <data name="GradingReturnText" xml:space="preserve">
+    <value>Return All</value>
+  </data>
+  <data name="GradingReturnToolTip" xml:space="preserve">
+    <value>Return assignments to all learners (Alt+R)</value>
+  </data>
+  <data name="GradingCollectMessage" xml:space="preserve">
+    <value>Collecting assignments will prevent learners from continuing to work on them.</value>
+  </data>
+  <data name="GradingDeleteMessage" xml:space="preserve">
+    <value>Deleting an assignment will delete all the associated learner data, including learner work and grades for the assignment. You cannot recover deleted information.</value>
+  </data>
+  <data name="GradingReturnMessage" xml:space="preserve">
+    <value>All learner assignments will be returned to the learners. If you have not graded all the assignments, some learners may receive zero points.</value>
+  </data>
+  <data name="GradinglblDue" xml:space="preserve">
+    <value>Due</value>
+  </data>
+  <data name="GradinglblPoints" xml:space="preserve">
+    <value>Points</value>
+  </data>
+  <data name="GradinglblStart" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="GradinglblAnswers" xml:space="preserve">
+    <value>Correct answers are shown to the learner when the assignment is returned (Class Server content only).</value>
+  </data>
+  <data name="GradinglblAutoReturn" xml:space="preserve">
+    <value>The assignment will be returned to the learner automatically.</value>
+  </data>
+  <data name="GradinglblGradeAssignment" xml:space="preserve">
+    <value>Grade the Assignment</value>
+  </data>
+  <data name="GradinglblGradeAssignmentDescription" xml:space="preserve">
+    <value>Enter grades and comments for individual learners. When you're done, click Save or OK. To exit without
+saving, click Cancel.</value>
+  </data>
+  <data name="ActionsbtnAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="ActionslnkMRUShowAll" xml:space="preserve">
+    <value>(show all sites)</value>
+  </data>
+  <data name="ActionslnkMRUTestLink" xml:space="preserve">
+    <value>Test this link (opens in new window)</value>
+  </data>
+  <data name="ActionsVersioningOff" xml:space="preserve">
+    <value>The document library ({0}) does not have versioning turned on or the number of versions is limited. Editing this learning resource after you assign it could cause unpredictable results.</value>
+  </data>
+  <data name="ActionsInvalidSite" xml:space="preserve">
+    <value>The site ({0}) is not a valid site on this installation of SharePoint, or you may not have permission to access it.</value>
+  </data>
+  <data name="ActionsAlreadyInList" xml:space="preserve">
+    <value>The site ({0}) is already in your list. Click the (show all sites) link to see your entire list.</value>
+  </data>
+  <data name="AppLearnersNotFound" xml:space="preserve">
+    <value>There are no learners on this site.</value>
+    <comment>No learners on SPWeb.</comment>
+  </data>
+  <data name="AppCalendarToolTip" xml:space="preserve">
+    <value>Choose date from calendar</value>
+    <comment>Tool Tip for Date Picker Control</comment>
+  </data>
+  <data name="AppSharePointSiteToolTip" xml:space="preserve">
+    <value>Open site in a new window</value>
+    <comment>Tool Tip for share point site link.</comment>
+  </data>
+  <data name="ActionsMRUToolTip" xml:space="preserve">
+    <value>Assign the learning resource to learners on site: {0}</value>
+  </data>
+  <data name="ActionsSiteRequired" xml:space="preserve">
+    <value>You must type a Web address to add a site to your site list.</value>
+  </data>
+  <data name="ActionsNotEnabled" xml:space="preserve">
+    <value>The site ({0}) is not configured to use SharePoint Learning Kit. Administrators can use SharePoint Central Administration to configure SharePoint Learning Kit.</value>
+  </data>
+  <data name="AlwpNoItemFound" xml:space="preserve">
+    <value>There are no items to show in this view.</value>
+    <comment>If there is no Items in the Selected Query.</comment>
+  </data>
+  <data name="AppPageEditDescription" xml:space="preserve">
+    <value>This page helps you edit an assignment’s properties or change instructors or learners for the assignment.</value>
+    <comment>PlaceHolderPageDescription in APP Edit</comment>
+  </data>
+  <data name="AppPageEditTitle" xml:space="preserve">
+    <value>Edit Assignment</value>
+    <comment>Edit Assignment Title</comment>
+  </data>
+  <data name="AppPageEditTitleInTitleArea" xml:space="preserve">
+    <value>Edit Assignment</value>
+    <comment>Edit Assignment in Title Area</comment>
+  </data>
+  <data name="QuickAssignmentAlwaysShowDisplayName" xml:space="preserve">
+    <value>Always Show</value>
+    <comment>Quick Assignment web part Always Show display name Attribute Value</comment>
+  </data>
+  <data name="QuickAssignmentAlwaysShowDescription" xml:space="preserve">
+    <value>Always show the web part even if not an instructor on the site.</value>
+    <comment>Quick Assignment web part Mode description Attribute Value</comment>
+  </data>
+  <data name="QuickAssignmentTypeDisplayName" xml:space="preserve">
+    <value>Display Mode</value>
+    <comment>Quick Assignment web part Mode display name Attribute Value</comment>
+  </data>
+  <data name="QuickAssignmentTypeDescription" xml:space="preserve">
+    <value>Controls how the control is used.</value>
+    <comment>Quick Assignment web part Mode description Attribute Value</comment>
+  </data>
+  <data name="AlwpDisplaySummaryDescription" xml:space="preserve">
+    <value>Show the control for selecting a query to display in the assignment list.</value>
+    <comment>Alwp DisplaySummary WebDescription  Attribute Value</comment>
+  </data>
+  <data name="AlwpDisplaySummaryDisplayName" xml:space="preserve">
+    <value>Show Query Control</value>
+    <comment>Alwp DisplaySummary WebDisplayName Attribute Value</comment>
+  </data>
+  <data name="AlwpListScopeDescription" xml:space="preserve">
+    <value>Display only assignments for this site instead of all assignments in the database.</value>
+    <comment>Alwp ListScope WebDescription  Attribute Value</comment>
+  </data>
+  <data name="AlwpListScopeDisplayName" xml:space="preserve">
+    <value>Show Only This Site's Assignments</value>
+    <comment>Alwp ListScope WebDisplayName Attribute Value</comment>
+  </data>
+  <data name="AlwpQuerySetOverrideDescription" xml:space="preserve">
+    <value>Query or query set to display for all users instead of the default. For example, "LearnerQuerySet" or "InstructorQuerySet".</value>
+    <comment>Alwp Query Set Override WebDescription  Attribute Value</comment>
+  </data>
+  <data name="AlwpQuerySetOverrideDisplayName" xml:space="preserve">
+    <value>Query Set Override</value>
+    <comment>Alwp Query Set Override WebDisplayName Attribute Value</comment>
+  </data>
+  <data name="AlwpSummaryWidthDescription" xml:space="preserve">
+    <value>Width of the query control.</value>
+    <comment>Alwp SummaryWidth WebDescription Attribute Value</comment>
+  </data>
+  <data name="AlwpSummaryWidthDisplayName" xml:space="preserve">
+    <value>Query Control Width</value>
+    <comment>Alwp SummaryWidth WebDisplayName Attribute Value</comment>
+  </data>
+  <data name="InvalidSelfAssignment" xml:space="preserve">
+    <value>Invalid self assignment.</value>
+  </data>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Access is denied</value>
+  </data>
+  <data name="SPWebDoesNotMatchSlkSPSite" xml:space="preserve">
+    <value>The SPWeb does not match the site specified in the constructor of the SlkStore.</value>
+  </data>
+  <data name="AssignmentNotFoundInDatabase" xml:space="preserve">
+    <value>The assignment (ID {0}) does not exist or you may not have permission to access it.</value>
+    <comment>{0} = AssignmentItemIdentifier</comment>
+  </data>
+  <data name="CommaSpace" xml:space="preserve">
+    <value>, </value>
+    <comment>comma and space (list delimiter)</comment>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>File not found</value>
+  </data>
+  <data name="IncorrectLocationStringSyntax" xml:space="preserve">
+    <value>Incorrect location string syntax</value>
+  </data>
+  <data name="InvalidOrganizationIndex" xml:space="preserve">
+    <value>Organization not found in e-learning package</value>
+    <comment>Occurs when organization index is incorrect</comment>
+  </data>
+  <data name="LearnerAssignmentNotFoundInDatabase" xml:space="preserve">
+    <value>The assignment (ID {0}) does not exist or you may not have permission to access it.</value>
+    <comment>{0} = LearnerAssignmentItemIdentifier</comment>
+  </data>
+  <data name="PackageNotFoundInDatabase" xml:space="preserve">
+    <value>The e-learning package with identifier {0} does not exist or is inaccessible</value>
+    <comment>{0} = PackageItemIdentifier</comment>
+  </data>
+  <data name="LearnerAssignmentNotInCorrectStateForFinish" xml:space="preserve">
+    <value>LearnerAssignment is in the wrong state or doesn't have a valid attempt for this operation</value>
+  </data>
+  <data name="SomeLearnerAssignmentsNotSaved" xml:space="preserve">
+    <value>Some learners' assignments could not be saved: {0}</value>
+    <comment>{0} = comma-delimited list of learner names</comment>
+  </data>
+  <data name="AlwpQueryResultError" xml:space="preserve">
+    <value>ERROR</value>
+    <comment>If Query fails to execute the Query Results Count displays Error.</comment>
+  </data>
+  <data name="AlwpUnknownSite" xml:space="preserve">
+    <value>Unknown Site {0}</value>
+    <comment>Alwp Unknown Site Title</comment>
+  </data>
+  <data name="InvalidSlkRole" xml:space="preserve">
+    <value>Invalid or unsupported SlkRole</value>
+  </data>
+  <data name="GradingInvalidAssignmentId" xml:space="preserve">
+    <value>The assignment (ID {0}) does not exist or you may not have permission to access it.</value>
+  </data>
+  <data name="GradingNotInstructor" xml:space="preserve">
+    <value>You cannot grade the assignment because you are not an instructor for it.</value>
+  </data>
+  <data name="LobbyCannotChangeState" xml:space="preserve">
+    <value>The current assignment status does not allow the requested action.</value>
+  </data>
+  <data name="AppConfirmUnAssigning" xml:space="preserve">
+    <value>If you clear this check box, any work completed on the assignment by this learner or group will be permanently deleted.</value>
+    <comment>Confirmation Message when Learners/Group  checkbox unchecked. Do not  use double quotes or backslashes.</comment>
+  </data>
+  <data name="ActionsNotInstructor" xml:space="preserve">
+    <value>You cannot assign to the site ({0}) because you are not an instructor on that site.</value>
+  </data>
+  <data name="AppConfirmUnCheckCurrentUser" xml:space="preserve">
+    <value>If you uncheck yourself you will no longer be able to grade this assignment, or have access to this assignment’s properties.</value>
+    <comment>Confirmation Message displayed If the current user is unchecked. Do not  use double quotes or backslashes.</comment>
+  </data>
+  <data name="LobbyPointsNoValue" xml:space="preserve">
+    <value>--</value>
+    <comment>value to display when there are no points possible and no points</comment>
+  </data>
+  <data name="SlkDateFormatSpecifier" xml:space="preserve">
+    <value>{0:D}, {0:t}</value>
+    <comment>Specifies {0} = date, {1} = time.</comment>
+  </data>
+  <data name="AlwpWepPartToolTipFormat" xml:space="preserve">
+    <value>{0} - {1}</value>
+    <comment>Specifies {0} = WebPart Title, {1} = Description.</comment>
+  </data>
+  <data name="LobbyPointsNoValuePointsPossible" xml:space="preserve">
+    <value>--/{0:R}</value>
+    <comment>{0} is points possible</comment>
+  </data>
+  <data name="LobbyPointsValue" xml:space="preserve">
+    <value>{0:R}</value>
+    <comment>{0} is points</comment>
+  </data>
+  <data name="LobbyPointsValuePointsPossible" xml:space="preserve">
+    <value>{0:R}/{1:R}</value>
+    <comment>{0} is points and {1} is points possible</comment>
+  </data>
+  <data name="LongDateShortTime" xml:space="preserve">
+    <value>{0:D}, {0:t}</value>
+    <comment>{0:D} is the date and {0:t} is the time</comment>
+  </data>
+  <data name="GradingActionFinalToolTip" xml:space="preserve">
+    <value>Allows the learner to re-do the assignment.</value>
+    <comment>Tool Tip for the Action Checkbox control  if Learner Assignment State is Final in Grading list.</comment>
+  </data>
+  <data name="GradingActionNotSubmittedToolTip" xml:space="preserve">
+    <value>Prevents the learner from continuing to work on the assignment, and allows you to grade it</value>
+    <comment>Tool Tip for the Action Checkbox control  if Learner Assignment State is Not Started or In Progress in Grading list.</comment>
+  </data>
+  <data name="GradingActionSubmittedToolTip" xml:space="preserve">
+    <value>Returns the assignment to the learner for review</value>
+    <comment>Tool Tip for the Action Checkbox control  if Learner Assignment State is Submitted in Grading list.</comment>
+  </data>
+  <data name="GradingActionTextFinal" xml:space="preserve">
+    <value>Reactivate</value>
+    <comment>Text for the Action Checkbox  Label control  if Learner Assignment State is Final in Grading list.</comment>
+  </data>
+  <data name="GradingActionTextNotSubmitted" xml:space="preserve">
+    <value>Collect</value>
+    <comment>Text for the Action Checkbox Label control  if Learner Assignment State is Not Started or In Progress in Grading list.</comment>
+  </data>
+  <data name="GradingActionTextSubmitted" xml:space="preserve">
+    <value>Return</value>
+    <comment>Text for the Action Checkbox Label control  if Learner Assignment State is Submitted in Grading list.</comment>
+  </data>
+  <data name="GradingFinalScoreNotSubmittedToolTip" xml:space="preserve">
+    <value>The learner has not submitted the assignment. To assign a grade, you must collect it.</value>
+    <comment>Tool Tip for the FinalScore control  if Learner Assignment State is Not Started or In Progress in Grading list.</comment>
+  </data>
+  <data name="GradingFinalScoreSubmittedToolTip" xml:space="preserve">
+    <value>To override autograding, enter a final score here.</value>
+    <comment>Tool Tip for the FinalScore control  if Learner Assignment State is Submitted or Final in Grading list.</comment>
+  </data>
+  <data name="GradingStatusFinalToolTip" xml:space="preserve">
+    <value>View and Grade returned work</value>
+    <comment>Tool Tip for the Leaner  if Learner Assignment State is Final in Grading list.</comment>
+  </data>
+  <data name="GradingStatusInProgressToolTip" xml:space="preserve">
+    <value>View learner work in progress</value>
+    <comment>Tool Tip for the Leaner  if Learner Assignment State is In Progress in Grading list.</comment>
+  </data>
+  <data name="GradingStatusNotStartedToolTip" xml:space="preserve">
+    <value>The learner has not started the assignment</value>
+    <comment>Tool Tip for the Leaner  if Learner Assignment State is Not Started in Grading list.</comment>
+  </data>
+  <data name="GradingStatusSubmittedToolTip" xml:space="preserve">
+    <value>Grade learner work</value>
+    <comment>Tool Tip for the Leaner  if Learner Assignment State is Submitted in Grading list.</comment>
+  </data>
+  <data name="GradingSuccessStatusSatisfiedToolTip" xml:space="preserve">
+    <value>Primary objective satisfied</value>
+    <comment>Tool Tip for the icon in the Grading for the learner assignment success status is satisfied.  </comment>
+  </data>
+  <data name="GradingSuccessStatusUnKnownToolTip" xml:space="preserve">
+    <value>None</value>
+    <comment>Tool Tip for the icon in the Grading for the learner assignment success status is unknown.</comment>
+  </data>
+  <data name="GradingSuccessStatusUnSatisfiedToolTip" xml:space="preserve">
+    <value>Primary objective not satisfied</value>
+    <comment>Tool Tip for the icon in the Grading for the learner assignment success status is not satisfied.</comment>
+  </data>
+  <data name="GradingScoreToolTip" xml:space="preserve">
+    <value>Points</value>
+    <comment>The Tool Tip will show as “&lt;Computed points with full precision&gt; Points” where as &lt;Computed points with full precision&gt;  is Graded Score.</comment>
+  </data>
+  <data name="GradingActionHeaderText" xml:space="preserve">
+    <value>Action</value>
+    <comment>Action Header Text in the Grading List.</comment>
+  </data>
+  <data name="GradingGradeHeaderText" xml:space="preserve">
+    <value>Grade</value>
+    <comment>Grade Header Text in the Grading List.</comment>
+  </data>
+  <data name="GradingCommentsHeaderText" xml:space="preserve">
+    <value>Comments</value>
+    <comment>Comments Header Text in the Grading List.</comment>
+  </data>
+  <data name="GradingFinalScoreHeaderText" xml:space="preserve">
+    <value>Final Score</value>
+    <comment>Final Score Header Text in the Grading List.</comment>
+  </data>
+  <data name="GradingGradedScoreHeaderText" xml:space="preserve">
+    <value>Graded Score</value>
+    <comment>Graded Score Header Text in the Grading List.</comment>
+  </data>
+  <data name="GradingLearnerHeaderText" xml:space="preserve">
+    <value>Learner</value>
+    <comment>Learner Header Text in the Grading List.</comment>
+  </data>
+  <data name="GradingStatusHeaderText" xml:space="preserve">
+    <value>Status</value>
+    <comment>Status Header Text in the Grading List.</comment>
+  </data>
+  <data name="GradingFinalScoreNaNError" xml:space="preserve">
+    <value>The score must be a number.</value>
+    <comment>Alert message if Final Score in Grading is non-blank and not a number.</comment>
+  </data>
+  <data name="GradingConfirmOverrideFinalPoints" xml:space="preserve">
+    <value>You previously cleared the final score for this learner. Click OK to overwrite the blank score with the new score of {0}. Click Cancel to leave the final score blank.</value>
+    <comment>Confirmation Message Displayed When Override the Final Score as it is Graded Now.  {0} represents &lt;graded score&gt;. </comment>
+  </data>
+  <data name="GradingReactivateMessage" xml:space="preserve">
+    <value>Reactivating this assignment erases any scoring changes made by instructors and returns the assignment to the learner to complete again.</value>
+  </data>
+  <data name="GradingCollectAccessKey" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="GradingDeleteAccessKey" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="GradingEditAccessKey" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="GradingReturnAccessKey" xml:space="preserve">
+    <value>R</value>
+  </data>
+  <data name="LobbyBeginAccessKey" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="LobbyDeleteAccessKey" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="LobbyInvalidLearnerAssignmentId" xml:space="preserve">
+    <value>The learner assignment (ID {0}) does not exist or you may not have permission to access it.</value>
+  </data>
+  <data name="LobbySubmitAccessKey" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="LobbyInvalidSite" xml:space="preserve">
+    <value>This Web site is not accessible.</value>
+  </data>
+  <data name="AppNavigateToDocLib" xml:space="preserve">
+    <value>Go back to {0}</value>
+    <comment>{0} Doclib Name. App  navigates to the folder in the doclib where the content was assigned from.</comment>
+  </data>
+  <data name="ActionsCheckedOutError" xml:space="preserve">
+    <value>You cannot assign the learning resource because it is currently checked out to you. You must check it in before assigning it.</value>
+  </data>
+  <data name="ActionsDraftVersion" xml:space="preserve">
+    <value>The learning resource is a draft. If you assign it, learners may lose access to it once it is published or approved.</value>
+  </data>
+  <data name="LobbyWindowAlreadyOpen" xml:space="preserve">
+    <value>This assignment is already open in another window.</value>
+  </data>
+  <data name="SlkUtilitiesCannotSortColumnType" xml:space="preserve">
+    <value>Cannot sort on a column of type: {0}</value>
+  </data>
+  <data name="SlkUtilitiesColumnIndexOutOfRange" xml:space="preserve">
+    <value>columnIndex out of range</value>
+  </data>
+  <data name="SlkUtilitiesColumnNotDefined" xml:space="preserve">
+    <value>Column "{0}" not defined in LearningStore view "{1}"</value>
+  </data>
+  <data name="SlkUtilitiesColumnReturnedNull" xml:space="preserve">
+    <value>{0} column returned NULL</value>
+  </data>
+  <data name="SlkUtilitiesColumnReturnedUnexpectedType" xml:space="preserve">
+    <value>{0} column returned type {1}, expecting type {2}</value>
+  </data>
+  <data name="SlkUtilitiesConditionException" xml:space="preserve">
+    <value>At most one of the attributes "Value" or "MacroName" may be provided, and neither may be provided if "Operator" is "IsNull" or "IsNotNull"; "MacroName" must be provided if "NoConditionOnNull" is "true"</value>
+  </data>
+  <data name="SlkUtilitiesDuplicateQueryName" xml:space="preserve">
+    <value>Duplicate query name: {0}</value>
+  </data>
+  <data name="SlkUtilitiesDuplicateQuerySetName" xml:space="preserve">
+    <value>Duplicate query set name: {0}</value>
+  </data>
+  <data name="SlkUtilitiesMacroNameNotProvided" xml:space="preserve">
+    <value>if noConditionOnNull is true, macroName must be provided</value>
+  </data>
+  <data name="SlkUtilitiesMacroNotDefined" xml:space="preserve">
+    <value>Macro not defined: {0}</value>
+  </data>
+  <data name="SlkUtilitiesOneValueNonNull" xml:space="preserve">
+    <value>at most one of value and macroName arguments can be non-null</value>
+  </data>
+  <data name="SlkUtilitiesPointsNoValue" xml:space="preserve">
+    <value>--</value>
+    <comment>value to display when there are no points possible and no points</comment>
+  </data>
+  <data name="SlkUtilitiesPointsNoValuePointsPossible" xml:space="preserve">
+    <value>--/{0:R}</value>
+    <comment>{0} is points possible</comment>
+  </data>
+  <data name="SlkUtilitiesPointsPossible" xml:space="preserve">
+    <value>{0}/{1:R}</value>
+    <comment>{0} is the points value already converted to a string. {1} is points possible.</comment>
+  </data>
+  <data name="SlkUtilitiesPointsValue" xml:space="preserve">
+    <value>{0:R}</value>
+    <comment>{0} is points</comment>
+  </data>
+  <data name="SlkUtilitiesPointsValuePointsPossible" xml:space="preserve">
+    <value>{0:R}/{1:R}</value>
+    <comment>{0} is points and {1} is points possible</comment>
+  </data>
+  <data name="SlkUtilitiesQuerySetSameAsQuery" xml:space="preserve">
+    <value>Query set name cannot be the same as a query name: {0}</value>
+  </data>
+  <data name="SlkUtilitiesSettingsException" xml:space="preserve">
+    <value>line {0}: {1}</value>
+    <comment>{0} is the line number. {1} is the message</comment>
+  </data>
+  <data name="SlkUtilitiesSettingsExceptionDefaultFormat" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="SlkUtilitiesSubmitted" xml:space="preserve">
+    <value>{0}/{1}</value>
+    <comment>{0} is completed or submitted assignments. {1} is total assignments.</comment>
+  </data>
+  <data name="SlkUtilitiesUndefinedQuery" xml:space="preserve">
+    <value>Undefined query: {0}</value>
+  </data>
+  <data name="SlkUtilitiesUnknownRenderAsValue" xml:space="preserve">
+    <value>Unknown RenderAs value: {0}</value>
+  </data>
+  <data name="SlkUtilitiesValueNullifIsNotNull" xml:space="preserve">
+    <value>value and macroName arguments must be null if oper is "IsNotNull"</value>
+  </data>
+  <data name="SlkUtilitiesValueNullifIsNull" xml:space="preserve">
+    <value>value and macroName arguments must be null if oper is "IsNull"</value>
+  </data>
+  <data name="SlkUtilitiesViewColumnNameNonDateTime" xml:space="preserve">
+    <value>RenderAs="UtcAsLocalDateTime" but ViewColumnName specifies a non-date/time column</value>
+  </data>
+  <data name="AppLearnersHeaderText" xml:space="preserve">
+    <value>Learners</value>
+    <comment>APP Learners Header Text</comment>
+  </data>
+  <data name="PackageNotValid" xml:space="preserve">
+    <value>The learning resource is not valid. {0}</value>
+    <comment>{0} = inner exception message</comment>
+  </data>
+  <data name="AdminErrorPageHtml" xml:space="preserve">
+    <value>&lt;html&gt;&lt;body style="font: 10pt Tahoma"&gt;{0}&lt;/body&gt;&lt;/html&gt;</value>
+    <comment>{0} = error HTML</comment>
+  </data>
+  <data name="DownloadSettingsError" xml:space="preserve">
+    <value>Error in DownloadSettings.aspx: {0}</value>
+    <comment>{0} = exception text</comment>
+  </data>
+  <data name="DownloadSettingsIncorrectUrl" xml:space="preserve">
+    <value>The URL is incorrect.</value>
+  </data>
+  <data name="InvalidSlkSettingsFilePath" xml:space="preserve">
+    <value>The SLK Settings file path specified does not exist.</value>
+    <comment>Error string when the specified SLK Settings file path does not exist</comment>
+  </data>
+  <data name="DomainGroupEnumFailed" xml:space="preserve">
+    <value>Domain group enumeration failed for path "{0}"</value>
+    <comment>{0} = directory path</comment>
+  </data>
+  <data name="DomainGroupNotFound" xml:space="preserve">
+    <value>Could not find group {0}.</value>
+  </data>
+  <data name="DomainGroupAuthenticatedUsers" xml:space="preserve">
+      <value>Cannot use NT AUTHORITY\Authenticated users group for assigning work in SLK.</value>
+  </data>
+  <data name="DomainGroupDomainUsers" xml:space="preserve">
+      <value>Cannot use Domain Users group for assigning work in SLK.</value>
+  </data>
+  <data name="DomainGroupInvalid" xml:space="preserve">
+    <value>Cannot determine group in AD</value>
+  </data>
+  <data name="DomainGroupInvalidSid" xml:space="preserve">
+      <value>Cannot determine group in AD. Invalid SID {0}.</value>
+  </data>
+  <data name="DomainGroupxxx" xml:space="preserve">
+    <value>xxx</value>
+  </data>
+  <data name="DomainGroupxxx" xml:space="preserve">
+    <value>xxx</value>
+  </data>
+  <data name="DomainGroupEnumTimeout" xml:space="preserve">
+    <value>Domain group enumeration timed out</value>
+  </data>
+  <data name="DomainGroupError" xml:space="preserve">
+    <value>Domain group "{0}": {1}</value>
+    <comment>{0} = domain group name; {1} = exception stack trace</comment>
+  </data>
+  <data name="ErrorCreatingSPSiteUser" xml:space="preserve">
+    <value>Error creating one or more users in site collection "{0}": {1}</value>
+    <comment>{0} = site collection URL; {1} = exception stack trace</comment>
+  </data>
+  <data name="DomainGroupEnumSkippedDueToTimeout" xml:space="preserve">
+    <value>Enumeration of the members of domain group "{0}" skipped due to timeout</value>
+    <comment>{0} = domain group name</comment>
+  </data>
+  <data name="DomainGroupNameHasNoBackslash" xml:space="preserve">
+    <value>Domain group "{0}" has no backslash (\)</value>
+    <comment>{0} = domain group name</comment>
+  </data>
+  <data name="LobbyDeleteException" xml:space="preserve">
+    <value>Failed to delete the assignment. More information may be available in the server event log.</value>
+    <comment>Message shown when an exception happens on delete.</comment>
+  </data>
+  <data name="LobbySubmitException" xml:space="preserve">
+    <value>Failed to submit the assignment. More information may be available in the server event log.</value>
+    <comment>Message shown when an exception happens on submit.</comment>
+  </data>
+  <data name="AppEnumerationWarning" xml:space="preserve">
+    <value>The list of instructors or learners may be incomplete because the following groups could not be read:
+{0}
+More information may be available in the server event log.</value>
+    <comment>If a SharePoint or domain group assigned the instructor or learner permissions encounter an error during enumeration</comment>
+  </data>
+  <data name="UnexpectedDBNull" xml:space="preserve">
+    <value>Unexpected DBNull value</value>
+  </data>
+  <data name="GradingGradedScore" xml:space="preserve">
+    <value>{0:F2}</value>
+  </data>
+  <data name="GradingGradedScoreToolTip" xml:space="preserve">
+    <value>{0:R} {1}</value>
+  </data>
+  <data name="SlkPackageAndOrganizationTitle" xml:space="preserve">
+    <value>{0} - {1}</value>
+    <comment>{0} is the package title and {1} is the organization title</comment>
+  </data>
+  <data name="AppAllLearnersGroup" xml:space="preserve">
+    <value>All Learners</value>
+    <comment>Default All Learners group in APP</comment>
+  </data>
+  <data name="SlkExInstructorPermissonNotFound" xml:space="preserve">
+    <value>You cannot perform this operation because you are not an instructor on this site ({0}).</value>
+    <comment>Error Message if User doesn’t have instructor permission on the SPWeb.</comment>
+  </data>
+  <data name="LearnerAssignmentTransitionNotSupported" xml:space="preserve">
+      <value>Requested learner assignment state transition is not supported. {0} to {1}.</value>
+  </data>
+  <data name="ConfigureTitle" xml:space="preserve">
+    <value>Configure SharePoint Learning Kit</value>
+  </data>
+  <data name="ConfigureDescription" xml:space="preserve">
+    <value>Use this page to configure SharePoint Learning Kit (SLK) for one or more Site Collections.</value>
+  </data>
+  <data name="ConfigureImageConfigurationComplete" xml:space="preserve">
+    <value>Configuration complete.</value>
+  </data>
+  <data name="ConfigureImagePleaseWait" xml:space="preserve">
+    <value>Please wait while your changes are processed.</value>
+  </data>
+  <data name="ConfigureLabelConfigurationComplete" xml:space="preserve">
+    <value>Configuration complete.</value>
+  </data>
+  <data name="ConfigureLabelPleaseWait" xml:space="preserve">
+    <value>Please wait while your changes are processed.</value>
+  </data>
+  <data name="ConfigureLinkConfigureAnother" xml:space="preserve">
+    <value>Configure another Site Collection</value>
+  </data>
+  <data name="ConfigureInputSiteSelectorDescription" xml:space="preserve">
+    <value>Select a Site Collection to configure.</value>
+  </data>
+  <data name="AppNotAnInstructorInCurrentSiteError" xml:space="preserve">
+    <value>The available learners and instructors for this site could not be displayed because you are not an instructor on the site.</value>
+  </data>
+  <data name="ConfigureBtnOKText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ConfigureChkCreateDatabaseLabelText" xml:space="preserve">
+    <value>Create a new database</value>
+  </data>
+  <data name="ConfigureChkCreatePermissionsLabelText" xml:space="preserve">
+    <value>Create permissions</value>
+  </data>
+  <data name="ConfigureInputDatabaseServerLabelText" xml:space="preserve">
+    <value>Database server:</value>
+  </data>
+  <data name="ConfigureInputDatabaseTitle" xml:space="preserve">
+    <value>SLK Database</value>
+  </data>
+  <data name="ConfigureInputInstructorPermissionsLabelText" xml:space="preserve">
+    <value>Instructor permission:</value>
+  </data>
+  <data name="ConfigureInputLearnerPermissionsLabelText" xml:space="preserve">
+    <value>Learner permission:</value>
+  </data>
+  <data name="ConfigureInputPermissionsTitle" xml:space="preserve">
+    <value>SLK Permissions</value>
+  </data>
+  <data name="ConfigureInputSiteSelectorTitle" xml:space="preserve">
+    <value>Site Collection</value>
+  </data>
+  <data name="ConfigureInputSlkSettingsFileLabelText" xml:space="preserve">
+    <value>New SLK Settings file:</value>
+  </data>
+  <data name="ConfigureInputSlkSettingsTitle" xml:space="preserve">
+    <value>SLK Settings</value>
+  </data>
+  <data name="ConfigureLabelDatabaseDescriptionText" xml:space="preserve">
+    <value>&lt;p style="margin-bottom: 6pt"&gt;Specify the SLK database that will contain e-learning assignments for the selected site collection.&lt;/p&gt;&lt;p style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;ul style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;li style="margin-bottom: 6pt"&gt;Multiple site collections can share the same SLK database.  To use an existing SLK database, enter the server and database name.&lt;/li&gt;&lt;li&gt;To create a new database, enter an existing database server and a new database name, and select &lt;b&gt;Create a new database&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;</value>
+  </data>
+  <data name="ConfigureLabelPermissionsDescriptionText" xml:space="preserve">
+    <value>&lt;p style="margin-bottom: 6pt"&gt;Specify the SharePoint permissions that will identify instructors and learners in SLK.&lt;/p&gt;&lt;p style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;ul style="margin-top: 0pt; margin-bottom: 0pt;"&gt;&lt;li style="margin-bottom: 6pt"&gt;To use existing SharePoint permissions to identify instructors and learners, enter the permission names; for example, "Contribute" and "Read".&lt;/li&gt;&lt;li&gt;To create new permissions, enter the permission names and select &lt;b&gt;Create permissions&lt;/b&gt;.&lt;/p&gt;&lt;/ul&gt;&lt;/p&gt;&lt;p style="margin-top: 0pt"&gt;&lt;b&gt;Recommended&lt;/b&gt;&amp;nbsp; Create "SLK Instructor" and "SLK Learner" permissions for new installations.&lt;/p&gt;</value>
+  </data>
+  <data name="ConfigureLabelSlkSettingDescriptionText" xml:space="preserve">
+    <value>&lt;p style="margin-bottom: 6pt"&gt;Optionally, upload a new SLK Settings XML file. This XML file specifies the queries that are available within Assignment List Web Part, as well as other settings.&lt;/p&gt;</value>
+  </data>
+  <data name="ConfigureLinkCurrentSettingsFileText" xml:space="preserve">
+    <value>Click here to download the current SLK Settings file</value>
+  </data>
+  <data name="ConfigureLinkDefaultSettingsFileText" xml:space="preserve">
+    <value>Click here to download the default SLK Settings file used in new installations</value>
+  </data>
+  <data name="ConfigureTxtDatabaseNameToolTip" xml:space="preserve">
+    <value>Database Name</value>
+  </data>
+  <data name="ConfigureTxtDatabaseServerToolTip" xml:space="preserve">
+    <value>Database Server</value>
+  </data>
+  <data name="ConfigureTxtInstructorPermissionToolTip" xml:space="preserve">
+    <value>Instructor Permission</value>
+  </data>
+  <data name="ConfigureTxtLearnerPermissionToolTip" xml:space="preserve">
+    <value>Learner Permission</value>
+  </data>
+  <data name="APPInvalidSite" xml:space="preserve">
+    <value>This Web site is not accessible.</value>
+    <comment>Set the Web Site Title to not accesible in APP when user does not have access to it.</comment>
+  </data>
+  <data name="SlkExAlwpSqlDeadLockError" xml:space="preserve">
+    <value>The server is currently busy. Please refresh your browser.</value>
+    <comment>When Alwp  becomes victom of dead lock displays this  specific message suggesting the user to refresh the browser.
+</comment>
+  </data>
+  <data name="SlkExWorkFlowSqlDeadLockError" xml:space="preserve">
+    <value>The server is currently busy. Please retry your operation.</value>
+    <comment>When work flow pages  become victom of dead lock displays this  specific message suggesting the user try the operation again.
+</comment>
+  </data>
+  <data name="ConfigureInputObserverPermissionsLabelText" xml:space="preserve">
+    <value>Observer Permission:</value>
+  </data>
+  <data name="ConfigureTxtObserverPermissionToolTip" xml:space="preserve">
+    <value>Observer Permission</value>
+  </data>
+  <data name="DefaultSlkObserverPermissionName" xml:space="preserve">
+    <value>SLK Observer</value>
+    <comment>This is the default name of the Sharepoint permission which identifies observers</comment>
+  </data>
+  <data name="ObserverRoleCommunicationInterfaceTitle" xml:space="preserve">
+    <value>SLK Assignment List Web Part</value>
+    <comment>This string is used as the menu label in the communication interface between ALWP and the 3rd party web part.</comment>
+  </data>
+  <data name="SlkObserverPermissionDescription" xml:space="preserve">
+    <value>Appears as a potential observer when new assignments are created using the SharePoint Learning Kit</value>
+    <comment>'SLK Observer' permission is created with this description</comment>
+  </data>
+  <data name="SessionNotConfigured" xml:space="preserve">
+    <value>To use the observor role session state must be enabled for the web application.</value>
+    <comment>Tried to use observor role without setting session state up.</comment>
+  </data>
+  <data name="SubmittedFilesPageDescription" xml:space="preserve">
+    <value>Use this page to view the assignment submitted files.</value>
+  </data>
+  <data name="SubmittedFilesPageTitle" xml:space="preserve">
+    <value>Submitted File(s)</value>
+  </data>
+  <data name="SubmittedFilesTitleinTitlePage" xml:space="preserve">
+    <value>Submitted File(s)</value>
+  </data>
+  <data name="SubmittedFilesHeader" xml:space="preserve">
+      <value>{0} : {1} Files</value>
+  </data>
+  <data name="SubmittedFilesInstructorMessage" xml:space="preserve">
+      <value>Click here to view all files submitted by {0} for this assignment.</value>
+  </data>
+  <data name="SubmittedFilesLearnerNoAccessException" xml:space="preserve">
+    <value>You don't have access to this page because the assignment is still not returned by the instructor.</value>
+  </data>
+  <data name="SubmittedFilesTeacherNoAccessException" xml:space="preserve">
+    <value>You don't have access to this page because the assignment is still not submitted by the student.</value>
+  </data>
+  <data name="LobbyReviewSubmittedText" xml:space="preserve">
+    <value>Review Submitted File(s)</value>
+  </data>
+  <data name="LobbyReviewSubmittedToolTip" xml:space="preserve">
+    <value>View assignment submitted files updated with instructor(s) comments.</value>
+  </data>
+  <data name="SubmittedFilesNoAssignmentFilesException" xml:space="preserve">
+    <value>No files were found for this assignment.</value>
+  </data>
+  <data name="SubmittedFilesNoAssignmentFolderException" xml:space="preserve">
+    <value>No folder was found for this assignment.</value>
+  </data>
+  <data name="SubmittedFilesNoAssignmentSubFolderException" xml:space="preserve">
+    <value>No sub folder was found for this assignment for the given student name.</value>
+  </data>
+  <data name="GradingFileSubmissionHeaderText" xml:space="preserve">
+    <value>File Submission</value>
+  </data>
+  <data name="GradingFileSubmissionNA" xml:space="preserve">
+    <value>Not Available</value>
+  </data>
+  <data name="GradingFileSubmissionNotSubmitted" xml:space="preserve">
+    <value>Not Submitted</value>
+  </data>
+  <data name="GradingFileSubmissionSubmitted" xml:space="preserve">
+    <value>Submitted</value>
+  </data>
+  <data name="GradingFileSubmissionSubmittedNoFiles" xml:space="preserve">
+    <value>Submitted with no files</value>
+  </data>
+  <data name="AlwpFileSubmissionColumnTitle" xml:space="preserve">
+    <value>File Submission</value>
+  </data>
+  <data name="AlwpFileSubmissionSubmittedText" xml:space="preserve">
+    <value>Submitted LINK</value>
+  </data>
+  <data name="AlwpFileSubmissionSubmitText" xml:space="preserve">
+    <value>Submit File(s)</value>
+  </data>
+
+  <data name="QueryTitleOverdue" xml:space="preserve">
+    <value>Overdue</value>
+  </data>
+  <data name="QueryColumnTitleSite" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="QueryColumnTitleAssignment" xml:space="preserve">
+    <value>Assignment</value>
+  </data>
+  <data name="QueryColumnTitleDue" xml:space="preserve">
+    <value>Due</value>
+  </data>
+  <data name="QueryColumnTitleStatus" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="QueryColumnTitleScore" xml:space="preserve">
+    <value>Score</value>
+  </data>
+  <data name="QueryColumnTitleSubmitted" xml:space="preserve">
+    <value>Submitted</value>
+  </data>
+  <data name="QueryColumnTitleAverage" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="QueryColumnTitleFileSubmission" xml:space="preserve">
+    <value>File Submission</value>
+  </data>
+  <data name="QueryColumnNullDisplayUntitled" xml:space="preserve">
+    <value>Untitled</value>
+  </data>
+  <data name="QueryColumnNullDisplayDash" xml:space="preserve">
+    <value>--</value>
+  </data>
+  <data name="QueryColumnToolTipScore" xml:space="preserve">
+      <value>Score: {0}</value>
+  </data>
+  <data name="QueryColumnToolTipAverage" xml:space="preserve">
+      <value>Average: {0}</value>
+  </data>
+  <data name="QueryColumnToolTipDue" xml:space="preserve">
+      <value>Due: {0:D}, {0:t}</value>
+  </data>
+  <data name="QueryTitleOverdue" xml:space="preserve">
+      <value>Overdue</value>
+  </data>
+  <data name="QueryTitleDueToday" xml:space="preserve">
+      <value>Due Today</value>
+  </data>
+  <data name="QueryTitleDueThisWeek" xml:space="preserve">
+      <value>Due This Week</value>
+  </data>
+  <data name="QueryTitleDueNextWeek" xml:space="preserve">
+      <value>Due Next Week</value>
+  </data>
+  <data name="QueryTitleToDo" xml:space="preserve">
+      <value>To Do</value>
+  </data>
+  <data name="QueryTitleReturned" xml:space="preserve">
+      <value>Returned</value>
+  </data>
+  <data name="QueryTitleAllAssignments" xml:space="preserve">
+      <value>All Assignments</value>
+  </data>
+  <data name="QueryTitleActive" xml:space="preserve">
+      <value>Active</value>
+  </data>
+  <data name="QueryTitleReadyToGrade" xml:space="preserve">
+      <value>Ready To Grade</value>
+  </data>
+  <data name="QueryTitleReturned" xml:space="preserve">
+      <value>Returned</value>
+  </data>
+  <data name="QuerySetTitleLearner" xml:space="preserve">
+      <value>Learner Query Set</value>
+  </data>
+  <data name="QuerySetTitleInstructor" xml:space="preserve">
+      <value>Instructor Query Set</value>
+  </data>
+  <data name="QuerySetTitleObserver" xml:space="preserve">
+      <value>Observer Query Set</value>
+  </data>
+
+  <data name="AssFolderAlreadyExists" xml:space="preserve">
+    <value>An assignment folder with the same name already exists</value>
+  </data>
+  <data name="AssFolderNotFound" xml:space="preserve">
+    <value>No folder was found for this assignment</value>
+  </data>
+  <data name="SubFolderNotFound" xml:space="preserve">
+    <value>No sub folder was found for this assignment for the given student name</value>
+  </data>
+  <data name="GradingDownloadAccessKey" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="GradingDownloadText" xml:space="preserve">
+    <value>Download All Files</value>
+  </data>
+  <data name="GradingDownloadToolTip" xml:space="preserve">
+    <value>Download a zipped file for all students' submissions for this assignment</value>
+  </data>
+  <data name="GradingUploadAccessKey" xml:space="preserve">
+    <value>U</value>
+  </data>
+  <data name="GradingUploadText" xml:space="preserve">
+    <value>Upload Commented Files</value>
+  </data>
+  <data name="GradingUploadToolTip" xml:space="preserve">
+    <value>Upload the assignment back with comments</value>
+  </data>
+  <data name="CommentedFilesAssignmnetsNotCompleted" xml:space="preserve">
+    <value>One or more learners did not complete the assignment yet</value>
+  </data>
+  <data name="CommentedFilesExtractFileException" xml:space="preserve">
+    <value>An error occurred while trying to extract the uploaded file.</value>
+  </data>
+  <data name="CommentedFilesNoAccessException" xml:space="preserve">
+    <value>You do not have access to this page because you are not an instructor</value>
+  </data>
+  <data name="CommentedFilesPageDescription" xml:space="preserve">
+    <value>Use this page to upload the assignment commented files.</value>
+  </data>
+  <data name="CommentedFilesPageTitle" xml:space="preserve">
+    <value>Commented File(s)</value>
+  </data>
+  <data name="CommentedFilesIgnoredMessage" xml:space="preserve">
+    <value>file(s) ignored.</value>
+  </data>
+  <data name="CommentedFilesTitleinTitlePage" xml:space="preserve">
+    <value>Commented  File(s)</value>
+  </data>
+  <data name="CommentedFilesUploadMessage" xml:space="preserve">
+    <value>commented file(s) uploaded</value>
+  </data>
+  <data name="CommentedFilesUploadFailed" xml:space="preserve">
+    <value>No assignment folder exists for </value>
+  </data>
+  <data name="GradingNotAllLearnersSubmitted" xml:space="preserve">
+    <value>One or more learners did not complete the assignment yet</value>
+  </data>
+  <data name="AssignmentNameAlreadyUsed" xml:space="preserve">
+    <value>This name is already used for another assignment.</value>
+  </data>
+  <data name="LobbySubmitFilesAccessKey" xml:space="preserve">
+    <value>F</value>
+  </data>
+  <data name="LobbySubmitFilesText" xml:space="preserve">
+    <value>Submit File(s)</value>
+  </data>
+  <data name="LobbySubmitFilesToolTip" xml:space="preserve">
+    <value>Submit your solution for this assignment.</value>
+  </data>
+  <data name="FilesUploadPageTitle" xml:space="preserve">
+    <value>Submit File(s)</value>
+  </data>
+  <data name="FilesUploadDocumentUpload" xml:space="preserve">
+    <value>Upload Document</value>
+  </data>
+  <data name="FilesUploadDocumentUploadDescription" xml:space="preserve">
+    <value>Browse to the document you intend to upload.</value>
+  </data>
+  <data name="FilesUploadName" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="FilesUploadPageTitleInTitle" xml:space="preserve">
+    <value>Submit File(s)</value>
+  </data>
+  <data name="CommentedFilesNoAssignmentFolderException" xml:space="preserve">
+    <value>assignment folder does not exist under Drop Box Document Library.</value>
+  </data>
+  <data name="CommentedFilesMissedMessage" xml:space="preserve">
+    <value>file(s) missing</value>
+  </data>
+  <data name="CommentedFilesStatusMessage" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="CommentedFilesExtractionFailed" xml:space="preserve">
+    <value>No commented files were uploaded, please check the zip file.</value>
+  </data>
+  <data name="CommentedFilesInvalidExtenstion" xml:space="preserve">
+    <value>Upload zip files only.</value>
+  </data>
+  <data name="CommentedFilesNoFileAttached" xml:space="preserve">
+    <value>Please attach a file.</value>
+  </data>
+  <data name="CommentedFilesNoFilesUploaded" xml:space="preserve">
+    <value>No commented files were uploaded to</value>
+  </data>
+  <data name="FilesUploadAssFolderUnavailableErr" xml:space="preserve">
+    <value>The assignment folder is unavailable. Try again later, if the problem persists contact the system administrator.</value>
+  </data>
+  <data name="FilesUploadAssInaccessible" xml:space="preserve">
+    <value>Once the assignment is submitted to the instructor, it will not be accessible.</value>
+  </data>
+  <data name="FilesUploadAssIsInaccessible" xml:space="preserve">
+    <value>The assignment has been submitted to the instructor and is not accessible.</value>
+  </data>
+  <data name="DropBoxUnavailableError" xml:space="preserve">
+    <value>Currently the Drop Box is unavailable. Try again later, if the problem persists contact the system administrator.</value>
+  </data>
+  <data name="FilesUploadInvalidExtensions" xml:space="preserve">
+      <value>One or more of the files you are trying to upload has an disallowed file extension. Permitted file extensions are {0}.</value>
+  </data>
+  <data name="FilesUploadNoLearnerFolder" xml:space="preserve">
+    <value>Your learner folder does not exist, please contact your instructor.</value>
+  </data>
+  <data name="FilesUploadOrCancel" xml:space="preserve">
+    <value>At least one file should be uploaded to submit the assignment.If you are not ready yet to submit the assignment click Cancel.</value>
+  </data>
+  <data name="DefaultDropBoxFilesExtensions" xml:space="preserve">
+    <value>doc;pdf</value>
+  </data>
+  <data name="DropBoxDocLibName" xml:space="preserve">
+    <value>DropBox Document</value>
+  </data>
+  <data name="FilesSubmissionResultPageTitle" xml:space="preserve">
+    <value>File(s) Submission Result</value>
+  </data>
+  <data name="FilesSubmissionResultPageTitleInTitle" xml:space="preserve">
+    <value>File(s) Submission Result</value>
+  </data>
+  <data name="FilesSubmissionResultLblMsg" xml:space="preserve">
+    <value>The Assignment file(s) submission was completed successfully.</value>
+  </data>
+  <data name="FilesUploadPageSuccessMsg" xml:space="preserve">
+    <value>The Assignment file(s) submission was completed successfully.</value>
+  </data>
+  <data name="FilesUploadPageFailureMessage" xml:space="preserve">
+      <value>Failed to upload files [{0}]. Invalid extensions.</value>
+  </data>
+  <data name="DropBoxManagerUploadFilesNoInstructor" xml:space="preserve">
+      <value>Instructor user {0} not found.</value>
+  </data>
+  <data name="DropBoxManagerNoRole" xml:space="preserve">
+      <value>Cannot find role {0}. This is required to set Drop Box permissions.</value>
+  </data>
+  <data name="DropBoxDefaultViewTitle" xml:space="preserve">
+      <value>My Assignments</value>
+  </data>
+  <data name="DropBoxTitle" xml:space="preserve">
+    <value>Drop Box</value>
+  </data>
+  <data name="DropBoxColumnAssignmentKey" xml:space="preserve">
+    <value>Assignment</value>
+  </data>
+  <data name="DropBoxColumnAssignmentName" xml:space="preserve">
+    <value>Assignment Name</value>
+  </data>
+  <data name="DropBoxColumnAssignmentDate" xml:space="preserve">
+    <value>Assignment Date</value>
+  </data>
+  <data name="DropBoxColumnAssignmentId" xml:space="preserve">
+    <value>Assignment Id</value>
+  </data>
+  <data name="DropBoxColumnIsLatest" xml:space="preserve">
+    <value>Is Latest</value>
+  </data>
+  <data name="DropBoxColumnLearner" xml:space="preserve">
+    <value>Learner</value>
+  </data>
+  <data name="DropBoxColumnLearnerId" xml:space="preserve">
+    <value>Learner Id</value>
+  </data>
+  <data name="NoAccessToSite" xml:space="preserve">
+    <value>Cannot access site.</value>
+  </data>
+  <data name="InvalidNewAssignment" xml:space="preserve">
+    <value>You must set the location of an assignment before creating one.</value>
+  </data>
+  <data name="NoPackageTitle" xml:space="preserve">
+    <value>Quick Assignment.</value>
+  </data>
+  <data name="NewAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>New Assignment: %title%</value>
+  </data>
+  <data name="NewAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>You have been assigned a new piece of work: <strong>%title%</strong>.</p>
+<p>%description%</p>
+<p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="ReactivateAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% has been reactivated</value>
+  </data>
+  <data name="ReactivateAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> has been reactivated for you to try again.</p>
+          <p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="CollectAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% has been collected in</value>
+  </data>
+  <data name="CollectAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> has been collected in.</p>
+          <p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="ReturnAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% has been returned</value>
+  </data>
+  <data name="ReturnAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> has been returned.</p>
+          <p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="SubmitAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment %title% submitted by %name%</value>
+  </data>
+  <data name="SubmitAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> had been submitted by %name%.</p>
+          <p><a href='%gradingUrl%'>%gradingUrl%</a></p>]]></value>
+  </data>
+  <data name="AssignmentReminderEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment Reminder : %title%</value>
+  </data>
+  <data name="AssignmentReminderEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> is due on %due%.</p>
+<p><a href='%url%'>%url%</a></p>]]></value>
+  </data>
+  <data name="CancelAssignmentEmailDefaultSubject" xml:space="preserve">
+    <value>Assignment Cancelled : %title%</value>
+  </data>
+  <data name="CancelAssignmentEmailDefaultBody" xml:space="preserve">
+      <value><![CDATA[<p>Assignment <strong>%title%</strong> had been collected.</p>]]></value>
+  </data>
+  <data name="SubmitAssignmentNotLearner" xml:space="preserve">
+    <value>Only the learner can submit the assignment.</value>
+  </data>
+  <data name="SubmitAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be submitted as it is not yet started.</value>
+  </data>
+  <data name="ReactivateAssignmentActive" xml:space="preserve">
+    <value>Assignment cannot be reactivated as it is still active.</value>
+  </data>
+  <data name="CollectAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be collected as it is not yet started.</value>
+  </data>
+  <data name="ReactivateAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be reactivated as it is not yet started.</value>
+  </data>
+  <data name="ReturnAssignmentNotStarted" xml:space="preserve">
+    <value>Assignment cannot be returned as it is not yet started.</value>
+  </data>
+  <data name="ReturnAssignmentActive" xml:space="preserve">
+    <value>Assignment cannot be returned as it is still active.</value>
+  </data>
+  <data name="ChangeLearnerAssignmentNotInstructor" xml:space="preserve">
+    <value>Cannot change learner assignment because you are not an instructor for the assignment.</value>
+  </data>
+  <data name="ReminderEmailsJobTitle" xml:space="preserve">
+    <value>SharePoint Learning Kit Reminder Emails</value>
+  </data>
+  <data name="GroupEnumerationFail" xml:space="preserve">
+    <value>Could not get the members of group {0}.</value>
+  </data>
+  <data name="SelfAssignSiteUrlDisplayName" xml:space="preserve">
+    <value>Site Url</value>
+  </data>
+  <data name="SelfAssignSiteUrlDescription" xml:space="preserve">
+    <value>The url of the site hosting the list to get the documents from. Leave blank for current site.</value>
+  </data>
+  <data name="SelfAssignListNameDisplayName" xml:space="preserve">
+    <value>List Name</value>
+  </data>
+  <data name="SelfAssignListNameDescription" xml:space="preserve">
+    <value>The name of the list hosting the documents.</value>
+  </data>
+  <data name="SelfAssignViewNameDisplayName" xml:space="preserve">
+    <value>View Name</value>
+  </data>
+  <data name="SelfAssignViewNameDescription" xml:space="preserve">
+    <value>The name of the view hosting the documents. Leave blank to use the default view.</value>
+  </data>
+  <data name="SelfAssignPartNoItems" xml:space="preserve">
+    <value>No packages to show.</value>
+  </data>
+  <data name="SelfAssignInvalidView" xml:space="preserve">
+    <value>The View Name property is set to an invalid view.</value>
+  </data>
+  <data name="SelfAssignInvalidList" xml:space="preserve">
+    <value>The List Name property is set to an invalid list.</value>
+  </data>
+  <data name="SelfAssignListNameRequired" xml:space="preserve">
+    <value>The List Name property is required.</value>
+  </data>
+  <data name="StsMissingParameter" xml:space="preserve">
+      <value>{0} is a required parameter.</value>
+  </data>
+  <data name="StsMissingParameters" xml:space="preserve">
+      <value>Either {0} or {1} are required parameters.</value>
+  </data>
+  <data name="StsInvalidGuid" xml:space="preserve">
+      <value>SLK mapping not found for GUID {0}.</value>
+  </data>
+  <data name="StsMappingDeleted" xml:space="preserve">
+    <value>SLK mapping deleted for GUID {0}</value>
+    <comment>{0} = GUID</comment>
+  </data>
+  <data name="StsEnumMappingLine" xml:space="preserve">
+      <value>{0} ({1}) --> Server={2};Database={3}</value>
+      <comment>{0} = site title; {1} = guid; {2} = database server; {3} = database name</comment>
+  </data>
+  <data name="StsSettingsError" xml:space="preserve">
+      <value>Only one of {0} or {1} is allowed.</value>
+  </data>
+  <data name="StsConfiguringSlkForSite" xml:space="preserve">
+    <value>Configuring SLK for site: {0} ({1})</value>
+    <comment>{0} = url; {1} = site GUID</comment>
+  </data>
+  <data name="StsConfiguringSlkForApplication" xml:space="preserve">
+    <value>Configuring SLK for web application: {0} ({1})</value>
+    <comment>{0} = url; {1} = application GUID</comment>
+  </data>
+  <data name="StsGetSiteConfiguration" xml:space="preserve">
+      <value>  
+   Database server:         {0}
+   Database name:           {1}
+   Instructor Permission:   {2}
+   Learner Permission:      {3}
+      </value>
+    <comment>{0} = SLK database server name or connection string fragment</comment>
+  </data>
+  <data name="StsHelpConfigure" xml:space="preserve">
+    <value>
+           -url &lt;url&gt;
+           [-databaseserver &lt;database server name*&gt;]
+           [-databasename &lt;database name&gt;]
+           [-createdatabase]
+           [-instructorpermission &lt;instructor permission name&gt;]
+           [-learnerpermission &lt;learner permission name&gt;]
+           [-createpermissions]
+           [-uploadslksettings &lt;SLK Settings XML file name&gt; | -defaultslksettings]
+           [-application]
+
+* By default, integrated authentication is used to connect to the database.
+To use a SQL Server user ID and password instead, append the appropriate
+connection string information to the database server name -- for example,
+instead of "MyServer", use "MyServer;user id=myacct;password=mypassword".
+For security reasons, integrated authentication is strongly recommended.
+
+    Only one of -uploadslksettings and -defaultslksettings can be used
+    -application must be used when configuring a web application rather than a site collection
+    </value>
+  </data>
+  <data name="StsHelpGetConfiguration" xml:space="preserve">
+    <value>
+           -url &lt;url&gt;
+           -guid &lt;guid&gt;
+
+   Returns the configuration for a site or web application. 
+   Use either url or guid.
+    </value>
+  </data>
+  <data name="StsHelpEnumMappings" xml:space="preserve">
+    <value>
+    Enumerates all mappings
+    </value>
+  </data>
+  <data name="StsHelpDeleteMapping" xml:space="preserve">
+    <value>
+           -guid &lt;site-guid&gt;
+
+    Deletes a mapping.
+    </value>
+  </data>
+  <data name="NoDomainGroupEnumeratorAssembly" xml:space="preserve">
+    <value>No assembly value given for the domain group enumerator.</value>
+  </data>
+  <data name="DomainGroupEnumeratorFailure" xml:space="preserve">
+      <value>Failed to load type {0}. {1}</value>
+  </data>
+  <data name="DropBoxListCreateFailure" xml:space="preserve">
+      <value>Failed to create Drop Box. {0}</value>
+  </data>
+  <data name="ErrorSavingDropBoxPermissions" xml:space="preserve">
+      <value>Failed to change Drop Box permissions to {0} for {1}.</value>
+  </data>
+  <data name="AssignmentFileDoesNotExist" xml:space="preserve">
+      <value>The file {0} for assignment {1} does not exist.</value>
+  </data>
+  <data name="QueryResultsSortBy" xml:space="preserve">
+      <value>Sort by {0}.</value>
+  </data>
+AssignmentFileDoesNotExist
+</root>

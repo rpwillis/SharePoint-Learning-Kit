@@ -1,0 +1,1825 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<title>
+	LearningStore Schema Reference
+</title>
+
+<style>
+.SchemaDefinitionTitle { font-size: 10pt; text-decoration: underline; font-weight: bold }
+.TableHeader { font-weight: bold; background-color: #E0E0E0 }
+</style>
+
+<link rel="stylesheet" href="Doc.css" />
+
+</head>
+
+<body id="DocTopic">
+
+<div class="TopicHeader">
+	<div class="Supertitle_">
+		Microsoft Learning Components
+	</div>
+	LearningStore Schema Reference
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="Summary">
+<p>This section contains reference documentation that explains how to write a
+<a href="SlkSchema.htm">LearningStore schema</a> XML file.</p>
+
+<p>For an introduction to LearningStore schemas, see
+<a href="SlkQueriesAndQuerySets.htm">SLK Queries and Query Sets</a> and
+<a href="SlkSchema.htm">SLK+MLC Schema</a>.  For more information about LearningStore, see
+<a href="MlcLearningStore.htm">LearningStore (overview)</a> and
+<a href="Microsoft.LearningComponents.Storage.LearningStore.Class.htm">LearningStore Class</a>.
+</p>
+
+<p>It may be helpful to refer to these LearningStore schemas, available in the SLK/MLC SDK:</p>
+<ul>
+	<li>The <a href="BaseSchema.xml.htm">MLC base schema</a> (BaseSchema.xml): the foundation for
+		all other schemas.</li>
+	<li>The <a href="SlkSchema.xml.htm">SLK schema</a> (SlkSchema.xml): additions to the base
+		schema used by the SharePoint Learning Kit application.</li>
+	<li>The <a href="BasicWebPlayer_Schema.xml.htm">BasicWebPlayer schema</a> (Schema.xml):
+		additions to the base schema used by the
+		<a href="BasicWebPlayer_ReadMe.txt.htm">BasicWebPlayer</a> sample application.</li>
+</ul>
+</p>
+
+<p><b>Note</b>&nbsp; The XML schema of a LearningStore schema definition file is defined by
+an XML schema definition file, <b>Schema.xsd</b>, which is available in the SLK/MLC SDK.
+When editing a LearningStore schema definition file using a tool such as Visual Studio, you may
+want to assciate Schema.xsd with your schema .xml file to provide syntax validation.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Definitions</div>
+<div class="Section">
+
+	<p>A <b>LearningStore enumeration</b> (referred to as “enumeration” in the 
+	rest of this section) is an entity that consists of a set of named constants.</p>
+	<p>A <b>LearningStore item</b> (referred to as “item” in the rest of this 
+	section) is an entity that maintains a set of properties. An <b>item type </b>
+	defines the set of properties (and the types of the properties) maintained 
+	by an item. Every item is based on exactly one item type.</p>
+	<p>A <b>LearningStore view </b>(referred to as “view” in the rest of this 
+	section) defines a “virtual table” in the database that contains a subset of 
+	data from the database. A view can contain information from different items, 
+	and it can even contain calculated values (e.g., the number of items of a 
+	particular item type).</p>
+	<p>A <b>LearningStore right </b>(referred to as &quot;right&quot; in the rest of this 
+	section) defines the security of an action.&nbsp; The following rights are 
+	built-in:</p>
+	<ul>
+		<li>Item add: Allows the user to add an item.</li>
+		<li>Item delete: Allows the user to delete an item.</li>
+		<li>Item update: Allows the user to update an item.</li>
+		<li>Item query: Allows the user to query an item.</li>
+		<li>View query: Allows the user to query a view.</li>
+	</ul>
+	<p>Custom rights can also be defined.</p>
+	<p>A <b>LearningStore schema </b>(referred to as &quot;schema&quot; in the rest of 
+	this section) contains a set of enumeration, item type, view, and right 
+	definitions.&nbsp; The <b>base schema </b>contains the definitions that are 
+	common across all MLC schemas.&nbsp; The <b>application schema</b> contains 
+	extensions to the base schema that are specific to an application.</p>
+	<p>A <b>schema identifier</b> defines an entity in a schema.&nbsp; It must 
+	follow these rules:</p>
+	<ul>
+					<li>Must start with a letter, and all other characters must 
+					either be letters or numbers.</li>
+					<li>Must be no longer than 63 characters in length.</li>
+				</ul>
+	<p>Identifiers are case-sensitive.&nbsp;  
+	LearningStore often uses identifiers as SQL Server identifiers.&nbsp; If SQL 
+	Server is configured with a collation in which two unique identifiers become 
+	identical, LearningStore is not guaranteed to work.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Schema Compiler</div>
+<div class="Section">
+
+	<p>The schema compiler is a command-line tool that takes an XML file 
+	containing an application schema as input, and outputs the following:</p>
+	<ul>
+		<li>A .sql file containing a SQL initialization script.&nbsp; This 
+		script can be run to create a database usable by LearningStore.</li>
+		<li>A .cs file containing helper code.&nbsp; This file can be (although 
+		isn't required to be) compiled into the application.</li>
+	</ul>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">Schema Definition File</div>
+<div class="Section">
+
+	<p>A schema definition file is an XML file that contains a single 
+	&lt;StoreSchema&gt; element.</p>
+
+	<p>The remainder of this section describes each element of a schema definition file.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema Element</div>
+<div class="Section">
+
+		<p>This is the root element of a LearningStore schema file.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table2" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Enum</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines a new enumeration.</td>
+			</tr>
+			<tr>
+				<td valign="top">ItemType</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines a new item type.</td>
+			</tr>
+			<tr>
+				<td valign="top">View</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines a new view.</td>
+			</tr>
+			<tr>
+				<td valign="top">Right</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines a new right.</td>
+			</tr>
+			<tr>
+				<td valign="top">ExtendItemType</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Extends a currently-existing item type.</td>
+			</tr>
+			<tr>
+				<td valign="top">ExtendView</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Extends a currently-existing view.</td>
+			</tr>
+			<tr>
+				<td valign="top">ExtendRight</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Extends a currently-existing right.</td>
+			</tr>
+			<tr>
+				<td valign="top">SqlBefore</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Additional SQL statements that should be included before 
+				any table/function definitions (in character data).&nbsp; To 
+				start a new batch, use &quot;GO&quot; in the SQL statements.</td>
+			</tr>
+			<tr>
+				<td valign="top">SqlAfter</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Additional SQL statements that should be included after 
+				all table/function definitions (in character data).&nbsp; To 
+				start a new batch, use &quot;GO&quot; in the SQL statements.</td>
+			</tr>
+		</table>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/Enum Element</div>
+<div class="Section">
+
+		<p>Defines a new enumeration.</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table66" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes</td>
+				<td valign="top">Name of the enumumeration.<p>This must follow the rules 
+				for <a href="#Schema_identifier">schema identifiers</a>.&nbsp; 
+				It must also be unique across all enumerations/item types/views/rights 
+				in the schema.</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table67" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Values</td>
+				<td valign="top">1</td>
+				<td valign="top">Defines the name/value pairs in the 
+				enumeration.</td>
+			</tr>
+			<tr>
+				<td valign="top" height="24">Documentation</td>
+				<td valign="top" height="24">0..1</td>
+				<td valign="top" height="24">Documentation for the enum in the 
+				C# helper file.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/Enum/Values Element</div>
+<div class="Section">
+		<p>Defines the values in an enumeration.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table74" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Value</td>
+				<td valign="top">1..*</td>
+				<td valign="top">Defines the name/value pairs in the 
+				enumeration.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/Enum/Values/Value Element</div>
+<div class="Section">
+		<p>Defines a single name/value pair in an enumeration.</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table68" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">Yes</td>
+				<td valign="top">Name of the value.<p>This must follow the 
+				rules for <a href="#Schema_identifier">schema identifiers</a>.&nbsp; 
+				It must also be unique across all values in this enumeration.</td>
+			</tr>
+			<tr>
+				<td valign="top">Value</td>
+				<td valign="top">xs:integer</td>
+				<td valign="top">Yes</td>
+				<td valign="top">Integer value.&nbsp; Must be unique across all 
+				values in this enumeration.</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data:</u> None<p/>
+		<u>Child elements</u>: 
+		<table border="1" width="100%" id="table70" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Documentation for the value in the C# helper 
+				file (in character data).&nbsp; Empty namespace.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/Enum/Documentation Element</div>
+<div class="Section">
+		<p>Defines documentation for the enum in the C# helper file.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table103" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Summary</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Summary (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			<tr>
+				<td valign="top">Remarks</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Remarks (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType Element</div>
+<div class="Section">
+		<p>Defines a new item type.</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table149" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes</td>
+				<td valign="top">Name of the item type.&nbsp; Maps to the name of the 
+				table in the database.<p>This must follow the rules 
+				for <a href="#Schema_identifier">schema identifiers</a>.&nbsp; 
+				It must also be unique across all enumerations/item types/views/rights in the 
+				schema.</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table150" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Properties</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Defines properties on the item type</td>
+			</tr>
+			<tr>
+				<td valign="top">GrantAddRight</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Allows a set of users to add items of this item 
+				type.</td>
+			</tr>
+			<tr>
+				<td valign="top">GrantDeleteRight</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Allows a set of users to delete items of this 
+				item type.</td>
+			</tr>
+			<tr>
+				<td valign="top">GrantUpdateRight</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Allows a set of users to update items of this 
+				item type.</td>
+			</tr>
+			<tr>
+				<td valign="top">GrantQueryRight</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Allows a set of users to query for items of 
+				this item type.&nbsp; See StoreSchema/View/GrantQueryRight 
+				for details.</td>
+			</tr>
+			<tr>
+				<td valign="top">Indexes</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Indexes on the item type.</td>
+			</tr>
+			<tr>
+				<td valign="top">SqlAfter</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Additional SQL statements that should be included after 
+				all table/function definitions (in character data).&nbsp; To 
+				start a new batch, use &quot;GO&quot; in the SQL statements.</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Documentation for the class in the C# helper 
+				file.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/Properties Element</div>
+<div class="Section">
+		<p>Defines the properties for an item type.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table151" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Property</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines a property on this item type.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/Properties/Property Element</div>
+<div class="Section">
+		<p>Defines a single property for an item.</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table152" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes</td>
+				<td valign="top">Name of the property.<p>This must follow the 
+				rules for <a href="#Schema_identifier">schema identifiers</a>.&nbsp; 
+				It must also be unique across all properties on this item.&nbsp; 
+				It must not be &quot;UserKey&quot; or &quot;Id&quot;.</td>
+			</tr>
+			<tr>
+				<td valign="top">Type</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes</td>
+				<td valign="top">Type of the property.&nbsp; Can be one of the 
+				following:<ul>
+                    <li>&quot;ItemIdentifier&quot;</li>
+                    <li>&quot;String&quot;</li>
+                    <li>&quot;Boolean&quot;</li>
+                    <li>&quot;DateTime&quot;</li>
+                    <li>&quot;Single&quot;</li>
+                    <li>&quot;Double&quot;</li>
+                    <li>&quot;Xml&quot;</li>
+                    <li>&quot;Enum&quot;</li>
+                    <li>&quot;Int32&quot;</li>
+                    <li>&quot;ByteArray&quot;</li>
+                    <li>&quot;Guid&quot;</li>
+                </ul>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">EnumName</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes if Type=&quot;Enum&quot;</td>
+				<td valign="top">Type of the enumeration value returned in this 
+				column.<p>Must refer to an enumeration in the schema (i.e., a 
+				StoreSchema/Enum element in the current file or in the base 
+				schema).</td>
+			</tr>
+			<tr>
+				<td valign="top">ReferencedItemTypeName</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes if Type=&quot;ItemIdentifier&quot;</td>
+				<td valign="top">Type of the item identifier returned in this 
+				column.<p>Must refer to an item type in the schema (i.e., a StoreSchema/ItemType element in the current file or in the 
+				base schema).</td>
+			</tr>
+			<tr>
+				<td valign="top">Length</td>
+				<td valign="top">xs:integer</td>
+				<td valign="top">no</td>
+				<td valign="top">Length of the String/array.&nbsp; If not 
+				specified, then the length is unlimited.<p>Valid only when 
+				Type=&quot;String&quot; or Type=&quot;ByteArray&quot;.&nbsp; For String, it must be 
+				between 1 and (Int32.MaxValue - 2) / 2.&nbsp; For ByteArray, it must be between 1 
+				and (Int32.MaxValue - 2).</td>
+			</tr>
+			<tr>
+				<td valign="top">Nullable</td>
+				<td valign="top">xs:boolean</td>
+				<td valign="top">no</td>
+				<td valign="top">Can the property contain null?&nbsp; The 
+				default is &quot;false&quot;.</td>
+			</tr>
+			<tr>
+				<td valign="top">CascadeDelete</td>
+				<td valign="top">xs:boolean</td>
+				<td valign="top">no</td>
+				<td valign="top">Valid only when Type=&quot;ItemIdentifier&quot;.&nbsp; Is 
+				this item automatically deleted when the referenced item is 
+				deleted?&nbsp; The default is &quot;false&quot;.</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data:</u> None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table153" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Default</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Defines the default value for the property.&nbsp; 
+				If this is not included, then the property doesn't have a 
+				default value.</td>
+			</tr>
+			<tr>
+				<td valign="top">Constraints</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Constraints for the property.</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Documentation for the property</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/Properties/Property/Default Element</div>
+<div class="Section">
+		<p>Defines the default value for a property on an item type.</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table162" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Null</td>
+				<td valign="top">xs:boolean</td>
+				<td valign="top">no</td>
+				<td valign="top">True if the default value for the property 
+				should be null.&nbsp; If not provided, then the default value is 
+				assumed not to be null.</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data:</u> Default value of the property, or empty if the 
+		Null attribute is true.&nbsp; The format depends on the Type attribute 
+		of the property:<ul>
+			<li>ItemIdentifier: Invalid.&nbsp; ItemIdentifiers can't have 
+			non-null default values.</li>
+			<li>String: A xs:string value.</li>
+			<li>Boolean: An xs:boolean value.</li>
+			<li>DateTime: A xs:datetime value.&nbsp; The timezone is ignored.</li>
+			<li>Single: A xs:float value.</li>
+			<li>Double: A xs:double value.</li>
+			<li>Xml: An XML fragment.</li>
+			<li>Enum: An xs:integer value.</li>
+			<li>Int32: An xs:integer value.</li>
+			<li>ByteArray: An xs:base64Binary value.</li>
+			<li>Guid: An xs:string value in the format accepted by the Guid .NET 
+			class.</li>
+		</ul>
+		<p><u>Child elements</u>:
+		None</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/Properties/Property/Constraints Element</div>
+<div class="Section">
+		<p>Defines the constraints on an item type property.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table156" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Constraint</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines a constraint on the property.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/Properties/Property/Constraints/Constraint Element</div>
+<div class="Section">
+		<p>Defines a constraint on an item type property.</p>
+		<u>Attributes</u>:
+		None<p/>
+		<u>Character data</u>: A UNIQUE or CHECK constraint definition, as 
+		described in the SQL CREATE TABLE command.<p>Examples:</p>
+		<blockquote>
+			<p>UNIQUE</p>
+			<p>CHECK(Score&gt;0)</p>
+		</blockquote>
+		<p/>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/Properties/Property/Documentation Element</div>
+<div class="Section">
+		<p>Defines documentation for the item type property in the C# helper file.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table167" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Summary</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Summary (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			<tr>
+				<td valign="top">Remarks</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Remarks (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/GrantAddRight Element</div>
+<div class="Section">
+		<p>Allows a set of users to add items of this item type.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table169" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Expression</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Allows users based on an expression.</td>
+			</tr>
+			</table>
+		<p>The security from all of the elements are &quot;or&quot;-ed together.&nbsp; For 
+		example, if two &quot;Expression&quot; child elements exist, then at least one needs 
+		to return &quot;success&quot; for the user to gain access.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/GrantAddRight/Expression Element</div>
+<div class="Section">
+		<p>Allows a set of users to add items of this item type -- security defined by an
+		expression.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: An expression that returns a bit.&nbsp; If the 
+		bit has the value &quot;1&quot;, the user should be granted access.&nbsp; The 
+		expression must be able to appear within a scalar function (see SQL 
+		documentation for more details).&nbsp; The following parameters are 
+		available for use by the expression:<p/>
+		<ul>
+					<li>@UserKey: nvarchar(250).&nbsp; Contains the key for the 
+					user.</li>
+					<li>One parameter for each property in the item.&nbsp; 
+					The parameter is named the same as the property and has the 
+					same type as the property, and contains the new value.</li>
+				</ul>
+				<p>Example:</p>
+		<blockquote>
+			<p>CASE WHEN @UserKey='Bob' THEN 1 ELSE 0 END</p>
+		</blockquote>
+		<p/><u>Child elements</u>: None<p/>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/GrantDeleteRight Element</div>
+<div class="Section">
+		<p>Allows a set of users to delete items of this item type.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table170" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Expression</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Allows users based on an expression.</td>
+			</tr>
+			</table>
+		<p>The security from all of the elements are &quot;or&quot;-ed together.&nbsp; For 
+		example, if two &quot;Expression&quot; child elements exist, then at least one needs 
+		to return &quot;success&quot; for the user to gain access.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/GrantDeleteRight/Expression Element</div>
+<div class="Section">
+		<p>Allows a set of users to delete items of this item type -- 
+		security defined by an expression.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: An expression that returns a bit.&nbsp; If the 
+		bit has the value &quot;1&quot;, the user should be granted access.&nbsp; The 
+		expression must be able to appear within a scalar function (see SQL 
+		documentation for more details).&nbsp; The following parameters are 
+		available for use by the expression:<p/>
+		<ul>
+					<li>@UserKey: nvarchar(250).&nbsp; Contains the key for the 
+					user.</li>
+					<li>@Id: bigint.&nbsp; Contains the Id of the item being 
+					updated</li>
+				</ul>
+				<p>Example:</p>
+		<blockquote>
+			<p>CASE WHEN @UserKey='Bob' THEN 1 ELSE 0 END</p>
+		</blockquote>
+		<p/><u>Child elements</u>:
+		None<p/>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/GrantUpdateRight Element</div>
+<div class="Section">
+		<p>Allows a set of users to update items of this item type.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table164" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Expression</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Allows users based on an expression.</td>
+			</tr>
+			</table>
+		<p>The security from all of the elements are &quot;or&quot;-ed together.&nbsp; For 
+		example, if two &quot;Expression&quot; child elements exist, then at least one needs 
+		to return &quot;success&quot; for the user to gain access.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/GrantUpdateRight/Expression Element</div>
+<div class="Section">
+		<p>Allows a set of users to update items of this item type -- security defined by an 
+		expression.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: An expression that returns a bit.&nbsp; If the 
+		bit has the value &quot;1&quot;, the user should be granted access.&nbsp; The 
+		expression must be able to appear within a scalar function (see SQL documentation for more details).&nbsp; The following parameters 
+		are available for use by the expression::<p/>
+		<ul>
+					<li>@UserKey: nvarchar(250).&nbsp; Contains the key for the 
+					user.</li>
+					<li>@Id: bigint.&nbsp; Contains the Id of the item being 
+					updated</li>
+					<li>Two parameters for each property in the item.&nbsp; 
+					The first parameter is named @X$Changed (where X is the name 
+					of the property).&nbsp; It is a bit property having the 
+					value 1 if the property is being updated.&nbsp; The second 
+					parameter is named the same as the property and has the same 
+					type as the property, and contains the new value.</li>
+				</ul>
+				<p>Example:</p>
+		<blockquote>
+			<p>CASE WHEN @UserKey='Bob' THEN 1 ELSE 0 END</p>
+		</blockquote>
+		<p/><u>Child elements</u>:
+		None<p/>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/Indexes Element</div>
+<div class="Section">
+		<p>Defines the indexes for an item type.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table168" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Index</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines an index on this item type.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/Indexes/Index Element</div>
+<div class="Section">
+		<p>Defines an index on an item type.</p>
+		<u>Attributes</u>:
+		None<p/>
+		<u>Character data</u>: A CREATE INDEX statement defining the index.&nbsp; 
+				<p>Example:</p>
+		<blockquote>
+			<p>CREATE INDEX UserKeyIndex ON UserItem([Key])</p>
+		</blockquote>
+		<p/>
+		<u>Child elements</u>: None<p/>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ItemType/Documentation Element</div>
+<div class="Section">
+		<p>Defines documentation for the item type in the C# helper file.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table157" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Summary</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Summary (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			<tr>
+				<td valign="top">Remarks</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Remarks (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/View Element</div>
+<div class="Section">
+		<p>Defines a view.</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table1" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes</td>
+				<td valign="top">Name of the view.<p>This must follow the rules 
+				for <a href="#Schema_identifier">schema identifiers</a>.&nbsp; 
+				It must also be unique across all enumerations/item types/views/rights in the 
+				schema.</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table2" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Parameters</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Defines the parameters needed by the view</td>
+			</tr>
+			<tr>
+				<td valign="top">Columns</td>
+				<td valign="top">1</td>
+				<td valign="top">Defines the columns returned by the view.</td>
+			</tr>
+			<tr>
+				<td valign="top">Implementation</td>
+				<td valign="top">1</td>
+				<td valign="top">Defines the SQL function that implements the 
+				view.</td>
+			</tr>
+			<tr>
+				<td valign="top">GrantQueryRight</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Allows a set of users to perform queries on the 
+				view.</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Documentation for the view.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/View/Parameters Element</div>
+<div class="Section">
+		<p>Defines the parameters used by a view.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table78" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Parameter</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines a parameter that is used by the view.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/View/Parameters/Parameter Element</div>
+<div class="Section">
+		<p>Defines a single parameter used by a view.</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table109" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">Yes</td>
+				<td valign="top">Name of the parameter.<p>This must follow the 
+				rules for <a href="#Schema_identifier">schema identifiers</a>.&nbsp; 
+				It must also be unique across all columns and parameters in this view.&nbsp; 
+				It must not be &quot;UserKey&quot;.</p></td>
+			</tr>
+			<tr>
+				<td valign="top">Type</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">Yes</td>
+				<td valign="top">Type of the parameter.&nbsp; Can be one of the 
+				following:<ul>
+                    <li>&quot;ItemIdentifier&quot;</li>
+                    <li>&quot;String&quot;</li>
+                    <li>&quot;Boolean&quot;</li>
+                    <li>&quot;DateTime&quot;</li>
+                    <li>&quot;Single&quot;</li>
+                    <li>&quot;Double&quot;</li>
+                    <li>&quot;Xml&quot;</li>
+                    <li>&quot;Enum&quot;</li>
+                    <li>&quot;Int32&quot;</li>
+                    <li>&quot;ByteArray&quot;</li>
+                    <li>&quot;Guid&quot;</li>
+                </ul>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">EnumName</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">Yes if Type=&quot;Enum&quot;</td>
+				<td valign="top">Type of the enumeration value for this parameter.<p>Must refer to an 
+				enumeration in the schema (i.e., a 
+				StoreSchema/Enum element in the current file or in the base 
+				schema).</td>
+			</tr>
+			<tr>
+				<td valign="top">ReferencedItemTypeName</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">Yes if Type=&quot;ItemIdentifier&quot;</td>
+				<td valign="top">Type of the item identifier for this parameter.<p>Must refer to an item 
+				type in the schema (i.e., a StoreSchema/ItemType element in the current file or in the base 
+				schema).</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data:</u> None<p/>
+		<u>Child elements</u>: 
+		<table border="1" width="100%" id="table110" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Documentation for this parameter.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/View/Parameters/Parameter/Documentation Element</div>
+<div class="Section">
+		<p>Defines documentation for the parameter in the C# helper file.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table111" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Summary</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Summary (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			<tr>
+				<td valign="top">Remarks</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Remarks (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/View/Columns Element</div>
+<div class="Section">
+		<p>Defines the columns returned by a view.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table112" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Column</td>
+				<td valign="top">1..*</td>
+				<td valign="top">Defines a column that is returned by the view.<p>
+				Must be declared in the same order as the columns 
+				are returned in the view implementation.</p></td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/View/Columns/Column Element</div>
+<div class="Section">
+		<p>Defines a single column returned by a view.</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table20" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">Yes</td>
+				<td valign="top">Name of the column.<p>This must follow the 
+				rules for <a href="#Schema_identifier">schema identifiers</a>.&nbsp; 
+				It must also be unique across all columns and parameters in this view.</p></td>
+			</tr>
+			<tr>
+				<td valign="top">Type</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">Yes</td>
+				<td valign="top">Type of the property.&nbsp; Can be one of the 
+				following:<ul>
+                    <li>&quot;ItemIdentifier&quot;</li>
+                    <li>&quot;String&quot;</li>
+                    <li>&quot;Boolean&quot;</li>
+                    <li>&quot;DateTime&quot;</li>
+                    <li>&quot;Single&quot;</li>
+                    <li>&quot;Double&quot;</li>
+                    <li>&quot;Xml&quot;</li>
+                    <li>&quot;Enum&quot;</li>
+                    <li>&quot;Int32&quot;</li>
+                    <li>&quot;ByteArray&quot;</li>
+                    <li>&quot;Guid&quot;</li>
+                </ul>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">EnumName</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">Yes if Type=&quot;Enum&quot;</td>
+				<td valign="top">Type of the enumeration value returned in this 
+				column.<p>Must refer to an enumeration in the schema (i.e., a 
+				StoreSchema/Enum element in the current file or in the base 
+				schema).</td>
+			</tr>
+			<tr>
+				<td valign="top">ReferencedItemTypeName</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">Yes if Type=&quot;ItemIdentifier&quot;</td>
+				<td valign="top">Type of the item identifier returned in this 
+				column.<p>Must refer to an item in the schema (i.e., a 
+				StoreSchema/ItemType element in the current file or in the base 
+				schema).</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data:</u> None<p/>
+		<u>Child elements</u>: 
+		<table border="1" width="100%" id="table69" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Documentation for this column</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/View/Columns/Column/Documentation Element</div>
+<div class="Section">
+		<p>Defines documentation for the column in the C# helper file.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table100" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Summary</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Summary (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			<tr>
+				<td valign="top">Remarks</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Remarks (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/View/Implementation</div>
+<div class="Section">
+		<p>Defines an implementation for a view.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: A SELECT statement that 
+		defines the view.&nbsp; The SELECT statement must be able to appear within 
+		an inline table-valued function (see SQL documentation for more 
+		details).&nbsp; The following parameters are available for use by the 
+		SELECT statement:<p/>
+		<ul>
+					<li>@UserKey: nvarchar(250).&nbsp; Contains the name of the 
+					user.</li>
+					<li>@paramname, where &lt;paramname&gt; is one of the parameters 
+					defined for the view.&nbsp; If the parameter wasn't set, @paramname 
+					is NULL.</li>
+				</ul>
+		<p>The SELECT statement must return the columns specified by the 
+		corresponding StoreSchema/View/Column elements.&nbsp; The types and 
+		names of the columns must match the information in those elements.</p>
+		<p>Example:<p/>
+		<ul>
+					<p>SELECT Name FROM UserItem</p>
+				</ul>
+		<p><u>Child elements</u>:
+		None</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/View/GrantQueryRight Element</div>
+<div class="Section">
+		<p>Defines security for the &quot;Query&quot; operation.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		</p>
+		<table border="1" width="100%" id="table171" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Expression</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines security using an expression.</td>
+			</tr>
+			</table>
+		<p>The security from all of the elements are &quot;or&quot;-ed together.&nbsp; For 
+		example, if two &quot;Expression&quot; child elements exist, then at least one needs 
+		to return &quot;success&quot; for the user to gain access.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/View/GrantQueryRight/Expression Element</div>
+<div class="Section">
+		<p>Defines security for the &quot;Query&quot; operation -- security defined 
+		by an expression.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: An expression that returns a bit.&nbsp; If the 
+		bit has the value &quot;1&quot;, the user should be granted access.&nbsp; The 
+		expression must be able to appear within a scalar function (see SQL documentation for more details).&nbsp; The following parameters 
+		are available for use by the expression:</p>
+		<ul>
+					<li>@UserKey: nvarchar(250).&nbsp; Contains the key for the user.</li>
+					<li>@paramname, where &lt;paramname&gt; is one of the parameters 
+					defined for the view.&nbsp; If the parameter wasn't set, @paramname 
+					is NULL.</li>
+				</ul>
+				<p>Example:</p>
+		<blockquote>
+			<p>CASE WHEN @UserKey='Bob' THEN 1 ELSE 0 END</p>
+		</blockquote>
+		<p><u>Child elements</u>:
+		None</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/View/Documentation Element</div>
+<div class="Section">
+		<p>Defines documentation for the view in the C# helper file.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table99" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Summary</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Summary (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			<tr>
+				<td valign="top">Remarks</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Remarks (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/Right Element</div>
+<div class="Section">
+		<p>Defines a right.</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table172" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes</td>
+				<td valign="top">Name of the right.<p>This must follow the rules 
+				for <a href="#Schema_identifier">schema identifiers</a>.&nbsp; 
+				It must also be unique across all enumerations/item types/views/rights in the 
+				schema.</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table173" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Parameters</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Defines the parameters needed by the right.&nbsp; 
+				See StoreSchema/View/Parameters for details.<p>
+				Example: If a user should have a particular right for one 
+				Package, but not to others, then the PackageId should be a 
+				parameter to the right.</td>
+			</tr>
+			<tr>
+				<td valign="top">Grant</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Defines security for the right.</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Documentation for the right.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/Right/Documentation Element</div>
+<div class="Section">
+		<p>Defines documentation for the right in the C# helper file.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table178" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Summary</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Summary (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			<tr>
+				<td valign="top">Remarks</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Remarks (in character data).&nbsp; Empty 
+				namespace.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/Right/Grant Element</div>
+<div class="Section">
+		<p>Defines security for the right.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		</p>
+		<table border="1" width="100%" id="table179" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Expression</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines security using an expression.</td>
+			</tr>
+			</table>
+		<p>The security from all of the elements are &quot;or&quot;-ed together.&nbsp; For 
+		example, if two &quot;Expression&quot; child elements exist, then at least one needs 
+		to return &quot;success&quot; for the user to have the right.</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/Right/Grant/Expression Element</div>
+<div class="Section">
+		<p>Defines security for a right -- security defined by an expression.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: An expression that returns a bit.&nbsp; If the 
+		bit has the value &quot;1&quot;, the user should be granted access.&nbsp; The 
+		expression must be able to appear within a scalar function (see SQL documentation for more details).&nbsp; The following parameters 
+		are available for use by the expression:</p>
+		<ul>
+					<li>@UserKey: nvarchar(250).&nbsp; Contains the key for the user.</li>
+					<li>@paramname, where &lt;paramname&gt; is one of the parameters 
+					defined for the right.&nbsp; If the parameter wasn't set, @paramname 
+					is NULL.</li>
+				</ul>
+				<p>Example:</p>
+		<blockquote>
+			<p>CASE WHEN @UserKey='Bob' THEN 1 ELSE 0 END</p>
+		</blockquote>
+		<p><u>Child elements</u>:
+		None</p>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ExtendItemType Element</div>
+<div class="Section">
+		<p>Extends a currently-existing item type.</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table180" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes</td>
+				<td valign="top">Name of the item type to be extended.<p>Must refer to an 
+				item type in the base schema (i.e., a StoreSchema/ItemType in the 
+				base schema).&nbsp; Must be unique across all ExtendItemType 
+				elements in the file (i.e., an item type can only be extended 
+				once).</td>
+			</tr>
+			<tr>
+				<td valign="top">ReplaceIndexes</td>
+				<td valign="top">xs:boolean</td>
+				<td valign="top">no</td>
+				<td valign="top">If true, then all indexes on the 
+				currently-existing item type are ignored.&nbsp; Default is 
+				&quot;false&quot;.</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table181" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Properties</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Defines additional or updated properties on 
+				this item type.</td>
+			</tr>
+			<tr>
+				<td valign="top">GrantAddRight</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Allows a set of users to add items of this 
+				type.&nbsp; See StoreSchema/ItemType/GrantAddRight for details.</td>
+			</tr>
+			<tr>
+				<td valign="top">GrantDeleteRight</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Allows a set of users to delete items of this 
+				type.&nbsp; See StoreSchema/ItemType/GrantDeleteRight for details.</td>
+			</tr>
+			<tr>
+				<td valign="top">GrantUpdateRight</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Allows a set of users to update items of this 
+				type.&nbsp; See StoreSchema/ItemType/GrantUpdateRight for details.</td>
+			</tr>
+			<tr>
+				<td valign="top">GrantQueryRight</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Allows a set of users to perform queries on the 
+				default view of the item type.&nbsp; See StoreSchema/ItemType/GrantQueryRight 
+				for details.</td>
+			</tr>
+			<tr>
+				<td valign="top">Indexes</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Defines additional indexes on this item type.&nbsp; See StoreSchema/ItemType/Indexes 
+				for details.</td>
+			</tr>
+			<tr>
+				<td valign="top">SqlAfter</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Additional SQL statements that should be included after 
+				all table/function definitions (in character data).</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Adds additional documentation for this item.&nbsp; 
+				See StoreSchema/ItemType/Documentation for details.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ExtendItemType/Properties Element</div>
+<div class="Section">
+		<p>Defines additional or updated properties for an item type.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table182" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Property</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines a new property on this item type.&nbsp; 
+				See StoreSchema/ItemType/Properties/Property for details.&nbsp; 
+				A default value is required.</td>
+			</tr>
+			<tr>
+				<td valign="top">ExtendProperty</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Extends a currently-existing property on this 
+				item type.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ExtendItemType/Properties/ExtendProperty Element</div>
+<div class="Section">
+		<p>Extends a currently-existing property.</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table183" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes</td>
+				<td valign="top">Name of the property.<p>Must refer to a 
+				property on the item type on the base schema (i.e., a StoreSchema/ItemType/Properties/Property in the 
+				base schema).&nbsp; Must be unique across all ExtendProperty 
+				elements in the item type (i.e., a property can only be extended once).</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data:</u> None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table184" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Additional documentation for the property.&nbsp; 
+				See StoreSchema/ItemType/Properties/Property/Documentation for 
+				details.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ExtendView Element</div>
+<div class="Section">
+		<p>Extends a currently-existing view.</p>
+		<u>Attributes</u>:<table border="1" width="100%" id="table10" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes</td>
+				<td valign="top">Name of the view to be extended.<p>Must refer to a 
+				view in the base schema (i.e., a StoreSchema/View in the 
+				base schema).&nbsp; Must be unique across all ExtendView 
+				elements in the file (i.e., a view can only be extended once).</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table11" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">GrantQueryRight</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Allows a set of users to to perform queries on the 
+				view.&nbsp; 
+				See StoreSchema/View/GrantQueryRight for details.</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Adds additional documentation for the view.&nbsp; See StoreSchema/View/Documentation for details.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ExtendRight Element</div>
+<div class="Section">
+		<p>Extends a currently-existing right.</p>
+		<u>Attributes</u>:<table border="1" width="100%" id="table147" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes</td>
+				<td valign="top">Name of the right to be extended.<p>Must refer to a 
+				right in the base schema (i.e., a StoreSchema/Right in the 
+				base schema).&nbsp; Must be unique across all ExtendRight 
+				elements in the file (i.e., a right can only be extended once).</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table148" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader" width="1288">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Parameters</td>
+				<td valign="top">0..1</td>
+				<td valign="top" width="1288">Defines additional or updated 
+				parameters on this right.</td>
+			</tr>
+			<tr>
+				<td valign="top">Grant</td>
+				<td valign="top">0..1</td>
+				<td valign="top" width="1288">Grants a set of users the right.&nbsp; 
+				See StoreSchema/Right/Grant for details.</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top" width="1288">Adds additional documentation for the right.&nbsp; See StoreSchema/Right/Documentation for details.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ExtendRight/Parameters Element</div>
+<div class="Section">
+		<p>Defines additional or updated parameters for a right.</p>
+		<u>Attributes</u>: None<p/>
+		<u>Character data</u>: None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table185" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Parameter</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Defines a new parameter on this right.&nbsp; 
+				See StoreSchema/Right/Parameters/Parameter for details.</td>
+			</tr>
+			<tr>
+				<td valign="top">ExtendParameter</td>
+				<td valign="top">0..*</td>
+				<td valign="top">Extends a currently-existing parameter on this 
+				right.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">StoreSchema/ExtendRight/Parameters/ExtendParameter Element</div>
+<div class="Section">
+		<p>Extends a currently-existing parameter</p>
+		<u>Attributes</u>:
+		<table border="1" width="100%" id="table188" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Type</td>
+				<td valign="top" class="TableHeader">Required?</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Name</td>
+				<td valign="top">xs:string</td>
+				<td valign="top">yes</td>
+				<td valign="top">Name of the parameter.<p>Must refer to a 
+				parameter on a right on the base schema (i.e., a StoreSchema/Right/Parameters/Parameter in the 
+				base schema).&nbsp; Must be unique across all ExtendParameter 
+				elements in the right (i.e., a parameter can only be extended once).</td>
+			</tr>
+			</table>
+		<br>
+		<u>Character data:</u> None<p/>
+		<u>Child elements</u>:
+		<table border="1" width="100%" id="table189" style="border-collapse: collapse">
+			<tr>
+				<td valign="top" class="TableHeader">Name</td>
+				<td valign="top" class="TableHeader">Multiplicity</td>
+				<td valign="top" class="TableHeader">Description</td>
+			</tr>
+			<tr>
+				<td valign="top">Documentation</td>
+				<td valign="top">0..1</td>
+				<td valign="top">Additional documentation for the parameter.&nbsp; 
+				See StoreSchema/Right/Parameters/Parameter/Documentation for 
+				details.</td>
+			</tr>
+			</table>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader">For More Information</div>
+<div class="Section">
+
+<div><a href="Microsoft.LearningComponents.Namespace.htm">Microsoft.LearningComponents Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.DataModel.Namespace.htm">Microsoft.LearningComponents.DataModel Namespace (API Reference)</a></div>
+<div><a href="Microsoft.LearningComponents.Storage.Namespace.htm">Microsoft.LearningComponents.Storage Namespace (API Reference)</a></div>
+<div><a href="SlkSchema.htm">SLK+MLC Schema Overview</a></div>
+<div><a href="Microsoft.SharePointLearningKit.Schema.Namespace.htm">SLK+MLC Schema Reference</a></div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="SectionHeader"></div>
+<div class="Section">
+<b><a href="MlcSamples.htm">Next Topic: MLC Samples</a></b>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class="TopicFooter">
+</div>
+
+<div class="PageFooter">
+Copyright &copy; Microsoft Corporation.&nbsp; All rights reserved.
+</div>
+
+</body>
+
+</html>
+

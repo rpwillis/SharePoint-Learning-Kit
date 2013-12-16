@@ -1,0 +1,10 @@
+.hgrc
+bin
+obj
+Drop
+Slk/Solution/Output
+.sln.cache
+ChangeVersion.exe
+out
+setup
+.pdb

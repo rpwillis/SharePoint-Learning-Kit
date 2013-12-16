@@ -1,0 +1,66 @@
+<Project DefaultTargets="Release" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup>
+        <DropDirectory>Drop</DropDirectory>
+        <InstallDirectory>$(DropDirectory)\Install</InstallDirectory>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Projects Include="compression\compression.csproj">
+            <DotNetVersion>3.5</DotNetVersion>
+        </Projects>
+        <Projects Include="compression\compression.csproj">
+            <DotNetVersion>4.0</DotNetVersion>
+        </Projects>
+        <Projects Include="learningcomponents\learningcomponents.csproj">
+            <DotNetVersion>3.5</DotNetVersion>
+        </Projects>
+        <Projects Include="learningcomponents\learningcomponents.csproj">
+            <DotNetVersion>4.0</DotNetVersion>
+        </Projects>
+        <Projects Include="storage\storage.csproj">
+            <DotNetVersion>3.5</DotNetVersion>
+        </Projects>
+        <Projects Include="storage\storage.csproj">
+            <DotNetVersion>4.0</DotNetVersion>
+        </Projects>
+
+        <ProjectsSharePoint Include="sharepoint\sharepoint.csproj">
+            <SPVersion>2007</SPVersion>
+            <DotNetVersion>3.5</DotNetVersion>
+        </ProjectsSharePoint>
+        <ProjectsSharePoint Include="sharepoint\sharepoint.csproj">
+            <SPVersion>2010</SPVersion>
+            <DotNetVersion>3.5</DotNetVersion>
+        </ProjectsSharePoint>
+        <ProjectsSharePoint Include="sharepoint\sharepoint.csproj">
+            <SPVersion>2013</SPVersion>
+            <DotNetVersion>4.0</DotNetVersion>
+        </ProjectsSharePoint>
+
+    </ItemGroup>
+
+    <Target Name="Release" DependsOnTargets="Clean;BuildRelease">
+    </Target>
+
+    <Target Name="BuildCoreRelease" >
+        <MSBuild Projects="@(Projects)" Targets="Build" StopOnFirstFailure="true" ToolsVersion="%(DotNetVersion)" Properties="Configuration=Release;Platform=AnyCPU;TargetFrameworkVersion=v%(DotNetVersion)"/>
+    </Target>
+
+    <Target Name="BuildSharePointRelease" Outputs="@(SPVersion)">
+        <MSBuild Projects="@(ProjectsSharePoint)" Targets="Build" StopOnFirstFailure="true" ToolsVersion="%(DotNetVersion)" Properties="Configuration=Release;Platform=AnyCPU;TargetFrameworkVersion=v%(DotNetVersion);SharePointVersion=%(SPVersion)"/>
+    </Target>
+
+    <Target Name="BuildRelease" DependsOnTargets="BuildCoreRelease;BuildSharePointRelease"/>
+
+    <Target Name="Clean" >
+        <RemoveDir Directories="%(Projects.RelativeDir)bin"/>
+        <RemoveDir Directories="%(Projects.RelativeDir)obj"/>
+        <RemoveDir Directories="%(ProjectsSharePoint.RelativeDir)bin"/>
+        <RemoveDir Directories="%(ProjectsSharePoint.RelativeDir)obj"/>
+        <MSBuild Projects="@(Projects)" Targets="Clean" StopOnFirstFailure="true" Properties="Configuration=Release"/>
+        <MSBuild Projects="@(Projects)" Targets="Clean" StopOnFirstFailure="true" Properties="Configuration=Debug"/>
+        <RemoveDir Directories="@(CleanDirectories)"/>
+    </Target>
+
+</Project>

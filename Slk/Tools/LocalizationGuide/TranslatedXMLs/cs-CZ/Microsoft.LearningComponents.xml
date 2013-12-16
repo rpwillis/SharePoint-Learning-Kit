@@ -1,0 +1,1497 @@
+﻿<root>
+  <assembly culture="cs-CZ" name="Microsoft.LearningComponents.resources" version="1.3.1.0" />
+  <resources name="Microsoft.LearningComponents.Properties.AIResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.AIResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CorrectAnswerSeparatorHtml</ID>
+        <Source> or </Source>
+        <Translation> nebo </Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentNotSelectedHtml</ID>
+        <Source>Not selected</Source>
+        <Translation>Není vybráno</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ChooseFileToAttachHtml</ID>
+        <Source>Choose a file to attach:</Source>
+        <Translation>Vyberte soubor k připojení:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MissingFormField</ID>
+        <Source>The form field, {0}, is missing.</Source>
+        <Translation>Pole formuláře, {0}, chybí.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedCorrectHtml</ID>
+        <Source>Correct answer</Source>
+        <Translation>Správná odpověď</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileNotFound</ID>
+        <Source>A requested file could not be found.</Source>
+        <Translation>Požadovaný soubor nebyl nalezen.</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NoFileAttachedHtml</ID>
+        <Source>No file attached.</Source>
+        <Translation>Není připojen žádný soubor.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IncorrectAnswerHtml</ID>
+        <Source>Incorrect answer</Source>
+        <Translation>Nesprávná odpověď</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedIncorrectHtml</ID>
+        <Source>Incorrect answer</Source>
+        <Translation>Nesprávná odpověď</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DetachFileHtml</ID>
+        <Source>Detach File</Source>
+        <Translation>Odpojte soubor</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileAttachmentNotFound</ID>
+        <Source>A requested file attachment could not be found.</Source>
+        <Translation>Požadovaná příloha souboru nebyla nalezena.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ViewFileHtml</ID>
+        <Source>View File</Source>
+        <Translation>Prohlédnout soubor</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BrowseHtml</ID>
+        <Source>Browse...</Source>
+        <Translation>Prohlížet...</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidType</ID>
+        <Source>The type attribute has an invalid value in the assessment markup: {0}</Source>
+        <Translation>Příznak typu má nesprávnou hodnotu ve stanoveném značení: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InstructorCommentsColonHtml</ID>
+        <Source>Instructor comments:</Source>
+        <Translation>Komentář instruktora:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>Unanswered</ID>
+        <Source>&lt;Unanswered&gt;</Source>
+        <Translation>&lt;Unanswered&gt;</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InstructorCommentTooLong</ID>
+        <Source>"The text entered is formatted incorrectly or greater than the maximum {0} characters."</Source>
+        <Translation>"Vložený text je nesprávně zformátovaný nebo větší než maximum {0} znaků."</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidOptionValue</ID>
+        <Source>The posted &lt;option&gt; value, {0}, is out of range for the &lt;select&gt; tag with name="{1}".</Source>
+        <Translation>Odeslaná &lt;option&gt; hodnota, {0}, je mimo rozsah &lt;select&gt; označení se jménem="{1}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NoScoreHtml</ID>
+        <Source>--</Source>
+        <Translation>--</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CorrectAnswerHtml</ID>
+        <Source>Correct answer</Source>
+        <Translation>Správná odpověď</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ViewTheAttachedFileHtml</ID>
+        <Source>View the attached file.</Source>
+        <Translation>Prohlédnout připojený soubor.</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidFormFieldValue</ID>
+        <Source>The value, {0}, of the form field, {1}, is invalid.</Source>
+        <Translation>Hodnota, {0}, pole formuláře, {1}, je neplatná.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ScoreOutOfRange</ID>
+        <Source>"The score entered is formatted incorrectly or outside the allowable range of -1000 to 1000."</Source>
+        <Translation>"Vložené skóre je nesprávně formátované nebo je mimo povolený rozsah od -1000 do 1000."</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CorrectAnswerColonHtml</ID>
+        <Source>Correct answer:</Source>
+        <Translation>Správna odpověď:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentSelectedHtml</ID>
+        <Source>Selected</Source>
+        <Translation>Vybrané</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StudentNotSelectedIncorrectHtml</ID>
+        <Source>This is the correct answer but it was not selected</Source>
+        <Translation>Toto je správná odpověď ale nebyla vybrána</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>AttachedFileHtml</ID>
+        <Source>There is an attached {0} file.</Source>
+        <Translation>Je zde připojený {0} soubor.</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ReplaceFileHtml</ID>
+        <Source>Replace the attached file with another file:</Source>
+        <Translation>Nahraďte připojený soubor jiným souborem:</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidId</ID>
+        <Source>The value of the id is invalid in the assessment markup: {0}</Source>
+        <Translation>Hodnota identifikátoru je neplatná ve zvoleném označení: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>DataModelElementTooLong</ID>
+        <Source>Data model element '{0}' was passed a value that exceeded the supported length.</Source>
+        <Translation>Prvek datového modelu '{0}' dostal hodnotu, která překračuje podporovanou délku.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionBadZipFile</ID>
+        <Source>The package compression format is not supported.</Source>
+        <Translation>Formát komprese balíku není podporován.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingFlowingTo</ID>
+        <Source>Sequencing is flowing to activity '{0}'.</Source>
+        <Translation>Sekvence přechází do aktivity'{0}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionNoFile</ID>
+        <Source>The .zip file cannot be found.</Source>
+        <Translation>Soubor .zip nebyl nalezen.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_PropertyCannotBeNull</ID>
+        <Source>The value cannot be set to null.</Source>
+        <Translation>Hodnota nemůže být nastavena na nulu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UTIL_ParamIsEmptyString</ID>
+        <Source>A parameter contains an empty string, which is not allowed. </Source>
+        <Translation>Proměnná obsahuje prázdný řetězec, což není povoleno. </Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UnauthorizedAccess</ID>
+        <Source>The requested item, {0}, can not be accessed.</Source>
+        <Translation>Požadovaný prvek, {0}, nemůže být zpřístupněn.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UniqueIdNotSupported</ID>
+        <Source>No unique identifiers are defined for items in this list.</Source>
+        <Translation>Žádné jedinečné identifikátory nejsou definované pro prvky v tomto seznamu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__8</ID>
+        <Source>Choice Exit Sequencing Control Mode violation.</Source>
+        <Translation>Narušení volby ukončení úsekové kontroly.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__9</ID>
+        <Source>No activities to consider.</Source>
+        <Translation>Žádné aktivity na zvážení.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__2</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Není definována žádná aktuální aktivita. Postupné akce nezačaly.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__3</ID>
+        <Source>A suspended activity is not defined.</Source>
+        <Translation>Přerušená aktivita není definovaná.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__1</ID>
+        <Source>A current activity is already defined. The sequencing session has already begun.</Source>
+        <Translation>Aktuální aktivita je už definovaná. Postupné akce už začaly.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__6</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Žádná aktivita není "předcházející" kořeni.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__7</ID>
+        <Source>Unsupported navigation request.</Source>
+        <Translation>Nepodporovaný požadavek navigace.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__4</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Narušení kotroly řízení toku.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__5</ID>
+        <Source>Flow or Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Narušení kontroly toku nebo postupu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupChildMissingPrimaryObjective</ID>
+        <Source>Rollup aborted because child activity '{0}' does not have a primary objective.</Source>
+        <Translation>Rollup přerušen protože aktivita '{0}' nemá primární cíl.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestRetryAll</ID>
+        <Source>RetryAll</Source>
+        <Translation>Znovu zkusit vše</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_2__1</ID>
+        <Source>Identified activity is already active.</Source>
+        <Translation>Identifikovaná aktivita je už aktivní.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ReadError</ID>
+        <Source>Read error.</Source>
+        <Translation>Chyba čtení.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPreConditionSkipped</ID>
+        <Source>Activity '{0}' skipped because its pre-condition Skip rules evaluated as true.</Source>
+        <Translation>Aktivita '{0}' přeskočena protože její přednastavení Skip rules bylo vyhodnoceno jako pravdivé.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageReaderErrorState</ID>
+        <Source>The ZipPackageReader has encountered an error and cannot continue.</Source>
+        <Translation>ZipPackageReader narazil na problém a nemůže pokračovat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>AlreadyInList</ID>
+        <Source>The item specified is already added to this or another list belonging to this data model.</Source>
+        <Translation>Zmíněný prvek je už přidán do tohoto nebo jiného seznamu, patřícího do tohoto datového modelu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupInitiated</ID>
+        <Source>Rollup initiated for activity '{0}'.</Source>
+        <Translation>Rollup byl inicializován pro aktivitu'{0}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DRLO_CurrentActivityEntryPointIsAbsolute</ID>
+        <Source>The entry point of the current activity is not contained within this package.</Source>
+        <Translation>Vstupní bod aktuální aktivity není obsažen v tomto balíku.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestRetry</ID>
+        <Source>Retry</Source>
+        <Translation>Znovu</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>EndOfStream</ID>
+        <Source>End of stream reached.</Source>
+        <Translation>Dosažen konec řetězce.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NoIdentifier</ID>
+        <Source>A required identifier was not provided for this element.</Source>
+        <Translation>Požadovaný identifikátor nebyl poskytnut pro tento prvek.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestExitAll</ID>
+        <Source>ExitAll</Source>
+        <Translation>Ukončit vše</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>StreamMustReadAndSeek</ID>
+        <Source>Stream must have read and seek capability.</Source>
+        <Translation>Řetězec musí mít čtecí a vyhledávací schopnost.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>KeyDoesNotMatchItem</ID>
+        <Source>The key specified '{0}' does not match the identifier within the item to be added to the dictionary '{1}'.</Source>
+        <Translation>Zmíněný symbol '{0}' neodpovídá identifikátoru položky, která má být přidána do slovníku '{1}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleResult</ID>
+        <Source>Sequencing Post Condition rule on activity '{0}' resulted in a {1} request.</Source>
+        <Translation>Zavedení Post Condition pravidla na aktivitu '{0}' způsobilo {1} požadavek.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_StringCannotBeEmpty</ID>
+        <Source>The value cannot be set to an empty or null string.</Source>
+        <Translation>Hodnota nemůže být nastavena na prázdný nebo nulový řetězec.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ReactivateNotValid</ID>
+        <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
+        <Translation>Není možné znovu aktivovat aktuální akci. Pouze dokončené nebo zrušené akce mohou být znovu aktivovány a to jen v pohledu RandomAccess.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ExitNotValid</ID>
+        <Source>It is not valid to exit the current session. Only a session that has started may be exited, and only in Execute view.</Source>
+        <Translation>Není možné opustit aktuální akci. Pouze akce, která začala může být ukončena a jen v Execute pohledu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CannotDeletePrimaryObjective</ID>
+        <Source>Cannot remove or replace the primary objective.</Source>
+        <Translation>Není možné odstranit nebo nahradit primární cíl.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SLS_CurrentActiveActivityRequired</ID>
+        <Source>A CurrentActivity that is active is required to exist before requesting this operation.</Source>
+        <Translation>CurrentActivity která je aktivní musí existovat před žádaním o tuto operaci.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CannotChangeId</ID>
+        <Source>Cannot change the identifier if an item in a dictionary.  Try removing the item, changing the identifier, then re-adding it.</Source>
+        <Translation>Nelze změnit identifikátor pokud je položkou slovníku. Pokuste se odstranit tuto položku, změnit identifikátor a potom ho znovu přidat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OnlyValidForSCORMV1p3</ID>
+        <Source>The '{0}' data model element is only valid in SCORM 2004 packages.</Source>
+        <Translation>'{0}' prvek datového modelu je platný pouze ve SCORM 2004 balících.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OnlyValidForSCORMV1p2</ID>
+        <Source>The '{0}' data model element is only valid in SCORM 1.2 packages.</Source>
+        <Translation>'{0}' prvek datového modelu je platný pouze ve SCORM 1.2 balících.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IndexOutOfRange</ID>
+        <Source>The index is out of range.</Source>
+        <Translation>Index je mimo rozsah.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestExitParent</ID>
+        <Source>ExitParent</Source>
+        <Translation>ExitParent</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ResourceNotInPackage</ID>
+        <Source>The current activity in the session defines an entry point that does not exist in the package. The content cannot be read.</Source>
+        <Translation>Aktuální aktivita v akci definuje vstupní bod který není v balíku. Obsah nemůže být přečten.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>WrongDataModel</ID>
+        <Source>An object created for use by a different data model cannot be added to this data model.</Source>
+        <Translation>Objekt, vytvořený pro použití v jiném datovém modelu nemůže být přidán do tohoto datového modelu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_ResumeNotValid</ID>
+        <Source>It is not valid to resume the current session. Only a suspended session may be resumed, and only in Execute view.</Source>
+        <Translation>Není možné pokračovat v současné relaci. Pokračovat lze jen v přerušené relaci a to pouze v Execute pohledu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_SuspendNotValid</ID>
+        <Source>It is not valid to suspend the current session. Only an active session may be suspended, and only in Execute view.</Source>
+        <Translation>Není možné přerušit současnou akci. Pouze aktivní akce může být přerušena a to jen v Execute pohladu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ImsManifestXmlMissing</ID>
+        <Source>The package is missing the required file, imsmanifest.xml.</Source>
+        <Translation>Balíku chybí potřebný soubor, imsmanifest.xml.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DirectoryNotFound</ID>
+        <Source>The requested directory, {0}, can not be found.</Source>
+        <Translation>Požadovanou složku, {0}, nelze nalézt.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ListCannotBeModified</ID>
+        <Source>The list cannot be modified.</Source>
+        <Translation>Seznam nelze upravovat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__13</ID>
+        <Source>Undefined navigation request.</Source>
+        <Translation>Nedefinovaný požadavek navigace.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__12</ID>
+        <Source>The current activty is already terminated.</Source>
+        <Translation>Současná aktivita je už ukončená.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__11</ID>
+        <Source>Target activity does not exist.</Source>
+        <Translation>Cílová aktivita neexistuje.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NB_2_1__10</ID>
+        <Source>Choice Sequencing Control Mode violation.</Source>
+        <Translation>Narušení výběru postupové kontroly.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_RelativePathRequired</ID>
+        <Source>The RenderContext.RelativePath must have a value.</Source>
+        <Translation>RenderContext.RelativePath musí mít hodnotu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrmNoManifest</ID>
+        <Source>An error occurred while unbundling the file. The Index.xml or imsmanifest.xml file cannot be found.</Source>
+        <Translation>Při rozbalování souboru nastala chyba. Index.xml nebo imsmanifest.xml soubor nebyl nalezen.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NonUniqueId</ID>
+        <Source>An item with the identifier '{0}' already exists in this list.</Source>
+        <Translation>Položka s identifikátorem '{0}' už v tomto seznamu existuje.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PackageFileNotFound</ID>
+        <Source>The requested file was not found in the package.</Source>
+        <Translation>Požadovaný soubor nebyl v balíku nalezen.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidScormV1p3Value</ID>
+        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 2004 specifications.</Source>
+        <Translation>Prvku datového modelu '{0}' byla dána hodnota mimo rozsah podle specifikací SCORM 2004.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestContinue</ID>
+        <Source>Continue</Source>
+        <Translation>Pokračovat</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrmUnknownFormat</ID>
+        <Source>An error occurred while unbundling the file. Unable to determine the file format.</Source>
+        <Translation>Nastala chyba při rozbalovaní souboru. Není možné určit formát souboru.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NavigationFinishedNewActivity</ID>
+        <Source>Navigation resulted in making '{0}' the current active activity.</Source>
+        <Translation>Navigace skončila vytvořením '{0}' aktuální aktivní aktivity.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrmMultiNotSupported</ID>
+        <Source>An error occurred while unbundling the file. A file with multiple Learning Resources is not supported.</Source>
+        <Translation>Nastala chyba při rozbalování souboru. Soubor s více Výukovými zdroji není podporován.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequredObjectiveNotFound</ID>
+        <Source>Sequencing cannot proceed because the required objective '{0}' was not found.</Source>
+        <Translation>Sekvence nemůže pokračovat, protože potřebný cíl'{0}' nebyl nalezen.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidScormV1p2Value</ID>
+        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 1.2 specifications.</Source>
+        <Translation>Prvek datového modelu '{0}' dostal hodnotu, která je mimo rozsah podle specifikací SCORM 1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CantWriteToDataModel</ID>
+        <Source>This LearningDataModel object may not be written to.</Source>
+        <Translation>Do tohoto LearningDataModel objektu nelze zapisovat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidExtensionType</ID>
+        <Source>Unsupported type '{0}' added to extension data.</Source>
+        <Translation>Nepodporovaný typ'{0}'přidaný do rozšířených dat.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupSettingNormalizedMeasure</ID>
+        <Source>Rollup setting normalized measure to {0} for activity '{1}'.</Source>
+        <Translation>Nastavení Rollup normalizovalo hodnotu na {0} pro aktivitu'{1}'.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DRLO_InvalidRelativePath</ID>
+        <Source>The relativePath value '{0}' does not represent a valid, package-relative path.</Source>
+        <Translation>Hodnota relativePath '{0}' nereprezentuje platnou cestu související s balíkem.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PackageDirectoryAlreadyExists</ID>
+        <Source>Cannot copy to '{0}' because a file or directory with the same name already exists. This operation can only copy to a destination that does not yet exist.  It will create the destination directory.</Source>
+        <Translation>Nelze kopírovat do '{0}' protože soubor nebo složka stejného jména už existuje. Tato operace umožňuje kopírovat pouze do umístění, které ještě neexistuje. Cílová složka bude vytvořena.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NavigationFinishedDone</ID>
+        <Source>Navigation complete.  No current activity.</Source>
+        <Translation>Navigace ukončena. Žádná aktuální aktivita.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingExitRuleExecuted</ID>
+        <Source>Sequencing Exit rule requires that activity '{0}' terminate.</Source>
+        <Translation>Výstupní pravidlo sekvence vyžaduje aby se aktivita '{0}' ukončila.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>UniqueIdNotFound</ID>
+        <Source>No item with the identifier '{0}' was found in this list.</Source>
+        <Translation>Žádný prvek s identifikátorom '{0}' nebyl v seznamu nalezen.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ZipPackageExceptionDefault</ID>
+        <Source>Error code: {0}</Source>
+        <Translation>Chybný kód: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SLS_CurrentActivityRequired</ID>
+        <Source>A CurrentActivity is required to exist before requesting this operation.</Source>
+        <Translation>CurrentActivity musí existovat před žádáním o tuto operaci.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>WrongNameTable</ID>
+        <Source>The object is not in the correct NameTable.</Source>
+        <Translation>Objekt není korektní tabulkou jmen.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__3</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Narušení kontroly toku.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__2</ID>
+        <Source>The current activity is active or suspended.</Source>
+        <Translation>Současná aktivita je aktivní nebo přerušená.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_10__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Současná aktivita není definovaná. Běh akce nezačal.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_12__1</ID>
+        <Source>Undefined sequencing request.</Source>
+        <Translation>Nedefinovaný požadavek postupu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_11__2</ID>
+        <Source>The current activity has not been terminated.</Source>
+        <Translation>Současná aktivita nebyla ukončena.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_11__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Současná aktivita není definovaná. Běh akce nezačal.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingPostConditionRuleRequestPrevious</ID>
+        <Source>Previous</Source>
+        <Translation>Předcházející</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__2</ID>
+        <Source>The Current activity already terminated.</Source>
+        <Translation>Současná aktivita už byla ukončena.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__3</ID>
+        <Source>Cannot suspend an inactive root.</Source>
+        <Translation>Nelze přerušit neaktivní jádro.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__1</ID>
+        <Source>A Current Activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Současná aktivita není definovaná. Běh akce nezačal.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__6</ID>
+        <Source>Nothing to abandon; no active activities.</Source>
+        <Translation>Není co opustit; žádné aktivní aktivity.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__7</ID>
+        <Source>Undefined termination request.</Source>
+        <Translation>Nedefinovaný požadavek na ukončení.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__4</ID>
+        <Source>Activity tree root has no parent.</Source>
+        <Translation>Kořen stromu aktivit nemá žádného předchůdce.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>TB_2_3__5</ID>
+        <Source>Nothing to suspend; no active activities.</Source>
+        <Translation>Není co přerušovat; žádné aktivní aktivity.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_6__1</ID>
+        <Source>A current activity is defined. The sequencing session already begun.</Source>
+        <Translation>Současná aktivita je definovaná. Běh akce už začal.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_6__2</ID>
+        <Source>No Suspended Activity defined.</Source>
+        <Translation>Není definována žádná přerušená aktivita.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_5__1</ID>
+        <Source>A current activity is defined. The sequencing session already begun.</Source>
+        <Translation>Současná aktivita je definovaná. Běh akce už začal.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_2__1</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Narušení kontroly toku.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_2__2</ID>
+        <Source>Activity unavailable.</Source>
+        <Translation>Aktivita nedostupná.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_7__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Současná aktivita není definovaná. Běh akce nezačal.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_7__2</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Narušení kontroly toku.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__2</ID>
+        <Source>Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Narušení kotroly toku vpřed.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__3</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Žádná aktivita není "předcházející" kořeni.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_4__1</ID>
+        <Source>Forward Traversal Blocked.</Source>
+        <Translation>Přední příčka blokována.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__4</ID>
+        <Source>Forward Only Sequencing Control Mode violation.</Source>
+        <Translation>Narušení kontroly toku vpřed.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__3</ID>
+        <Source>No activity is "previous" to the root.</Source>
+        <Translation>Žádná aktivita není "předcházející" kořeni.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__2</ID>
+        <Source>Cluster has no available children.</Source>
+        <Translation>Klaster nemá dostupného nástupce.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_1__1</ID>
+        <Source>Last activity in the tree.</Source>
+        <Translation>Poslední aktivita ve stromě.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__9</ID>
+        <Source>Choice request prevented by Flow-only activity.</Source>
+        <Translation>Požadavek volby zamezen aktivitou toku.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__8</ID>
+        <Source>Unable to choose target activity - constrained choice.</Source>
+        <Translation>Nelze vybrat cílovou aktivitu - omezený výběr.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__7</ID>
+        <Source>Choice Exit Sequencing Control Mode violation.</Source>
+        <Translation>Narušení kontroly volby ukončení.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__6</ID>
+        <Source>Unable to activate target; target is not a child of the Current Activity.</Source>
+        <Translation>Nelze aktivovat cíl, cíl není následníkem současné aktivity.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__5</ID>
+        <Source>No activities to consider.</Source>
+        <Translation>Žádné aktivity, které by připadaly v úvahu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__4</ID>
+        <Source>Choice Sequencing Control Mode violation.</Source>
+        <Translation>Narušení kontroly volby ukončení.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__3</ID>
+        <Source>Target activity hidden from choice.</Source>
+        <Translation>Cílová aktivita skrytá před volbou.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__2</ID>
+        <Source>Target activity does not exist or is unavailable.</Source>
+        <Translation>Cílová aktivita neexistuje nebo není dostupná.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_9__1</ID>
+        <Source>No target for Choice.</Source>
+        <Translation>Žádný cíl pro výběr.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_8__2</ID>
+        <Source>Flow Sequencing Control Mode violation.</Source>
+        <Translation>Narušení kontroly toku.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SB_2_8__1</ID>
+        <Source>A current activity is not defined. The sequencing session has not begun.</Source>
+        <Translation>Současná aktivita není definovaná. Akce nemohla začít.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__3</ID>
+        <Source>Activity unavailable.</Source>
+        <Translation>Aktivita není dostupná.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__2</ID>
+        <Source>Nothing to deliver.</Source>
+        <Translation>Není co doručit.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DB_1_1__1</ID>
+        <Source>Cannot deliver a non-leaf activity.</Source>
+        <Translation>Nelze doručit aktivitu bez listů.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_AbandonNotValid</ID>
+        <Source>It is not valid to abandon the current session. Only an active or suspended session may be abandoned, and only in Execute view.</Source>
+        <Translation>Není povolené opustit aktuální akci. Pouze aktivní nebo přerušené akce je možné opustit a to jen v pohledu Execute.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LS_CantRenderManifest</ID>
+        <Source>The requested manifest file cannot be rendered.</Source>
+        <Translation>Požadovaný soubor diagnostiky nemohl být načten.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.Properties.ValidatorResources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.Properties.ValidatorResources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>LrLogCannotBeNullWhenRequired</ID>
+        <Source>The log parameter can not be null when the ValidationBehavior requires a log.</Source>
+        <Translation>Parametr záznamu nemůže být nula pokud ValidationBehavior vyžaduje záznam.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ElementRemoved</ID>
+        <Source>(element has been removed)</Source>
+        <Translation>(prvek byl odstraněn)</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceOrOrganizationNotFound</ID>
+        <Source>The referenced resource or organization can not be found.</Source>
+        <Translation>Zmíněný zdroj nebo organizace nebyly nalezeny.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RuleConditionConditionMissing</ID>
+        <Source>The &lt;ruleCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
+        <Translation>&lt;ruleCondition&gt; uzel musí mít podmínkový příznak.  Viz SCORM 1.3 CAM 5.1.3.1.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcNodeViolationTruncated</ID>
+        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by MLC.  It has been truncated to {2} characters.</Source>
+        <Translation>Hodnota, která začíná "{0}" uzlu, {1}, je delší než je podporováno MLC.  Byla ořezána na {2} znaky.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ValueOutOfRange</ID>
+        <Source>The value is out of range.</Source>
+        <Translation>Hodnota je mimo rozsah.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidPresentationNode</ID>
+        <Source>A &lt;presentation&gt; node may only appear, if needed, as a child of a leaf &lt;item&gt;element that references a resource.</Source>
+        <Translation>&lt;presentation&gt; uzel se může vyskytnout, je-li to potřeba, pouze jako následník listu&lt;item&gt;prvek, který odkazuje na zdroj.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadValue</ID>
+        <Source>The value "{0}" of element &lt;{1}&gt; is an invalid value.  Extra information: {2}</Source>
+        <Translation>Hodnota "{0}" prvku &lt;{1}&gt; je neplatná hodnota. Další informace: {2}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrMustHaveCorrectRoot</ID>
+        <Source>A valid index.xml begins with a &lt;LearningResource&gt; node in the "urn:schemas-microsoft-com:learning-resource" namespace.</Source>
+        <Translation>Platný index.xml začíná &lt;LearningResource&gt; uzel v "urn:schemas-microsoft-com:learning-resource".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceHrefMissing</ID>
+        <Source>The resource node is missing the required attribute, 'href'</Source>
+        <Translation>Zdrojový uzel postrádá potřebný příznak, 'href'</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ManifestMetaDataMissing</ID>
+        <Source>The &lt;metadata&gt; node is missing or in the wrong namespace on the &lt;manifest&gt;.  See SCORM 1.3 CAM 3.4.1.2.</Source>
+        <Translation>&lt;metadata&gt; uzel chybí nebo je v chybné oblasti jmen na &lt;manifest&gt;.  Viz SCORM 1.3 CAM 3.4.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequiredAttributeMissing</ID>
+        <Source>The required attribute, {0}, is missing on element &lt;{1}&gt;. Extra information:{2}</Source>
+        <Translation>Požadovaný příznak, {0}, chybí v prvku &lt;{1}&gt;. Další informace:{2}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OutOfRangeNegOneToOne</ID>
+        <Source>The value is outside the valid range [-1 to 1].</Source>
+        <Translation>Hodnota je mimo platný rozsah [-1 do 1].</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcNodeViolation</ID>
+        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by Microsoft Learning Components.</Source>
+        <Translation>Hodnota, která začíná "{0}" uzlu, {1}, je delší než je podporováno Microsoft Learning Components.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NodeName</ID>
+        <Source>The name of the erroneous node is: {0}</Source>
+        <Translation>Jméno chybného uzlu je: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadValueReplacement</ID>
+        <Source>The value "{0}" of element &lt;{1}&gt; is an invalid value.  It has been replaced by the default value "{2}".  Extra information: {3}</Source>
+        <Translation>Hodnota "{0}" prvku &lt;{1}&gt; je nesprávnou hodnotou. Byla nahrazena předvolenou hodnotou "{2}".  Další informace: {3}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrChildInLrmNamespaceNotFound</ID>
+        <Source>The node &lt;{0}&gt; can not be found in the correct namespace. Extra information:{1}</Source>
+        <Translation>Uzel &lt;{0}&gt; nelze nalézt v korektní oblasti jmen. Další informace:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadUri</ID>
+        <Source>The value is an invalid URI.</Source>
+        <Translation>Hodnota je neplatnou URI.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrDefaultAttributeUsed</ID>
+        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element's "{2}" attribute.</Source>
+        <Translation>Předvolená hodnota "{0}" byla použita místo chybějící nebo nesprávné hodnoty pro &lt;{1}&gt; prvku "{2}" příznak.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadXmlBase</ID>
+        <Source>The value is an invalid xml:base. xml:base must be a valid URI that does not begin with a "/" but does end with a "/".</Source>
+        <Translation>Hodnota je neplatnou xml:bází. xml:báze musí být platná URI, která nezačíná "/" ale končí  "/".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>EmptyReferencedObjective</ID>
+        <Source>The referencedObjective attribute on the {0} node is whitespace only, which is invalid.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
+        <Translation>Příznak ReferencedObjective na uzlu {0} je jen mezerník, což je neplatné.  Viz SCORM 1.3 CAM 5.1.3.1.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrNodeLengthException</ID>
+        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long.</Source>
+        <Translation>Uzel &lt;{0}&gt; má hodnotu, která začíná "{1}" což je příliš dlouhé.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ParentXml</ID>
+        <Source>The full XML of the parent node is: {0}</Source>
+        <Translation>Plný XML rodičovského uzlu je: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeValueException</ID>
+        <Source>The value of the &lt;{0}&gt; element's "{1}" attribute is missing or erroneous.</Source>
+        <Translation>Hodnota &lt;{0}&gt; prvku "{1}" příznaku chybí nebo je nesprávná.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRuleAction</ID>
+        <Source>The &lt;ruleAction&gt; node may occur 1 and only 1 time within a &lt;preConditionRule&gt;, &lt;postConditionRule&gt;, or &lt;exitConditionRule&gt;.  See SCORM 1.3 CAM 5.1.3.1.2.</Source>
+        <Translation> &lt;ruleAction&gt; uzel sa může vyskytovat 1 a jen 1 krát v  &lt;preConditionRule&gt;, &lt;postConditionRule&gt;, nebo &lt;exitConditionRule&gt;.  Viz SCORM 1.3 CAM 5.1.3.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>GenericDuplicate</ID>
+        <Source>The parent node is {0}.</Source>
+        <Translation>Rodičovský uzel je {0}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRollupConditions</ID>
+        <Source>The &lt;rollupCondition&gt; node can only appear once in the &lt;rollupRule&gt; node.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
+        <Translation>&lt;rollupCondition&gt; uzel se může vyskytovat pouze jednou v &lt;rollupRule&gt; uzlu.  Viz SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrNodeLengthViolation</ID>
+        <Source>The node &lt;{0}&gt; has a value that is too long.  It has been truncated to "{1}".</Source>
+        <Translation>Uzel &lt;{0}&gt; má příliš dlouhou hodnotu, Byla ořezána na "{1}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ItemMustRepresentSco</ID>
+        <Source>The parent node, {0}, must represent a SCO.</Source>
+        <Translation>Rodičovský uzel, {0}, musí reprezentovat SCO.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ValueOutOfRangeToken</ID>
+        <Source>The value is not one of the permitted token values.</Source>
+        <Translation>Hodnota není dovolenou symbolovou hodnotou.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>NodeXml</ID>
+        <Source>The full XML of the erroneous node is: {0}</Source>
+        <Translation>Plný XML chybného uzlu je: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MetadataLocationNotFound</ID>
+        <Source>The file, {0}, referenced by the location element inside of metadata in the manifest can not be found in the package.</Source>
+        <Translation>Soubor, {0}, zmíněný lokačním prvkem uvnitř metadat nelze nalézt v balíku programů.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrMultiLRNotSupported</ID>
+        <Source>The package is a multiple learning resource package, which is not supported.</Source>
+        <Translation>Balík programů je složený výukový balík, který není podporovaný.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrChildInLrmNamespaceNotFoundTryOther</ID>
+        <Source>The node &lt;{0}&gt; can not be found in the correct namespace  An attempt will be made to find a child node with that name in other namespaces. Extra information:{1}</Source>
+        <Translation>Uzel &lt;{0}&gt; nelze nalézt v korektní oblasti jmen. Bude uskutečněn pokus o nalezení dceřinného uzlu s tímto jménem v jiných oblastech jmen.:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRollupAction</ID>
+        <Source>The &lt;rollupAction&gt; node can only appear once in the &lt;rollupRule&gt;node.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
+        <Translation> &lt;rollupAction&gt; uzel se může objevit pouze jednou v &lt;rollupRule&gt; uzlu.  Viz SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ValueIncorrectType</ID>
+        <Source>The value is not the expected type.</Source>
+        <Translation>Hodnota není očekávaného typu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrNodeValueException</ID>
+        <Source>The value of the &lt;{0}&gt; element is missing or erroneous.</Source>
+        <Translation>Hodnota &lt;{0}&gt; prvku chybí nebo je nesprávná.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrPageNodeSkipped</ID>
+        <Source>The value of the PageID attribute of the {0} element is invalid. The element has been omitted from the conversion.</Source>
+        <Translation>Hodnota PageID příznaku {0} prvku je nesprávná. Prvek byl vynechán z  převodu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidFileType</ID>
+        <Source>The file {0} is not a valid file type.</Source>
+        <Translation>Soubor {0} není platného typu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidNode</ID>
+        <Source>An element, &lt;{0}&gt;, is invalid because it is illegal or has illegal attribute values. Extra information: {1}</Source>
+        <Translation>Prvek &lt;{0}&gt; je neplatný, protože je nepřípustný nebo má nepřípustné hodnoty příznaku. Další informace: {1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ConvertedUriReplacement</ID>
+        <Source>The "{0}" portion of attribute, {1}, on element &lt;{2}&gt; contains invalid URI characters.  These have been converted into valid characters automatically.  The new value is "{3}".  Extra information: {4}.</Source>
+        <Translation>"{0}" část příznaku, {1}, na prvku &lt;{2}&gt; obsahuje neplatné URI znaky.  Tyto byly změněny na platné znaky automaticky. Nová hodnota je "{3}".  Další informace: {4}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ItemTitleMissing</ID>
+        <Source>The &lt;title&gt; node is required on the {0} node in Content Aggregation manifests.  See SCORM 1.3 CAM 3.4.1.10, or SCORM 1.2 CAM 2.3.5.3.1.2.1.</Source>
+        <Translation>&lt;title&gt; uzel je potřeba pro {0} uzel v Obsahovém součtu.  Viz SCORM 1.3 CAM 3.4.1.10, or SCORM 1.2 CAM 2.3.5.3.1.2.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrRemoteContentNotSupported</ID>
+        <Source>Remote content is not supported.</Source>
+        <Translation>Vzdálený obsah není podporován.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrLicensedContentNotSupported</ID>
+        <Source>This learning resource requires a license and licensed Learning Resources are not supported.</Source>
+        <Translation>Tento výukový zdroj vyžaduje licenci ale licencované výukové zdroje nejsou podporovány.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PrerequisitesTypeWrong</ID>
+        <Source>The value of the &lt;prerequisites&gt; type attribute must be "aicc_script".</Source>
+        <Translation>Hodnota &lt;prerequisites&gt; typu příznaku  musí být "aicc_script".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrDefaultValueUsed</ID>
+        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element.</Source>
+        <Translation>Předvolená hodnota "{0}" byla použita místo chybějící nebo nesprávné hodnoty pro &lt;{1}&gt; prvek.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeLengthException</ID>
+        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long for the "{2}" attribute.</Source>
+        <Translation>Uzel &lt;{0}&gt; má hodnotu která začíná "{1}" což je příliš dlouhé pro "{2}" příznak.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ItemIdentifierMissing</ID>
+        <Source>The &lt;item&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.9, or SCORM 1.2 CAM 2.3.5.3.1.2.</Source>
+        <Translation> &lt;item&gt; uzel musí mít identifikační příznak.  Viz SCORM 1.3 CAM 3.4.1.9, nebo SCORM 1.2 CAM 2.3.5.3.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationActivityMissing</ID>
+        <Source>An Activity node is required for content used in Microsoft Learning Components.</Source>
+        <Translation>Aktivační uzel je potřeba pro obsah používaný v Microsoft Learning  Components.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SpmNodeViolation</ID>
+        <Source>The value that begins with "{0}" of the node, &lt;{1}&gt;, is longer than the smallest permitted maximum (SPM), {2}.</Source>
+        <Translation>Hodnota, která začíná "{0}" uzlu, &lt;{1}&gt;, je delší než nejmenší povolené maximum (SPM), {2}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadAttributeValue</ID>
+        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  Extra information: {3}</Source>
+        <Translation>Hodnota "{0}" příznaku, {1}, na prvku &lt;{2}&gt;, je neplatná hodnota.  Další informace: {3}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadAttributeValueReplacement</ID>
+        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  It has been replaced by the default value "{3}".  Extra information: {4}</Source>
+        <Translation>Hodnota "{0}" příznaku, {1}, na prvku &lt;{2}&gt;, je neplatná hodnota.  Byla nahrazena předvolenou hodnotou "{3}".  Další informace: {4}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolation</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by Microsoft Learning Components.  Extra information: {2}</Source>
+        <Translation>Hodnota která začíná "{0}" příznaku, {1}, je delší než je podporováno v Microsoft Learning Components.  Další informace: {2}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ManifestNodeMissing</ID>
+        <Source>A &lt;manifest&gt; node in the correct namespace is required.</Source>
+        <Translation> &lt;manifest&gt; uzel v korektní oblasti jmen je potřeba.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ManifestMissing</ID>
+        <Source>A manifest is required and is not present in the package.</Source>
+        <Translation>Diagnostický program je potřeba a není přítomen v souboru programů.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrPageIdDuplicate</ID>
+        <Source>The value of the PageID attribute, {0}, on a &lt;Page&gt; element is used more than once.  PageID's must be unique for each &lt;Page&gt; element.</Source>
+        <Translation>Hodnota PageID příznaku, {0}, na &lt;Page&gt; prvku je použita více než jednou.  PageID musí být jedinečné pro každý &lt;Page&gt; prvek.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceIdentifierMissing</ID>
+        <Source>The &lt;resource&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.21, or SCORM 1.2 CAM 2.3.5.4.1.</Source>
+        <Translation> &lt;resource&gt; uzel musí mít identifikační příznak.  Viz SCORM 1.3 CAM 3.4.1.21, nebo SCORM 1.2 CAM 2.3.5.4.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrAttributeLengthViolation</ID>
+        <Source>The node &lt;{0}&gt; has a value that is too long for the "{1}" attribute.  It has been truncated to "{2}".</Source>
+        <Translation>Uzel &lt;{0}&gt;má hodnotu která je příliš dlouhá pro "{1}" příznak.  Byla oříznuta na "{2}".</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>EmptyString</ID>
+        <Source>(empty string)</Source>
+        <Translation>(prázdný řetězec)</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidTrueValuesInMapInfo</ID>
+        <Source>In multiple &lt;mapInfo&gt; nodes, true values are restricted.  See SCORM 1.3 CAM 5.1.7.1.2.</Source>
+        <Translation>Ve vícenásobných &lt;mapInfo&gt; uzlech je zakázáno více pravdivých hodnot současně.  Viz SCORM 1.3 CAM 5.1.7.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ReferenceNotFound</ID>
+        <Source>The referenced node can not be found.</Source>
+        <Translation>Zmíněný uzel nebyl nalezen.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IllegalNegativeInteger</ID>
+        <Source>The value must be 0 or a positive integer.</Source>
+        <Translation>Hodnota musí být 0 nebo kladné celé číslo.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ActivityResourceBadAttribute</ID>
+        <Source>A resource that belongs to an activity must have a type attribute set to "webcontent", an adlcp:scormType attribute set to "sco" or "asset", and a valid href attribute.  {0}</Source>
+        <Translation>Zdroj který patří k aktivitě musí mít typový příznak nastavený na "webcontent", adlcp:scormType příznak nastavený na "sco" nebo "asset", a platný href příznak.  {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ResourceNotAllowedOnActivity</ID>
+        <Source>If an &lt;item&gt; element is a parent element, the &lt;item&gt; may not reference a &lt;resource&gt;.  See SCORM 1.3 CAM 3.4.1.9.  The full XML of the node is: {0}</Source>
+        <Translation>Jestliže &lt;item&gt; prvek je rodičovský prvek, &lt;item&gt; nesmí odkazovat na &lt;resource&gt;.  Viz  SCORM 1.3 CAM 3.4.1.9.  Plný XML uzla je: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupConditionConditionMissing</ID>
+        <Source>The &lt;rollupCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.6.1.2.</Source>
+        <Translation>&lt;rollupCondition&gt; uzel musí mít podmínkový příznak.  Viz  SCORM 1.3 CAM 5.1.6.1.2.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateRuleConditions</ID>
+        <Source>The &lt;ruleConditions&gt; node can only appear once in the &lt;{0}&gt; node.  See SCORM 1.3 CAM 5.1.3.1.1.</Source>
+        <Translation>&lt;ruleConditions&gt; uzel se může objevit pouze jednou v &lt;{0}&gt; uzlu.  Viz SCORM 1.3 CAM 5.1.3.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PrimaryObjectiveMissingOrDuplicate</ID>
+        <Source>In a list of &lt;objectives&gt;, there must be one and only one &lt;primaryObjective&gt; node.</Source>
+        <Translation>V seznamu &lt;objectives&gt;, smí být jen jediný &lt;primaryObjective&gt; uzel.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidDuplicateNodesIgnored</ID>
+        <Source>There are multiple instances of element, &lt;{0}&gt;. All but the first are ignored. Extra information:{1}</Source>
+        <Translation>Existuje více výskytů prvku &lt;{0}&gt;. Všechny kromě prvního jsou ignorovány. Další informace:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidIdentifier</ID>
+        <Source>The identifier is not a valid xs:ID.</Source>
+        <Translation>Identifkátor není platné xs:ID.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DuplicateMinNormalizedMeasure</ID>
+        <Source>The &lt;minNormalizedMeasure&gt; node can only appear once in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>&lt;minNormalizedMeasure&gt; uzel se může objevit pouze jednou v &lt;{0} objectiveID="{1}"&gt; uzle.  Viz SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationOrganizationMissing</ID>
+        <Source>An Organization node is required for content used in Microsoft Learning Components.</Source>
+        <Translation>Organizační uzel je potřeba pro obsah používaný v Microsoft Learning Components.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IdenticalKeyValues</ID>
+        <Source>The duplicate nodes share the same {0} value, "{1}".  The values must be different.</Source>
+        <Translation>Duplicitní uzly sdílejí stejnou {0} hodnotu , "{1}".  Hodnoty musí být odlišné.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PackageCouldNotBeOpened</ID>
+        <Source>This package could not be opened. More information: {0}</Source>
+        <Translation>Tento balík nemohl být otevřen. Více informací: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BadXmlInManifest</ID>
+        <Source>The package contains a manifest that contains badly formed XML.</Source>
+        <Translation>Balík obsahuje diagnostický program který má špatně formulovaný XML.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ObjectiveIdMissing</ID>
+        <Source>The objective must have an objectiveID attribute.  Extra information: {0}</Source>
+        <Translation>Cíl musí mít objectiveID příznak. Další informace: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MlcViolationTruncated</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by for content used in Microsoft Learning Components.  It has been truncated to {2} characters.  Extra information: {3}</Source>
+        <Translation>Hodnota, která začíná "{0}" příznaku, {1}, je delší než ty které jsou podporovány pro obsah, používaný v  Microsoft Learning Components.  Byla oříznuta na {2} znaky/znaků.  Další informace: {3}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PrerequisitesScriptInvalid</ID>
+        <Source>There are problems with the syntax of the prerequisite script, or a referenced identifier can not be found in the manifest.</Source>
+        <Translation>Nastaly problémy se syntaxí předvoleného skriptu, nebo odkazovaný identifikátor nebyl nalezen v diagnostickom programe.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OrganizationIdentifierMissing</ID>
+        <Source>The &lt;organization&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.7, or SCORM 1.2 CAM 2.3.5.3.1.</Source>
+        <Translation> &lt;Organizácia&gt; uzel musí mít identifikační příznak.  Viz SCORM 1.3 CAM 3.4.1.7, nebo SCORM 1.2 CAM 2.3.5.3.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MetadataLocationBadXml</ID>
+        <Source>The file, {0}, referenced by the location element inside of metadata in the manifest contains invalid metadata.</Source>
+        <Translation>Soubor, {0}, odkazovaný lokačním prvkem uvnitř meta údajů v diagnostickém programu obsahuje neplatné meta údaje.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>MinNormalizedMeasureOutOfRange</ID>
+        <Source>The value is out of range [-1 to 1] on the &lt;minNormalizedMeasure&gt; node in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>Hodnota je mimo rozsah [-1 to 1] na &lt;minNormalizedMeasure&gt; uzlu v &lt;{0} objectiveID="{1}"&gt; uzlu.  Viz SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupActionMissing</ID>
+        <Source>The &lt;rollupAction&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
+        <Translation>&lt;rollupAction&gt; uzel chybí na &lt;rollupRule&gt;.  Viz SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingIdMissing</ID>
+        <Source>The &lt;sequencing&gt; node in a &lt;sequencingCollection&gt; must have an ID attribute.  See SCORM 1.3 CAM 5.1.1.</Source>
+        <Translation>&lt;sequencing&gt; uzel v &lt;sequencingCollection&gt; musí mít ID příznak. Viz SCORM 1.3 CAM 5.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LrFixLmsViolationsNotSet</ID>
+        <Source>Unable to substitute a default value for the missing value of node &lt;{0}&gt; because the conversion process is not allowed to substitute default values for missing or erroneous values in the index.xml.</Source>
+        <Translation>Nelze nahradit chybějící hodnotu předvolenou hodnotou uzlu &lt;{0}&gt; protože proces nahrazení neumožňuje nahrazovat předvolené hodnoty za chybějící nebo chybné hodnoty v souboru index.xml.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SpmViolation</ID>
+        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than the smallest permitted maximum (SPM), {2}.  Extra information: {3}</Source>
+        <Translation>Hodnota, která začíná "{0}" příznaku, {1}, je delší než nejmenší povolené maximum (SPM), {2}.  Další informace: {3}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequiredElementMissingDefault</ID>
+        <Source>The required element, &lt;{0}&gt;, is missing.  Default values will be used. Extra information:{1}</Source>
+        <Translation>Požadovaný prvek, &lt;{0}&gt;, chybí.  Použijí se předvolené hodnoty. Další informace:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileMissing</ID>
+        <Source>The file {0} does not exist.</Source>
+        <Translation>Soubor {0} neexistuje.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IllegalAttributeInResourcePackage</ID>
+        <Source>The attribute, {1}, containing the value "{0}" on node &lt;{2}&gt; is illegal in Resource packages.</Source>
+        <Translation>Příznak, {1}, obsahující hodnotu "{0}" na uzlu &lt;{2}&gt; je zakázán ve Zdrojových balících.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IllegalPercentage</ID>
+        <Source>The value must be a decimal value from 0 to 1, inclusive.</Source>
+        <Translation>Hodnota musí být desetinná hodnota od 0 do 1, včetně.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RollupConditionsMissing</ID>
+        <Source>The &lt;rollupConditions&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
+        <Translation>&lt;rollupConditions&gt; uzel chybí na &lt;rollupRule&gt;.  Viz SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SequencingCollectionInResource</ID>
+        <Source>&lt;sequencingCollection&gt; nodes are not permitted in resource packages. This manifest is considered a resource package because it has no &lt;organization&gt; nodes.  See SCORM CAM 3.5.3.</Source>
+        <Translation>&lt;sequencingCollection&gt; uzly nejsou povoleny ve Zdrojových balících. Tento diagnostický program je považován za zdrojový balík protože nemá &lt;organization&gt; uzly.  Viz SCORM CAM 3.5.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FileHrefMissing</ID>
+        <Source>The &lt;file&gt; node must have an href attribute.  See SCORM 1.3 CAM 3.4.1.23, or SCORM 1.2 CAM 2.3.5.4.3.</Source>
+        <Translation>&lt;file&gt; uzel musí mít href příznak.  Viz SCORM 1.3 CAM 3.4.1.23, nebo SCORM 1.2 CAM 2.3.5.4.3.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OrganiztionTitleMissing</ID>
+        <Source>The &lt;title&gt; node is missing on the &lt;organization&gt; node with identifier="{0}".  See SCORM 1.3 CAM 3.4.1.8, or SCORM 1.2 CAM 2.3.5.3.1.1.</Source>
+        <Translation>&lt;title&gt; příznak chybí na &lt;organization&gt; uzlu s identifikátorom="{0}".  Viz SCORM 1.3 CAM 3.4.1.8, nebo SCORM 1.2 CAM 2.3.5.3.1.1.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidDuplicateNodes</ID>
+        <Source>UA !There are multiple instances of element, &lt;{0}&gt;. Extra information:{1}</Source>
+        <Translation>UA !Existuje více výskytů prvku, &lt;{0}&gt;. Další informace:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ConvertedUriSpaces</ID>
+        <Source>The "{0}" value of attribute, {1}, on element &lt;{2}&gt; contains spaces, which are invalid URI characters.  This URI is still being allowed, but the package may not work as expected.</Source>
+        <Translation>"{0}" hodnota příznaku, {1}, na prvku &lt;{2}&gt; obsahuje mezery, které jsou neplatnými URI znaky.  Tento URI je přesto dále povolen, ale balík nemusí pracovat podle očekávání.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>OrphanedFile</ID>
+        <Source>The file {0} is not referenced in the manifest.</Source>
+        <Translation>Soubor{0} není zmíněn v diagnostickém programu.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>RequiredElementMissing</ID>
+        <Source>The required element, &lt;{0}&gt;, is missing. Extra information:{1}</Source>
+        <Translation>Požadovaný prvek, &lt;{0}&gt;, chybí. Další informace:{1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>

@@ -1,0 +1,71 @@
+﻿<root>
+  <assembly culture="sk-SK" name="Microsoft.LearningComponents.SharePoint.resources" version="1.3.1.0" />
+  <resources name="Microsoft.LearningComponents.SharePoint.Properties.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.SharePoint.Properties.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CacheCreateDirCleanupFailed</ID>
+        <Source>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>Vytvorenie cache adresára zlyhalo a neplatný cache priečinok a/alebo uzamknutý súbor sa nedá odstrániť.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPLockTriesExceeded</ID>
+        <Source>Could not get a lock on the file within the allowed tries.</Source>
+        <Translation>Pri povolených pokusoch sa nepodarilo súbor uzatvoriť.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPCannotWriteToLockFile</ID>
+        <Source>Could not write to lock file of cache directory.</Source>
+        <Translation>Uzamknutie súboru cache adresára sa nepodarilo zapísať.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFoundNoName</ID>
+        <Source>The requested file was not found.</Source>
+        <Translation>Požadovaný súbor sa nenašiel.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CacheLockDirCleanupFailed</ID>
+        <Source>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>Uzamknutie cache adresára zlyhalo a neplatný cache priečinok a/alebo uzamknutý súbor sa nedá odstrániť.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPFileVersionNotFound</ID>
+        <Source>The version {0} of file {1} does not exist.</Source>
+        <Translation>Podoba {0} súboru {1} neexistuje.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFound</ID>
+        <Source>The file {0} was not found.</Source>
+        <Translation>Súbor {0} nebol nájdený.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CacheCachePathNotAccessible</ID>
+        <Source>The package cache directory is not accessible. It may not exist or you may not have access to it.</Source>
+        <Translation>Súprava adresára cache nie je dostupná. Možno neexistuje alebo k nej nemáte prístup.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPFormatInvalid</ID>
+        <Source>'{0}' does not have the correct format.</Source>
+        <Translation>'{0}' nemá správny formát.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPInvalidPackage</ID>
+        <Source>The package is not valid and cannot be read. More information: {0}</Source>
+        <Translation>Súprava nie je platná a nedá sa prečítať.Viac informácií: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+    </NewDataSet>
+  </resources>
+</root>

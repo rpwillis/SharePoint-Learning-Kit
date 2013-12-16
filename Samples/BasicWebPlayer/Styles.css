@@ -1,0 +1,150 @@
+/* Copyright (c) Microsoft Corporation. All rights reserved. */
+
+﻿BODY
+{
+    font: 9pt Tahoma;
+    background-color: #EDF5FF;
+}
+A, A:VISITED
+{
+	color: #006ED4;
+	text-decoration: none;
+}
+A:HOVER
+{
+	color: #FF6060;
+}
+.Title
+{
+	font-size: 12pt;
+	font-weight: bold;
+	padding-bottom: 3pt;
+	color: #556D89;
+	border-bottom: 2px solid #556D89;
+}
+.Title TR
+{
+	vertical-align: text-bottom;
+}
+.Title .Left_
+{
+	width: 100%;
+	white-space: nowrap;
+}
+.Title .Right_
+{
+	font-size: 8pt;
+	font-weight: normal;
+}
+.Nav
+{
+	margin: 8pt 0pt 8pt 0pt;
+}
+#LogTitle
+{
+	margin-bottom: 12pt;
+}
+.Grid
+{
+	width: 100%;
+	background-color: White;
+	border-collapse: collapse;
+	border: solid 1px #C4D0DE;
+}
+.Grid TD
+{
+	padding-left: 3pt;
+	padding-right: 3pt;
+}
+.Grid .Header_
+{
+	color: #556D89;
+	background-color: #C4D0DE;
+	font-weight: bold;
+}
+.Grid .Header_ TD
+{
+	border: solid 1px White;
+}
+.Grid .SamePackage_
+{
+	border-top: none;
+	border-bottom: none;
+}
+.Grid .NewPackage_
+{
+	border-top: solid 1px #C4D0DE;
+	border-bottom: none;
+}
+.Grid TD
+{
+	border: solid 1px #C4D0DE;
+}
+.Sep
+{
+	color: #556D89;
+}
+.InstructionHeader
+{
+    color: black;
+    background-color: #B8D7FF;
+    padding: 2pt;
+}
+.Indent
+{
+    margin: 0 20pt 0 20pt;
+}
+.Center
+{
+    text-align: center;
+}
+.UploadPanel
+{
+    padding: 20pt 60pt 20pt 60pt;
+}
+.MessagePanel
+{
+    height: 100%;
+    margin: 0px 20pt 0px 20pt;
+}
+.MessagePanel .Top_
+{
+    height: 19pt;
+    padding: 10pt 0pt 0pt 0pt;
+}   
+.MessagePanel .Content_
+{
+    height: 75%;
+    border: solid 1px darkgray;
+    background-color: white;
+    padding: 6pt;
+    overflow: scroll; /* standards-compliant */
+}
+.MessagePanel .FixedMessage_
+{
+    height: 40%;
+}
+.MessagePanel .Bottom_
+{
+    height: 20pt;
+    padding-top: 12pt;
+    text-align: center;
+}
+.MessagePanel .List_ LI
+{
+    margin-top: 12pt;
+}
+.Hidden
+{
+    display: none;
+}
+.FullPageMessage
+{
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+.Highlight
+{
+	background-color: yellow;
+}
