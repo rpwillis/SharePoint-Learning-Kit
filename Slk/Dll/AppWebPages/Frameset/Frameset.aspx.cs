@@ -501,6 +501,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
 
             Response.ContentType = mimeType;
         }
+
         /// Returns true if the correct version of the file exists in SharePoint.
         /// NOTE: This method checks file availability using elevated privileges. Be 
         /// cautious when using this information in messages displayed to the user.

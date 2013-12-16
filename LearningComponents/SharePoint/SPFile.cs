@@ -220,11 +220,10 @@ namespace Microsoft.LearningComponents.SharePoint
             {
                 CheckDisposed();
 
-                if (!String.IsNullOrEmpty(m_fileName))
-                    return m_fileName;
-
-                // Run under elevated privileges in case we have to read from SP
-                SetFileName(CachedPackage.CacheDir);
+                if (string.IsNullOrEmpty(m_fileName))
+                {
+                    SetFileName(CachedPackage.CacheDir);
+                }
 
                 return m_fileName;
             }

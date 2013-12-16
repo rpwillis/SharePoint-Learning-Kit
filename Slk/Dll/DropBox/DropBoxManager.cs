@@ -258,8 +258,9 @@ namespace Microsoft.SharePointLearningKit
 
                             foreach (SlkUser learner in assignmentProperties.Learners)
                             {
-                                // Grant assignment learners Read permission on the assignment folder
+                                // Grant assignment learners Read permission on the assignment folder and drop box
                                 assignmentFolder.ApplyPermission(learner.SPUser, SPRoleType.Reader);
+                                AssignmentFolder.ApplySharePointPermission(spWeb, dropBox.DropBoxList, learner.SPUser, SPRoleType.Reader);
 
                                 AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(learner.SPUser);
                                 LearnerAssignmentProperties result = assignmentProperties.ResultForLearner(learner);
@@ -412,6 +413,7 @@ namespace Microsoft.SharePointLearningKit
                         {
                             SPUser spLearner = learner.SPUser;
                             assignmentFolder.ApplyPermission(spLearner, SPRoleType.Reader);
+                            AssignmentFolder.ApplySharePointPermission(spWeb, dropBox.DropBoxList, learner.SPUser, SPRoleType.Reader);
                             assignmentFolder.CreateLearnerAssignmentFolder(spLearner);
                         }
                     }
@@ -510,7 +512,6 @@ namespace Microsoft.SharePointLearningKit
         {
             DropBox dropBox = new DropBox(store, web);
             AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
-            AssignmentFolder learnerSubFolder = null;
 
             if (assignmentFolder == null)
             {
@@ -518,8 +519,8 @@ namespace Microsoft.SharePointLearningKit
             }
             else
             {
-                learnerSubFolder = assignmentFolder.FindLearnerFolder(CurrentUser);
-                ApplySubmittedPermissions(assignmentFolder, learnerSubFolder);
+                AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(CurrentUser);
+                ApplySubmittedPermissions(learnerSubFolder);
             }
         }
 
@@ -603,11 +604,9 @@ namespace Microsoft.SharePointLearningKit
 
         void ApplyInstructorsReadAccessPermissions(AssignmentFolder folder, SPWeb web, DropBox dropBox)
         {
-#if SP2013
             // In one instance had an issue that instructors couldn't see uploaded assignments in OWA if they
             // didn't have read access on the drop box.
             ApplyInstructorsReadAccessPermissionsToDropBox(web, dropBox);
-#endif
             ApplyInstructorsReadAccessPermissions(folder);
         }
 
@@ -646,11 +645,8 @@ namespace Microsoft.SharePointLearningKit
                             }
                             
                             // Apply learner permissions
-                            if (learnerPermissions == SPRoleType.None)
-                            {
-                                learnerSubFolder.RemovePermissions(user);
-                            }
-                            else
+                            learnerSubFolder.RemovePermissions(user);
+                            if (learnerPermissions != SPRoleType.None)
                             {
                                 learnerSubFolder.ApplyPermission(user, learnerPermissions);
                             }
@@ -672,7 +668,7 @@ namespace Microsoft.SharePointLearningKit
             });
         }
 
-        void ApplySubmittedPermissions(AssignmentFolder assignmentFolder, AssignmentFolder learnerSubFolder)
+        void ApplySubmittedPermissions(AssignmentFolder learnerSubFolder)
         {
             // IF the assignment is auto return, the learner will still be able to view the drop box assignment files
             // otherwise, learner permissions will be removed from the learner's subfolder in the Drop Box document library
