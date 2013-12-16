@@ -294,7 +294,7 @@ namespace Microsoft.LearningComponents.SharePoint
             if (lockFileFound == false)
             {
                 // And then create the cache directory for the package
-                if (!CreateCacheDirectory(lockFileName, cacheDir, fileInfo))
+                if (CreateCacheDirectory(lockFileName, cacheDir, fileInfo) == false)
                 {
                     return false;
                 }
