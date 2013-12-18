@@ -119,6 +119,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
         {
             Page.RegisterRequiresControlState(this);
             base.OnInit(e);
+            culture = new SlkCulture();
         }
         #endregion
 
@@ -129,7 +130,6 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <param name="savedState">savedState</param>
         protected override void LoadControlState(object savedState)
         {
-            culture = new SlkCulture();
             if (savedState != null)
             {
                 Pair p = (Pair)savedState;
