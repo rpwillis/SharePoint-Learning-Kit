@@ -264,7 +264,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     if (macroResolver != null)
                     {
-                        value = macroResolver(condition.MacroName);
+                        value = macroResolver.Resolve(condition.MacroName);
                     }
 
                     if (value == null) // Either macroResolver is null or macro resolves to null

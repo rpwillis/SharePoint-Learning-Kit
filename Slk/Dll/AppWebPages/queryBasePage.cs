@@ -75,61 +75,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             Guid[] spWebScopeMacro = CreateWebScopeMacro();
 
-            return queryDef.CreateQuery(SlkStore.LearningStore, countOnly, delegate(string macroName)
-            {
-                if (macroName == "SPWebScope")
-                {
-                    // return the GUID of the SPWeb that query results will be limited to (i.e.
-                    // filtered by), or null for no filter
-                    return spWebScopeMacro;
-                }
-                else
-                if (macroName == "CurrentUserKey")
-                {
-                    // return the LearningStore user key string value of the current user
-                    return SlkStore.CurrentUserKey;
-                }
-                else
-                if (macroName == "Now")
-                {
-                    return DateTime.Now.ToUniversalTime();
-                }
-                else
-                if (macroName == "StartOfToday")
-                {
-                    // return midnight of today
-                    return DateTime.Today.ToUniversalTime();
-                }
-                else
-                if (macroName == "StartOfTomorrow")
-                {
-                    // return midnight of tomorrow
-                    return DateTime.Today.AddDays(1).ToUniversalTime();
-                }
-                else
-                if (macroName == "StartOfThisWeek")
-                {
-                    // return midnight of the preceding Sunday** (or "Today" if "Today" is Sunday**)
-                    return StartOfWeek(DateTime.Today).ToUniversalTime();
-                }
-                else
-                if (macroName == "StartOfNextWeek")
-                {
-                    // return midnight of the following Sunday**
-                    return StartOfWeek(DateTime.Today).AddDays(7).ToUniversalTime();
-                }
-                else
-                if (macroName == "StartOfWeekAfterNext")
-                {
-                    // return midnight of the Sunday** after the following Sunday**
-                    return StartOfWeek(DateTime.Today).AddDays(14).ToUniversalTime();
-                }
-                else
-                    return null;
-                // ** Actually, it's only Sunday for regional setting for which Sunday is the first
-                // day of the week.  For example, using Icelandic regional settings, the first day of
-                // the week is Monday, and that's what's used above.
-            }, out columnMap);
+            return queryDef.CreateQuery(SlkStore.LearningStore, countOnly, new MacroResolver(SlkStore, spWebScopeMacro), out columnMap);
         }
 
 #endregion protected methods

@@ -18,20 +18,6 @@ using Resources.Properties;
 namespace Microsoft.SharePointLearningKit
 {
     /// <summary>
-    /// A delegate which resolves a macro name (used within a "MacroName" attribute of a
-    /// "&lt;Condition&gt;" element in an XML file with schema
-    /// "urn:schemas-microsoft-com:sharepoint-learning-kit:settings") to a value.
-    /// </summary>
-    ///
-    /// <param name="macroName">The name of the macro.</param>
-    ///
-    /// <returns>
-    /// The value of the macro, or <c>null</c> if the macro is not defined.
-    /// </returns>
-    ///
-    public delegate object MacroResolver(string macroName);
-
-    /// <summary>
     /// A delegate which resolves an SPWeb GUID and an SPSite GUID into an SPWeb name and URL.
     /// </summary>
     ///
