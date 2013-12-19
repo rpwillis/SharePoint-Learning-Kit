@@ -416,6 +416,40 @@ namespace Microsoft.LearningComponents.Storage
         /// will exist in the table for each user.
         /// </example>
         public void AddColumn(string columnName)
+        {
+            AddColumn(columnName, true);
+        }
+
+        /// <summary>
+        /// Add a new output column in the result if it's not already present.
+        /// </summary>
+        /// <param name="columnName">Name of the column that should be returned in the result.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="columnName"/> is a null reference.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     The column name wasn't found in the view.</exception>
+        /// <remarks>
+        /// See the <Typ>LearningStoreQuery</Typ> documentation for more
+        /// information about creating and executing queries.
+        /// </remarks>
+        /// <example>
+        /// The following code creates a new query and adds two
+        /// output columns:
+        /// <code language="C#">
+        /// LearningStoreQuery query = store.CreateQuery("UserItem");
+        /// query.AddColumn("Id");
+        /// query.AddColumn("Name");
+        /// </code>
+        /// The result of the query will be a DataTable with two
+        /// columns: "Id" (containing the Id of the user) and
+        /// "Name" (containing the name of the user).  One row
+        /// will exist in the table for each user.
+        /// </example>
+        public void AddColumnIfNotPresent(string columnName)
+        {
+            AddColumn(columnName, false);
+        }
+
+        private void AddColumn(string columnName, bool throwIfAlreadyPresent)
         {            
             // Check parameters
             if (columnName == null)
@@ -429,12 +463,16 @@ namespace Microsoft.LearningComponents.Storage
             
             // Verify that the column name doesn't already exist
             if(m_columns.Contains(column))
-                throw new InvalidOperationException(
-                    String.Format(CultureInfo.CurrentCulture, LearningStoreStrings.ColumnAlreadyExistsInQuery,
-                        columnName));
-
-            // Add the column
-            m_columns.Add(column);
+            {
+                if (throwIfAlreadyPresent)
+                {
+                    throw new InvalidOperationException(String.Format(CultureInfo.CurrentCulture, LearningStoreStrings.ColumnAlreadyExistsInQuery, columnName));
+                }
+            }
+            else
+            {
+                m_columns.Add(column);
+            }
         }
 
         /// <summary>

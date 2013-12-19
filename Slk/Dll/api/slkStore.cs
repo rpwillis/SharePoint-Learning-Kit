@@ -145,14 +145,9 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        /// <summary>
-        /// Gets the user key used by LearningStore to identify the current user.  What's contained in
-        /// this string depends on the membership provider used by SharePoint (for example, Windows
-        /// authentication or forms-based authentication).
-        /// </summary>
+        /// <summary>See <see cref="ISlkStore.CurrentUserKey"/>.</summary>
         public string CurrentUserKey
         {
-                    [DebuggerStepThrough]
             get
             {
                 return m_learningStore.UserKey;

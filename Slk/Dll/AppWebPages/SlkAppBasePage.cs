@@ -291,27 +291,5 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
         throw new SafeToDisplayException(format, args);
     }
 
-    /// <summary>
-    /// Returns midnight on the day that begins the week containing a given date/time, using the
-    /// current culture settings.
-    /// </summary>
-    ///
-    /// <param name="dateTime">The given date/time.</param>
-    ///
-    protected static DateTime StartOfWeek(DateTime dateTime)
-    {
-        // set <cultureInfo> to information about the current user's culture
-        CultureInfo cultureInfo = CultureInfo.CurrentCulture;
-
-        // this method imagines that today is the day of <dateTime>
-        DateTime today = dateTime.Date;
-        DayOfWeek currentDayOfWeek = today.DayOfWeek;
-        DayOfWeek firstDayOfWeek = cultureInfo.DateTimeFormat.FirstDayOfWeek;
-        int delta = (int) firstDayOfWeek - (int) currentDayOfWeek;
-        if (delta <= 0)
-            return today.AddDays(delta);
-        else
-            return today.AddDays(delta - 7);
-    }
 }
 }
