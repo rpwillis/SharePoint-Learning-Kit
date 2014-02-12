@@ -662,6 +662,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
         #endregion
 
+        private void Debug(string format, params object[] arguments)
+        {
+            //errorBanner.AddError(ErrorType.Info, string.Format(format, arguments));
+        }
+
         #region BindCheckBoxItems
         /// <summary> Binds the Member Items to the given CheckBox List Control</summary>  
         /// <param name="customChkBoxList">control to bind the items</param>    
@@ -690,6 +695,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 itemCollection = new List<SlkCheckBoxItem>(slkUserCollection.Count);
 
+                Debug("AppMode {0}, SelectAllInstructors {1}, SelectAllLearners {2}", AppMode, SlkStore.Settings.SelectAllInstructors, SlkStore.Settings.SelectAllLearners);
                 foreach (SlkUser slkUser in slkUserCollection)
                 {
                     if (slkUser.SPUser != null)
@@ -703,8 +709,17 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         //Check If Current User is Instructor
                         if (customChkBoxList.ID == chkListInstructors.ID)
                         {
-                            if (CurrentSlkUserKey == userKey)
+                            if (CurrentSlkUserKey == userKey || (AppMode == PageMode.Create && SlkStore.Settings.SelectAllInstructors))
                             {
+                                Debug("Instructor {0} checked", userKey);
+                                item.Selected = true;
+                            }
+                        }
+                        else if (customChkBoxList.ID == chkListLearners.ID)
+                        {
+                            if (AppMode == PageMode.Create && SlkStore.Settings.SelectAllLearners)
+                            {
+                                Debug("Learner {0} checked", userKey);
                                 item.Selected = true;
                             }
                         }
