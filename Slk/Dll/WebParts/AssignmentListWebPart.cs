@@ -482,16 +482,9 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             //Adjust the Height to Fit width of zone
 
-            string wpHeightStyle = "height: ";
-
-            if (this.Height ==  null || this.Height.Length == 0)
-            {
-                wpHeightStyle += Constants.WebPartHeight + Constants.SemiColon;
-            }
-            else
-            {
-                wpHeightStyle += this.Height.ToString(CultureInfo.InvariantCulture) + Constants.SemiColon;
-            }
+            string wpHeightStyle = "height: {0};";
+            string height = string.IsNullOrEmpty(Height) ? Constants.WebPartHeight : Height.ToString(CultureInfo.InvariantCulture);
+            wpHeightStyle = string.Format(CultureInfo.InvariantCulture, wpHeightStyle, height);
 
             // create a unique name for the query results iframe based on
             // the web part's GUID. test this by having two ALWP web parts on the same page 
@@ -502,7 +495,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             htmlTextWriter.Write("<table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" border=\"0\" style=\"");
             htmlTextWriter.Write(wpHeightStyle);
             htmlTextWriter.Write("\">");
-					
+
             htmlTextWriter.Write("<tr valign=\"top\">");
 
             StringBuilder queryString = BaseQueryString();
@@ -571,7 +564,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         void WriteQueryResults(HtmlTextWriter htmlTextWriter, string url)
         {
 
-            htmlTextWriter.Write("<td width=\"100%\" height=\"100%\">");
+            htmlTextWriter.Write("<td>");
             WriteFrame(htmlTextWriter, url, String.Empty, true);
             htmlTextWriter.Write("</td>");
         }
@@ -589,6 +582,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
             //Append the QueryString Values
             urlString += urlQueryString;
             WriteFrame(htmlTextWriter, urlString.ToString(), "_AlwpQuerySummary", false);
+
+            htmlTextWriter.Write("</td>");
         }
 
         void WriteFrame(HtmlTextWriter htmlTextWriter, string url, string nameQualifier, bool fullWidth)
@@ -600,7 +595,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
             else
             {
-                htmlTextWriter.Write("\" style=\"width :");
+                htmlTextWriter.Write(" style=\"width :");
                 htmlTextWriter.Write(SummaryWidth.ToString(CultureInfo.InvariantCulture));
                 htmlTextWriter.Write("\" ");
             }
@@ -610,7 +605,6 @@ namespace Microsoft.SharePointLearningKit.WebParts
             htmlTextWriter.Write(frameId);
             htmlTextWriter.Write(nameQualifier);
             htmlTextWriter.Write("\"></iframe>");
-            htmlTextWriter.Write("</td>");
         }
 
         #region DefaultQuerySetIfRequired
