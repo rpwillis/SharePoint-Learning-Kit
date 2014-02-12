@@ -120,6 +120,12 @@ namespace Microsoft.SharePointLearningKit
         ///<summary>Indicates whether to hide disabled users on the assignment page.</summary>
         public bool HideDisabledUsers { get; private set; }
 
+        /// <summary>Indicates whether to automatically select all learners when creating a new assignment.</summary>
+        public bool SelectAllLearners { get; private set; }
+
+        /// <summary>Indicates whether to automatically select all instructors when creating a new assignment.</summary>
+        public bool SelectAllInstructors { get; private set; }
+
         /// <summary>Indicates whether to use grades as well as points.</summary>
         public bool UseGrades { get; private set; }
 
@@ -480,6 +486,8 @@ namespace Microsoft.SharePointLearningKit
             UseMasterPageForApplicationPages = ParseAttributeAsBoolean(xmlReader, "UseMasterPageForApplicationPages");
             AutoVersionLibrariesIfUnversioned = ParseAttributeAsBoolean(xmlReader, "AutoVersionLibrariesIfUnversioned");
             UseGrades = ParseAttributeAsBoolean(xmlReader, "UseGrades");
+            SelectAllInstructors = ParseAttributeAsBoolean(xmlReader, "SelectAllInstructors");
+            SelectAllLearners = ParseAttributeAsBoolean(xmlReader, "SelectAllLearners");
             LearnerReportUrl = ParseAttributeAsString(xmlReader, "LearnerReportUrl");
 
             // parse "PackageCacheExpirationMinutes" attribute
