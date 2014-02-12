@@ -116,8 +116,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 if (querySetDef == null)
                 {
-                    throw new SafeToDisplayException
-                                            (PageCulture.Resources.AlwpQuerySetNotFound, querySetName);
+                    throw new SafeToDisplayException (PageCulture.Resources.AlwpQuerySetNotFound, querySetName);
                 }
 
                 // create queries corresponding to <querySetDef> and add them to <job>;
@@ -176,9 +175,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// If results collection is null Execute each Query individually
         /// and get the count. Set the Query count as "ERROR" for Failed one.
         /// </summary>
-        private void RenderQueryCounts(QuerySetDefinition querySetDef,
-                               int numberOfQueries,
-                               ReadOnlyCollection<object> results)
+        private void RenderQueryCounts(QuerySetDefinition querySetDef, int numberOfQueries, ReadOnlyCollection<object> results)
         {
             // render the HTML for the page
             using (HtmlTextWriter hw = new HtmlTextWriter(Response.Output, "  "))
@@ -230,19 +227,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                             if (queryResultCount != -1)
                             {
-                                queryCounts.AppendLine(
-                                            String.Format(CultureInfo.InvariantCulture,
-                                                          "a[{0}] = {1};",
-                                                          queryIndex,
-                                                          queryResultCount));
+                                queryCounts.AppendLine( String.Format(CultureInfo.InvariantCulture, "a[{0}] = {1};", queryIndex, queryResultCount));
                             }
                             else
                             {
-                                queryCounts.AppendLine(
-                                            String.Format(CultureInfo.InvariantCulture, "a[{0}] = \"{1}\";",
-                                                          queryIndex,
-                                                          PageCulture.Resources.AlwpQueryResultError));
+                                queryCounts.AppendLine( String.Format(CultureInfo.InvariantCulture, "a[{0}] = \"{1}\";", queryIndex, PageCulture.Resources.AlwpQueryResultError));
                             }
+
                             queryIndex++;
 
                         }
@@ -264,9 +255,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             queryCounts.Length = 0;
                             for (int i = 0; i < queryIndex; i++)
                             {
-                                queryCounts.AppendLine(
-                                                    String.Format(CultureInfo.InvariantCulture, "a[{0}] = \"{1}\";", i,
-                                                                  PageCulture.Resources.AlwpQueryResultError));
+                                queryCounts.AppendLine( String.Format(CultureInfo.InvariantCulture, "a[{0}] = \"{1}\";", i, PageCulture.Resources.AlwpQueryResultError));
                             }
                         }
 
