@@ -11,7 +11,7 @@ This document contains the installation and configuration instructions for SLK v
 
 1.  Introduction - About SharePoint Learning Kit
 
-SharePoint Learning Kit (SLK) is a SCORM 2004-conformant e-learning delivery and tracking application built as a SharePoint solution. It works with either SharePoint 2010 or SharePoint 2007 and has the following core features:
+SharePoint Learning Kit (SLK) is a SCORM 2004-conformant e-learning delivery and tracking application built as a SharePoint solution. It works with either SharePoint 2013, SharePoint 2010 or SharePoint 2007 and has the following core features:
 
     a. Supports SCORM 1.2, SCORM 2004, and Class Server content, allowing users to store and manage this content in SharePoint document libraries.
     b. Supports a learner-centric or instructor-led (assigned) workflow.
@@ -23,16 +23,16 @@ SharePoint Learning Kit is a community source project. This means that it is mad
 
 2.  Requirements
 
-    a.  You must have a SharePoint 2007 or SharePoint 2010 environment already set up.
+    a.  You must have a SharePoint 2007 or SharePoint 2010/2013 environment already set up.
         i.  For SharePoint 2007, SLK will run on either Windows SharePoint Services 3 or Microsoft Office SharePoint Server 2007
-        ii. For SharePoint 2010, SLK will run on SharePoint Foundation or SharePoint Server.
+        ii. For SharePoint 2010/2013, SLK will run on SharePoint Foundation or SharePoint Server.
     b.  SLK stores its results in a SQL Server database so you need to know which SQL Server instance you want to create the database in.
 
 3.  Contents of the installation package
 
     a.  SharePointLearningKit.wsp:  The solution package
     b.  Installation.txt: This help file
-    c.  AddSolution.ps1 or AddSolution.cmd (depending on whether for SharePoint 2007 or SharePoint 2010)
+    c.  AddSolution.ps1 or AddSolution.cmd (depending on whether for SharePoint 2007 or SharePoint 2010/2013)
     d.  UpdateSolutionNavigation.cmd (if for SharePoint 2007)
     e.  license.txt: The license for use of SLK
     f.  ReleaseNotes.txt: Version specific release notes
@@ -45,11 +45,11 @@ SharePoint Learning Kit is a community source project. This means that it is mad
         i.      Unzip the installation package on a web front end server.
         ii.     Right click on AddSolution.ps1 and choose properties. Then click the unblock button.
         iii.    Add the solution to SharePoint by running AddSolution.ps1. This will add the solution to the solution gallery. To run AddSolution.ps1
-                - Find PowerShell or SharePoint 2010 Management Shell in the start menu (All Programs | Microsoft SharePoint 2010 Programs)
-                - Right Click on PowerShell SharePoint 2010 Management Shell and choose Run as Administrator
+                - Find PowerShell or SharePoint 2010/2013 Management Shell in the start menu (All Programs | Microsoft SharePoint 2010/2013 Programs)
+                - Right Click on PowerShell SharePoint 2010/2013 Management Shell and choose Run as Administrator
                 - cd to the directory containing the installation files
                 - type in .\AddSolution.ps1 and hit enter
-        iv.     Open SharePoint 2010 Central Administration
+        iv.     Open SharePoint 2010/2013 Central Administration
         v.      Click on System Settings
         vi.     Under Farm Management click on Manage farm solutions
         vii.    Click on sharepointlearningkit.wsp
