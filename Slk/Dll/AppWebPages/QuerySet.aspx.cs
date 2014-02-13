@@ -504,26 +504,20 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
    
         private void RegisterQuerySetClientScriptBlock(HtmlTextWriter htmlTextWriter)
         {            
-            //Get the Visibility 
-            string spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
-
             //Get the FrameId 
             string frameId = QueryString.ParseString(QueryStringKeys.FrameId);
 
             // Construct the Url for QueryResultPage 
 
-            string urlString
-                   = String.Format(CultureInfo.InvariantCulture,
-                                   "{0}" + Constants.QuestionMark + "{1}=\"+QueryNames[iQuery]+\"",
-                                   Constants.QueryResultPage,
-                                   QueryStringKeys.Query
-                                   );
+            string urlString = String.Format(CultureInfo.InvariantCulture, "{0}" + Constants.QuestionMark + "{1}=\"+QueryNames[iQuery]+\"", Constants.QueryResultPage, QueryStringKeys.Query);
+
             if (IsObserver)
             {
                 urlString = string.Format(CultureInfo.InvariantCulture, "{0}&{1}=true", urlString, QueryStringKeys.ForObserver);
             }
 
             //Append the SPWebScope in the QueryString
+            string spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
             if (string.IsNullOrEmpty(spWebScope) == false)
             {
                 urlString = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", urlString, QueryStringKeys.SPWebScope, spWebScope);

@@ -229,9 +229,7 @@ namespace Microsoft.SharePointLearningKit
                 int iColumnDefinition = 0;
                 foreach (ColumnDefinition column in Columns)
                 {
-                    for (int iViewColumn = 0;
-                         iViewColumn < ColumnDefinition.MaxViewColumns;
-                         iViewColumn++)
+                    for (int iViewColumn = 0; iViewColumn < ColumnDefinition.MaxViewColumns; iViewColumn++)
                     {
                         string viewColumnName = column.m_viewColumnNames[iViewColumn];
                         if (viewColumnName == null)
@@ -252,6 +250,7 @@ namespace Microsoft.SharePointLearningKit
                         }
                         columnMap[iColumnDefinition, iViewColumn] = iQueryColumn;
                     }
+
                     iColumnDefinition++;
                 }
             }
@@ -259,16 +258,21 @@ namespace Microsoft.SharePointLearningKit
             // add conditions to the query as specified in this query definition
             foreach (ConditionDefinition condition in Conditions)
             {
-                object value;
-                bool noCondition = false; // if true, don't add the condition to the query
+                object value = null;
+
                 if (condition.MacroName != null)
                 {
-                    if ((macroResolver == null) || ((value = macroResolver(condition.MacroName)) == null))
+                    if (macroResolver != null)
+                    {
+                        value = macroResolver.Resolve(condition.MacroName);
+                    }
+
+                    if (value == null) // Either macroResolver is null or macro resolves to null
                     {
                         if (condition.NoConditionOnNull)
                         {
-                            noCondition = true;
-                            value = null;
+                            // No need to add condition
+                            continue;
                         }
                         else
                         {
@@ -276,13 +280,16 @@ namespace Microsoft.SharePointLearningKit
                         }
                     }
                 }
-                else
-                if (condition.Value != null)
+                else if (condition.Value != null)
+                {
                     value = new XmlValue(condition.Value);
+                }
                 else
+                {
                     value = null;
-                if (!noCondition)
-                    query.AddCondition(condition.ViewColumnName, condition.Operator, value);
+                }
+
+                query.AddCondition(condition.ViewColumnName, condition.Operator, value);
             }
 
             // add sorts to the query as specified in this query definition (unless the caller only

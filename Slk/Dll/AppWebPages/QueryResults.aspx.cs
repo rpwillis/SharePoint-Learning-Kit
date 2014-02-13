@@ -26,7 +26,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
     /// <summary>The assignment list web part query results page.</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
-    public partial class AlwpQueryResults : SlkAppBasePage
+    public partial class AlwpQueryResults : QueryBasePage
     {
         #region Private Variables
         /// <summary>
@@ -38,10 +38,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         string m_queryName;
         /// <summary>
-        /// Holds the Visibility 
-        /// </summary>   
-        string m_spWebScope;
-        /// <summary>
         /// Holds the Sort
         /// </summary>
         string m_sort;
@@ -51,20 +47,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         int m_unknownSiteCount;
 
-        /// <summary>
-        /// Holds the learner store corresponding to the input user in the case of an Observer's role
-        /// </summary>
-        SlkStore m_observerRoleLearnerStore;
-
         #endregion
 
         #region Public Properties
-        /// <summary>See <see cref="SlkAppBasePage.OverrideMasterPage"/>.</summary>
-        protected override bool OverrideMasterPage
-        {
-            get { return false ;}
-        }
-
         /// <summary>
         /// Gets the name of the SLK query to execute.
         /// Throws Exception if empty or null.
@@ -80,20 +65,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 return m_queryName;
             }
         }
-        /// <summary>
-        /// Gets the GUID of the SPWeb to filter on.  Returns null if it's absent.
-        /// </summary>
-        private string SPWebScope
-        {
-            get
-            {
-                if (m_spWebScope == null)
-                {
-                    m_spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
-                }
-                return m_spWebScope;
-            }
-        }
+
         /// <summary>
         /// Gets zero-based index of the column to sort on.  Returns null if it's absent.
         /// </summary>
@@ -109,39 +81,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        /// <summary>The <see cref="SlkStore"/> to use.</summary>
-        public override SlkStore SlkStore
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(ObserverRoleLearnerKey) == false)
-                {
-                    if (m_observerRoleLearnerStore == null)
-                    {
-                        m_observerRoleLearnerStore = SlkStore.GetStore(SPWeb, ObserverRoleLearnerKey);
-                    }
-                    return m_observerRoleLearnerStore;
-                }
-                return base.SlkStore;
-            }
-        }
-
         #endregion
 
         #region Private and Protected Methods
-
-        #region Page_Init
-        /// <summary>
-        ///  Page Init for AlwpQueryResults. 
-        /// </summary> 
-        /// <param name="sender">an object referencing the source of the event</param>
-        /// <param name="e">An EventArgs that contains the event data.</param>
-        protected void Page_Init(object sender, EventArgs e)
-        {
-            //Setting Cache-Control = "no-cache" to prevent caching 
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-        }
-        #endregion
 
         #region Page_Load
         private void AddCoreCss(HtmlTextWriter writer, int lcid)
@@ -285,14 +227,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // create a job for executing the query specified by <queryDef>
             LearningStoreJob job = SlkStore.LearningStore.CreateJob();
 
-            Guid? spWebScopeMacro = (SPWebScope == null) ? (Guid?)null : (new Guid(SPWebScope));
-
             // create a query based on <queryDef>
             LearningStoreQuery query = null;
             int[,] columnMap; // see QueryDefinition.CreateQuery
             try
             {
-                query = CreateStandardQuery(queryDef, false, spWebScopeMacro, out columnMap);
+                query = CreateStandardQuery(queryDef, false, out columnMap);
             }
             catch (SlkSettingsException ex)
             {
