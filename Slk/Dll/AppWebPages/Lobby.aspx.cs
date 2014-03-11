@@ -203,7 +203,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #endregion
 
-        #region OnPreRender
+#region protected methods
         /// <summary>
         ///  Overrides OnPreRender.
         /// </summary>
@@ -470,186 +470,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        void SetUpSlkBeginButtonAction(AssignmentView view)
-        {
-            if (AssignmentProperties.IsNoPackageAssignment)
-            {
-                slkButtonBegin.Visible = false;
-            }
-            else
-            {
-                string openFrameset = String.Format(CultureInfo.InvariantCulture, "javascript:SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}');",
-                                                    FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId);
-                if (AssignmentProperties.IsNonELearning)
-                {
-
-                    if (assignmentFile == null)
-                    {
-                        slkButtonBegin.NavigateUrl = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';", openFrameset, CurrentUrl, startQueryStringName);
-                    }
-                    else
-                    {
-                        SetupFileAction(assignmentFile, slkButtonBegin, true);
-                    }
-                }
-                else
-                {
-                    slkButtonBegin.OnClientClick = openFrameset;
-                    slkButtonBegin.NavigateUrl = openFrameset;
-                }
-                slkButtonBegin.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
-            }
-        }
-
-        void SetupFileAction(AssignmentFile file, SlkButton button, bool includeReload)
-        {
-            
-            DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
-
-            DropBoxEditMode editMode = DropBoxEditMode.Edit;
-            switch (LearnerAssignmentProperties.Status)
-            {
-                case LearnerAssignmentState.Completed:
-                case LearnerAssignmentState.Final:
-                    editMode = DropBoxEditMode.View;
-                    break;
-            }
-
-            DropBoxEditDetails editDetails = dropBoxMgr.GenerateDropBoxEditDetails(file, SPWeb, editMode, Page.Request.RawUrl);
-
-            string script = editDetails.OnClick;
-            if (string.IsNullOrEmpty(script))
-            {
-                if (includeReload)
-                {
-                    script = string.Format(CultureInfo.InvariantCulture, "window.location='{0}&{1}=true';", CurrentUrl, startQueryStringName);
-                }
-            }
-            else
-            {
-                if (LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted && includeReload)
-                {
-                    script = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';return false;", script, CurrentUrl, startQueryStringName);
-                }
-                else
-                {
-                    script = script + "return false;";
-                }
-
-            }
-
-            button.OnClientClick = script;
-            button.NavigateUrl = editDetails.Url;
-        }
-
-        void SetUpSubmitButtons(bool enableSubmitFiles)
-        {
-            //Check if non e-learning and enable the appropriate button accordingly
-            if (AssignmentProperties.RootActivityId == null)
-            {
-                slkButtonSubmitFiles.Visible = true;
-                slkButtonSubmitFiles.Text = PageCulture.Resources.LobbySubmitFilesText;
-                slkButtonSubmitFiles.ToolTip = PageCulture.Resources.LobbySubmitFilesToolTip;
-                slkButtonSubmitFiles.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
-                slkButtonSubmitFiles.AccessKey = PageCulture.Resources.LobbySubmitFilesAccessKey;
-                slkButtonSubmitFiles.Enabled = enableSubmitFiles;
-                if (enableSubmitFiles)
-                {
-                    string url = string.Format(CultureInfo.InvariantCulture, 
-                            "{0}{1}FilesUploadPage.aspx?LearnerAssignmentId={2}", SPWeb.Url, Constants.SlkUrlPath, LearnerAssignmentGuidId.ToString());
-
-                    slkButtonSubmitFiles.NavigateUrl = url;
-                    slkButtonSubmitFiles.Target = "_self";
-                }
-
-                slkButtonSubmit.Visible = true;
-            }
-            else
-            {
-                slkButtonSubmitFiles.Visible = false;
-            }
-
-            slkButtonSubmit.Enabled = enableSubmitFiles;
-        }
-
-        void SetUpForFinal()
-        {
-            slkButtonBegin.Text = PageCulture.Resources.LobbyReviewAssignmentText;
-            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyReviewAssignmentToolTip;
-
-            pageTitle.Text = PageCulture.Resources.LobbyReviewAssignmentText;
-            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyReviewAssignmentText;
-
-            //Check if non-elearning content
-            if (AssignmentProperties.RootActivityId == null)
-            {
-                slkButtonReviewSubmitted.Text = PageCulture.Resources.LobbyReviewSubmittedText;
-                slkButtonReviewSubmitted.ToolTip = PageCulture.Resources.LobbyReviewSubmittedToolTip;
-                slkButtonReviewSubmitted.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
-                slkButtonReviewSubmitted.Visible = true;
-
-                DropBoxManager manager = new DropBoxManager(AssignmentProperties);
-
-                AssignmentFile[] assignmentFiles = manager.LastSubmittedFiles();
-
-                if (assignmentFiles.Length != 1)
-                {
-                    string onClickUrl = string.Format("{0}{1}SubmittedFiles.aspx?LearnerAssignmentId={2}", SPWeb.Url, Constants.SlkUrlPath, LearnerAssignmentGuidId.ToString());
-                    slkButtonReviewSubmitted.OnClientClick = String.Format(CultureInfo.InvariantCulture, "window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable'); ", onClickUrl);
-                }
-                else
-                {
-                    SetupFileAction(assignmentFiles[0], slkButtonReviewSubmitted, false);
-                }
-
-            }
-
-            SetUpSubmitButtons(false);
-            slkButtonSubmit.Visible = false;
-        }
-                        
-        void SetUpForCompleted()
-        {
-            slkButtonBegin.Text = PageCulture.Resources.LobbyReviewAssignmentText;
-            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyReviewAssignmentToolTipCompleted;
-            slkButtonBegin.Enabled = false;
-            pageTitle.Text = PageCulture.Resources.LobbyReviewAssignmentText;
-            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyReviewAssignmentText;
-
-            SetUpSubmitButtons(false);
-
-            slkButtonSubmit.Visible = false;
-
-            slkButtonReviewSubmitted.Visible = false;
-        }
-
-        void SetUpForNotStarted()
-        {
-            slkButtonBegin.Text = PageCulture.Resources.LobbyBeginAssignmentText;
-            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyBeginAssignmentToolTip;
-
-            pageTitle.Text = PageCulture.Resources.LobbyBeginAssignmentText;
-            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyBeginAssignmentText;
-
-            SetUpSubmitButtons(false);
-
-            slkButtonReviewSubmitted.Visible = false;
-        }
-
-        void SetUpForActive()
-        {
-            slkButtonBegin.Text = PageCulture.Resources.LobbyResumeAssignmentText;
-            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyResumeAssignmentToolTip;
-            pageTitle.Text = PageCulture.Resources.LobbyResumeAssignmentText;
-            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyResumeAssignmentText;
-
-            SetUpSubmitButtons(true);
-
-            slkButtonReviewSubmitted.Visible = false;
-        }
-
-        #endregion
-
         /// <summary>
         /// slkButtonSubmit Click event handler
         /// </summary>
@@ -712,9 +532,188 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 SlkStore.LogException(exception);
             }
         }
+#endregion protected methods
 
 #region private methods
-        void LoadAssignmentObjects()
+        private void SetUpSlkBeginButtonAction(AssignmentView view)
+        {
+            if (AssignmentProperties.IsNoPackageAssignment)
+            {
+                slkButtonBegin.Visible = false;
+            }
+            else
+            {
+                string openFrameset = String.Format(CultureInfo.InvariantCulture, "javascript:SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}');",
+                                                    FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId);
+                if (AssignmentProperties.IsNonELearning)
+                {
+
+                    if (assignmentFile == null)
+                    {
+                        slkButtonBegin.NavigateUrl = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';", openFrameset, CurrentUrl, startQueryStringName);
+                    }
+                    else
+                    {
+                        SetupFileAction(assignmentFile, slkButtonBegin, true);
+                    }
+                }
+                else
+                {
+                    slkButtonBegin.OnClientClick = openFrameset;
+                    slkButtonBegin.NavigateUrl = openFrameset;
+                }
+                slkButtonBegin.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
+            }
+        }
+
+        private void SetupFileAction(AssignmentFile file, SlkButton button, bool includeReload)
+        {
+            
+            DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
+
+            DropBoxEditMode editMode = DropBoxEditMode.Edit;
+            switch (LearnerAssignmentProperties.Status)
+            {
+                case LearnerAssignmentState.Completed:
+                case LearnerAssignmentState.Final:
+                    editMode = DropBoxEditMode.View;
+                    break;
+            }
+
+            DropBoxEditDetails editDetails = dropBoxMgr.GenerateDropBoxEditDetails(file, SPWeb, editMode, Page.Request.RawUrl);
+
+            string script = editDetails.OnClick;
+            if (string.IsNullOrEmpty(script))
+            {
+                if (includeReload)
+                {
+                    script = string.Format(CultureInfo.InvariantCulture, "window.location='{0}&{1}=true';", CurrentUrl, startQueryStringName);
+                }
+            }
+            else
+            {
+                if (LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted && includeReload)
+                {
+                    script = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';return false;", script, CurrentUrl, startQueryStringName);
+                }
+                else
+                {
+                    script = script + "return false;";
+                }
+
+            }
+
+            button.OnClientClick = script;
+            button.NavigateUrl = editDetails.Url;
+        }
+
+        private void SetUpSubmitButtons(bool enableSubmitFiles)
+        {
+            //Check if non e-learning and enable the appropriate button accordingly
+            if (AssignmentProperties.RootActivityId == null)
+            {
+                slkButtonSubmitFiles.Visible = true;
+                slkButtonSubmitFiles.Text = PageCulture.Resources.LobbySubmitFilesText;
+                slkButtonSubmitFiles.ToolTip = PageCulture.Resources.LobbySubmitFilesToolTip;
+                slkButtonSubmitFiles.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
+                slkButtonSubmitFiles.AccessKey = PageCulture.Resources.LobbySubmitFilesAccessKey;
+                slkButtonSubmitFiles.Enabled = enableSubmitFiles;
+                if (enableSubmitFiles)
+                {
+                    string url = string.Format(CultureInfo.InvariantCulture, 
+                            "{0}{1}FilesUploadPage.aspx?LearnerAssignmentId={2}", SPWeb.Url, Constants.SlkUrlPath, LearnerAssignmentGuidId.ToString());
+
+                    slkButtonSubmitFiles.NavigateUrl = url;
+                    slkButtonSubmitFiles.Target = "_self";
+                }
+
+                slkButtonSubmit.Visible = true;
+            }
+            else
+            {
+                slkButtonSubmitFiles.Visible = false;
+            }
+
+            slkButtonSubmit.Enabled = enableSubmitFiles;
+        }
+
+        private void SetUpForFinal()
+        {
+            slkButtonBegin.Text = PageCulture.Resources.LobbyReviewAssignmentText;
+            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyReviewAssignmentToolTip;
+
+            pageTitle.Text = PageCulture.Resources.LobbyReviewAssignmentText;
+            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyReviewAssignmentText;
+
+            //Check if non-elearning content
+            if (AssignmentProperties.RootActivityId == null)
+            {
+                slkButtonReviewSubmitted.Text = PageCulture.Resources.LobbyReviewSubmittedText;
+                slkButtonReviewSubmitted.ToolTip = PageCulture.Resources.LobbyReviewSubmittedToolTip;
+                slkButtonReviewSubmitted.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
+                slkButtonReviewSubmitted.Visible = true;
+
+                DropBoxManager manager = new DropBoxManager(AssignmentProperties);
+
+                AssignmentFile[] assignmentFiles = manager.LastSubmittedFiles();
+
+                if (assignmentFiles.Length != 1)
+                {
+                    string onClickUrl = string.Format("{0}{1}SubmittedFiles.aspx?LearnerAssignmentId={2}", SPWeb.Url, Constants.SlkUrlPath, LearnerAssignmentGuidId.ToString());
+                    slkButtonReviewSubmitted.OnClientClick = String.Format(CultureInfo.InvariantCulture, "window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable'); ", onClickUrl);
+                }
+                else
+                {
+                    SetupFileAction(assignmentFiles[0], slkButtonReviewSubmitted, false);
+                }
+
+            }
+
+            SetUpSubmitButtons(false);
+            slkButtonSubmit.Visible = false;
+        }
+                        
+        private void SetUpForCompleted()
+        {
+            slkButtonBegin.Text = PageCulture.Resources.LobbyReviewAssignmentText;
+            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyReviewAssignmentToolTipCompleted;
+            slkButtonBegin.Enabled = false;
+            pageTitle.Text = PageCulture.Resources.LobbyReviewAssignmentText;
+            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyReviewAssignmentText;
+
+            SetUpSubmitButtons(false);
+
+            slkButtonSubmit.Visible = false;
+
+            slkButtonReviewSubmitted.Visible = false;
+        }
+
+        private void SetUpForNotStarted()
+        {
+            slkButtonBegin.Text = PageCulture.Resources.LobbyBeginAssignmentText;
+            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyBeginAssignmentToolTip;
+
+            pageTitle.Text = PageCulture.Resources.LobbyBeginAssignmentText;
+            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyBeginAssignmentText;
+
+            SetUpSubmitButtons(false);
+
+            slkButtonReviewSubmitted.Visible = false;
+        }
+
+        private void SetUpForActive()
+        {
+            slkButtonBegin.Text = PageCulture.Resources.LobbyResumeAssignmentText;
+            slkButtonBegin.ToolTip = PageCulture.Resources.LobbyResumeAssignmentToolTip;
+            pageTitle.Text = PageCulture.Resources.LobbyResumeAssignmentText;
+            pageTitleInTitlePage.Text = PageCulture.Resources.LobbyResumeAssignmentText;
+
+            SetUpSubmitButtons(true);
+
+            slkButtonReviewSubmitted.Visible = false;
+        }
+
+        private void LoadAssignmentObjects()
         {
             assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuidId, SlkRole.Learner);
             learnerAssignmentProperties = assignmentProperties.Results[0];
@@ -753,13 +752,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        void CopyDocumentToDropBox()
+        private void CopyDocumentToDropBox()
         {
            DropBoxManager manager = new DropBoxManager(AssignmentProperties);
            assignmentFile = manager.CopyFileToDropBox(); 
         }
 
-        void FindDocumentUrl()
+        private void FindDocumentUrl()
         {
            DropBoxManager manager = new DropBoxManager(AssignmentProperties);
            AssignmentFile[] files = manager.LastSubmittedFiles();
