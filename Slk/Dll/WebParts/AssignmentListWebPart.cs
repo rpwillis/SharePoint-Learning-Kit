@@ -214,7 +214,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             get
             {
                 // Localise the description if empty or it is the default value
-                if (string.IsNullOrEmpty(base.Description) || base.Description == invariantCulture.Resources.AlwpWepPartDescription)
+                if (string.IsNullOrEmpty(base.Description) || base.Description == GetLocalizedString("AlwpWepPartDescription"))
                 {
                     return culture.Resources.AlwpWepPartDescription;
                 }
@@ -232,7 +232,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             get
             {
                 // Localise the description if empty or it is the default value
-                if (string.IsNullOrEmpty(base.Title) || base.Title == invariantCulture.Resources.AlwpWepPartTitle)
+                if (string.IsNullOrEmpty(base.Title) || base.Title == GetLocalizedString("AlwpWepPartTitle"))
                 {
                     return culture.Resources.AlwpWepPartTitle;
                 }
@@ -242,6 +242,20 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 }
             }
             set { base.Title = value ;}
+        }
+
+        private string GetLocalizedString(string resourceName)
+        {
+            if (string.IsNullOrEmpty(resourceName))
+            {
+                return string.Empty;
+            }
+            else
+            {
+                string resourceFile = "SLK";
+                int lcid = culture.Culture.LCID;
+                return Microsoft.SharePoint.Utilities.SPUtility.GetLocalizedString("$Resources:" + resourceName, resourceFile, (uint)lcid);
+            }
         }
 
         /// <summary>
