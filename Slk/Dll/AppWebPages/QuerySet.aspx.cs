@@ -523,6 +523,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 urlString = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", urlString, QueryStringKeys.SPWebScope, spWebScope);
             }
 
+            urlString = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", urlString, QueryStringKeys.Source, HttpUtility.UrlEncode(RawSourceUrl));
+
             //Build the Script 
             StringBuilder csAlwpClientScript = new StringBuilder(1000);
 

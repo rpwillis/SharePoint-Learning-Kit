@@ -78,6 +78,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected TableGridRow tgrAutoReturn;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "tgr")]
         protected TableGridRow tgrSite;
+        System.Web.UI.WebControls.BulletedList navigationList;
+        protected Label ConfirmWhatNext;
 
         protected SlkButton slkButtonBegin;
         protected SlkButton slkButtonSubmit;
@@ -96,10 +98,13 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected Literal pageDescription;
 
         protected Panel contentPanel;
+        protected Panel NextPanel;
 #pragma warning restore 1591
         #endregion
 
         #region Private Variables
+        bool startAssignment;
+        bool initialViewForOfficeWebApps;
         string currentUrl;
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
         private LearnerAssignmentProperties learnerAssignmentProperties;
@@ -204,6 +209,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
 #region protected methods
+        /// <summary>See <see cref="Control.CreateChildControls"/>.</summary>
+        protected override void CreateChildControls()
+        {
+            base.CreateChildControls();
+            navigationList = new System.Web.UI.WebControls.BulletedList();
+            navigationList.ID = "navigationList";
+            NextPanel.Controls.Add(navigationList);
+        }
+
         /// <summary>
         ///  Overrides OnPreRender.
         /// </summary>
@@ -222,49 +236,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 SetResourceText();
 
                 LearnerAssignmentState learnerAssignmentStatus = LearnerAssignmentProperties.Status.Value;
-                bool startAssignment = (Request.QueryString[startQueryStringName] == "true");
-                bool initialViewForOfficeWebApps = false;
+                startAssignment = (Request.QueryString[startQueryStringName] == "true");
 
-                if (AssignmentProperties.IsNonELearning && LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted)
+                if (AssignmentProperties.IsNonELearning)
                 {
-                    if (AssignmentProperties.IsNoPackageAssignment)
-                    {
-                        startAssignment = true;
-                    }
-                    else
-                    {
-                        try
-                        {
-                            CopyDocumentToDropBox();
-                        }
-                        catch (SPException)
-                        {
-                            // Sometimes fails first time
-                            try
-                            {
-                                CopyDocumentToDropBox();
-                            }
-                            catch (SPException exception)
-                            {
-                                SlkStore.LogException(exception);
-                            }
-                        }
-
-                        if (assignmentFile != null && assignmentFile.IsOwaCompatible && SlkStore.Settings.DropBoxSettings.UseOfficeWebApps)
-                        {
-                            // If using office web apps need to change the status of the assignment as the begin button is just a url rather than a script 
-                            // which opens the document in another application
-                            startAssignment = true;
-                            initialViewForOfficeWebApps = true;
-                        }
-                    }
-                }
-                else if (AssignmentProperties.IsNonELearning)
-                {
-                    if (AssignmentProperties.IsNoPackageAssignment == false)
-                    {
-                        FindDocumentUrl();
-                    }
+                    HandleNonELearningAssignment();
                 }
 
                 if (startAssignment && learnerAssignmentStatus == LearnerAssignmentState.NotStarted)
@@ -289,166 +265,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     LearnerAssignmentProperties = null;
                 }
 
-                lblTitle.Text = Server.HtmlEncode(AssignmentProperties.Title);
-                lblDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description);
-
-                // for the assignment site, if the user doesn't have permission to view it
-                // we'll catch the exception and hide the row
-                bool previousValue = SPSecurity.CatchAccessDeniedException;
-                SPSecurity.CatchAccessDeniedException = false;
-                try
-                {
-                    using(SPSite assignmentSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
-                    {
-                        using(SPWeb assignmentWeb = assignmentSite.OpenWeb(AssignmentProperties.SPWebGuid))
-                        {
-
-                            // If the assignment is in a different SPWeb redirect to it.
-                            if (SPWeb.ID != assignmentWeb.ID)
-                                Response.Redirect(SlkUtilities.UrlCombine(assignmentWeb.Url, Request.Path + "?" + Request.QueryString.ToString()));
-
-                            lnkSite.Text = Server.HtmlEncode(assignmentWeb.Title);
-                            lnkSite.NavigateUrl = assignmentWeb.ServerRelativeUrl;
-                        }
-                    }
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    lblSiteValue.Text = PageCulture.Resources.LobbyInvalidSite;
-                    lblSiteValue.Visible = true;
-                }
-                catch (FileNotFoundException)
-                {
-                    lblSiteValue.Text = PageCulture.Resources.LobbyInvalidSite;
-                    lblSiteValue.Visible = true;
-                }
-                finally
-                {
-                    SPSecurity.CatchAccessDeniedException = previousValue;
-                }
-
-                if (LearnerAssignmentProperties.SuccessStatus == SuccessStatus.Passed
-                    && LearnerAssignmentProperties.FinalPoints.HasValue
-                    && LearnerAssignmentProperties.FinalPoints.Value == 0.0
-                    )
-                {
-                    lblScoreValue.Text = string.Empty;
-                }
-                else
-                {
-
-                    if (learnerAssignmentStatus != LearnerAssignmentState.Final)
-                    {
-                        if (AssignmentProperties.PointsPossible.HasValue)
-                        {
-                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsNoValuePointsPossible, AssignmentProperties.PointsPossible);
-                        }
-                        else
-                        {
-                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsNoValue, LearnerAssignmentProperties.FinalPoints);
-                        }
-                    }
-                    else
-                    {
-                        string finalPoints = PageCulture.Resources.LobbyPointsNoValue;
-                        if (LearnerAssignmentProperties.FinalPoints.HasValue)
-                            finalPoints = LearnerAssignmentProperties.FinalPoints.Value.ToString(CultureInfo.CurrentCulture);
-
-                        if (AssignmentProperties.PointsPossible.HasValue)
-                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsValuePointsPossible, finalPoints, AssignmentProperties.PointsPossible);
-                        else
-                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsValue, finalPoints);
-                    }
-                }
-
-                if (SlkStore.Settings.UseGrades)
-                {
-                    labelGradeValue.Text = LearnerAssignmentProperties.Grade;
-                }
-                else
-                {
-                    rowGrade.Visible = false;
-                }
-
-                lblStartValue.Text = PageCulture.Format(PageCulture.Resources.LongDateShortTime, AssignmentProperties.StartDate);
-                if (AssignmentProperties.DueDate.HasValue)
-                    lblDueValue.Text = PageCulture.Format(PageCulture.Resources.LongDateShortTime, AssignmentProperties.DueDate.Value);
-
-                if (LearnerAssignmentProperties.InstructorComments.Length != 0)
-                    lblCommentsValue.Text = SlkUtilities.GetCrlfHtmlEncodedText(LearnerAssignmentProperties.InstructorComments);
-                else
-                    tgrComments.Visible = false;
-
-                lblStatusValue.Text = Server.HtmlEncode(SlkUtilities.GetLearnerAssignmentState(learnerAssignmentStatus));
-                AssignmentView view = AssignmentView.Execute;
-                switch (learnerAssignmentStatus)
-                {
-                    case LearnerAssignmentState.NotStarted:
-                        SetUpForNotStarted();
-                        break;
-
-                    case LearnerAssignmentState.Active:
-                        if (initialViewForOfficeWebApps)
-                        {
-                            SetUpForNotStarted();
-                        }
-                        else
-                        {
-                            SetUpForActive();
-                        }
-                        break;
-
-                    case LearnerAssignmentState.Completed:
-                        SetUpForCompleted();
-                        break;
-
-                    case LearnerAssignmentState.Final:
-                        SetUpForFinal();
-                        view = AssignmentView.StudentReview;
-                        break;
-
-                    default:
-                        break;
-                }
-
-                SetUpSlkBeginButtonAction(view);
-
-                // Set up delete button
-                if (AssignmentProperties.CreatedById.Equals(LearnerAssignmentProperties.LearnerId) && !AssignmentProperties.HasInstructors)
-                {
-                    slkButtonDelete.Text = PageCulture.Resources.LobbyDeleteAssignmentText;
-                    slkButtonDelete.ToolTip = PageCulture.Resources.LobbyDeleteToolTip;
-                    slkButtonDelete.OnClientClick = PageCulture.Format("javascript: return confirm('{0}');",
-                        PageCulture.Resources.LobbyDeleteMessage);
-                    slkButtonDelete.ImageUrl = Constants.ImagePath + Constants.DeleteIcon;
-                }
-                else
-                {
-                    slkButtonDelete.Visible = false;
-                }
-
-                // Set up submit button
-                if (AssignmentProperties.HasInstructors)
-                {
-                    slkButtonSubmit.Text = PageCulture.Resources.LobbySubmitText;
-                    slkButtonSubmit.ToolTip = PageCulture.Resources.LobbySubmitToolTip;
-                    slkButtonSubmit.OnClientClick = PageCulture.Format("javascript: return confirm('{0}');", PageCulture.Resources.LobbySubmitMessage);
-                    slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.SubmitIcon;
-                }
-                else
-                {
-                    slkButtonSubmit.Text = PageCulture.Resources.LobbyMarkasCompleteText;
-                    slkButtonSubmit.ToolTip = PageCulture.Resources.LobbyMarkasCompleteToolTip;
-                    slkButtonSubmit.OnClientClick = PageCulture.Format("javascript: return confirm('{0}');", PageCulture.Resources.LobbyMarkasCompleteMessage);
-                    slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.MarkCompleteIcon;
-                }
-
-                slkButtonBegin.AccessKey = PageCulture.Resources.LobbyBeginAccessKey;
-                slkButtonDelete.AccessKey = PageCulture.Resources.LobbyDeleteAccessKey;
-                slkButtonSubmit.AccessKey = PageCulture.Resources.LobbySubmitAccessKey;
+                SetUpDisplayValues(learnerAssignmentStatus);
+                SetUpForAssignmentState(learnerAssignmentStatus);
 
                 tgrAutoReturn.Visible = AssignmentProperties.AutoReturn;
-
                 contentPanel.Visible = true;
 
             }
@@ -535,6 +355,241 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 #endregion protected methods
 
 #region private methods
+        private void SetUpForAssignmentState(LearnerAssignmentState learnerAssignmentStatus)
+        {
+            AssignmentView view = AssignmentView.Execute;
+            switch (learnerAssignmentStatus)
+            {
+                case LearnerAssignmentState.NotStarted:
+                    SetUpForNotStarted();
+                    break;
+
+                case LearnerAssignmentState.Active:
+                    if (initialViewForOfficeWebApps)
+                    {
+                        SetUpForNotStarted();
+                    }
+                    else
+                    {
+                        SetUpForActive();
+                    }
+                    break;
+
+                case LearnerAssignmentState.Completed:
+                    SetUpForCompleted();
+                    break;
+
+                case LearnerAssignmentState.Final:
+                    SetUpForFinal();
+                    view = AssignmentView.StudentReview;
+                    break;
+
+                default:
+                    break;
+            }
+
+            SetUpButtons(view);
+        }
+
+        private void HandleNonELearningAssignment()
+        {
+            if (LearnerAssignmentProperties.Status == LearnerAssignmentState.NotStarted)
+            {
+                if (AssignmentProperties.IsNoPackageAssignment)
+                {
+                    startAssignment = true;
+                }
+                else
+                {
+                    try
+                    {
+                        CopyDocumentToDropBox();
+                    }
+                    catch (SPException)
+                    {
+                        // Sometimes fails first time
+                        try
+                        {
+                            CopyDocumentToDropBox();
+                        }
+                        catch (SPException exception)
+                        {
+                            SlkStore.LogException(exception);
+                        }
+                    }
+
+                    if (assignmentFile != null && assignmentFile.IsOwaCompatible && SlkStore.Settings.DropBoxSettings.UseOfficeWebApps)
+                    {
+                        // If using office web apps need to change the status of the assignment as the begin button is just a url rather than a script 
+                        // which opens the document in another application
+                        startAssignment = true;
+                        initialViewForOfficeWebApps = true;
+                    }
+                }
+            }
+            else
+            {
+                if (AssignmentProperties.IsNoPackageAssignment == false)
+                {
+                    FindDocumentUrl();
+                }
+            }
+        }
+
+        private void SetUpDisplayValues(LearnerAssignmentState learnerAssignmentStatus)
+        {
+            lblTitle.Text = Server.HtmlEncode(AssignmentProperties.Title);
+            lblDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description);
+
+            SetUpAssignmentSiteLink();
+            SetUpScoreAndGradeDisplayValues(learnerAssignmentStatus);
+
+            lblStartValue.Text = PageCulture.Format(PageCulture.Resources.LongDateShortTime, AssignmentProperties.StartDate);
+            if (AssignmentProperties.DueDate.HasValue)
+            {
+                lblDueValue.Text = PageCulture.Format(PageCulture.Resources.LongDateShortTime, AssignmentProperties.DueDate.Value);
+            }
+
+            if (LearnerAssignmentProperties.InstructorComments.Length != 0)
+            {
+                lblCommentsValue.Text = SlkUtilities.GetCrlfHtmlEncodedText(LearnerAssignmentProperties.InstructorComments);
+            }
+            else
+            {
+                tgrComments.Visible = false;
+            }
+
+            lblStatusValue.Text = Server.HtmlEncode(SlkUtilities.GetLearnerAssignmentState(learnerAssignmentStatus));
+        }
+
+        private void SetUpButtons(AssignmentView view)
+        {
+            SetUpSlkBeginButtonAction(view);
+
+            // Set up delete button
+            if (AssignmentProperties.CreatedById.Equals(LearnerAssignmentProperties.LearnerId) && !AssignmentProperties.HasInstructors)
+            {
+                slkButtonDelete.Text = PageCulture.Resources.LobbyDeleteAssignmentText;
+                slkButtonDelete.ToolTip = PageCulture.Resources.LobbyDeleteToolTip;
+                slkButtonDelete.OnClientClick = PageCulture.Format("javascript: return confirm('{0}');",
+                        PageCulture.Resources.LobbyDeleteMessage);
+                slkButtonDelete.ImageUrl = Constants.ImagePath + Constants.DeleteIcon;
+            }
+            else
+            {
+                slkButtonDelete.Visible = false;
+            }
+
+            // Set up submit button
+            if (AssignmentProperties.HasInstructors)
+            {
+                slkButtonSubmit.Text = PageCulture.Resources.LobbySubmitText;
+                slkButtonSubmit.ToolTip = PageCulture.Resources.LobbySubmitToolTip;
+                slkButtonSubmit.OnClientClick = PageCulture.Format("javascript: return confirm('{0}');", PageCulture.Resources.LobbySubmitMessage);
+                slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.SubmitIcon;
+            }
+            else
+            {
+                slkButtonSubmit.Text = PageCulture.Resources.LobbyMarkasCompleteText;
+                slkButtonSubmit.ToolTip = PageCulture.Resources.LobbyMarkasCompleteToolTip;
+                slkButtonSubmit.OnClientClick = PageCulture.Format("javascript: return confirm('{0}');", PageCulture.Resources.LobbyMarkasCompleteMessage);
+                slkButtonSubmit.ImageUrl = Constants.ImagePath + Constants.MarkCompleteIcon;
+            }
+
+            slkButtonBegin.AccessKey = PageCulture.Resources.LobbyBeginAccessKey;
+            slkButtonDelete.AccessKey = PageCulture.Resources.LobbyDeleteAccessKey;
+            slkButtonSubmit.AccessKey = PageCulture.Resources.LobbySubmitAccessKey;
+        }
+
+        private void SetUpAssignmentSiteLink()
+        {
+            // for the assignment site, if the user doesn't have permission to view it
+            // we'll catch the exception and hide the row
+            bool previousValue = SPSecurity.CatchAccessDeniedException;
+            SPSecurity.CatchAccessDeniedException = false;
+            try
+            {
+                using(SPSite assignmentSite = new SPSite(AssignmentProperties.SPSiteGuid, SPContext.Current.Site.Zone))
+                {
+                    using(SPWeb assignmentWeb = assignmentSite.OpenWeb(AssignmentProperties.SPWebGuid))
+                    {
+
+                        // If the assignment is in a different SPWeb redirect to it.
+                        if (SPWeb.ID != assignmentWeb.ID)
+                        {
+                            Response.Redirect(SlkUtilities.UrlCombine(assignmentWeb.Url, Request.Path + "?" + Request.QueryString.ToString()));
+                        }
+
+                        lnkSite.Text = Server.HtmlEncode(assignmentWeb.Title);
+                        lnkSite.NavigateUrl = assignmentWeb.ServerRelativeUrl;
+                    }
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                lblSiteValue.Text = PageCulture.Resources.LobbyInvalidSite;
+                lblSiteValue.Visible = true;
+            }
+            catch (FileNotFoundException)
+            {
+                lblSiteValue.Text = PageCulture.Resources.LobbyInvalidSite;
+                lblSiteValue.Visible = true;
+            }
+            finally
+            {
+                SPSecurity.CatchAccessDeniedException = previousValue;
+            }
+
+        }
+
+        /// <summary>Set the score and grade display values.</summary>
+        private void SetUpScoreAndGradeDisplayValues(LearnerAssignmentState learnerAssignmentStatus)
+        {
+            if (LearnerAssignmentProperties.SuccessStatus == SuccessStatus.Passed
+                    && LearnerAssignmentProperties.FinalPoints.HasValue
+                    && LearnerAssignmentProperties.FinalPoints.Value == 0.0
+               )
+            {
+                lblScoreValue.Text = string.Empty;
+            }
+            else
+            {
+
+                if (learnerAssignmentStatus != LearnerAssignmentState.Final)
+                {
+                    if (AssignmentProperties.PointsPossible.HasValue)
+                    {
+                        lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsNoValuePointsPossible, AssignmentProperties.PointsPossible);
+                    }
+                    else
+                    {
+                        lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsNoValue, LearnerAssignmentProperties.FinalPoints);
+                    }
+                }
+                else
+                {
+                    string finalPoints = PageCulture.Resources.LobbyPointsNoValue;
+                    if (LearnerAssignmentProperties.FinalPoints.HasValue)
+                        finalPoints = LearnerAssignmentProperties.FinalPoints.Value.ToString(CultureInfo.CurrentCulture);
+
+                    if (AssignmentProperties.PointsPossible.HasValue)
+                        lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsValuePointsPossible, finalPoints, AssignmentProperties.PointsPossible);
+                    else
+                        lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsValue, finalPoints);
+                }
+            }
+
+            if (SlkStore.Settings.UseGrades)
+            {
+                labelGradeValue.Text = LearnerAssignmentProperties.Grade;
+            }
+            else
+            {
+                rowGrade.Visible = false;
+            }
+
+        }
+
         private void SetUpSlkBeginButtonAction(AssignmentView view)
         {
             if (AssignmentProperties.IsNoPackageAssignment)
@@ -671,6 +726,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             SetUpSubmitButtons(false);
             slkButtonSubmit.Visible = false;
+            ShowNavigationOptions();
         }
                         
         private void SetUpForCompleted()
@@ -686,6 +742,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             slkButtonSubmit.Visible = false;
 
             slkButtonReviewSubmitted.Visible = false;
+            ShowNavigationOptions();
         }
 
         private void SetUpForNotStarted()
@@ -699,6 +756,18 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             SetUpSubmitButtons(false);
 
             slkButtonReviewSubmitted.Visible = false;
+        }
+
+        private void ShowNavigationOptions()
+        {
+            NextPanel.Visible = true;
+            navigationList.DisplayMode = BulletedListDisplayMode.HyperLink;
+            navigationList.Items.Add(new ListItem( PageCulture.Resources.AppNavigateToSite + Constants.Space + SPWeb.Title, SPWeb.ServerRelativeUrl));
+
+            if (string.IsNullOrEmpty(SourceUrl) == false)
+            {
+                navigationList.Items.Add(new ListItem( PageCulture.Resources.Back, SourceUrl));
+            }
         }
 
         private void SetUpForActive()
@@ -734,6 +803,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             infoImage.AlternateText = PageCulture.Resources.SlkErrorTypeInfoToolTip;
             ClientScript.RegisterClientScriptBlock(this.GetType(), "SlkWindowAlreadyOpen",
             string.Format(CultureInfo.InvariantCulture, "var SlkWindowAlreadyOpen = \"{0}\";", PageCulture.Resources.LobbyWindowAlreadyOpen), true);
+            ConfirmWhatNext.Text = PageCulture.Resources.CtrlLabelAPPWhatNextText;
         }
 
         /// <summary> Generates the url to view the submitted files. </summary>

@@ -1030,6 +1030,9 @@ saving, click Cancel.</value>
   <data name="LobbyInvalidSite" xml:space="preserve">
     <value>This Web site is not accessible.</value>
   </data>
+  <data name="Back" xml:space="preserve">
+      <value>Back</value>
+  </data>
   <data name="AppNavigateToDocLib" xml:space="preserve">
     <value>Go back to {0}</value>
     <comment>{0} Doclib Name. App  navigates to the folder in the doclib where the content was assigned from.</comment>

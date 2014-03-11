@@ -50,7 +50,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #region Private Variables
 
-        private string m_sourceUrl;
 
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
         private LearnerAssignmentProperties learnerAssignmentProperties;
@@ -59,22 +58,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region Private Properties
-
-        // <summary>
-        // Gets the value of the "Source" query parameter, the URL of the source page.
-        // </summary>
-        private string SourceUrl
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_sourceUrl))
-                {
-                    m_sourceUrl = QueryString.ParseString("Source");
-                }
-
-                return m_sourceUrl;
-            }
-        }
 
         // <summary>
         // Gets the value of the "LearnerAssignmentId" query parameter.

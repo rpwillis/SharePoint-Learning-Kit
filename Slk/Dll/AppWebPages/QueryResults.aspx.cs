@@ -780,8 +780,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         else
                         {
                             // render a link to the Learner Assignment Properties page
-                            string url = "Lobby.aspx?{0}={1}";
-                            RenderCellWithLink(webNameRenderedCell, hw, renderedCell.ToString(), url, "_parent", FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
+                            string url = "Lobby.aspx?{0}={1}&{2}={3}";
+                            RenderCellWithLink(webNameRenderedCell, hw, renderedCell.ToString(), url, "_parent", 
+                                    FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString(), QueryStringKeys.Source, RawSourceUrl);
                         }
                     }
                     else

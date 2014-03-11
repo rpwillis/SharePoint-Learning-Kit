@@ -523,11 +523,12 @@ namespace Microsoft.SharePointLearningKit.WebParts
             htmlTextWriter.Write("<tr valign=\"top\">");
 
             StringBuilder queryString = BaseQueryString();
+            string sourceParameter = HttpUtility.UrlEncode(Page.Request.Url.ToString());
 
             string queryResultsUrl;
             if (DisplaySummary)
             {
-                queryString.AppendFormat("&{0}={1}", QueryStringKeys.QuerySet, QuerySetOverride);
+                queryString.AppendFormat("&{0}={1}&{2}={3}", QueryStringKeys.QuerySet, QuerySetOverride, QueryStringKeys.Source, sourceParameter);
                 queryResultsUrl = SlkUtilities.UrlCombine(SPWeb.Url, Constants.BlankGifUrl);
 
                 WriteSummary(htmlTextWriter, queryString.ToString());
@@ -543,6 +544,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 queryResultsUrl = string.Format(CultureInfo.InvariantCulture, "{0}&{1}=true", queryResultsUrl, QueryStringKeys.ForObserver);
             }
+
+            queryResultsUrl = string.Format("{0}&{1}={2}", queryResultsUrl, QueryStringKeys.Source, sourceParameter);
 
             WriteQueryResults(htmlTextWriter, queryResultsUrl);
 
