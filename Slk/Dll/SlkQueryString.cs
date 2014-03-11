@@ -236,6 +236,11 @@ namespace Microsoft.SharePointLearningKit
         #region Query String Keys
 
         /// <summary>
+        /// Name of querystring parameter for passing Source to lobby page
+        /// </summary>
+        public const string Source = "Source";
+
+        /// <summary>
         /// Name of querystring parameter for passing QuerySet to load AssignmentList Webpart
         /// </summary>
         public const string QuerySet = "QuerySet";

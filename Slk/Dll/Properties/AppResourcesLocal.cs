@@ -902,6 +902,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; had been collected.&lt;/p&gt;.
         /// </summary>
         internal string CancelAssignmentEmailDefaultBody {

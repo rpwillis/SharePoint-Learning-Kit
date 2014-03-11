@@ -40,6 +40,9 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     // Private Fields
     //
 
+    private string sourceUrl;
+    private string rawSourceUrl;
+
     /// <summary>
     /// Holds the value of the <c>SPWeb</c> property.
     /// </summary>
@@ -102,6 +105,34 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     }
 
     #region protected properties
+    ///<summary>Gets the value of the "Source" query parameter, the URL of the source page.</summary>
+    protected string RawSourceUrl
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(rawSourceUrl))
+            {
+                rawSourceUrl = QueryString.ParseString("Source");
+            }
+
+            return rawSourceUrl;
+        }
+    }
+
+    ///<summary>Gets the value of the "Source" query parameter, the URL of the source page.</summary>
+    protected string SourceUrl
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(sourceUrl))
+            {
+                sourceUrl = HttpUtility.UrlDecode(RawSourceUrl);
+            }
+
+            return sourceUrl;
+        }
+    }
+
     /// <summary>Indicates if should override master page.</summary>
     protected virtual bool OverrideMasterPage
     {

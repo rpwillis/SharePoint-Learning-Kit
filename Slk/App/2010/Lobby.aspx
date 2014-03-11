@@ -190,6 +190,11 @@ function SlkOpenFramesetWindow(navigateUrl)
 	<slk:TableGridColumn ColumnSpan="2" ColumnType="FormLine"><img height=1 width=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif"></slk:TableGridColumn>
 </slk:TableGridRow>
 </slk:TableGrid>
+<asp:Panel ID="NextPanel" Visible="false" runat="server">
+    <h2 class="UserGenericHeader">
+    <asp:Label ID="ConfirmWhatNext" runat="server"></asp:Label>
+    </h2>
+</asp:Panel>
 <img height=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif" width=590> 
 <SharePoint:DelegateControl ControlId="SlkEndContent" runat="server"/>
 </asp:Panel>
