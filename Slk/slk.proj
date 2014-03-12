@@ -12,10 +12,12 @@
 
         <SolutionProject Include="solution/solution.proj"/>
 
+        <!--
         <Projects Include="dll/slkdll.csproj">
             <SPVersion>2007</SPVersion>
             <DotNetVersion>3.5</DotNetVersion>
         </Projects>
+        -->
         <Projects Include="dll/slkdll.csproj">
             <SPVersion>2010</SPVersion>
             <DotNetVersion>3.5</DotNetVersion>

@@ -25,10 +25,12 @@
             <DotNetVersion>4.0</DotNetVersion>
         </Projects>
 
+        <!--
         <ProjectsSharePoint Include="sharepoint\sharepoint.csproj">
             <SPVersion>2007</SPVersion>
             <DotNetVersion>3.5</DotNetVersion>
         </ProjectsSharePoint>
+        -->
         <ProjectsSharePoint Include="sharepoint\sharepoint.csproj">
             <SPVersion>2010</SPVersion>
             <DotNetVersion>3.5</DotNetVersion>
