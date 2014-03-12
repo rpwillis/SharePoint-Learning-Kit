@@ -417,10 +417,11 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Uploads files and submits the assignment.</summary>
         /// <param name="files">The files to upload.</param>
-        public void UploadFilesAndSubmit(AssignmentUpload[] files)
+        /// <param name="existingFilesToKeep">Existing files to keep.</param>
+        public void UploadFilesAndSubmit(AssignmentUpload[] files, int[] existingFilesToKeep)
         {
             DropBoxManager manager = new DropBoxManager(Assignment);
-            manager.UploadFiles(files);
+            manager.UploadFiles(files, existingFilesToKeep);
             Submit();
         }
 #endregion public methods

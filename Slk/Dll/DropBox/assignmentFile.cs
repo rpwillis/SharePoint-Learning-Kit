@@ -25,6 +25,9 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>The file's Url.</summary>
         public string Url { get; private set; }
 
+        /// <summary>The file's ID.</summary>
+        public int Id { get; private set; }
+
         /// <summary>The file's Name.</summary>
         public string Name { get; private set; }
 
@@ -97,11 +100,13 @@ namespace Microsoft.SharePointLearningKit
 
 #region constructors
         /// <summary>Initializes a new instance of <see cref="AssignmentFile"/>.</summary>
+        /// <param name="id">The id of the file.</param>
         /// <param name="name">The name of the file.</param>
         /// <param name="url">The file's url.</param>
         /// <param name="permMask">The permissions mask for the file.</param>
-        public AssignmentFile(string name, string url, string permMask)
+        public AssignmentFile(int id, string name, string url, string permMask)
         {
+            Id = id;
             Name = name;
             Url = url;
             PermMask = permMask;

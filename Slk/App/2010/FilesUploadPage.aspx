@@ -11,6 +11,48 @@
 	<asp:Label runat="server" ID="pageTitleInTitlePage" />
 </asp:Content>
 
+<asp:Content ContentPlaceHolderId="PlaceHolderAdditionalPageHead" runat="server">
+
+<script type="text/javascript">
+		
+    var counter = 0;
+
+	function createUploadInput(currentInput){
+
+            counter++;
+            var container = document.getElementById("uploadContainer");	
+
+            var div = document.createElement("div");
+            container.appendChild(div);			
+
+            var fileInput = document.createElement("input");
+            fileInput.type = "file";			
+            fileInput.id = 'uploadFile' + counter;
+            fileInput.name = fileInput.id
+            fileInput.className = 'ms-fileinput'
+            fileInput.onchange = function() {createUploadInput(this);}
+            div.appendChild(fileInput);			
+
+            var clearButton = document.createElement("input");
+            clearButton.type = 'image';
+            clearButton.src = '/_layouts/images/DelItem.gif';
+            clearButton.onclick = function() {
+            removeInput(currentInput.id);
+            return false;
+            };
+            currentInput.parentNode.appendChild(clearButton);			
+        }
+
+    function removeInput(id) {
+        var element = document.getElementById(id);
+        if (element != null)
+        {
+            element.parentNode.parentNode.removeChild(element.parentNode);
+        }
+    }
+</script>
+</asp:Content>
+
 <asp:Content ContentPlaceHolderId="PlaceHolderMain" runat="server">
 <SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
     <table cellpadding="0" cellspacing="0">
@@ -63,34 +105,11 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="ms-authoringcontrols" width="99%">
-                                        <table class="ms-authoringcontrols" width="100%">
-                                            <tr>
-                                                <td>
-                                                    <input id="uploadFile1" type="file"  runat ="server" class="ms-fileinput" size="35" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input id="uploadFile2" type="file"  runat ="server" class="ms-fileinput" size="35" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input id="uploadFile3" type="file"  runat ="server" class="ms-fileinput" size="35" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input id="uploadFile4" type="file"  runat ="server" class="ms-fileinput" size="35" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input id="uploadFile5" type="file"  runat ="server" class="ms-fileinput" size="35" />
-                                                </td>
-                                            </tr>
-                                        </table>
+                                    <td id="uploadContainer" class="ms-authoringcontrols" width="99%">
+    <div>
+	<input type="file" id="uploadFile0" name="uploadFile0" class="ms-fileinput" onchange="javascript:createUploadInput(this)" />
+    </div>
+
                                     </td>
                                 </tr>
                             </table>

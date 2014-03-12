@@ -54,6 +54,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
         private LearnerAssignmentProperties learnerAssignmentProperties;
         private AssignmentProperties assignmentProperties;
+        private List<CheckBox> includes = new List<CheckBox>();
 
         #endregion
 
@@ -107,6 +108,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #endregion
 
+        /// <summary>See <see cref="Control.CreateChildControls"/>.</summary>
+        protected override void CreateChildControls()
+        {
+            base.CreateChildControls();
+            Page.Form.Enctype = "multipart/form-data";
+            LoadLastAssignmentAttempt();
+        }
+
         /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         protected override void OnLoad(EventArgs e)
         {
@@ -127,10 +136,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     contentPanel.Visible = false;
                     errorBanner.AddError(ErrorType.Error, PageCulture.Resources.FilesUploadAssIsInaccessible);
                 }
-                else
-                {
-                    DisplayLastAssignmentAttempt();
-                }
 
                 lblMessage.Text = PageCulture.Resources.FilesUploadAssInaccessible;
             }
@@ -139,27 +144,26 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>The OK button event handler.</summary>
         protected void btnOK_Click(object sender, EventArgs e)
         {
-            SlkMemberships memberships = new SlkMemberships(null, null, null);
-            memberships.FindAllSlkMembers(SPWeb, SlkStore, true);
 
-            List<AssignmentUpload> uploadedFiles = new List<AssignmentUpload>();
-
-            HtmlInputFile[] allPageUploadFiles = new HtmlInputFile[] { uploadFile1, uploadFile2, uploadFile3, uploadFile4, uploadFile5 };
-            for (int i = 0; i < 5; i++)
-            {
-                HttpPostedFile postedFile = allPageUploadFiles[i].PostedFile;
-                if (postedFile != null && postedFile.FileName != "")
-                {
-                    string fileName = Path.GetFileName(postedFile.FileName);
-                    uploadedFiles.Add(new AssignmentUpload(fileName, postedFile.InputStream));
-                }
-            }
-
+            List<AssignmentUpload> uploadedFiles = FindUploadedFiles();
             if (uploadedFiles.Count > 0)
             {
                 try
                 {
-                    LearnerAssignmentProperties.UploadFilesAndSubmit(uploadedFiles.ToArray());
+                    List<int> filesToKeep = new List<int>();
+                    foreach (CheckBox check in includes)
+                    {
+                        if (check.Checked)
+                        {
+                            if (check.ID.Length > 5)
+                            {
+                                int fileId = int.Parse(check.ID.Substring(5), CultureInfo.InvariantCulture);
+                                filesToKeep.Add(fileId);
+                            }
+                        }
+                    }
+
+                    LearnerAssignmentProperties.UploadFilesAndSubmit(uploadedFiles.ToArray(), filesToKeep.ToArray());
 
                     //Redirect to the SLk ALWP Page
                     HttpContext.Current.Response.Write(
@@ -198,25 +202,62 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
 
 #region private methods
-        private void DisplayLastAssignmentAttempt()
+        private void LoadLastAssignmentAttempt()
         {
             DropBoxManager dropBoxManager = new DropBoxManager(AssignmentProperties);
             AssignmentFile[] files = dropBoxManager.LastSubmittedFiles();
 
-            foreach (AssignmentFile file in files)
+            if (files.Length > 0)
             {
-                HyperLink fileLink = new HyperLink();
-                fileLink.Text = file.Name;
-                fileLink.NavigateUrl = file.Url;
-                pnlOldFiles.Controls.Add(fileLink);
-                pnlOldFiles.Controls.Add(new LiteralControl("<br/>"));
+                LiteralControl literal = new LiteralControl(string.Format("<table><tr><th>{0}</th><th>{1}</th></tr>", PageCulture.Resources.IncludeTitle, PageCulture.Resources.CtrlLabelUploadDocumentName));
+                pnlOldFiles.Controls.Add(literal);
+
+                foreach (AssignmentFile file in files)
+                {
+                    pnlOldFiles.Controls.Add(new LiteralControl("<tr><td>"));
+
+                    CheckBox check = new CheckBox();
+                    check.ID = "check" + file.Id.ToString(CultureInfo.InvariantCulture);
+                    check.Checked = false;
+                    includes.Add(check);
+                    pnlOldFiles.Controls.Add(check);
+
+                    pnlOldFiles.Controls.Add(new LiteralControl("</td><td>"));
+
+                    HyperLink fileLink = new HyperLink();
+                    fileLink.Text = file.Name;
+                    fileLink.NavigateUrl = file.Url;
+                    pnlOldFiles.Controls.Add(fileLink);
+
+                    pnlOldFiles.Controls.Add(new LiteralControl("</td></tr>"));
+                }
+
+                pnlOldFiles.Controls.Add(new LiteralControl("</table>"));
             }
+
         }
 
-        void LoadAssignmentProperties()
+        private void LoadAssignmentProperties()
         {
             assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuid, SlkRole.Learner);
             learnerAssignmentProperties = assignmentProperties.Results[0];
+        }
+
+        private List<AssignmentUpload> FindUploadedFiles()
+        {
+            List<AssignmentUpload> uploadedFiles = new List<AssignmentUpload>();
+
+            foreach (string item in Request.Files)
+            {
+                HttpPostedFile file = Request.Files[item];
+                if (file != null && file.ContentLength > 0)
+                {
+                    FileInfo info = new FileInfo(file.FileName);
+                    uploadedFiles.Add(new AssignmentUpload(info.Name, file.InputStream));
+                }
+            }
+
+            return uploadedFiles;
         }
 #endregion private methods
     }

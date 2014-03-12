@@ -144,7 +144,8 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Uploads files to the learner's drop box.</summary>
         /// <param name="files">The files to upload.</param>
-        public void UploadFiles(AssignmentUpload[] files)
+        /// <param name="existingFilesToKeep">Existing files to keep.</param>
+        public void UploadFiles(AssignmentUpload[] files, int[] existingFilesToKeep)
         {
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
@@ -165,7 +166,7 @@ namespace Microsoft.SharePointLearningKit
                         }
                         else
                         {
-                            learnerSubFolder.ResetIsLatestFiles();
+                            learnerSubFolder.ResetIsLatestFiles(existingFilesToKeep);
                         }
 
                         CheckExtensions(spSite, files);
@@ -775,8 +776,6 @@ namespace Microsoft.SharePointLearningKit
         public static void Debug(string message, params object[] arguments)
         {
             /*
-            try
-            {
                 using (System.Web.Hosting.HostingEnvironment.Impersonate())
                 {
                     using (StreamWriter writer = new StreamWriter("c:\\temp\\dropBox.log", true))
@@ -785,12 +784,7 @@ namespace Microsoft.SharePointLearningKit
                         writer.WriteLine(message, arguments);
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                Microsoft.SharePointLearningKit.WebControls.SlkError.WriteToEventLog(e);
-            }
-            */
+                */
         }
 
     }
