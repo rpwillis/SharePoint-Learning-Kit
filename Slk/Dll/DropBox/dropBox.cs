@@ -104,7 +104,7 @@ namespace Microsoft.SharePointLearningKit
                     if ((bool)item[ColumnIsLatest])
                     {
                         SPFile file = item.File;
-                        files.Add(new AssignmentFile(file.Name, file.ServerRelativeUrl, (string)file.Item["PermMask"]));
+                        files.Add(new AssignmentFile(item.ID, file.Name, file.ServerRelativeUrl, (string)file.Item["PermMask"]));
                     }
                 }
             }

@@ -134,7 +134,7 @@ namespace Microsoft.SharePointLearningKit
 
 
         /// <summary>Resets the IsLatest value for all files to false.</summary>
-        public void ResetIsLatestFiles()
+        public void ResetIsLatestFiles(int[] excludes)
         {
             bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
             try
@@ -142,7 +142,17 @@ namespace Microsoft.SharePointLearningKit
                 web.AllowUnsafeUpdates = true;
                 foreach (SPFile file in assignmentFolder.Folder.Files)
                 {
-                    file.Item[DropBox.ColumnIsLatest] = false;
+                    bool isLatestValue = false;
+                    foreach (int id in excludes)
+                    {
+                        if (id == file.Item.ID)
+                        {
+                            isLatestValue = true;
+                            break;
+                        }
+                    }
+
+                    file.Item[DropBox.ColumnIsLatest] = isLatestValue;
                     file.Item.Update();
                 }
             }
@@ -172,7 +182,7 @@ namespace Microsoft.SharePointLearningKit
             file.Item[DropBox.ColumnLearner] = learner.SPUser;
             file.Item[DropBox.ColumnIsLatest] = true; 
             file.Item.Update();
-            return new AssignmentFile(file.Name, file.ServerRelativeUrl, (string)file.Item["PermMask"]);
+            return new AssignmentFile(file.Item.ID, file.Name, file.ServerRelativeUrl, (string)file.Item["PermMask"]);
         }
 
         /// <summary>Removes all permissions on the folder.</summary>

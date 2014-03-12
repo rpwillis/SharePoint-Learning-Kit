@@ -2774,6 +2774,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Include.
+        /// </summary>
+        internal string IncludeTitle {
+            get {
+                return ResourceManager.GetString("IncludeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incorrect location string syntax.
         /// </summary>
         internal string IncorrectLocationStringSyntax {

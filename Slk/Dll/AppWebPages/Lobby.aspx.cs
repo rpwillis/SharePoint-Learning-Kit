@@ -662,7 +662,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             button.NavigateUrl = editDetails.Url;
         }
 
-        private void SetUpSubmitButtons(bool enableSubmitFiles)
+        private void SetUpSubmitButtons(bool enableSubmitFiles, bool enableSubmit)
         {
             //Check if non e-learning and enable the appropriate button accordingly
             if (AssignmentProperties.RootActivityId == null)
@@ -689,7 +689,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 slkButtonSubmitFiles.Visible = false;
             }
 
-            slkButtonSubmit.Enabled = enableSubmitFiles;
+            slkButtonSubmit.Enabled = enableSubmit;
         }
 
         private void SetUpForFinal()
@@ -724,7 +724,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             }
 
-            SetUpSubmitButtons(false);
+            SetUpSubmitButtons(false, false);
             slkButtonSubmit.Visible = false;
             ShowNavigationOptions();
         }
@@ -737,7 +737,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             pageTitle.Text = PageCulture.Resources.LobbyReviewAssignmentText;
             pageTitleInTitlePage.Text = PageCulture.Resources.LobbyReviewAssignmentText;
 
-            SetUpSubmitButtons(false);
+            SetUpSubmitButtons(false, false);
 
             slkButtonSubmit.Visible = false;
 
@@ -753,7 +753,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             pageTitle.Text = PageCulture.Resources.LobbyBeginAssignmentText;
             pageTitleInTitlePage.Text = PageCulture.Resources.LobbyBeginAssignmentText;
 
-            SetUpSubmitButtons(false);
+            SetUpSubmitButtons(true, false);
 
             slkButtonReviewSubmitted.Visible = false;
         }
@@ -777,7 +777,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             pageTitle.Text = PageCulture.Resources.LobbyResumeAssignmentText;
             pageTitleInTitlePage.Text = PageCulture.Resources.LobbyResumeAssignmentText;
 
-            SetUpSubmitButtons(true);
+            SetUpSubmitButtons(true, true);
 
             slkButtonReviewSubmitted.Visible = false;
         }
