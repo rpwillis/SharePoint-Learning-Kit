@@ -5,10 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <!--
         <Versions Include="solution.proj">
             <SPVersion>2007</SPVersion>
             <DotNetVersion>3.5</DotNetVersion>
         </Versions>
+        -->
         <Versions Include="solution.proj">
             <SPVersion>2010</SPVersion>
             <DotNetVersion>3.5</DotNetVersion>
