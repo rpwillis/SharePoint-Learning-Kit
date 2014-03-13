@@ -226,7 +226,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                     HyperLink fileLink = new HyperLink();
                     fileLink.Text = file.Name;
-                    fileLink.NavigateUrl = file.Url;
+
+                    DropBoxEditMode editMode = DropBoxEditMode.Edit;
+                    DropBoxEditDetails editDetails = dropBoxManager.GenerateDropBoxEditDetails(file, SPWeb, editMode, Page.Request.RawUrl);
+                    fileLink.NavigateUrl = editDetails.Url;
+                    if (string.IsNullOrEmpty(editDetails.OnClick) == false)
+                    {
+                        fileLink.Attributes.Add("onclick", editDetails.OnClick + "return false;");
+                    }
+
                     pnlOldFiles.Controls.Add(fileLink);
 
                     pnlOldFiles.Controls.Add(new LiteralControl("</td></tr>"));
