@@ -12,6 +12,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Microsoft.SharePoint;
 using Microsoft.SharePointLearningKit;
+using Microsoft.LearningComponents.Frameset;
 using Resources.Properties;
 using Microsoft.SharePointLearningKit.WebControls;
 using System.Globalization;
@@ -174,9 +175,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     LearnerAssignmentProperties.SaveLearnerComment(LearnerComments.Text);
 
                     //Redirect to the SLk ALWP Page
+                    string redirectUrl = GenerateRedirectUrl();
+
                     HttpContext.Current.Response.Write(
                     "<script>var x = '" + PageCulture.Resources.FilesUploadPageSuccessMsg + "';" + 
-                    "var url = '" + SPWeb.Url+ "';" + 
+                    "var url = '" + redirectUrl + "';" + 
                     "if (x != ''){alert(x);window.location=url;};</script>");
                 }
                 catch (SafeToDisplayException exception)
@@ -210,6 +213,29 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
 
 #region private methods
+        private string GenerateRedirectUrl()
+        {
+            string redirectUrl;
+            bool fromLobbyPage = (Request.QueryString["fl"] == "true");
+
+            if (fromLobbyPage)
+            {
+                string baseUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, "Lobby.aspx");
+                redirectUrl = string.Format("{0}?{1}={2}&{3}={4}", baseUrl, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuid.ToString(), QueryStringKeys.Source, RawSourceUrl);
+            }
+            else
+            {
+                // From ALWP, return there
+                redirectUrl = SourceUrl;
+                if (string.IsNullOrEmpty(redirectUrl))
+                {
+                    redirectUrl = SPWeb.Url;
+                }
+            }
+
+            return redirectUrl;
+        }
+
         private void LoadLastAssignmentAttempt()
         {
             DropBoxManager dropBoxManager = new DropBoxManager(AssignmentProperties);

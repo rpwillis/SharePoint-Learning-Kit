@@ -633,12 +633,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // to change to return integer values representing these. No point making a sql change just for this though.
             if (renderedCell.ToString() == "Submit File(s)")
             {
-                RenderFileSubmissionCellAsSubmitLink(
-                    "{0}" + Constants.SlkUrlPath + "FilesUploadPage.aspx?LearnerAssignmentId={1}",
-                    webNameRenderedCell,
-                    learnerAssignmentGUID,
-                    PageCulture.Format(PageCulture.Resources.AlwpFileSubmissionSubmitText),
-                    hw);
+                string baseUrl = "{0}{1}FilesUploadPage.aspx?LearnerAssignmentId={2}&Source={3}";
+                // Creating a format string from a format string
+                baseUrl = string.Format(CultureInfo.InvariantCulture, baseUrl, "{0}", Constants.SlkUrlPath, "{1}", RawSourceUrl);
+                RenderFileSubmissionCellAsSubmitLink(baseUrl, webNameRenderedCell.SPWebUrl, learnerAssignmentGUID,
+                                                        PageCulture.Format(PageCulture.Resources.AlwpFileSubmissionSubmitText), hw);
             }
             else if (renderedCell.ToString() == "Submitted LINK")
             {
@@ -715,16 +714,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Renders The File Submission column cell as "Submit File(s)" link
         /// </summary>
         /// <param name="fileURL">The URL of the file to be redirected to when the cell link is clicked</param>
-        /// <param name="webNameRenderedCell"></param>
+        /// <param name="webUrl">The web url</param>
         /// <param name="learnerAssignmentGUID">The GUID of the current assignment</param>
         /// <param name="renderedCellValue">The text to be displayed in the cell</param>
         /// <param name="hw">The HtmlTextWriter to write to.</param>
-        void RenderFileSubmissionCellAsSubmitLink(string fileURL, WebNameRenderedCell webNameRenderedCell, Guid learnerAssignmentGUID,
-            string renderedCellValue, HtmlTextWriter hw)
+        void RenderFileSubmissionCellAsSubmitLink(string fileURL, string webUrl, Guid learnerAssignmentGUID, string renderedCellValue, HtmlTextWriter hw)
         {
 
             StringBuilder url = new StringBuilder();
-            url.AppendFormat(fileURL, webNameRenderedCell.SPWebUrl, learnerAssignmentGUID.ToString());
+            url.AppendFormat(fileURL, webUrl, learnerAssignmentGUID.ToString());
 
             hw.AddAttribute(HtmlTextWriterAttribute.Target, "_top");
             hw.AddAttribute(HtmlTextWriterAttribute.Href, url.ToString());

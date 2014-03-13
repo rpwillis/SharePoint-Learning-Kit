@@ -75,7 +75,8 @@
                             </table>
                         </td>
                     </tr>
-                    <tr> <td class="ms-descriptiontext" valign="top">
+                    <tr>
+                        <td class="ms-descriptiontext" valign="top">
                             <table cellspacing="0" cellpadding="1" border="0" width="100%">
                                 <tr>
                                     <td class="ms-sectionheader" height="22" valign="top" style="padding-top: 4px;">

@@ -690,7 +690,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (enableSubmitFiles)
                 {
                     string url = string.Format(CultureInfo.InvariantCulture, 
-                            "{0}{1}FilesUploadPage.aspx?LearnerAssignmentId={2}", SPWeb.Url, Constants.SlkUrlPath, LearnerAssignmentGuidId.ToString());
+                            "{0}{1}FilesUploadPage.aspx?fl=true&LearnerAssignmentId={2}&{3}={4}", 
+                            SPWeb.Url, Constants.SlkUrlPath, LearnerAssignmentGuidId.ToString(), QueryStringKeys.Source, RawSourceUrl);
 
                     slkButtonSubmitFiles.NavigateUrl = url;
                     slkButtonSubmitFiles.Target = "_self";
