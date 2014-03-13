@@ -154,7 +154,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
 
             List<AssignmentUpload> uploadedFiles = FindUploadedFiles();
-            if (uploadedFiles.Count > 0)
+            if (uploadedFiles.Count > 0 || includes.Count > 0)
             {
                 try
                 {
@@ -209,7 +209,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             //Go back to the homepage
-            Response.Redirect(SPWeb.ServerRelativeUrl, true);
+            string url = GenerateRedirectUrl();
+            Response.Redirect(url, true);
         }
 
 #region private methods
