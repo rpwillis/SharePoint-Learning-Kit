@@ -73,6 +73,9 @@ namespace Microsoft.SharePointLearningKit
         /// </summary>
         ScoreAndPossible,
 
+        /// <summary>Renders the first column, unless null or empty, in which case the second column.</summary>
+        IfEmpty,
+
 
         /// <summary>
         /// Render the number of learner assignments submitted and the number of learner assignments

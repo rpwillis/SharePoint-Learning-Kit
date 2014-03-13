@@ -296,6 +296,9 @@ namespace Microsoft.SharePointLearningKit
             case "ScoreAndPossible":
                 m_renderAs = ColumnRenderAs.ScoreAndPossible;
                 break;
+            case "IfEmpty":
+                m_renderAs = ColumnRenderAs.IfEmpty;
+                break;
             case "Submitted":
                 m_renderAs = ColumnRenderAs.Submitted;
                 break;

@@ -179,6 +179,7 @@
 			<xs:enumeration value="LearnerAssignmentStatus" />
 			<xs:enumeration value="Due" />
 			<xs:enumeration value="ScoreAndPossible" />
+			<xs:enumeration value="IfEmpty" />
 			<xs:enumeration value="Submitted" />
 		</xs:restriction>
 	</xs:simpleType>
