@@ -2549,6 +2549,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Learner Comments:.
+        /// </summary>
+        internal string GradingLearnerComments {
+            get {
+                return ResourceManager.GetString("GradingLearnerComments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Learner.
         /// </summary>
         internal string GradingLearnerHeaderText {
@@ -3094,6 +3103,15 @@ namespace Resources.Properties {
         internal string LobbylblStatus {
             get {
                 return ResourceManager.GetString("LobbylblStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Comments.
+        /// </summary>
+        internal string LobbyLearnerComments {
+            get {
+                return ResourceManager.GetString("LobbyLearnerComments", resourceCulture);
             }
         }
         

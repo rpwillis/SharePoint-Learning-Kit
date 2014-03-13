@@ -53,6 +53,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected Label lblDueValue;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblCommentsValue;
+        protected Label lblLearnerCommentsValue;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblTitle;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
@@ -70,9 +71,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected Label lblDue;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblComments;
+        protected Label lblLearnerComments;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblAutoReturn;
         protected ErrorBanner errorBanner;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "tgr")]
+        protected TableGridRow tgrLearnerComments;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "tgr")]
         protected TableGridRow tgrComments;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "tgr")]
@@ -81,6 +85,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected TableGridRow tgrSite;
         System.Web.UI.WebControls.BulletedList navigationList;
         protected Label ConfirmWhatNext;
+        protected TextBox LearnerComments;
 
         protected SlkButton slkButtonBegin;
         protected SlkButton slkButtonSubmit;
@@ -304,6 +309,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 try
                 {
                     LearnerAssignmentProperties.Submit();
+                    LearnerAssignmentProperties.SaveLearnerComment(LearnerComments.Text);
                 }
                 catch (InvalidOperationException)
                 {
@@ -735,6 +741,26 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             SetUpSubmitButtons(false, false);
             slkButtonSubmit.Visible = false;
             ShowNavigationOptions();
+            ShowLearnerComments();
+        }
+
+        private void ShowLearnerCommentsTextField()
+        {
+            tgrLearnerComments.Visible = true;
+            LearnerComments.Visible = true;
+            LearnerComments.Text = LearnerAssignmentProperties.LearnerComments;
+            lblLearnerCommentsValue.Visible = false;
+        }
+                        
+        private void ShowLearnerComments()
+        {
+            if (string.IsNullOrEmpty(LearnerAssignmentProperties.LearnerComments) == false)
+            {
+                tgrLearnerComments.Visible = true;
+                lblLearnerCommentsValue.Visible = true;
+                LearnerComments.Visible = false;
+                lblLearnerCommentsValue.Text = SlkUtilities.GetCrlfHtmlEncodedText(LearnerAssignmentProperties.LearnerComments);
+            }
         }
                         
         private void SetUpForCompleted()
@@ -751,6 +777,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             slkButtonReviewSubmitted.Visible = false;
             ShowNavigationOptions();
+            ShowLearnerComments();
         }
 
         private void SetUpForNotStarted()
@@ -788,6 +815,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             SetUpSubmitButtons(true, true);
 
             slkButtonReviewSubmitted.Visible = false;
+            ShowLearnerCommentsTextField();
         }
 
         private void LoadAssignmentObjects()
@@ -807,6 +835,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             lblStart.Text = PageCulture.Resources.LobbylblStart;
             lblDue.Text = PageCulture.Resources.LobbylblDue;
             lblComments.Text = PageCulture.Resources.LobbylblComments;
+            lblLearnerComments.Text = PageCulture.Resources.LobbyLearnerComments;
             lblAutoReturn.Text = PageCulture.Resources.LobbylblAutoReturn;
             infoImage.AlternateText = PageCulture.Resources.SlkErrorTypeInfoToolTip;
             ClientScript.RegisterClientScriptBlock(this.GetType(), "SlkWindowAlreadyOpen",

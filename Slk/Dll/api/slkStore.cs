@@ -997,6 +997,7 @@ namespace Microsoft.SharePointLearningKit
                         properties[Schema.LearnerAssignmentItem.NonELearningStatus] = null;
                         properties[Schema.LearnerAssignmentItem.FinalPoints] = null;
                         properties[Schema.LearnerAssignmentItem.InstructorComments] = String.Empty;
+                        properties[Schema.LearnerAssignmentItem.LearnerComments] = null;
                         job.AddItem(Schema.LearnerAssignmentItem.ItemTypeName, properties);
                     }
 
@@ -1153,6 +1154,7 @@ namespace Microsoft.SharePointLearningKit
                         learnerProperties[Schema.LearnerAssignmentItem.NonELearningStatus] = null;
                         learnerProperties[Schema.LearnerAssignmentItem.FinalPoints] = null;
                         learnerProperties[Schema.LearnerAssignmentItem.InstructorComments] = string.Empty;
+                        learnerProperties[Schema.LearnerAssignmentItem.LearnerComments] = string.Empty;
                         job.AddItem(Schema.LearnerAssignmentItem.ItemTypeName, learnerProperties);
                     }
 
@@ -1699,6 +1701,19 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>See <see cref="ISlkStore.SaveLearnerComment"/>.</summary>
+        public void SaveLearnerComment(LearnerAssignmentItemIdentifier learnerAssignmentId, string comment)
+        {
+            using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
+            {
+                Dictionary<string, object> properties = new Dictionary<string, object>();
+                properties[Schema.LearnerAssignmentItem.LearnerComments] = comment;
+                LearningStoreJob job = LearningStore.CreateJob();
+                job.UpdateItem(learnerAssignmentId, properties);
+                job.Execute();
+            }
+        }
+
         /// <summary>See <see cref="ISlkStore.SaveLearnerAssignment"/>.</summary>
         public void SaveLearnerAssignment(LearnerAssignmentItemIdentifier learnerAssignmentId, bool ignoreFinalPoints, float? finalPoints, string instructorComments, 
                             string grade, bool? isFinal, AttemptStatus? nonELearningStatus, ICurrentJob currentJob)
@@ -1968,6 +1983,7 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.FinalPoints);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.Grade);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.InstructorComments);
+            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerComments);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.RootActivityId);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptId);
             query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
@@ -2018,6 +2034,7 @@ namespace Microsoft.SharePointLearningKit
                 lap.FinalPoints = Cast<float?>(dataRow[LearnerAssignmentListForInstructors.FinalPoints]);
                 lap.Grade = Cast<string>(dataRow[LearnerAssignmentListForInstructors.Grade]);
                 lap.InstructorComments = CastNonNull<string>(dataRow[LearnerAssignmentListForInstructors.InstructorComments]);
+                lap.LearnerComments = Cast<string>(dataRow[LearnerAssignmentListForInstructors.LearnerComments]);
                 lap.AttemptId = CastIdentifier<AttemptItemIdentifier>( dataRow[LearnerAssignmentListForInstructors.AttemptId]);
             }
 
@@ -2297,6 +2314,7 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.LearnerAssignmentList.FinalPoints);
             query.AddColumn(Schema.LearnerAssignmentList.Grade);
             query.AddColumn(Schema.LearnerAssignmentList.InstructorComments);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerComments);
             query.AddColumn(Schema.LearnerAssignmentList.HasInstructors);
         }
 
@@ -2550,6 +2568,7 @@ namespace Microsoft.SharePointLearningKit
             learnerProperties.FinalPoints = Cast<float?>(dataRow[LearnerAssignmentList.FinalPoints]);
             learnerProperties.Grade = Cast<string>(dataRow[LearnerAssignmentList.Grade]);
             learnerProperties.InstructorComments = CastNonNull<string>(dataRow[LearnerAssignmentList.InstructorComments]);
+            learnerProperties.LearnerComments = Cast<string>(dataRow[LearnerAssignmentList.LearnerComments]);
             return learnerProperties;
         }
 
