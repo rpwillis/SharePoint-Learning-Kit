@@ -129,6 +129,9 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Indicates whether to use grades as well as points.</summary>
         public bool UseGrades { get; private set; }
 
+        /// <summary>Indicates whether to hide points for non-scorm packages. Only takes affect if UseGrades = true.</summary>
+        public bool HidePointsForNonELearning { get; private set; }
+
         /// <summary>The url to use to link to a learner report.</summary>
         public string LearnerReportUrl { get; private set; }
 
@@ -486,6 +489,7 @@ namespace Microsoft.SharePointLearningKit
             UseMasterPageForApplicationPages = ParseAttributeAsBoolean(xmlReader, "UseMasterPageForApplicationPages");
             AutoVersionLibrariesIfUnversioned = ParseAttributeAsBoolean(xmlReader, "AutoVersionLibrariesIfUnversioned");
             UseGrades = ParseAttributeAsBoolean(xmlReader, "UseGrades");
+            HidePointsForNonELearning = ParseAttributeAsBoolean(xmlReader, "HidePointsForNonELearning");
             SelectAllInstructors = ParseAttributeAsBoolean(xmlReader, "SelectAllInstructors");
             SelectAllLearners = ParseAttributeAsBoolean(xmlReader, "SelectAllLearners");
             LearnerReportUrl = ParseAttributeAsString(xmlReader, "LearnerReportUrl");

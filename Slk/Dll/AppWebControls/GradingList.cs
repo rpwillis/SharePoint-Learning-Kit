@@ -67,6 +67,9 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>Whether to use grades or not.</summary>
         bool UseGrades { get; set; }
 
+        /// <summary>Whether to hide points or not.</summary>
+        bool HidePoints { get; set; }
+
         /// <summary>Whether there is a learner report url to add.</summary>
         bool HasLearnerReport { get; set; }
 
@@ -233,12 +236,18 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                     {
                                         RenderColumnHeader(culture.Resources.GradingGradedScoreHeaderText, writer);
                                     }
-                                    // render the Final Score column headers
-                                    RenderColumnHeader(culture.Resources.GradingFinalScoreHeaderText, writer);
+
+                                    if (HidePoints == false)
+                                    {
+                                        // render the Final Score column headers
+                                        RenderColumnHeader(culture.Resources.GradingFinalScoreHeaderText, writer);
+                                    }
+
                                     if (UseGrades)
                                     {
                                         RenderColumnHeader(culture.Resources.GradingGradeHeaderText, writer);
                                     }
+
                                     // render the Comments column headers
                                     RenderColumnHeader(culture.Resources.GradingCommentsHeaderText, writer);
                                     // render the Action column headers
@@ -263,6 +272,8 @@ namespace Microsoft.SharePointLearningKit.WebControls
         {
             Clear();
             UseGrades = settings.UseGrades;
+            HidePoints = AssignmentProperties.HidePoints;
+
             LearnerReportUrl = settings.LearnerReportUrl;
             HasLearnerReport = string.IsNullOrEmpty(LearnerReportUrl) == false;
 
@@ -730,13 +741,16 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     }
                 }
 
-                //Render Final Score   
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "width: 50px; padding-left: 5px; padding-top:3px");
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
-                using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
+                if (HidePoints == false)
                 {
-                    RenderFinalScore(item, htmlTextWriter);
+                    //Render Final Score   
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "width: 50px; padding-left: 5px; padding-top:3px");
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
+                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
+                    {
+                        RenderFinalScore(item, htmlTextWriter);
+                    }
                 }
 
                 if (UseGrades)

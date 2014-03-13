@@ -43,7 +43,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblScoreValue;
         protected Label labelGradeValue;
-        protected TableGridRow rowGrade;
+        protected TableGridRow RowGrade;
+        protected TableGridRow RowScore;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
         protected Label lblStatusValue;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "lbl")]
@@ -545,37 +546,44 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>Set the score and grade display values.</summary>
         private void SetUpScoreAndGradeDisplayValues(LearnerAssignmentState learnerAssignmentStatus)
         {
-            if (LearnerAssignmentProperties.SuccessStatus == SuccessStatus.Passed
-                    && LearnerAssignmentProperties.FinalPoints.HasValue
-                    && LearnerAssignmentProperties.FinalPoints.Value == 0.0
-               )
+            if (AssignmentProperties.HidePoints)
             {
-                lblScoreValue.Text = string.Empty;
+                RowScore.Visible = false;
             }
             else
             {
-
-                if (learnerAssignmentStatus != LearnerAssignmentState.Final)
+                if (LearnerAssignmentProperties.SuccessStatus == SuccessStatus.Passed
+                        && LearnerAssignmentProperties.FinalPoints.HasValue
+                        && LearnerAssignmentProperties.FinalPoints.Value == 0.0
+                   )
                 {
-                    if (AssignmentProperties.PointsPossible.HasValue)
-                    {
-                        lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsNoValuePointsPossible, AssignmentProperties.PointsPossible);
-                    }
-                    else
-                    {
-                        lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsNoValue, LearnerAssignmentProperties.FinalPoints);
-                    }
+                    lblScoreValue.Text = string.Empty;
                 }
                 else
                 {
-                    string finalPoints = PageCulture.Resources.LobbyPointsNoValue;
-                    if (LearnerAssignmentProperties.FinalPoints.HasValue)
-                        finalPoints = LearnerAssignmentProperties.FinalPoints.Value.ToString(CultureInfo.CurrentCulture);
 
-                    if (AssignmentProperties.PointsPossible.HasValue)
-                        lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsValuePointsPossible, finalPoints, AssignmentProperties.PointsPossible);
+                    if (learnerAssignmentStatus != LearnerAssignmentState.Final)
+                    {
+                        if (AssignmentProperties.PointsPossible.HasValue)
+                        {
+                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsNoValuePointsPossible, AssignmentProperties.PointsPossible);
+                        }
+                        else
+                        {
+                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsNoValue, LearnerAssignmentProperties.FinalPoints);
+                        }
+                    }
                     else
-                        lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsValue, finalPoints);
+                    {
+                        string finalPoints = PageCulture.Resources.LobbyPointsNoValue;
+                        if (LearnerAssignmentProperties.FinalPoints.HasValue)
+                            finalPoints = LearnerAssignmentProperties.FinalPoints.Value.ToString(CultureInfo.CurrentCulture);
+
+                        if (AssignmentProperties.PointsPossible.HasValue)
+                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsValuePointsPossible, finalPoints, AssignmentProperties.PointsPossible);
+                        else
+                            lblScoreValue.Text = PageCulture.Format(PageCulture.Resources.LobbyPointsValue, finalPoints);
+                    }
                 }
             }
 
@@ -585,7 +593,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
             else
             {
-                rowGrade.Visible = false;
+                RowGrade.Visible = false;
             }
 
         }

@@ -10,6 +10,7 @@
     UseMasterPageForApplicationPages="false"
     AutoVersionLibrariesIfUnversioned="false"
     UseGrades="false"
+    HidePointsForNonELearning="false"
     SelectAllInstructors="false"
     UserWebListMruSize="6">
 
