@@ -45,6 +45,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected Label documentUploadDescription;
         /// <summary>The name label.</summary>
         protected Label name;
+        /// <summary>The learner comments text.</summary>
+        protected Label LabelLearnerComments;
+        /// <summary>The learner comments.</summary>
+        protected TextBox LearnerComments;
 
         #endregion
 
@@ -126,6 +130,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 documentUpload.Text = PageCulture.Resources.FilesUploadDocumentUpload;
                 documentUploadDescription.Text = PageCulture.Resources.FilesUploadDocumentUploadDescription;
                 name.Text = PageCulture.Resources.FilesUploadName;
+                LabelLearnerComments.Text = PageCulture.Resources.LobbyLearnerComments;
 
                 contentPanel = new Panel();
                 contentPanel.Visible = false;
@@ -138,6 +143,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
 
                 lblMessage.Text = PageCulture.Resources.FilesUploadAssInaccessible;
+
+                LearnerComments.Text = LearnerAssignmentProperties.LearnerComments;
             }
         }
 
@@ -164,6 +171,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
 
                     LearnerAssignmentProperties.UploadFilesAndSubmit(uploadedFiles.ToArray(), filesToKeep.ToArray());
+                    LearnerAssignmentProperties.SaveLearnerComment(LearnerComments.Text);
 
                     //Redirect to the SLk ALWP Page
                     HttpContext.Current.Response.Write(
