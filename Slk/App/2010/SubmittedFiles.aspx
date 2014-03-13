@@ -36,7 +36,7 @@
                     </tr>
                     <tr>
                         <td valign="top" height="100%">
-                            <table cellpadding="0" cellspacing="0" class="ms-propertysheet" style="font-size : medium">
+                            <table cellpadding="0" cellspacing="0" class="" style="font-size : medium">
                                 <tr>
                                     <td>
                                         <slk:ErrorBanner ID="errorBanner" Visible="false" EnableViewState="false" runat="server" />
@@ -46,11 +46,8 @@
                                                 <slk:TableGridRow>
                                                     <slk:TableGridColumn BorderStyle="None" ColumnType="FormBody">
                                                         <asp:Label ID="headerMessage" runat="server"></asp:Label><br /><br />
-                                                        <asp:HyperLink ID="file1" runat="server" Style="display: none"></asp:HyperLink><br />
-                                                        <asp:HyperLink ID="file2" runat="server" Style="display: none"></asp:HyperLink><br />
-                                                        <asp:HyperLink ID="file3" runat="server" Style="display: none"></asp:HyperLink><br />
-                                                        <asp:HyperLink ID="file4" runat="server" Style="display: none"></asp:HyperLink><br />
-                                                        <asp:HyperLink ID="file5" runat="server" Style="display: none"></asp:HyperLink><br /><br /><br />
+                                                        <asp:Panel ID="FilePanel" runat="server">
+                                                        </asp:Panel>
                                                         <asp:HyperLink ID="instructorLink" runat="server" Style="display: none"></asp:HyperLink>
                                                     </slk:TableGridColumn>
                                                 </slk:TableGridRow>

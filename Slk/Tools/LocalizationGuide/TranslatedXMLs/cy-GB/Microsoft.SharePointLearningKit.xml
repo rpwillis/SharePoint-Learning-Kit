@@ -1440,6 +1440,12 @@ More information may be available in the server event log.</Source>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
+        <ID>Back</ID>
+        <Source>Back</Source>
+        <Translation>Nôl</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
         <ID>DomainGroupInvalid</ID>
         <Source>Cannot determine group in AD</Source>
         <Translation>Ni ellir pennu grŵp mewn AD</Translation>
@@ -3421,6 +3427,12 @@ More information has been written to the server event log.</Source>
         <ID>CtrlLabelStartText</ID>
         <Source>Start</Source>
         <Translation>Dechrau</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IncludeTitle</ID>
+        <Source>Include</Source>
+        <Translation>Cynnwys</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
