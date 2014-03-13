@@ -38,6 +38,15 @@ namespace Microsoft.SharePointLearningKit
             get { return !HasInstructors ;}
         }
 
+        /// <summary>Indicates whether to hide points or not.</summary>
+        public bool HidePoints
+        {
+            get
+            {
+                return (IsNonELearning && Store.Settings.UseGrades && Store.Settings.HidePointsForNonELearning);
+            }
+        }
+
         /// <summary>Indicates if the assignment has any instructors.</summary>
         public bool HasInstructors
         {

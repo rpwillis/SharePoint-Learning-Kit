@@ -118,6 +118,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected System.Web.UI.WebControls.Label LabelUploadDocumentLibrary { get; set; }
         /// <summary>The document library control.</summary>
         protected System.Web.UI.WebControls.DropDownList UploadDocumentLibraries { get; set; }
+        protected TableGridRow RowPoints { get; set; }
+        protected TableGridRow RowConfirmationPoints { get; set; }
 
         //TextBox Controls
         protected System.Web.UI.WebControls.TextBox txtTitle;
@@ -543,6 +545,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                 }
             }
+
         }
 
         void SetUpForNewNoPackageAssignment()
@@ -1100,6 +1103,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 chkAutoReturnLearners.Enabled = false;
                 lblAutoReturnLearners.Enabled = false;
+
+                if (AssignmentProperties.HidePoints)
+                {
+                    RowPoints.Visible = false;
+                    RowConfirmationPoints.Visible = false;
+                }
             }
 
 

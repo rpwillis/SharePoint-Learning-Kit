@@ -124,7 +124,7 @@ function SlkOpenFramesetWindow(navigateUrl)
 		<asp:HyperLink ID="lnkSite" runat="server" /><asp:Label ID="lblSiteValue" Visible="false" runat="server" />
 	</slk:TableGridColumn>
 </slk:TableGridRow>
-<slk:TableGridRow>
+<slk:TableGridRow ID="RowScore" runat="server">
 	<slk:TableGridColumn ColumnType="FormLabel">
 		<asp:Label ID="lblScore" runat="server" EnableViewState="false" />
 	</slk:TableGridColumn>
@@ -132,7 +132,7 @@ function SlkOpenFramesetWindow(navigateUrl)
 		<asp:Label ID="lblScoreValue" runat="server" />
 	</slk:TableGridColumn>
 </slk:TableGridRow>
-<slk:TableGridRow ID="rowGrade" runat="server">
+<slk:TableGridRow ID="RowGrade" runat="server">
 	<slk:TableGridColumn ColumnType="FormLabel">
 		<asp:Label ID="labelGrade" runat="server" EnableViewState="false" />
 	</slk:TableGridColumn>
