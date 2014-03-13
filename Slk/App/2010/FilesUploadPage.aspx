@@ -75,8 +75,7 @@
                             </table>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="ms-descriptiontext" valign="top">
+                    <tr> <td class="ms-descriptiontext" valign="top">
                             <table cellspacing="0" cellpadding="1" border="0" width="100%">
                                 <tr>
                                     <td class="ms-sectionheader" height="22" valign="top" style="padding-top: 4px;">
@@ -122,6 +121,14 @@
                                     <td></td>
                                 </tr>
                             </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ms-descriptiontext">
+                            <h3 class="ms-standardheader"><asp:Label ID="LabelLearnerComments" runat="server" EnableViewState="false" /></h3>
+                        </td>
+                        <td>
+                              <asp:TextBox ID="LearnerComments" runat="server" CssClass="ms-long" TextMode="MultiLine" style="overflow:visible; height:40px; width:98%" ></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
