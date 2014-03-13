@@ -492,6 +492,9 @@
   <data name="LobbylblAutoReturn" xml:space="preserve">
     <value>The assignment will be returned to the learner automatically.</value>
   </data>
+  <data name="LobbyLearnerComments" xml:space="preserve">
+    <value>My Comments</value>
+  </data>
   <data name="LobbylblComments" xml:space="preserve">
     <value>Comments</value>
   </data>
@@ -1528,6 +1531,9 @@ More information may be available in the server event log.</value>
   </data>
   <data name="GradingUploadAccessKey" xml:space="preserve">
     <value>U</value>
+  </data>
+  <data name="GradingLearnerComments" xml:space="preserve">
+    <value>Learner Comments:</value>
   </data>
   <data name="GradingUploadText" xml:space="preserve">
     <value>Upload Commented Files</value>

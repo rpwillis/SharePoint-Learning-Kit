@@ -162,6 +162,9 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
         public string Grade { get; set; }
 
+        /// <summary>Comments from the Learner.</summary>
+        public string LearnerComments { get; set; }
+
         /// <summary>
         /// InstructorComments
         /// </summary>

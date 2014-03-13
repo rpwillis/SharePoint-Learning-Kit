@@ -164,6 +164,15 @@ function SlkOpenFramesetWindow(navigateUrl)
 		<asp:Label ID="lblDueValue" runat="server" />
 	</slk:TableGridColumn>
 </slk:TableGridRow>
+<slk:TableGridRow ID="tgrLearnerComments" Visible="false" runat="server">
+	<slk:TableGridColumn ColumnType="FormLabel">
+		<asp:Label ID="lblLearnerComments" runat="server" EnableViewState="false" />
+	</slk:TableGridColumn>
+	<slk:TableGridColumn ColumnType="FormBody">
+              <asp:TextBox ID="LearnerComments" runat="server" CssClass="ms-long" TextMode="MultiLine" style="overflow:visible; height:40px; width:98%" Visible="false"></asp:TextBox>                                                      
+		<asp:Label ID="lblLearnerCommentsValue" runat="server" EnableViewState="false" Visible="false"/>
+	</slk:TableGridColumn>
+</slk:TableGridRow>
 <slk:TableGridRow ID="tgrComments" runat="server">
 	<slk:TableGridColumn ColumnType="FormLabel">
 		<asp:Label ID="lblComments" runat="server" EnableViewState="false" />

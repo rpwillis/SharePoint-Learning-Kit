@@ -162,6 +162,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             item.FinalScore = gradingProperties.FinalPoints;
             item.Grade = gradingProperties.Grade;
             item.InstructorComments = gradingProperties.InstructorComments;
+            item.LearnerComments = gradingProperties.LearnerComments;
             item.LearnerName = gradingProperties.LearnerName;
             item.Status = gradingProperties.Status.GetValueOrDefault();
             item.SuccessStatus = gradingProperties.SuccessStatus;
@@ -808,6 +809,18 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
                     RenderActionCheckBox(item, htmlTextWriter);
                 }
+            }
+
+            // Render learner comments if any
+            if (string.IsNullOrEmpty(item.LearnerComments) == false)
+            {
+                htmlTextWriter.Write("<tr class=\"ms-vb\"><td>&nbsp;</td><td>");
+                htmlTextWriter.Write(HttpUtility.HtmlEncode(culture.Resources.GradingLearnerComments));
+                htmlTextWriter.Write("</td><td colspan=\"5\">");
+                string encodedString = HttpUtility.HtmlEncode(item.LearnerComments);
+                encodedString = System.Text.RegularExpressions.Regex.Replace(encodedString, @"\r\n?|\n", "<br />");
+                htmlTextWriter.Write(encodedString);
+                htmlTextWriter.Write("</td></tr>");
             }
         }
         #endregion

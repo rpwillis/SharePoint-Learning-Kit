@@ -239,6 +239,11 @@ namespace Microsoft.SharePointLearningKit
         void SaveLearnerAssignment(LearnerAssignmentItemIdentifier learnerAssignmentId, bool ignoreFinalPoints, float? finalPoints, string instructorComments, 
                             string grade, bool? isFinal, AttemptStatus? nonELearningStatus, ICurrentJob currentJob);
 
+        /// <summary>Saves the learner comment.</summary>
+        /// <param name="learnerAssignmentId">The id of the LearnerAssignment.</param>
+        /// <param name="comment">The comment to save.</param>
+        void SaveLearnerComment(LearnerAssignmentItemIdentifier learnerAssignmentId, string comment);
+
         /// <summary>Loads all possible assignment reminders.</summary>
         /// <param name="minDueDate">The minimum due date to return.</param>
         /// <param name="maxDueDate">The maximum due date to return.</param>
