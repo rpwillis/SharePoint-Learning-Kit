@@ -29,9 +29,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #region Control Declarations
 
         /// <summary>The title of the page.</summary>
-        protected Literal pageTitle;
+        protected Literal PageTitle;
         /// <summary>The page's description.</summary>
-        protected Literal pageDescription;
+        protected Literal PageDescription;
         /// <summary>The page's <see cref="ErrorBanner"/>..</summary>
         protected ErrorBanner errorBanner;
         /// <summary>The page's content area.</summary>
@@ -226,8 +226,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void SetResourceText()
         {
-            this.pageTitle.Text = PageCulture.Resources.SubmittedFilesPageTitle;
-            this.pageDescription.Text = PageCulture.Resources.SubmittedFilesPageDescription;
+            this.PageTitle.Text = PageCulture.Resources.SubmittedFilesPageTitle;
+            this.PageDescription.Text = PageCulture.Resources.SubmittedFilesPageDescription;
             this.headerMessage.Text = string.Format(PageCulture.Resources.SubmittedFilesHeader, AssignmentProperties.Title, LearnerAssignmentProperties.LearnerName);
             this.instructorLink.Text = string.Format(PageCulture.Resources.SubmittedFilesInstructorMessage, LearnerAssignmentProperties.LearnerName);
         }
