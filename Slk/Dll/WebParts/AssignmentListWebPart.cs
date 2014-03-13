@@ -545,7 +545,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 queryResultsUrl = string.Format(CultureInfo.InvariantCulture, "{0}&{1}=true", queryResultsUrl, QueryStringKeys.ForObserver);
             }
 
-            queryResultsUrl = string.Format("{0}&{1}={2}", queryResultsUrl, QueryStringKeys.Source, sourceParameter);
+            if (queryResultsUrl.Contains(Constants.BlankGifUrl) == false)
+            {
+                queryResultsUrl = string.Format("{0}&{1}={2}", queryResultsUrl, QueryStringKeys.Source, sourceParameter);
+            }
 
             WriteQueryResults(htmlTextWriter, queryResultsUrl);
 
