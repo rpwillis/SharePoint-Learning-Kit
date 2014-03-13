@@ -1435,6 +1435,9 @@ More information may be available in the server event log.</value>
   <data name="QueryColumnTitleStatus" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="QueryColumnTitleGrade" xml:space="preserve">
+    <value>Grade</value>
+  </data>
   <data name="QueryColumnTitleScore" xml:space="preserve">
     <value>Score</value>
   </data>
@@ -1452,6 +1455,9 @@ More information may be available in the server event log.</value>
   </data>
   <data name="QueryColumnNullDisplayDash" xml:space="preserve">
     <value>--</value>
+  </data>
+  <data name="QueryColumnToolTipIfEmpty" xml:space="preserve">
+      <value>{0} ({1})</value>
   </data>
   <data name="QueryColumnToolTipScore" xml:space="preserve">
       <value>Score: {0}</value>

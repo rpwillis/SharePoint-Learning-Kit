@@ -3487,6 +3487,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Grade.
+        /// </summary>
+        internal static string QueryColumnTitleGrade {
+            get {
+                return ResourceManager.GetString("QueryColumnTitleGrade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Score.
         /// </summary>
         internal static string QueryColumnTitleScore {
@@ -3537,6 +3546,15 @@ namespace Resources.Properties {
         internal static string QueryColumnToolTipDue {
             get {
                 return ResourceManager.GetString("QueryColumnToolTipDue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} ({1}).
+        /// </summary>
+        internal static string QueryColumnToolTipIfEmpty {
+            get {
+                return ResourceManager.GetString("QueryColumnToolTipIfEmpty", resourceCulture);
             }
         }
         
