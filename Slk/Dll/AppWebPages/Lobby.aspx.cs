@@ -614,9 +614,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 string openFrameset = String.Format(CultureInfo.InvariantCulture, "javascript:SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}');",
                                                     FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId);
-                if (AssignmentProperties.IsNonELearning)
-                {
 
+                if (AssignmentProperties.IsNonELearning && LearnerAssignmentProperties.Status.Value != LearnerAssignmentState.Final)
+                {
                     if (assignmentFile == null)
                     {
                         slkButtonBegin.NavigateUrl = string.Format(CultureInfo.InvariantCulture, "{0}window.location='{1}&{2}=true';", openFrameset, CurrentUrl, startQueryStringName);

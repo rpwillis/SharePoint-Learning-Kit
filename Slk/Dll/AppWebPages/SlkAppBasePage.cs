@@ -112,7 +112,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
         {
             if (string.IsNullOrEmpty(rawSourceUrl))
             {
-                rawSourceUrl = QueryString.ParseString("Source");
+                rawSourceUrl = QueryString.ParseStringOptional("Source");
             }
 
             return rawSourceUrl;

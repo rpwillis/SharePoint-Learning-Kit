@@ -100,6 +100,7 @@
         <asp:Label ID="lblSelfAssignHeader" runat="server" EnableViewState="false" />
     </slk:TableGridColumn>
     <slk:TableGridColumn ColumnType="FormBody">
+        <asp:HiddenField ID="SourceHidden" runat="server"/>
         <asp:LinkButton ID="lnkAssignSelf" OnClick="lnkAssignSelf_Click" CausesValidation="false" runat="server" EnableViewState="false"
         />&nbsp;<asp:Label ID="lblAssignSelf" runat="server" EnableViewState="false" />
     </slk:TableGridColumn>

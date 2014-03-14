@@ -147,7 +147,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             // in turn contains the entire query results table
                             hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
                             hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
                             hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
                             using (new HtmlBlock(HtmlTextWriterTag.Table, 0, hw))
                             {
@@ -414,7 +414,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // skipped: id=TABLE1 dir=None
             hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
             hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "1");
-            hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+            hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
             hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
             using (new HtmlBlock(HtmlTextWriterTag.Table, 1, hw))
             {
@@ -562,8 +562,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     // render the "<table>" element containing the column header
                     hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-unselectedtitle");
-                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%;");
-                    hw.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
+                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%;height: 100%;");
                     hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
                     using (new HtmlBlock(HtmlTextWriterTag.Table, 0, hw))
                     {
@@ -571,7 +570,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
                             hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
                             hw.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
                             using (new HtmlBlock(HtmlTextWriterTag.Td, 0, hw))
                             {
                                 // write the "<a>" element which, when clicked, causes the query list
