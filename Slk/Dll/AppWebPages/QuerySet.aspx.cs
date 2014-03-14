@@ -178,11 +178,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                     hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
                     hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
-                    hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
-                    hw.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
                     hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
                     hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-toolbar");
-                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "border: none; background-image: none; ");
+                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "border: none; background-image: none; width:100%; height:100%;");
                     hw.AddAttribute(HtmlTextWriterAttribute.Onclick, string.Empty);
                     using (new HtmlBlock(HtmlTextWriterTag.Table, 1, hw))
                     {
@@ -212,7 +210,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 3px;");
                             HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
                             hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
                             HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
                             hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
                             hw.AddAttribute(HtmlTextWriterAttribute.Style, "border-right: solid 1px #E0E0E0; ");
@@ -231,7 +229,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         }
 
                         // write a row that consumes the remaining space 
-                        hw.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
+                        hw.AddAttribute(HtmlTextWriterAttribute.Style, "height:100%;");
                         using (new HtmlBlock(HtmlTextWriterTag.Tr, 1, hw))
                         {
                             hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
@@ -242,7 +240,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 3px;");
                             HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
                             hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
                             HtmlBlock.WriteFullTag(HtmlTextWriterTag.Td, 1, hw);
                             hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
                             hw.AddAttribute(HtmlTextWriterAttribute.Style,
@@ -293,11 +291,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                 // begin the query set
                                 hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
                                 hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
-                                hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
-                                hw.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
                                 hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
                                 hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-toolbar");
-                                hw.AddAttribute(HtmlTextWriterAttribute.Style, "border: none; background-image: none; ");
+                                hw.AddAttribute(HtmlTextWriterAttribute.Style, "border: none; background-image: none; width:100%; height:100%;");
                                 hw.AddAttribute(HtmlTextWriterAttribute.Onclick, string.Empty);
                                 using (new HtmlBlock(HtmlTextWriterTag.Table, 1, hw))
                                 {
@@ -375,7 +371,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 // write the query label cell
                 hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
                 hw.AddAttribute(HtmlTextWriterAttribute.Id,
                                 String.Format(CultureInfo.InvariantCulture,                                                                                      "QueryLabelBorderTop{0}",
                                               queryIndex));
@@ -414,7 +410,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 // write query label cell
                 hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
                 hw.AddAttribute(HtmlTextWriterAttribute.Id,
                                 String.Format(CultureInfo.InvariantCulture, 
                                               "QueryLabelTD{0}",
@@ -478,7 +474,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 // write the query label cell
                 hw.AddAttribute(HtmlTextWriterAttribute.Align, "left");
-                hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
                 hw.AddAttribute(HtmlTextWriterAttribute.Id,
                                 String.Format(CultureInfo.InvariantCulture,
                                               "QueryLabelBorderBottom{0}",
