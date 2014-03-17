@@ -565,6 +565,11 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             htmlTextWriter.Write("</table>");
 
+            htmlTextWriter.Write(@"<!-- 
+            CultureInfo.InvariantCulture {0}
+            CultureInfo.CurrentUICulture {1}
+            CultureInfo.CurrentCulture {2}
+                    -->", CultureInfo.InvariantCulture, CultureInfo.CurrentUICulture, CultureInfo.CurrentCulture);
             // write a comment to help locate this Web Part when viewing HTML source
             htmlTextWriter.Write("<!-- End ALWP -->");
             htmlTextWriter.WriteLine();
@@ -599,7 +604,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         void WriteSummary(HtmlTextWriter htmlTextWriter, string urlQueryString)
         {
 
-            htmlTextWriter.Write("<td height=\"100%\" style=\"width :");
+            htmlTextWriter.Write("<td height=\"100%\" style=\"height:100%; width :");
             htmlTextWriter.Write(SummaryWidth.ToString(CultureInfo.InvariantCulture));
             htmlTextWriter.Write("\">");
 
