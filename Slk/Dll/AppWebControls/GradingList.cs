@@ -250,7 +250,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                     }
 
                                     // render the Comments column headers
-                                    RenderColumnHeader(culture.Resources.GradingCommentsHeaderText, writer);
+                                    RenderColumnHeader(culture.Resources.GradingCommentsHeaderText, writer, "slk-comments");
                                     // render the Action column headers
                                     RenderColumnHeader(culture.Resources.GradingActionHeaderText, writer);
                                 }
@@ -300,8 +300,13 @@ namespace Microsoft.SharePointLearningKit.WebControls
         ///
         private static void RenderColumnHeader(string columnName, HtmlTextWriter htmlTextWriter)
         {
+            RenderColumnHeader(columnName, htmlTextWriter, null);
+        }
+
+        private static void RenderColumnHeader(string columnName, HtmlTextWriter htmlTextWriter, string extraClass)
+        {
             // render the "<th>" element for this column header
-            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vh");
+            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vh " + extraClass);
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "border-left: none; padding-left: 3px;");
             using (new HtmlBlock(HtmlTextWriterTag.Th, 1, htmlTextWriter))
@@ -774,13 +779,13 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 }
 
                 //Render Comments  
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
+                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb slk-comments");
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "width: 200px; padding-left: 5px; padding-top:3px");
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
                 {
                     TextBox txtInstructorComments = new TextBox();
-                    txtInstructorComments.CssClass = "ms-long";
+                    txtInstructorComments.CssClass = "ms-long slk-comments";
                     txtInstructorComments.ID = CommentsId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                     txtInstructorComments.TextMode = TextBoxMode.MultiLine;
                     /* box model width doesn't include border or padding so setting textarea width to 100% makes it bigger than the cell it is in
@@ -794,7 +799,9 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     string style = "width: 100%; height:40px; overflow:visible;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;";
                     txtInstructorComments.Style.Value = style;
                     txtInstructorComments.Text = item.InstructorComments;
-                    txtInstructorComments.Attributes.Add("onfocus", focusScript);
+
+                    txtInstructorComments.Attributes.Add("onfocus", "expandComments(this);" + focusScript);
+                    txtInstructorComments.Attributes.Add("onblur", "javascript:contractComments(this)");
                     txtInstructorComments.RenderControl(htmlTextWriter);
 
                 }
@@ -814,9 +821,9 @@ namespace Microsoft.SharePointLearningKit.WebControls
             // Render learner comments if any
             if (string.IsNullOrEmpty(item.LearnerComments) == false)
             {
-                htmlTextWriter.Write("<tr class=\"ms-vb\"><td>&nbsp;</td><td>");
+                htmlTextWriter.Write("<tr class=\"ms-vb slk-learnerComments\"><td>&nbsp;</td><td>");
                 htmlTextWriter.Write(HttpUtility.HtmlEncode(culture.Resources.GradingLearnerComments));
-                htmlTextWriter.Write("</td><td colspan=\"5\">");
+                htmlTextWriter.Write("</td><td class=\"slk-learnerComments\" colspan=\"5\">");
                 string encodedString = HttpUtility.HtmlEncode(item.LearnerComments);
                 encodedString = System.Text.RegularExpressions.Regex.Replace(encodedString, @"\r\n?|\n", "<br />");
                 htmlTextWriter.Write(encodedString);
@@ -1239,6 +1246,23 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 {
                    var m = s.match(/^\s*(\S+(\s+\S+)*)\s*$/);
                    return (m == null) ? """" : m[1];
+                }
+
+                var originalHeight;
+                var previousComments;
+
+                function expandComments(target)
+                {
+                    originalHeight = target.style.height;
+                    target.style.height = ""100px"";
+                }
+
+                function contractComments(target)
+                {
+                    if (originalHeight != null)
+                    {
+                        target.style.height = originalHeight;
+                    }
                 }
 
                 function Slk_OpenLearnerAssignment(navigateUrl, 
