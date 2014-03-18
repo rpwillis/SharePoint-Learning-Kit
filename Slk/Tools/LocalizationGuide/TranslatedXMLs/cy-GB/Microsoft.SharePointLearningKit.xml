@@ -577,6 +577,12 @@
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
+        <ID>QueryColumnTitleGrade</ID>
+        <Source>Grade</Source>
+        <Translation>Gradd</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
         <ID>AssignmentNotFoundInDatabase</ID>
         <Source>The assignment (ID {0}) does not exist or you may not have permission to access it.</Source>
         <Translation>Nid yw'r aseiniad (ID {0}) yn bodoli neu efallai nad oes gennych ganiatâd i gael mynediad iddo.</Translation>
@@ -1288,7 +1294,7 @@
         <Source>The list of instructors or learners may be incomplete because the following groups could not be read:
 {0}
 More information may be available in the server event log.</Source>
-        <Translation>Gall y rhestr o hyfforddwyr neu ddysgwyr fod yn anghyflawn am nad oedd modd darllen y grwpiau canlynol: {1} Gall rhagor o wybodaeth fod ar gael ar gofnod digwyddiadau'r gweinydd.</Translation>
+        <Translation>Gall y rhestr o hyfforddwyr neu ddysgwyr fod yn anghyflawn am nad oedd modd darllen y grwpiau canlynol: {0} Gall rhagor o wybodaeth fod ar gael ar gofnod digwyddiadau'r gweinydd.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -1894,6 +1900,12 @@ More information may be available in the server event log.</Source>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
+        <ID>GradingLearnerComments</ID>
+        <Source>Learner Comments</Source>
+        <Translation>Sylwadau'r Dysgwr</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
         <ID>ReturnAssignmentActive</ID>
         <Source>Assignment cannot be returned as it is still active.</Source>
         <Translation>Ni ellir dychwelyd yr aseiniad am ei fod yn weithredol o hyd.</Translation>
@@ -2125,6 +2137,12 @@ More information may be available in the server event log.</Source>
         <ID>LobbylblComments</ID>
         <Source>Comments</Source>
         <Translation>Sylwadau</Translation>
+        <Crucial>True</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LobbyLearnerComments</ID>
+        <Source>My Comments</Source>
+        <Translation>Fy Sylwadau</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
