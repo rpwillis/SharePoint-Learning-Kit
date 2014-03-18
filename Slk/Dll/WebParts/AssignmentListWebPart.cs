@@ -596,7 +596,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         void WriteQueryResults(HtmlTextWriter htmlTextWriter, string url)
         {
 
-            htmlTextWriter.Write("<td>");
+            htmlTextWriter.Write("<td style=\"height:100%\">");
             WriteFrame(htmlTextWriter, url, String.Empty, true);
             htmlTextWriter.Write("</td>");
         }
