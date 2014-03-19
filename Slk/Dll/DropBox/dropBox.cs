@@ -545,7 +545,7 @@ namespace Microsoft.SharePointLearningKit
 #endregion private methods
 
 #region static members
-        static readonly System.Text.RegularExpressions.Regex nameRegex = new System.Text.RegularExpressions.Regex(@"[\*#%\&:<>\?/{|}\\]");
+        static readonly System.Text.RegularExpressions.Regex nameRegex = new System.Text.RegularExpressions.Regex(@"[\*#%\&:<>\?/{|}\\@]");
         static readonly System.Text.RegularExpressions.Regex repeatedDotRegex = new System.Text.RegularExpressions.Regex(@"\.\.");
         static void RemoveFieldNameFromGroupHeader(SPView view)
         {
