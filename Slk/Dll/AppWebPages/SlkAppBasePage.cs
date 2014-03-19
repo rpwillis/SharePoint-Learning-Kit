@@ -224,6 +224,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     // Protected Methods
     //
 
+#region protected methods
     /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
     protected override void OnInit(EventArgs e)
     {
@@ -321,6 +322,15 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     {
         throw new SafeToDisplayException(format, args);
     }
+
+    /// <summary>Formats a date for display.</summary>
+    /// <param name="date">The date to format.</param>
+    /// <returns>A formatted string.</returns>
+    protected string FormatDateForDisplay(DateTime date)
+    {
+        return PageCulture.Format(PageCulture.Resources.LongDateShortTime, date);
+    }
+#endregion protected methods
 
 }
 }

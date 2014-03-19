@@ -451,10 +451,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             SetUpAssignmentSiteLink();
             SetUpScoreAndGradeDisplayValues(learnerAssignmentStatus);
 
-            lblStartValue.Text = PageCulture.Format(PageCulture.Resources.LongDateShortTime, AssignmentProperties.StartDate);
+            lblStartValue.Text = FormatDateForDisplay(AssignmentProperties.StartDate);
             if (AssignmentProperties.DueDate.HasValue)
             {
-                lblDueValue.Text = PageCulture.Format(PageCulture.Resources.LongDateShortTime, AssignmentProperties.DueDate.Value);
+                lblDueValue.Text = FormatDateForDisplay(AssignmentProperties.DueDate.Value);
             }
 
             if (LearnerAssignmentProperties.InstructorComments.Length != 0)

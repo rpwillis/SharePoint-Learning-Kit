@@ -132,6 +132,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 documentUploadDescription.Text = PageCulture.Resources.FilesUploadDocumentUploadDescription;
                 name.Text = PageCulture.Resources.FilesUploadName;
                 LabelLearnerComments.Text = PageCulture.Resources.LobbyLearnerComments;
+                btnOK.Text = PageCulture.Resources.CtrlOKButtonText;
+                btnCancel.Text = PageCulture.Resources.BtnCancelText;
 
                 contentPanel = new Panel();
                 contentPanel.Visible = false;

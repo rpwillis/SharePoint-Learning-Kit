@@ -2032,6 +2032,11 @@ More information may be available in the server event log.</Source>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
+        <ID>BtnCancelText</ID>
+        <Source>Cancel</Source>
+        <Translation>Canslo</Translation>
+        <Crucial>True</Crucial>
+      <Resources>
         <ID>CtrlLabelInstructorDesc</ID>
         <Source>Instructors can grade, edit and change users for the assignment.</Source>
         <Translation>Gall hyfforddwyr raddio, golygu a newid defnyddwyr ar gyfer yr aseiniad.</Translation>
