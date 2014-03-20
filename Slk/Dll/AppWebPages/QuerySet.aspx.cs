@@ -288,6 +288,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             hw.AddAttribute(HtmlTextWriterAttribute.Onclick, string.Empty);
                             using (new HtmlBlock(HtmlTextWriterTag.Body, 0, hw))
                             {
+                                AssignmentListWebPart.DumpCultures(hw);
                                 // begin the query set
                                 hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
                                 hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");

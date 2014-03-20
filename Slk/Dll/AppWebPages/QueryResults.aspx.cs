@@ -143,6 +143,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                         using (new HtmlBlock(HtmlTextWriterTag.Body, 0, hw))
                         {
+                            Microsoft.SharePointLearningKit.WebParts.AssignmentListWebPart.DumpCultures(hw);
                             // render the outer table -- this contains only one row and one column, which
                             // in turn contains the entire query results table
                             hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
