@@ -1734,7 +1734,7 @@ More information may be available in the server event log.</Source>
       <Resources>
         <ID>LongDateShortTime</ID>
         <Source>{0:D}, {0:t}</Source>
-        <Translation>{0:D}, {0:t}</Translation>
+        <Translation>{0:dddd, dd MMMM yyyy}, {0:t}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>

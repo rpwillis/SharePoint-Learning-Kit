@@ -13,11 +13,14 @@ namespace SharePointLearningKit.Localization
         {
             Console.WriteLine("Failed to extract resources");
             Console.WriteLine(Message);
+            throw new Exception(Message);
         }
 
         public static void Error(string Message, string SystemException)
         {
-            Error(Message + "\n\n" + SystemException);
+            string message = Message + "\n\n" + SystemException;
+            Error(message);
+            throw new Exception(message);
         }
     }
 }
