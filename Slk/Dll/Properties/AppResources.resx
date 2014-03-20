@@ -1913,5 +1913,7 @@ For security reasons, integrated authentication is strongly recommended.
   <data name="QueryResultsSortBy" xml:space="preserve">
       <value>Sort by {0}.</value>
   </data>
-AssignmentFileDoesNotExist
+  <data name="FailUnlockFile" xml:space="preserve">
+      <value>Failed to unlock file {0}.</value>
+  </data>
 </root>

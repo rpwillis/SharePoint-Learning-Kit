@@ -2036,6 +2036,7 @@ More information may be available in the server event log.</Source>
         <Source>Cancel</Source>
         <Translation>Canslo</Translation>
         <Crucial>True</Crucial>
+      </Resources>
       <Resources>
         <ID>CtrlLabelInstructorDesc</ID>
         <Source>Instructors can grade, edit and change users for the assignment.</Source>
@@ -2814,7 +2815,7 @@ saving, click Cancel.</Source>
       <Resources>
         <ID>DropBoxTitle</ID>
         <Source>Drop Box</Source>
-        <Translation>Drop Box</Translation>
+        <Translation>Blwch Derbyn</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -3322,6 +3323,12 @@ For security reasons, integrated authentication is strongly recommended.
         <ID>QueryResultsSortBy</ID>
         <Source>Sort by {0}.</Source>
         <Translation>Trefnu yn ôl {0}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FailUnlockFile</ID>
+        <Source>Failed to unlock file {0}.</Source>
+        <Translation>Methu â datgloi’r ffeil {0}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
