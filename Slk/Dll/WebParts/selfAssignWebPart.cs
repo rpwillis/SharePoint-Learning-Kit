@@ -79,7 +79,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                         }
                     }
 
-                    writer.Write("</table>");
+                    writer.Write("</ul>");
                 }
                 else
                 {
