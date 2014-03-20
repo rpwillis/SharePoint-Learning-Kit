@@ -1999,6 +1999,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to unlock file {0}..
+        /// </summary>
+        internal string FailUnlockFile {
+            get {
+                return ResourceManager.GetString("FailUnlockFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File not found.
         /// </summary>
         internal string FileNotFound {
