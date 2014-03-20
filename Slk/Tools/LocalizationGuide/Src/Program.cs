@@ -22,13 +22,13 @@ namespace SharePointLearningKit.Localization
         private string target;
         private string culture;
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
 
             try
             {
                 Program program = new Program();
-                program.Run(args);
+                return program.Run(args);
             }
             catch (InvalidOperationException e)
             {
@@ -40,9 +40,10 @@ namespace SharePointLearningKit.Localization
                 Console.WriteLine(e);
             }
 
+            return 1;
         }
 
-        public void Run(string[] args)
+        public int Run(string[] args)
         {
             Assembly entryAssembly = Assembly.GetEntryAssembly();
             Console.WriteLine(String.Format("{0} v{1}", entryAssembly.GetName().Name, entryAssembly.GetName().Version.ToString()));
@@ -52,6 +53,7 @@ namespace SharePointLearningKit.Localization
                 Console.WriteLine();
                 Console.WriteLine(entryAssembly.GetName().Name+@" <Extract|Generate|Replace> <source file> [<target file>]");
                 Console.WriteLine();
+                return 1;
             }
             else
             {
@@ -64,27 +66,25 @@ namespace SharePointLearningKit.Localization
                         try
                         {
                             resourceExtractor.Save(target);
-                            Success();
+                            return Success();
                         }
                         catch (ArgumentException e)
                         {
                             Console.WriteLine(e.Message);
-                            Fail();
+                            return Fail();
                         }
-                        break;
 
                     case Task.Generate:
                         Generator resourceGenerator = new Generator();
                         resourceGenerator.LoadXML(source);
                         resourceGenerator.Save();
-                        Success();
-                        break;
+                        return Success();
 
                     case Task.Replace:
                         Replacer replace = new Replacer(culture);
                         replace.Load(source);
                         replace.Save(target);
-                        break;
+                        return 0;
 
                     default:
                         throw new InvalidOperationException("Invalid task type.");
@@ -92,16 +92,18 @@ namespace SharePointLearningKit.Localization
             }
         }
 
-        private static void Fail()
+        private static int Fail()
         {
             Console.WriteLine();
             Console.WriteLine("FAILED.");
+            return 1;
         }
 
-        private static void Success()
+        private static int Success()
         {
             Console.WriteLine();
             Console.WriteLine("Successful.");
+            return 0;
         }
 
         private bool ParseArgs(string[] args)

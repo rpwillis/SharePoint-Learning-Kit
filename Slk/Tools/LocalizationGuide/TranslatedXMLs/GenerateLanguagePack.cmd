@@ -4,7 +4,7 @@ rem Usage: GenerateLanguagePack.cmd <LCID> <debug/release>
 cd ..
 mkdir workingFolder
 cd workingFolder
-..\localize g ..\TranslatedXMLs\%1
+..\localize g ..\TranslatedXMLs\%1 || goto :error
 
 copy *.resources.dll ..\solution
 copy ..\TranslatedXMLs\%1\SlkSettings.xml.dat ..\solution
@@ -18,3 +18,9 @@ del ..\solution\culture.txt 2> nul
 del ..\solution\slk.resx 2> nul
 
 del /Q ..\workingFolder  2> nul
+
+goto :EOF
+
+:error
+echo FAILED TO BUILD %1
+exit /b 1
