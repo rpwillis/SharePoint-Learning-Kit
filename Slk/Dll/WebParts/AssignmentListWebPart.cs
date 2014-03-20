@@ -565,17 +565,22 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             htmlTextWriter.Write("</table>");
 
-            htmlTextWriter.Write(@"<!-- 
-            CultureInfo.InvariantCulture {0}
-            CultureInfo.CurrentUICulture {1}
-            CultureInfo.CurrentCulture {2}
-                    -->", CultureInfo.InvariantCulture, CultureInfo.CurrentUICulture, CultureInfo.CurrentCulture);
+            DumpCultures(htmlTextWriter);
             // write a comment to help locate this Web Part when viewing HTML source
             htmlTextWriter.Write("<!-- End ALWP -->");
             htmlTextWriter.WriteLine();
         }
 
         #endregion
+
+        internal static void DumpCultures(HtmlTextWriter htmlTextWriter)
+        {
+            htmlTextWriter.Write(@"<!-- 
+            CultureInfo.InvariantCulture {0}
+            CultureInfo.CurrentUICulture {1}
+            CultureInfo.CurrentCulture {2}
+                    -->", CultureInfo.InvariantCulture, CultureInfo.CurrentUICulture, CultureInfo.CurrentCulture);
+        }
 
         StringBuilder BaseQueryString()
         {
@@ -596,7 +601,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         void WriteQueryResults(HtmlTextWriter htmlTextWriter, string url)
         {
 
-            htmlTextWriter.Write("<td style=\"height:100%\">");
+            htmlTextWriter.Write("<td class=\"iframe-overflow\" style=\"height:100%\">");
             WriteFrame(htmlTextWriter, url, String.Empty, true);
             htmlTextWriter.Write("</td>");
         }
