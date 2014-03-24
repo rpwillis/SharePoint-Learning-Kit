@@ -414,6 +414,7 @@ namespace Microsoft.SharePointLearningKit
         void SetUpDropBox(SPWeb web, Guid id)
         {
             dropBoxList = web.Lists[id];
+            bool okToContinue = false;
 
             try
             {
@@ -424,32 +425,45 @@ namespace Microsoft.SharePointLearningKit
                 DropBoxList.EnableVersioning = true;
                 DropBoxList.Update();
 
-                ModifyDefaultView();
+                // Reached point at which list is usable, so any errors from now, just log but continue.
+                okToContinue = true;
 
                 ClearPermissions();
+                ModifyDefaultView();
                 CreateNoPermissionsFolder();
 
-                DropBoxManager.Debug("Save id");
-                web.AllProperties[propertyKey] = DropBoxList.ID.ToString("D", CultureInfo.InvariantCulture);
-                web.Update();
-                DropBoxManager.Debug("Saved id");
             }
             catch (SPException e)
             {
-                // Error creating list - delete it
-                dropBoxList = null;
-                dropBoxList.Delete();
-                web.Update();
                 store.LogError(culture.Resources.DropBoxListCreateFailure, e);
-                throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), culture.Resources.DropBoxListCreateFailure, e.Message));
+                if (okToContinue == false)
+                {
+                    // Error creating list - delete it
+                    dropBoxList.Delete();
+                    web.Update();
+                    dropBoxList = null;
+                    throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), culture.Resources.DropBoxListCreateFailure, e.Message));
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // Error creating list - delete it
-                dropBoxList = null;
-                dropBoxList.Delete();
-                web.Update();
-                throw;
+                store.LogError(culture.Resources.DropBoxListCreateFailure, e);
+                if (okToContinue == false)
+                {
+                    // Error creating list - delete it
+                    dropBoxList.Delete();
+                    web.Update();
+                    dropBoxList = null;
+                    throw;
+                }
+            }
+            finally
+            {
+                if (dropBoxList != null)
+                {
+                    web.AllProperties[propertyKey] = dropBoxList.ID.ToString("D", CultureInfo.InvariantCulture);
+                    web.Update();
+                }
             }
         }
 
