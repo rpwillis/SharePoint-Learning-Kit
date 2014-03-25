@@ -316,6 +316,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     // state transition isn't supported
                     errorBanner.AddException(SlkStore, new SafeToDisplayException(PageCulture.Resources.LobbyCannotChangeState));
                 }
+
                 // Clear the object so it will refresh from the database
                 LearnerAssignmentProperties = null;
             }
@@ -761,6 +762,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 lblLearnerCommentsValue.Visible = true;
                 LearnerComments.Visible = false;
                 lblLearnerCommentsValue.Text = SlkUtilities.GetCrlfHtmlEncodedText(LearnerAssignmentProperties.LearnerComments);
+            }
+            else
+            {
+                tgrLearnerComments.Visible = false;
+                lblLearnerCommentsValue.Visible = false;
+                LearnerComments.Visible = false;
             }
         }
                         
