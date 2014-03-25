@@ -885,7 +885,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private string PerformFilesNumberChecking(AssignmentProperties assignmentProperties)
         {
             DropBoxManager dropBox = new DropBoxManager(assignmentProperties);
-            AssignmentFile[] assignmentFiles = dropBox.LastSubmittedFiles(assignmentProperties.Results[0].User.SPUser);
+            AssignmentFile[] assignmentFiles = dropBox.LastSubmittedFiles(assignmentProperties.Results[0].User.SPUser, false);
 
             if (assignmentFiles.Length != 1)
             {
