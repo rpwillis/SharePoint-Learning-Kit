@@ -1500,7 +1500,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 //Add Doclib Url
                 SPFile spFile = Location.LoadFile();
-                string message = PageCulture.Format(PageCulture.Resources.AppNavigateToDocLib, spFile.ParentFolder.Name);
+                string name = spFile.ParentFolder.Name;
+                if (string.IsNullOrEmpty(spFile.ParentFolder.Url))
+                {
+                    // It is the root folder so use the document library name. 
+                    // This ensures that it uses the current locale version in multi-lingual sites.
+                    name = spFile.ParentFolder.DocumentLibrary.Title;
+                }
+
+                string message = PageCulture.Format(PageCulture.Resources.AppNavigateToDocLib, name);
                 lstNavigateBulletedList.Items.Add(new ListItem(message, spFile.ParentFolder.ServerRelativeUrl));
             }
 
