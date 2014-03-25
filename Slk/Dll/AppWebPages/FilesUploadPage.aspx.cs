@@ -242,7 +242,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void LoadLastAssignmentAttempt()
         {
             DropBoxManager dropBoxManager = new DropBoxManager(AssignmentProperties);
-            AssignmentFile[] files = dropBoxManager.LastSubmittedFiles();
+            AssignmentFile[] files = dropBoxManager.LastSubmittedFiles(true);
 
             if (files.Length > 0)
             {

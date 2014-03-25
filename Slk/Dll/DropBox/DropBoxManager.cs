@@ -313,20 +313,20 @@ namespace Microsoft.SharePointLearningKit
         }
         
         /// <summary>Returns the last submitted files for the given learner.</summary>
-        public AssignmentFile[] LastSubmittedFiles(long learnerId)
+        public AssignmentFile[] LastSubmittedFiles(long learnerId, bool forceUnlock)
         {
             foreach (SlkUser learner in assignmentProperties.Learners)
             {
                 if (learner.UserId.GetKey() == learnerId)
                 {
-                    return LastSubmittedFiles(learner.SPUser);
+                    return LastSubmittedFiles(learner.SPUser, forceUnlock);
                 }
             }
             return new AssignmentFile[0];
         }
 
         /// <summary>Returns the last submitted files for the given learner.</summary>
-        public AssignmentFile[] LastSubmittedFiles(SPUser user)
+        public AssignmentFile[] LastSubmittedFiles(SPUser user, bool forceUnlock)
         {
             if (user == null)
             {
@@ -341,7 +341,7 @@ namespace Microsoft.SharePointLearningKit
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
                         DropBox dropBox = new DropBox(store, spWeb);
-                        toReturn = dropBox.LastSubmittedFiles(new SlkUser(user), assignmentProperties.Id.GetKey());
+                        toReturn = dropBox.LastSubmittedFiles(new SlkUser(user), assignmentProperties.Id.GetKey(), forceUnlock);
                     }
                 }
             });
@@ -350,9 +350,9 @@ namespace Microsoft.SharePointLearningKit
 
 
         /// <summary>Returns the last submitted files for the current user.</summary>
-        public AssignmentFile[] LastSubmittedFiles()
+        public AssignmentFile[] LastSubmittedFiles(bool forceUnlock)
         {
-            return LastSubmittedFiles(CurrentUser);
+            return LastSubmittedFiles(CurrentUser, forceUnlock);
         }
 
         /// <summary>Deletes the assignment folder.</summary>
@@ -504,6 +504,26 @@ namespace Microsoft.SharePointLearningKit
             return details;
         }
 
+        /// <summary>Unlocks a file.</summary>
+        /// <param name="file">The file to unlock.</param>
+        public static void UnlockFile(SPFile file)
+        {
+            try
+            {
+                if (file.LockedByUser != null)
+                {
+                    file.ReleaseLock(file.LockId);
+                }
+            }
+            catch (SPException e)
+            {
+                SlkCulture culture = new SlkCulture();
+                string message = string.Format(CultureInfo.CurrentUICulture, culture.Resources.FailUnlockFile, file.Item.Url);
+                SlkStore.GetStore(file.Web).LogException(e);
+                throw new SafeToDisplayException(message);
+            }
+
+        }
 #endregion public methods
 
 #region private methods

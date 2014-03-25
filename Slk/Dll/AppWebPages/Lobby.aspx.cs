@@ -725,7 +725,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 DropBoxManager manager = new DropBoxManager(AssignmentProperties);
 
-                AssignmentFile[] assignmentFiles = manager.LastSubmittedFiles();
+                AssignmentFile[] assignmentFiles = manager.LastSubmittedFiles(true);
 
                 if (assignmentFiles.Length != 1)
                 {
@@ -848,7 +848,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private string GenerateUrlForAssignmentReview()
         {
             DropBoxManager manager = new DropBoxManager(AssignmentProperties);
-            AssignmentFile[] assignmentFiles = manager.LastSubmittedFiles();
+            AssignmentFile[] assignmentFiles = manager.LastSubmittedFiles(true);
 
             if (assignmentFiles.Length != 1)
             {
@@ -869,7 +869,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void FindDocumentUrl()
         {
            DropBoxManager manager = new DropBoxManager(AssignmentProperties);
-           AssignmentFile[] files = manager.LastSubmittedFiles();
+           AssignmentFile[] files = manager.LastSubmittedFiles(true);
            if (files.Length == 0)
            {
                // Intial copy must have failed.

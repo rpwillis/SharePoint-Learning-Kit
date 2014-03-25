@@ -155,21 +155,7 @@ namespace Microsoft.SharePointLearningKit
                     object currentValue = file.Item[DropBox.ColumnIsLatest];
                     if (currentValue == null || (bool)currentValue != isLatestValue)
                     {
-                        try
-                        {
-                            if (file.LockedByUser != null)
-                            {
-                                file.ReleaseLock(file.LockId);
-                            }
-                        }
-                        catch (SPException e)
-                        {
-                            SlkCulture culture = new SlkCulture();
-                            string message = string.Format(CultureInfo.CurrentUICulture, culture.Resources.FailUnlockFile, file.Item.Url);
-                            SlkStore.GetStore(file.Web).LogException(e);
-                            throw new SafeToDisplayException(message);
-                        }
-
+                        DropBoxManager.UnlockFile(file);
                         file.Item[DropBox.ColumnIsLatest] = isLatestValue;
                         file.Item.Update();
                     }

@@ -408,7 +408,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 }
                 else
                 {
-                    AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
+                    AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId, false);
                     if (files != null && files.Length > 0)
                     {
                         SetUpSubmittedFileHyperLink(lnkLearnerItem, files, item);
@@ -432,7 +432,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
             if (item.Status == LearnerAssignmentState.Completed || item.Status == LearnerAssignmentState.Final)
             {
-                AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
+                AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId, false);
 
                 if (files == null || files.Length == 0)
                 {
