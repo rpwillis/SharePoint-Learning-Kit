@@ -147,6 +147,8 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="existingFilesToKeep">Existing files to keep.</param>
         public void UploadFiles(AssignmentUpload[] files, int[] existingFilesToKeep)
         {
+            SPUser currentUser = CurrentUser;
+
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
                 using (SPSite spSite = new SPSite(assignmentProperties.SPSiteGuid))
@@ -156,17 +158,17 @@ namespace Microsoft.SharePointLearningKit
                     {
                         DropBox dropBox = new DropBox(store, spWeb);
                         AssignmentFolder assignmentFolder = dropBox.GetOrCreateAssignmentFolder(assignmentProperties);
-                        assignmentFolder.ApplyPermission(CurrentUser, SPRoleType.Reader);
+                        assignmentFolder.ApplyPermission(currentUser, SPRoleType.Reader);
 
-                        AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(CurrentUser);
+                        AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(currentUser);
 
                         if (learnerSubFolder == null)
                         {
-                            learnerSubFolder = assignmentFolder.CreateLearnerAssignmentFolder(CurrentUser);
+                            learnerSubFolder = assignmentFolder.CreateLearnerAssignmentFolder(currentUser);
                         }
                         else
                         {
-                            learnerSubFolder.ResetIsLatestFiles(existingFilesToKeep);
+                            learnerSubFolder.ResetIsLatestFiles(existingFilesToKeep, currentUser.ID);
                         }
 
                         CheckExtensions(spSite, files);
@@ -176,10 +178,10 @@ namespace Microsoft.SharePointLearningKit
                         try
                         {
 
-                            SlkUser currentUser = new SlkUser(CurrentUser);
+                            SlkUser currentSlkUser = new SlkUser(currentUser);
                             foreach (AssignmentUpload upload in files)
                             {
-                                learnerSubFolder.SaveFile(upload.Name, upload.Stream, currentUser);
+                                learnerSubFolder.SaveFile(upload.Name, upload.Stream, currentSlkUser);
                             }
                         }
                         finally
@@ -333,6 +335,8 @@ namespace Microsoft.SharePointLearningKit
                 return null;
             }
 
+            int currentUser = CurrentUser.ID;
+
             AssignmentFile[] toReturn = null;
             SPSecurity.RunWithElevatedPrivileges(delegate
             {
@@ -341,7 +345,7 @@ namespace Microsoft.SharePointLearningKit
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
                         DropBox dropBox = new DropBox(store, spWeb);
-                        toReturn = dropBox.LastSubmittedFiles(new SlkUser(user), assignmentProperties.Id.GetKey(), forceUnlock);
+                        toReturn = dropBox.LastSubmittedFiles(new SlkUser(user), assignmentProperties.Id.GetKey(), forceUnlock, currentUser);
                     }
                 }
             });
@@ -506,12 +510,20 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Unlocks a file.</summary>
         /// <param name="file">The file to unlock.</param>
-        public static void UnlockFile(SPFile file)
+        /// <param name="currentUser">The current user id.</param>
+        public static void UnlockFile(SPFile file, int currentUser)
         {
+            bool setUnsafeUpdates = false;
             try
             {
-                if (file.LockedByUser != null)
+                if (file.LockedByUser != null && file.LockedByUser.ID != currentUser)
                 {
+                    if (file.Web.AllowUnsafeUpdates == false)
+                    {
+                        file.Web.AllowUnsafeUpdates = true;
+                        setUnsafeUpdates = true;
+                    }
+
                     file.ReleaseLock(file.LockId);
                 }
             }
@@ -522,7 +534,13 @@ namespace Microsoft.SharePointLearningKit
                 SlkStore.GetStore(file.Web).LogException(e);
                 throw new SafeToDisplayException(message);
             }
-
+            finally
+            {
+                if (setUnsafeUpdates)
+                {
+                    file.Web.AllowUnsafeUpdates = false;
+                }
+            }
         }
 #endregion public methods
 
