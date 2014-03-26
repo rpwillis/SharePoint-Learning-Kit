@@ -284,6 +284,9 @@ namespace Microsoft.SharePointLearningKit
             case "UtcAsLocalDateTime":
                 m_renderAs = ColumnRenderAs.UtcAsLocalDateTime;
                 break;
+            case "SPWebTitle":
+                m_renderAs = ColumnRenderAs.SPWebTitle;
+                break;
             case "SPWebName":
                 m_renderAs = ColumnRenderAs.SPWebName;
                 break;
