@@ -175,6 +175,7 @@
 			<xs:enumeration value="Default" />
 			<xs:enumeration value="UtcAsLocalDateTime" />
 			<xs:enumeration value="SPWebName" />
+			<xs:enumeration value="SPWebTitle" />
 			<xs:enumeration value="Link" />
 			<xs:enumeration value="LearnerAssignmentStatus" />
 			<xs:enumeration value="Due" />

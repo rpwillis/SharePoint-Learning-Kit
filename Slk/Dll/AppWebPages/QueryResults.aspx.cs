@@ -754,7 +754,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 hw.AddAttribute(HtmlTextWriterAttribute.Title, renderedCell.ToolTip);
             using (new HtmlBlock(HtmlTextWriterTag.Span, 0, hw))
             {
-                if (webNameRenderedCell == renderedCell)
+                if (webNameRenderedCell == renderedCell && webNameRenderedCell.RenderAsLink)
                 {
                     RenderCellWithLink(webNameRenderedCell, hw, renderedCell.ToString(), "#", "_parent");
                 }

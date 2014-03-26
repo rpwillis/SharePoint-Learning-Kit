@@ -349,6 +349,7 @@ namespace Microsoft.SharePointLearningKit
                 string text, textNotRounded;
                 Guid? cellSiteGuid = null, cellWebGuid = null;
                 string cellWebUrl = null;
+                bool renderAsLink = false;
                 switch (columnDefinition.RenderAs)
                 {
 
@@ -415,8 +416,10 @@ namespace Microsoft.SharePointLearningKit
                     }
                     break;
 
+                case ColumnRenderAs.SPWebTitle:
                 case ColumnRenderAs.SPWebName:
 
+                    renderAsLink = (columnDefinition.RenderAs == ColumnRenderAs.SPWebName);
                     cellWebGuid = GetQueryCell<Guid>(dataRow, columnMap, columnDefinition, iColumnDefinition, 0);
                     cellSiteGuid = GetQueryCell<Guid>(dataRow, columnMap, columnDefinition, iColumnDefinition, 1);
                     if (spWebResolver != null)
@@ -449,10 +452,8 @@ namespace Microsoft.SharePointLearningKit
 
                 case ColumnRenderAs.Link:
 
-                    text = GetQueryCell<string>(dataRow, columnMap, columnDefinition,
-                        iColumnDefinition, 0);
-                    cellId = GetQueryCell<LearningStoreItemIdentifier>(dataRow, columnMap,
-                        columnDefinition, iColumnDefinition, 1);
+                    text = GetQueryCell<string>(dataRow, columnMap, columnDefinition, iColumnDefinition, 0);
+                    cellId = GetQueryCell<LearningStoreItemIdentifier>(dataRow, columnMap, columnDefinition, iColumnDefinition, 1);
                     cellValue = text;
                     cellSortKey = text.ToLower(culture.Culture);
                     if (columnDefinition.ToolTipFormat != null)
@@ -589,6 +590,7 @@ namespace Microsoft.SharePointLearningKit
                 if (cellSiteGuid != null)
                 {
                     renderedCell = new WebNameRenderedCell(cellValue, cellSortKey, cellId, cellToolTip, columnDefinition.Wrap, cellSiteGuid.Value, cellWebGuid.Value, cellWebUrl);
+                    ((WebNameRenderedCell)renderedCell).RenderAsLink = renderAsLink;
                 }
                 else
                 {
