@@ -134,7 +134,7 @@ namespace Microsoft.SharePointLearningKit
 
 
         /// <summary>Resets the IsLatest value for all files to false.</summary>
-        public void ResetIsLatestFiles(int[] excludes)
+        public void ResetIsLatestFiles(int[] excludes, int currentUser)
         {
             bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
             try
@@ -155,7 +155,7 @@ namespace Microsoft.SharePointLearningKit
                     object currentValue = file.Item[DropBox.ColumnIsLatest];
                     if (currentValue == null || (bool)currentValue != isLatestValue)
                     {
-                        DropBoxManager.UnlockFile(file);
+                        DropBoxManager.UnlockFile(file, currentUser);
                         file.Item[DropBox.ColumnIsLatest] = isLatestValue;
                         file.Item.Update();
                     }

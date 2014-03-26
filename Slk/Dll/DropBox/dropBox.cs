@@ -75,8 +75,9 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="user">The user to get the files for.</param>
         /// <param name="assignmentKey">The key of the assignment.</param>
         /// <param name="forceUnlock">Force unlocking of all the files.</param>
+        /// <param name="currentUser">The current user id.</param>
         /// <returns>The last submitted files.</returns>
-        public AssignmentFile[] LastSubmittedFiles(SlkUser user, long assignmentKey, bool forceUnlock)
+        public AssignmentFile[] LastSubmittedFiles(SlkUser user, long assignmentKey, bool forceUnlock, int currentUser)
         {
             if (user == null)
             {
@@ -107,7 +108,7 @@ namespace Microsoft.SharePointLearningKit
                         SPFile file = item.File;
                         if (forceUnlock)
                         {
-                            DropBoxManager.UnlockFile(file);
+                            DropBoxManager.UnlockFile(file, currentUser);
                         }
 
                         files.Add(new AssignmentFile(item.ID, file.Name, file.ServerRelativeUrl, (string)file.Item["PermMask"]));
