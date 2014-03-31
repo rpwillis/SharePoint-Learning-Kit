@@ -1341,6 +1341,10 @@ function openSubmittedFiles(id) {
     options.showClose = true;
     options.autoSize = true;
     SP.UI.ModalDialog.showModalDialog(options);
+    if (typeof(slkAfterOpenSubmittedFiles) != 'undefined')
+    {
+        slkAfterOpenSubmittedFiles();
+    }
 } ";
                 csGradingClientScript.AppendLine(submittedJavascript);
 
