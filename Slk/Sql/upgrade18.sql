@@ -1450,3 +1450,8 @@ RETURN (
 GO
 GRANT SELECT ON [LearnerAssignmentItem$DefaultView] TO LearningStore
 GO
+
+CREATE INDEX AssignmentItem_ALWPIndex
+ON AssignmentItem(SPWebGuid, Id, StartDate, DueDate)
+GO
+
