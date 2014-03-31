@@ -2487,6 +2487,9 @@ REFERENCES [UserItem] (Id)
 CREATE INDEX SPWebIndex
 ON AssignmentItem(SPWebGuid)
 
+CREATE INDEX AssignmentItem_ALWPIndex
+ON AssignmentItem(SPWebGuid, Id, StartDate, DueDate)
+
 ALTER TABLE [InstructorAssignmentItem]
 ADD CONSTRAINT FK_InstructorAssignmentItem_AssignmentId FOREIGN KEY ([AssignmentId])
 REFERENCES [AssignmentItem] (Id) ON DELETE CASCADE
