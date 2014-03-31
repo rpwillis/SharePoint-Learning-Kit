@@ -79,18 +79,11 @@ namespace Microsoft.SharePointLearningKit
         /// <returns>The learner's folder.</returns>
         public AssignmentFolder CreateLearnerAssignmentFolder(SPUser user)
         {
-            bool originalAllow = web.AllowUnsafeUpdates;
-            web.AllowUnsafeUpdates = true;
-
-            try
+            using (new AllowUnsafeUpdates(web))
             {
                 SPListItem subFolder = CreateSubFolder(LearnerFolderName(user));
                 ApplySharePointPermission(subFolder, user, SPRoleType.Reader);
                 return new AssignmentFolder(subFolder, true, properties);
-            }
-            finally
-            {
-                web.AllowUnsafeUpdates = originalAllow;
             }
 
         }
@@ -112,11 +105,8 @@ namespace Microsoft.SharePointLearningKit
         {
             if (user != null)
             {
-                bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
-                try
+                using (new AllowUnsafeUpdates(web))
                 {
-                    web.AllowUnsafeUpdates = true;
-
                     if (assignmentFolder.HasUniqueRoleAssignments == false)
                     {
                         assignmentFolder.BreakRoleInheritance(false);
@@ -125,10 +115,6 @@ namespace Microsoft.SharePointLearningKit
                     assignmentFolder.RoleAssignments.Remove(user);
                     assignmentFolder.Update();
                 }
-                finally
-                {
-                    web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
-                }
             }
         }
 
@@ -136,10 +122,8 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Resets the IsLatest value for all files to false.</summary>
         public void ResetIsLatestFiles(int[] excludes, int currentUser)
         {
-            bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
-            try
+            using (new AllowUnsafeUpdates(web))
             {
-                web.AllowUnsafeUpdates = true;
                 foreach (SPFile file in assignmentFolder.Folder.Files)
                 {
                     bool isLatestValue = false;
@@ -160,10 +144,6 @@ namespace Microsoft.SharePointLearningKit
                         file.Item.Update();
                     }
                 }
-            }
-            finally
-            {
-                web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
             }
         }
 
@@ -246,12 +226,15 @@ namespace Microsoft.SharePointLearningKit
                                 break;
                         }
                     }
+
                     if (isReader && isObserver)
                     {
                         learnerSubfolderRoleAssignment.RoleDefinitionBindings.RemoveAll();
-                        web.AllowUnsafeUpdates = true;
-                        learnerSubfolderRoleAssignment.Update();
-                        web.AllowUnsafeUpdates = false;
+                        using (new AllowUnsafeUpdates(web))
+                        {
+                            learnerSubfolderRoleAssignment.Update();
+                        }
+
                         isReader = false;
                         isObserver = false;
                         break;
@@ -295,18 +278,12 @@ namespace Microsoft.SharePointLearningKit
         SPListItem CreateSubFolder(string newFolderName)
         {
             SPFolder folder = assignmentFolder.Folder;
-            bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
-            try
+            using (new AllowUnsafeUpdates(web))
             {
-                web.AllowUnsafeUpdates = true;
                 SPFolder learnerSubFolder = folder.SubFolders.Add(newFolderName);
                 learnerSubFolder.Update();
-                DropBox.ClearPermissions(learnerSubFolder.Item);
+                DropBoxCreator.ClearPermissions(learnerSubFolder.Item);
                 return learnerSubFolder.Item;
-            }
-            finally
-            {
-                web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
             }
         }
 #endregion private methods
@@ -348,9 +325,7 @@ namespace Microsoft.SharePointLearningKit
 
             SPRoleAssignment roleAssignment = null;
 
-            bool currentUnsafeUpdates = web.AllowUnsafeUpdates;
-            web.AllowUnsafeUpdates = true;
-            try
+            using (new AllowUnsafeUpdates(web))
             {
                 bool isNewRoleDefintion = true;
 
@@ -404,10 +379,6 @@ namespace Microsoft.SharePointLearningKit
                     securableObject.RoleAssignments.AddToCurrentScopeOnly(roleAssignment);
 #endif
                 }
-            }
-            finally
-            {
-                web.AllowUnsafeUpdates = currentUnsafeUpdates;
             }
         }
 

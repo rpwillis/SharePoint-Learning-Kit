@@ -95,6 +95,8 @@
     <Compile Include="DropBox\DropBoxManager.cs" />
     <Compile Include="DropBox\DropBoxEditDetails.cs" />
     <Compile Include="DropBox\DropBox.cs" />
+    <Compile Include="DropBox\DropBoxCreator.cs" />
+    <Compile Include="DropBox\AllowUnsafeUpdates.cs" />
     <Compile Include="DropBox\AssignmentFolder.cs" />
     <Compile Include="DropBox\AssignmentFile.cs" />
     <Compile Include="EnumerateDomainGroups\EnumerateDomainGroups.cs" />

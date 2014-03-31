@@ -105,9 +105,7 @@ namespace Microsoft.SharePointLearningKit
                                 destinationSite.CatchAccessDeniedException = false;
                                 using (SPWeb destinationWeb = destinationSite.OpenWeb(assignmentProperties.SPWebGuid))
                                 {
-                                    bool originalAllow = destinationWeb.AllowUnsafeUpdates;
-                                    destinationWeb.AllowUnsafeUpdates = true;
-                                    try
+                                    using (new AllowUnsafeUpdates(destinationWeb))
                                     {
                                         SPUser learner = CurrentUser;
                                         DropBox dropBox = new DropBox(store, destinationWeb);
@@ -127,10 +125,6 @@ namespace Microsoft.SharePointLearningKit
                                         {
                                             assignmentFile = learnerSubFolder.SaveFile(file.Name, stream, new SlkUser(learner));
                                         }
-                                    }
-                                    finally
-                                    {
-                                        destinationWeb.AllowUnsafeUpdates = originalAllow;
                                     }
                                 }
                             }
@@ -173,21 +167,15 @@ namespace Microsoft.SharePointLearningKit
 
                         CheckExtensions(spSite, files);
 
-                        bool currentAllowUnsafeUpdates = spWeb.AllowUnsafeUpdates;
-                        spWeb.AllowUnsafeUpdates = true;
-                        try
+                        using (new AllowUnsafeUpdates(spWeb))
                         {
-
                             SlkUser currentSlkUser = new SlkUser(currentUser);
                             foreach (AssignmentUpload upload in files)
                             {
                                 learnerSubFolder.SaveFile(upload.Name, upload.Stream, currentSlkUser);
                             }
                         }
-                        finally
-                        {
-                            spWeb.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
-                        }
+
                         ApplySubmittedPermissions(spWeb);
                     }
                 }
@@ -232,54 +220,54 @@ namespace Microsoft.SharePointLearningKit
                 {
                     using (SPWeb spWeb = spSite.OpenWeb(assignmentProperties.SPWebGuid))
                     {
-                        spWeb.AllowUnsafeUpdates = true;
-                        DropBox dropBox = new DropBox(store, spWeb);
-
-                        string oldAssignmentFolderName = DropBox.GenerateFolderName(oldAssignmentProperties);
-                        string newAssignmentFolderName = DropBox.GenerateFolderName(assignmentProperties);
-
-                        // If assignment title has been changed, create a new assignment folder and move old assignment folder contents to it
-                        if (string.Compare(oldAssignmentFolderName,  newAssignmentFolderName, true, CultureInfo.InvariantCulture) != 0)
+                        using (new AllowUnsafeUpdates(spWeb))
                         {
-                            dropBox.ChangeFolderName(oldAssignmentFolderName, newAssignmentFolderName);
-                        }
+                            DropBox dropBox = new DropBox(store, spWeb);
 
-                        // Get new assignment folder, or the old one if the title has not been changed
-                        // in both cases, the value of the current assignment folder name will be stored in newAssignmentFolderName
-                        AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
+                            string oldAssignmentFolderName = DropBox.GenerateFolderName(oldAssignmentProperties);
+                            string newAssignmentFolderName = DropBox.GenerateFolderName(assignmentProperties);
 
-                        if (assignmentFolder != null)
-                        {
-                            spWeb.AllowUnsafeUpdates = true;
-                            assignmentFolder.RemoveAllPermissions();
-
-                            // Grant assignment instructors Read permission on the assignment folder
-                            ApplyInstructorsReadAccessPermissions(assignmentFolder, spWeb, dropBox);
-
-                            // Delete subfolders of the learners who have been removed from the assignment
-                            DeleteRemovedLearnerFolders(assignmentFolder, oldAssignmentProperties);
-
-                            foreach (SlkUser learner in assignmentProperties.Learners)
+                            // If assignment title has been changed, create a new assignment folder and move old assignment folder contents to it
+                            if (string.Compare(oldAssignmentFolderName,  newAssignmentFolderName, true, CultureInfo.InvariantCulture) != 0)
                             {
-                                // Grant assignment learners Read permission on the assignment folder and drop box
-                                assignmentFolder.ApplyPermission(learner.SPUser, SPRoleType.Reader);
-                                AssignmentFolder.ApplySharePointPermission(spWeb, dropBox.DropBoxList, learner.SPUser, SPRoleType.Reader);
+                                dropBox.ChangeFolderName(oldAssignmentFolderName, newAssignmentFolderName);
+                            }
 
-                                AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(learner.SPUser);
-                                LearnerAssignmentProperties result = assignmentProperties.ResultForLearner(learner);
+                            // Get new assignment folder, or the old one if the title has not been changed
+                            // in both cases, the value of the current assignment folder name will be stored in newAssignmentFolderName
+                            AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
 
-                                if (learnerSubFolder == null)
+                            if (assignmentFolder != null)
+                            {
+                                assignmentFolder.RemoveAllPermissions();
+
+                                // Grant assignment instructors Read permission on the assignment folder
+                                ApplyInstructorsReadAccessPermissions(assignmentFolder, spWeb, dropBox);
+
+                                // Delete subfolders of the learners who have been removed from the assignment
+                                DeleteRemovedLearnerFolders(assignmentFolder, oldAssignmentProperties);
+
+                                foreach (SlkUser learner in assignmentProperties.Learners)
                                 {
-                                    // Create a new subfolder for this learner
-                                    learnerSubFolder = assignmentFolder.CreateLearnerAssignmentFolder(learner.SPUser);
-                                }
+                                    // Grant assignment learners Read permission on the assignment folder and drop box
+                                    assignmentFolder.ApplyPermission(learner.SPUser, SPRoleType.Reader);
+                                    AssignmentFolder.ApplySharePointPermission(spWeb, dropBox.DropBoxList, learner.SPUser, SPRoleType.Reader);
 
-                                if (result != null)
-                                {
-                                    AssignUpdatePermissions(learnerSubFolder, learner.SPUser, result.Status);
+                                    AssignmentFolder learnerSubFolder = assignmentFolder.FindLearnerFolder(learner.SPUser);
+                                    LearnerAssignmentProperties result = assignmentProperties.ResultForLearner(learner);
+
+                                    if (learnerSubFolder == null)
+                                    {
+                                        // Create a new subfolder for this learner
+                                        learnerSubFolder = assignmentFolder.CreateLearnerAssignmentFolder(learner.SPUser);
+                                    }
+
+                                    if (result != null)
+                                    {
+                                        AssignUpdatePermissions(learnerSubFolder, learner.SPUser, result.Status);
+                                    }
                                 }
                             }
-                            spWeb.AllowUnsafeUpdates = false;
                         }
                     }
                 }
@@ -375,15 +363,9 @@ namespace Microsoft.SharePointLearningKit
 
                         if (assignmentFolder != null)
                         {
-                            bool currentAllowUnsafeUpdates = spWeb.AllowUnsafeUpdates;
-                            spWeb.AllowUnsafeUpdates = true;
-                            try
+                            using (new AllowUnsafeUpdates(spWeb))
                             {
                                 assignmentFolder.Delete();
-                            }
-                            catch
-                            {
-                                spWeb.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
                             }
                         }
                     }
@@ -513,18 +495,14 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="currentUser">The current user id.</param>
         public static void UnlockFile(SPFile file, int currentUser)
         {
-            bool setUnsafeUpdates = false;
             try
             {
                 if (file.LockedByUser != null && file.LockedByUser.ID != currentUser)
                 {
-                    if (file.Web.AllowUnsafeUpdates == false)
+                    using (new AllowUnsafeUpdates(file.Web))
                     {
-                        file.Web.AllowUnsafeUpdates = true;
-                        setUnsafeUpdates = true;
+                        file.ReleaseLock(file.LockId);
                     }
-
-                    file.ReleaseLock(file.LockId);
                 }
             }
             catch (SPException e)
@@ -533,13 +511,6 @@ namespace Microsoft.SharePointLearningKit
                 string message = string.Format(CultureInfo.CurrentUICulture, culture.Resources.FailUnlockFile, file.Item.Url);
                 SlkStore.GetStore(file.Web).LogException(e);
                 throw new SafeToDisplayException(message);
-            }
-            finally
-            {
-                if (setUnsafeUpdates)
-                {
-                    file.Web.AllowUnsafeUpdates = false;
-                }
             }
         }
 #endregion public methods
