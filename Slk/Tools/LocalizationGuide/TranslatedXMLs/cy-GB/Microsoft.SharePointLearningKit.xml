@@ -997,6 +997,12 @@
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
+        <ID>GradingFileSubmissionSubmittedNoFiles</ID>
+        <Source>Submitted with no files</Source>
+        <Translation>Cyflwynwyd heb ffeiliau</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
         <ID>SelfAssignListNameDescription</ID>
         <Source>The name of the list hosting the documents.</Source>
         <Translation>Enw’r rhestr sy'n cynnal y dogfennau.</Translation>
