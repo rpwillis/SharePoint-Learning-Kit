@@ -31,6 +31,45 @@
 	}
 </style>
   <link rel="stylesheet" type="text/css" href="Styles.css"/>     
+
+    <script type="text/javascript">
+    function openSubmittedFiles(id) {
+        var options = SP.UI.$create_DialogOptions();
+        options.url = slkSubmittedUrl + id;
+        options.allowMaximize = true;
+        options.showClose = true;
+        options.autoSize = true;
+        var obj = SP.UI.ModalDialog.showModalDialog(options);
+        slkDialog = obj.get_frameElement();
+        if (slkAfterOpenSubmittedFiles != 'undefined')
+        {
+            checkFrameLoaded();
+        }
+    } 
+
+    var slkDialog;
+    var frameLoadedCount = 0;
+    function checkFrameLoaded()
+    {
+        if (slkDialog != 'undefined')
+        {
+            var iframeDoc = slkDialog.contentDocument || iframe.contentWindow.document;
+            if (iframeDoc.readyState != "complete")
+            {
+                // Continue for 30 seconds
+                if (frameLoadedCount <= 150)
+                {
+                    frameLoadedCount++;
+                    window.setTimeout(checkFrameLoaded, 200);
+                }
+            }
+            else
+            {
+                slkAfterOpenSubmittedFiles();
+            }
+        }
+    }
+    </script>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderPageDescription" runat="server">
