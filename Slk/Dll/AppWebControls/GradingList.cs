@@ -1332,22 +1332,8 @@ namespace Microsoft.SharePointLearningKit.WebControls
             );
 
                 SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
-                string submittedUrl = string.Format("{0}{1}SubmittedFiles.aspx?LearnerAssignmentId=", slkAppBasePage.SPWeb.Url, Constants.SlkUrlPath);
-                string submittedJavascript = @"
-function openSubmittedFiles(id) {
-    var options = SP.UI.$create_DialogOptions();
-    options.url = '" + submittedUrl + @"' + id;
-    options.allowMaximize = true;
-    options.showClose = true;
-    options.autoSize = true;
-    SP.UI.ModalDialog.showModalDialog(options);
-    if (typeof(slkAfterOpenSubmittedFiles) != 'undefined')
-    {
-        slkAfterOpenSubmittedFiles();
-    }
-} ";
+                string submittedJavascript = string.Format("var slkSubmittedUrl = '{0}{1}SubmittedFiles.aspx?LearnerAssignmentId='", slkAppBasePage.SPWeb.Url, Constants.SlkUrlPath);
                 csGradingClientScript.AppendLine(submittedJavascript);
-
                 csGradingClientScript.AppendLine("<!-- Grading Client Script Ends Here -->");
 
                 //Register Learner/Learner Group onclick events as ClientScriptBlock
