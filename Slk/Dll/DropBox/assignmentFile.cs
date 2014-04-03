@@ -55,6 +55,7 @@ namespace Microsoft.SharePointLearningKit
 
                 switch (Extension.ToUpperInvariant())
                 {
+                    case ".DOC":        // Strictly speaking not so, but will offer to convert
                     case ".DOCX":
                         return true;
                     case ".XLSX":
@@ -127,6 +128,10 @@ namespace Microsoft.SharePointLearningKit
 #else
             switch (Extension.ToUpperInvariant())
             {
+                case ".DOC":
+                    // Not actually editing, but once in OWA can convert
+                    formatString = "{0}/_layouts/WordViewer.aspx?id={1}&source={2}";
+                    break;
                 case ".DOCX":
                     formatString = "{0}/_layouts/WordEditor.aspx?id={1}&source={2}";
                     break;

@@ -64,7 +64,7 @@
       </CancelAssignment>
   </EmailSettings>
 
-  <DropBoxSettings UseOfficeWebApps="false" />
+  <DropBoxSettings UseOfficeWebApps="false" OpenSubmittedInSameWindow="false" />
 
   <QuickAssignmentSettings DefaultLibrary="" />
 

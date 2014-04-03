@@ -29,11 +29,16 @@
     .ms-areaseparatorright img{
 	visibility:hidden;
 	}
+</style>
+  <link rel="stylesheet" type="text/css" href="Styles.css"/>     
 
     <script type="text/javascript">
+    var slkSubmittedUrl = '';
+    var slkSourceUrl = '';
+
     function openSubmittedFiles(id) {
         var options = SP.UI.$create_DialogOptions();
-        options.url = slkSubmittedUrl + id;
+        options.url = slkSubmittedUrl + id + slkSourceUrl;
         options.allowMaximize = true;
         options.showClose = true;
         options.autoSize = true;
@@ -68,8 +73,6 @@
         }
     }
     </script>
-</style>
-  <link rel="stylesheet" type="text/css" href="Styles.css"/>     
 </asp:Content>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderPageDescription" runat="server">
@@ -77,13 +80,13 @@
 </asp:Content>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderMain" runat="server">
-<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
 <table cellpadding="0" cellspacing="0">
 <tr>
 <td Width="715">
 <slk:ErrorBanner ID="errorBanner" Visible="false" EnableViewState="false" runat="server" />
 <asp:Label ID = "lblError" Visible ="false" runat ="server" ForeColor="Red"></asp:Label>
 <asp:Panel ID="contentPanel" runat="server">
+<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
 <slk:TableGrid ID="TableGrid1" runat="server" Width="100%" CellPadding="0" CellSpacing="0">
 	<slk:TableGridRow><slk:TableGridColumn ColumnType="FormBreak" /></slk:TableGridRow>
 </slk:TableGrid>
@@ -194,10 +197,10 @@
 	<asp:Button ID="btnBottomSave" CssClass="ms-ButtonHeightWidth" runat="server" OnClick="btnSave_Click" EnableViewState="false" />
 	<asp:Button ID="btnBottomClose" CssClass="ms-ButtonHeightWidth" runat="server" OnClick="btnClose_Click" EnableViewState="false" />
 </slk:SimpleButtonToolbar>
-<img height=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif" width=590> 
+<img height=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif" width=590>
+<SharePoint:DelegateControl ControlId="SlkEndContent" runat="server"/>
 </asp:Panel>
 </td>
 </tr>
 </table>
-<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
 </asp:Content>

@@ -43,12 +43,8 @@ namespace Microsoft.SharePointLearningKit
 
             Url = reader.GetAttribute("Url");
 
-            string useOffice = reader.GetAttribute("UseOfficeWebApps");
-            if (string.IsNullOrEmpty(useOffice) == false)
-            {
-                UseOfficeWebApps = (useOffice.ToUpperInvariant() == "TRUE");
-            }
-
+            UseOfficeWebApps = BooleanAttribute(reader, "UseOfficeWebApps");
+            OpenSubmittedInSameWindow = BooleanAttribute(reader, "OpenSubmittedInSameWindow");
         }
 #endregion constructors
 
@@ -61,6 +57,9 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Whether to use Office Web Apps for editing or not.</summary>
         public bool UseOfficeWebApps { get; private set; }
+
+        /// <summary>Whether to open submitted files in same window.</summary>
+        public bool OpenSubmittedInSameWindow { get; private set; }
 #endregion properties
 
 #region public methods
@@ -70,6 +69,18 @@ namespace Microsoft.SharePointLearningKit
 #endregion protected methods
 
 #region private methods
+        private bool BooleanAttribute(XmlReader reader, string attribute)
+        {
+            string value = reader.GetAttribute(attribute);
+            if (string.IsNullOrEmpty(value) == false)
+            {
+                return (value.ToUpperInvariant() == "TRUE");
+            }
+            else
+            {
+                return false;
+            }
+        }
 #endregion private methods
 
 #region static members

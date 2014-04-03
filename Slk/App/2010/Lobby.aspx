@@ -81,6 +81,17 @@ function SlkOpenFramesetWindow(navigateUrl)
 	}
 }
 
+    var slkSubmittedUrl = '';
+    var slkSourceUrl = '';
+
+    function openSubmittedFiles(id) {
+        var options = SP.UI.$create_DialogOptions();
+        options.url = slkSubmittedUrl + id + slkSourceUrl;
+        options.allowMaximize = true;
+        options.showClose = true;
+        options.autoSize = true;
+        SP.UI.ModalDialog.showModalDialog(options);
+    } 
 </script>
 </asp:Content>
 
