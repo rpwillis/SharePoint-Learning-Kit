@@ -1332,8 +1332,12 @@ namespace Microsoft.SharePointLearningKit.WebControls
             );
 
                 SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
-                string submittedJavascript = string.Format("var slkSubmittedUrl = '{0}{1}SubmittedFiles.aspx?LearnerAssignmentId='", slkAppBasePage.SPWeb.Url, Constants.SlkUrlPath);
+                string submittedJavascript = string.Format("slkSubmittedUrl = '{0}{1}SubmittedFiles.aspx?LearnerAssignmentId='", slkAppBasePage.SPWeb.Url, Constants.SlkUrlPath);
                 csGradingClientScript.AppendLine(submittedJavascript);
+
+                string sourceUrl = string.Format("slkSourceUrl = '&source={0}';", HttpUtility.UrlEncode(Page.Request.RawUrl));
+                csGradingClientScript.AppendLine(sourceUrl);
+
                 csGradingClientScript.AppendLine("<!-- Grading Client Script Ends Here -->");
 
                 //Register Learner/Learner Group onclick events as ClientScriptBlock

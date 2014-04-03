@@ -121,10 +121,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Holds AssignmentProperties value.
         /// </summary>
         private AssignmentProperties assignmentProperties;
-        /// <summary>
-        /// The name of the drop box document library 
-        /// </summary>
-        private string m_dropBoxDocLibName;
 
         #endregion
 
@@ -197,21 +193,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 this.assignmentProperties = value;
             }
         }
-        /// <summary>
-        /// Gets the Drop Box document library name 
-        /// </summary>
-        private String DropBoxDocLibName
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(m_dropBoxDocLibName))
-                {
-                    m_dropBoxDocLibName = PageCulture.Resources.DropBoxDocLibName;
-                }
-                return m_dropBoxDocLibName;
-            }
-        }
-
         #endregion
 
 #region protected methods
@@ -256,6 +237,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
 
                 ClientScript.RegisterClientScriptBlock(this.GetType(), "lblStatusValue", "var lblStatusValue = \"" + lblStatusValue.ClientID + "\";", true);
+
+                StringBuilder clientScript = new StringBuilder();
+                string submittedJavascript = string.Format("slkSubmittedUrl = '{0}{1}SubmittedFiles.aspx?LearnerAssignmentId=';", SPWeb.Url, Constants.SlkUrlPath);
+                clientScript.AppendLine(submittedJavascript);
+
+                string sourceUrl = string.Format("slkSourceUrl = '&source={0}';", HttpUtility.UrlEncode(Page.Request.RawUrl));
+                clientScript.AppendLine(sourceUrl);
+
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "openSubmittedFiles", clientScript.ToString(), true);
 
                 if (learnerAssignmentStatus == LearnerAssignmentState.Completed && AssignmentProperties.AutoReturn == true)
                 {
@@ -730,8 +720,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 if (assignmentFiles.Length != 1)
                 {
-                    string onClickUrl = string.Format("{0}{1}SubmittedFiles.aspx?LearnerAssignmentId={2}", SPWeb.Url, Constants.SlkUrlPath, LearnerAssignmentGuidId.ToString());
-                    slkButtonReviewSubmitted.OnClientClick = String.Format(CultureInfo.InvariantCulture, "window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable'); ", onClickUrl);
+                    string script = string.Format("openSubmittedFiles('{0}');return false;", LearnerAssignmentGuidId);
+                    slkButtonReviewSubmitted.OnClientClick = script;
                 }
                 else
                 {
@@ -847,7 +837,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             lblAutoReturn.Text = PageCulture.Resources.LobbylblAutoReturn;
             infoImage.AlternateText = PageCulture.Resources.SlkErrorTypeInfoToolTip;
             ClientScript.RegisterClientScriptBlock(this.GetType(), "SlkWindowAlreadyOpen",
-            string.Format(CultureInfo.InvariantCulture, "var SlkWindowAlreadyOpen = \"{0}\";", PageCulture.Resources.LobbyWindowAlreadyOpen), true);
+                string.Format(CultureInfo.InvariantCulture, "var SlkWindowAlreadyOpen = \"{0}\";", PageCulture.Resources.LobbyWindowAlreadyOpen), true);
             ConfirmWhatNext.Text = PageCulture.Resources.CtrlLabelAPPWhatNextText;
         }
 

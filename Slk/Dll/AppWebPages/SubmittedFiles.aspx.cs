@@ -25,6 +25,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     public class SubmittedFiles : SlkAppBasePage
     {
         DropBoxManager dropBox;
+        string returnUrl;
 
         #region Control Declarations
 
@@ -210,6 +211,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             dropBox = new DropBoxManager(AssignmentProperties);
             AssignmentFile[] files = dropBox.LastSubmittedFiles(LearnerAssignmentProperties.User.SPUser, true);
 
+            returnUrl = Request.QueryString["source"];
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                returnUrl = Page.Request.RawUrl; 
+            }
+            else
+            {
+                returnUrl = HttpUtility.UrlDecode(returnUrl);
+            }
+
             int counter = 0;
             foreach (AssignmentFile file in files)
             {
@@ -246,15 +257,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             HyperLink fileLink = new HyperLink();
             fileLink.ID = "file" + counter.ToString(CultureInfo.InvariantCulture);
             fileLink.Text = file.Name;
-            fileLink.Target = "_blank";
             fileLink.Style.Add("display", string.Empty);
 
             DropBoxEditMode editMode = Status == LearnerAssignmentState.Completed ? DropBoxEditMode.Edit : DropBoxEditMode.View;
-            DropBoxEditDetails editDetails = dropBox.GenerateDropBoxEditDetails(file, SPWeb, editMode, Page.Request.RawUrl);
+            DropBoxEditDetails editDetails = dropBox.GenerateDropBoxEditDetails(file, SPWeb, editMode, returnUrl);
             fileLink.NavigateUrl = editDetails.Url;
             if (string.IsNullOrEmpty(editDetails.OnClick) == false)
             {
                 fileLink.Attributes.Add("onclick", editDetails.OnClick + "return false;");
+            }
+            else
+            {
+                if (SlkStore.Settings.DropBoxSettings.OpenSubmittedInSameWindow)
+                {
+                    fileLink.Attributes.Add("onclick", "window.top.location='" + editDetails.Url + "';");
+                }
             }
 
             FilePanel.Controls.Add(new LiteralControl("<div>"));
