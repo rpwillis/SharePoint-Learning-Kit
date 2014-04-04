@@ -183,7 +183,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                             {
                                 using (SPWeb web = site.OpenWeb(item.SPWebGuid))
                                 {
-                                    return web.ServerRelativeUrl;
+                                    return SanitizeUrl(web.ServerRelativeUrl);
                                 }
                             }
                         }
@@ -200,7 +200,19 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             }
 
-            return SPContext.Current.Web.ServerRelativeUrl;
+            return SanitizeUrl(SPContext.Current.Web.ServerRelativeUrl);
+        }
+
+        private string SanitizeUrl(string serverRelativeUrl)
+        {
+            if (serverRelativeUrl == "/")
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return serverRelativeUrl;
+            }
         }
 
         void CreateSitesDropDown()
