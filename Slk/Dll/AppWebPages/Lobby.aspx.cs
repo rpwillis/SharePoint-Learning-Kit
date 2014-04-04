@@ -437,7 +437,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void SetUpDisplayValues(LearnerAssignmentState learnerAssignmentStatus)
         {
             lblTitle.Text = Server.HtmlEncode(AssignmentProperties.Title);
-            lblDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description);
+            lblDescription.Text = SlkUtilities.ClickifyLinks(SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description));
 
             SetUpAssignmentSiteLink();
             SetUpScoreAndGradeDisplayValues(learnerAssignmentStatus);
