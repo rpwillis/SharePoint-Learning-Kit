@@ -1473,7 +1473,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //Set the Confirmation Page Labels
 
             lblAssignmentTitle.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Title);
-            lblAssignmentDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description);
+            lblAssignmentDescription.Text = SlkUtilities.ClickifyLinks(SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description));
 
             // say e.g.: {0:D}, {1:t} where {0} = date, {1} = time;
             lblAssignmentStartText.Text = PageCulture.Format(PageCulture.Resources.SlkDateFormatSpecifier, AssignmentProperties.StartDate.ToLocalTime());

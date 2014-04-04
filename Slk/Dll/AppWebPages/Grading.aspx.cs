@@ -190,7 +190,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     AddReactivationCheck();
 
                     lblTitle.Text = Server.HtmlEncode(AssignmentProperties.Title);
-                    lblDescription.Text = Server.HtmlEncode(AssignmentProperties.Description).Replace("\r\n", "<br />\r\n");
+                    lblDescription.Text = SlkUtilities.ClickifyLinks(Server.HtmlEncode(AssignmentProperties.Description).Replace("\r\n", "<br />\r\n"));
 
                     if (AssignmentProperties.PointsPossible.HasValue)
                     {

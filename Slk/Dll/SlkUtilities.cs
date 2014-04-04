@@ -44,6 +44,8 @@ namespace Microsoft.SharePointLearningKit
     /// </summary>
     public static class SlkUtilities
     {
+        private const string urlRegexString = @"\b(?:(?:https?|ftp|file)://|www\.|ftp\.)(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])";
+        static readonly Regex urlRegex = new Regex(urlRegexString, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         #region Public Static Methods
 
         #region GetCurrentSPWeb
@@ -183,6 +185,25 @@ namespace Microsoft.SharePointLearningKit
                    String.Empty : HttpContext.Current.Server.HtmlEncode(text);
         }
         #endregion
+
+
+        /// <summary>Turns urls into links.</summary>
+        /// <param name="input">The text to change.</param>
+        public static string ClickifyLinks(string input)
+        {
+            return urlRegex.Replace(input, ClickfyLink);
+        }
+
+        private static string ClickfyLink(Match match)
+        {
+            string url = match.Value;
+            if (url.Contains("://") == false)
+            {
+                url = "http://" + url;
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a>", url, match.Value);
+        }
 
         #region GetLearnerAssignmentState
         /// <summary>
