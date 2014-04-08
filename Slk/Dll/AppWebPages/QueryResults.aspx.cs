@@ -29,14 +29,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     public partial class AlwpQueryResults : QueryBasePage
     {
         #region Private Variables
+        string queryName;
         /// <summary>
         /// SPWeb GUID-to-name mappings.
         /// </summary>
         Dictionary<Guid, WebNameAndUrl> m_spWebNameMap;
-        /// <summary>
-        /// Query Name 
-        /// </summary>
-        string m_queryName;
         /// <summary>
         /// Holds the Sort
         /// </summary>
@@ -58,11 +55,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             get
             {
-                if (m_queryName == null)
+                if (queryName == null)
                 {
-                    m_queryName = QueryString.ParseString(QueryStringKeys.Query);
+                    queryName = Request[QueryStringKeys.Query];
                 }
-                return m_queryName;
+                return queryName;
             }
         }
 
@@ -75,7 +72,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (m_sort == null)
                 {
-                    m_sort = QueryString.ParseStringOptional(QueryStringKeys.Sort);
+                    m_sort = Request[QueryStringKeys.Sort];
                 }
                 return m_sort;
             }
@@ -150,6 +147,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
                             hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
                             hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
+
+                            RenderForm(hw);
+                            RenderSortFunction(hw);
+
                             using (new HtmlBlock(HtmlTextWriterTag.Table, 0, hw))
                             {
                                 // render the single row and column of the outer table
@@ -275,7 +276,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             bool sortAscending;
 
-            if (Sort != null)
+            if (string.IsNullOrEmpty(Sort) == false)
             {
                 sortColumnIndex = int.Parse(Sort, CultureInfo.InvariantCulture);
                 if (sortColumnIndex < 0)
@@ -284,7 +285,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     sortColumnIndex = -sortColumnIndex;
                 }
                 else
+                {
                     sortAscending = true;
+                }
+
                 sortColumnIndex--;
             }
             else
@@ -590,9 +594,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                     newSort = columnIndex + 1;
                                 hw.AddAttribute(HtmlTextWriterAttribute.Title, PageCulture.Format(PageCulture.Resources.QueryResultsSortBy, columnDef.Title));
                                 hw.AddAttribute(HtmlTextWriterAttribute.Href,
-                                    GetAdjustedQueryString(QueryStringKeys.Sort, 
-                                                           newSort.ToString(CultureInfo.InvariantCulture)));
+                                    GetAdjustedQueryString(QueryStringKeys.Sort, newSort.ToString(CultureInfo.InvariantCulture)));
                                 hw.AddAttribute(HtmlTextWriterAttribute.Style, "color:Gray;");
+                                hw.AddAttribute("onclick", string.Format(CultureInfo.InvariantCulture, "sort({0}); return false;", newSort));
                                 using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
                                 {
                                     // write the column title
@@ -617,6 +621,43 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
         #endregion
+
+        private void RenderSortFunction(TextWriter writer)
+        {
+            string function = @"function sort(col)
+            {
+                var sortInput = document.getElementById('alwpSort');
+                sortInput.value = col;
+                var formInput = document.getElementById('resultsForm');
+                formInput.submit();
+
+                if(queryFrame != undefined)
+                {
+                    if (queryFrame.SetSort != undefined)
+                    {
+                        queryFrame.SetSort(col);
+                    }
+                }
+            }
+            ";
+            writer.WriteLine("<script  type=\"text/javascript\">");
+            writer.WriteLine(function);
+            writer.WriteLine("</script>");
+        }
+
+        private void RenderForm(TextWriter writer)
+        {
+            writer.Write("<form id=\"resultsForm\" method=\"POST\" >");
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.QuerySet, Request[QueryStringKeys.QuerySet]);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Query, Query);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Source, RawSourceUrl);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.SPWebScope, Request[QueryStringKeys.SPWebScope]);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.FrameId, FrameId);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Sort, Sort);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.ForObserver, Request[QueryStringKeys.SPWebScope]);
+
+            writer.Write("</form>");
+        }
 
         #region RenderFileSubmissionCell
 

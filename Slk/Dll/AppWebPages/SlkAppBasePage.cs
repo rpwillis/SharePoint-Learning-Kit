@@ -185,7 +185,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
                 {
                     m_isObserver = true;
                 }
-                else if (this.LocalSlkStore.IsInstructor(SPWeb) == true && (Request.QueryString[QueryStringKeys.ForObserver] == "true"))
+                else if (this.LocalSlkStore.IsInstructor(SPWeb) == true && (Request[QueryStringKeys.ForObserver] == "true"))
                 {
                     m_isObserver = true;
                 }

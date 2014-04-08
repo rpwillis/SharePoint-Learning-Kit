@@ -53,7 +53,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             try
             {
-                string querySetName = QueryString.ParseString(QueryStringKeys.QuerySet);
+                string querySetName = Request[QueryStringKeys.QuerySet];
 
                 // create a job for executing the queries specified by <querySetDef>
                 LearningStoreJob job = SlkStore.LearningStore.CreateJob();

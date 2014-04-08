@@ -423,13 +423,16 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
         #endregion
 
-        /// <summary>Adds the scope to the query.</summary>
-        /// <param name="url">The <see cref="StringBuilder"/> to add the scope to.</param>
-        protected virtual void AddScope(StringBuilder url)
+        /// <summary>Finds the scope for the query.</summary>
+        protected virtual string FindScope()
         {
             if (ListScope)
             {
-                url.AppendFormat("&{0}={1}", QueryStringKeys.SPWebScope, SPWeb.ID.ToString());
+                return SPWeb.ID.ToString();
+            }
+            else
+            {
+                return "all";
             }
         }
 
@@ -516,6 +519,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             // write a comment to help locate this Web Part when viewing HTML source
             htmlTextWriter.Write("<!-- Begin ALWP -->");
+            htmlTextWriter.Write("<script type=\"text/javascript\">var scope{0} = '{1}';</script>", frameId, FindScope());
             htmlTextWriter.Write("<table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" border=\"0\" style=\"");
             htmlTextWriter.Write(wpHeightStyle);
             htmlTextWriter.Write("\">");
@@ -592,8 +596,6 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 url.AppendFormat("&{0}={1}", QueryStringKeys.ForObserver, "true");
             }
-
-            AddScope(url);
 
             return url;
         }
