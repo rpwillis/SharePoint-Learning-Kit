@@ -39,7 +39,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     /// Code Behind Class For QuerySet.aspx.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
-    public partial class AlwpQuerySet : SlkAppBasePage
+    public partial class AlwpQuerySet : QueryBasePage
     {
 
         /// <summary>See <see cref="SlkAppBasePage.OverrideMasterPage"/>.</summary>
@@ -47,19 +47,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             get { return false ;}
         }
-
-        #region Page_Init
-        /// <summary>
-        ///  Page Init for AlwpQueryResults. 
-        /// </summary> 
-        /// <param name="sender">an object referencing the source of the event</param>
-        /// <param name="e">An EventArgs that contains the event data.</param>
-        protected void Page_Init(object sender, EventArgs e)
-        {
-            //Setting Cache-Control = "no-cache" to prevent caching 
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-        }
-        #endregion
 
         #region Page_Load
         private void AddCoreCss(HtmlTextWriter writer, int lcid)
@@ -128,9 +115,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                     urlString = String.Format(CultureInfo.InvariantCulture, "{0}?{1}", urlString, HttpContext.Current.Request.QueryString.ToString());
 
-                    hw.Write("<iframe width=\"1\" height=\"1\" frameborder=\"0\" src=\"");
-                    hw.Write(urlString);
-                    hw.Write("\"></iframe>");
+                    hw.Write("<iframe width=\"1\" height=\"1\" frameborder=\"0\" id=\"{0}QS\" name=\"{0}QS\"></iframe>", FrameId);
+                    WriteSummaryForm(hw);
+                    WriteResultsForm(hw);
 
                     // write script code that begins loading the query counts,
                     // and provides other information to QuerySet.js
@@ -158,8 +145,24 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             queryIndex++;
                         }
 
+                        string scopeScript = @"
+                            var scope = parent.scope{0};
+                            var queryInput = document.getElementById('alwpSPWebScopeQR');
+                            queryInput.value = scope;
+                            queryInput = document.getElementById('alwpSPWebScopeQSForm');
+                            queryInput.value = scope;
+                        ";
+
+                        scopeScript = string.Format(scopeScript, FrameId);
+                        hw.WriteLine(scopeScript);
+
                         // tell QuerySet.js to start loading the selected query results
                         hw.WriteEncodedText(String.Format(CultureInfo.InvariantCulture, "SelectQuery({0});", selectedQueryIndex));
+
+
+                        hw.WriteLine(@"
+                    var summaryForm = document.getElementById('{0}QSForm');
+                    summaryForm.submit();", FrameId);
                     }
                 }
             }
@@ -492,6 +495,34 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
         #endregion
+
+        private void WriteResultsForm(TextWriter writer)
+        {
+            WriteForm(writer, "QR", "QueryResults.aspx", string.Empty);
+        }
+
+        private void WriteSummaryForm(TextWriter writer)
+        {
+            WriteForm(writer, "QSForm", "QuerySummary.aspx", "QS");
+        }
+
+        private void WriteForm(TextWriter writer, string id, string action, string target)
+        {
+            writer.Write("<form id=\"{0}{3}\" target=\"{0}{1}\" method=\"POST\" action=\"{2}\">", FrameId, target, action, id);
+            writer.Write("<input id=\"alwp{0}{2}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.QuerySet, Request[QueryStringKeys.QuerySet], id);
+            writer.Write("<input id=\"alwp{0}{2}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Query, string.Empty, id);
+            writer.Write("<input id=\"alwp{0}{2}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Source, RawSourceUrl, id);
+            writer.Write("<input id=\"alwp{0}{2}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.SPWebScope, string.Empty, id);
+            writer.Write("<input id=\"alwp{0}{2}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.FrameId, FrameId, id);
+            writer.Write("<input id=\"alwp{0}{2}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Sort, string.Empty, id);
+
+            if (IsObserver)
+            {
+                writer.Write("<input id=\"alwp{0}{2}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.ForObserver, "true", id);
+            }
+
+            writer.Write("</form>");
+        }
        
         #region RegisterQuerySetClientScriptBlock
         /// <summary>
@@ -501,49 +532,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
    
         private void RegisterQuerySetClientScriptBlock(HtmlTextWriter htmlTextWriter)
         {            
-            //Get the FrameId 
-            string frameId = QueryString.ParseString(QueryStringKeys.FrameId);
-
-            // Construct the Url for QueryResultPage 
-
-            string urlString = String.Format(CultureInfo.InvariantCulture, "{0}" + Constants.QuestionMark + "{1}=\"+QueryNames[iQuery]+\"", Constants.QueryResultPage, QueryStringKeys.Query);
-
-            if (IsObserver)
-            {
-                urlString = string.Format(CultureInfo.InvariantCulture, "{0}&{1}=true", urlString, QueryStringKeys.ForObserver);
-            }
-
-            //Append the SPWebScope in the QueryString
-            string spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
-            if (string.IsNullOrEmpty(spWebScope) == false)
-            {
-                urlString = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", urlString, QueryStringKeys.SPWebScope, spWebScope);
-            }
-
-            urlString = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", urlString, QueryStringKeys.Source, HttpUtility.UrlEncode(RawSourceUrl));
-
             //Build the Script 
             StringBuilder csAlwpClientScript = new StringBuilder(1000);
 
             csAlwpClientScript.AppendLine("<!-- Place Holder Alwp Client Script -->");
 
-            string openArguments = String.Format(CultureInfo.InvariantCulture, "{0}\",\"{1}", urlString, frameId);
-
-            csAlwpClientScript.AppendLine(@"
-                //Method called when selecting (clicking) a Query from QuerySetFrame. 
-                function SelectQuery(iQuery)
-                {
-                   if (g_iSelectedQuery != null)
-                        UnhighlightQuery(g_iSelectedQuery);
-                   g_iSelectedQuery = iQuery;
-                   if (g_iSelectedQuery != null)
-                        HighlightQuery(g_iSelectedQuery);
-
-                //Update the query results frame; 
-                //Get the QueryResults Page Url
-                window.open(""" + openArguments + @""");
-                }");
-
+            csAlwpClientScript.AppendLine(string.Format(CultureInfo.InvariantCulture, "var formResultsId = '{0}QR';", FrameId));
 
             csAlwpClientScript.AppendLine("<!--  Alwp Client Script Ends Here -->");
 

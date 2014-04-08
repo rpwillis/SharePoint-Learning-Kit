@@ -12,6 +12,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Holds the learner store corresponding to the input user in the case of an Observer's role
         /// </summary>
         SlkStore observerRoleLearnerStore;
+        string frameId;
 
 #region constructors
 #endregion constructors
@@ -37,6 +38,20 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     return observerRoleLearnerStore;
                 }
                 return base.SlkStore;
+            }
+        }
+
+        /// <summary>The frame id to use.</summary>
+        public string FrameId
+        {
+            get
+            {
+                if (frameId == null)
+                {
+                    frameId = Request[QueryStringKeys.FrameId];
+                }
+
+                return frameId;
             }
         }
 
@@ -84,30 +99,37 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>Creates the web scope macro.</summary>
         private Guid[] CreateWebScopeMacro()
         {
-            string spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
+            string spWebScope = Request[QueryStringKeys.SPWebScope];
             if (spWebScope == null)
             {
                 return null;
             }
             else
             {
-                string[] webs = spWebScope.Split(',');
-                Guid[] guids = new Guid[webs.Length];
-                for (int i = 0; i < webs.Length; i++)
+                if (spWebScope == "all")
                 {
-                    string webId = webs[i];
-                    if (webId != null)
-                    {
-                        try
-                        {
-                            guids[i] = new Guid(webId);
-                        }
-                        catch (FormatException) { }
-                        catch (OverflowException) { }
-                    }
+                    return null;
                 }
+                else
+                {
+                    string[] webs = spWebScope.Split(',');
+                    Guid[] guids = new Guid[webs.Length];
+                    for (int i = 0; i < webs.Length; i++)
+                    {
+                        string webId = webs[i];
+                        if (webId != null)
+                        {
+                            try
+                            {
+                                guids[i] = new Guid(webId);
+                            }
+                            catch (FormatException) { }
+                            catch (OverflowException) { }
+                        }
+                    }
 
-                return guids;
+                    return guids;
+                }
             }
         }
 

@@ -97,3 +97,23 @@ function SetQueryCount(queryName, queryCount)
 	}		
 }
 
+function SelectQuery(iQuery)
+{
+   if (g_iSelectedQuery != null)
+        UnhighlightQuery(g_iSelectedQuery);
+   g_iSelectedQuery = iQuery;
+   if (g_iSelectedQuery != null)
+        HighlightQuery(g_iSelectedQuery);
+
+    var queryInput = document.getElementById('alwpQueryQR');
+    queryInput.value = QueryNames[iQuery];
+    var resultsForm = document.getElementById(formResultsId);
+    resultsForm.submit();
+
+}
+
+function SetSort(col)
+{
+    var sortInput = document.getElementById('alwpSortQR');
+    sortInput.value = col;
+}
