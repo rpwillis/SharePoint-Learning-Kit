@@ -45,6 +45,8 @@ namespace Microsoft.SharePointLearningKit
         const string PersistedObjectNameFormat = "SharePointLearningKitMapping_{0}";
 
 #region fields
+        string siteName;
+        bool isForApplication;
         /// <summary>
         /// Holds the value of the <c>SPSiteGuid</c> property.
         /// configuration database.
@@ -106,6 +108,26 @@ namespace Microsoft.SharePointLearningKit
             get
             {
                 return m_spSiteGuid;
+            }
+        }
+
+        /// <summary>The site details.</summary>
+        public bool IsForApplication
+        {
+            get
+            {
+                LoadSite();
+                return isForApplication;
+            }
+        }
+
+        /// <summary>The site details.</summary>
+        public string Site
+        {
+            get
+            {
+                LoadSite();
+                return siteName;
             }
         }
 
@@ -325,6 +347,31 @@ namespace Microsoft.SharePointLearningKit
         }
 #endregion constructors
 
+#region private methods
+        private void LoadSite()
+        {
+            if (siteName == null)
+            {
+                try
+                {
+                    using (SPSite spSite = new SPSite(SPSiteGuid))
+                    {
+                        siteName = spSite.Url;
+                        isForApplication = false;
+                    }
+                }
+                catch (System.IO.FileNotFoundException)
+                {
+                    SPFarm farm = SPFarm.Local;
+                    SPWebApplication webApp = farm.GetObject(SPSiteGuid) as SPWebApplication;
+                    siteName = webApp.Name;
+                    isForApplication = true;
+                }
+            }
+        }
+#endregion private methods
+
+
         /// <summary>
         /// Returns the SPSite-to-LearningStore mapping represented by a given SPSite GUID.  If no
         /// such mapping exists, an exception is thrown.
@@ -377,6 +424,22 @@ namespace Microsoft.SharePointLearningKit
             string persistedObjectName = String.Format(CultureInfo.InvariantCulture, PersistedObjectNameFormat, spSiteGuid);
             SlkSPSiteMapping mapping = mappingCollection.GetValue<SlkSPSiteMapping>(persistedObjectName);
             return mapping;
+        }
+
+        /// <summary>Retreives a give SlkSPSiteMapping.</summary>
+        /// <param name="id">The id of the mapping (not the SPSiteGuid).</param>
+        /// <returns>A SlkSPSiteMapping.</returns>
+        public static SlkSPSiteMapping GetMappingById(Guid id)
+        {
+            foreach (SlkSPSiteMapping mapping in GetMappingInfo())
+            {
+                if (mapping.Id == id)
+                {
+                    return mapping;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>Creates a new mapping.</summary>

@@ -16,6 +16,7 @@
         </Assembly>
     </Assemblies>
     <TemplateFiles>
+        <TemplateFile Location="CONFIG\POWERSHELL\Registration\Microsoft.SharePointLearningKit.PowerShell.xml" />
         <TemplateFile Location="Admin\admin.sitemap.SharePointLearningKit.xml" />
         <TemplateFile Location="Admin\SharePointLearningKit\Configure.aspx" />
         <TemplateFile Location="Admin\SharePointLearningKit\DownloadSettings.aspx" />

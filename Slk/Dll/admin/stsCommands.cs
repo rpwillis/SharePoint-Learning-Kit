@@ -200,6 +200,11 @@ namespace Microsoft.SharePointLearningKit
             string observerPermission = Value("observerPermission");
             bool createPermissions = BooleanValue("createPermissions");
             string settingsFileName = Value("settingsFileName");
+            if (string.IsNullOrEmpty(settingsFileName))
+            {
+                settingsFileName = Value("uploadSlkSettings");
+            }
+
             bool defaultSlkSettings = BooleanValue("defaultSlkSettings");
 
             if (string.IsNullOrEmpty(url))
