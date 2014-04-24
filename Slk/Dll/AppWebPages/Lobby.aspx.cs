@@ -442,10 +442,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             SetUpAssignmentSiteLink();
             SetUpScoreAndGradeDisplayValues(learnerAssignmentStatus);
 
-            lblStartValue.Text = FormatDateForDisplay(AssignmentProperties.StartDate);
+            SPTimeZone timeZone = SPWeb.RegionalSettings.TimeZone;
+            lblStartValue.Text = FormatDateForDisplay(timeZone.UTCToLocalTime(AssignmentProperties.StartDate));
             if (AssignmentProperties.DueDate.HasValue)
             {
-                lblDueValue.Text = FormatDateForDisplay(AssignmentProperties.DueDate.Value);
+                lblDueValue.Text = FormatDateForDisplay(timeZone.UTCToLocalTime(AssignmentProperties.DueDate.Value));
             }
 
             if (LearnerAssignmentProperties.InstructorComments.Length != 0)
