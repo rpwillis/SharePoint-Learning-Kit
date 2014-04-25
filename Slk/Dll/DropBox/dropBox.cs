@@ -59,8 +59,13 @@ namespace Microsoft.SharePointLearningKit
 
                     if (dropBoxList == null)
                     {
-                        DropBoxCreator creator = new DropBoxCreator(store, web);
-                        dropBoxList = creator.Create();
+                        Guid listId;
+                        using (DropBoxCreator creator = new DropBoxCreator(store, web))
+                        {
+                            listId = creator.Create();
+                        }
+
+                        dropBoxList = web.Lists.GetList(listId, true);
                     }
                 }
 
