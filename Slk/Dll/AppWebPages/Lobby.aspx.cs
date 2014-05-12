@@ -607,11 +607,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 string openFrameset = String.Format(CultureInfo.InvariantCulture, "javascript:SlkOpenFramesetWindow('Frameset/Frameset.aspx?{0}={1}&{2}={3}');",
                                                     FramesetQueryParameter.SlkView, view, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuidId);
 
-                if (AssignmentProperties.IsNonELearning && LearnerAssignmentProperties.Status.Value == LearnerAssignmentState.Final)
-                {
-                    // Set up in SetUpForFinal
-                }
-                else if (AssignmentProperties.IsNonELearning && LearnerAssignmentProperties.Status.Value != LearnerAssignmentState.Final)
+                if (AssignmentProperties.IsNonELearning && LearnerAssignmentProperties.Status.Value != LearnerAssignmentState.Final)
                 {
                     if (assignmentFile == null)
                     {
@@ -717,7 +713,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 slkButtonReviewSubmitted.Text = PageCulture.Resources.LobbyReviewSubmittedText;
                 slkButtonReviewSubmitted.ToolTip = PageCulture.Resources.LobbyReviewSubmittedToolTip;
                 slkButtonReviewSubmitted.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
-                slkButtonReviewSubmitted.Visible = false;   // Does the same as review so not worth it
+                slkButtonReviewSubmitted.Visible = true;
 
                 DropBoxManager manager = new DropBoxManager(AssignmentProperties);
 

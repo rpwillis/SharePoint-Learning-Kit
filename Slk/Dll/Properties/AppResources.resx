@@ -1916,4 +1916,7 @@ For security reasons, integrated authentication is strongly recommended.
   <data name="FailUnlockFile" xml:space="preserve">
       <value>Failed to unlock file {0}.</value>
   </data>
+  <data name="DropBoxFailCreateField" xml:space="preserve">
+      <value>Failed to create field {0} for drop box. {1}</value>
+  </data>
 </root>

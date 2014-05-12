@@ -240,8 +240,7 @@ namespace Microsoft.LearningComponents.SharePoint
         /// </summary>
         private static string GetCacheDirectory(string cachePath, CachedFileInfo fileInfo, ImpersonationBehavior impersonationBehavior)
         {
-            string relativePath = String.Format(CultureInfo.CurrentCulture, "{0}_{1}",
-                EncodeGuid(fileInfo.FileId), EncodeInteger(fileInfo.VersionId));
+            string relativePath = String.Format(CultureInfo.CurrentCulture, "{0}_{1}", EncodeGuid(fileInfo.FileId), EncodeInteger(fileInfo.VersionId));
             string absolutePath = null;
 
             try
@@ -304,6 +303,34 @@ namespace Microsoft.LearningComponents.SharePoint
             return LockCacheDirectory( lockFileName, cacheDir, fileInfo);
         }
 
+        private bool HandleIOExceptionOnLockCreation(IOException exception)
+        {
+            // If we can't get information about the parent directory,
+            // then this will never work, so throw an exception. Note that we don't rethrow the existing 
+            // exception, since in the case of UnauthorizedAccessException (and maybe others?) it may contain
+            // sensitive information, such as the cache directory name.
+            try
+            {
+                Directory.GetFiles(m_settings.CachePath, "*.tmp");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                throw new CacheException(Resources.CacheCachePathNotAccessible, ex);
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                throw new CacheException(Resources.CacheCachePathNotAccessible, ex);
+            }
+            catch (IOException ex)
+            {
+                throw new CacheException(Resources.CacheCachePathNotAccessible, ex);
+            }
+
+            // retry
+            CachingException = exception;
+            return false;
+        }
+
         /// <summary>
         /// Does the actual tasks involved with creating the package cache directory 
         /// and unbundling the package to it. The parent cache directory (m_settings.CachePath)
@@ -334,38 +361,15 @@ namespace Microsoft.LearningComponents.SharePoint
                     }
                     catch (IOException e)
                     {
-                        // If we can't get information about the parent directory,
-                        // then this will never work, so throw an exception. Note that we don't rethrow the existing 
-                        // exception, since in the case of UnauthorizedAccessException (and maybe others?) it may contain
-                        // sensitive information, such as the cache directory name.
-                        try
-                        {
-                            Directory.GetFiles(m_settings.CachePath, "*.tmp");
-                        }
-                        catch (UnauthorizedAccessException ex)
-                        {
-                            throw new CacheException(Resources.CacheCachePathNotAccessible, ex);
-                        }
-                        catch (DirectoryNotFoundException ex)
-                        {
-                            throw new CacheException(Resources.CacheCachePathNotAccessible, ex);
-                        }
-                        catch (IOException ex)
-                        {
-                            throw new CacheException(Resources.CacheCachePathNotAccessible, ex);
-                        }
-
-                        // retry
-                        CachingException = e;
-                        return false;
+                        return HandleIOExceptionOnLockCreation(e);
                     }
+
                     deleteLockFileAndDir = true;
                     
                     // Make sure the directory doesn't exist. (Yes, 
                     // this may get created before we attempt to create it. This is just the preliminary check.)
-                    if(Directory.Exists( cacheDir ))
+                    if (Directory.Exists( cacheDir ))
                     {
-                        // retry
                         return false;
                     }
                     
@@ -376,18 +380,19 @@ namespace Microsoft.LearningComponents.SharePoint
 
                     GetSharePointFileData(fileInfo, out fileContents, out dateTimeLastModified, out filename);
 
-                    // Indicates whether SPFile was written as file or package.
-                    CachedFileState cachedFileState;
-
                     // If application requested to always cache as a file, then do that. Otherwise, attempt to 
                     // cache it as a package and if that fails then perhaps try to cache it as a file.
                     if (AlwaysCacheAsFile)
                     {
                         CacheAsFile(cacheDir, filename, fileContents);
-                        cachedFileState = CachedFileState.WrittenAsFile;
+                        WriteAndCloseLockFile(CachedFileState.WrittenAsFile, lockFile, fileContents.Length, dateTimeLastModified);
+                        lockFile = null;
                     }
                     else
                     {
+                        // Indicates whether SPFile was written as file or package.
+                        CachedFileState cachedFileState;
+
                         try
                         {
                             // The content might be an e-learning package, so try caching it as a package.
@@ -423,6 +428,7 @@ namespace Microsoft.LearningComponents.SharePoint
                     deleteLockFileAndDir = false;
 
                 } // Impersonate
+
                 return true;
             }
             finally
@@ -432,6 +438,12 @@ namespace Microsoft.LearningComponents.SharePoint
                 {
                     using (new ImpersonateIdentity(m_settings.ImpersonationBehavior))
                     {
+                        if (lockFile != null)
+                        {
+                            lockFile.Close();
+                            lockFile.Dispose();
+                        }
+
                         if (deleteLockFileAndDir)
                         {
                             try 
@@ -444,11 +456,7 @@ namespace Microsoft.LearningComponents.SharePoint
                                 // thrown to caller. In most cases, this is ignored.
                                 CachingException = new CacheException(Resources.CacheCreateDirCleanupFailed, e);
                             }
-                        }
-                        if(lockFile != null)
-                            lockFile.Close();
-                        if (deleteLockFileAndDir)
-                        {
+
                             try { File.Delete( lockFileName ); }
                             catch (Exception e)
                             {
@@ -475,26 +483,28 @@ namespace Microsoft.LearningComponents.SharePoint
             // write the information to the lock file
             try
             {
-                DetachableStream lockDetachableStr = new DetachableStream(lockFile);
-                using (StreamWriter sw = new StreamWriter(lockDetachableStr))
+                using (DetachableStream lockDetachableStr = new DetachableStream(lockFile))
                 {
-                    // first 'segment' (required) is the version of the file
-                    sw.Write(CACHE_VERSION_ID + " ");
+                    using (StreamWriter sw = new StreamWriter(lockDetachableStr))
+                    {
+                        // first 'segment' (required) is the version of the file
+                        sw.Write(CACHE_VERSION_ID + " ");
 
-                    // second 'segment' (required), the date/time the sharepoint
-                    // file was modified.
-                    sw.Write(dateTimeLastModified.Ticks.ToString(NumberFormatInfo.InvariantInfo));
+                        // second 'segment' (required), the date/time the sharepoint
+                        // file was modified.
+                        sw.Write(dateTimeLastModified.Ticks.ToString(NumberFormatInfo.InvariantInfo));
 
-                    // third 'segment' (required), the length of the file in bytes
-                    sw.Write(" " + lengthOfFile);
+                        // third 'segment' (required), the length of the file in bytes
+                        sw.Write(" " + lengthOfFile);
 
-                    // forth 'segment' (required), the format which the package was written
-                    sw.Write(" " + ((int)cachedFileState).ToString(NumberFormatInfo.InvariantInfo));
+                        // forth 'segment' (required), the format which the package was written
+                        sw.Write(" " + ((int)cachedFileState).ToString(NumberFormatInfo.InvariantInfo));
 
-                    // flush the writer so we can detach the stream
-                    sw.Flush();
+                        // flush the writer so we can detach the stream
+                        sw.Flush();
 
-                    lockDetachableStr.Detach();
+                        lockDetachableStr.Detach();
+                    }
                 }
             }
             catch
@@ -816,7 +826,13 @@ namespace Microsoft.LearningComponents.SharePoint
                 }
                 finally
                 {
-                    if( deleteLockFileAndDir )
+                    if(lockFile != null)
+                    {
+                       lockFile.Close();
+                       lockFile.Dispose();
+                    }
+
+                    if (deleteLockFileAndDir)
                     {
                         try { Directory.Delete( cacheDir, true ); } 
                         catch (Exception e)
@@ -827,12 +843,7 @@ namespace Microsoft.LearningComponents.SharePoint
                         }
                     }
 
-                    if(lockFile != null)
-                    {
-                       lockFile.Close();
-                    }
-
-                    if( deleteLockFileAndDir )
+                    if (deleteLockFileAndDir)
                     {
                         try { File.Delete(lockFileName); }
                         catch (Exception e)
@@ -854,6 +865,11 @@ namespace Microsoft.LearningComponents.SharePoint
             using ( new ImpersonateIdentity(m_settings.ImpersonationBehavior) )
             {
                 UnlockCache();
+                if (m_lockFile != null)
+                {
+                    m_lockFile.Dispose();
+                }
+
                 TryCleanCache(m_settings.CachePath, m_settings.ExpirationTime);
             }
         }

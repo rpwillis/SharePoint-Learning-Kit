@@ -113,8 +113,10 @@ namespace Microsoft.LearningComponents.SharePoint
                 cachedPackage = new CachedPackage(m_settings, Location, true);
             });
 
-            Initialize(new DirectoryInfo(cachedPackage.CacheDir), m_settings.ImpersonationBehavior);
-            cachedPackage.Dispose();
+            using (cachedPackage)
+            {
+                Initialize(new DirectoryInfo(cachedPackage.CacheDir), m_settings.ImpersonationBehavior);
+            }
         }
 #endregion constructors
 
