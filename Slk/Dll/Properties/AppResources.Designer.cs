@@ -1925,6 +1925,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to create field {0} for drop box. {1}.
+        /// </summary>
+        internal static string DropBoxFailCreateField {
+            get {
+                return ResourceManager.GetString("DropBoxFailCreateField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to create Drop Box. {0}.
         /// </summary>
         internal static string DropBoxListCreateFailure {
