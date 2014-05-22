@@ -86,6 +86,15 @@ namespace Microsoft.LearningComponents.SharePoint {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid cache path {0}..
+        /// </summary>
+        internal static string InvalidCachePath {
+            get {
+                return ResourceManager.GetString("InvalidCachePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid library cache {0}..
         /// </summary>
         internal static string InvalidLibraryCache {
