@@ -158,4 +158,7 @@
     <data name="InvalidLibraryCache" xml:space="preserve">
         <value>Invalid library cache {0}.</value>
     </data>
+    <data name="InvalidCachePath" xml:space="preserve">
+        <value>Invalid cache path {0}.</value>
+    </data>
 </root>

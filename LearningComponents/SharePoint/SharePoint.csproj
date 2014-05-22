@@ -22,7 +22,7 @@
   <PropertyGroup Condition=" '$(SharePointVersion)' == '2010' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(SharePointVersion)' == '2014' ">
+  <PropertyGroup Condition=" '$(SharePointVersion)' == '2013' ">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -114,4 +114,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(OutputPath)Microsoft.LearningComponents.SharePoint.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+    <Copy SourceFiles="$(OutputPath)Microsoft.LearningComponents.SharePoint.pdb" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+  </Target>
 </Project>

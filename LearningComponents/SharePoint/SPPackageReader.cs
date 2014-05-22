@@ -82,25 +82,7 @@ namespace Microsoft.LearningComponents.SharePoint
                 useRequestedPrivileges = RunWithCurrentUserPrivileges;
             }
 
-            try
-            {
-                // Impersonate the identity to access the cache
-                using (new ImpersonateIdentity(cacheSettings.ImpersonationBehavior))
-                {
-                    if (!Directory.Exists(cacheSettings.CachePath))
-                    {
-                        Directory.CreateDirectory(cacheSettings.CachePath);
-                    }
-                    
-                    // Test that the identity has read access to the directory. This will throw UnauthorizedAccessException if it 
-                    // does not.
-                    Directory.GetFiles(cacheSettings.CachePath);
-                }
-            }
-            catch
-            {
-                throw;
-            }
+            CachedPackage.EnsureCache(cacheSettings);
 
             CheckFileExists(file, packageLocation);
            

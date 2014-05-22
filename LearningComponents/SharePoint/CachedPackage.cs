@@ -127,6 +127,8 @@ namespace Microsoft.LearningComponents.SharePoint
 
             CachedFileInfo fileInfo = new CachedFileInfo(packageLocation);
 
+            System.Diagnostics.StackTrace trace = new System.Diagnostics.StackTrace();
+
             //Construct the names of the lock file & the directory to use for the package
             string cacheDir = GetCacheDirectory(m_settings.CachePath, fileInfo, m_settings.ImpersonationBehavior);
             string lockFileName = cacheDir + ".lock";
@@ -137,10 +139,20 @@ namespace Microsoft.LearningComponents.SharePoint
             {
                 if (DateTime.Now - startLocking > m_attemptLockingTime)
                 {
-                    throw new CacheException(Resources.SPLockTriesExceeded, CachingException);
+                    using ( new ImpersonateIdentity(m_settings.ImpersonationBehavior) )
+                    {
+                        if (Directory.Exists(m_settings.CachePath) == false)
+                        {
+                            throw new CacheException(string.Format(CultureInfo.CurrentUICulture, Resources.InvalidCachePath, m_settings.CachePath), CachingException);
+                        }
+                        else
+                        {
+                            throw new CacheException(Resources.SPLockTriesExceeded, CachingException);
+                        }
+                    }
                 }
 
-                System.Threading.Thread.Sleep(750);
+                System.Threading.Thread.Sleep(250);
             }
 
         }
@@ -264,6 +276,49 @@ namespace Microsoft.LearningComponents.SharePoint
         {
             get { return m_cacheDir; }
         }
+
+        /// <summary>Ensures that the cache directory exists.</summary>
+        public static void EnsureCache(SharePointCacheSettings cacheSettings)
+        {
+            try
+            {
+                // Impersonate the identity to access the cache
+                using (new ImpersonateIdentity(cacheSettings.ImpersonationBehavior))
+                {
+                    if (Directory.Exists(cacheSettings.CachePath) == false)
+                    {
+                        Directory.CreateDirectory(cacheSettings.CachePath);
+                    }
+
+                    // Test that the identity has read access to the directory. This will throw UnauthorizedAccessException if it 
+                    // does not.
+                    Directory.GetFiles(cacheSettings.CachePath);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /*
+        public static void Debug(string message, params object[] arguments)
+        {
+            string output = string.Format(message, arguments);
+            string logLine = "{0} : {1} : {2}";
+            output = string.Format(logLine, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), System.Threading.Thread.CurrentThread.ManagedThreadId, output);
+            try
+            {
+                using (StreamWriter writer = new StreamWriter("c:\\slkLogs\\cachedPackage.log", true))
+                {
+                    writer.WriteLine(output);
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+        */
 
         /// <summary>
         /// If the package in question hasn't been cached yet, then create the
@@ -507,7 +562,7 @@ namespace Microsoft.LearningComponents.SharePoint
                     }
                 }
             }
-            catch
+            catch (Exception)
             {
                 throw new CacheException(Resources.SPCannotWriteToLockFile);
             }
