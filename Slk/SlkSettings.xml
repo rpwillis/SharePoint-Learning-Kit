@@ -13,6 +13,8 @@
     SelectAllInstructors="false"
     UserWebListMruSize="6">
 
+  <MimeTypeMapping Extension=".bmp" MimeType="image/bmp" />
+  <MimeTypeMapping Extension=".gif" MimeType="image/gif" />
   <MimeTypeMapping Extension=".css" MimeType="text/css" />
   <MimeTypeMapping Extension=".doc" MimeType="application/msword" />
   <MimeTypeMapping Extension=".docm" MimeType="application/vnd.ms-word.document.macroEnabled.12" />
@@ -24,10 +26,10 @@
   <MimeTypeMapping Extension=".jpe" MimeType="image/jpeg" />
   <MimeTypeMapping Extension=".jpeg" MimeType="image/jpeg" />
   <MimeTypeMapping Extension=".jpg" MimeType="image/jpeg" />
-  <MimeTypeMapping Extension=".js" MimeType="application/x-javascript" />
+  <MimeTypeMapping Extension=".js" MimeType="application/javascript" />
   <MimeTypeMapping Extension=".mp4" MimeType="video/mp4" />
   <MimeTypeMapping Extension=".pdf" MimeType="application/pdf" />
-  <MimeTypeMapping Extension=".png" MimeType="image/x-png" />
+  <MimeTypeMapping Extension=".png" MimeType="image/png" />
   <MimeTypeMapping Extension=".potm" MimeType="application/vnd.ms-powerpoint.template.macroEnabled.12" />
   <MimeTypeMapping Extension=".potx" MimeType="application/vnd.openxmlformats-officedocument.presentationml.template" />
   <MimeTypeMapping Extension=".ppam" MimeType="application/vnd.ms-powerpoint.addin.macroEnabled.12" />
