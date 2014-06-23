@@ -55,7 +55,7 @@ document.onkeypress = function(e)
 	}
 							
 	e.cancelBubble = true;
-    e.returnValue = false;
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
  }
 
 document.onclick = function(e)
@@ -98,7 +98,7 @@ document.onclick = function(e)
 	}
 							
 	e.cancelBubble = true;
-    e.returnValue = false;
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
 }
 
 function CloseTOC()
@@ -165,7 +165,7 @@ document.onmouseover = function(e)
 	}
 
 	e.cancelBubble = true;
-    e.returnValue = false;
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
 }
 
 document.onmouseout = function(e)
@@ -203,7 +203,7 @@ document.onmouseout = function(e)
 	}
 
 	e.cancelBubble = true;
-    e.returnValue = false;
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
 }
 
 document.onmousedown = function(e)
@@ -241,7 +241,7 @@ document.onmousedown = function(e)
 	}
 
 	e.cancelBubble = true;
-    e.returnValue = false;
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
 }
 
 document.onmouseup = function(e)
@@ -279,7 +279,7 @@ document.onmouseup = function(e)
 	}
 
 	e.cancelBubble = true;
-    e.returnValue = false;
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
 }
 
 function OnLoad( frameName )
