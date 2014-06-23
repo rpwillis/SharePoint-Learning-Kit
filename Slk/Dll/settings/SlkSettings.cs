@@ -208,7 +208,8 @@ namespace Microsoft.SharePointLearningKit
             approvedAttachmentTypes = new Collection<string>();
             eLearningIisCompatibilityModeExtensions = new Collection<string>();
             nonELearningIisCompatibilityModeExtensions = new Collection<string>();
-            MimeTypeMappings = new Dictionary<string, string>(50);
+            MimeTypeMappings = new Dictionary<string, string>(50, StringComparer.OrdinalIgnoreCase);
+            InitalizeMimeTypeMappings();
             queryDefinitions = new List<QueryDefinition>(20);
             querySetDefinitions = new List<QuerySetDefinition>(10);
             WhenUploaded = whenUploaded;
@@ -269,7 +270,19 @@ namespace Microsoft.SharePointLearningKit
                                 break;
 
                             case "MimeTypeMapping":
-                                MimeTypeMappings[xmlReader.GetAttribute("Extension")] = xmlReader.GetAttribute("MimeType");
+                                // Add or override standard mime-type mappings
+                                string extension = xmlReader.GetAttribute("Extension");
+                                if (string.IsNullOrEmpty(extension) == false)
+                                {
+                                    extension = extension.ToUpperInvariant();
+                                    string mimeType = xmlReader.GetAttribute("MimeType");
+                                    // Standard slksettings.xml had invalid png mime-type in
+                                    if (extension != ".PNG" && mimeType != "image/x-png")
+                                    {
+                                        MimeTypeMappings[extension] = mimeType;
+                                    }
+                                }
+
                                 break;
 
                             case "DropBoxSettings":
@@ -636,6 +649,54 @@ namespace Microsoft.SharePointLearningKit
         private static AppResourcesLocal Resources
         {
             get { return SlkCulture.GetResources() ;}
+        }
+
+        /// <summary>Adds base mime type mappings.</summary>
+        /// <remarks>This is done here as SP2013 adds a header X-Content-Type-Options: nosniff.
+        /// This prevents IE from displaying items if no (or wrong) mime-type set and the standard
+        /// slksettings.xml had some image types missing.</remarks>
+        private void InitalizeMimeTypeMappings()
+        {
+            MimeTypeMappings[".BMP"] = "image/bmp";
+            MimeTypeMappings[".GIF"] = "image/gif";
+            MimeTypeMappings[".CSS"] = "text/css";
+            MimeTypeMappings[".DOC"] = "application/msword";
+            MimeTypeMappings[".DOCM"] = "application/vnd.ms-word.document.macroEnabled.12";
+            MimeTypeMappings[".DOCX"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            MimeTypeMappings[".DOTM"] = "application/vnd.ms-word.template.macroEnabled.12";
+            MimeTypeMappings[".DOTX"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.template";
+            MimeTypeMappings[".HTM"] = "text/html";
+            MimeTypeMappings[".HTML"] = "text/html";
+            MimeTypeMappings[".JPE"] = "image/jpeg";
+            MimeTypeMappings[".JPEG"] = "image/jpeg";
+            MimeTypeMappings[".JPG"] = "image/jpeg";
+            MimeTypeMappings[".JS"] = "application/javascript";
+            MimeTypeMappings[".MP4"] = "video/mp4";
+            MimeTypeMappings[".PDF"] = "application/pdf";
+            MimeTypeMappings[".PNG"] = "image/png";
+            MimeTypeMappings[".POTM"] = "application/vnd.ms-powerpoint.template.macroEnabled.12";
+            MimeTypeMappings[".POTX"] = "application/vnd.openxmlformats-officedocument.presentationml.template";
+            MimeTypeMappings[".PPAM"] = "application/vnd.ms-powerpoint.addin.macroEnabled.12";
+            MimeTypeMappings[".PPSM"] = "application/vnd.ms-powerpoint.slideshow.macroEnabled.12";
+            MimeTypeMappings[".PPSX"] = "application/vnd.openxmlformats-officedocument.presentationml.slideshow";
+            MimeTypeMappings[".PPT"] = "application/vnd.ms-powerpoint";
+            MimeTypeMappings[".PPTM"] = "application/vnd.ms-powerpoint.presentation.macroEnabled.12";
+            MimeTypeMappings[".PPTX"] = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+            MimeTypeMappings[".PUB"] = "application/x-mspublisher";
+            MimeTypeMappings[".SWF"] = "application/x-shockwave-flash";
+            MimeTypeMappings[".TIF"] = "image/tiff";
+            MimeTypeMappings[".TIFF"] = "image/tiff";
+            MimeTypeMappings[".TXT"] = "text/plain";
+            MimeTypeMappings[".VSD"] = "application/vnd.visio";
+            MimeTypeMappings[".XBM"] = "image/image/x-xbitmap";
+            MimeTypeMappings[".XLAM"] = "application/vnd.ms-excel.addin.macroEnabled.12";
+            MimeTypeMappings[".XLS"] = "application/vnd.ms-excel";
+            MimeTypeMappings[".XLSB"] = "application/vnd.ms-excel.sheet.binary.macroEnabled.12";
+            MimeTypeMappings[".XLSM"] = "application/vnd.ms-excel.sheet.macroEnabled.12";
+            MimeTypeMappings[".XLSX"] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            MimeTypeMappings[".XLTM"] = "application/vnd.ms-excel.template.macroEnabled.12";
+            MimeTypeMappings[".XLTX"] = "application/vnd.openxmlformats-officedocument.spreadsheetml.template";
+            MimeTypeMappings[".XML"] = "text/xml";
         }
 
     }

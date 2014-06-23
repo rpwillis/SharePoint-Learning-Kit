@@ -13,46 +13,9 @@
     SelectAllInstructors="false"
     UserWebListMruSize="6">
 
+    <!-- Add MimeTypeMappings here. Many are added by default. To add others use 
   <MimeTypeMapping Extension=".bmp" MimeType="image/bmp" />
-  <MimeTypeMapping Extension=".gif" MimeType="image/gif" />
-  <MimeTypeMapping Extension=".css" MimeType="text/css" />
-  <MimeTypeMapping Extension=".doc" MimeType="application/msword" />
-  <MimeTypeMapping Extension=".docm" MimeType="application/vnd.ms-word.document.macroEnabled.12" />
-  <MimeTypeMapping Extension=".docx" MimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-  <MimeTypeMapping Extension=".dotm" MimeType="application/vnd.ms-word.template.macroEnabled.12" />
-  <MimeTypeMapping Extension=".dotx" MimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.template" />
-  <MimeTypeMapping Extension=".htm" MimeType="text/html" />
-  <MimeTypeMapping Extension=".html" MimeType="text/html" />
-  <MimeTypeMapping Extension=".jpe" MimeType="image/jpeg" />
-  <MimeTypeMapping Extension=".jpeg" MimeType="image/jpeg" />
-  <MimeTypeMapping Extension=".jpg" MimeType="image/jpeg" />
-  <MimeTypeMapping Extension=".js" MimeType="application/javascript" />
-  <MimeTypeMapping Extension=".mp4" MimeType="video/mp4" />
-  <MimeTypeMapping Extension=".pdf" MimeType="application/pdf" />
-  <MimeTypeMapping Extension=".png" MimeType="image/png" />
-  <MimeTypeMapping Extension=".potm" MimeType="application/vnd.ms-powerpoint.template.macroEnabled.12" />
-  <MimeTypeMapping Extension=".potx" MimeType="application/vnd.openxmlformats-officedocument.presentationml.template" />
-  <MimeTypeMapping Extension=".ppam" MimeType="application/vnd.ms-powerpoint.addin.macroEnabled.12" />
-  <MimeTypeMapping Extension=".ppsm" MimeType="application/vnd.ms-powerpoint.slideshow.macroEnabled.12" />
-  <MimeTypeMapping Extension=".ppsx" MimeType="application/vnd.openxmlformats-officedocument.presentationml.slideshow" />
-  <MimeTypeMapping Extension=".ppt" MimeType="application/vnd.ms-powerpoint" />
-  <MimeTypeMapping Extension=".pptm" MimeType="application/vnd.ms-powerpoint.presentation.macroEnabled.12" />
-  <MimeTypeMapping Extension=".pptx" MimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation" />
-  <MimeTypeMapping Extension=".pub" MimeType="application/x-mspublisher" />
-  <MimeTypeMapping Extension=".swf" MimeType="application/x-shockwave-flash" />
-  <MimeTypeMapping Extension=".tif" MimeType="image/tiff" />
-  <MimeTypeMapping Extension=".tiff" MimeType="image/tiff" />
-  <MimeTypeMapping Extension=".txt" MimeType="text/plain" />
-  <MimeTypeMapping Extension=".vsd" MimeType="application/vnd.visio" />
-  <MimeTypeMapping Extension=".xbm" MimeType="image/image/x-xbitmap" />
-  <MimeTypeMapping Extension=".xlam" MimeType="application/vnd.ms-excel.addin.macroEnabled.12" />
-  <MimeTypeMapping Extension=".xls" MimeType="application/vnd.ms-excel" />
-  <MimeTypeMapping Extension=".xlsb" MimeType="application/vnd.ms-excel.sheet.binary.macroEnabled.12" />
-  <MimeTypeMapping Extension=".xlsm" MimeType="application/vnd.ms-excel.sheet.macroEnabled.12" />
-  <MimeTypeMapping Extension=".xlsx" MimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-  <MimeTypeMapping Extension=".xltm" MimeType="application/vnd.ms-excel.template.macroEnabled.12" />
-  <MimeTypeMapping Extension=".xltx" MimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.template" />
-  <MimeTypeMapping Extension=".xml" MimeType="text/xml" />
+  -->
 
   <EmailSettings ReminderDays="1,7">
       <NewAssignment Subject="New Assignment: %title%">
