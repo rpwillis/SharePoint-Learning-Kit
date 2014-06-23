@@ -100,11 +100,11 @@ Features\AdminFeature\feature.xml                                           Shar
 ..\App\Images\ARRDOWNA.GIF                                                  Layouts\SharePointLearningKit\Images\ARRDOWNA.GIF
 ..\App\Images\ARRUPA.GIF                                                    Layouts\SharePointLearningKit\Images\ARRUPA.GIF
 ..\App\Include\Styles.css                                                   Layouts\SharePointLearningKit\Include\Styles.css
-Features\AppFeature\ELearningActions\elements.xml                           SharePointLearningKit\elements.xml
+Features\AppFeature\ELearningActions\elements%SPVersion%.xml                SharePointLearningKit\elements.xml
 Features\AppFeature\ELearningActions\feature.xml                            SharePointLearningKit\feature.xml
-Features\AppFeature\AssignSelf\elements.xml                                 SharePointLearningKitAssignSelf\elements.xml
+Features\AppFeature\AssignSelf\elements%SPVersion%.xml                      SharePointLearningKitAssignSelf\elements.xml
 Features\AppFeature\AssignSelf\feature.xml                                  SharePointLearningKitAssignSelf\feature.xml
-Features\AppFeature\AssignSite\elements.xml                                 SharePointLearningKitAssignSite\elements.xml
+Features\AppFeature\AssignSite\elements%SPVersion%.xml                      SharePointLearningKitAssignSite\elements.xml
 Features\AppFeature\AssignSite\feature.xml                                  SharePointLearningKitAssignSite\feature.xml
 Features\WebParts\elements.xml                                              SharePointLearningKitWebParts\elements.xml
 Features\WebParts\feature.xml                                               SharePointLearningKitWebParts\feature.xml
