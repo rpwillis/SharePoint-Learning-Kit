@@ -42,6 +42,7 @@
 					<xs:sequence />
 					<xs:attribute name="Location" type="xs:string" use="optional" />
 					<xs:attribute name="UseOfficeWebApps" type="xs:boolean" use="optional" />
+					<xs:attribute name="OpenSubmittedInSameWindow" type="xs:boolean" use="optional" />
 					<xs:attribute name="Url" type="xs:string" use="optional" />
 				</xs:complexType>
 			</xs:element>
@@ -144,6 +145,7 @@
 			<xs:attribute name="ELearningIisCompatibilityModeExtensions" type="xs:string" use="optional" />
 			<xs:attribute name="HideDisabledUsers" type="xs:boolean" use="optional" />
 			<xs:attribute name="UseGrades" type="xs:boolean" use="optional" />
+			<xs:attribute name="HidePointsForNonELearning" type="xs:boolean" use="optional" />
 			<xs:attribute name="SelectAllInstructors" type="xs:boolean" use="optional" />
 			<xs:attribute name="SelectAllLearners" type="xs:boolean" use="optional" />
 			<xs:attribute name="LearnerReportUrl" type="xs:string" use="optional" />
@@ -174,10 +176,12 @@
 			<xs:enumeration value="Default" />
 			<xs:enumeration value="UtcAsLocalDateTime" />
 			<xs:enumeration value="SPWebName" />
+			<xs:enumeration value="SPWebTitle" />
 			<xs:enumeration value="Link" />
 			<xs:enumeration value="LearnerAssignmentStatus" />
 			<xs:enumeration value="Due" />
 			<xs:enumeration value="ScoreAndPossible" />
+			<xs:enumeration value="IfEmpty" />
 			<xs:enumeration value="Submitted" />
 		</xs:restriction>
 	</xs:simpleType>
