@@ -1783,6 +1783,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot determine group in AD.
+        /// </summary>
+        internal string DomainGroupAdfs {
+            get {
+                return ResourceManager.GetString("DomainGroupAdfs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot determine group in AD. Invalid SID {0}..
         /// </summary>
         internal string DomainGroupInvalidSid {

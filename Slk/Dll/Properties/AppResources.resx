@@ -1173,6 +1173,9 @@ saving, click Cancel.</value>
   <data name="DomainGroupInvalid" xml:space="preserve">
     <value>Cannot determine group in AD</value>
   </data>
+  <data name="DomainGroupAdfs" xml:space="preserve">
+    <value>Cannot use Active Directory groups for assignments when using ADFS.</value>
+  </data>
   <data name="DomainGroupInvalidSid" xml:space="preserve">
       <value>Cannot determine group in AD. Invalid SID {0}.</value>
   </data>

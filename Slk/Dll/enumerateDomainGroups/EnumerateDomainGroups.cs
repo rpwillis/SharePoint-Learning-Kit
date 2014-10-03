@@ -122,7 +122,6 @@ namespace Microsoft.SharePointLearningKit
         /// <c>SpUserInfo</c> is used simply as a convenient class to contain information about users.</returns>
         public ICollection<SPUserInfo> EnumerateDomainGroup(SPUser group)
         {
-
             processedThisGroup  = new Dictionary<string, object>();
             string ldapPath = string.Format("LDAP://<SID={0}>", SidToOctetString(group));
             try
@@ -274,7 +273,15 @@ namespace Microsoft.SharePointLearningKit
                 }
                 else
                 {
-                    sddl = loginName.Substring(index + 1);
+                    if (loginName.ToUpperInvariant().Contains("|ADFS|"))
+                    {
+                        // Is an AD group, when using ADFS authentication. Cannot use these.
+                        throw new DomainGroupEnumerationException(culture.Resources.DomainGroupAdfs);
+                    }
+                    else
+                    {
+                        sddl = loginName.Substring(index + 1);
+                    }
                 }
             }
 
