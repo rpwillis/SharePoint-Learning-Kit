@@ -449,6 +449,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 //Render Assignment List webpart
                 RenderAssignmentList(writer);
             }
+            catch (System.Threading.ThreadAbortException)
+            {
+                // Not much we can do about this.
+            }
             catch (SafeToDisplayException e)
             {
                 SlkError slkError = new SlkError(ErrorType.Error, Constants.Space + e.Message);
