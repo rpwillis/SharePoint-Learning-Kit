@@ -2691,7 +2691,32 @@ namespace Microsoft.SharePointLearningKit
         {
             SlkUtilities.ImpersonateAppPool(delegate()
             {
-                string message = String.Format(CultureInfo.InvariantCulture, culture.Resources.AppError, String.Format(CultureInfo.InvariantCulture, format, args));
+                string message = null;
+                try
+                {
+                    message = String.Format(CultureInfo.InvariantCulture, culture.Resources.AppError, String.Format(CultureInfo.InvariantCulture, format, args));
+                }
+                catch (FormatException)
+                {
+                    // Incorrectly formatted message. Just output it and its arguments.
+                    StringBuilder builder = new StringBuilder();
+                    builder.AppendLine("SLK:");
+                    builder.Append(format);
+                    if (args != null)
+                    {
+                        foreach (object arg in args)
+                        {
+                            builder.Append(",");
+                            if (arg != null)
+                            {
+                                builder.Append(arg.ToString());
+                            }
+                        }
+                    }
+
+                    message = builder.ToString();
+                }
+
                 message = message.Replace(@"\n", "\r\n");
                 WriteEvent(message);
             });
