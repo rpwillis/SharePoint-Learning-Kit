@@ -163,13 +163,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                         try
                                         {
                                             // set <queryDef> to the QueryDefinition named <queryName>
-                                            QueryDefinition queryDef 
-                                                        = SlkStore.Settings.FindQueryDefinition(Query);
+                                            QueryDefinition queryDef = null;
+                                            if (Query != null)
+                                            {
+                                                queryDef = SlkStore.Settings.FindQueryDefinition(Query);
+                                            }
 
                                             if (queryDef == null)
                                             {
-                                                throw new SafeToDisplayException
-                                                                   (PageCulture.Resources.AlwpQuerySetNotFound, Query);
+                                                throw new SafeToDisplayException (PageCulture.Resources.AlwpQuerySetNotFound, Query);
                                             }
 
 
