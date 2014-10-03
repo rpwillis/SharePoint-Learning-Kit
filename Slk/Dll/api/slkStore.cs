@@ -2204,9 +2204,18 @@ namespace Microsoft.SharePointLearningKit
             {
                 SlkUser user = LoadUser(web, dataRow, idColumn, nameColumn, keyColumn);
                 user.AssignmentUserId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[assignmentIdColumn]);
-                users.Add(user);
+                bool added = true;
+                try
+                {
+                    users.Add(user);
+                }
+                catch (ArgumentException)
+                {
+                    // Duplicate key. Invalid data from the database so ignore this user. Only seen this error when manually adding users to the DB.
+                    added = false;
+                }
 
-                if (assignResults)
+                if (added && assignResults)
                 {
                     LearnerAssignmentProperties learnerProperties = PopulateLearnerAssignmentProperties(dataRow, properties, web, true);
                     results.Add(learnerProperties);
