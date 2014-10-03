@@ -1711,6 +1711,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot use Active Directory groups for assignments when using ADFS..
+        /// </summary>
+        internal static string DomainGroupAdfs {
+            get {
+                return ResourceManager.GetString("DomainGroupAdfs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot use NT AUTHORITY\Authenticated users group for assigning work in SLK..
         /// </summary>
         internal static string DomainGroupAuthenticatedUsers {
