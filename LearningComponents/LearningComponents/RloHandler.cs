@@ -9,6 +9,7 @@ using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.DataModel;
 using System.Globalization;
 using System.Web;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Microsoft.LearningComponents
@@ -390,6 +391,12 @@ namespace Microsoft.LearningComponents
                         Stream packageFile = pkgReader.GetFileStream(relativePath);
                         WriteIisCompatibilityModeToResponse(packageFile);
                     }
+#if DOTNET40
+                    else if (FileIsHtml(pathExtension))
+                    {
+                        SendHtmlChangingCssHref(pkgReader.GetFileStream(relativePath));
+                    }
+#endif
                     else
                     {
                         pkgReader.TransmitFile(relativePath, m_context.Response);
@@ -408,6 +415,49 @@ namespace Microsoft.LearningComponents
                     outputDS.Detach();
                 }
             }
+        }
+
+        private bool FileIsHtml(string extension)
+        {
+            if (extension == null)
+            {
+                return false;
+            }
+
+            switch (extension.ToUpperInvariant())
+            {
+                case ".HTML":
+                case ".HTM":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private void SendHtmlChangingCssHref(Stream stream)
+        {
+            // In SharePoint 2013 css files are not handled by content.aspx. For some reason SP stops the request getting to content.aspx.
+            // By modifying the url we can ensure that the content gets there.
+            string content = null;
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                content = reader.ReadToEnd();
+            }
+
+            // This is a very simplistic search and replace
+            // Should really use something like Html Agility Pack
+            string pattern = @"href=""[^""]*.css""";
+            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            string modifiedContent = regex.Replace(content, ModifyCssUrl);
+            Response.Write(modifiedContent);
+        }
+
+        private string ModifyCssUrl(Match match)
+        {
+            // match is of format href="url.css"
+            // so need to put / the letter before last
+            string value = match.Value;
+            return value.Substring(0, value.Length - 1) + "/\"";
         }
 
         /// <summary>

@@ -620,8 +620,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
                 else
                 {
-                    slkButtonBegin.OnClientClick = openFrameset;
-                    slkButtonBegin.NavigateUrl = openFrameset;
+                    if (string.IsNullOrEmpty(slkButtonBegin.OnClientClick) && string.IsNullOrEmpty(slkButtonBegin.NavigateUrl))
+                    {
+                        slkButtonBegin.OnClientClick = openFrameset;
+                        slkButtonBegin.NavigateUrl = openFrameset;
+                    }
                 }
                 slkButtonBegin.ImageUrl = Constants.ImagePath + Constants.NewDocumentIcon;
             }
@@ -629,7 +632,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         private void SetupFileAction(AssignmentFile file, SlkButton button, bool includeReload)
         {
-            
             DropBoxManager dropBoxMgr = new DropBoxManager(AssignmentProperties);
 
             DropBoxEditMode editMode = DropBoxEditMode.Edit;
