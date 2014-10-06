@@ -1420,7 +1420,7 @@ namespace Microsoft.SharePointLearningKit
             }
 
             LearningStoreQuery query = CreateQueryForLearnerAssignmentProperties(learnerAssignmentGuidId, slkRole);
-            return LoadLearnerAssignment(query, true);
+            return LoadLearnerAssignment(query, true, learnerAssignmentGuidId);
         }
 
         /// <summary>Load the current AssignmentProperties for a self-assignment.</summary>
@@ -1435,7 +1435,7 @@ namespace Microsoft.SharePointLearningKit
             }
 
             LearningStoreQuery query = CreateQueryForLoadSelfAssignment(location);
-            return LoadLearnerAssignment(query, false);
+            return LoadLearnerAssignment(query, false, "LoadSelfAssignmentForLocation");
         }
 
         /// <summary>Retrieves grading-related information about an assignment from the SLK database.</summary>
@@ -2466,7 +2466,7 @@ namespace Microsoft.SharePointLearningKit
 #endregion conversion methods
 
 #region private methods
-        AssignmentProperties LoadLearnerAssignment(LearningStoreQuery query, bool checkSingular)
+        AssignmentProperties LoadLearnerAssignment(LearningStoreQuery query, bool checkSingular, object assignmentId)
         {
             // Security checks: Fails if the user doesn't have access to the learner assignment (since
             // the query is limited to only the information the user has access to, and an exception
@@ -2494,7 +2494,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     // this error message includes the learner assignment ID, but that's okay since the information we provide does not allow the user to distinguish between the
                     // learner assignment not existing and the user not having access to it
-                    throw new SafeToDisplayException(culture.Resources.LearnerAssignmentNotFoundInDatabase);
+                    throw new SafeToDisplayException(culture.Resources.LearnerAssignmentNotFoundInDatabase, assignmentId);
                 }
             }
             else
