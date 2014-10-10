@@ -486,14 +486,19 @@ namespace Microsoft.SharePointLearningKit.Frameset
         private void SetMimeType(string fileName)
         {
             IDictionary<string, string> mappings = SlkStore.Settings.MimeTypeMappings;
-            string mimeType;
+            string mimeType = null;
             string fileExtension = Path.GetExtension(fileName);
 
-            if (mappings.ContainsKey(fileExtension))
+            if (string.IsNullOrEmpty(fileExtension) == false)
             {
-                mimeType = mappings[fileExtension];
+                fileExtension = fileExtension.ToUpperInvariant();
+                if (mappings.ContainsKey(fileExtension))
+                {
+                    mimeType = mappings[fileExtension];
+                }
             }
-            else
+
+            if (string.IsNullOrEmpty(mimeType))
             {
                 mimeType = "application/octet-stream";
             }

@@ -11,6 +11,7 @@
 
         <InstallFiles Include="doc\root\*"/>
         <InstallFiles Include="doc\install\*.txt"/>
+        <InstallFiles Include="slk\sql\upgrade*.sql"/>
         <!--
         <SPVersion Include="slk.proj">
             <Version>2007</Version>

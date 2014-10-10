@@ -197,7 +197,7 @@ function body_onclick(e)
     }
     
    e.cancelBubble = true;
-   e.returnValue = false;
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
 }
 
 // Expands or collapses the group associated with strActivityId.

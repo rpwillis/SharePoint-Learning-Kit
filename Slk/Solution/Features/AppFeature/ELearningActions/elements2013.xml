@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+	
+	<CustomAction Id="{00057003-c978-11da-ba52-00042350e42f}"
+			   Title="$Resources:SLK,ELearningCustomActionTitle"
+			   Location="DisplayFormToolbar"
+			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+			   RegistrationType="List"
+			   RegistrationId="101">
+		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?ListId={ListId}&amp;ItemId={ItemId}"/>
+	</CustomAction>
+	<CustomAction Id="{00057003-c978-11da-ba52-00042350e42h}"
+			   Title="$Resources:SLK,ELearningCustomActionTitle"
+			   Location="EditControlBlock"
+			   ImageUrl="/_layouts/SharePointLearningKit/Images/ActionsIcon.gif"
+			   RegistrationType="List"
+			   RegistrationId="101">
+		<UrlAction Url="~site/_layouts/SharePointLearningKit/Actions.aspx?ListId={ListId}&amp;ItemId={ItemId}"/>
+	</CustomAction>
+    <CustomAction Id="SLKElearningActionsRibbon"
+                    Title="SLKElearningActionsRibbon"
+                    Location="CommandUI.Ribbon.ListView"
+                    RegistrationId="101"
+                    RegistrationType="List"
+                    Sequence="5"
+                    >
+                    <CommandUIExtension>
+                        <CommandUIDefinitions>
+                            <CommandUIDefinition Location="Ribbon.Documents.Share.Controls._children">
+                                <Button
+                                    Id="Ribbon.Documents.Share.SLKElearningActionsRibbon"
+                                    Alt="$Resources:SLK,ELearningCustomActionTitle"
+                                    Sequence="5"
+                                    Command="SLK_ElearningActions"
+                                    LabelText="$Resources:SLK,ELearningCustomActionTitle"
+                                    Image32by32="/_layouts/$Resources:core,Language;/images/formatmap32x32.png"
+                                    Image32by32Top="0" 
+                                    Image32by32Left="-352"
+                                    Image16by16="/_layouts/$Resources:core,Language;/images/formatmap16x16.png"
+                                    Image16by16Top="-80" 
+                                    Image16by16Left="-160"
+                                    TemplateAlias="o1"/>
+                            </CommandUIDefinition>
+                        </CommandUIDefinitions>
+                        <CommandUIHandlers>
+                            <CommandUIHandler Command="SLK_ElearningActions" 
+                                CommandAction="~site/_layouts/SharePointLearningKit/Actions.aspx?ListId={ListId}&amp;ItemId={SelectedItemId}"
+                                EnabledScript="javascript:
+        function enable() {
+        var items = SP.ListOperation.Selection.getSelectedItems();
+        var itemCount = CountDictionary(items);
+        return (itemCount==1 &amp;&amp; items[0].fsObjType == 0);
+        }enable();"
+                                />
+                        </CommandUIHandlers>
+                    </CommandUIExtension>
+    </CustomAction>
+</Elements>

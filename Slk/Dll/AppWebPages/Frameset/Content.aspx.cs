@@ -626,7 +626,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
             {
                 contentPath = Request.QueryString[FramesetQueryParameter.ContentFilePath];
             }
-
 #if SP2013
             // For .css files strip off the final / which we have put in to get round SP2013 stopping them
             if (contentPath.Length > 4)
@@ -637,7 +636,6 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 }
             }
 #endif
-
             return contentPath;
         }
 

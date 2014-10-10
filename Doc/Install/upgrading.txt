@@ -6,3 +6,6 @@ Upgrade to 1.7 from 1.6
         c.  Then add solution as in installing SLK and then deploy it to the appropriate web applications
 
     There are no database changes required.
+
+Upgrade to 1.7 from 1.5 or earlier
+    Upgrade as per 1.7 to 1.6, then run the database upgrade script upgrade16.sql on all your SLK databases. Make sure that you back them up first.

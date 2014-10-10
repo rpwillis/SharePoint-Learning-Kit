@@ -1011,8 +1011,11 @@ namespace Microsoft.SharePointLearningKit
                         job.DeleteItem(slkUser.AssignmentUserId);
                     }
 
+                    PopulateLearnerAssignmentIds(assignment.Learners, assignment.Id);
+
                     // execute the LearningStore job
                     job.Execute();
+
                 }
                 
                 scope.Complete();

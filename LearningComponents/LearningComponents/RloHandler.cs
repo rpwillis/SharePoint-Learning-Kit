@@ -269,6 +269,13 @@ namespace Microsoft.LearningComponents
     internal class RloRenderContext : RloDataModelContext
     {
         private RenderContext m_context;
+        // pattern is "[^""]*\.css" i.e. "<any content not ">.css"
+        // Used to have =ref in it, but that didn't pick up css added by javascript
+        private const string htmlCssPattern = @"[""'][^""']*\.css[""']";
+        static readonly Regex htmlCssRegex = new Regex(htmlCssPattern, RegexOptions.IgnoreCase);
+
+        // Use same pattern as html
+        static readonly Regex jsCssRegex = new Regex(htmlCssPattern, RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Create a context to send to an RloHandler when calling <c>RloHandler.Render</c>.
@@ -396,6 +403,10 @@ namespace Microsoft.LearningComponents
                     {
                         SendHtmlChangingCssHref(pkgReader.GetFileStream(relativePath));
                     }
+                    else if (FileIsJavascript(pathExtension))
+                    {
+                        SendJavascriptChangingCssHref(pkgReader.GetFileStream(relativePath));
+                    }
 #endif
                     else
                     {
@@ -417,6 +428,22 @@ namespace Microsoft.LearningComponents
             }
         }
 
+        private bool FileIsJavascript(string extension)
+        {
+            if (extension == null)
+            {
+                return false;
+            }
+
+            switch (extension.ToUpperInvariant())
+            {
+                case ".JS":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         private bool FileIsHtml(string extension)
         {
             if (extension == null)
@@ -434,7 +461,17 @@ namespace Microsoft.LearningComponents
             }
         }
 
+        private void SendJavascriptChangingCssHref(Stream stream)
+        {
+            SendContentChangingCssHref(stream, jsCssRegex);
+        }
+
         private void SendHtmlChangingCssHref(Stream stream)
+        {
+            SendContentChangingCssHref(stream, htmlCssRegex);
+        }
+
+        private void SendContentChangingCssHref(Stream stream, Regex regex)
         {
             // In SharePoint 2013 css files are not handled by content.aspx. For some reason SP stops the request getting to content.aspx.
             // By modifying the url we can ensure that the content gets there.
@@ -446,8 +483,6 @@ namespace Microsoft.LearningComponents
 
             // This is a very simplistic search and replace
             // Should really use something like Html Agility Pack
-            string pattern = @"href=""[^""]*.css""";
-            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
             string modifiedContent = regex.Replace(content, ModifyCssUrl);
             Response.Write(modifiedContent);
         }
@@ -457,7 +492,7 @@ namespace Microsoft.LearningComponents
             // match is of format href="url.css"
             // so need to put / the letter before last
             string value = match.Value;
-            return value.Substring(0, value.Length - 1) + "/\"";
+            return value.Substring(0, value.Length - 1) + "x" + value.Substring(value.Length - 1);
         }
 
         /// <summary>
