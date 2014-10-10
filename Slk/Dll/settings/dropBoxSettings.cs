@@ -43,8 +43,8 @@ namespace Microsoft.SharePointLearningKit
 
             Url = reader.GetAttribute("Url");
 
-            UseOfficeWebApps = BooleanAttribute(reader, "UseOfficeWebApps");
-            OpenSubmittedInSameWindow = BooleanAttribute(reader, "OpenSubmittedInSameWindow");
+            UseOfficeWebApps = SlkSettings.BooleanAttribute(reader, "UseOfficeWebApps");
+            OpenSubmittedInSameWindow = SlkSettings.BooleanAttribute(reader, "OpenSubmittedInSameWindow");
         }
 #endregion constructors
 
@@ -69,18 +69,6 @@ namespace Microsoft.SharePointLearningKit
 #endregion protected methods
 
 #region private methods
-        private bool BooleanAttribute(XmlReader reader, string attribute)
-        {
-            string value = reader.GetAttribute(attribute);
-            if (string.IsNullOrEmpty(value) == false)
-            {
-                return (value.ToUpperInvariant() == "TRUE");
-            }
-            else
-            {
-                return false;
-            }
-        }
 #endregion private methods
 
 #region static members
