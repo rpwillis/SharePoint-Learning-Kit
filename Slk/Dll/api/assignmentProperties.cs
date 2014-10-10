@@ -235,6 +235,23 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Indicates whether to email assignment changes.</summary>
         public bool EmailChanges { get; set; }
 
+        /// <summary>Indicates whether to email the instructor when a learner submits an assignment.</summary>
+        public bool EmailOnSubmit
+        {
+            get
+            {
+                // Same value as EmailChanges unless EmailOnSubmitOff is true in the settings.
+                if (Store.Settings.EmailSettings.EmailOnSubmitOff)
+                {
+                    return false;
+                }
+                else
+                {
+                    return EmailChanges;
+                }
+            }
+        }
+
         /// <summary>Any packabe warnings.</summary>
         public LearningStoreXml PackageWarnings { get; private set; }
 #endregion properties
@@ -299,7 +316,7 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="name">The name of the learner.</param>
         public void SendSubmitEmail(string name)
         {
-            if (EmailChanges)
+            if (EmailOnSubmit)
             {
                 using (AssignmentEmailer emailer = new AssignmentEmailer(this, Store.Settings.EmailSettings, SPSiteGuid, SPWebGuid))
                 {

@@ -222,6 +222,25 @@ namespace Microsoft.SharePointLearningKit
         }
 #endregion constructors
 
+#region public static methods
+        /// <summary>Reads a boolean attribute.</summary>
+        /// <param name="reader">The reader to read.</param>
+        /// <param name="attribute">The attribute name.</param>
+        /// <returns>A boolean value. Defaults to false if not present.</returns>
+        public static bool BooleanAttribute(XmlReader reader, string attribute)
+        {
+            string value = reader.GetAttribute(attribute);
+            if (string.IsNullOrEmpty(value) == false)
+            {
+                return (value.ToUpperInvariant() == "TRUE");
+            }
+            else
+            {
+                return false;
+            }
+        }
+#endregion public static methods
+
         /// <summary>
         /// Parses an SLK Settings XML file, i.e. an XML file with schema
         /// "urn:schemas-microsoft-com:sharepoint-learning-kit:settings".  Returns a new
