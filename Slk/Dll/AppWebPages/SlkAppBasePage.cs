@@ -40,6 +40,9 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     // Private Fields
     //
 
+    private string sourceUrl;
+    private string rawSourceUrl;
+
     /// <summary>
     /// Holds the value of the <c>SPWeb</c> property.
     /// </summary>
@@ -102,6 +105,34 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     }
 
     #region protected properties
+    ///<summary>Gets the value of the "Source" query parameter, the URL of the source page.</summary>
+    protected string RawSourceUrl
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(rawSourceUrl))
+            {
+                rawSourceUrl = QueryString.ParseStringOptional("Source");
+            }
+
+            return rawSourceUrl;
+        }
+    }
+
+    ///<summary>Gets the value of the "Source" query parameter, the URL of the source page.</summary>
+    protected string SourceUrl
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(sourceUrl))
+            {
+                sourceUrl = HttpUtility.UrlDecode(RawSourceUrl);
+            }
+
+            return sourceUrl;
+        }
+    }
+
     /// <summary>Indicates if should override master page.</summary>
     protected virtual bool OverrideMasterPage
     {
@@ -154,7 +185,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
                 {
                     m_isObserver = true;
                 }
-                else if (this.LocalSlkStore.IsInstructor(SPWeb) == true && (Request.QueryString[QueryStringKeys.ForObserver] == "true"))
+                else if (this.LocalSlkStore.IsInstructor(SPWeb) == true && (Request[QueryStringKeys.ForObserver] == "true"))
                 {
                     m_isObserver = true;
                 }
@@ -193,6 +224,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     // Protected Methods
     //
 
+#region protected methods
     /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
     protected override void OnInit(EventArgs e)
     {
@@ -291,103 +323,14 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
         throw new SafeToDisplayException(format, args);
     }
 
-    /// <summary>
-    /// Creates a query based on a given <c>QueryDefinition</c> and values for standard SLK
-    /// macros.
-    /// </summary>
-    ///
-    /// <param name="queryDef">The query definition to use to create the query.</param>
-    ///
-    /// <param name="countOnly">If <c>true</c>, the query will include minimal output columns,
-    ///     since it will be assumed that the purpose of executing the query is purely to count the
-    ///     rows.  If <c>false</c>, all columns specified by the query definition are included
-    ///     in the query.</param>
-    ///
-    /// <param name="spWebScopeMacro">The value of the "SPWebScope" macro, or null if none.</param>
-    ///
-    /// <param name="columnMap">See QueryDefinition.CreateQuery.</param>
-    ///
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#")]
-    protected LearningStoreQuery CreateStandardQuery(QueryDefinition queryDef, bool countOnly, Guid? spWebScopeMacro, out int[,] columnMap)
+    /// <summary>Formats a date for display.</summary>
+    /// <param name="date">The date to format.</param>
+    /// <returns>A formatted string.</returns>
+    protected string FormatDateForDisplay(DateTime date)
     {
-        return queryDef.CreateQuery(SlkStore.LearningStore, countOnly, delegate(string macroName)
-        {
-            if (macroName == "SPWebScope")
-            {
-                // return the GUID of the SPWeb that query results will be limited to (i.e.
-                // filtered by), or null for no filter
-                return spWebScopeMacro;
-            }
-            else
-            if (macroName == "CurrentUserKey")
-            {
-                // return the LearningStore user key string value of the current user
-                return SlkStore.CurrentUserKey;
-            }
-            else
-            if (macroName == "Now")
-            {
-                return DateTime.Now.ToUniversalTime();
-            }
-            else
-            if (macroName == "StartOfToday")
-            {
-                // return midnight of today
-                return DateTime.Today.ToUniversalTime();
-            }
-            else
-            if (macroName == "StartOfTomorrow")
-            {
-                // return midnight of tomorrow
-                return DateTime.Today.AddDays(1).ToUniversalTime();
-            }
-            else
-            if (macroName == "StartOfThisWeek")
-            {
-                // return midnight of the preceding Sunday** (or "Today" if "Today" is Sunday**)
-                return StartOfWeek(DateTime.Today).ToUniversalTime();
-            }
-            else
-            if (macroName == "StartOfNextWeek")
-            {
-                // return midnight of the following Sunday**
-                return StartOfWeek(DateTime.Today).AddDays(7).ToUniversalTime();
-            }
-            else
-            if (macroName == "StartOfWeekAfterNext")
-            {
-                // return midnight of the Sunday** after the following Sunday**
-                return StartOfWeek(DateTime.Today).AddDays(14).ToUniversalTime();
-            }
-            else
-                return null;
-            // ** Actually, it's only Sunday for regional setting for which Sunday is the first
-            // day of the week.  For example, using Icelandic regional settings, the first day of
-            // the week is Monday, and that's what's used above.
-        }, out columnMap);
+        return PageCulture.Format(PageCulture.Resources.LongDateShortTime, date);
     }
+#endregion protected methods
 
-    /// <summary>
-    /// Returns midnight on the day that begins the week containing a given date/time, using the
-    /// current culture settings.
-    /// </summary>
-    ///
-    /// <param name="dateTime">The given date/time.</param>
-    ///
-    private static DateTime StartOfWeek(DateTime dateTime)
-    {
-        // set <cultureInfo> to information about the current user's culture
-        CultureInfo cultureInfo = CultureInfo.CurrentCulture;
-
-        // this method imagines that today is the day of <dateTime>
-        DateTime today = dateTime.Date;
-        DayOfWeek currentDayOfWeek = today.DayOfWeek;
-        DayOfWeek firstDayOfWeek = cultureInfo.DateTimeFormat.FirstDayOfWeek;
-        int delta = (int) firstDayOfWeek - (int) currentDayOfWeek;
-        if (delta <= 0)
-            return today.AddDays(delta);
-        else
-            return today.AddDays(delta - 7);
-    }
 }
 }

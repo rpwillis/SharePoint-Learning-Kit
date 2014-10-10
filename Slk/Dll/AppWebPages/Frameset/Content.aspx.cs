@@ -630,7 +630,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
             // For .css files strip off the final / which we have put in to get round SP2013 stopping them
             if (contentPath.Length > 4)
             {
-                if (contentPath.Substring(contentPath.Length - 5).ToUpperInvariant() == ".CSSX")
+                if (contentPath.Substring(contentPath.Length - 5).ToUpperInvariant() == ".CSS/")
                 {
                     contentPath = contentPath.Substring(0, contentPath.Length - 1);
                 }

@@ -371,24 +371,23 @@ namespace Microsoft.SharePointLearningKit.Frameset
                 Response.Redirect(redirectUrl, true); // ends response
             }
 
+            string framesetPath = GetFramesetPath();
+            Response.Clear();
+
             using (CachedSharePointFile cachedFile = new CachedSharePointFile(SlkStore.SharePointCacheSettings, spFileLocation, true))
             {
                 // If the current request URL does not include the file name of the file, then this request is the first frameset rendering. 
                 // That means this will redirect to a URL that does include the filename of the file. This redirection allows the browser to 
                 // properly handle the content.
-                string framesetPath = GetFramesetPath();
                 if (String.IsNullOrEmpty(framesetPath))
                 {
                     string redirectUrl = GetNonElearningFrameUrl(cachedFile.FileName);
-                    Response.Clear();
+                    cachedFile.Dispose();
                     Response.Redirect(redirectUrl, true);   // ends response
                 }
 
                 // This is the first actual access of the file. If it doesn't exist, the exception will be caught by the Page_load method.
                 SetMimeType(cachedFile.FileName);
-
-                // Clear the response and write the file.
-                Response.Clear();
 
                 // If this file is using IIS Compability mode, then we get the stream from the cached file and write it to the 
                 // response, otherwise, use TransmitFile.

@@ -1,72 +1,53 @@
 ﻿<%@ Assembly Name="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
-<%@ Page Language="C#" Inherits="Microsoft.SharePointLearningKit.ApplicationPages.SubmittedFiles" ValidateRequest="False" %>
+<%@ Page Language="C#" Inherits="Microsoft.SharePointLearningKit.ApplicationPages.SubmittedFiles" MasterPageFile="~/_layouts/dialog.master" ValidateRequest="False" %>
 <%@ Register TagPrefix="slk" Namespace="Microsoft.SharePointLearningKit.WebControls" assembly="Microsoft.SharePointLearningKit, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e" %>
 <%@ Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head id="Head1" runat="server">
-    <title></title>
-    <link href="..\1033\STYLES\CORE.CSS" rel="stylesheet" type="text/css" />
-    <SharePoint:ScriptLink language="javascript" name="core.js" Defer="true" runat="server" />
-</head>
-<body>
-    <table height="100%" cellspacing="0" cellpadding="0" width="100%">
-        <tr>
-            <td class="ms-areaseparator" width="100%" valign="top">
-                <table>
-                    <tr>
-                        <td class="ms-pagetitle">
-                            <h2 class="ms-pagetitle">
-                                <asp:Literal ID="pageTitle" runat="server" EnableViewState="false" />
-                            </h2>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <table>
-                    <tr valign="top">
-                        <td class="ms-descriptiontext">
-                            <asp:Literal ID="pageDescription" runat="server" EnableViewState="false" />
-                            <br /><br />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="top" height="100%">
-                            <table cellpadding="0" cellspacing="0" class="ms-propertysheet" style="font-size : medium">
-                                <tr>
-                                    <td>
-                                        <slk:ErrorBanner ID="errorBanner" Visible="false" EnableViewState="false" runat="server" />
-                                        <asp:Panel ID="contentPanel" runat="server">
-<SharePoint:DelegateControl ControlId="SlkStartContent" runat="server"/>
-                                            <slk:TableGrid ID="TableGrid1" runat="server" Width="100%" CellPadding="0" CellSpacing="0">
-                                                <slk:TableGridRow>
-                                                    <slk:TableGridColumn BorderStyle="None" ColumnType="FormBody">
-                                                        <asp:Label ID="headerMessage" runat="server"></asp:Label><br /><br />
-                                                        <asp:HyperLink ID="file1" runat="server" Style="display: none"></asp:HyperLink><br />
-                                                        <asp:HyperLink ID="file2" runat="server" Style="display: none"></asp:HyperLink><br />
-                                                        <asp:HyperLink ID="file3" runat="server" Style="display: none"></asp:HyperLink><br />
-                                                        <asp:HyperLink ID="file4" runat="server" Style="display: none"></asp:HyperLink><br />
-                                                        <asp:HyperLink ID="file5" runat="server" Style="display: none"></asp:HyperLink><br /><br /><br />
-                                                        <asp:HyperLink ID="instructorLink" runat="server" Style="display: none"></asp:HyperLink>
-                                                    </slk:TableGridColumn>
-                                                </slk:TableGridRow>
-                                            </slk:TableGrid>
-<SharePoint:DelegateControl ControlId="SlkEndContent" runat="server"/>
-                                        </asp:Panel>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-   </table>
-</body>
-</html>
+<asp:Content ID="Content1" ContentPlaceHolderID="PlaceHolderDialogHeaderPageTitle" runat="server">
+    <asp:Literal ID="PageTitle" runat="server" EnableViewState="false" /> 
+</asp:Content>
 
-    
+<asp:Content ID="Content2" ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
+    <SharePoint:CssRegistration ID="CssRegistration1" runat="server" Name="ows.css" />
+    <SharePoint:ScriptLink ID="ScriptLink1" Language="javascript" Name="core.js" runat="server" />
+  <SharePoint:FormDigest ID="FormDigest1" runat="server" />
+  <style>
+  #buttonRow {
+    display:none;
+  }
+  </style>
+</asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="PlaceHolderDialogImage" runat="server">
+  <img src="/_layouts/images/allcontent32.png" alt="" />
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="PlaceHolderDialogBodyHeaderSection" runat="server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="PlaceHolderDialogDescription" runat="server">
+  <div id="selectTermDescription" class="none-wordbreak">
+    <table class="ms-dialogHeaderDescription">
+      <tbody>
+        <tr>
+          <td><asp:Literal ID="PageDescription" runat="server" Text="Take register" EnableViewState="false" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</asp:Content>
+
+<asp:Content ID="Content8" ContentPlaceHolderID="PlaceHolderHelpLink" runat="server">
+  <!-- Remove the default help link -->
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="PlaceHolderDialogBodyMainSection"     runat="server">
+    <slk:ErrorBanner ID="errorBanner" Visible="false" EnableViewState="false" runat="server" />
+    <asp:Panel ID="contentPanel" runat="server">
+            <asp:Label ID="headerMessage" runat="server"></asp:Label><br /><br />
+            <asp:Panel ID="FilePanel" runat="server">
+            </asp:Panel>
+            <asp:HyperLink ID="instructorLink" runat="server" Style="display: none"></asp:HyperLink>
+    </asp:Panel>
+</asp:Content>
+
+
+<asp:Content ID="ContentButton" ContentPlaceHolderID="PlaceHolderAdditionalPreButton" runat="server">
+</asp:Content>

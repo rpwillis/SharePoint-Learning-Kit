@@ -12,6 +12,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Microsoft.SharePoint;
 using Microsoft.SharePointLearningKit;
+using Microsoft.LearningComponents.Frameset;
 using Resources.Properties;
 using Microsoft.SharePointLearningKit.WebControls;
 using System.Globalization;
@@ -45,36 +46,24 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected Label documentUploadDescription;
         /// <summary>The name label.</summary>
         protected Label name;
+        /// <summary>The learner comments text.</summary>
+        protected Label LabelLearnerComments;
+        /// <summary>The learner comments.</summary>
+        protected TextBox LearnerComments;
 
         #endregion
 
         #region Private Variables
 
-        private string m_sourceUrl;
 
         private Guid m_learnerAssignmentGuidId = Guid.Empty;
         private LearnerAssignmentProperties learnerAssignmentProperties;
         private AssignmentProperties assignmentProperties;
+        private List<CheckBox> includes = new List<CheckBox>();
 
         #endregion
 
         #region Private Properties
-
-        // <summary>
-        // Gets the value of the "Source" query parameter, the URL of the source page.
-        // </summary>
-        private string SourceUrl
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_sourceUrl))
-                {
-                    m_sourceUrl = QueryString.ParseString("Source");
-                }
-
-                return m_sourceUrl;
-            }
-        }
 
         // <summary>
         // Gets the value of the "LearnerAssignmentId" query parameter.
@@ -124,6 +113,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         #endregion
 
+        /// <summary>See <see cref="Control.CreateChildControls"/>.</summary>
+        protected override void CreateChildControls()
+        {
+            base.CreateChildControls();
+            Page.Form.Enctype = "multipart/form-data";
+            LoadLastAssignmentAttempt();
+        }
+
         /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         protected override void OnLoad(EventArgs e)
         {
@@ -134,6 +131,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 documentUpload.Text = PageCulture.Resources.FilesUploadDocumentUpload;
                 documentUploadDescription.Text = PageCulture.Resources.FilesUploadDocumentUploadDescription;
                 name.Text = PageCulture.Resources.FilesUploadName;
+                LabelLearnerComments.Text = PageCulture.Resources.LobbyLearnerComments;
+                btnOK.Text = PageCulture.Resources.CtrlOKButtonText;
+                btnCancel.Text = PageCulture.Resources.BtnCancelText;
 
                 contentPanel = new Panel();
                 contentPanel.Visible = false;
@@ -144,44 +144,44 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     contentPanel.Visible = false;
                     errorBanner.AddError(ErrorType.Error, PageCulture.Resources.FilesUploadAssIsInaccessible);
                 }
-                else
-                {
-                    DisplayLastAssignmentAttempt();
-                }
 
                 lblMessage.Text = PageCulture.Resources.FilesUploadAssInaccessible;
+
+                LearnerComments.Text = LearnerAssignmentProperties.LearnerComments;
             }
         }
 
         /// <summary>The OK button event handler.</summary>
         protected void btnOK_Click(object sender, EventArgs e)
         {
-            SlkMemberships memberships = new SlkMemberships(null, null, null);
-            memberships.FindAllSlkMembers(SPWeb, SlkStore, true);
 
-            List<AssignmentUpload> uploadedFiles = new List<AssignmentUpload>();
-
-            HtmlInputFile[] allPageUploadFiles = new HtmlInputFile[] { uploadFile1, uploadFile2, uploadFile3, uploadFile4, uploadFile5 };
-            for (int i = 0; i < 5; i++)
-            {
-                HttpPostedFile postedFile = allPageUploadFiles[i].PostedFile;
-                if (postedFile != null && postedFile.FileName != "")
-                {
-                    string fileName = Path.GetFileName(postedFile.FileName);
-                    uploadedFiles.Add(new AssignmentUpload(fileName, postedFile.InputStream));
-                }
-            }
-
-            if (uploadedFiles.Count > 0)
+            List<AssignmentUpload> uploadedFiles = FindUploadedFiles();
+            if (uploadedFiles.Count > 0 || includes.Count > 0)
             {
                 try
                 {
-                    LearnerAssignmentProperties.UploadFilesAndSubmit(uploadedFiles.ToArray());
+                    List<int> filesToKeep = new List<int>();
+                    foreach (CheckBox check in includes)
+                    {
+                        if (check.Checked)
+                        {
+                            if (check.ID.Length > 5)
+                            {
+                                int fileId = int.Parse(check.ID.Substring(5), CultureInfo.InvariantCulture);
+                                filesToKeep.Add(fileId);
+                            }
+                        }
+                    }
+
+                    LearnerAssignmentProperties.UploadFilesAndSubmit(uploadedFiles.ToArray(), filesToKeep.ToArray());
+                    LearnerAssignmentProperties.SaveLearnerComment(LearnerComments.Text);
 
                     //Redirect to the SLk ALWP Page
+                    string redirectUrl = GenerateRedirectUrl();
+
                     HttpContext.Current.Response.Write(
                     "<script>var x = '" + PageCulture.Resources.FilesUploadPageSuccessMsg + "';" + 
-                    "var url = '" + SPWeb.Url+ "';" + 
+                    "var url = '" + redirectUrl + "';" + 
                     "if (x != ''){alert(x);window.location=url;};</script>");
                 }
                 catch (SafeToDisplayException exception)
@@ -211,29 +211,98 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             //Go back to the homepage
-            Response.Redirect(SPWeb.ServerRelativeUrl, true);
+            string url = GenerateRedirectUrl();
+            Response.Redirect(url, true);
         }
 
 #region private methods
-        private void DisplayLastAssignmentAttempt()
+        private string GenerateRedirectUrl()
         {
-            DropBoxManager dropBoxManager = new DropBoxManager(AssignmentProperties);
-            AssignmentFile[] files = dropBoxManager.LastSubmittedFiles();
+            string redirectUrl;
+            bool fromLobbyPage = (Request.QueryString["fl"] == "true");
 
-            foreach (AssignmentFile file in files)
+            if (fromLobbyPage)
             {
-                HyperLink fileLink = new HyperLink();
-                fileLink.Text = file.Name;
-                fileLink.NavigateUrl = file.Url;
-                pnlOldFiles.Controls.Add(fileLink);
-                pnlOldFiles.Controls.Add(new LiteralControl("<br/>"));
+                string baseUrl = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, "Lobby.aspx");
+                redirectUrl = string.Format("{0}?{1}={2}&{3}={4}", baseUrl, FramesetQueryParameter.LearnerAssignmentId, LearnerAssignmentGuid.ToString(), QueryStringKeys.Source, RawSourceUrl);
             }
+            else
+            {
+                // From ALWP, return there
+                redirectUrl = SourceUrl;
+                if (string.IsNullOrEmpty(redirectUrl))
+                {
+                    redirectUrl = SPWeb.Url;
+                }
+            }
+
+            return redirectUrl;
         }
 
-        void LoadAssignmentProperties()
+        private void LoadLastAssignmentAttempt()
+        {
+            DropBoxManager dropBoxManager = new DropBoxManager(AssignmentProperties);
+            AssignmentFile[] files = dropBoxManager.LastSubmittedFiles(true);
+
+            if (files.Length > 0)
+            {
+                LiteralControl literal = new LiteralControl(string.Format("<table><tr><th>{0}</th><th>{1}</th></tr>", PageCulture.Resources.IncludeTitle, PageCulture.Resources.CtrlLabelUploadDocumentName));
+                pnlOldFiles.Controls.Add(literal);
+
+                foreach (AssignmentFile file in files)
+                {
+                    pnlOldFiles.Controls.Add(new LiteralControl("<tr><td>"));
+
+                    CheckBox check = new CheckBox();
+                    check.ID = "check" + file.Id.ToString(CultureInfo.InvariantCulture);
+                    check.Checked = false;
+                    includes.Add(check);
+                    pnlOldFiles.Controls.Add(check);
+
+                    pnlOldFiles.Controls.Add(new LiteralControl("</td><td>"));
+
+                    HyperLink fileLink = new HyperLink();
+                    fileLink.Text = file.Name;
+
+                    DropBoxEditMode editMode = DropBoxEditMode.Edit;
+                    DropBoxEditDetails editDetails = dropBoxManager.GenerateDropBoxEditDetails(file, SPWeb, editMode, Page.Request.RawUrl);
+                    fileLink.NavigateUrl = editDetails.Url;
+                    if (string.IsNullOrEmpty(editDetails.OnClick) == false)
+                    {
+                        fileLink.Attributes.Add("onclick", editDetails.OnClick + "return false;");
+                    }
+
+                    pnlOldFiles.Controls.Add(fileLink);
+
+                    pnlOldFiles.Controls.Add(new LiteralControl("</td></tr>"));
+                }
+
+                pnlOldFiles.Controls.Add(new LiteralControl("</table>"));
+            }
+
+        }
+
+        private void LoadAssignmentProperties()
         {
             assignmentProperties = SlkStore.LoadAssignmentPropertiesForLearner(LearnerAssignmentGuid, SlkRole.Learner);
             learnerAssignmentProperties = assignmentProperties.Results[0];
+        }
+
+        private List<AssignmentUpload> FindUploadedFiles()
+        {
+            List<AssignmentUpload> uploadedFiles = new List<AssignmentUpload>();
+
+            foreach (string item in Request.Files)
+            {
+                HttpPostedFile file = Request.Files[item];
+                if (file != null && file.ContentLength > 0)
+                {
+                    FileInfo info = new FileInfo(file.FileName);
+                    uploadedFiles.Add(new AssignmentUpload(info.Name, file.InputStream));
+                }
+            }
+
+            return uploadedFiles;
         }
 #endregion private methods
     }

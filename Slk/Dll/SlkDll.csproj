@@ -64,6 +64,7 @@
       <HintPath>..\..\References\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="..\..\References\$(SharePointVersion)\Microsoft.SharePoint.dll"/>
+    <Reference Include="..\..\References\$(SharePointVersion)\Microsoft.SharePoint.PowerShell.dll"/>
     <Reference Include="$(MSBuildProjectDirectory)\..\..\LearningComponents\LearningComponents\bin\$(TargetFrameworkVersion)\$(Configuration)\Microsoft.LearningComponents.dll"/>
     <Reference Include="$(MSBuildProjectDirectory)\..\..\LearningComponents\Storage\bin\$(TargetFrameworkVersion)\$(Configuration)\Microsoft.LearningComponents.Storage.dll"/>
     <Reference Include="$(MSBuildProjectDirectory)\..\..\LearningComponents\SharePoint\bin\$(SharePointVersion)\$(Configuration)\Microsoft.LearningComponents.SharePoint.dll"/>
@@ -74,12 +75,14 @@
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Management.Automation" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
 
   <ItemGroup>
       <Compile Include="Admin\stsCommands.cs" />
+      <Compile Include="Admin\spCmdletGetSlkMappings.cs" />
       <Compile Include="Admin\slkAdministration.cs" />
       <Compile Include="Admin\slkSpSiteMapping.cs" />
       <Compile Include="Admin\administrationConfiguration.cs" />
@@ -95,6 +98,8 @@
     <Compile Include="DropBox\DropBoxManager.cs" />
     <Compile Include="DropBox\DropBoxEditDetails.cs" />
     <Compile Include="DropBox\DropBox.cs" />
+    <Compile Include="DropBox\DropBoxCreator.cs" />
+    <Compile Include="DropBox\AllowUnsafeUpdates.cs" />
     <Compile Include="DropBox\AssignmentFolder.cs" />
     <Compile Include="DropBox\AssignmentFile.cs" />
     <Compile Include="EnumerateDomainGroups\EnumerateDomainGroups.cs" />
@@ -126,6 +131,9 @@
     <Compile Include="api\webListItem.cs" />
     <Compile Include="SlkError.cs" />
     <Compile Include="AppWebControls\TableGrid.cs" />
+    <Compile Include="AppWebPages\QueryBasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="AppWebPages\SlkAppBasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -235,6 +243,7 @@
     <Compile Include="querySet\columnDefinition.cs"/>
     <Compile Include="querySet\columnRenderAs.cs"/>
     <Compile Include="querySet\conditionDefinition.cs"/>
+    <Compile Include="querySet\MacroResolver.cs"/>
     <Compile Include="querySet\queryDefinition.cs"/>
     <Compile Include="querySet\querySetClasses.cs"/>
     <Compile Include="querySet\querySetDefinition.cs"/>
@@ -311,6 +320,7 @@
   -->
   <Target Name="AfterBuild">
     <Copy SourceFiles="bin\$(SharePointVersion)\$(Configuration)\Microsoft.SharePointLearningKit.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+    <Copy SourceFiles="bin\$(SharePointVersion)\$(Configuration)\Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
   </Target>
   <PropertyGroup>
     <PostBuildEvent>

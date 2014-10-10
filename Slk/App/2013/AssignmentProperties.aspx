@@ -119,7 +119,7 @@
                                               <asp:TextBox ID="txtDescription" runat="server" CssClass="ms-long"  TextMode="MultiLine" Height="60" style="width:98%"></asp:TextBox>                                               
                                         </slk:TableGridColumn>
                                     </slk:TableGridRow>
-                                    <slk:TableGridRow runat="server">
+                                    <slk:TableGridRow runat="server" ID="RowPoints">
                                         <slk:TableGridColumn runat="server" ColumnType="FormLabel">
                                              <h3 class="ms-standardheader"><nobr><asp:Label ID="lblPoints" runat="server" EnableViewState="false"></asp:Label></nobr></h3>
                                         </slk:TableGridColumn>
@@ -320,7 +320,7 @@
                                     <slk:TableGridRow>
                                         <slk:TableGridColumn  ColumnSpan="2" ColumnType="FormBreak"  runat="server" Width="100%">&nbsp;</slk:TableGridColumn>
                                     </slk:TableGridRow>
-                                    <slk:TableGridRow >
+                                    <slk:TableGridRow ID="RowConfirmationPoints">
                                         <slk:TableGridColumn  runat="server" ColumnType="FormLabel">
                                             <h3 class="ms-standardheader"><nobr><asp:Label ID="lblAssignmentPoints" runat="server"></asp:Label></nobr></h3>
                                         </slk:TableGridColumn>

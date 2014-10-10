@@ -45,6 +45,13 @@ namespace Microsoft.SharePointLearningKit
         SPWebName,
 
         /// <summary>
+        /// Render the title of an SPWeb without being a link.  The column specified by
+        /// <c>ColumnDefinition.ViewColumnName</c> must contain the SPWeb GUID, and the column
+        /// specified by <c>ColumnDefinition.ViewColumnName2</c> must contain the SPSite GUID.
+        /// </summary>
+        SPWebTitle,
+
+        /// <summary>
         /// Render a link to another page.  The column specified by
         /// <c>ColumnDefinition.ViewColumnName</c> must contain the title of the link, and the column
         /// specified by <c>ColumnDefinition.ViewColumnName2</c> must contain the
@@ -72,6 +79,9 @@ namespace Microsoft.SharePointLearningKit
         /// in LearnerAssignmentLearnerView); may be NULL if not applicable.
         /// </summary>
         ScoreAndPossible,
+
+        /// <summary>Renders the first column, unless null or empty, in which case the second column.</summary>
+        IfEmpty,
 
 
         /// <summary>

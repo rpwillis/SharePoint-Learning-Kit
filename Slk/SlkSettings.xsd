@@ -34,6 +34,7 @@
                                         <xs:element name="AssignmentReminder" type="EmailDetails" minOccurs="0" maxOccurs="1"/>
                                     </xs:all>
                                     <xs:attribute name="ReminderDays" type="xs:string" use="optional" />
+                                    <xs:attribute name="EmailOnSubmitOff" type="xs:boolean" use="optional" />
 				</xs:complexType>
 			</xs:element>
 

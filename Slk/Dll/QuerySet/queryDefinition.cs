@@ -229,9 +229,7 @@ namespace Microsoft.SharePointLearningKit
                 int iColumnDefinition = 0;
                 foreach (ColumnDefinition column in Columns)
                 {
-                    for (int iViewColumn = 0;
-                         iViewColumn < ColumnDefinition.MaxViewColumns;
-                         iViewColumn++)
+                    for (int iViewColumn = 0; iViewColumn < ColumnDefinition.MaxViewColumns; iViewColumn++)
                     {
                         string viewColumnName = column.m_viewColumnNames[iViewColumn];
                         if (viewColumnName == null)
@@ -252,6 +250,7 @@ namespace Microsoft.SharePointLearningKit
                         }
                         columnMap[iColumnDefinition, iViewColumn] = iQueryColumn;
                     }
+
                     iColumnDefinition++;
                 }
             }
@@ -259,16 +258,21 @@ namespace Microsoft.SharePointLearningKit
             // add conditions to the query as specified in this query definition
             foreach (ConditionDefinition condition in Conditions)
             {
-                object value;
-                bool noCondition = false; // if true, don't add the condition to the query
+                object value = null;
+
                 if (condition.MacroName != null)
                 {
-                    if ((macroResolver == null) || ((value = macroResolver(condition.MacroName)) == null))
+                    if (macroResolver != null)
+                    {
+                        value = macroResolver.Resolve(condition.MacroName);
+                    }
+
+                    if (value == null) // Either macroResolver is null or macro resolves to null
                     {
                         if (condition.NoConditionOnNull)
                         {
-                            noCondition = true;
-                            value = null;
+                            // No need to add condition
+                            continue;
                         }
                         else
                         {
@@ -276,13 +280,16 @@ namespace Microsoft.SharePointLearningKit
                         }
                     }
                 }
-                else
-                if (condition.Value != null)
+                else if (condition.Value != null)
+                {
                     value = new XmlValue(condition.Value);
+                }
                 else
+                {
                     value = null;
-                if (!noCondition)
-                    query.AddCondition(condition.ViewColumnName, condition.Operator, value);
+                }
+
+                query.AddCondition(condition.ViewColumnName, condition.Operator, value);
             }
 
             // add sorts to the query as specified in this query definition (unless the caller only
@@ -342,6 +349,7 @@ namespace Microsoft.SharePointLearningKit
                 string text, textNotRounded;
                 Guid? cellSiteGuid = null, cellWebGuid = null;
                 string cellWebUrl = null;
+                bool renderAsLink = false;
                 switch (columnDefinition.RenderAs)
                 {
 
@@ -408,8 +416,10 @@ namespace Microsoft.SharePointLearningKit
                     }
                     break;
 
+                case ColumnRenderAs.SPWebTitle:
                 case ColumnRenderAs.SPWebName:
 
+                    renderAsLink = (columnDefinition.RenderAs == ColumnRenderAs.SPWebName);
                     cellWebGuid = GetQueryCell<Guid>(dataRow, columnMap, columnDefinition, iColumnDefinition, 0);
                     cellSiteGuid = GetQueryCell<Guid>(dataRow, columnMap, columnDefinition, iColumnDefinition, 1);
                     if (spWebResolver != null)
@@ -442,10 +452,8 @@ namespace Microsoft.SharePointLearningKit
 
                 case ColumnRenderAs.Link:
 
-                    text = GetQueryCell<string>(dataRow, columnMap, columnDefinition,
-                        iColumnDefinition, 0);
-                    cellId = GetQueryCell<LearningStoreItemIdentifier>(dataRow, columnMap,
-                        columnDefinition, iColumnDefinition, 1);
+                    text = GetQueryCell<string>(dataRow, columnMap, columnDefinition, iColumnDefinition, 0);
+                    cellId = GetQueryCell<LearningStoreItemIdentifier>(dataRow, columnMap, columnDefinition, iColumnDefinition, 1);
                     cellValue = text;
                     cellSortKey = text.ToLower(culture.Culture);
                     if (columnDefinition.ToolTipFormat != null)
@@ -470,15 +478,49 @@ namespace Microsoft.SharePointLearningKit
                         cellToolTip = null;
                     break;
 
+                case ColumnRenderAs.IfEmpty:
+                    cellToolTip = null;
+                    bool noColumn1;
+                    object column1 = GetQueryCell<object>(dataRow, columnMap, columnDefinition, iColumnDefinition, 0, out noColumn1);
+                    bool noColumn2;
+                    object column2 = GetQueryCell<object>(dataRow, columnMap, columnDefinition, iColumnDefinition, 1, out noColumn2);
+
+                    if (noColumn1 == false)
+                    {
+                        cellValue = column1;
+                        if (noColumn2 == false)
+                        {
+                            if (columnDefinition.ToolTipFormat != null)
+                            {
+                                cellToolTip = culture.Format("{0} ({1})", cellValue, column2);
+                            }
+                        }
+                    }
+                    else if (noColumn2)
+                    {
+                        cellValue = culture.Resources.SlkUtilitiesPointsNoValue;
+                    }
+                    else
+                    {
+                        cellValue = column2;
+                    }
+
+                    cellId = null;
+                    cellSortKey = cellValue.ToString().ToLower(culture.Culture);
+                    if (string.IsNullOrEmpty(cellToolTip))
+                    {
+                        cellToolTip = cellValue.ToString();
+                    }
+
+                    break;
+
                 case ColumnRenderAs.ScoreAndPossible:
 
                     // get <finalPoints> and <pointsPossible> from <dataRow>
                     bool noFinalPoints;
-                    float finalPoints = GetQueryCell<float>(dataRow, columnMap, columnDefinition,
-                        iColumnDefinition, 0, out noFinalPoints);
+                    float finalPoints = GetQueryCell<float>(dataRow, columnMap, columnDefinition, iColumnDefinition, 0, out noFinalPoints);
                     bool noPointsPossible;
-                    float pointsPossible = GetQueryCell<float>(dataRow, columnMap, columnDefinition,
-                        iColumnDefinition, 1, out noPointsPossible);
+                    float pointsPossible = GetQueryCell<float>(dataRow, columnMap, columnDefinition, iColumnDefinition, 1, out noPointsPossible);
 
                     // round to two decimal places
                     float finalPointsRounded = (float) Math.Round(finalPoints, 2);
@@ -529,10 +571,8 @@ namespace Microsoft.SharePointLearningKit
 
                 case ColumnRenderAs.Submitted:
 
-                    int countCompletedOrFinal = GetQueryCell<int>(dataRow, columnMap, columnDefinition,
-                        iColumnDefinition, 0);
-                    int countTotal = GetQueryCell<int>(dataRow, columnMap, columnDefinition,
-                        iColumnDefinition, 1);
+                    int countCompletedOrFinal = GetQueryCell<int>(dataRow, columnMap, columnDefinition, iColumnDefinition, 0);
+                    int countTotal = GetQueryCell<int>(dataRow, columnMap, columnDefinition, iColumnDefinition, 1);
                     text = culture.Format(culture.Resources.SlkUtilitiesSubmitted, countCompletedOrFinal, countTotal);
                     cellValue = text;
                     cellId = null;
@@ -549,13 +589,12 @@ namespace Microsoft.SharePointLearningKit
                 RenderedCell renderedCell;
                 if (cellSiteGuid != null)
                 {
-                    renderedCell = new WebNameRenderedCell(cellValue, cellSortKey, cellId, cellToolTip,
-                        columnDefinition.Wrap, cellSiteGuid.Value, cellWebGuid.Value, cellWebUrl);
+                    renderedCell = new WebNameRenderedCell(cellValue, cellSortKey, cellId, cellToolTip, columnDefinition.Wrap, cellSiteGuid.Value, cellWebGuid.Value, cellWebUrl);
+                    ((WebNameRenderedCell)renderedCell).RenderAsLink = renderAsLink;
                 }
                 else
                 {
-                    renderedCell = new RenderedCell(cellValue, cellSortKey, cellId, cellToolTip,
-                        columnDefinition.Wrap);
+                    renderedCell = new RenderedCell(cellValue, cellSortKey, cellId, cellToolTip, columnDefinition.Wrap);
                 }
                 renderedCells[iColumnDefinition++] = renderedCell;
             }
@@ -727,8 +766,7 @@ namespace Microsoft.SharePointLearningKit
         private T GetQueryCell<T>(DataRow dataRow, int[,] columnMap, ColumnDefinition columnDefinition, int iColumnDefinition, int iViewName)
         {
             bool isNull;
-            T value = GetQueryCell<T>(dataRow, columnMap, columnDefinition, iColumnDefinition,
-                iViewName, out isNull);
+            T value = GetQueryCell<T>(dataRow, columnMap, columnDefinition, iColumnDefinition, iViewName, out isNull);
             if (isNull)
             {
                 throw new SlkSettingsException(columnDefinition.LineNumber, culture.Resources.SlkUtilitiesColumnReturnedNull, GetViewColumnName(iColumnDefinition));

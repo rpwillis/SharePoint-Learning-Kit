@@ -414,6 +414,7 @@ SET @schema = @schema +
         '<Property Name="FinalPoints" TypeCode="5" Nullable="true" HasDefault="false"/>' +
         '<Property Name="Grade" TypeCode="2" Nullable="true" HasDefault="true"/>' +
         '<Property Name="InstructorComments" TypeCode="2" Nullable="false" HasDefault="false"/>' +
+        '<Property Name="LearnerComments" TypeCode="2" Nullable="true" HasDefault="false"/>' +
     '</ItemType>'
 SET @schema = @schema +
     '<ItemType Name="UserWebListItem" ViewFunction="UserWebListItem$DefaultView">' + 
@@ -901,6 +902,7 @@ SET @schema = @schema +
         '<Column Name="FinalPoints" TypeCode="5" Nullable="true"/>' +
         '<Column Name="Grade" TypeCode="2" Nullable="true"/>' +
         '<Column Name="InstructorComments" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="LearnerComments" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AssignmentItem"/>' +
         '<Column Name="AssignmentSPSiteGuid" TypeCode="11" Nullable="true"/>' +
         '<Column Name="AssignmentSPWebGuid" TypeCode="11" Nullable="true"/>' +
@@ -950,6 +952,7 @@ SET @schema = @schema +
         '<Column Name="FinalPoints" TypeCode="5" Nullable="true"/>' +
         '<Column Name="Grade" TypeCode="2" Nullable="true"/>' +
         '<Column Name="InstructorComments" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="LearnerComments" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AssignmentItem"/>' +
         '<Column Name="AssignmentSPSiteGuid" TypeCode="11" Nullable="true"/>' +
         '<Column Name="AssignmentSPWebGuid" TypeCode="11" Nullable="true"/>' +
@@ -999,6 +1002,7 @@ SET @schema = @schema +
         '<Column Name="FinalPoints" TypeCode="5" Nullable="true"/>' +
         '<Column Name="Grade" TypeCode="2" Nullable="true"/>' +
         '<Column Name="InstructorComments" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="LearnerComments" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AssignmentItem"/>' +
         '<Column Name="AssignmentSPSiteGuid" TypeCode="11" Nullable="true"/>' +
         '<Column Name="AssignmentSPWebGuid" TypeCode="11" Nullable="true"/>' +
@@ -1063,6 +1067,7 @@ SET @schema = @schema +
         '<Column Name="FinalPoints" TypeCode="5" Nullable="true"/>' +
         '<Column Name="Grade" TypeCode="2" Nullable="true"/>' +
         '<Column Name="InstructorComments" TypeCode="2" Nullable="true"/>' +
+        '<Column Name="LearnerComments" TypeCode="2" Nullable="true"/>' +
         '<Column Name="AssignmentId" TypeCode="1" Nullable="true" ReferencedItemTypeName="AssignmentItem"/>' +
         '<Column Name="AssignmentSPSiteGuid" TypeCode="11" Nullable="true"/>' +
         '<Column Name="AssignmentSPWebGuid" TypeCode="11" Nullable="true"/>' +
@@ -2169,7 +2174,8 @@ CREATE TABLE [LearnerAssignmentItem](
     [NonELearningStatus] int,
     [FinalPoints] float(24),
     [Grade] NVARCHAR(20) NULL,
-    [InstructorComments] NVARCHAR(max) NOT NULL
+    [InstructorComments] NVARCHAR(max) NOT NULL,
+    [LearnerComments] NVARCHAR(max) NULL,
 )
 GRANT SELECT, INSERT, DELETE, UPDATE ON [LearnerAssignmentItem] TO LearningStore
 
@@ -2480,6 +2486,9 @@ REFERENCES [UserItem] (Id)
 
 CREATE INDEX SPWebIndex
 ON AssignmentItem(SPWebGuid)
+
+CREATE INDEX AssignmentItem_ALWPIndex
+ON AssignmentItem(SPWebGuid, Id, StartDate, DueDate)
 
 ALTER TABLE [InstructorAssignmentItem]
 ADD CONSTRAINT FK_InstructorAssignmentItem_AssignmentId FOREIGN KEY ([AssignmentId])
@@ -3159,6 +3168,7 @@ RETURN (
     CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END FinalPoints,
     CASE WHEN lai.IsFinal = 1 THEN lai.Grade ELSE NULL END Grade,
     lai.InstructorComments          InstructorComments,
+    lai.LearnerComments             LearnerComments,
     ----- from AssignmentItem -----
     asi.Id                          AssignmentId,
     asi.SPSiteGuid                  AssignmentSPSiteGuid,
@@ -3249,6 +3259,7 @@ RETURN (
     CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END FinalPoints,
     CASE WHEN lai.IsFinal = 1 THEN lai.Grade ELSE NULL END Grade,
     lai.InstructorComments          InstructorComments,
+    lai.LearnerComments             LearnerComments,
     ----- from AssignmentItem -----
     asi.Id                          AssignmentId,
     asi.SPSiteGuid                  AssignmentSPSiteGuid,
@@ -3342,6 +3353,7 @@ RETURN (
     CASE WHEN lai.IsFinal = 1 THEN lai.FinalPoints ELSE NULL END FinalPoints,
     CASE WHEN lai.IsFinal = 1 THEN lai.Grade ELSE NULL END Grade,
     lai.InstructorComments          InstructorComments,
+    lai.LearnerComments             LearnerComments,
     
     ----- from AssignmentItem -----
     asi.Id                          AssignmentId,
@@ -3491,6 +3503,7 @@ RETURN (
     lai.FinalPoints                 FinalPoints,
     lai.Grade                       Grade,
     lai.InstructorComments          InstructorComments,
+    lai.LearnerComments             LearnerComments,
     ----- from AssignmentItem -----
     asi.Id                          AssignmentId,
     asi.SPSiteGuid                  AssignmentSPSiteGuid,
@@ -4116,7 +4129,7 @@ CREATE FUNCTION [LearnerAssignmentItem$DefaultView](@UserKey nvarchar(250))
 RETURNS TABLE
 AS
 RETURN (
-    SELECT Id, [GuidId], [AssignmentId], [LearnerId], [IsFinal], [NonELearningStatus], [FinalPoints], [Grade], [InstructorComments]
+    SELECT Id, [GuidId], [AssignmentId], [LearnerId], [IsFinal], [NonELearningStatus], [FinalPoints], [Grade], [InstructorComments], [LearnerComments]
     FROM [LearnerAssignmentItem]
 )
 GO

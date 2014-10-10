@@ -129,6 +129,9 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Indicates whether to use grades as well as points.</summary>
         public bool UseGrades { get; private set; }
 
+        /// <summary>Indicates whether to hide points for non-scorm packages. Only takes affect if UseGrades = true.</summary>
+        public bool HidePointsForNonELearning { get; private set; }
+
         /// <summary>The url to use to link to a learner report.</summary>
         public string LearnerReportUrl { get; private set; }
 
@@ -219,6 +222,25 @@ namespace Microsoft.SharePointLearningKit
             ParseSettingsFile(xmlReader);
         }
 #endregion constructors
+
+#region public static methods
+        /// <summary>Reads a boolean attribute.</summary>
+        /// <param name="reader">The reader to read.</param>
+        /// <param name="attribute">The attribute name.</param>
+        /// <returns>A boolean value. Defaults to false if not present.</returns>
+        public static bool BooleanAttribute(XmlReader reader, string attribute)
+        {
+            string value = reader.GetAttribute(attribute);
+            if (string.IsNullOrEmpty(value) == false)
+            {
+                return (value.ToUpperInvariant() == "TRUE");
+            }
+            else
+            {
+                return false;
+            }
+        }
+#endregion public static methods
 
         /// <summary>
         /// Parses an SLK Settings XML file, i.e. an XML file with schema
@@ -499,6 +521,7 @@ namespace Microsoft.SharePointLearningKit
             UseMasterPageForApplicationPages = ParseAttributeAsBoolean(xmlReader, "UseMasterPageForApplicationPages");
             AutoVersionLibrariesIfUnversioned = ParseAttributeAsBoolean(xmlReader, "AutoVersionLibrariesIfUnversioned");
             UseGrades = ParseAttributeAsBoolean(xmlReader, "UseGrades");
+            HidePointsForNonELearning = ParseAttributeAsBoolean(xmlReader, "HidePointsForNonELearning");
             SelectAllInstructors = ParseAttributeAsBoolean(xmlReader, "SelectAllInstructors");
             SelectAllLearners = ParseAttributeAsBoolean(xmlReader, "SelectAllLearners");
             LearnerReportUrl = ParseAttributeAsString(xmlReader, "LearnerReportUrl");

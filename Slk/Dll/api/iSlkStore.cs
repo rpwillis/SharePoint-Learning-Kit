@@ -47,6 +47,13 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Gets the <c>SlkSettings</c> of the <c>SPSite</c> associated with this <c>SlkStore</c>.</summary>
         SlkSettings Settings { get; }
 
+        /// <summary>
+        /// Gets the user key used by LearningStore to identify the current user.  What's contained in
+        /// this string depends on the membership provider used by SharePoint (for example, Windows
+        /// authentication or forms-based authentication).
+        /// </summary>
+        string CurrentUserKey { get; }
+
         /// <summary>Throws an exception if the current user isn't an instructor on an SPWeb</summary>
         /// <param name="spWeb">SPWeb that should be checked.</param>
         /// <exception cref="InvalidOperationException"><pr>spWeb</pr> is not in the SPSite that this <r>SlkStore</r> is associated with. </exception>
@@ -231,6 +238,11 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="currentJob">The current transaction.</param>
         void SaveLearnerAssignment(LearnerAssignmentItemIdentifier learnerAssignmentId, bool ignoreFinalPoints, float? finalPoints, string instructorComments, 
                             string grade, bool? isFinal, AttemptStatus? nonELearningStatus, ICurrentJob currentJob);
+
+        /// <summary>Saves the learner comment.</summary>
+        /// <param name="learnerAssignmentId">The id of the LearnerAssignment.</param>
+        /// <param name="comment">The comment to save.</param>
+        void SaveLearnerComment(LearnerAssignmentItemIdentifier learnerAssignmentId, string comment);
 
         /// <summary>Loads all possible assignment reminders.</summary>
         /// <param name="minDueDate">The minimum due date to return.</param>

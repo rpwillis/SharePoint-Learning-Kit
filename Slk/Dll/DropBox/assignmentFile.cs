@@ -25,6 +25,9 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>The file's Url.</summary>
         public string Url { get; private set; }
 
+        /// <summary>The file's ID.</summary>
+        public int Id { get; private set; }
+
         /// <summary>The file's Name.</summary>
         public string Name { get; private set; }
 
@@ -52,6 +55,7 @@ namespace Microsoft.SharePointLearningKit
 
                 switch (Extension.ToUpperInvariant())
                 {
+                    case ".DOC":        // Strictly speaking not so, but will offer to convert
                     case ".DOCX":
                         return true;
                     case ".XLSX":
@@ -97,11 +101,13 @@ namespace Microsoft.SharePointLearningKit
 
 #region constructors
         /// <summary>Initializes a new instance of <see cref="AssignmentFile"/>.</summary>
+        /// <param name="id">The id of the file.</param>
         /// <param name="name">The name of the file.</param>
         /// <param name="url">The file's url.</param>
         /// <param name="permMask">The permissions mask for the file.</param>
-        public AssignmentFile(string name, string url, string permMask)
+        public AssignmentFile(int id, string name, string url, string permMask)
         {
+            Id = id;
             Name = name;
             Url = url;
             PermMask = permMask;
@@ -122,6 +128,10 @@ namespace Microsoft.SharePointLearningKit
 #else
             switch (Extension.ToUpperInvariant())
             {
+                case ".DOC":
+                    // Not actually editing, but once in OWA can convert
+                    formatString = "{0}/_layouts/WordViewer.aspx?id={1}&source={2}";
+                    break;
                 case ".DOCX":
                     formatString = "{0}/_layouts/WordEditor.aspx?id={1}&source={2}";
                     break;

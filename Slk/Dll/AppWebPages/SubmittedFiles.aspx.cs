@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Configuration;
+using System.Globalization;
 using System.Data;
 using System.Text;
 using System.Web;
@@ -24,29 +25,22 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
     public class SubmittedFiles : SlkAppBasePage
     {
         DropBoxManager dropBox;
+        string returnUrl;
 
         #region Control Declarations
 
         /// <summary>The title of the page.</summary>
-        protected Literal pageTitle;
+        protected Literal PageTitle;
         /// <summary>The page's description.</summary>
-        protected Literal pageDescription;
+        protected Literal PageDescription;
         /// <summary>The page's <see cref="ErrorBanner"/>..</summary>
         protected ErrorBanner errorBanner;
         /// <summary>The page's content area.</summary>
         protected Panel contentPanel;
         /// <summary>Page header label</summary>
         protected Label headerMessage;
-        /// <summary>First assignment file hyperlink</summary>
-        protected HyperLink file1;
-        /// <summary>Second assignment file hyperlink</summary>
-        protected HyperLink file2;
-        /// <summary>Third assignment file hyperlink</summary>
-        protected HyperLink file3;
-        /// <summary>Fourth assignment file hyperlink</summary>
-        protected HyperLink file4;
-        /// <summary>Fifth assignment file hyperlink</summary>
-        protected HyperLink file5;
+        /// <summary>The panel to put the files in.</summary>
+        protected Panel FilePanel;
         /// <summary>Instructor message hyperlink</summary>
         protected HyperLink instructorLink;
 
@@ -215,34 +209,23 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected void BuildPageContent()
         {
             dropBox = new DropBoxManager(AssignmentProperties);
-            AssignmentFile[] files = dropBox.LastSubmittedFiles(LearnerAssignmentProperties.User.SPUser);
+            AssignmentFile[] files = dropBox.LastSubmittedFiles(LearnerAssignmentProperties.User.SPUser, true);
 
+            returnUrl = Request.QueryString["source"];
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                returnUrl = Page.Request.RawUrl; 
+            }
+            else
+            {
+                returnUrl = HttpUtility.UrlDecode(returnUrl);
+            }
 
-            int fileIndex = 0;
+            int counter = 0;
             foreach (AssignmentFile file in files)
             {
-                if (fileIndex == 0)
-                {
-                    this.DisplayFileLink(this.file1, file);
-                }
-                else if (fileIndex == 1)
-                {
-                    this.DisplayFileLink(this.file2, file);
-                }
-                else if (fileIndex == 2)
-                {
-                    this.DisplayFileLink(this.file3, file);
-                }
-                else if (fileIndex == 3)
-                {
-                    this.DisplayFileLink(this.file4, file);
-                }
-                else
-                {
-                    this.DisplayFileLink(this.file5, file);
-                }
-
-                fileIndex++;
+                DisplayFileLink(file, counter);
+                counter++;
             }
         }
 
@@ -254,8 +237,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         private void SetResourceText()
         {
-            this.pageTitle.Text = PageCulture.Resources.SubmittedFilesPageTitle;
-            this.pageDescription.Text = PageCulture.Resources.SubmittedFilesPageDescription;
+            this.PageTitle.Text = PageCulture.Resources.SubmittedFilesPageTitle;
+            this.PageDescription.Text = PageCulture.Resources.SubmittedFilesPageDescription;
             this.headerMessage.Text = string.Format(PageCulture.Resources.SubmittedFilesHeader, AssignmentProperties.Title, LearnerAssignmentProperties.LearnerName);
             this.instructorLink.Text = string.Format(PageCulture.Resources.SubmittedFilesInstructorMessage, LearnerAssignmentProperties.LearnerName);
         }
@@ -267,22 +250,33 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>
         /// Display the assignment file link and URL
         /// </summary>
-        /// <param name="linkName">The name of the file's hyperlink control</param>
         /// <param name="file">The assignment file</param>
-        private void DisplayFileLink(HyperLink linkName, AssignmentFile file)
+        /// <param name="counter">The number of the file</param>
+        private void DisplayFileLink(AssignmentFile file, int counter)
         {
-            string assignmentFileName = file.Name;
-            linkName.Text = file.Name;
-            linkName.Target = "_blank";
-            linkName.Style.Add("display", string.Empty);
+            HyperLink fileLink = new HyperLink();
+            fileLink.ID = "file" + counter.ToString(CultureInfo.InvariantCulture);
+            fileLink.Text = file.Name;
+            fileLink.Style.Add("display", string.Empty);
 
             DropBoxEditMode editMode = Status == LearnerAssignmentState.Completed ? DropBoxEditMode.Edit : DropBoxEditMode.View;
-            DropBoxEditDetails editDetails = dropBox.GenerateDropBoxEditDetails(file, SPWeb, editMode, Page.Request.RawUrl);
-            linkName.NavigateUrl = editDetails.Url;
+            DropBoxEditDetails editDetails = dropBox.GenerateDropBoxEditDetails(file, SPWeb, editMode, returnUrl);
+            fileLink.NavigateUrl = editDetails.Url;
             if (string.IsNullOrEmpty(editDetails.OnClick) == false)
             {
-                linkName.Attributes.Add("onclick", editDetails.OnClick + "return false;");
+                fileLink.Attributes.Add("onclick", editDetails.OnClick + "return false;");
             }
+            else
+            {
+                if (SlkStore.Settings.DropBoxSettings.OpenSubmittedInSameWindow)
+                {
+                    fileLink.Attributes.Add("onclick", "window.top.location='" + editDetails.Url + "';");
+                }
+            }
+
+            FilePanel.Controls.Add(new LiteralControl("<div>"));
+            FilePanel.Controls.Add(fileLink);
+            FilePanel.Controls.Add(new LiteralControl("</div>"));
         }
 
        #endregion

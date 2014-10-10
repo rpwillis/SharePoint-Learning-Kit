@@ -81,6 +81,17 @@ function SlkOpenFramesetWindow(navigateUrl)
 	}
 }
 
+    var slkSubmittedUrl = '';
+    var slkSourceUrl = '';
+
+    function openSubmittedFiles(id) {
+        var options = SP.UI.$create_DialogOptions();
+        options.url = slkSubmittedUrl + id + slkSourceUrl;
+        options.allowMaximize = true;
+        options.showClose = true;
+        options.autoSize = true;
+        SP.UI.ModalDialog.showModalDialog(options);
+    } 
 </script>
 </asp:Content>
 
@@ -124,7 +135,7 @@ function SlkOpenFramesetWindow(navigateUrl)
 		<asp:HyperLink ID="lnkSite" runat="server" /><asp:Label ID="lblSiteValue" Visible="false" runat="server" />
 	</slk:TableGridColumn>
 </slk:TableGridRow>
-<slk:TableGridRow>
+<slk:TableGridRow ID="RowScore" runat="server">
 	<slk:TableGridColumn ColumnType="FormLabel">
 		<asp:Label ID="lblScore" runat="server" EnableViewState="false" />
 	</slk:TableGridColumn>
@@ -132,7 +143,7 @@ function SlkOpenFramesetWindow(navigateUrl)
 		<asp:Label ID="lblScoreValue" runat="server" />
 	</slk:TableGridColumn>
 </slk:TableGridRow>
-<slk:TableGridRow ID="rowGrade" runat="server">
+<slk:TableGridRow ID="RowGrade" runat="server">
 	<slk:TableGridColumn ColumnType="FormLabel">
 		<asp:Label ID="labelGrade" runat="server" EnableViewState="false" />
 	</slk:TableGridColumn>
@@ -164,6 +175,15 @@ function SlkOpenFramesetWindow(navigateUrl)
 		<asp:Label ID="lblDueValue" runat="server" />
 	</slk:TableGridColumn>
 </slk:TableGridRow>
+<slk:TableGridRow ID="tgrLearnerComments" Visible="false" runat="server">
+	<slk:TableGridColumn ColumnType="FormLabel">
+		<asp:Label ID="lblLearnerComments" runat="server" EnableViewState="false" />
+	</slk:TableGridColumn>
+	<slk:TableGridColumn ColumnType="FormBody">
+              <asp:TextBox ID="LearnerComments" runat="server" CssClass="ms-long" TextMode="MultiLine" style="overflow:visible; height:40px; width:98%" Visible="false"></asp:TextBox>                                                      
+		<asp:Label ID="lblLearnerCommentsValue" runat="server" EnableViewState="false" Visible="false"/>
+	</slk:TableGridColumn>
+</slk:TableGridRow>
 <slk:TableGridRow ID="tgrComments" runat="server">
 	<slk:TableGridColumn ColumnType="FormLabel">
 		<asp:Label ID="lblComments" runat="server" EnableViewState="false" />
@@ -190,6 +210,11 @@ function SlkOpenFramesetWindow(navigateUrl)
 	<slk:TableGridColumn ColumnSpan="2" ColumnType="FormLine"><img height=1 width=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif"></slk:TableGridColumn>
 </slk:TableGridRow>
 </slk:TableGrid>
+<asp:Panel ID="NextPanel" Visible="false" runat="server">
+    <h2 class="UserGenericHeader">
+    <asp:Label ID="ConfirmWhatNext" runat="server"></asp:Label>
+    </h2>
+</asp:Panel>
 <img height=1 alt="" src="/_layouts/SharePointLearningKit/Images/Blank.gif" width=590> 
 <SharePoint:DelegateControl ControlId="SlkEndContent" runat="server"/>
 </asp:Panel>

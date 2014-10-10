@@ -118,6 +118,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected System.Web.UI.WebControls.Label LabelUploadDocumentLibrary { get; set; }
         /// <summary>The document library control.</summary>
         protected System.Web.UI.WebControls.DropDownList UploadDocumentLibraries { get; set; }
+        protected TableGridRow RowPoints { get; set; }
+        protected TableGridRow RowConfirmationPoints { get; set; }
 
         //TextBox Controls
         protected System.Web.UI.WebControls.TextBox txtTitle;
@@ -543,6 +545,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     }
                 }
             }
+
         }
 
         void SetUpForNewNoPackageAssignment()
@@ -1100,6 +1103,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 chkAutoReturnLearners.Enabled = false;
                 lblAutoReturnLearners.Enabled = false;
+
+                if (AssignmentProperties.HidePoints)
+                {
+                    RowPoints.Visible = false;
+                    RowConfirmationPoints.Visible = false;
+                }
             }
 
 
@@ -1464,7 +1473,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //Set the Confirmation Page Labels
 
             lblAssignmentTitle.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Title);
-            lblAssignmentDescription.Text = SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description);
+            lblAssignmentDescription.Text = SlkUtilities.ClickifyLinks(SlkUtilities.GetCrlfHtmlEncodedText(AssignmentProperties.Description));
 
             // say e.g.: {0:D}, {1:t} where {0} = date, {1} = time;
             lblAssignmentStartText.Text = PageCulture.Format(PageCulture.Resources.SlkDateFormatSpecifier, AssignmentProperties.StartDate.ToLocalTime());
@@ -1491,7 +1500,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 //Add Doclib Url
                 SPFile spFile = Location.LoadFile();
-                string message = PageCulture.Format(PageCulture.Resources.AppNavigateToDocLib, spFile.ParentFolder.Name);
+                string name = spFile.ParentFolder.Name;
+                if (string.IsNullOrEmpty(spFile.ParentFolder.Url))
+                {
+                    // It is the root folder so use the document library name. 
+                    // This ensures that it uses the current locale version in multi-lingual sites.
+                    name = spFile.ParentFolder.DocumentLibrary.Title;
+                }
+
+                string message = PageCulture.Format(PageCulture.Resources.AppNavigateToDocLib, name);
                 lstNavigateBulletedList.Items.Add(new ListItem(message, spFile.ParentFolder.ServerRelativeUrl));
             }
 

@@ -43,12 +43,8 @@ namespace Microsoft.SharePointLearningKit
 
             Url = reader.GetAttribute("Url");
 
-            string useOffice = reader.GetAttribute("UseOfficeWebApps");
-            if (string.IsNullOrEmpty(useOffice) == false)
-            {
-                UseOfficeWebApps = (useOffice.ToUpperInvariant() == "TRUE");
-            }
-
+            UseOfficeWebApps = SlkSettings.BooleanAttribute(reader, "UseOfficeWebApps");
+            OpenSubmittedInSameWindow = SlkSettings.BooleanAttribute(reader, "OpenSubmittedInSameWindow");
         }
 #endregion constructors
 
@@ -61,6 +57,9 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Whether to use Office Web Apps for editing or not.</summary>
         public bool UseOfficeWebApps { get; private set; }
+
+        /// <summary>Whether to open submitted files in same window.</summary>
+        public bool OpenSubmittedInSameWindow { get; private set; }
 #endregion properties
 
 #region public methods

@@ -900,6 +900,24 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string BtnCancelText {
+            get {
+                return ResourceManager.GetString("BtnCancelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; had been collected.&lt;/p&gt;.
         /// </summary>
         internal static string CancelAssignmentEmailDefaultBody {
@@ -1691,6 +1709,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot use Active Directory groups for assignments when using ADFS..
+        /// </summary>
+        internal static string DomainGroupAdfs {
+            get {
+                return ResourceManager.GetString("DomainGroupAdfs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot use NT AUTHORITY\Authenticated users group for assigning work in SLK..
         /// </summary>
         internal static string DomainGroupAuthenticatedUsers {
@@ -1907,6 +1934,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to create field {0} for drop box. {1}.
+        /// </summary>
+        internal static string DropBoxFailCreateField {
+            get {
+                return ResourceManager.GetString("DropBoxFailCreateField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to create Drop Box. {0}.
         /// </summary>
         internal static string DropBoxListCreateFailure {
@@ -1975,6 +2011,15 @@ namespace Resources.Properties {
         internal static string ErrorSavingDropBoxPermissions {
             get {
                 return ResourceManager.GetString("ErrorSavingDropBoxPermissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to unlock file {0}..
+        /// </summary>
+        internal static string FailUnlockFile {
+            get {
+                return ResourceManager.GetString("FailUnlockFile", resourceCulture);
             }
         }
         
@@ -2538,6 +2583,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Learner Comments:.
+        /// </summary>
+        internal static string GradingLearnerComments {
+            get {
+                return ResourceManager.GetString("GradingLearnerComments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Learner.
         /// </summary>
         internal static string GradingLearnerHeaderText {
@@ -2759,6 +2813,15 @@ namespace Resources.Properties {
         internal static string GroupEnumerationFail {
             get {
                 return ResourceManager.GetString("GroupEnumerationFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include.
+        /// </summary>
+        internal static string IncludeTitle {
+            get {
+                return ResourceManager.GetString("IncludeTitle", resourceCulture);
             }
         }
         
@@ -3074,6 +3137,15 @@ namespace Resources.Properties {
         internal static string LobbylblStatus {
             get {
                 return ResourceManager.GetString("LobbylblStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Comments.
+        /// </summary>
+        internal static string LobbyLearnerComments {
+            get {
+                return ResourceManager.GetString("LobbyLearnerComments", resourceCulture);
             }
         }
         
@@ -3467,6 +3539,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Grade.
+        /// </summary>
+        internal static string QueryColumnTitleGrade {
+            get {
+                return ResourceManager.GetString("QueryColumnTitleGrade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Score.
         /// </summary>
         internal static string QueryColumnTitleScore {
@@ -3517,6 +3598,15 @@ namespace Resources.Properties {
         internal static string QueryColumnToolTipDue {
             get {
                 return ResourceManager.GetString("QueryColumnToolTipDue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} ({1}).
+        /// </summary>
+        internal static string QueryColumnToolTipIfEmpty {
+            get {
+                return ResourceManager.GetString("QueryColumnToolTipIfEmpty", resourceCulture);
             }
         }
         

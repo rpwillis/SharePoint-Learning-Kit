@@ -216,9 +216,13 @@ namespace Microsoft.LearningComponents.Storage
                 if (value == null)
                 {
                     if(!m_nullable)
-                        throw getCastException(
-                            LearningStoreStrings.ValueCannotBeNull, null);
-                    return null;
+                    {
+                        throw getCastException(LearningStoreStrings.ValueCannotBeNull, null);
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
 
                 // Handle DBNull.Value
@@ -273,13 +277,18 @@ namespace Microsoft.LearningComponents.Storage
                     // Handle Guid
                     case LearningStoreValueTypeCode.Guid:
                         {
-                            if(value is Guid)
+                            if (value is Guid || value is Guid[])
+                            {
                                 return value;
+                            }
+
                             string valueAsString = value as string;
                             if(valueAsString != null)
+                            {
                                 return new Guid(valueAsString);
-                            throw getCastException(
-                                LearningStoreStrings.ValueMustBeGuid, null);
+                            }
+
+                            throw getCastException(LearningStoreStrings.ValueMustBeGuid, null);
                         }
 
                     // Handle ItemIdentifier
@@ -1105,8 +1114,7 @@ namespace Microsoft.LearningComponents.Storage
         /// <param name="formatprovider"><Typ>IFormatProvider</Typ> used to convert to/from strings</param>
         /// <param name="getCastException">Delegate called to retrieve the exception to be thrown on error.</param>
         /// <returns>The value cast to something of this type.</returns>
-        public object CastValue(object value, IFormatProvider formatprovider,
-            LearningStoreValueType.GetCastException getCastException)
+        public object CastValue(object value, IFormatProvider formatprovider, LearningStoreValueType.GetCastException getCastException)
         {
             return m_valueType.CastValue(value, formatprovider, getCastException);
         }
@@ -1118,8 +1126,7 @@ namespace Microsoft.LearningComponents.Storage
         /// <param name="view">View in which the column exists.</param>
         /// <param name="navigator">Location from which the data should be read</param>
         /// <returns>The new <Typ>LearningStoreViewColumn</Typ></returns>
-        public static LearningStoreViewColumn CreateColumn(LearningStoreView view,
-            XPathNavigator navigator)
+        public static LearningStoreViewColumn CreateColumn(LearningStoreView view, XPathNavigator navigator)
         {
             // Check parameters
             if (view == null)

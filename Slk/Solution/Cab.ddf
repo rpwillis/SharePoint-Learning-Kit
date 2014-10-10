@@ -123,6 +123,7 @@ Features\SelfAssign\selfassign.webpart                                      Shar
 ..\Sql\SlkSchema.sql                                                        Admin\SharePointLearningKit\SlkSchema.sql
 ..\SlkSettings.xml                                                          Admin\SharePointLearningKit\SlkSettings.xml.dat
 SiteMaps\admin.sitemap.SharePointLearningKit.xml                            Admin\admin.sitemap.SharePointLearningKit.xml
+Microsoft.SharePointLearningKit.PowerShell.xml                              CONFIG\POWERSHELL\Registration\Microsoft.SharePointLearningKit.PowerShell.xml
 ..\..\LearningComponents\Compression\bin\%DotNetVersion%\%Configuration%\Microsoft.LearningComponents.Compression.dll                          Microsoft.LearningComponents.Compression.dll
 ..\..\LearningComponents\LearningComponents\bin\%DotNetVersion%\%Configuration%\Microsoft.LearningComponents.dll                                      Microsoft.LearningComponents.dll
 ..\..\LearningComponents\Storage\bin\%DotNetVersion%\%Configuration%\Microsoft.LearningComponents.Storage.dll                              Microsoft.LearningComponents.Storage.dll

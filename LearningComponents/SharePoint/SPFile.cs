@@ -17,7 +17,7 @@ namespace Microsoft.LearningComponents.SharePoint
     /// The file may be read, but the file is not opened or its contents processed.
     /// </summary>
     /// <remarks>
-    /// <c>CachedSharePointFile</c> implements <Typ>IDisposable</Typ>.  Always call the <Mth>Dispose</Mth> method when finished
+/// <c>CachedSharePointFile</c> implements <Typ>IDisposable</Typ>.  Always call the <Mth>Dispose</Mth> method when finished
     /// with a <c>CachedSharePointFile</c> object, or use a <c>using</c> statement, to ensure that unmanaged resources are
     /// explicitly and properly released.
     /// </remarks>
@@ -77,25 +77,7 @@ namespace Microsoft.LearningComponents.SharePoint
                 m_useRequestedPrivileges = RunWithCurrentUserPrivileges;
             }
 
-            try
-            {
-                // Impersonate the identity to access the cache
-                using (new ImpersonateIdentity(cacheSettings.ImpersonationBehavior))
-                {
-                    if (!Directory.Exists(cacheSettings.CachePath))
-                    {
-                        Directory.CreateDirectory(cacheSettings.CachePath);
-                    }
-
-                    // Test that the identity has read access to the directory. This will throw UnauthorizedAccessException if it 
-                    // does not.
-                    Directory.GetFiles(cacheSettings.CachePath);
-                }
-            }
-            catch
-            {
-                throw;
-            }
+            CachedPackage.EnsureCache(cacheSettings);
         }
 
         /// <summary>

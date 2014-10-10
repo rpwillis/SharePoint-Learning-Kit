@@ -145,14 +145,9 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        /// <summary>
-        /// Gets the user key used by LearningStore to identify the current user.  What's contained in
-        /// this string depends on the membership provider used by SharePoint (for example, Windows
-        /// authentication or forms-based authentication).
-        /// </summary>
+        /// <summary>See <see cref="ISlkStore.CurrentUserKey"/>.</summary>
         public string CurrentUserKey
         {
-                    [DebuggerStepThrough]
             get
             {
                 return m_learningStore.UserKey;
@@ -1002,6 +997,7 @@ namespace Microsoft.SharePointLearningKit
                         properties[Schema.LearnerAssignmentItem.NonELearningStatus] = null;
                         properties[Schema.LearnerAssignmentItem.FinalPoints] = null;
                         properties[Schema.LearnerAssignmentItem.InstructorComments] = String.Empty;
+                        properties[Schema.LearnerAssignmentItem.LearnerComments] = null;
                         job.AddItem(Schema.LearnerAssignmentItem.ItemTypeName, properties);
                     }
 
@@ -1161,6 +1157,7 @@ namespace Microsoft.SharePointLearningKit
                         learnerProperties[Schema.LearnerAssignmentItem.NonELearningStatus] = null;
                         learnerProperties[Schema.LearnerAssignmentItem.FinalPoints] = null;
                         learnerProperties[Schema.LearnerAssignmentItem.InstructorComments] = string.Empty;
+                        learnerProperties[Schema.LearnerAssignmentItem.LearnerComments] = string.Empty;
                         job.AddItem(Schema.LearnerAssignmentItem.ItemTypeName, learnerProperties);
                     }
 
@@ -1426,7 +1423,7 @@ namespace Microsoft.SharePointLearningKit
             }
 
             LearningStoreQuery query = CreateQueryForLearnerAssignmentProperties(learnerAssignmentGuidId, slkRole);
-            return LoadLearnerAssignment(query, true);
+            return LoadLearnerAssignment(query, true, learnerAssignmentGuidId);
         }
 
         /// <summary>Load the current AssignmentProperties for a self-assignment.</summary>
@@ -1441,7 +1438,7 @@ namespace Microsoft.SharePointLearningKit
             }
 
             LearningStoreQuery query = CreateQueryForLoadSelfAssignment(location);
-            return LoadLearnerAssignment(query, false);
+            return LoadLearnerAssignment(query, false, "LoadSelfAssignmentForLocation");
         }
 
         /// <summary>Retrieves grading-related information about an assignment from the SLK database.</summary>
@@ -1704,6 +1701,19 @@ namespace Microsoft.SharePointLearningKit
 
                 // finish the transaction
                 scope.Complete();
+            }
+        }
+
+        /// <summary>See <see cref="ISlkStore.SaveLearnerComment"/>.</summary>
+        public void SaveLearnerComment(LearnerAssignmentItemIdentifier learnerAssignmentId, string comment)
+        {
+            using(LearningStorePrivilegedScope privilegedScope = new LearningStorePrivilegedScope())
+            {
+                Dictionary<string, object> properties = new Dictionary<string, object>();
+                properties[Schema.LearnerAssignmentItem.LearnerComments] = comment;
+                LearningStoreJob job = LearningStore.CreateJob();
+                job.UpdateItem(learnerAssignmentId, properties);
+                job.Execute();
             }
         }
 
@@ -1976,6 +1986,7 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.FinalPoints);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.Grade);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.InstructorComments);
+            query.AddColumn(Schema.LearnerAssignmentListForInstructors.LearnerComments);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.RootActivityId);
             query.AddColumn(Schema.LearnerAssignmentListForInstructors.AttemptId);
             query.AddCondition(Schema.LearnerAssignmentListForInstructors.AssignmentId, LearningStoreConditionOperator.Equal, assignmentId);
@@ -2026,6 +2037,7 @@ namespace Microsoft.SharePointLearningKit
                 lap.FinalPoints = Cast<float?>(dataRow[LearnerAssignmentListForInstructors.FinalPoints]);
                 lap.Grade = Cast<string>(dataRow[LearnerAssignmentListForInstructors.Grade]);
                 lap.InstructorComments = CastNonNull<string>(dataRow[LearnerAssignmentListForInstructors.InstructorComments]);
+                lap.LearnerComments = Cast<string>(dataRow[LearnerAssignmentListForInstructors.LearnerComments]);
                 lap.AttemptId = CastIdentifier<AttemptItemIdentifier>( dataRow[LearnerAssignmentListForInstructors.AttemptId]);
             }
 
@@ -2195,9 +2207,18 @@ namespace Microsoft.SharePointLearningKit
             {
                 SlkUser user = LoadUser(web, dataRow, idColumn, nameColumn, keyColumn);
                 user.AssignmentUserId = CastNonNullIdentifier<LearnerAssignmentItemIdentifier>(dataRow[assignmentIdColumn]);
-                users.Add(user);
+                bool added = true;
+                try
+                {
+                    users.Add(user);
+                }
+                catch (ArgumentException)
+                {
+                    // Duplicate key. Invalid data from the database so ignore this user. Only seen this error when manually adding users to the DB.
+                    added = false;
+                }
 
-                if (assignResults)
+                if (added && assignResults)
                 {
                     LearnerAssignmentProperties learnerProperties = PopulateLearnerAssignmentProperties(dataRow, properties, web, true);
                     results.Add(learnerProperties);
@@ -2305,6 +2326,7 @@ namespace Microsoft.SharePointLearningKit
             query.AddColumn(Schema.LearnerAssignmentList.FinalPoints);
             query.AddColumn(Schema.LearnerAssignmentList.Grade);
             query.AddColumn(Schema.LearnerAssignmentList.InstructorComments);
+            query.AddColumn(Schema.LearnerAssignmentList.LearnerComments);
             query.AddColumn(Schema.LearnerAssignmentList.HasInstructors);
         }
 
@@ -2447,7 +2469,7 @@ namespace Microsoft.SharePointLearningKit
 #endregion conversion methods
 
 #region private methods
-        AssignmentProperties LoadLearnerAssignment(LearningStoreQuery query, bool checkSingular)
+        AssignmentProperties LoadLearnerAssignment(LearningStoreQuery query, bool checkSingular, object assignmentId)
         {
             // Security checks: Fails if the user doesn't have access to the learner assignment (since
             // the query is limited to only the information the user has access to, and an exception
@@ -2475,7 +2497,7 @@ namespace Microsoft.SharePointLearningKit
                 {
                     // this error message includes the learner assignment ID, but that's okay since the information we provide does not allow the user to distinguish between the
                     // learner assignment not existing and the user not having access to it
-                    throw new SafeToDisplayException(culture.Resources.LearnerAssignmentNotFoundInDatabase);
+                    throw new SafeToDisplayException(culture.Resources.LearnerAssignmentNotFoundInDatabase, assignmentId);
                 }
             }
             else
@@ -2558,6 +2580,7 @@ namespace Microsoft.SharePointLearningKit
             learnerProperties.FinalPoints = Cast<float?>(dataRow[LearnerAssignmentList.FinalPoints]);
             learnerProperties.Grade = Cast<string>(dataRow[LearnerAssignmentList.Grade]);
             learnerProperties.InstructorComments = CastNonNull<string>(dataRow[LearnerAssignmentList.InstructorComments]);
+            learnerProperties.LearnerComments = Cast<string>(dataRow[LearnerAssignmentList.LearnerComments]);
             return learnerProperties;
         }
 
@@ -2671,7 +2694,32 @@ namespace Microsoft.SharePointLearningKit
         {
             SlkUtilities.ImpersonateAppPool(delegate()
             {
-                string message = String.Format(CultureInfo.InvariantCulture, culture.Resources.AppError, String.Format(CultureInfo.InvariantCulture, format, args));
+                string message = null;
+                try
+                {
+                    message = String.Format(CultureInfo.InvariantCulture, culture.Resources.AppError, String.Format(CultureInfo.InvariantCulture, format, args));
+                }
+                catch (FormatException)
+                {
+                    // Incorrectly formatted message. Just output it and its arguments.
+                    StringBuilder builder = new StringBuilder();
+                    builder.AppendLine("SLK:");
+                    builder.Append(format);
+                    if (args != null)
+                    {
+                        foreach (object arg in args)
+                        {
+                            builder.Append(",");
+                            if (arg != null)
+                            {
+                                builder.Append(arg.ToString());
+                            }
+                        }
+                    }
+
+                    message = builder.ToString();
+                }
+
                 message = message.Replace(@"\n", "\r\n");
                 WriteEvent(message);
             });

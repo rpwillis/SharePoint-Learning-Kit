@@ -26,21 +26,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 {
     /// <summary>The assignment list web part query results page.</summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Alwp")]
-    public partial class AlwpQueryResults : SlkAppBasePage
+    public partial class AlwpQueryResults : QueryBasePage
     {
         #region Private Variables
+        string queryName;
         /// <summary>
         /// SPWeb GUID-to-name mappings.
         /// </summary>
         Dictionary<Guid, WebNameAndUrl> m_spWebNameMap;
-        /// <summary>
-        /// Query Name 
-        /// </summary>
-        string m_queryName;
-        /// <summary>
-        /// Holds the Visibility 
-        /// </summary>   
-        string m_spWebScope;
         /// <summary>
         /// Holds the Sort
         /// </summary>
@@ -51,20 +44,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// </summary>
         int m_unknownSiteCount;
 
-        /// <summary>
-        /// Holds the learner store corresponding to the input user in the case of an Observer's role
-        /// </summary>
-        SlkStore m_observerRoleLearnerStore;
-
         #endregion
 
         #region Public Properties
-        /// <summary>See <see cref="SlkAppBasePage.OverrideMasterPage"/>.</summary>
-        protected override bool OverrideMasterPage
-        {
-            get { return false ;}
-        }
-
         /// <summary>
         /// Gets the name of the SLK query to execute.
         /// Throws Exception if empty or null.
@@ -73,27 +55,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             get
             {
-                if (m_queryName == null)
+                if (queryName == null)
                 {
-                    m_queryName = QueryString.ParseString(QueryStringKeys.Query);
+                    queryName = Request[QueryStringKeys.Query];
                 }
-                return m_queryName;
+                return queryName;
             }
         }
-        /// <summary>
-        /// Gets the GUID of the SPWeb to filter on.  Returns null if it's absent.
-        /// </summary>
-        private string SPWebScope
-        {
-            get
-            {
-                if (m_spWebScope == null)
-                {
-                    m_spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
-                }
-                return m_spWebScope;
-            }
-        }
+
         /// <summary>
         /// Gets zero-based index of the column to sort on.  Returns null if it's absent.
         /// </summary>
@@ -103,45 +72,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 if (m_sort == null)
                 {
-                    m_sort = QueryString.ParseStringOptional(QueryStringKeys.Sort);
+                    m_sort = Request[QueryStringKeys.Sort];
                 }
                 return m_sort;
-            }
-        }
-
-        /// <summary>The <see cref="SlkStore"/> to use.</summary>
-        public override SlkStore SlkStore
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(ObserverRoleLearnerKey) == false)
-                {
-                    if (m_observerRoleLearnerStore == null)
-                    {
-                        m_observerRoleLearnerStore = SlkStore.GetStore(SPWeb, ObserverRoleLearnerKey);
-                    }
-                    return m_observerRoleLearnerStore;
-                }
-                return base.SlkStore;
             }
         }
 
         #endregion
 
         #region Private and Protected Methods
-
-        #region Page_Init
-        /// <summary>
-        ///  Page Init for AlwpQueryResults. 
-        /// </summary> 
-        /// <param name="sender">an object referencing the source of the event</param>
-        /// <param name="e">An EventArgs that contains the event data.</param>
-        protected void Page_Init(object sender, EventArgs e)
-        {
-            //Setting Cache-Control = "no-cache" to prevent caching 
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-        }
-        #endregion
 
         #region Page_Load
         private void AddCoreCss(HtmlTextWriter writer, int lcid)
@@ -201,12 +140,17 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                         using (new HtmlBlock(HtmlTextWriterTag.Body, 0, hw))
                         {
+                            Microsoft.SharePointLearningKit.WebParts.AssignmentListWebPart.DumpCultures(hw);
                             // render the outer table -- this contains only one row and one column, which
                             // in turn contains the entire query results table
                             hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
                             hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
                             hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
+
+                            RenderForm(hw);
+                            RenderSortFunction(hw);
+
                             using (new HtmlBlock(HtmlTextWriterTag.Table, 0, hw))
                             {
                                 // render the single row and column of the outer table
@@ -219,13 +163,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                         try
                                         {
                                             // set <queryDef> to the QueryDefinition named <queryName>
-                                            QueryDefinition queryDef 
-                                                        = SlkStore.Settings.FindQueryDefinition(Query);
+                                            QueryDefinition queryDef = null;
+                                            if (Query != null)
+                                            {
+                                                queryDef = SlkStore.Settings.FindQueryDefinition(Query);
+                                            }
 
                                             if (queryDef == null)
                                             {
-                                                throw new SafeToDisplayException
-                                                                   (PageCulture.Resources.AlwpQuerySetNotFound, Query);
+                                                throw new SafeToDisplayException (PageCulture.Resources.AlwpQuerySetNotFound, Query);
                                             }
 
 
@@ -285,14 +231,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // create a job for executing the query specified by <queryDef>
             LearningStoreJob job = SlkStore.LearningStore.CreateJob();
 
-            Guid? spWebScopeMacro = (SPWebScope == null) ? (Guid?)null : (new Guid(SPWebScope));
-
             // create a query based on <queryDef>
             LearningStoreQuery query = null;
             int[,] columnMap; // see QueryDefinition.CreateQuery
             try
             {
-                query = CreateStandardQuery(queryDef, false, spWebScopeMacro, out columnMap);
+                query = CreateStandardQuery(queryDef, false, out columnMap);
             }
             catch (SlkSettingsException ex)
             {
@@ -334,7 +278,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             bool sortAscending;
 
-            if (Sort != null)
+            if (string.IsNullOrEmpty(Sort) == false)
             {
                 sortColumnIndex = int.Parse(Sort, CultureInfo.InvariantCulture);
                 if (sortColumnIndex < 0)
@@ -343,7 +287,10 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     sortColumnIndex = -sortColumnIndex;
                 }
                 else
+                {
                     sortAscending = true;
+                }
+
                 sortColumnIndex--;
             }
             else
@@ -474,7 +421,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // skipped: id=TABLE1 dir=None
             hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
             hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "1");
-            hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+            hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
             hw.AddAttribute(HtmlTextWriterAttribute.Border, "0");
             using (new HtmlBlock(HtmlTextWriterTag.Table, 1, hw))
             {
@@ -622,8 +569,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 {
                     // render the "<table>" element containing the column header
                     hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-unselectedtitle");
-                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%;");
-                    hw.AddAttribute(HtmlTextWriterAttribute.Height, "100%");
+                    hw.AddAttribute(HtmlTextWriterAttribute.Style, "width: 100%;height: 100%;");
                     hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
                     using (new HtmlBlock(HtmlTextWriterTag.Table, 0, hw))
                     {
@@ -631,7 +577,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
                             hw.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
                             hw.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
-                            hw.AddAttribute(HtmlTextWriterAttribute.Width, "100%");
+                            hw.AddAttribute(HtmlTextWriterAttribute.Style, "width:100%;");
                             using (new HtmlBlock(HtmlTextWriterTag.Td, 0, hw))
                             {
                                 // write the "<a>" element which, when clicked, causes the query list
@@ -650,9 +596,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                     newSort = columnIndex + 1;
                                 hw.AddAttribute(HtmlTextWriterAttribute.Title, PageCulture.Format(PageCulture.Resources.QueryResultsSortBy, columnDef.Title));
                                 hw.AddAttribute(HtmlTextWriterAttribute.Href,
-                                    GetAdjustedQueryString(QueryStringKeys.Sort, 
-                                                           newSort.ToString(CultureInfo.InvariantCulture)));
+                                    GetAdjustedQueryString(QueryStringKeys.Sort, newSort.ToString(CultureInfo.InvariantCulture)));
                                 hw.AddAttribute(HtmlTextWriterAttribute.Style, "color:Gray;");
+                                hw.AddAttribute("onclick", string.Format(CultureInfo.InvariantCulture, "sort({0}); return false;", newSort));
                                 using (new HtmlBlock(HtmlTextWriterTag.A, 0, hw))
                                 {
                                     // write the column title
@@ -678,6 +624,43 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
         #endregion
 
+        private void RenderSortFunction(TextWriter writer)
+        {
+            string function = @"function sort(col)
+            {
+                var sortInput = document.getElementById('alwpSort');
+                sortInput.value = col;
+                var formInput = document.getElementById('resultsForm');
+                formInput.submit();
+
+                if(queryFrame != undefined)
+                {
+                    if (queryFrame.SetSort != undefined)
+                    {
+                        queryFrame.SetSort(col);
+                    }
+                }
+            }
+            ";
+            writer.WriteLine("<script  type=\"text/javascript\">");
+            writer.WriteLine(function);
+            writer.WriteLine("</script>");
+        }
+
+        private void RenderForm(TextWriter writer)
+        {
+            writer.Write("<form id=\"resultsForm\" method=\"POST\" >");
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.QuerySet, Request[QueryStringKeys.QuerySet]);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Query, Query);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Source, RawSourceUrl);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.SPWebScope, Request[QueryStringKeys.SPWebScope]);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.FrameId, FrameId);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Sort, Sort);
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.ForObserver, Request[QueryStringKeys.SPWebScope]);
+
+            writer.Write("</form>");
+        }
+
         #region RenderFileSubmissionCell
 
         /// <summary>
@@ -693,12 +676,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // to change to return integer values representing these. No point making a sql change just for this though.
             if (renderedCell.ToString() == "Submit File(s)")
             {
-                RenderFileSubmissionCellAsSubmitLink(
-                    "{0}" + Constants.SlkUrlPath + "FilesUploadPage.aspx?LearnerAssignmentId={1}",
-                    webNameRenderedCell,
-                    learnerAssignmentGUID,
-                    PageCulture.Format(PageCulture.Resources.AlwpFileSubmissionSubmitText),
-                    hw);
+                string baseUrl = "{0}{1}FilesUploadPage.aspx?LearnerAssignmentId={2}&Source={3}";
+                // Creating a format string from a format string
+                baseUrl = string.Format(CultureInfo.InvariantCulture, baseUrl, "{0}", Constants.SlkUrlPath, "{1}", RawSourceUrl);
+                RenderFileSubmissionCellAsSubmitLink(baseUrl, webNameRenderedCell.SPWebUrl, learnerAssignmentGUID,
+                                                        PageCulture.Format(PageCulture.Resources.AlwpFileSubmissionSubmitText), hw);
             }
             else if (renderedCell.ToString() == "Submitted LINK")
             {
@@ -775,16 +757,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// Renders The File Submission column cell as "Submit File(s)" link
         /// </summary>
         /// <param name="fileURL">The URL of the file to be redirected to when the cell link is clicked</param>
-        /// <param name="webNameRenderedCell"></param>
+        /// <param name="webUrl">The web url</param>
         /// <param name="learnerAssignmentGUID">The GUID of the current assignment</param>
         /// <param name="renderedCellValue">The text to be displayed in the cell</param>
         /// <param name="hw">The HtmlTextWriter to write to.</param>
-        void RenderFileSubmissionCellAsSubmitLink(string fileURL, WebNameRenderedCell webNameRenderedCell, Guid learnerAssignmentGUID,
-            string renderedCellValue, HtmlTextWriter hw)
+        void RenderFileSubmissionCellAsSubmitLink(string fileURL, string webUrl, Guid learnerAssignmentGUID, string renderedCellValue, HtmlTextWriter hw)
         {
 
             StringBuilder url = new StringBuilder();
-            url.AppendFormat(fileURL, webNameRenderedCell.SPWebUrl, learnerAssignmentGUID.ToString());
+            url.AppendFormat(fileURL, webUrl, learnerAssignmentGUID.ToString());
 
             hw.AddAttribute(HtmlTextWriterAttribute.Target, "_top");
             hw.AddAttribute(HtmlTextWriterAttribute.Href, url.ToString());
@@ -816,7 +797,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 hw.AddAttribute(HtmlTextWriterAttribute.Title, renderedCell.ToolTip);
             using (new HtmlBlock(HtmlTextWriterTag.Span, 0, hw))
             {
-                if (webNameRenderedCell == renderedCell)
+                if (webNameRenderedCell == renderedCell && webNameRenderedCell.RenderAsLink)
                 {
                     RenderCellWithLink(webNameRenderedCell, hw, renderedCell.ToString(), "#", "_parent");
                 }
@@ -840,8 +821,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         else
                         {
                             // render a link to the Learner Assignment Properties page
-                            string url = "Lobby.aspx?{0}={1}";
-                            RenderCellWithLink(webNameRenderedCell, hw, renderedCell.ToString(), url, "_parent", FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
+                            string url = "Lobby.aspx?{0}={1}&{2}={3}";
+                            RenderCellWithLink(webNameRenderedCell, hw, renderedCell.ToString(), url, "_parent", 
+                                    FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString(), QueryStringKeys.Source, RawSourceUrl);
                         }
                     }
                     else
@@ -946,7 +928,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private string PerformFilesNumberChecking(AssignmentProperties assignmentProperties)
         {
             DropBoxManager dropBox = new DropBoxManager(assignmentProperties);
-            AssignmentFile[] assignmentFiles = dropBox.LastSubmittedFiles(assignmentProperties.Results[0].User.SPUser);
+            AssignmentFile[] assignmentFiles = dropBox.LastSubmittedFiles(assignmentProperties.Results[0].User.SPUser, false);
 
             if (assignmentFiles.Length != 1)
             {

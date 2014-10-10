@@ -102,9 +102,7 @@ namespace Microsoft.LearningComponents.Storage
         /// <param name="column"></param>
         /// <param name="conditionOperator"></param>
         /// <param name="conditionValue"></param>
-        public LearningStoreCondition(LearningStoreViewColumn column,
-            LearningStoreConditionOperator conditionOperator,
-            object conditionValue)
+        public LearningStoreCondition(LearningStoreViewColumn column, LearningStoreConditionOperator conditionOperator, object conditionValue)
         {
             // Check the parameters
             if (column == null)
@@ -418,6 +416,40 @@ namespace Microsoft.LearningComponents.Storage
         /// will exist in the table for each user.
         /// </example>
         public void AddColumn(string columnName)
+        {
+            AddColumn(columnName, true);
+        }
+
+        /// <summary>
+        /// Add a new output column in the result if it's not already present.
+        /// </summary>
+        /// <param name="columnName">Name of the column that should be returned in the result.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="columnName"/> is a null reference.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     The column name wasn't found in the view.</exception>
+        /// <remarks>
+        /// See the <Typ>LearningStoreQuery</Typ> documentation for more
+        /// information about creating and executing queries.
+        /// </remarks>
+        /// <example>
+        /// The following code creates a new query and adds two
+        /// output columns:
+        /// <code language="C#">
+        /// LearningStoreQuery query = store.CreateQuery("UserItem");
+        /// query.AddColumn("Id");
+        /// query.AddColumn("Name");
+        /// </code>
+        /// The result of the query will be a DataTable with two
+        /// columns: "Id" (containing the Id of the user) and
+        /// "Name" (containing the name of the user).  One row
+        /// will exist in the table for each user.
+        /// </example>
+        public void AddColumnIfNotPresent(string columnName)
+        {
+            AddColumn(columnName, false);
+        }
+
+        private void AddColumn(string columnName, bool throwIfAlreadyPresent)
         {            
             // Check parameters
             if (columnName == null)
@@ -431,12 +463,16 @@ namespace Microsoft.LearningComponents.Storage
             
             // Verify that the column name doesn't already exist
             if(m_columns.Contains(column))
-                throw new InvalidOperationException(
-                    String.Format(CultureInfo.CurrentCulture, LearningStoreStrings.ColumnAlreadyExistsInQuery,
-                        columnName));
-
-            // Add the column
-            m_columns.Add(column);
+            {
+                if (throwIfAlreadyPresent)
+                {
+                    throw new InvalidOperationException(String.Format(CultureInfo.CurrentCulture, LearningStoreStrings.ColumnAlreadyExistsInQuery, columnName));
+                }
+            }
+            else
+            {
+                m_columns.Add(column);
+            }
         }
 
         /// <summary>
@@ -600,33 +636,35 @@ namespace Microsoft.LearningComponents.Storage
         /// query.AddCondition("Name", LearningStoreConditionOperator.LessThan, "Joe");
         /// </code>
         /// </example>
-        public void AddCondition(string columnName, LearningStoreConditionOperator
-            conditionOperator, object conditionValue)
+        public void AddCondition(string columnName, LearningStoreConditionOperator conditionOperator, object conditionValue)
         {
             // Check input parameters
             if (columnName == null)
+            {
                 throw new ArgumentNullException("columnName");
-            if ((conditionOperator != LearningStoreConditionOperator.Equal) &&
+            }
+            else if ((conditionOperator != LearningStoreConditionOperator.Equal) &&
                 (conditionOperator != LearningStoreConditionOperator.GreaterThan) &&
                 (conditionOperator != LearningStoreConditionOperator.GreaterThanEqual) &&
                 (conditionOperator != LearningStoreConditionOperator.LessThan) &&
                 (conditionOperator != LearningStoreConditionOperator.LessThanEqual) &&
                 (conditionOperator != LearningStoreConditionOperator.NotEqual))
+            {
                 throw new ArgumentOutOfRangeException("conditionOperator");
+            }
 
             // Find the column in the view
             LearningStoreViewColumn column = null;
             if (!m_view.TryGetColumnByName(columnName, out column))
-                throw new InvalidOperationException(
-                    String.Format(CultureInfo.CurrentCulture, LearningStoreStrings.ColumnNotFound, columnName));
+            {
+                throw new InvalidOperationException(String.Format(CultureInfo.CurrentCulture, LearningStoreStrings.ColumnNotFound, columnName));
+            }
             
             // Cast the comparison value to the associated property type
             conditionValue = column.CastValue(conditionValue, m_locale,
                 delegate (string reason, Exception innerException)
                 {
-                    return new InvalidOperationException(
-                        String.Format(CultureInfo.CurrentCulture, LearningStoreStrings.InvalidConditionValueWithDescription,
-                        reason), innerException);
+                    return new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, LearningStoreStrings.InvalidConditionValueWithDescription, reason), innerException);
                 }
             );
 
@@ -634,32 +672,31 @@ namespace Microsoft.LearningComponents.Storage
             if ((conditionValue == null) &&
                 (conditionOperator != LearningStoreConditionOperator.Equal) &&
                 (conditionOperator != LearningStoreConditionOperator.NotEqual))
-                throw new InvalidOperationException(
-                    LearningStoreStrings.InvalidOperatorForNullConditionValue);
+                throw new InvalidOperationException(LearningStoreStrings.InvalidOperatorForNullConditionValue);
 
             // Verify special rules for Xml properties
-            if ((column.IsXml) &&
-                (conditionValue != null))
-                throw new InvalidOperationException(
-                    LearningStoreStrings.InvalidConditionValueForXmlColumn);
+            if ((column.IsXml) && (conditionValue != null))
+            {
+                throw new InvalidOperationException(LearningStoreStrings.InvalidConditionValueForXmlColumn);
+            }
 
             // Verify special rules for Guid properties
             if ((column.IsGuid) &&
                 (conditionOperator != LearningStoreConditionOperator.Equal) &&
                 (conditionOperator != LearningStoreConditionOperator.NotEqual))
-                throw new InvalidOperationException(
-                    LearningStoreStrings.InvalidConditionOperatorForGuidColumn);
+            {
+                throw new InvalidOperationException(LearningStoreStrings.InvalidConditionOperatorForGuidColumn);
+            }
 
             // Verify special rules for LearningStoreItemIdentifier properties
             LearningStoreItemIdentifier idConditionValue = conditionValue as LearningStoreItemIdentifier;
-            if ((idConditionValue != null) &&
-               (!idConditionValue.HasKey))
-                throw new InvalidOperationException(
-                     LearningStoreStrings.InvalidIdConditionValue);
+            if ((idConditionValue != null) && (!idConditionValue.HasKey))
+            {
+                throw new InvalidOperationException(LearningStoreStrings.InvalidIdConditionValue);
+            }
 
             // Add the condition
-            LearningStoreCondition condition = new LearningStoreCondition(column, conditionOperator,
-                conditionValue);
+            LearningStoreCondition condition = new LearningStoreCondition(column, conditionOperator, conditionValue);
             m_conditions.Add(condition);
         }
 

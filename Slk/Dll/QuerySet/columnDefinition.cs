@@ -284,6 +284,9 @@ namespace Microsoft.SharePointLearningKit
             case "UtcAsLocalDateTime":
                 m_renderAs = ColumnRenderAs.UtcAsLocalDateTime;
                 break;
+            case "SPWebTitle":
+                m_renderAs = ColumnRenderAs.SPWebTitle;
+                break;
             case "SPWebName":
                 m_renderAs = ColumnRenderAs.SPWebName;
                 break;
@@ -295,6 +298,9 @@ namespace Microsoft.SharePointLearningKit
                 break;
             case "ScoreAndPossible":
                 m_renderAs = ColumnRenderAs.ScoreAndPossible;
+                break;
+            case "IfEmpty":
+                m_renderAs = ColumnRenderAs.IfEmpty;
                 break;
             case "Submitted":
                 m_renderAs = ColumnRenderAs.Submitted;

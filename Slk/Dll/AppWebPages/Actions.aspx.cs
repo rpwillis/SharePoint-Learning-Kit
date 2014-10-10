@@ -77,6 +77,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected TableGridRow organizationRow;
         protected TableGridRow organizationRowBottomLine;
         protected RequiredFieldValidator newSiteRequired;
+        protected HiddenField SourceHidden;
 #pragma warning restore 1591
 #endregion
 
@@ -227,6 +228,19 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
 #region protected members
+        /// <summary>See <see cref="Control.CreateChildControls"/>.</summary>
+        protected override void CreateChildControls()
+        {
+            base.CreateChildControls();
+            if (Page.IsPostBack == false)
+            {
+                if (Request.UrlReferrer != null)
+                {
+                    SourceHidden.Value = Request.UrlReferrer.ToString();
+                }
+            }
+        }
+
         /// <summary>See <see cref="Microsoft.SharePoint.WebControls.UnsecuredLayoutsPageBase.OnInit"/>.</summary>
         protected override void OnInit(EventArgs e)
         {
@@ -254,7 +268,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     switch (action.ToLower(CultureInfo.InvariantCulture))
                     {
                         case "assignself":
-                            AssignToSelf();
+                            AssignToSelf(true);
                             break;
                         case "assignsite":
                             AssignToSite();
@@ -446,7 +460,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         /// <summary>The event handler for the assign self click.</summary>
         protected void lnkAssignSelf_Click(object sender, EventArgs arguments)
         {
-            AssignToSelf();
+            AssignToSelf(false);
         }
 #endregion event handlers
 
@@ -477,14 +491,25 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
         }
 
-        void AssignToSelf()
+        void AssignToSelf(bool useReferrerSource)
         {
             try
             {
+                string source = null;
+                if (useReferrerSource)
+                {
+                    source = Request.UrlReferrer.ToString();
+                }
+                else
+                {
+                    source = SourceHidden.Value;
+                }
+
                 Guid learnerAssignmentGuidId = AssignmentProperties.CreateSelfAssignment(SlkStore, SPWeb, package.Location, OrganizationIndex);
                 string url = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, "Lobby.aspx");
-                url = String.Format(CultureInfo.InvariantCulture, 
-                        "{0}?{1}={2}", url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString());
+                url = String.Format(CultureInfo.InvariantCulture, "{0}?{1}={2}&{3}={4}", 
+                        url, FramesetQueryParameter.LearnerAssignmentId, learnerAssignmentGuidId.ToString(),
+                        "Source", System.Web.HttpUtility.UrlEncode(source));
 
                 Response.Redirect(url, true);
             }

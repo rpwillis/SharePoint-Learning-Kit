@@ -268,6 +268,9 @@
     <value>Start</value>
     <comment>Label Text for Start</comment>
   </data>
+  <data name="IncludeTitle" xml:space="preserve">
+    <value>Include</value>
+  </data>
   <data name="CtrlLabelTitleText" xml:space="preserve">
     <value>Title</value>
     <comment>Label Text for Title</comment>
@@ -488,6 +491,9 @@
   </data>
   <data name="LobbylblAutoReturn" xml:space="preserve">
     <value>The assignment will be returned to the learner automatically.</value>
+  </data>
+  <data name="LobbyLearnerComments" xml:space="preserve">
+    <value>My Comments</value>
   </data>
   <data name="LobbylblComments" xml:space="preserve">
     <value>Comments</value>
@@ -1030,6 +1036,9 @@ saving, click Cancel.</value>
   <data name="LobbyInvalidSite" xml:space="preserve">
     <value>This Web site is not accessible.</value>
   </data>
+  <data name="Back" xml:space="preserve">
+      <value>Back</value>
+  </data>
   <data name="AppNavigateToDocLib" xml:space="preserve">
     <value>Go back to {0}</value>
     <comment>{0} Doclib Name. App  navigates to the folder in the doclib where the content was assigned from.</comment>
@@ -1164,6 +1173,9 @@ saving, click Cancel.</value>
   <data name="DomainGroupInvalid" xml:space="preserve">
     <value>Cannot determine group in AD</value>
   </data>
+  <data name="DomainGroupAdfs" xml:space="preserve">
+    <value>Cannot use Active Directory groups for assignments when using ADFS.</value>
+  </data>
   <data name="DomainGroupInvalidSid" xml:space="preserve">
       <value>Cannot determine group in AD. Invalid SID {0}.</value>
   </data>
@@ -1256,6 +1268,9 @@ More information may be available in the server event log.</value>
   </data>
   <data name="AppNotAnInstructorInCurrentSiteError" xml:space="preserve">
     <value>The available learners and instructors for this site could not be displayed because you are not an instructor on the site.</value>
+  </data>
+  <data name="BtnCancelText" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="ConfigureBtnOKText" xml:space="preserve">
     <value>OK</value>
@@ -1429,6 +1444,9 @@ More information may be available in the server event log.</value>
   <data name="QueryColumnTitleStatus" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="QueryColumnTitleGrade" xml:space="preserve">
+    <value>Grade</value>
+  </data>
   <data name="QueryColumnTitleScore" xml:space="preserve">
     <value>Score</value>
   </data>
@@ -1446,6 +1464,9 @@ More information may be available in the server event log.</value>
   </data>
   <data name="QueryColumnNullDisplayDash" xml:space="preserve">
     <value>--</value>
+  </data>
+  <data name="QueryColumnToolTipIfEmpty" xml:space="preserve">
+      <value>{0} ({1})</value>
   </data>
   <data name="QueryColumnToolTipScore" xml:space="preserve">
       <value>Score: {0}</value>
@@ -1516,6 +1537,9 @@ More information may be available in the server event log.</value>
   </data>
   <data name="GradingUploadAccessKey" xml:space="preserve">
     <value>U</value>
+  </data>
+  <data name="GradingLearnerComments" xml:space="preserve">
+    <value>Learner Comments:</value>
   </data>
   <data name="GradingUploadText" xml:space="preserve">
     <value>Upload Commented Files</value>
@@ -1892,5 +1916,10 @@ For security reasons, integrated authentication is strongly recommended.
   <data name="QueryResultsSortBy" xml:space="preserve">
       <value>Sort by {0}.</value>
   </data>
-AssignmentFileDoesNotExist
+  <data name="FailUnlockFile" xml:space="preserve">
+      <value>Failed to unlock file {0}.</value>
+  </data>
+  <data name="DropBoxFailCreateField" xml:space="preserve">
+      <value>Failed to create field {0} for drop box. {1}</value>
+  </data>
 </root>

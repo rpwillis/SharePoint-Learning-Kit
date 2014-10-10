@@ -214,7 +214,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             get
             {
                 // Localise the description if empty or it is the default value
-                if (string.IsNullOrEmpty(base.Description) || base.Description == invariantCulture.Resources.AlwpWepPartDescription)
+                if (string.IsNullOrEmpty(base.Description) || base.Description == GetLocalizedString("AlwpWepPartDescription"))
                 {
                     return culture.Resources.AlwpWepPartDescription;
                 }
@@ -232,7 +232,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             get
             {
                 // Localise the description if empty or it is the default value
-                if (string.IsNullOrEmpty(base.Title) || base.Title == invariantCulture.Resources.AlwpWepPartTitle)
+                if (string.IsNullOrEmpty(base.Title) || base.Title == GetLocalizedString("AlwpWepPartTitle"))
                 {
                     return culture.Resources.AlwpWepPartTitle;
                 }
@@ -242,6 +242,20 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 }
             }
             set { base.Title = value ;}
+        }
+
+        private string GetLocalizedString(string resourceName)
+        {
+            if (string.IsNullOrEmpty(resourceName))
+            {
+                return string.Empty;
+            }
+            else
+            {
+                string resourceFile = "SLK";
+                int lcid = culture.Culture.LCID;
+                return Microsoft.SharePoint.Utilities.SPUtility.GetLocalizedString("$Resources:" + resourceName, resourceFile, (uint)lcid);
+            }
         }
 
         /// <summary>
@@ -409,6 +423,19 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
         #endregion
 
+        /// <summary>Finds the scope for the query.</summary>
+        protected virtual string FindScope()
+        {
+            if (ListScope)
+            {
+                return SPWeb.ID.ToString();
+            }
+            else
+            {
+                return "all";
+            }
+        }
+
         #region RenderContents
         /// <summary>
         /// Render Assignment List WebPart Contents
@@ -421,6 +448,10 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 //Render Assignment List webpart
                 RenderAssignmentList(writer);
+            }
+            catch (System.Threading.ThreadAbortException)
+            {
+                // Not much we can do about this.
             }
             catch (SafeToDisplayException e)
             {
@@ -492,6 +523,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             // write a comment to help locate this Web Part when viewing HTML source
             htmlTextWriter.Write("<!-- Begin ALWP -->");
+            htmlTextWriter.Write("<script type=\"text/javascript\">var scope{0} = '{1}';</script>", frameId, FindScope());
             htmlTextWriter.Write("<table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" border=\"0\" style=\"");
             htmlTextWriter.Write(wpHeightStyle);
             htmlTextWriter.Write("\">");
@@ -499,11 +531,12 @@ namespace Microsoft.SharePointLearningKit.WebParts
             htmlTextWriter.Write("<tr valign=\"top\">");
 
             StringBuilder queryString = BaseQueryString();
+            string sourceParameter = HttpUtility.UrlEncode(Page.Request.Url.ToString());
 
             string queryResultsUrl;
             if (DisplaySummary)
             {
-                queryString.AppendFormat("&{0}={1}", QueryStringKeys.QuerySet, QuerySetOverride);
+                queryString.AppendFormat("&{0}={1}&{2}={3}", QueryStringKeys.QuerySet, QuerySetOverride, QueryStringKeys.Source, sourceParameter);
                 queryResultsUrl = SlkUtilities.UrlCombine(SPWeb.Url, Constants.BlankGifUrl);
 
                 WriteSummary(htmlTextWriter, queryString.ToString());
@@ -518,6 +551,11 @@ namespace Microsoft.SharePointLearningKit.WebParts
             if (forObserver)
             {
                 queryResultsUrl = string.Format(CultureInfo.InvariantCulture, "{0}&{1}=true", queryResultsUrl, QueryStringKeys.ForObserver);
+            }
+
+            if (queryResultsUrl.Contains(Constants.BlankGifUrl) == false)
+            {
+                queryResultsUrl = string.Format("{0}&{1}={2}", queryResultsUrl, QueryStringKeys.Source, sourceParameter);
             }
 
             WriteQueryResults(htmlTextWriter, queryResultsUrl);
@@ -535,12 +573,22 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             htmlTextWriter.Write("</table>");
 
+            DumpCultures(htmlTextWriter);
             // write a comment to help locate this Web Part when viewing HTML source
             htmlTextWriter.Write("<!-- End ALWP -->");
             htmlTextWriter.WriteLine();
         }
 
         #endregion
+
+        internal static void DumpCultures(HtmlTextWriter htmlTextWriter)
+        {
+            htmlTextWriter.Write(@"<!-- 
+            CultureInfo.InvariantCulture {0}
+            CultureInfo.CurrentUICulture {1}
+            CultureInfo.CurrentCulture {2}
+                    -->", CultureInfo.InvariantCulture, CultureInfo.CurrentUICulture, CultureInfo.CurrentCulture);
+        }
 
         StringBuilder BaseQueryString()
         {
@@ -553,18 +601,13 @@ namespace Microsoft.SharePointLearningKit.WebParts
                 url.AppendFormat("&{0}={1}", QueryStringKeys.ForObserver, "true");
             }
 
-            if (ListScope)
-            {
-                url.AppendFormat("&{0}={1}", QueryStringKeys.SPWebScope, SPWeb.ID.ToString());
-            }
-
             return url;
         }
 
         void WriteQueryResults(HtmlTextWriter htmlTextWriter, string url)
         {
 
-            htmlTextWriter.Write("<td>");
+            htmlTextWriter.Write("<td class=\"iframe-overflow\" style=\"height:100%\">");
             WriteFrame(htmlTextWriter, url, String.Empty, true);
             htmlTextWriter.Write("</td>");
         }
@@ -572,7 +615,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         void WriteSummary(HtmlTextWriter htmlTextWriter, string urlQueryString)
         {
 
-            htmlTextWriter.Write("<td height=\"100%\" style=\"width :");
+            htmlTextWriter.Write("<td height=\"100%\" style=\"height:100%; width :");
             htmlTextWriter.Write(SummaryWidth.ToString(CultureInfo.InvariantCulture));
             htmlTextWriter.Write("\">");
 

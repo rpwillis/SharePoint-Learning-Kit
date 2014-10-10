@@ -190,19 +190,20 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     AddReactivationCheck();
 
                     lblTitle.Text = Server.HtmlEncode(AssignmentProperties.Title);
-                    lblDescription.Text = Server.HtmlEncode(AssignmentProperties.Description).Replace("\r\n", "<br />\r\n");
+                    lblDescription.Text = SlkUtilities.ClickifyLinks(Server.HtmlEncode(AssignmentProperties.Description).Replace("\r\n", "<br />\r\n"));
 
                     if (AssignmentProperties.PointsPossible.HasValue)
                     {
                         lblPointsValue.Text = AssignmentProperties.PointsPossible.Value.ToString(Constants.RoundTrip, NumberFormatInfo);
                     }
                     SPTimeZone timeZone = SPWeb.RegionalSettings.TimeZone;
-                    lblStartValue.Text = timeZone.UTCToLocalTime(AssignmentProperties.StartDate).ToString("f", SPWeb.Locale);
+                    lblStartValue.Text = FormatDateForDisplay(timeZone.UTCToLocalTime(AssignmentProperties.StartDate));
 
                     if (AssignmentProperties.DueDate.HasValue)
                     {
-                        lblDueValue.Text = timeZone.UTCToLocalTime(AssignmentProperties.DueDate.Value).ToString("f", SPWeb.Locale);
+                        lblDueValue.Text = FormatDateForDisplay(timeZone.UTCToLocalTime(AssignmentProperties.DueDate.Value));
                     }
+
                     tblAutoReturn.Visible = AssignmentProperties.AutoReturn;
                     tblAnswers.Visible = AssignmentProperties.ShowAnswersToLearners;
                     tgrAutoReturn.Visible = tblAutoReturn.Visible || tblAnswers.Visible;

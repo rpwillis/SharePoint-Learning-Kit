@@ -1,6 +1,6 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -22,7 +22,7 @@
   <PropertyGroup Condition=" '$(SharePointVersion)' == '2010' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(SharePointVersion)' == '2014' ">
+  <PropertyGroup Condition=" '$(SharePointVersion)' == '2013' ">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -114,4 +114,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(OutputPath)Microsoft.LearningComponents.SharePoint.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+    <Copy SourceFiles="$(OutputPath)Microsoft.LearningComponents.SharePoint.pdb" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+  </Target>
 </Project>

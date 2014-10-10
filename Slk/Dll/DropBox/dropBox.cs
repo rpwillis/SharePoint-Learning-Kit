@@ -10,7 +10,6 @@ namespace Microsoft.SharePointLearningKit
     /// <summary>An object responsible for returning and creating the drop box.</summary>
     public class DropBox
     {
-        internal const string dropBoxName = "DropBox";
         internal const string ColumnAssignmentKey = "Assignment";
         internal const string ColumnAssignmentDate = "AssignmentDate";
         internal const string ColumnAssignmentName = "AssignmentName";
@@ -18,8 +17,8 @@ namespace Microsoft.SharePointLearningKit
         internal const string ColumnIsLatest = "IsLatest";
         internal const string ColumnLearnerId = "LearnerId";
         internal const string ColumnLearner = "Learner";
-        const string propertyKey = "SLKDropBox";
-        const string noPermissionsFolderName = "NoPermissions";
+        internal const string PropertyKey = "SLKDropBox";
+        internal const string NoPermissionsFolderName = "NoPermissions";
         SPWeb web;
         SlkCulture culture;
         SPList dropBoxList;
@@ -45,7 +44,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 if (dropBoxList == null)
                 {
-                    object property = web.AllProperties[propertyKey];
+                    object property = web.AllProperties[PropertyKey];
                     if (property != null)
                     {
                         try
@@ -60,7 +59,13 @@ namespace Microsoft.SharePointLearningKit
 
                     if (dropBoxList == null)
                     {
-                        CreateDropBoxLibrary(0);
+                        Guid listId;
+                        using (DropBoxCreator creator = new DropBoxCreator(store, web))
+                        {
+                            listId = creator.Create();
+                        }
+
+                        dropBoxList = web.Lists.GetList(listId, true);
                     }
                 }
 
@@ -74,8 +79,10 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>The last submitted files of a user.</summary>
         /// <param name="user">The user to get the files for.</param>
         /// <param name="assignmentKey">The key of the assignment.</param>
+        /// <param name="forceUnlock">Force unlocking of all the files.</param>
+        /// <param name="currentUser">The current user id.</param>
         /// <returns>The last submitted files.</returns>
-        public AssignmentFile[] LastSubmittedFiles(SlkUser user, long assignmentKey)
+        public AssignmentFile[] LastSubmittedFiles(SlkUser user, long assignmentKey, bool forceUnlock, int currentUser)
         {
             if (user == null)
             {
@@ -104,7 +111,12 @@ namespace Microsoft.SharePointLearningKit
                     if ((bool)item[ColumnIsLatest])
                     {
                         SPFile file = item.File;
-                        files.Add(new AssignmentFile(file.Name, file.ServerRelativeUrl, (string)file.Item["PermMask"]));
+                        if (forceUnlock)
+                        {
+                            DropBoxManager.UnlockFile(file, currentUser);
+                        }
+
+                        files.Add(new AssignmentFile(item.ID, file.Name, file.ServerRelativeUrl, (string)file.Item["PermMask"]));
                     }
                 }
             }
@@ -151,40 +163,26 @@ namespace Microsoft.SharePointLearningKit
             return files;
         }
 
-        /// <summary>Creates the drop box.</summary>
-        /// <returns>The drop box.</returns>
-        public SPList Create()
-        {
-            CreateDropBoxLibrary(0);
-            return DropBoxList;
-        }
-
         /// <summary>Creates the assignment folder.</summary>
         /// <param name="properties">The assignment properties.</param>
         /// <returns>The assignment folder.</returns>
         public AssignmentFolder CreateAssignmentFolder(AssignmentProperties properties)
         {
             string url = DropBoxList.RootFolder.ServerRelativeUrl;
-            bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
 
             SPFolder noPermissionsFolder = GetNoPermissionsFolder().Folder;
 
-            try
+            using (new AllowUnsafeUpdates(web))
             {
-                web.AllowUnsafeUpdates = true;
                 string name = GenerateFolderName(properties);
                 SPFolder folder = noPermissionsFolder.SubFolders.Add(name);
                 folder.MoveTo(url + "\\" + name);
                 folder.Update();
                 SPListItem assignmentFolder = folder.Item;
-                DropBox.ClearPermissions(assignmentFolder);
+                DropBoxCreator.ClearPermissions(assignmentFolder);
                 DropBoxList.Update();
                 CreateAssignmentView(properties);
                 return new AssignmentFolder(assignmentFolder, false, properties);
-            }
-            finally
-            {
-                web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
             }
         }
 
@@ -260,12 +258,12 @@ namespace Microsoft.SharePointLearningKit
         {
             try
             {
-                SPFolder folder = DropBoxList.RootFolder.SubFolders[noPermissionsFolderName];
+                SPFolder folder = DropBoxList.RootFolder.SubFolders[NoPermissionsFolderName];
                 return folder.Item;
             }
             catch (ArgumentException)
             {
-                return CreateNoPermissionsFolder();
+                return DropBoxCreator.CreateNoPermissionsFolder(DropBoxList);
             }
         }
 
@@ -287,287 +285,25 @@ namespace Microsoft.SharePointLearningKit
             // Seem to need to re-get the view to set scope and group header.
             SPView view2 = DropBoxList.Views[view.ID];
             view2.Scope = SPViewScope.Recursive;
-            DropBox.RemoveFieldNameFromGroupHeader(view2);
+            DropBoxCreator.RemoveFieldNameFromGroupHeader(view2);
             view2.Update();
             DropBoxList.Update();
         }
 
-
-        void CreateDropBoxLibrary(int recursiveNumber)
-        {
-            DropBoxManager.Debug("Starting CreateDropBoxLibrary");
-            bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
-            try
-            {
-                web.AllowUnsafeUpdates = true;
-                Guid id;
-                string name = dropBoxName;
-                if (recursiveNumber > 0)
-                {
-                    name = name + recursiveNumber.ToString(CultureInfo.InvariantCulture);
-                }
-
-                try
-                {
-                    DropBoxManager.Debug("Creating DropBox {0}", name);
-                    id = web.Lists.Add(name, dropBoxName, SPListTemplateType.DocumentLibrary);
-                    DropBoxManager.Debug("Created DropBox {0}", name);
-                }
-                catch (SPException e)
-                {
-                    DropBoxManager.Debug("{0}", e);
-                    // Library already exists, add a number to make it unique
-                    if (recursiveNumber < 2)
-                    {
-                        CreateDropBoxLibrary(recursiveNumber + 1);
-                        return;
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                SetUpDropBox(web, id);
-            }
-            finally
-            {
-                web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
-            }
-            DropBoxManager.Debug("Ending CreateDropBoxLibrary");
-        }
-
-        void AddFields()
-        {
-            DropBoxManager.Debug("Adding fields");
-
-            // can only set up the formula if in an English locale, so change then change back after
-            int webLocaleId = web.Locale.LCID;
-            bool localeChanged = false;
-
-            if (webLocaleId != 1033)
-            {
-                web.Locale = new CultureInfo(1033);
-                web.Update();
-                localeChanged = true;
-            }
-
-
-            try
-            {
-                SPField assignmentId = AddField(ColumnAssignmentId, SPFieldType.Text, false);
-                assignmentId.Indexed = true;
-                assignmentId.Update();
-
-                AddField(ColumnAssignmentDate, SPFieldType.DateTime, true);
-                AddField(ColumnAssignmentName, SPFieldType.Text, true);
-                SPFieldCalculated assignmentKey = (SPFieldCalculated)AddField(ColumnAssignmentKey, SPFieldType.Calculated, true, false);
-                string formula = "=TEXT([{0}], \"yyyy-mm-dd\")&\" \"&[{1}]";
-                assignmentKey.Formula = string.Format(formula, ColumnAssignmentDate, ColumnAssignmentName);
-                assignmentKey.Update();
-                AddField(ColumnIsLatest, SPFieldType.Boolean, true);
-                AddField(ColumnLearner, SPFieldType.User, true);
-                AddField(ColumnLearnerId, SPFieldType.Text, false);
-                DropBoxList.Update();
-                DropBoxManager.Debug("End Adding fields");
-            }
-            finally
-            {
-                if (localeChanged)
-                {
-                    web.Locale = new CultureInfo(webLocaleId);
-                    web.Update();
-                }
-            }
-        }
-
-        void ChangeToInternationalNames()
-        {
-            //This is done separately so the internal names are consistent.
-            // Change name to internationalized name
-#if SP2007
-            CultureInfo uiCulture = CultureInfo.CurrentUICulture;
-#else
-            foreach (CultureInfo uiCulture in web.SupportedUICultures)
-#endif
-            {
-                AppResourcesLocal resources = new AppResourcesLocal();
-                resources.Culture = uiCulture;
-
-#if SP2007
-                DropBoxList.Title = resources.DropBoxTitle;
-#else
-                DropBoxList.TitleResource.SetValueForUICulture(uiCulture, resources.DropBoxTitle);
-#endif
-                ChangeColumnTitle(ColumnAssignmentKey, resources.DropBoxColumnAssignmentKey, uiCulture);
-                ChangeColumnTitle(ColumnAssignmentName, resources.DropBoxColumnAssignmentName, uiCulture);
-                ChangeColumnTitle(ColumnAssignmentDate, resources.DropBoxColumnAssignmentDate, uiCulture);
-                ChangeColumnTitle(ColumnAssignmentId, resources.DropBoxColumnAssignmentId, uiCulture);
-                ChangeColumnTitle(ColumnIsLatest, resources.DropBoxColumnIsLatest, uiCulture);
-                ChangeColumnTitle(ColumnLearner, resources.DropBoxColumnLearner, uiCulture);
-                ChangeColumnTitle(ColumnLearnerId, resources.DropBoxColumnLearnerId, uiCulture);
-            }
-
-            DropBoxList.Update();
-        }
-
-        void SetUpDropBox(SPWeb web, Guid id)
-        {
-            dropBoxList = web.Lists[id];
-
-            try
-            {
-                AddFields();
-                ChangeToInternationalNames();
-
-                // Set up versioning
-                DropBoxList.EnableVersioning = true;
-                DropBoxList.Update();
-
-                ModifyDefaultView();
-
-                ClearPermissions();
-                CreateNoPermissionsFolder();
-
-                DropBoxManager.Debug("Save id");
-                web.AllProperties[propertyKey] = DropBoxList.ID.ToString("D", CultureInfo.InvariantCulture);
-                web.Update();
-                DropBoxManager.Debug("Saved id");
-            }
-            catch (SPException e)
-            {
-                // Error creating list - delete it
-                dropBoxList = null;
-                dropBoxList.Delete();
-                web.Update();
-                store.LogError(culture.Resources.DropBoxListCreateFailure, e);
-                throw new SafeToDisplayException(string.Format(SlkCulture.GetCulture(), culture.Resources.DropBoxListCreateFailure, e.Message));
-            }
-            catch (Exception)
-            {
-                // Error creating list - delete it
-                dropBoxList = null;
-                dropBoxList.Delete();
-                web.Update();
-                throw;
-            }
-        }
-
-        SPField AddField(string name, SPFieldType type, bool addToDefaultView)
-        {
-            return AddField(name, type, addToDefaultView, true);
-        }
-
-        SPField AddField(string name, SPFieldType type, bool addToDefaultView, bool required)
-        {
-            DropBoxManager.Debug("AddField {0} {1} {2} {3}", name, type, addToDefaultView, required);
-            DropBoxList.Fields.Add(name, type, required);
-            SPField field = DropBoxList.Fields[name];
-            if (addToDefaultView)
-            {
-                DropBoxList.DefaultView.ViewFields.Add(field);
-            }
-            DropBoxManager.Debug("End AddField {0} {1} {2} {3}", name, type, addToDefaultView, required);
-            return field;
-        }
-
-
-        void ChangeColumnTitle(string columnKey, string newName, CultureInfo uiCulture)
-        {
-            SPField field = DropBoxList.Fields[columnKey];
-#if SP2007
-            field.Title = newName;
-#else
-            field.TitleResource.SetValueForUICulture(uiCulture, newName);
-#endif
-            field.Update();
-        }
-
-
-        SPListItem CreateNoPermissionsFolder()
-        {
-            DropBoxManager.Debug("Create no permissions folder");
-
-            string url = DropBoxList.RootFolder.ServerRelativeUrl;
-            bool currentAllowUnsafeUpdates = web.AllowUnsafeUpdates;
-
-            try
-            {
-                web.AllowUnsafeUpdates = true;
-                SPListItem folder = DropBoxList.Items.Add(url, SPFileSystemObjectType.Folder, noPermissionsFolderName);
-                folder.Update();
-                ClearPermissions(folder);
-                DropBoxList.Update();
-                DropBoxManager.Debug("End Create no permissions folder");
-                return folder;
-            }
-            finally
-            {
-                web.AllowUnsafeUpdates = currentAllowUnsafeUpdates;
-            }
-        }
-
-        void ClearPermissions()
-        {
-            DropBoxManager.Debug("Clear Permissions");
-            bool allowUnsafeUpdatesValue = web.AllowUnsafeUpdates;
-
-            try
-            {
-                RemoveRoleAssignments(DropBoxList, web);
-            }
-            finally
-            {
-                web.AllowUnsafeUpdates = allowUnsafeUpdatesValue;
-            }
-            DropBoxManager.Debug("End Clear Permissions");
-        }
-
-        void ModifyDefaultView()
-        {
-            DropBoxManager.Debug("ModifyDefaultView");
-            SPView defaultView = DropBoxList.DefaultView;
-            defaultView.Title = culture.Resources.DropBoxDefaultViewTitle;
-            string query = "<GroupBy Collapse=\"TRUE\" GroupLimit=\"100\"><FieldRef Name=\"{0}\" /><FieldRef Name=\"{1}\" /></GroupBy>";
-            defaultView.Query = string.Format(CultureInfo.InvariantCulture, query, ColumnAssignmentKey, ColumnLearner);
-
-            defaultView.Update();
-            DropBoxList.Update();
-
-            SPView view = DropBoxList.Views[defaultView.ID];
-            view.Scope = SPViewScope.Recursive;
-            RemoveFieldNameFromGroupHeader(view);
-            view.Update();
-            DropBoxList.Update();
-            DropBoxManager.Debug("End ModifyDefaultView");
-        }
 
 #endregion private methods
 
 #region static members
         static readonly System.Text.RegularExpressions.Regex nameRegex = new System.Text.RegularExpressions.Regex(@"[\*#%\&:<>\?/{|}\\@]");
         static readonly System.Text.RegularExpressions.Regex repeatedDotRegex = new System.Text.RegularExpressions.Regex(@"\.\.");
-        static void RemoveFieldNameFromGroupHeader(SPView view)
-        {
-            string fieldNameHtml = "<GetVar Name=\"GroupByField\" HTMLEncode=\"TRUE\" /><HTML><![CDATA[</a> :&nbsp;]]></HTML>";
-            if (view.GroupByHeader != null)
-            {
-                view.GroupByHeader = view.GroupByHeader.Replace(fieldNameHtml, string.Empty);
-            }
-        }
 
-        /// <summary>Clears the permissions on a folder.</summary>
-        /// <param name="folder">The folder to clear the permissions for.</param>
-        public static void ClearPermissions(SPListItem folder)
-        {
-            RemoveRoleAssignments(folder, folder.ParentList.ParentWeb);
-            folder.Update();
-        }
-
+        /// <summary>Clears the permissions on an object.</summary>
+        /// <param name="securable">The folder to clear the permissions for.</param>
+        /// <param name="web">The web containing the object.</param>
 #if SP2007
-        static void RemoveRoleAssignments(ISecurableObject securable, SPWeb web)
+        public static void RemoveRoleAssignments(ISecurableObject securable, SPWeb web)
 #else
-        static void RemoveRoleAssignments(SPSecurableObject securable, SPWeb web)
+        public static void RemoveRoleAssignments(SPSecurableObject securable, SPWeb web)
 #endif
         {
             // There's a bug with BreakRoleInheritance which means that passing false resets AllowUnsafeUpdates to
@@ -584,6 +320,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 roleAssigns.Remove(0);
             }
+
             for (int i = roleAssigns.Count-1; i >= 0; i--)
             {
                 roleAssigns.Remove(i);

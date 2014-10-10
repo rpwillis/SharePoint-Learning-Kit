@@ -4224,6 +4224,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// <li><Fld>Grade</Fld></li>
     /// <li><Fld>GuidId</Fld></li>
     /// <li><Fld>InstructorComments</Fld></li>
+    /// <li><Fld>LearnerComments</Fld></li>
     /// <li><Fld>IsFinal</Fld></li>
     /// <li><Fld>LearnerId</Fld></li>
     /// <li><Fld>NonELearningStatus</Fld></li>
@@ -4402,6 +4403,25 @@ namespace Microsoft.SharePointLearningKit.Schema {
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string InstructorComments = "InstructorComments";
+        
+        /// <summary>
+        /// Name of the LearnerComments property on the <Typ>LearnerAssignmentItem</Typ> item type.
+        /// <para>
+        /// LearnerComments contains free-form comments, if any, from the instructor
+        /// about this
+        /// <a href="SlkConcepts.htm#Assignments">learner assignment</a>.
+        /// Corresponds to <a href="Microsoft.SharePointLearningKit.GradingProperties.LearnerComments.Property.htm">GradingProperties.LearnerComments</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Property type: String[1073741822]<p/>
+        /// Property can not contain null.<p/>
+        /// Property does not have a default value.<p/>
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string LearnerComments = "LearnerComments";
         
         /// <summary>
         /// Maximum length of the <Fld>InstructorComments</Fld> property in characters.
@@ -8956,6 +8976,7 @@ namespace Microsoft.SharePointLearningKit.Schema {
     /// <li><Fld>Grade</Fld></li>
     /// <li><Fld>HasInstructors</Fld></li>
     /// <li><Fld>InstructorComments</Fld></li>
+    /// <li><Fld>LearnerComments</Fld></li>
     /// <li><Fld>IsFinal</Fld></li>
     /// <li><Fld>LearnerAssignmentGuidId</Fld></li>
     /// <li><Fld>LearnerAssignmentId</Fld></li>
@@ -9103,6 +9124,20 @@ namespace Microsoft.SharePointLearningKit.Schema {
         /// Column type: String[20]
         /// </remarks>
         public const string Grade = "Grade";
+        
+        /// <summary>
+        /// Name of the LearnerComments column on the Learner Assignment List views.
+        /// <para>
+        /// LearnerComments holds the same value as <a href="Microsoft.SharePointLearningKit.Schema.LearnerAssignmentItem.LearnerComments.Field.htm">LearnerAssignmentItem.LearnerComments</a>.
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Column type: String[]
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string LearnerComments = "LearnerComments";
         
         /// <summary>
         /// Name of the InstructorComments column on the Learner Assignment List views.

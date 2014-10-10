@@ -10,6 +10,7 @@
     UseMasterPageForApplicationPages="false"
     AutoVersionLibrariesIfUnversioned="false"
     UseGrades="false"
+    HidePointsForNonELearning="false"
     SelectAllInstructors="false"
     UserWebListMruSize="6">
 
@@ -17,7 +18,7 @@
   <MimeTypeMapping Extension=".bmp" MimeType="image/bmp" />
   -->
 
-  <EmailSettings ReminderDays="1,7">
+  <EmailSettings ReminderDays="1,7" EmailOnSubmitOff="true">
       <NewAssignment Subject="New Assignment: %title%">
           <slk:Body xmlns=""><p>You have been assigned a new piece of work: <strong>%title%</strong>.</p>
 <p>%description%</p>
@@ -28,7 +29,7 @@
       </CancelAssignment>
   </EmailSettings>
 
-  <DropBoxSettings UseOfficeWebApps="false" />
+  <DropBoxSettings UseOfficeWebApps="false" OpenSubmittedInSameWindow="false" />
 
   <QuickAssignmentSettings DefaultLibrary="" />
 

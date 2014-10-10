@@ -128,321 +128,6 @@ namespace Microsoft.LearningComponents.Storage
     public class LearningStoreJob
     {
         /// <summary>
-        /// Represents a fragment of SQL that will be executed when the
-        /// job is executed. 
-        /// </summary>
-        /// <remarks>
-        /// The fragment consists of:<p/>
-        /// 1) Command text.  The text must follow the following rules:<p/>
-        /// 1a) All variables declared in the text must be unique.  This
-        ///     can be guaranteed by using the CreateVariableName method.<p/>
-        /// 1b) BEGIN TRANSACTION, COMMIT TRANSACTION, and ROLLBACK TRANSACTION
-        ///     must not be used.  All commands already run within a transaction.
-        ///     <p/>
-        /// 1c) RAISERROR('LSERROR',...) can be used to throw a
-        ///     LearningStore-specific exception.  If state=1, a
-        ///     LearningStoreItemNotFoundException is thrown.  If state=2,
-        ///     an InvalidOperationException is thrown.  If state=3,
-        ///     a LearningStoreSecurityException is thrown.<p/>
-        /// 1d) The variables @LastError, @LastRowCount, and @UserKey should not be defined.<p/>
-        /// 2) A set of input parameters.  These should be created
-        ///    using the CreateParameter method.  If Parameter.Name
-        ///    is read in the SQL code, the current value of the
-        ///    parameter will be returned.<p/>
-        /// 3) An optional output parameter.  This should be created
-        ///    using the CreateParameter method.  If
-        ///    Parameter.Name is written in the SQL code, the current
-        ///    value of the parameter will be changed.<p/>
-        /// 4) An option result that will be returned to the caller.
-        ///    This should be created using the Create*Result
-        ///    methods.
-        /// </remarks>
-        private class CommandFragment
-        {
-            /// <summary>
-            /// Command text
-            /// </summary>
-            private string m_commandText;
-
-            /// <summary>
-            /// Input parameters
-            /// </summary>
-            private ReadOnlyCollection<CommandFragmentParameter> m_inputParameters;
-
-            /// <summary>
-            /// Output parameter
-            /// </summary>
-            private CommandFragmentParameter m_outputParameter;
-
-            /// <summary>
-            /// Result
-            /// </summary>
-            private CommandFragmentResult m_result;
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="commandText"></param>
-            /// <param name="inputParameters"></param>
-            /// <param name="outputParameter"></param>
-            /// <param name="result"></param>
-            public CommandFragment(string commandText,
-                ReadOnlyCollection<CommandFragmentParameter> inputParameters,
-                CommandFragmentParameter outputParameter,
-                CommandFragmentResult result)
-            {
-                m_commandText = commandText;
-                m_inputParameters = inputParameters;
-                m_outputParameter = outputParameter;
-                m_result = result;
-            }
-
-            /// <summary>
-            /// Command text
-            /// </summary>    
-            public string CommandText
-            {
-                get
-                {
-                    return m_commandText;
-                }
-            }
-
-            /// <summary>
-            /// Input parameters
-            /// </summary>
-            public ReadOnlyCollection<CommandFragmentParameter> InputParameters
-            {
-                get
-                {
-                    return m_inputParameters;
-                }
-            }
-
-            /// <summary>
-            /// Output parameters
-            /// </summary>
-            public CommandFragmentParameter OutputParameter
-            {
-                get
-                {
-                    return m_outputParameter;
-                }
-            }
-
-            /// <summary>
-            /// Result
-            /// </summary>
-            public CommandFragmentResult Result
-            {
-                get
-                {
-                    return m_result;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Represents a parameter that can be attached to CommandFragment(s).
-        /// </summary>
-        /// <remarks>
-        /// Parameters can be "input only" or "input/output,"
-        /// depending on how they are used in the job's
-        /// CommandFragments.  If a parameter is never used as an
-        /// output parameter, then it is "input only."  If a
-        /// parameter is used as an output parameter, then it
-        /// is "input/output."
-        /// </remarks>
-        private class CommandFragmentParameter
-        {
-            /// <summary>
-            /// SQL type of the parameter
-            /// </summary>
-            private SqlDbType m_dbType;
-
-            /// <summary>
-            /// SQL name of the parameter
-            /// </summary>
-            private string m_name;
-
-            /// <summary>
-            /// Initial value
-            /// </summary>
-            /// <remarks>
-            /// Should never be null (but DBNull.Value is allowed)
-            /// </remarks>
-            private object m_initialValue;
-
-            /// <summary>
-            /// Current value
-            /// </summary>
-            /// <remarks>
-            /// For "input only" parameters, this is always equal to
-            /// <Fld>m_initialValue</Fld>.  For "input/output" parameters,
-            /// this value could change during job execution.
-            /// Should never be null (by DBNull.Value is allowed)
-            /// </remarks>
-            private object m_currentValue;
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="dbType"></param>
-            /// <param name="name"></param>
-            /// <param name="initialValue"></param>
-            public CommandFragmentParameter(SqlDbType dbType, string name,
-                object initialValue)
-            {
-                if(initialValue == null)
-                    throw new LearningComponentsInternalException("LSTR1800");
-                m_dbType = dbType;
-                m_name = name;
-                m_currentValue = m_initialValue = initialValue;
-            }
-
-            /// <summary>
-            /// Name
-            /// </summary>
-            public string Name
-            {
-                get
-                {
-                    return m_name;
-                }
-            }
-
-            /// <summary>
-            /// Initial Value
-            /// </summary>
-            public object InitialValue
-            {
-                get
-                {
-                    return m_initialValue;
-                }
-            }
-
-            /// <summary>
-            /// SQL type of the parameter
-            /// </summary>
-            public SqlDbType DbType
-            {
-                get
-                {
-                    return m_dbType;
-                }
-            }
-
-            /// <summary>
-            /// Current value
-            /// </summary>
-            public object CurrentValue
-            {
-                get
-                {
-                    return m_currentValue;
-                }
-                set
-                {
-                    if (value == null)
-                        throw new LearningComponentsInternalException("LSTR1805");
-                    m_currentValue = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Represents the type of a result for a CommandFragment
-        /// </summary>
-        private enum CommandFragmentResultType
-        {
-            /// <summary>
-            /// One item identifier
-            /// </summary>
-            ItemIdentifier = 1,
-
-            /// <summary>
-            /// One DataTable
-            /// </summary>
-            DataTable,
-        }
-
-        /// <summary>
-        /// Represents a result for a CommandFragment
-        /// </summary>
-        private class CommandFragmentResult
-        {
-            /// <summary>
-            /// Type of the result
-            /// </summary>
-            private CommandFragmentResultType m_resultType;
-
-            /// <summary>
-            /// Item type of the result.
-            /// </summary>
-            /// <remarks>
-            /// Valid only when <Fld>m_resultType</Fld>=ItemIdentifier
-            /// </remarks>
-            private LearningStoreItemType m_itemType;
-
-            /// <summary>
-            /// Columns for the result
-            /// </summary>
-            /// <remarks>
-            /// Valid only when <Fld>m_resultType</Fld>=DataTable
-            /// </remarks>
-            private IList<LearningStoreViewColumn> m_columns;
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="resultType"></param>
-            /// <param name="itemType"></param>
-            /// <param name="columns"></param>
-            public CommandFragmentResult(CommandFragmentResultType resultType,
-                LearningStoreItemType itemType,
-                IList<LearningStoreViewColumn> columns)
-            {
-                m_resultType = resultType;
-                m_itemType = itemType;
-                m_columns = columns;
-            }
-
-            /// <summary>
-            /// Result type
-            /// </summary>
-            public CommandFragmentResultType ResultType
-            {
-                get
-                {
-                    return m_resultType;
-                }
-            }
-
-            /// <summary>
-            /// Item type
-            /// </summary>
-            public LearningStoreItemType ItemType
-            {
-                get
-                {
-                    return m_itemType;
-                }
-            }
-
-            /// <summary>
-            /// Columns
-            /// </summary>
-            public ReadOnlyCollection<LearningStoreViewColumn> Columns
-            {
-                get
-                {
-                    return new ReadOnlyCollection<LearningStoreViewColumn>(m_columns);
-                }
-            }
-        }
-
-        /// <summary>
         /// The store on which this job was created
         /// </summary>
         private LearningStore m_store;
@@ -714,86 +399,111 @@ namespace Microsoft.LearningComponents.Storage
         /// <param name="valueText">Output text</param>
         /// <returns>True if the operation succeeded, or false if <paramref name="valueType"/>
         ///    refers to an id that isn't already being added in this job.</returns>        
-        private bool TryGetTextForValue(LearningStoreValueType valueType,
-            object value, List<CommandFragmentParameter> parameters, out string valueText)
+        private bool TryGetTextForValue(LearningStoreValueType valueType, object value, List<CommandFragmentParameter> parameters, out string valueText)
         {
             if (value == null)
             {
                 valueText = "null";
                 return true;
             }
+
+            CommandFragmentParameter parameter;
+
             switch (valueType.TypeCode)
             {
                 case LearningStoreValueTypeCode.Boolean:
-                    {
-                        CommandFragmentParameter parameter = CreateParameter(SqlDbType.Bit, value);
-                        parameters.Add(parameter);
-                        valueText = parameter.Name;
-                        return true;
-                    }
+                    parameter = CreateParameter(SqlDbType.Bit, value);
+                    break;
+
                 case LearningStoreValueTypeCode.ByteArray:
-                    {
-                        CommandFragmentParameter parameter = CreateParameter(SqlDbType.VarBinary, (byte[])value);
-                        parameters.Add(parameter);
-                        valueText = parameter.Name;
-                        return true;
-                    }
+                    parameter = CreateParameter(SqlDbType.VarBinary, (byte[])value);
+                    break;
+
                 case LearningStoreValueTypeCode.DateTime:
-                    {
-                        CommandFragmentParameter parameter = CreateParameter(SqlDbType.DateTime, value);
-                        parameters.Add(parameter);
-                        valueText = parameter.Name;
-                        return true;
-                    }
+                    parameter = CreateParameter(SqlDbType.DateTime, value);
+                    break;
+
                 case LearningStoreValueTypeCode.Double:
-                    {
-                        CommandFragmentParameter parameter = CreateParameter(SqlDbType.Float, value);
-                        parameters.Add(parameter);
-                        valueText = parameter.Name;
-                        return true;
-                    }
+                    parameter = CreateParameter(SqlDbType.Float, value);
+                    break;
+
                 case LearningStoreValueTypeCode.Guid:
+
+                    Guid[] ids = value as Guid[];
+                    if (ids != null)
                     {
-                        CommandFragmentParameter parameter = CreateParameter(SqlDbType.UniqueIdentifier, value);
-                        parameters.Add(parameter);
-                        valueText = parameter.Name;
-                        return true;
+                        if (ids.Length == 0)
+                        {
+                            parameter = CreateParameter(SqlDbType.UniqueIdentifier, null);
+                        }
+                        else if (ids.Length == 1)
+                        {
+                            parameter = CreateParameter(SqlDbType.UniqueIdentifier, ids[0]);
+                        }
+                        else
+                        {
+                            valueText = BuildIdList((Guid[])value);
+                            return true;
+                        }
                     }
+                    else
+                    {
+                        parameter = CreateParameter(SqlDbType.UniqueIdentifier, value);
+                    }
+
+                    break;
+
                 case LearningStoreValueTypeCode.Single:
-                    {
-                        CommandFragmentParameter parameter = CreateParameter(SqlDbType.Real, value);
-                        parameters.Add(parameter);
-                        valueText = parameter.Name;
-                        return true;
-                    }
+                    parameter = CreateParameter(SqlDbType.Real, value);
+                    break;
+
                 case LearningStoreValueTypeCode.String:
-                    {
-                        CommandFragmentParameter parameter = CreateParameter(SqlDbType.NVarChar, value);
-                        parameters.Add(parameter);
-                        valueText = parameter.Name;
-                        return true;
-                    }
+                    parameter = CreateParameter(SqlDbType.NVarChar, value);
+                    break;
+
                 case LearningStoreValueTypeCode.Enumeration:
                 case LearningStoreValueTypeCode.Int32:
-                    {
-                        CommandFragmentParameter parameter = CreateParameter(SqlDbType.Int, (int)value);
-                        parameters.Add(parameter);
-                        valueText = parameter.Name;
-                        return true;
-                    }
+                    parameter = CreateParameter(SqlDbType.Int, (int)value);
+                    break;
+
                 case LearningStoreValueTypeCode.ItemIdentifier:
                     return TryGetTextForIdentifier(value as LearningStoreItemIdentifier, parameters, out valueText);
+
                 case LearningStoreValueTypeCode.Xml:
-                    {
-                        LearningStoreXml xmlValue = value as LearningStoreXml;
-                        CommandFragmentParameter parameter = CreateParameter(SqlDbType.Xml, xmlValue.SqlXml);
-                        parameters.Add(parameter);
-                        valueText = parameter.Name;
-                        return true;
-                    }
+                    LearningStoreXml xmlValue = value as LearningStoreXml;
+                    parameter = CreateParameter(SqlDbType.Xml, xmlValue.SqlXml);
+                    break;
+
                 default:
                     throw new LearningComponentsInternalException("LSTR1850");
             }
+
+            parameters.Add(parameter);
+            valueText = parameter.Name;
+            return true;
+        }
+
+        private static string BuildIdList(Guid[] ids)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("(");
+            bool first = true;
+            foreach (Guid guid in ids)
+            {
+                if (guid != Guid.Empty)
+                {
+                    if (first == false)
+                    {
+                        builder.Append(",");
+                    }
+
+                    builder.AppendFormat("'{0}'", guid);
+                    first = false;
+                }
+            }
+
+            builder.Append(")");
+            return builder.ToString();
         }
 
         /// <summary>
@@ -1709,59 +1419,7 @@ namespace Microsoft.LearningComponents.Storage
                 statement.AppendSelect(column.Name);
             }
 
-            // Enumerate through each condition
-            foreach (LearningStoreCondition condition in query.Conditions)
-            {
-                // Get some text identifying the value
-                string valueText;
-                if (!TryGetTextForValue(condition.Column.ValueType, condition.ConditionValue,
-                    parameters, out valueText))
-                    // This should've been caught by the query object
-                    throw new LearningComponentsInternalException("LSTR2005");
-
-                // Get some text identifying the operator and condition
-                string operatorText;
-                if (condition.ConditionValue == null)
-                {
-                    if (condition.ConditionOperator == LearningStoreConditionOperator.Equal)
-                        operatorText = "IS";
-                    else if (condition.ConditionOperator == LearningStoreConditionOperator.NotEqual)
-                        operatorText = "IS NOT";
-                    else
-                        throw new LearningComponentsInternalException("LSTR2010");
-                }
-                else
-                {
-                    switch (condition.ConditionOperator)
-                    {
-                        case LearningStoreConditionOperator.Equal:
-                            operatorText = "=";
-                            break;
-                        case LearningStoreConditionOperator.GreaterThan:
-                            operatorText = ">";
-                            break;
-                        case LearningStoreConditionOperator.GreaterThanEqual:
-                            operatorText = ">=";
-                            break;
-                        case LearningStoreConditionOperator.LessThan:
-                            operatorText = "<";
-                            break;
-                        case LearningStoreConditionOperator.LessThanEqual:
-                            operatorText = "<=";
-                            break;
-                        case LearningStoreConditionOperator.NotEqual:
-                            operatorText = "<>";
-                            break;
-                        default:
-                            throw new LearningComponentsInternalException("LSTR2020");
-                    }
-                }
-
-                // Add the text to the WHERE segment
-                bool includeNull = (condition.ConditionOperator == LearningStoreConditionOperator.NotEqual) &&
-                    (condition.ConditionValue != null);
-                statement.AppendWhere(condition.Column.Name, operatorText, valueText, includeNull);
-            }
+            AddConditions(statement, query, parameters);
 
             // Enumerate through each sort
             foreach (LearningStoreQuerySort sort in query.Sorts)
@@ -2195,8 +1853,7 @@ namespace Microsoft.LearningComponents.Storage
         /// DataTable result = job.Execute&lt;DataTable&gt;();
         /// </code>
         /// </example>
-        public void DemandRight(string rightName, 
-            IDictionary<string, object> parameterValues)
+        public void DemandRight(string rightName, IDictionary<string, object> parameterValues)
         {
             // Check input parameters
             if (rightName == null)
@@ -2297,574 +1954,86 @@ namespace Microsoft.LearningComponents.Storage
             m_disableSecurityChecks = false;
         }
 
-		// ----- Statements -----
-
-        /// <summary>
-        /// Represents a block that checks the security for an add operation
-        /// </summary>
-        private class AddSecurityCheckBlock
+#region private methods
+        private void AddConditions(QueryOperationBlock statement, LearningStoreQuery query, List<CommandFragmentParameter> parameters)
         {
-            // Resulting block is of this form:
-            // IF <TableName>$AddSecurity(@UserKey,@PropertyX,...) = 0
-            // BEGIN
-            //    RAISERROR(...)
-            //    RETURN
-            // END
-            // IF @@ERROR <> 0
-            //    RETURN
-            
-            /// <summary>
-            /// Item type
-            /// </summary>
-            private LearningStoreItemType m_itemType;
-
-            /// <summary>
-            /// Property values
-            /// </summary>
-            private Dictionary<LearningStoreItemTypeProperty,string> m_propertyValues =
-                new Dictionary<LearningStoreItemTypeProperty,string>();
-            
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="itemType">Item type of the table</param>            
-            public AddSecurityCheckBlock(LearningStoreItemType itemType)
+            foreach (LearningStoreCondition condition in query.Conditions)
             {
-                m_itemType = itemType;
-            }
-
-            /// <summary>
-            /// Add a property value
-            /// </summary>
-            /// <param name="property">Property</param>
-            /// <param name="value">Text representing the property value.</param>
-            public void AddPropertyValue(LearningStoreItemTypeProperty property, string value)
-            {
-                m_propertyValues.Add(property, value);
-            }
-
-            /// <summary>
-            /// Write the output
-            /// </summary>
-            /// <param name="sb"></param>
-            public void Write(StringBuilder sb)
-            {
-                if(m_itemType.AddSecurityFunction != null)
+                // Get some text identifying the value
+                string valueText;
+                if (TryGetTextForValue(condition.Column.ValueType, condition.ConditionValue, parameters, out valueText) == false)
                 {
-                    sb.Append("IF dbo.[");
-                    sb.Append(m_itemType.AddSecurityFunction);                
-                    sb.Append("](@UserKey");
-                    foreach(LearningStoreItemTypeProperty property in m_itemType.Properties)
+                    // This should've been caught by the query object
+                    throw new LearningComponentsInternalException("LSTR2005");
+                }
+
+                // Get some text identifying the operator and condition
+                string operatorText;
+                if (condition.ConditionValue == null)
+                {
+                    if (condition.ConditionOperator == LearningStoreConditionOperator.Equal)
                     {
-                        if(property.IsId)
-                            continue;
-                        string value;
-                        m_propertyValues.TryGetValue(property, out value);
-                        if(value == null)
-                            sb.Append(",DEFAULT");
-                        else
-                        {
-                            sb.Append(",");
-                            sb.Append(value);
-                        }
+                        operatorText = "IS";
                     }
-                    sb.Append(") = 0\r\n" +
-                              "BEGIN\r\n" +
-                              "    RAISERROR('LSERROR',16,3)\r\n" +
-                              "    RETURN\r\n" +
-                              "END\r\n" +
-                              "IF @@ERROR <> 0\r\n" +
-                              "    RETURN\r\n");
-                }
-                else
-                {
-                    sb.Append("RAISERROR('LSERROR',16,3)\r\n" +
-                              "RETURN\r\n");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Represents a block that performs an add operation (not including checking security or returning
-        /// the identity of the added item)
-        /// </summary>
-        private class AddBlock
-        {
-            // Resulting block is of this form:
-            // INSERT INTO <tablename> ( ... ) VALUES (...)
-            // IF @@ERROR<>0
-            // BEGIN
-            //    RETURN
-            // END
-            // SELECT <identity-variable-name>=CAST(SCOPE_IDENTITY() as bigint)
-            // IF @@ERROR<>0
-            // BEGIN
-            //    RETURN
-            // END
-
-            /// <summary>
-            /// Name of the table
-            /// </summary>
-            private string m_tableName;
-
-            /// <summary>
-            /// List of column names, seperated by commas
-            /// </summary>
-            private StringBuilder m_columnNames = new StringBuilder();
-
-            /// <summary>
-            /// List of values for each column seperated by commas
-            /// </summary>
-            private StringBuilder m_columnValues = new StringBuilder();
-            
-            /// <summary>
-            /// Name of the SQL variable into which the identity of the
-            /// new item should be placed
-            /// </summary>
-            private string m_identityVariableName;
-
-            /// <summary>
-            /// Create a new instance of the statement
-            /// </summary>
-            /// <param name="tableName">Name of the table</param>
-            /// <param name="identityVariableName">Name of the variable into which the identity should be placed</param>
-            public AddBlock(string tableName, string identityVariableName)
-            {
-                m_tableName = tableName;
-                m_identityVariableName = identityVariableName;
-            }
-
-            /// <summary>
-            /// Append a column
-            /// </summary>
-            /// <param name="columnName">Name of the column.</param>
-            /// <param name="columnValue">Value for the column.</param>            
-            public void AppendColumn(string columnName, string columnValue)
-            {
-                if (m_columnNames.Length != 0)
-                {
-                    m_columnNames.Append(",");
-                    m_columnValues.Append(",");
-                }
-
-                m_columnNames.Append("[");
-                m_columnNames.Append(columnName);
-                m_columnNames.Append("]");
-                m_columnValues.Append(columnValue);
-            }
-
-            /// <summary>
-            /// Write the output
-            /// </summary>
-            /// <param name="sb"></param>
-            public void Write(StringBuilder sb)
-            {
-                sb.Append("INSERT INTO [");
-                sb.Append(m_tableName);
-                sb.Append("]");
-                if(m_columnNames.Length == 0)
-                    sb.Append(" DEFAULT VALUES\r\n");
-                else
-                {
-                    sb.Append(" (\r\n");
-                    sb.Append(m_columnNames.ToString());
-                    sb.Append("\r\n) VALUES (\r\n");
-                    sb.Append(m_columnValues.ToString());
-                    sb.Append("\r\n)\r\n");
-                }
-                sb.Append(
-                    "IF @@ERROR <> 0\r\n" +
-                    "BEGIN\r\n" +
-                    "    RETURN\r\n" +
-                    "END\r\n" +
-                    "SELECT ");
-                sb.Append(m_identityVariableName);
-                sb.Append("=CAST(SCOPE_IDENTITY() AS bigint)\r\n" +
-                          "IF @@ERROR <> 0\r\n" +
-                          "BEGIN\r\n" +
-                          "    RETURN\r\n" +
-                          "END\r\n");
-            }
-        }
-
-        /// <summary>
-        /// Represents a block that checks security for an add operation (optionally), performs the add operation,
-        /// and then returns the identity as a result (optionally)
-        /// </summary>
-        private class AddOperationBlock
-        {
-            // Resulting block is of this form:
-            // -- This piece implemented by AddSecurityCheckBlock
-            // -- This piece is also optional (not included if security checks are skipped)
-            // IF <TableName>$AddSecurity(@UserKey,@PropertyX,...) = 0
-            // BEGIN
-            //    RAISERROR(...)
-            //    RETURN
-            // END
-            // IF @@ERROR <> 0
-            //    RETURN
-            // -- End AddSecurityCheckBlock
-            //
-            // -- This piece implemented by AddBlock
-            // INSERT INTO <tablename> ( ... ) VALUES (...)
-            // IF @@ERROR<>0
-            // BEGIN
-            //    RETURN
-            // END
-            // SELECT <identity-variable-name>=CAST(SCOPE_IDENTITY() as bigint)
-            // IF @@ERROR<>0
-            // BEGIN
-            //    RETURN
-            // END
-            // -- End AddBlock
-            //
-            // -- Following piece is optional (not included if the identity isn't requested)
-            // SELECT <identity-variable-name>
-            // IF @@ERROR<>0
-            // BEGIN
-            //    RETURN
-            // END
-            
-            /// <summary>
-            /// Generates AddSecurityCheckBlock piece of code, or null if the AddSecurityCheckBlock
-            /// isn't needed.
-            /// </summary>
-            private AddSecurityCheckBlock m_securityCheckBlock;
-            
-            /// <summary>
-            /// Generates AddBlock piece of code
-            /// </summary>
-            private AddBlock m_addBlock;
-
-            /// <summary>
-            /// Name of the SQL variable into which the identity of the
-            /// new item should be placed
-            /// </summary>
-            private string m_identityVariableName;
-
-            /// <summary>
-            /// Should the identity be returned as a result set?
-            /// </summary>
-            private bool m_requestIdentity;
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="itemType">Item type being added</param>
-            /// <param name="identityVariableName">Name of the variable into which the identity value should be placed</param>
-            /// <param name="requestIdentity">True if the identity should be returned as a result set</param>
-            /// <param name="disableSecurityChecks">True if security checks should be skipped</param>
-            public AddOperationBlock(LearningStoreItemType itemType,
-                string identityVariableName, bool requestIdentity, bool disableSecurityChecks)
-            {
-                if(!disableSecurityChecks)
-                    m_securityCheckBlock = new AddSecurityCheckBlock(itemType);
-                m_addBlock = new AddBlock(itemType.Name, identityVariableName);
-                m_identityVariableName = identityVariableName;
-                m_requestIdentity = requestIdentity;
-            }
-
-            /// <summary>
-            /// Append a column
-            /// </summary>
-            /// <param name="property">Property.</param>
-            /// <param name="propertyValue">Value for the property.</param>            
-            public void AppendColumn(LearningStoreItemTypeProperty property, string propertyValue)
-            {
-                m_addBlock.AppendColumn(property.Name, propertyValue);
-                if(m_securityCheckBlock != null)
-                    m_securityCheckBlock.AddPropertyValue(property, propertyValue);
-            }
-
-            /// <summary>
-            /// Write the output
-            /// </summary>
-            /// <param name="sb"></param>
-            public void Write(StringBuilder sb)
-            {
-                if(m_securityCheckBlock != null)
-                    m_securityCheckBlock.Write(sb);
-                m_addBlock.Write(sb);
-                if(m_requestIdentity)
-                {
-                    sb.Append("SELECT ");
-                    sb.Append(m_identityVariableName);
-                    sb.Append("\r\n" +
-                              "IF @@ERROR <> 0\r\n" +
-                              "BEGIN\r\n" +
-                              "    RETURN\r\n" +
-                              "END\r\n");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Represents a block that checks the security for an update operation
-        /// </summary>
-        private class UpdateSecurityCheckBlock
-        {
-            // Resulting block is of this form:
-            // IF <TableName>$UpdateSecurity(@UserKey,@Id,@PropertyXChanged,@PropertyX,...) = 0
-            // BEGIN
-            //     RAISERROR(...)
-            //     RETURN
-            // END
-            // IF @@ERROR <> 0
-            //    RETURN
-
-            /// <summary>
-            /// Item type
-            /// </summary>
-            private LearningStoreItemType m_itemType;
-
-            /// <summary>
-            /// Text that identifies the ID of the item being updated.
-            /// </summary>
-            private string m_idText;
-
-           /// <summary>
-            /// Property values
-            /// </summary>
-            private Dictionary<LearningStoreItemTypeProperty, string> m_propertyValues =
-                new Dictionary<LearningStoreItemTypeProperty, string>();
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="itemType">Item type of the table</param>            
-            /// <param name="idText">Text that identifies the ID of the item being updated</param>
-            public UpdateSecurityCheckBlock(LearningStoreItemType itemType, string idText)
-            {
-                m_itemType = itemType;
-                m_idText = idText;
-            }
-
-            /// <summary>
-            /// Add a property value
-            /// </summary>
-            /// <param name="property">Property</param>
-            /// <param name="value">Text representing the property value.</param>
-            public void AddPropertyValue(LearningStoreItemTypeProperty property, string value)
-            {
-                m_propertyValues.Add(property, value);
-            }
-
-            /// <summary>
-            /// Write the output
-            /// </summary>
-            /// <param name="sb"></param>
-            public void Write(StringBuilder sb)
-            {
-                if(m_itemType.UpdateSecurityFunction != null)
-                {
-                    sb.Append("IF dbo.[");
-                    sb.Append(m_itemType.UpdateSecurityFunction);
-                    sb.Append("](@UserKey,");
-                    sb.Append(m_idText);
-                    foreach (LearningStoreItemTypeProperty property in m_itemType.Properties)
+                    else if (condition.ConditionOperator == LearningStoreConditionOperator.NotEqual)
                     {
-                        if (property.IsId)
-                            continue;
-                        string value;
-                        m_propertyValues.TryGetValue(property, out value);
-                        if (value == null)
-                            sb.Append(",0,NULL");
-                        else
-                        {
-                            sb.Append(",1,");
-                            sb.Append(value);
-                        }
+                        operatorText = "IS NOT";
                     }
-                    sb.Append(") = 0\r\n" +
-                              "BEGIN\r\n" +
-                              "    RAISERROR('LSERROR',16,3)\r\n" +
-                              "    RETURN\r\n" +
-                              "END\r\n" +
-                              "IF @@ERROR <> 0\r\n" +
-                              "    RETURN\r\n");
+                    else
+                    {
+                        throw new LearningComponentsInternalException("LSTR2010");
+                    }
                 }
                 else
                 {
-                    sb.Append("RAISERROR('LSERROR',16,3)\r\n" +
-                              "RETURN\r\n");
+                    switch (condition.ConditionOperator)
+                    {
+                        case LearningStoreConditionOperator.Equal:
+                            Guid[] ids = condition.ConditionValue as Guid[];
+                            if (ids != null && ids.Length > 1)
+                            {
+                                operatorText = "IN";
+                            }
+                            else
+                            {
+                                operatorText = "=";
+                            }
+
+                            break;
+
+                        case LearningStoreConditionOperator.GreaterThan:
+                            operatorText = ">";
+                            break;
+
+                        case LearningStoreConditionOperator.GreaterThanEqual:
+                            operatorText = ">=";
+                            break;
+
+                        case LearningStoreConditionOperator.LessThan:
+                            operatorText = "<";
+                            break;
+
+                        case LearningStoreConditionOperator.LessThanEqual:
+                            operatorText = "<=";
+                            break;
+
+                        case LearningStoreConditionOperator.NotEqual:
+                            operatorText = "<>";
+                            break;
+
+                        default:
+                            throw new LearningComponentsInternalException("LSTR2020");
+                    }
                 }
+
+                // Add the text to the WHERE segment
+                bool includeNull = (condition.ConditionOperator == LearningStoreConditionOperator.NotEqual) && (condition.ConditionValue != null);
+                statement.AppendWhere(condition.Column.Name, operatorText, valueText, includeNull);
             }
         }
+#endregion private methods
 
-        /// <summary>
-        /// Represents a block that performs an update operation (not including checking security)
-        /// </summary>
-        private class UpdateBlock
-        {
-            // Resulting block is of this form:
-            // UPDATE <tablename>
-            // SET <column>=<value>
-            // WHERE Id=<id>
-            // SELECT @LastError = @@ERROR, @LastRowCount = @@ROWCOUNT
-            // IF @LastError<>0
-            // BEGIN
-            //    RETURN
-            // END
-            // IF @LastRowCount<>0
-            // BEGIN
-            //    RAISERROR(...)
-            //    RETURN
-            // END
-
-            /// <summary>
-            /// Name of the table
-            /// </summary>
-            private string m_tableName;
-
-            /// <summary>
-            /// Text that identifies the ID of the item being updated.
-            /// </summary>
-            private string m_idText;
-
-            /// <summary>
-            /// Text of all the column=value values seperated by commas
-            /// </summary>
-            private StringBuilder m_assignments = new StringBuilder();
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="tableName">Name of the table</param>
-            /// <param name="idText">Text that identifies the ID of the item being updated</param>
-            public UpdateBlock(string tableName, string idText)
-            {
-                m_tableName = tableName;
-                m_idText = idText;
-            }
-
-            /// <summary>
-            /// Append a column
-            /// </summary>
-            /// <param name="columnName">Name of the column.</param>
-            /// <param name="columnValue">Value for the column.</param>            
-            public void AppendColumn(string columnName, string columnValue)
-            {
-                if(m_assignments.Length != 0)
-                {
-                    m_assignments.Append(",");
-                }
-                m_assignments.Append("[");                
-                m_assignments.Append(columnName);
-                m_assignments.Append("]=");
-                m_assignments.Append(columnValue);
-            }
-
-            /// <summary>
-            /// Write the output
-            /// </summary>
-            /// <param name="sb"></param>
-            public void Write(StringBuilder sb)
-            {
-                sb.Append("UPDATE [");
-                sb.Append(m_tableName);
-                sb.Append("]\r\n" +
-                          "SET ");
-                sb.Append(m_assignments.ToString());
-                sb.Append("\r\n" +
-                          "WHERE Id=");
-                sb.Append(m_idText);
-                sb.Append("\r\n" +
-                          "SELECT @LastError = @@ERROR, @LastRowCount = @@ROWCOUNT\r\n" +
-                          "IF @LastError <> 0\r\n" +
-                          "BEGIN\r\n" +
-                          "    RETURN\r\n" +
-                          "END\r\n" +
-                          "IF @LastRowCount = 0\r\n" +
-                          "BEGIN\r\n" +
-                          "    RAISERROR('LSERROR',16,1)\r\n" +
-                          "    RETURN\r\n" +
-                          "END\r\n");
-            }
-        }
-
-        /// <summary>
-        /// Represents a block that checks security for an update operation (optionally) and then performs the update operation
-        /// </summary>
-        private class UpdateOperationBlock
-        {
-            // Resulting block is of this form:
-            // -- This piece implemented by UpdateSecurityCheckBlock
-            // -- This piece is also optional (not included if security checks are skipped)
-            // IF <TableName>$UpdateSecurity(@UserKey,@Id,@PropertyXChanged,@PropertyX,...) = 0
-            // BEGIN
-            //     RAISERROR(...)
-            //     RETURN
-            // END
-            // IF @@ERROR <> 0
-            //    RETURN
-            // -- End UpdateSecurityCheckBlock
-            //
-            // -- This piece implemented by UpdateBlock
-            // UPDATE <tablename>
-            // SET <column>=<value>
-            // WHERE Id=<id>
-            // SELECT @LastError = @@ERROR, @LastRowCount = @@ROWCOUNT
-            // IF @LastError<>0
-            // BEGIN
-            //    RETURN
-            // END
-            // IF @LastRowCount<>0
-            // BEGIN
-            //    RAISERROR(...)
-            //    RETURN
-            // END
-            // -- End UpdateBlock
-
-            /// <summary>
-            /// Generates UpdateSecurityCheckBlock piece of code, or null if the UpdateSecurityCheckBlock
-            /// isn't needed.
-            /// </summary>
-            private UpdateSecurityCheckBlock m_securityCheckBlock;
-
-            /// <summary>
-            /// Generates UpdateBlock piece of code
-            /// </summary>
-            private UpdateBlock m_updateBlock;
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="itemType">Item type being updated</param>
-            /// <param name="idText">Text identifying the id of the item being updated</param>
-            /// <param name="disableSecurityChecks">True if security checks should be skipped</param>
-            public UpdateOperationBlock(LearningStoreItemType itemType,
-                string idText, bool disableSecurityChecks)
-            {
-                if (!disableSecurityChecks)                
-                    m_securityCheckBlock = new UpdateSecurityCheckBlock(itemType, idText);
-                m_updateBlock = new UpdateBlock(itemType.Name, idText);
-            }
-
-            /// <summary>
-            /// Append a column
-            /// </summary>
-            /// <param name="property">Property.</param>
-            /// <param name="propertyValue">Value for the property.</param>            
-            public void AppendColumn(LearningStoreItemTypeProperty property, string propertyValue)
-            {
-                m_updateBlock.AppendColumn(property.Name, propertyValue);
-                if (m_securityCheckBlock != null)
-                    m_securityCheckBlock.AddPropertyValue(property, propertyValue);
-            }
-
-            /// <summary>
-            /// Write the output
-            /// </summary>
-            /// <param name="sb"></param>
-            public void Write(StringBuilder sb)
-            {
-                if (m_securityCheckBlock != null)
-                    m_securityCheckBlock.Write(sb);
-                m_updateBlock.Write(sb);
-            }
-        }
-
-
+#region UpdateBlock2 class
         /// <summary>
         /// Represents a block that performs an update operation (not including checking security),
         /// does not verify that the item was updated
@@ -2950,7 +2119,9 @@ namespace Microsoft.LearningComponents.Storage
                           "END\r\n");
             }
         }
+#endregion UpdateBlock2 class
 
+#region UpdateOrAddOperationBlock class
         /// <summary>
         /// Represents a block that checks security for an update or add operation (optionally), performs the update or add operation,
         /// and then returns the identity as a result (optionally)
@@ -3190,7 +2361,9 @@ namespace Microsoft.LearningComponents.Storage
                 }
             }
         }
+#endregion UpdateOrAddOperationBlock class
 
+#region QueryOperationBlock class
         /// <summary>
         /// Represents a block that checks security for a query operation, and then executes
         /// the query operation.
@@ -3412,7 +2585,9 @@ namespace Microsoft.LearningComponents.Storage
             }
 
         }
+#endregion QueryOperationBlock class
 
+#region DemandRightOperationBlock
         /// <summary>
         /// Represents a block that executes a demand right operation
         /// </summary>
@@ -3510,6 +2685,908 @@ namespace Microsoft.LearningComponents.Storage
             }
 
         }
-	}
+#endregion DemandRightOperationBlock
+
+#region CommandFragment
+        /// <summary>
+        /// Represents a fragment of SQL that will be executed when the
+        /// job is executed. 
+        /// </summary>
+        /// <remarks>
+        /// The fragment consists of:<p/>
+        /// 1) Command text.  The text must follow the following rules:<p/>
+        /// 1a) All variables declared in the text must be unique.  This
+        ///     can be guaranteed by using the CreateVariableName method.<p/>
+        /// 1b) BEGIN TRANSACTION, COMMIT TRANSACTION, and ROLLBACK TRANSACTION
+        ///     must not be used.  All commands already run within a transaction.
+        ///     <p/>
+        /// 1c) RAISERROR('LSERROR',...) can be used to throw a
+        ///     LearningStore-specific exception.  If state=1, a
+        ///     LearningStoreItemNotFoundException is thrown.  If state=2,
+        ///     an InvalidOperationException is thrown.  If state=3,
+        ///     a LearningStoreSecurityException is thrown.<p/>
+        /// 1d) The variables @LastError, @LastRowCount, and @UserKey should not be defined.<p/>
+        /// 2) A set of input parameters.  These should be created
+        ///    using the CreateParameter method.  If Parameter.Name
+        ///    is read in the SQL code, the current value of the
+        ///    parameter will be returned.<p/>
+        /// 3) An optional output parameter.  This should be created
+        ///    using the CreateParameter method.  If
+        ///    Parameter.Name is written in the SQL code, the current
+        ///    value of the parameter will be changed.<p/>
+        /// 4) An option result that will be returned to the caller.
+        ///    This should be created using the Create*Result
+        ///    methods.
+        /// </remarks>
+        private class CommandFragment
+        {
+            /// <summary>
+            /// Command text
+            /// </summary>
+            private string m_commandText;
+
+            /// <summary>
+            /// Input parameters
+            /// </summary>
+            private ReadOnlyCollection<CommandFragmentParameter> m_inputParameters;
+
+            /// <summary>
+            /// Output parameter
+            /// </summary>
+            private CommandFragmentParameter m_outputParameter;
+
+            /// <summary>
+            /// Result
+            /// </summary>
+            private CommandFragmentResult m_result;
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="commandText"></param>
+            /// <param name="inputParameters"></param>
+            /// <param name="outputParameter"></param>
+            /// <param name="result"></param>
+            public CommandFragment(string commandText,
+                ReadOnlyCollection<CommandFragmentParameter> inputParameters,
+                CommandFragmentParameter outputParameter,
+                CommandFragmentResult result)
+            {
+                m_commandText = commandText;
+                m_inputParameters = inputParameters;
+                m_outputParameter = outputParameter;
+                m_result = result;
+            }
+
+            /// <summary>
+            /// Command text
+            /// </summary>    
+            public string CommandText
+            {
+                get
+                {
+                    return m_commandText;
+                }
+            }
+
+            /// <summary>
+            /// Input parameters
+            /// </summary>
+            public ReadOnlyCollection<CommandFragmentParameter> InputParameters
+            {
+                get
+                {
+                    return m_inputParameters;
+                }
+            }
+
+            /// <summary>
+            /// Output parameters
+            /// </summary>
+            public CommandFragmentParameter OutputParameter
+            {
+                get
+                {
+                    return m_outputParameter;
+                }
+            }
+
+            /// <summary>
+            /// Result
+            /// </summary>
+            public CommandFragmentResult Result
+            {
+                get
+                {
+                    return m_result;
+                }
+            }
+        }
+#endregion CommandFragment
+
+#region CommandFragmentParameter
+        /// <summary>
+        /// Represents a parameter that can be attached to CommandFragment(s).
+        /// </summary>
+        /// <remarks>
+        /// Parameters can be "input only" or "input/output,"
+        /// depending on how they are used in the job's
+        /// CommandFragments.  If a parameter is never used as an
+        /// output parameter, then it is "input only."  If a
+        /// parameter is used as an output parameter, then it
+        /// is "input/output."
+        /// </remarks>
+        private class CommandFragmentParameter
+        {
+            /// <summary>
+            /// SQL type of the parameter
+            /// </summary>
+            private SqlDbType m_dbType;
+
+            /// <summary>
+            /// SQL name of the parameter
+            /// </summary>
+            private string m_name;
+
+            /// <summary>
+            /// Initial value
+            /// </summary>
+            /// <remarks>
+            /// Should never be null (but DBNull.Value is allowed)
+            /// </remarks>
+            private object m_initialValue;
+
+            /// <summary>
+            /// Current value
+            /// </summary>
+            /// <remarks>
+            /// For "input only" parameters, this is always equal to
+            /// <Fld>m_initialValue</Fld>.  For "input/output" parameters,
+            /// this value could change during job execution.
+            /// Should never be null (by DBNull.Value is allowed)
+            /// </remarks>
+            private object m_currentValue;
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="dbType"></param>
+            /// <param name="name"></param>
+            /// <param name="initialValue"></param>
+            public CommandFragmentParameter(SqlDbType dbType, string name,
+                object initialValue)
+            {
+                if(initialValue == null)
+                    throw new LearningComponentsInternalException("LSTR1800");
+                m_dbType = dbType;
+                m_name = name;
+                m_currentValue = m_initialValue = initialValue;
+            }
+
+            /// <summary>
+            /// Name
+            /// </summary>
+            public string Name
+            {
+                get
+                {
+                    return m_name;
+                }
+            }
+
+            /// <summary>
+            /// Initial Value
+            /// </summary>
+            public object InitialValue
+            {
+                get
+                {
+                    return m_initialValue;
+                }
+            }
+
+            /// <summary>
+            /// SQL type of the parameter
+            /// </summary>
+            public SqlDbType DbType
+            {
+                get
+                {
+                    return m_dbType;
+                }
+            }
+
+            /// <summary>
+            /// Current value
+            /// </summary>
+            public object CurrentValue
+            {
+                get
+                {
+                    return m_currentValue;
+                }
+                set
+                {
+                    if (value == null)
+                        throw new LearningComponentsInternalException("LSTR1805");
+                    m_currentValue = value;
+                }
+            }
+        }
+#endregion CommandFragmentParameter
+
+#region CommandFragmentResultType
+        /// <summary>
+        /// Represents the type of a result for a CommandFragment
+        /// </summary>
+        private enum CommandFragmentResultType
+        {
+            /// <summary>
+            /// One item identifier
+            /// </summary>
+            ItemIdentifier = 1,
+
+            /// <summary>
+            /// One DataTable
+            /// </summary>
+            DataTable,
+        }
+#endregion CommandFragmentResultType
+
+#region CommandFragmentResult
+        /// <summary>
+        /// Represents a result for a CommandFragment
+        /// </summary>
+        private class CommandFragmentResult
+        {
+            /// <summary>
+            /// Type of the result
+            /// </summary>
+            private CommandFragmentResultType m_resultType;
+
+            /// <summary>
+            /// Item type of the result.
+            /// </summary>
+            /// <remarks>
+            /// Valid only when <Fld>m_resultType</Fld>=ItemIdentifier
+            /// </remarks>
+            private LearningStoreItemType m_itemType;
+
+            /// <summary>
+            /// Columns for the result
+            /// </summary>
+            /// <remarks>
+            /// Valid only when <Fld>m_resultType</Fld>=DataTable
+            /// </remarks>
+            private IList<LearningStoreViewColumn> m_columns;
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="resultType"></param>
+            /// <param name="itemType"></param>
+            /// <param name="columns"></param>
+            public CommandFragmentResult(CommandFragmentResultType resultType,
+                LearningStoreItemType itemType,
+                IList<LearningStoreViewColumn> columns)
+            {
+                m_resultType = resultType;
+                m_itemType = itemType;
+                m_columns = columns;
+            }
+
+            /// <summary>
+            /// Result type
+            /// </summary>
+            public CommandFragmentResultType ResultType
+            {
+                get
+                {
+                    return m_resultType;
+                }
+            }
+
+            /// <summary>
+            /// Item type
+            /// </summary>
+            public LearningStoreItemType ItemType
+            {
+                get
+                {
+                    return m_itemType;
+                }
+            }
+
+            /// <summary>
+            /// Columns
+            /// </summary>
+            public ReadOnlyCollection<LearningStoreViewColumn> Columns
+            {
+                get
+                {
+                    return new ReadOnlyCollection<LearningStoreViewColumn>(m_columns);
+                }
+            }
+        }
+#endregion CommandFragmentResult
+
+#region AddSecurityCheckBlock
+        /// <summary>
+        /// Represents a block that checks the security for an add operation
+        /// </summary>
+        private class AddSecurityCheckBlock
+        {
+            // Resulting block is of this form:
+            // IF <TableName>$AddSecurity(@UserKey,@PropertyX,...) = 0
+            // BEGIN
+            //    RAISERROR(...)
+            //    RETURN
+            // END
+            // IF @@ERROR <> 0
+            //    RETURN
+            
+            /// <summary>
+            /// Item type
+            /// </summary>
+            private LearningStoreItemType m_itemType;
+
+            /// <summary>
+            /// Property values
+            /// </summary>
+            private Dictionary<LearningStoreItemTypeProperty,string> m_propertyValues =
+                new Dictionary<LearningStoreItemTypeProperty,string>();
+            
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="itemType">Item type of the table</param>            
+            public AddSecurityCheckBlock(LearningStoreItemType itemType)
+            {
+                m_itemType = itemType;
+            }
+
+            /// <summary>
+            /// Add a property value
+            /// </summary>
+            /// <param name="property">Property</param>
+            /// <param name="value">Text representing the property value.</param>
+            public void AddPropertyValue(LearningStoreItemTypeProperty property, string value)
+            {
+                m_propertyValues.Add(property, value);
+            }
+
+            /// <summary>
+            /// Write the output
+            /// </summary>
+            /// <param name="sb"></param>
+            public void Write(StringBuilder sb)
+            {
+                if(m_itemType.AddSecurityFunction != null)
+                {
+                    sb.Append("IF dbo.[");
+                    sb.Append(m_itemType.AddSecurityFunction);                
+                    sb.Append("](@UserKey");
+                    foreach(LearningStoreItemTypeProperty property in m_itemType.Properties)
+                    {
+                        if(property.IsId)
+                            continue;
+                        string value;
+                        m_propertyValues.TryGetValue(property, out value);
+                        if(value == null)
+                            sb.Append(",DEFAULT");
+                        else
+                        {
+                            sb.Append(",");
+                            sb.Append(value);
+                        }
+                    }
+                    sb.Append(") = 0\r\n" +
+                              "BEGIN\r\n" +
+                              "    RAISERROR('LSERROR',16,3)\r\n" +
+                              "    RETURN\r\n" +
+                              "END\r\n" +
+                              "IF @@ERROR <> 0\r\n" +
+                              "    RETURN\r\n");
+                }
+                else
+                {
+                    sb.Append("RAISERROR('LSERROR',16,3)\r\n" +
+                              "RETURN\r\n");
+                }
+            }
+        }
+#endregion AddSecurityCheckBlock
+
+#region AddBlock class
+        /// <summary>
+        /// Represents a block that performs an add operation (not including checking security or returning
+        /// the identity of the added item)
+        /// </summary>
+        private class AddBlock
+        {
+            // Resulting block is of this form:
+            // INSERT INTO <tablename> ( ... ) VALUES (...)
+            // IF @@ERROR<>0
+            // BEGIN
+            //    RETURN
+            // END
+            // SELECT <identity-variable-name>=CAST(SCOPE_IDENTITY() as bigint)
+            // IF @@ERROR<>0
+            // BEGIN
+            //    RETURN
+            // END
+
+            /// <summary>
+            /// Name of the table
+            /// </summary>
+            private string m_tableName;
+
+            /// <summary>
+            /// List of column names, seperated by commas
+            /// </summary>
+            private StringBuilder m_columnNames = new StringBuilder();
+
+            /// <summary>
+            /// List of values for each column seperated by commas
+            /// </summary>
+            private StringBuilder m_columnValues = new StringBuilder();
+            
+            /// <summary>
+            /// Name of the SQL variable into which the identity of the
+            /// new item should be placed
+            /// </summary>
+            private string m_identityVariableName;
+
+            /// <summary>
+            /// Create a new instance of the statement
+            /// </summary>
+            /// <param name="tableName">Name of the table</param>
+            /// <param name="identityVariableName">Name of the variable into which the identity should be placed</param>
+            public AddBlock(string tableName, string identityVariableName)
+            {
+                m_tableName = tableName;
+                m_identityVariableName = identityVariableName;
+            }
+
+            /// <summary>
+            /// Append a column
+            /// </summary>
+            /// <param name="columnName">Name of the column.</param>
+            /// <param name="columnValue">Value for the column.</param>            
+            public void AppendColumn(string columnName, string columnValue)
+            {
+                if (m_columnNames.Length != 0)
+                {
+                    m_columnNames.Append(",");
+                    m_columnValues.Append(",");
+                }
+
+                m_columnNames.Append("[");
+                m_columnNames.Append(columnName);
+                m_columnNames.Append("]");
+                m_columnValues.Append(columnValue);
+            }
+
+            /// <summary>
+            /// Write the output
+            /// </summary>
+            /// <param name="sb"></param>
+            public void Write(StringBuilder sb)
+            {
+                sb.Append("INSERT INTO [");
+                sb.Append(m_tableName);
+                sb.Append("]");
+                if(m_columnNames.Length == 0)
+                    sb.Append(" DEFAULT VALUES\r\n");
+                else
+                {
+                    sb.Append(" (\r\n");
+                    sb.Append(m_columnNames.ToString());
+                    sb.Append("\r\n) VALUES (\r\n");
+                    sb.Append(m_columnValues.ToString());
+                    sb.Append("\r\n)\r\n");
+                }
+                sb.Append(
+                    "IF @@ERROR <> 0\r\n" +
+                    "BEGIN\r\n" +
+                    "    RETURN\r\n" +
+                    "END\r\n" +
+                    "SELECT ");
+                sb.Append(m_identityVariableName);
+                sb.Append("=CAST(SCOPE_IDENTITY() AS bigint)\r\n" +
+                          "IF @@ERROR <> 0\r\n" +
+                          "BEGIN\r\n" +
+                          "    RETURN\r\n" +
+                          "END\r\n");
+            }
+        }
+#endregion AddBlock class
+
+#region AddOperationBlock class
+        /// <summary>
+        /// Represents a block that checks security for an add operation (optionally), performs the add operation,
+        /// and then returns the identity as a result (optionally)
+        /// </summary>
+        private class AddOperationBlock
+        {
+            // Resulting block is of this form:
+            // -- This piece implemented by AddSecurityCheckBlock
+            // -- This piece is also optional (not included if security checks are skipped)
+            // IF <TableName>$AddSecurity(@UserKey,@PropertyX,...) = 0
+            // BEGIN
+            //    RAISERROR(...)
+            //    RETURN
+            // END
+            // IF @@ERROR <> 0
+            //    RETURN
+            // -- End AddSecurityCheckBlock
+            //
+            // -- This piece implemented by AddBlock
+            // INSERT INTO <tablename> ( ... ) VALUES (...)
+            // IF @@ERROR<>0
+            // BEGIN
+            //    RETURN
+            // END
+            // SELECT <identity-variable-name>=CAST(SCOPE_IDENTITY() as bigint)
+            // IF @@ERROR<>0
+            // BEGIN
+            //    RETURN
+            // END
+            // -- End AddBlock
+            //
+            // -- Following piece is optional (not included if the identity isn't requested)
+            // SELECT <identity-variable-name>
+            // IF @@ERROR<>0
+            // BEGIN
+            //    RETURN
+            // END
+            
+            /// <summary>
+            /// Generates AddSecurityCheckBlock piece of code, or null if the AddSecurityCheckBlock
+            /// isn't needed.
+            /// </summary>
+            private AddSecurityCheckBlock m_securityCheckBlock;
+            
+            /// <summary>
+            /// Generates AddBlock piece of code
+            /// </summary>
+            private AddBlock m_addBlock;
+
+            /// <summary>
+            /// Name of the SQL variable into which the identity of the
+            /// new item should be placed
+            /// </summary>
+            private string m_identityVariableName;
+
+            /// <summary>
+            /// Should the identity be returned as a result set?
+            /// </summary>
+            private bool m_requestIdentity;
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="itemType">Item type being added</param>
+            /// <param name="identityVariableName">Name of the variable into which the identity value should be placed</param>
+            /// <param name="requestIdentity">True if the identity should be returned as a result set</param>
+            /// <param name="disableSecurityChecks">True if security checks should be skipped</param>
+            public AddOperationBlock(LearningStoreItemType itemType,
+                string identityVariableName, bool requestIdentity, bool disableSecurityChecks)
+            {
+                if(!disableSecurityChecks)
+                    m_securityCheckBlock = new AddSecurityCheckBlock(itemType);
+                m_addBlock = new AddBlock(itemType.Name, identityVariableName);
+                m_identityVariableName = identityVariableName;
+                m_requestIdentity = requestIdentity;
+            }
+
+            /// <summary>
+            /// Append a column
+            /// </summary>
+            /// <param name="property">Property.</param>
+            /// <param name="propertyValue">Value for the property.</param>            
+            public void AppendColumn(LearningStoreItemTypeProperty property, string propertyValue)
+            {
+                m_addBlock.AppendColumn(property.Name, propertyValue);
+                if(m_securityCheckBlock != null)
+                    m_securityCheckBlock.AddPropertyValue(property, propertyValue);
+            }
+
+            /// <summary>
+            /// Write the output
+            /// </summary>
+            /// <param name="sb"></param>
+            public void Write(StringBuilder sb)
+            {
+                if(m_securityCheckBlock != null)
+                    m_securityCheckBlock.Write(sb);
+                m_addBlock.Write(sb);
+                if(m_requestIdentity)
+                {
+                    sb.Append("SELECT ");
+                    sb.Append(m_identityVariableName);
+                    sb.Append("\r\n" +
+                              "IF @@ERROR <> 0\r\n" +
+                              "BEGIN\r\n" +
+                              "    RETURN\r\n" +
+                              "END\r\n");
+                }
+            }
+        }
+#endregion AddOperationBlock class
+
+#region UpdateSecurityCheckBlock class
+        /// <summary>
+        /// Represents a block that checks the security for an update operation
+        /// </summary>
+        private class UpdateSecurityCheckBlock
+        {
+            // Resulting block is of this form:
+            // IF <TableName>$UpdateSecurity(@UserKey,@Id,@PropertyXChanged,@PropertyX,...) = 0
+            // BEGIN
+            //     RAISERROR(...)
+            //     RETURN
+            // END
+            // IF @@ERROR <> 0
+            //    RETURN
+
+            /// <summary>
+            /// Item type
+            /// </summary>
+            private LearningStoreItemType m_itemType;
+
+            /// <summary>
+            /// Text that identifies the ID of the item being updated.
+            /// </summary>
+            private string m_idText;
+
+           /// <summary>
+            /// Property values
+            /// </summary>
+            private Dictionary<LearningStoreItemTypeProperty, string> m_propertyValues =
+                new Dictionary<LearningStoreItemTypeProperty, string>();
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="itemType">Item type of the table</param>            
+            /// <param name="idText">Text that identifies the ID of the item being updated</param>
+            public UpdateSecurityCheckBlock(LearningStoreItemType itemType, string idText)
+            {
+                m_itemType = itemType;
+                m_idText = idText;
+            }
+
+            /// <summary>
+            /// Add a property value
+            /// </summary>
+            /// <param name="property">Property</param>
+            /// <param name="value">Text representing the property value.</param>
+            public void AddPropertyValue(LearningStoreItemTypeProperty property, string value)
+            {
+                m_propertyValues.Add(property, value);
+            }
+
+            /// <summary>
+            /// Write the output
+            /// </summary>
+            /// <param name="sb"></param>
+            public void Write(StringBuilder sb)
+            {
+                if(m_itemType.UpdateSecurityFunction != null)
+                {
+                    sb.Append("IF dbo.[");
+                    sb.Append(m_itemType.UpdateSecurityFunction);
+                    sb.Append("](@UserKey,");
+                    sb.Append(m_idText);
+                    foreach (LearningStoreItemTypeProperty property in m_itemType.Properties)
+                    {
+                        if (property.IsId)
+                            continue;
+                        string value;
+                        m_propertyValues.TryGetValue(property, out value);
+                        if (value == null)
+                            sb.Append(",0,NULL");
+                        else
+                        {
+                            sb.Append(",1,");
+                            sb.Append(value);
+                        }
+                    }
+                    sb.Append(") = 0\r\n" +
+                              "BEGIN\r\n" +
+                              "    RAISERROR('LSERROR',16,3)\r\n" +
+                              "    RETURN\r\n" +
+                              "END\r\n" +
+                              "IF @@ERROR <> 0\r\n" +
+                              "    RETURN\r\n");
+                }
+                else
+                {
+                    sb.Append("RAISERROR('LSERROR',16,3)\r\n" +
+                              "RETURN\r\n");
+                }
+            }
+        }
+#endregion UpdateSecurityCheckBlock class
+
+#region UpdateBlock class
+        /// <summary>
+        /// Represents a block that performs an update operation (not including checking security)
+        /// </summary>
+        private class UpdateBlock
+        {
+            // Resulting block is of this form:
+            // UPDATE <tablename>
+            // SET <column>=<value>
+            // WHERE Id=<id>
+            // SELECT @LastError = @@ERROR, @LastRowCount = @@ROWCOUNT
+            // IF @LastError<>0
+            // BEGIN
+            //    RETURN
+            // END
+            // IF @LastRowCount<>0
+            // BEGIN
+            //    RAISERROR(...)
+            //    RETURN
+            // END
+
+            /// <summary>
+            /// Name of the table
+            /// </summary>
+            private string m_tableName;
+
+            /// <summary>
+            /// Text that identifies the ID of the item being updated.
+            /// </summary>
+            private string m_idText;
+
+            /// <summary>
+            /// Text of all the column=value values seperated by commas
+            /// </summary>
+            private StringBuilder m_assignments = new StringBuilder();
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="tableName">Name of the table</param>
+            /// <param name="idText">Text that identifies the ID of the item being updated</param>
+            public UpdateBlock(string tableName, string idText)
+            {
+                m_tableName = tableName;
+                m_idText = idText;
+            }
+
+            /// <summary>
+            /// Append a column
+            /// </summary>
+            /// <param name="columnName">Name of the column.</param>
+            /// <param name="columnValue">Value for the column.</param>            
+            public void AppendColumn(string columnName, string columnValue)
+            {
+                if(m_assignments.Length != 0)
+                {
+                    m_assignments.Append(",");
+                }
+                m_assignments.Append("[");                
+                m_assignments.Append(columnName);
+                m_assignments.Append("]=");
+                m_assignments.Append(columnValue);
+            }
+
+            /// <summary>
+            /// Write the output
+            /// </summary>
+            /// <param name="sb"></param>
+            public void Write(StringBuilder sb)
+            {
+                sb.Append("UPDATE [");
+                sb.Append(m_tableName);
+                sb.Append("]\r\n" +
+                          "SET ");
+                sb.Append(m_assignments.ToString());
+                sb.Append("\r\n" +
+                          "WHERE Id=");
+                sb.Append(m_idText);
+                sb.Append("\r\n" +
+                          "SELECT @LastError = @@ERROR, @LastRowCount = @@ROWCOUNT\r\n" +
+                          "IF @LastError <> 0\r\n" +
+                          "BEGIN\r\n" +
+                          "    RETURN\r\n" +
+                          "END\r\n" +
+                          "IF @LastRowCount = 0\r\n" +
+                          "BEGIN\r\n" +
+                          "    RAISERROR('LSERROR',16,1)\r\n" +
+                          "    RETURN\r\n" +
+                          "END\r\n");
+            }
+        }
+#endregion UpdateBlock class
+
+#region UpdateOperationBlock class
+        /// <summary>
+        /// Represents a block that checks security for an update operation (optionally) and then performs the update operation
+        /// </summary>
+        private class UpdateOperationBlock
+        {
+            // Resulting block is of this form:
+            // -- This piece implemented by UpdateSecurityCheckBlock
+            // -- This piece is also optional (not included if security checks are skipped)
+            // IF <TableName>$UpdateSecurity(@UserKey,@Id,@PropertyXChanged,@PropertyX,...) = 0
+            // BEGIN
+            //     RAISERROR(...)
+            //     RETURN
+            // END
+            // IF @@ERROR <> 0
+            //    RETURN
+            // -- End UpdateSecurityCheckBlock
+            //
+            // -- This piece implemented by UpdateBlock
+            // UPDATE <tablename>
+            // SET <column>=<value>
+            // WHERE Id=<id>
+            // SELECT @LastError = @@ERROR, @LastRowCount = @@ROWCOUNT
+            // IF @LastError<>0
+            // BEGIN
+            //    RETURN
+            // END
+            // IF @LastRowCount<>0
+            // BEGIN
+            //    RAISERROR(...)
+            //    RETURN
+            // END
+            // -- End UpdateBlock
+
+            /// <summary>
+            /// Generates UpdateSecurityCheckBlock piece of code, or null if the UpdateSecurityCheckBlock
+            /// isn't needed.
+            /// </summary>
+            private UpdateSecurityCheckBlock m_securityCheckBlock;
+
+            /// <summary>
+            /// Generates UpdateBlock piece of code
+            /// </summary>
+            private UpdateBlock m_updateBlock;
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="itemType">Item type being updated</param>
+            /// <param name="idText">Text identifying the id of the item being updated</param>
+            /// <param name="disableSecurityChecks">True if security checks should be skipped</param>
+            public UpdateOperationBlock(LearningStoreItemType itemType,
+                string idText, bool disableSecurityChecks)
+            {
+                if (!disableSecurityChecks)                
+                    m_securityCheckBlock = new UpdateSecurityCheckBlock(itemType, idText);
+                m_updateBlock = new UpdateBlock(itemType.Name, idText);
+            }
+
+            /// <summary>
+            /// Append a column
+            /// </summary>
+            /// <param name="property">Property.</param>
+            /// <param name="propertyValue">Value for the property.</param>            
+            public void AppendColumn(LearningStoreItemTypeProperty property, string propertyValue)
+            {
+                m_updateBlock.AppendColumn(property.Name, propertyValue);
+                if (m_securityCheckBlock != null)
+                    m_securityCheckBlock.AddPropertyValue(property, propertyValue);
+            }
+
+            /// <summary>
+            /// Write the output
+            /// </summary>
+            /// <param name="sb"></param>
+            public void Write(StringBuilder sb)
+            {
+                if (m_securityCheckBlock != null)
+                    m_securityCheckBlock.Write(sb);
+                m_updateBlock.Write(sb);
+            }
+        }
+#endregion UpdateOperationBlock class
+
+    }
 }
 

@@ -67,6 +67,9 @@ namespace Microsoft.SharePointLearningKit.WebControls
         /// <summary>Whether to use grades or not.</summary>
         bool UseGrades { get; set; }
 
+        /// <summary>Whether to hide points or not.</summary>
+        bool HidePoints { get; set; }
+
         /// <summary>Whether there is a learner report url to add.</summary>
         bool HasLearnerReport { get; set; }
 
@@ -159,6 +162,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             item.FinalScore = gradingProperties.FinalPoints;
             item.Grade = gradingProperties.Grade;
             item.InstructorComments = gradingProperties.InstructorComments;
+            item.LearnerComments = gradingProperties.LearnerComments;
             item.LearnerName = gradingProperties.LearnerName;
             item.Status = gradingProperties.Status.GetValueOrDefault();
             item.SuccessStatus = gradingProperties.SuccessStatus;
@@ -233,14 +237,20 @@ namespace Microsoft.SharePointLearningKit.WebControls
                                     {
                                         RenderColumnHeader(culture.Resources.GradingGradedScoreHeaderText, writer);
                                     }
-                                    // render the Final Score column headers
-                                    RenderColumnHeader(culture.Resources.GradingFinalScoreHeaderText, writer);
+
+                                    if (HidePoints == false)
+                                    {
+                                        // render the Final Score column headers
+                                        RenderColumnHeader(culture.Resources.GradingFinalScoreHeaderText, writer);
+                                    }
+
                                     if (UseGrades)
                                     {
                                         RenderColumnHeader(culture.Resources.GradingGradeHeaderText, writer);
                                     }
+
                                     // render the Comments column headers
-                                    RenderColumnHeader(culture.Resources.GradingCommentsHeaderText, writer);
+                                    RenderColumnHeader(culture.Resources.GradingCommentsHeaderText, writer, "slk-comments");
                                     // render the Action column headers
                                     RenderColumnHeader(culture.Resources.GradingActionHeaderText, writer);
                                 }
@@ -263,6 +273,8 @@ namespace Microsoft.SharePointLearningKit.WebControls
         {
             Clear();
             UseGrades = settings.UseGrades;
+            HidePoints = AssignmentProperties.HidePoints;
+
             LearnerReportUrl = settings.LearnerReportUrl;
             HasLearnerReport = string.IsNullOrEmpty(LearnerReportUrl) == false;
 
@@ -288,8 +300,13 @@ namespace Microsoft.SharePointLearningKit.WebControls
         ///
         private static void RenderColumnHeader(string columnName, HtmlTextWriter htmlTextWriter)
         {
+            RenderColumnHeader(columnName, htmlTextWriter, null);
+        }
+
+        private static void RenderColumnHeader(string columnName, HtmlTextWriter htmlTextWriter, string extraClass)
+        {
             // render the "<th>" element for this column header
-            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vh");
+            htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vh " + extraClass);
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
             htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "border-left: none; padding-left: 3px;");
             using (new HtmlBlock(HtmlTextWriterTag.Th, 1, htmlTextWriter))
@@ -391,7 +408,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 }
                 else
                 {
-                    AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
+                    AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId, false);
                     if (files != null && files.Length > 0)
                     {
                         SetUpSubmittedFileHyperLink(lnkLearnerItem, files, item);
@@ -415,7 +432,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
             if (item.Status == LearnerAssignmentState.Completed || item.Status == LearnerAssignmentState.Final)
             {
-                AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId);
+                AssignmentFile[] files = dropBox.LastSubmittedFiles(item.LearnerId, false);
 
                 if (files == null || files.Length == 0)
                 {
@@ -444,8 +461,7 @@ namespace Microsoft.SharePointLearningKit.WebControls
             SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
             if (files.Length > 1)
             {
-                string url = string.Format("{0}{1}SubmittedFiles.aspx?LearnerAssignmentId={2}", slkAppBasePage.SPWeb.Url, Constants.SlkUrlPath, item.LearnerAssignmentGuidId);
-                string script = string.Format("window.open('{0}','popupwindow','width=400,height=300,scrollbars,resizable');return false;", url);
+                string script = string.Format("openSubmittedFiles('{0}');return false;", item.LearnerAssignmentGuidId);
                 link.Attributes.Add("onclick", script);
                 link.NavigateUrl = "#";
             }
@@ -731,13 +747,16 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     }
                 }
 
-                //Render Final Score   
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "width: 50px; padding-left: 5px; padding-top:3px");
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
-                using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
+                if (HidePoints == false)
                 {
-                    RenderFinalScore(item, htmlTextWriter);
+                    //Render Final Score   
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "width: 50px; padding-left: 5px; padding-top:3px");
+                    htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
+                    using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
+                    {
+                        RenderFinalScore(item, htmlTextWriter);
+                    }
                 }
 
                 if (UseGrades)
@@ -760,13 +779,13 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 }
 
                 //Render Comments  
-                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb");
+                htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Class, "ms-vb slk-comments");
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Style, "width: 200px; padding-left: 5px; padding-top:3px");
                 htmlTextWriter.AddAttribute(HtmlTextWriterAttribute.Nowrap, "true");
                 using (new HtmlBlock(HtmlTextWriterTag.Td, 1, htmlTextWriter))
                 {
                     TextBox txtInstructorComments = new TextBox();
-                    txtInstructorComments.CssClass = "ms-long";
+                    txtInstructorComments.CssClass = "ms-long slk-comments";
                     txtInstructorComments.ID = CommentsId + item.LearnerAssignmentId.ToString(CultureInfo.InvariantCulture);
                     txtInstructorComments.TextMode = TextBoxMode.MultiLine;
                     /* box model width doesn't include border or padding so setting textarea width to 100% makes it bigger than the cell it is in
@@ -780,7 +799,9 @@ namespace Microsoft.SharePointLearningKit.WebControls
                     string style = "width: 100%; height:40px; overflow:visible;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;";
                     txtInstructorComments.Style.Value = style;
                     txtInstructorComments.Text = item.InstructorComments;
-                    txtInstructorComments.Attributes.Add("onfocus", focusScript);
+
+                    txtInstructorComments.Attributes.Add("onfocus", "expandComments(this);" + focusScript);
+                    txtInstructorComments.Attributes.Add("onblur", "javascript:contractComments(this)");
                     txtInstructorComments.RenderControl(htmlTextWriter);
 
                 }
@@ -795,6 +816,18 @@ namespace Microsoft.SharePointLearningKit.WebControls
 
                     RenderActionCheckBox(item, htmlTextWriter);
                 }
+            }
+
+            // Render learner comments if any
+            if (string.IsNullOrEmpty(item.LearnerComments) == false)
+            {
+                htmlTextWriter.Write("<tr class=\"ms-vb slk-learnerComments\"><td>&nbsp;</td><td>");
+                htmlTextWriter.Write(HttpUtility.HtmlEncode(culture.Resources.GradingLearnerComments));
+                htmlTextWriter.Write("</td><td class=\"slk-learnerComments\" colspan=\"5\">");
+                string encodedString = HttpUtility.HtmlEncode(item.LearnerComments);
+                encodedString = System.Text.RegularExpressions.Regex.Replace(encodedString, @"\r\n?|\n", "<br />");
+                htmlTextWriter.Write(encodedString);
+                htmlTextWriter.Write("</td></tr>");
             }
         }
         #endregion
@@ -1215,6 +1248,23 @@ namespace Microsoft.SharePointLearningKit.WebControls
                    return (m == null) ? """" : m[1];
                 }
 
+                var originalHeight;
+                var previousComments;
+
+                function expandComments(target)
+                {
+                    originalHeight = target.style.height;
+                    target.style.height = ""100px"";
+                }
+
+                function contractComments(target)
+                {
+                    if (originalHeight != null)
+                    {
+                        target.style.height = originalHeight;
+                    }
+                }
+
                 function Slk_OpenLearnerAssignment(navigateUrl, 
                                                       learnerAssignmentId, 
                                                       isClassServerContent)
@@ -1280,6 +1330,14 @@ namespace Microsoft.SharePointLearningKit.WebControls
                 }
                  "
             );
+
+                SlkAppBasePage slkAppBasePage = new SlkAppBasePage();
+                string submittedJavascript = string.Format("slkSubmittedUrl = '{0}{1}SubmittedFiles.aspx?LearnerAssignmentId='", slkAppBasePage.SPWeb.Url, Constants.SlkUrlPath);
+                csGradingClientScript.AppendLine(submittedJavascript);
+
+                string sourceUrl = string.Format("slkSourceUrl = '&source={0}';", HttpUtility.UrlEncode(Page.Request.RawUrl));
+                csGradingClientScript.AppendLine(sourceUrl);
+
                 csGradingClientScript.AppendLine("<!-- Grading Client Script Ends Here -->");
 
                 //Register Learner/Learner Group onclick events as ClientScriptBlock

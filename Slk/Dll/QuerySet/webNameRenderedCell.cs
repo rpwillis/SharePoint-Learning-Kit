@@ -75,6 +75,9 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Whether to render as a link or not. Defaults to true.</summary>
+        public bool RenderAsLink { get; set; }
+
         /// <summary>
         /// Gets the URL of the SharePoint Web site (<c>SPWeb</c>) represented by this cell.
         /// </summary>
@@ -119,6 +122,7 @@ namespace Microsoft.SharePointLearningKit
             m_spSiteGuid = spSiteGuid;
             m_spWebGuid = spWebGuid;
             m_spWebUrl = spWebUrl;
+            RenderAsLink = true;
         }
     }
 }

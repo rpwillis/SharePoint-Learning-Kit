@@ -107,6 +107,9 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Gets or sets comments from the instructor (if any) on this learner assignment;<c>String.Empty</c> if none.</summary>
         public string InstructorComments { get; internal set; }
 
+        /// <summary>Gets or sets comments from the learner (if any) on this learner assignment;<c>String.Empty</c> if none.</summary>
+        public string LearnerComments { get; internal set; }
+
         /// <summary>Gets or sets the <c>AttemptItemIdentifier</c> of the attempt associated with this learnerssignment, or <c>null</c> if none.</summary>
         internal AttemptItemIdentifier AttemptId { get; set; }
 #endregion properties
@@ -178,6 +181,13 @@ namespace Microsoft.SharePointLearningKit
                 // Just save
                 Assignment.Store.SaveLearnerAssignment(LearnerAssignmentId, IgnoreFinalPoints, FinalPoints, InstructorComments, Grade, null, null, saver.CurrentJob);
             }
+        }
+
+        /// <summary>Saves the learner comment.</summary>
+        /// <param name="comment">The comment to save.</param>
+        public void SaveLearnerComment(string comment)
+        {
+            Assignment.Store.SaveLearnerComment(LearnerAssignmentId, comment);
         }
 
         /// <summary>Starts the assignment.</summary>
@@ -417,10 +427,11 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Uploads files and submits the assignment.</summary>
         /// <param name="files">The files to upload.</param>
-        public void UploadFilesAndSubmit(AssignmentUpload[] files)
+        /// <param name="existingFilesToKeep">Existing files to keep.</param>
+        public void UploadFilesAndSubmit(AssignmentUpload[] files, int[] existingFilesToKeep)
         {
             DropBoxManager manager = new DropBoxManager(Assignment);
-            manager.UploadFiles(files);
+            manager.UploadFiles(files, existingFilesToKeep);
             Submit();
         }
 #endregion public methods
