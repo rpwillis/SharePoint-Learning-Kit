@@ -747,7 +747,7 @@ namespace Microsoft.SharePointLearningKit
             AssignmentProperties assignment = new AssignmentProperties(null, store);
             assignment.StartDate = DateTime.Today; // midnight today
             assignment.DueDate = null;
-            assignment.EmailChanges = false;
+            assignment.EmailChanges = store.Settings.EmailSettings.DefaultEmailingOn;
             assignment.CreatedById = currentUserId;
 
             // Role checking and determine if self assigned
