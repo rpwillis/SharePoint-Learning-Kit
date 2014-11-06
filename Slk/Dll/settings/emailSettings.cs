@@ -50,6 +50,7 @@ namespace Microsoft.SharePointLearningKit
             {
                 reminderDaysInput = reader.GetAttribute("ReminderDays");
                 EmailOnSubmitOff = SlkSettings.BooleanAttribute(reader, "EmailOnSubmitOff");
+                DefaultEmailingOn = SlkSettings.BooleanAttribute(reader, "DefaultEmailingOn");
                 reader.Read();
 
                 while (reader.Name != "EmailSettings")
@@ -91,6 +92,9 @@ namespace Microsoft.SharePointLearningKit
 #region properties
         /// <summary>Whether to turn off emailing on submit.</summary>
         public bool EmailOnSubmitOff { get; private set; }
+
+        /// <summary>Whether to default emailing on in new assignments.</summary>
+        public bool DefaultEmailingOn { get; private set; }
 
         /// <summary>The days to send a reminder on.</summary>
         public List<int> ReminderDays 
