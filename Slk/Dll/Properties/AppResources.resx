@@ -216,6 +216,9 @@
     <value>SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite {0}.)</value>
     <comment>{0} = SPSite url</comment>
   </data>
+  <data name="AlwpInvalidWebScope" xml:space="preserve">
+      <value>Invalid SPWebScope value {0}.</value>
+  </data>
   <data name="AlwpWepPartTitle" xml:space="preserve">
     <value>Assignment List Web Part</value>
     <comment>Title for Assignment List Web Part</comment>
@@ -1892,5 +1895,4 @@ For security reasons, integrated authentication is strongly recommended.
   <data name="QueryResultsSortBy" xml:space="preserve">
       <value>Sort by {0}.</value>
   </data>
-AssignmentFileDoesNotExist
 </root>

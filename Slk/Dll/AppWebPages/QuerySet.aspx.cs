@@ -526,7 +526,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //Append the SPWebScope in the QueryString
             if (string.IsNullOrEmpty(spWebScope) == false)
             {
-                urlString = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", urlString, QueryStringKeys.SPWebScope, spWebScope);
+                urlString = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", urlString, QueryStringKeys.SPWebScope, HttpUtility.HtmlEncode(spWebScope));
             }
 
             //Build the Script 
@@ -534,7 +534,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             csAlwpClientScript.AppendLine("<!-- Place Holder Alwp Client Script -->");
 
-            string openArguments = String.Format(CultureInfo.InvariantCulture, "{0}\",\"{1}", urlString, frameId);
+            string openArguments = String.Format(CultureInfo.InvariantCulture, "{0}\",\"{1}", urlString, HttpUtility.HtmlEncode(frameId));
 
             csAlwpClientScript.AppendLine(@"
                 //Method called when selecting (clicking) a Query from QuerySetFrame. 

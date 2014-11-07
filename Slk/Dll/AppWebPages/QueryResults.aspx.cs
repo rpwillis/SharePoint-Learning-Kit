@@ -219,13 +219,11 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                                         try
                                         {
                                             // set <queryDef> to the QueryDefinition named <queryName>
-                                            QueryDefinition queryDef 
-                                                        = SlkStore.Settings.FindQueryDefinition(Query);
+                                            QueryDefinition queryDef = SlkStore.Settings.FindQueryDefinition(Query);
 
                                             if (queryDef == null)
                                             {
-                                                throw new SafeToDisplayException
-                                                                   (PageCulture.Resources.AlwpQuerySetNotFound, Query);
+                                                throw new SafeToDisplayException (PageCulture.Resources.AlwpQuerySetNotFound, Query);
                                             }
 
 
@@ -285,7 +283,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // create a job for executing the query specified by <queryDef>
             LearningStoreJob job = SlkStore.LearningStore.CreateJob();
 
-            Guid? spWebScopeMacro = (SPWebScope == null) ? (Guid?)null : (new Guid(SPWebScope));
+            Guid? spWebScopeMacro = null;
+            try
+            {
+                spWebScopeMacro = (SPWebScope == null) ? (Guid?)null : (new Guid(SPWebScope));
+            }
+            catch (FormatException)
+            {
+                throw new SafeToDisplayException (PageCulture.Resources.AlwpInvalidWebScope, SPWebScope);
+            }
 
             // create a query based on <queryDef>
             LearningStoreQuery query = null;
@@ -336,7 +342,17 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             if (Sort != null)
             {
-                sortColumnIndex = int.Parse(Sort, CultureInfo.InvariantCulture);
+                try
+                {
+                    sortColumnIndex = int.Parse(Sort, CultureInfo.InvariantCulture);
+                }
+                catch (FormatException)
+                {
+                    // Invalid Sort value
+                    sortColumnIndex = 0;
+                    return true;
+                }
+
                 if (sortColumnIndex < 0)
                 {
                     sortAscending = false;
@@ -905,9 +921,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             if (queryFrame.SetQueryCount != undefined)
                             {");
                         hw.WriteLine(@"
-                             " + String.Format(CultureInfo.InvariantCulture,
-                                               "queryFrame.SetQueryCount(\"{0}\",\"{1}\");",
-                                               Query, queryCount));
+                             " + String.Format(CultureInfo.InvariantCulture, "queryFrame.SetQueryCount(\"{0}\",\"{1}\");", HttpUtility.HtmlEncode(Query), queryCount));
                         hw.WriteLine(@"
                             }
                         }");                             

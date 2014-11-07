@@ -106,7 +106,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                 //Get the Visibility 
                 string spWebScope = QueryString.ParseStringOptional(QueryStringKeys.SPWebScope);
-                m_spWebScopeMacro = (spWebScope == null) ? (Guid?)null : (new Guid(spWebScope));
+                try
+                {
+                    m_spWebScopeMacro = (spWebScope == null) ? (Guid?)null : (new Guid(spWebScope));
+                }
+                catch (FormatException)
+                {
+                    throw new SafeToDisplayException (PageCulture.Resources.AlwpInvalidWebScope, spWebScope);
+                }
 
                 // create a job for executing the queries specified by <querySetDef>
                 LearningStoreJob job = SlkStore.LearningStore.CreateJob();
@@ -186,9 +193,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     // write script code that contains the query result counts
                     using (new HtmlBlock(HtmlTextWriterTag.Script, 0, hw))
                     {
-                        hw.Write(String.Format(CultureInfo.InvariantCulture,
-                                               "var a = new Array({0});", 
-                                               numberOfQueries));
+                        hw.Write(String.Format(CultureInfo.InvariantCulture, "var a = new Array({0});", numberOfQueries));
                         hw.WriteLine();
 
                         //To Store all the Query Counts
