@@ -199,7 +199,10 @@ function FM_RegisterFrameLoad(frameName)
             UpdateNavVisibility(this.m_showNext, this.m_showPrevious, this.m_showAbandon, this.m_showExit, this.m_showSave);
             UpdateTitle(this.m_title);
             
-            this.ShowActivityId( this.m_activityId );    // tell TOC about the activity
+            if (this.ShowActivityId)
+            {
+                this.ShowActivityId( this.m_activityId );    // tell TOC about the activity
+            }
             
             // If there was an error in server processing, don't render content frame. Instead, show error message.
             if (this.m_contentFrameErrorMessage != null)
@@ -320,7 +323,16 @@ function GetTitleDoc()
 
 function GetTocDoc()
 {   
-    return window.top.frames[MAIN_FRAME].document.getElementById(TOC_FRAME).contentWindow.document;
+    var tocFrame = window.top.frames[MAIN_FRAME].document.getElementById(TOC_FRAME);
+
+    if (tocFrame && tocFrame.contentWindow) {
+        try {
+            return tocFrame.contentWindow.document;
+        }
+        catch (e) {
+            return null;
+        }
+    }
 }
 
 function GetContentFrame()
@@ -345,7 +357,13 @@ function FM_MakeFramesVisible()
 {
     // Make title and toc visible
     GetTitleDoc().getElementById("txtTitle").style.display = "block";
-    GetTocDoc().getElementById("divMain").style.visibility = "visible";
+    var tocDoc = GetTocDoc();
+    if (tocDoc){
+        var divMain = tocDoc.getElementById("divMain");
+        if (divMain){
+            divMain.style.visibility = "visible";
+        }
+    }
 }
 
 // Save the value to set the title string to. Later, call UpdateTitle to change the contents of the frame.
@@ -768,7 +786,10 @@ function FM_DoPost( bIsRetry )
     {
         this.m_postInProgress = false;
         this.WaitForContentCompleted(0);    // not waiting for anything
-        this.ResetActivityId(); // fix TOC to show the activity id before this request
+        if (this.ResetActivityId)
+        {
+            this.ResetActivityId(); // fix TOC to show the activity id before this request
+        }
     }
     
     this.DebugLog("DoPost: End. Form submitted. Form action: " + form.action);

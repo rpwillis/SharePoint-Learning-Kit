@@ -17,6 +17,16 @@
     g_previousActivityId = null;
     g_frameMgr = API_GetFramesetManager();
     
+    function body_onunload()
+    {
+        if (g_frameMgr) {
+            // With IE9 and above, unless in compatibility mode, then the functions cannot be called when unloaded, so set to null
+            g_frameMgr.ShowActivityId = null;        
+            g_frameMgr.ResetActivityId = null;
+            g_frameMgr.SetTocNodes = null;
+        }
+    }
+
     function body_onload()
     {
         // Tell frameMgr to call back when current activity changes
@@ -29,9 +39,10 @@
         // Register with framemanager that loading is complete
 	    g_frameMgr.RegisterFrameLoad(TOC_FRAME); 
     }
+
 </script>
 </head>
-<body class=NavBody onclick="body_onclick(event);" onload="body_onload();">
+<body class=NavBody onclick="body_onclick(event);" onload="body_onload();" onunload="body_onunload();">
 <div id="divMain" style="visibility:hidden;MARGIN: 5px">
 	<div  noWrap>
 		<!-- <p class="NavClosedPreviousBtnGrphic">&nbsp;</p> -->

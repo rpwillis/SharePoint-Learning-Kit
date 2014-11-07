@@ -285,7 +285,7 @@ namespace Microsoft.LearningComponents.Frameset
             sw.RenderEndTag();
             sw.WriteLine();
 
-            sw.AddAttribute(HtmlTextWriterAttribute.Href, "");
+            sw.AddAttribute(HtmlTextWriterAttribute.Href, "javascript:void(0)");
             sw.AddAttribute(HtmlTextWriterAttribute.Id, ResHelper.FormatInvariant("a{0}", activityIdHtml));
             sw.AddAttribute(HtmlTextWriterAttribute.Style, "FONT-WEIGHT: normal;visibility:visible");
             sw.AddAttribute(HtmlTextWriterAttribute.Title, titleHtml);
