@@ -804,8 +804,9 @@ namespace Microsoft.LearningComponents.Frameset
                 hiddenCtrlInfo = new HiddenControlInfo();
                 hiddenCtrlInfo.Id = new PlainTextString(HiddenFieldNames.TocState);
                 hiddenCtrlInfo.Value = new PlainTextString(GetTocStates());
-                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant("frameMgr.SetTocNodes(document.getElementById({0}).value);",
-                        JScriptString.QuoteString(HiddenFieldNames.TocState, false)));
+                // The braces for within the javascript need escaping or string.Format chokes on it.
+                string javascript = @"if (frameMgr.SetTocNodes){{frameMgr.SetTocNodes(document.getElementById({0}).value);}}";
+                hiddenCtrlInfo.FrameManagerInitializationScript = new JScriptString(ResHelper.FormatInvariant(javascript, JScriptString.QuoteString(HiddenFieldNames.TocState, false)));
 
                 hiddenControlInfos.Add(hiddenCtrlInfo);
             }
