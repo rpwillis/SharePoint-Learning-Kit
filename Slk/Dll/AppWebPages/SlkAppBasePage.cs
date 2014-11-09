@@ -113,6 +113,15 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
             if (string.IsNullOrEmpty(rawSourceUrl))
             {
                 rawSourceUrl = QueryString.ParseStringOptional("Source");
+                // If it contains a quote, then it will be an attack string, so sanitize
+                if (string.IsNullOrEmpty(rawSourceUrl) == false)
+                {
+                    int indexOf = rawSourceUrl.IndexOf("\"");
+                    if (indexOf > -1)
+                    {
+                        rawSourceUrl = rawSourceUrl.Substring(0, indexOf);
+                    }
+                }
             }
 
             return rawSourceUrl;

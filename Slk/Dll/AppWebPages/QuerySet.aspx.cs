@@ -110,11 +110,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     hw.AddAttribute(HtmlTextWriterAttribute.Height, "1");
                     hw.AddAttribute("frameborder", "0");
 
-                    // Get the ServerRelativeUrl for QuerySummary Page
-                    string urlString = SlkUtilities.UrlCombine(SPWeb.ServerRelativeUrl, Constants.SlkUrlPath, Constants.QuerySummaryPage);
-
-                    urlString = String.Format(CultureInfo.InvariantCulture, "{0}?{1}", urlString, HttpContext.Current.Request.QueryString.ToString());
-
                     hw.Write("<iframe width=\"1\" height=\"1\" frameborder=\"0\" id=\"{0}QS\" name=\"{0}QS\"></iframe>", FrameId);
                     WriteSummaryForm(hw);
                     WriteResultsForm(hw);

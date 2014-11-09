@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Web;
 using Microsoft.LearningComponents.Storage;
@@ -49,6 +50,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (frameId == null)
                 {
                     frameId = Request[QueryStringKeys.FrameId];
+                    // frameId should be a GUID, but sanitize in case of attack. Not worried if used in HTML or url as it's not going to work anyway if not a GUID.
+                    frameId = HttpUtility.HtmlEncode(frameId);
                 }
 
                 return frameId;
@@ -113,7 +116,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 else
                 {
                     string[] webs = spWebScope.Split(',');
-                    Guid[] guids = new Guid[webs.Length];
+                    List<Guid> guids = new List<Guid>();
                     for (int i = 0; i < webs.Length; i++)
                     {
                         string webId = webs[i];
@@ -121,14 +124,21 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
                             try
                             {
-                                guids[i] = new Guid(webId);
+                                guids.Add(new Guid(webId));
                             }
                             catch (FormatException) { }
                             catch (OverflowException) { }
                         }
                     }
 
-                    return guids;
+                    if (guids.Count == 0)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return guids.ToArray();
+                    }
                 }
             }
         }

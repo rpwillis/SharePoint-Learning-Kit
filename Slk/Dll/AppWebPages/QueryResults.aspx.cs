@@ -280,7 +280,16 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             if (string.IsNullOrEmpty(Sort) == false)
             {
-                sortColumnIndex = int.Parse(Sort, CultureInfo.InvariantCulture);
+                try
+                {
+                    sortColumnIndex = int.Parse(Sort, CultureInfo.InvariantCulture);
+                }
+                catch (FormatException)
+                {
+                    sortColumnIndex = -1;
+                    return true;
+                }
+
                 if (sortColumnIndex < 0)
                 {
                     sortAscending = false;
@@ -650,15 +659,32 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void RenderForm(TextWriter writer)
         {
             writer.Write("<form id=\"resultsForm\" method=\"POST\" >");
-            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.QuerySet, Request[QueryStringKeys.QuerySet]);
-            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Query, Query);
+            AddInputLine(writer, QueryStringKeys.QuerySet);
+
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Query, HttpUtility.HtmlEncode(Query));
+
+            // RawSourceUrl is already sanitized in SlkAppBasePage.
             writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Source, RawSourceUrl);
-            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.SPWebScope, Request[QueryStringKeys.SPWebScope]);
+            AddInputLine(writer, QueryStringKeys.SPWebScope);
+
+            // FrameId sanitized in QueryBasePage
             writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.FrameId, FrameId);
+
+            // Sort is an int and so doesn't need encoding
             writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.Sort, Sort);
-            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", QueryStringKeys.ForObserver, Request[QueryStringKeys.SPWebScope]);
+            AddInputLine(writer, QueryStringKeys.ForObserver, QueryStringKeys.SPWebScope);
 
             writer.Write("</form>");
+        }
+
+        private void AddInputLine(TextWriter writer, string key)
+        {
+            AddInputLine(writer, key, key);
+        }
+
+        private void AddInputLine(TextWriter writer, string idKey, string requestKey)
+        {
+            writer.Write("<input id=\"alwp{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>", idKey, HttpUtility.HtmlEncode(Request[requestKey]));
         }
 
         #region RenderFileSubmissionCell
