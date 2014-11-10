@@ -349,7 +349,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 catch (FormatException)
                 {
                     // Invalid Sort value
-                    sortColumnIndex = 0;
+                    sortColumnIndex = -1;
                     return true;
                 }
 
