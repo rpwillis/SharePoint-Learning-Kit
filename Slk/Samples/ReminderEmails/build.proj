@@ -1,8 +1,14 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+    <PropertyGroup>
+        <SharePointVersion>2013</SharePointVersion>
+    </PropertyGroup>
+
     <Target Name="Build">
-        <Csc Sources="*.cs" OutputAssembly="ReminderEmails.exe" TargetType="exe"
-            References="../../Dll/bin/debug/Microsoft.SharePointLearningKit.dll"
+        <MakeDir Directories="bin"/>
+        <MakeDir Directories="bin\$(SharePointVersion)"/>
+        <Csc Sources="*.cs" OutputAssembly="bin/$(SharePointVersion)/ReminderEmails.exe" TargetType="exe"
+            References="../../Dll/bin/$(SharePointVersion)/Release/Microsoft.SharePointLearningKit.dll"
             TreatWarningsAsErrors="true"
             DebugType="full"
             />
