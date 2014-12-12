@@ -261,6 +261,18 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
+        /// <summary>Logs an error.</summary>
+        /// <param name="format">The message format string.</param>
+        /// <param name="culture">The local resources to use.</param>
+        /// <param name="arguments">The arguments.</param>
+        public static void LogError(string format, SlkCulture culture, params object[] arguments)
+        {
+            if (string.IsNullOrEmpty(format) == false)
+            {
+                WriteToEventLog(format, culture, arguments);
+            }
+        }
+
         /// <summary>See <see cref="ISlkStore.CreatePackageReader"/>.</summary>
         public PackageReader CreatePackageReader(SPFile file, SharePointFileLocation location)
         {
@@ -2692,6 +2704,11 @@ namespace Microsoft.SharePointLearningKit
         ///
         private void WriteToEventLog(string format, params object[] args)
         {
+            WriteToEventLog(format, culture, args);
+        }
+
+        private static void WriteToEventLog(string format, SlkCulture culture, params object[] args)
+        {
             SlkUtilities.ImpersonateAppPool(delegate()
             {
                 string message = null;
@@ -2721,14 +2738,14 @@ namespace Microsoft.SharePointLearningKit
                 }
 
                 message = message.Replace(@"\n", "\r\n");
-                WriteEvent(message);
+                WriteEvent(message, culture);
             });
         }
 
         static string source;
         static object lockObject = new object();
 
-        private void WriteEvent(string message)
+        private static void WriteEvent(string message, SlkCulture culture)
         {
             WriteEvent(message, new string[] {culture.Resources.SlkEventLogSource, culture.Resources.WssEventLogSource, culture.Resources.SharePoint2010LogSource});
         }

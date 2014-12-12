@@ -4254,6 +4254,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to load SLK settings from the database..
+        /// </summary>
+        internal static string SlkSettingsSqlErrorLoad {
+            get {
+                return ResourceManager.GetString("SlkSettingsSqlErrorLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The site {0} does not exist or is not a valid SharePoint site..
         /// </summary>
         internal static string SlkSiteNotFound {

@@ -178,6 +178,41 @@ namespace Microsoft.SharePointLearningKit
                             });
             }
 
+            SlkSettings settings = null;
+            try
+            {
+                settings = LoadSettings(mapping, site, xmlSchema);
+            }
+            catch (SqlException)
+            {
+                // Try again in case temporary error
+                try
+                {
+                    settings = LoadSettings(mapping, site, xmlSchema);
+                }
+                catch (SqlException e)
+                {
+                    SlkCulture culture = new SlkCulture(CultureInfo.InvariantCulture);
+                    SlkStore.LogError(culture.Resources.SlkSettingsSqlErrorLoad + " {0}", culture, e);
+                    throw new SafeToDisplayException(culture.Resources.SlkSettingsSqlErrorLoad);
+                }
+            }
+            
+            // create and (if possible) cache the new AnonymousSlkStore object
+            anonymousSlkStore = new AnonymousSlkStore(siteId, mapping, settings);
+            DateTime cacheExpirationTime = DateTime.Now.AddSeconds(HttpContextCacheTime);
+            if (httpContext != null)
+            {
+                    httpContext.Cache.Add(cacheItemName, anonymousSlkStore, null, cacheExpirationTime,
+                            System.Web.Caching.Cache.NoSlidingExpiration,
+                            System.Web.Caching.CacheItemPriority.Normal, null);
+            }
+
+            return anonymousSlkStore;
+        }
+
+        private static SlkSettings LoadSettings(SlkSPSiteMapping mapping, SPSite site, XmlSchema xmlSchema)
+        {
             // create a LearningStore. Read is in privileged scope so irrelevant what key is.
             // Cannot use current user as may be be called in a page PreInit event when it's not necessarily valid
             string learningStoreKey = "SHAREPOINT\\System";
@@ -212,18 +247,8 @@ namespace Microsoft.SharePointLearningKit
                         }
                 }
             }
-            
-            // create and (if possible) cache the new AnonymousSlkStore object
-            anonymousSlkStore = new AnonymousSlkStore(siteId, mapping, settings);
-            DateTime cacheExpirationTime = DateTime.Now.AddSeconds(HttpContextCacheTime);
-            if (httpContext != null)
-            {
-                    httpContext.Cache.Add(cacheItemName, anonymousSlkStore, null, cacheExpirationTime,
-                            System.Web.Caching.Cache.NoSlidingExpiration,
-                            System.Web.Caching.CacheItemPriority.Normal, null);
-            }
 
-            return anonymousSlkStore;
+            return settings;
         }
     }
 }
