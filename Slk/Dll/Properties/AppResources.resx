@@ -205,6 +205,9 @@
     <value>Appears as a potential learner when new assignments are created using SharePoint Learning Kit.</value>
     <comment>When the "SLK Learner" permission is created, this is its description.</comment>
   </data>
+  <data name="SlkSettingsSqlErrorLoad" xml:space="preserve">
+    <value>Failed to load SLK settings from the database.</value>
+  </data>
   <data name="SlkSettingsFileError" xml:space="preserve">
     <value>Problem found in SLK Settings file: {0}</value>
     <comment>{0} = exception message</comment>
