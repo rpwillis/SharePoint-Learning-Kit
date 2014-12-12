@@ -319,8 +319,10 @@
   </Target>
   -->
   <Target Name="AfterBuild">
+      <!--
     <Copy SourceFiles="bin\$(SharePointVersion)\$(Configuration)\Microsoft.SharePointLearningKit.dll" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
     <Copy SourceFiles="bin\$(SharePointVersion)\$(Configuration)\Microsoft.SharePointLearningKit.pdb" DestinationFolder="\\wingtipserver\transfer\slk" SkipUnchangedFiles="true"/>
+    -->
   </Target>
   <PropertyGroup>
     <PostBuildEvent>
