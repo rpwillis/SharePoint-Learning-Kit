@@ -333,6 +333,7 @@ namespace Microsoft.SharePointLearningKit
             Dispose();
             this.site = new SPSite(url);
             this.web = site.OpenWeb();
+            web.AllowUnsafeUpdates = true;
         }
 
 
