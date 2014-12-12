@@ -55,48 +55,52 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 string querySetName = Request[QueryStringKeys.QuerySet];
 
-                // create a job for executing the queries specified by <querySetDef>
-                LearningStoreJob job = SlkStore.LearningStore.CreateJob();
-
-                // set <querySetDef> to the QuerySetDefinition named <querySetName>
-                QuerySetDefinition querySetDef = SlkStore.Settings.FindQuerySetDefinition(querySetName, true);
-
-                if (querySetDef == null)
+                // Only return anything if a query is passed.
+                if (string.IsNullOrEmpty(querySetName) == false)
                 {
-                    throw new SafeToDisplayException (PageCulture.Resources.AlwpQuerySetNotFound, querySetName);
-                }
+                    // create a job for executing the queries specified by <querySetDef>
+                    LearningStoreJob job = SlkStore.LearningStore.CreateJob();
 
-                // create queries corresponding to <querySetDef> and add them to <job>;
-                // set <numberOfQueries> to the number of queries in the query set
-                int numberOfQueries = 0;
-                foreach (QueryDefinition queryDef in querySetDef.Queries)
-                {
-                    PerformQuery(queryDef, job);
-                    numberOfQueries++;
-                }
+                    // set <querySetDef> to the QuerySetDefinition named <querySetName>
+                    QuerySetDefinition querySetDef = SlkStore.Settings.FindQuerySetDefinition(querySetName, true);
 
-                // execute the job
-                ReadOnlyCollection<object> results = null;
-                try
-                {
-                    // execute the job
-                    results = job.Execute();
-                }
-                catch (SqlException sqlEx)
-                {
-                    //check whether deadlock occured and throw the exception back 
-                    if (sqlEx.Number == 1205)
+                    if (querySetDef == null)
                     {
-                        throw;
+                        throw new SafeToDisplayException (PageCulture.Resources.AlwpQuerySetNotFound, querySetName);
                     }
 
-                    // don't need SlkStore.LogException(ex) because we'll write to the event log again
-                    // in RenderQueryCounts
-                    results = null;
-                }
-                finally
-                {
-                    RenderQueryCounts(querySetDef, numberOfQueries, results);
+                    // create queries corresponding to <querySetDef> and add them to <job>;
+                    // set <numberOfQueries> to the number of queries in the query set
+                    int numberOfQueries = 0;
+                    foreach (QueryDefinition queryDef in querySetDef.Queries)
+                    {
+                        PerformQuery(queryDef, job);
+                        numberOfQueries++;
+                    }
+
+                    // execute the job
+                    ReadOnlyCollection<object> results = null;
+                    try
+                    {
+                        // execute the job
+                        results = job.Execute();
+                    }
+                    catch (SqlException sqlEx)
+                    {
+                        //check whether deadlock occured and throw the exception back 
+                        if (sqlEx.Number == 1205)
+                        {
+                            throw;
+                        }
+
+                        // don't need SlkStore.LogException(ex) because we'll write to the event log again
+                        // in RenderQueryCounts
+                        results = null;
+                    }
+                    finally
+                    {
+                        RenderQueryCounts(querySetDef, numberOfQueries, results);
+                    }
                 }
             }
             catch (Exception ex)
