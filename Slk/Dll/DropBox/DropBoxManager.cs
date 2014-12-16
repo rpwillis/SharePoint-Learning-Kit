@@ -93,7 +93,7 @@ namespace Microsoft.SharePointLearningKit
                         SPFile file = sourceWeb.GetFile(fileLocation.FileId);
                         if (file.Exists == false)
                         {
-                            string message = string.Format(CultureInfo.CurrentUICulture, culture.Resources.AssignmentFileDoesNotExist, file.Name, assignmentProperties.Title);
+                            string message = string.Format(CultureInfo.CurrentUICulture, culture.Resources.AssignmentFileDoesNotExist, fileLocation.FileId, assignmentProperties.Title);
                             store.LogError(message);
                             throw new SafeToDisplayException(message);
                         }
