@@ -2532,9 +2532,23 @@ namespace Microsoft.SharePointLearningKit
                 {
                     using (SPSite site = new SPSite(properties.SPSiteGuid))
                     {
-                        using (SPWeb web = site.OpenWeb(properties.SPWebGuid))
+                        SPWeb web = null;
+                        try
                         {
-                            learnerProperties.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey);
+                            web = site.OpenWeb(properties.SPWebGuid);
+                        }
+                        catch (SPException)
+                        {
+                            // Web no longer exists. Use the root web to get the user
+                            web = site.RootWeb;
+                        }
+
+                        if (web != null)
+                        {
+                            using (web)
+                            {
+                                learnerProperties.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey);
+                            }
                         }
                     }
                 });

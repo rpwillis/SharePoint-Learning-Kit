@@ -817,6 +817,9 @@ saving, click Cancel.</value>
   <data name="SPWebDoesNotMatchSlkSPSite" xml:space="preserve">
     <value>The SPWeb does not match the site specified in the constructor of the SlkStore.</value>
   </data>
+  <data name="AssignmentWebNotFound" xml:space="preserve">
+    <value>Could not find the web site for the assignment</value>
+  </data>
   <data name="AssignmentNotFoundInDatabase" xml:space="preserve">
     <value>The assignment (ID {0}) does not exist or you may not have permission to access it.</value>
     <comment>{0} = AssignmentItemIdentifier</comment>
