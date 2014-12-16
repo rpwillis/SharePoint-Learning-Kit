@@ -902,6 +902,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not find the web site for the assignment.
+        /// </summary>
+        internal static string AssignmentWebNotFound {
+            get {
+                return ResourceManager.GetString("AssignmentWebNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         internal static string Back {
