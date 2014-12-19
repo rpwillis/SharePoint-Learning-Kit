@@ -100,32 +100,23 @@ namespace Microsoft.SharePointLearningKit
 
                         if (MustCopyFileToDropBox(file.Name))
                         {
-                            using (SPSite destinationSite = new SPSite(assignmentProperties.SPSiteGuid))
+                            try
                             {
-                                destinationSite.CatchAccessDeniedException = false;
-                                using (SPWeb destinationWeb = destinationSite.OpenWeb(assignmentProperties.SPWebGuid))
+                                assignmentFile = SaveFile(file);
+                            }
+                            catch (SPException)
+                            {
+                                // Retry in case a temporary error
+                                try
                                 {
-                                    using (new AllowUnsafeUpdates(destinationWeb))
-                                    {
-                                        SPUser learner = CurrentUser;
-                                        DropBox dropBox = new DropBox(store, destinationWeb);
-                                        AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
-                                        AssignmentFolder learnerSubFolder = null;
-
-                                        if (assignmentFolder == null)
-                                        {
-                                            assignmentFolder = dropBox.CreateAssignmentFolder(assignmentProperties);
-                                        }
-
-                                        // ApplyAssignmentPermission creates the learner folder if required
-                                        ApplyAssignmentPermission(learner, SPRoleType.Contributor, SPRoleType.Reader, true);
-                                        learnerSubFolder = assignmentFolder.FindLearnerFolder(learner);
-
-                                        using (Stream stream = file.OpenBinaryStream())
-                                        {
-                                            assignmentFile = learnerSubFolder.SaveFile(file.Name, stream, new SlkUser(learner));
-                                        }
-                                    }
+                                    assignmentFile = SaveFile(file);
+                                }
+                                catch (SPException e)
+                                {
+                                    string message = string.Format(CultureInfo.CurrentUICulture, culture.Resources.DropBoxFailedToCopyFile, file.Name, assignmentProperties.Title, e.Message);
+                                    store.LogError(message);
+                                    string safeMessage = string.Format(CultureInfo.CurrentUICulture, culture.Resources.DropBoxFailedToCopyFile, file.Name, assignmentProperties.Title, string.Empty);
+                                    throw new SafeToDisplayException(safeMessage);
                                 }
                             }
                         }
@@ -516,6 +507,45 @@ namespace Microsoft.SharePointLearningKit
 #endregion public methods
 
 #region private methods
+        private AssignmentFile SaveFile(SPFile file)
+        {
+            AssignmentFile assignmentFile = null;
+            using (SPSite destinationSite = new SPSite(assignmentProperties.SPSiteGuid))
+            {
+                destinationSite.CatchAccessDeniedException = false;
+                using (SPWeb destinationWeb = destinationSite.OpenWeb(assignmentProperties.SPWebGuid))
+                {
+                    using (new AllowUnsafeUpdates(destinationWeb))
+                    {
+                        // Temporarily turn off property promotion. Possible cause for exceptions saving docs. I don't actually know 
+                        // if settings this will disable it as without an update it's not persisted and we don't want to persist the
+                        // setting, just turn it off for this addition. It may even work asynchronously.
+                        destinationWeb.ParserEnabled = false;
+                        SPUser learner = CurrentUser;
+                        DropBox dropBox = new DropBox(store, destinationWeb);
+                        AssignmentFolder assignmentFolder = dropBox.GetAssignmentFolder(assignmentProperties);
+                        AssignmentFolder learnerSubFolder = null;
+
+                        if (assignmentFolder == null)
+                        {
+                            assignmentFolder = dropBox.CreateAssignmentFolder(assignmentProperties);
+                        }
+
+                        // ApplyAssignmentPermission creates the learner folder if required
+                        ApplyAssignmentPermission(learner, SPRoleType.Contributor, SPRoleType.Reader, true);
+                        learnerSubFolder = assignmentFolder.FindLearnerFolder(learner);
+
+                        using (Stream stream = file.OpenBinaryStream())
+                        {
+                            assignmentFile = learnerSubFolder.SaveFile(file.Name, stream, new SlkUser(learner));
+                        }
+                    }
+                }
+            }
+
+            return assignmentFile;
+        }
+
         /// <summary>Sets the correct permissions when the item is submitted.</summary>
         /// <param name="web">The web the assignment is for.</param>
         void ApplySubmittedPermissions(SPWeb web)
