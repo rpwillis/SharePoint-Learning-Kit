@@ -163,9 +163,10 @@ namespace Microsoft.SharePointLearningKit
             {
                 file = folder.Files.Add(fileUrl, fileStream, true);
             }
-            catch (SPFileLockException)
+            catch (SPException)
             {
-                // Presumably File must already exist
+                // Seen cases of SPFileLockException - Locked for shared use by learner & SPException - Save Conflict. Your changes conflict with those made concurrently by another user. 
+                // In those cases it looks like File must already exist. So check for that and if so continue.
                 file = folder.ParentWeb.GetFile(fileUrl);
                 if (file.Exists == false)
                 {
