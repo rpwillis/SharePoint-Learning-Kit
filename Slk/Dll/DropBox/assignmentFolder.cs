@@ -157,15 +157,30 @@ namespace Microsoft.SharePointLearningKit
         {
             SPFolder folder = assignmentFolder.Folder;
             string fileUrl = folder.Url + '/' + fileName;
-            SPFile file = folder.Files.Add(fileUrl, fileStream, true);
 
-            file.Item[DropBox.ColumnAssignmentDate] = properties.StartDate;
-            file.Item[DropBox.ColumnAssignmentName] = properties.Title.Trim();
-            file.Item[DropBox.ColumnAssignmentId] = properties.Id.GetKey();
-            file.Item[DropBox.ColumnLearnerId] = learner.Key;
-            file.Item[DropBox.ColumnLearner] = learner.SPUser;
-            file.Item[DropBox.ColumnIsLatest] = true; 
-            file.Item.Update();
+            SPFile file = null;
+            try
+            {
+                file = folder.Files.Add(fileUrl, fileStream, true);
+            }
+            catch (SPFileLockException)
+            {
+                // Presumably File must already exist
+                file = folder.ParentWeb.GetFile(fileUrl);
+                if (file.Exists == false)
+                {
+                    // Doesn't exist. Let calling code clean up.
+                    throw;
+                }
+            }
+
+            try
+            {
+                SaveProperties(file, learner);
+            }
+            // Don't worry too much about the properties, at least the file is present
+            catch (SPException) { }
+
             return new AssignmentFile(file.Item.ID, file.Name, file.ServerRelativeUrl, (string)file.Item["PermMask"]);
         }
 
@@ -248,6 +263,17 @@ namespace Microsoft.SharePointLearningKit
 #endregion protected methods
 
 #region private methods
+        private void SaveProperties(SPFile file, SlkUser learner)
+        {
+            file.Item[DropBox.ColumnAssignmentDate] = properties.StartDate;
+            file.Item[DropBox.ColumnAssignmentName] = properties.Title.Trim();
+            file.Item[DropBox.ColumnAssignmentId] = properties.Id.GetKey();
+            file.Item[DropBox.ColumnLearnerId] = learner.Key;
+            file.Item[DropBox.ColumnLearner] = learner.SPUser;
+            file.Item[DropBox.ColumnIsLatest] = true; 
+            file.Item.Update();
+        }
+
         void DeleteAssociatedView()
         {
             SPList dropBox = assignmentFolder.ParentList;
