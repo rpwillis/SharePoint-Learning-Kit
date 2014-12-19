@@ -1954,6 +1954,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to copy file {0} for assignment {1}. {2}.
+        /// </summary>
+        internal static string DropBoxFailedToCopyFile {
+            get {
+                return ResourceManager.GetString("DropBoxFailedToCopyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to create Drop Box. {0}.
         /// </summary>
         internal static string DropBoxListCreateFailure {

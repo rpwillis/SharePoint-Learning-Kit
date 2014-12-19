@@ -1916,6 +1916,9 @@ For security reasons, integrated authentication is strongly recommended.
   <data name="ErrorSavingDropBoxPermissions" xml:space="preserve">
       <value>Failed to change Drop Box permissions to {0} for {1}.</value>
   </data>
+  <data name="DropBoxFailedToCopyFile" xml:space="preserve">
+      <value>Failed to copy file {0} for assignment {1}. {2}</value>
+  </data>
   <data name="AssignmentFileDoesNotExist" xml:space="preserve">
       <value>The file {0} for assignment {1} does not exist.</value>
   </data>

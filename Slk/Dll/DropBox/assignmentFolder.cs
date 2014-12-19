@@ -157,7 +157,6 @@ namespace Microsoft.SharePointLearningKit
         {
             SPFolder folder = assignmentFolder.Folder;
             string fileUrl = folder.Url + '/' + fileName;
-
             SPFile file = folder.Files.Add(fileUrl, fileStream, true);
 
             file.Item[DropBox.ColumnAssignmentDate] = properties.StartDate;
