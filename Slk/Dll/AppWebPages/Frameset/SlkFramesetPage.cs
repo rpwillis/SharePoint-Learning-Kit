@@ -29,6 +29,7 @@ namespace Microsoft.SharePointLearningKit.Frameset
     /// </summary>
     public class FramesetPage : SlkAppBasePage
     {
+        Uri embeddedUIPath;
         private FramesetPageHelper m_helper;
         private Guid m_learnerAssignmentGuidId;
         private LearnerAssignmentProperties learnerAssignmentProperties;
@@ -86,7 +87,12 @@ namespace Microsoft.SharePointLearningKit.Frameset
         {
             get
             {
-                return new Uri(Request.Url, Constants.SlkUrlPath + "Frameset/");
+                if (embeddedUIPath == null)
+                {
+                    embeddedUIPath = new Uri(Request.Url, Constants.SlkUrlPath + "Frameset/");
+                }
+
+                return embeddedUIPath;
             }
         }
 
