@@ -628,11 +628,14 @@ namespace Microsoft.SharePointLearningKit.Frameset
             }
 #if SP2013
             // For .css files strip off the final / which we have put in to get round SP2013 stopping them
-            if (contentPath.Length > 4)
+            if (contentPath != null)
             {
-                if (contentPath.Substring(contentPath.Length - 5).ToUpperInvariant() == ".CSS/")
+                if (contentPath.Length > 4)
                 {
-                    contentPath = contentPath.Substring(0, contentPath.Length - 1);
+                    if (contentPath.Substring(contentPath.Length - 5).ToUpperInvariant() == ".CSS/")
+                    {
+                        contentPath = contentPath.Substring(0, contentPath.Length - 1);
+                    }
                 }
             }
 #endif
@@ -670,7 +673,10 @@ namespace Microsoft.SharePointLearningKit.Frameset
         /// Note that this includes the case where the 'submit' page is displayed.</summary>
         public void WriteFrameMgrInit()
         {
-            m_contentHelper.WriteFrameMgrInit();
+            if (m_contentHelper != null)
+            {
+                m_contentHelper.WriteFrameMgrInit();
+            }
         }
 
         /// <summary>The error icon.</summary>

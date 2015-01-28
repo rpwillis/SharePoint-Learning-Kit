@@ -33,7 +33,30 @@ namespace Microsoft.SharePointLearningKit
         /// <returns>The value of the macro, or <c>null</c> if the macro is not defined.</returns>
         public object Resolve(string macroName)
         {
-            switch (macroName)
+            string name = macroName;
+            int modifier = 0;
+
+            int index = name.IndexOf(":");
+            if (index > 0)
+            {
+                name = name.Substring(0, index);
+                if (name.Length > index + 1)
+                {
+                    try
+                    {
+                        modifier = int.Parse(name.Substring(index + 1), CultureInfo.InvariantCulture);
+                    }
+                    catch (FormatException)
+                    {
+                        SlkCulture culture = new SlkCulture();
+                        throw new SafeToDisplayException(culture.Format(culture.Resources.InvalidModifierForMacro, macroName));
+                    }
+                }
+            }
+
+            DateTime value;
+
+            switch (name)
             {
                 case "SPWebScope":
                     // return the GUID of the SPWeb that query results will be limited to (i.e.
@@ -45,34 +68,49 @@ namespace Microsoft.SharePointLearningKit
                     return store.CurrentUserKey;
 
                 case "Now":
-                    return DateTime.Now.ToUniversalTime();
+                    value = DateTime.Now.ToUniversalTime();
+                    break;
 
                 case "StartOfToday":
                     // return midnight of today
-                    return DateTime.Today.ToUniversalTime();
+                    value = DateTime.Today.ToUniversalTime();
+                    break;
 
                 case "StartOfTomorrow":
                     // return midnight of tomorrow
-                    return DateTime.Today.AddDays(1).ToUniversalTime();
+                    value = DateTime.Today.AddDays(1).ToUniversalTime();
+                    break;
 
                 case "StartOfThisWeek":
                     // return midnight of the preceding Sunday** (or "Today" if "Today" is Sunday**)
                     // ** Actually, it's only Sunday for regional setting for which Sunday is the first
                     // day of the week.  For example, using Icelandic regional settings, the first day of
                     // the week is Monday, and that's what's used below.
-                    return StartOfWeek(DateTime.Today).ToUniversalTime();
+                    value = StartOfWeek(DateTime.Today).ToUniversalTime();
+                    break;
 
                 case "StartOfNextWeek":
                     // return midnight of the following Sunday**
-                    return StartOfWeek(DateTime.Today).AddDays(7).ToUniversalTime();
+                    value = StartOfWeek(DateTime.Today).AddDays(7).ToUniversalTime();
+                    break;
 
                 case "StartOfWeekAfterNext":
                     // return midnight of the Sunday** after the following Sunday**
-                    return StartOfWeek(DateTime.Today).AddDays(14).ToUniversalTime();
+                    value = StartOfWeek(DateTime.Today).AddDays(14).ToUniversalTime();
+                    break;
 
                 default:
                     return null;
 
+            }
+
+            if (modifier == 0)
+            {
+                return value;
+            }
+            else
+            {
+                return value.AddDays(modifier);
             }
         }
 

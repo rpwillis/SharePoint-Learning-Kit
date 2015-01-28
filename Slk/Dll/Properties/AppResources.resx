@@ -1931,4 +1931,7 @@ For security reasons, integrated authentication is strongly recommended.
   <data name="DropBoxFailCreateField" xml:space="preserve">
       <value>Failed to create field {0} for drop box. {1}</value>
   </data>
+  <data name="InvalidModifierForMacro" xml:space="preserve">
+      <value>Invalid modifier for macro {0}.</value>
+  </data>
 </root>

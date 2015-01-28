@@ -11,7 +11,8 @@ namespace SharePointLearningKit.Localization
     {
         Extract = 0,
         Generate,
-        Replace
+        Culture,
+        Update
     }
 
     class Program
@@ -20,7 +21,7 @@ namespace SharePointLearningKit.Localization
         private Task task;
         private string source;
         private string target;
-        private string culture;
+        private string additionalArgument;
 
         static int Main(string[] args)
         {
@@ -50,9 +51,7 @@ namespace SharePointLearningKit.Localization
 
             if (!ParseArgs(args))
             {
-                Console.WriteLine();
-                Console.WriteLine(entryAssembly.GetName().Name+@" <Extract|Generate|Replace> <source file> [<target file>]");
-                Console.WriteLine();
+                PrintHelp(entryAssembly);
                 return 1;
             }
             else
@@ -80,8 +79,13 @@ namespace SharePointLearningKit.Localization
                         resourceGenerator.Save();
                         return Success();
 
-                    case Task.Replace:
-                        Replacer replace = new Replacer(culture);
+                    case Task.Update:
+                        Updater update = new Updater(additionalArgument);
+                        update.Merge(source, target);
+                        return 0;
+
+                    case Task.Culture:
+                        Replacer replace = new Replacer(additionalArgument);
                         replace.Load(source);
                         replace.Save(target);
                         return 0;
@@ -148,8 +152,22 @@ namespace SharePointLearningKit.Localization
                         }
                         break;
 
+                    case "u":
+                        task = Task.Update;
+                        if (args.Length != 4)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            target = args[3];
+                            additionalArgument = args[2];
+                        }
+                        break;
+
                     case "r":
-                        task = Task.Replace;
+                    case "c":
+                        task = Task.Culture;
                         if (args.Length != 4)
                         {
                             return false;
@@ -157,7 +175,7 @@ namespace SharePointLearningKit.Localization
                         else
                         {
                             target = args[2];
-                            culture = args[3];
+                            additionalArgument = args[3];
                         }
                         break;
 
@@ -171,6 +189,16 @@ namespace SharePointLearningKit.Localization
             }
         }
 
+        private static void PrintHelp(Assembly entryAssembly)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Can be used to extract resource files, replace the culture, update existing translated files and generate the resource dlls.");
+            Console.WriteLine("{0}.exe {1}", entryAssembly.GetName().Name, @" Extract <source dll or folder> <output directory>");
+            Console.WriteLine("{0}.exe {1}", entryAssembly.GetName().Name, @" Generate <source xml>");
+            Console.WriteLine("{0}.exe {1}", entryAssembly.GetName().Name, @" Update <source xml> <new extracted xml> <output file>");
+            Console.WriteLine("{0}.exe {1}", entryAssembly.GetName().Name, @" Culture <source file> <target file> <culture>");
+            Console.WriteLine();
+        }
 
     }
 }

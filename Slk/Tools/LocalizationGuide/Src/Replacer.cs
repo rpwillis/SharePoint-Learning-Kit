@@ -25,7 +25,7 @@ namespace SharePointLearningKit.Localization
 
         public void Save(string destination)
         {
-            string output = input.Replace("Culture", culture);
+            string output = input.Replace("culture=\"\"", "culture=\"" + culture + "\"");
             File.WriteAllText(destination, output);
         }
 

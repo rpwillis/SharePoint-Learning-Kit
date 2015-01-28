@@ -2882,6 +2882,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid modifier for macro {0}..
+        /// </summary>
+        internal static string InvalidModifierForMacro {
+            get {
+                return ResourceManager.GetString("InvalidModifierForMacro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must set the location of an assignment before creating one..
         /// </summary>
         internal static string InvalidNewAssignment {
