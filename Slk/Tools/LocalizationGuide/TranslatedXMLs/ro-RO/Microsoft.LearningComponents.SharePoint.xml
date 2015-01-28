@@ -1,4 +1,4 @@
-﻿<root>
+<root>
   <assembly culture="ro" name="Microsoft.LearningComponents.SharePoint.resources" version="1.3.1.0" />
   <resources name="Microsoft.LearningComponents.SharePoint.Properties.Resources.resources" type="StringTable">
     <NewDataSet>
@@ -64,6 +64,98 @@
         <ID>SPInvalidPackage</ID>
         <Source>The package is not valid and cannot be read. More information: {0}</Source>
         <Translation>Pachetul nu este valid şi nu poate fi citit. Mai multe informaţii: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+    </NewDataSet>
+  </resources>
+  <resources name="Microsoft.LearningComponents.SharePoint.Resources.resources" type="StringTable">
+    <NewDataSet>
+      <MetaData>
+        <Name>Microsoft.LearningComponents.SharePoint.Resources.resources</Name>
+        <Type>StringTable</Type>
+      </MetaData>
+      <Resources>
+        <ID>CacheCreateDirCleanupFailed</ID>
+        <Source>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPLockTriesExceeded</ID>
+        <Source>Could not get a lock on the file within the allowed tries.</Source>
+        <Translation>Could not get a lock on the file within the allowed tries.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidCachePath</ID>
+        <Source>Invalid cache path {0}.</Source>
+        <Translation>Invalid cache path {0}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PermanentCacheNoDirectory</ID>
+        <Source>No directory specified for the permanent cache.</Source>
+        <Translation>No directory specified for the permanent cache.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPCannotWriteToLockFile</ID>
+        <Source>Could not write to lock file of cache directory.</Source>
+        <Translation>Could not write to lock file of cache directory.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFoundNoName</ID>
+        <Source>The requested file was not found.</Source>
+        <Translation>The requested file was not found.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CacheLockDirCleanupFailed</ID>
+        <Source>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
+        <Translation>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPFileVersionNotFound</ID>
+        <Source>The version {0} of file {1} does not exist.</Source>
+        <Translation>The version {0} of file {1} does not exist.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPFileNotFound</ID>
+        <Source>The file {0} was not found.</Source>
+        <Translation>The file {0} was not found.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>CacheCachePathNotAccessible</ID>
+        <Source>The package cache directory is not accessible. It may not exist or you may not have access to it.</Source>
+        <Translation>The package cache directory is not accessible. It may not exist or you may not have access to it.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>PermanentCacheInvalidDirectory</ID>
+        <Source>Invalid directory specified for the permanent cache.</Source>
+        <Translation>Invalid directory specified for the permanent cache.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPFormatInvalid</ID>
+        <Source>'{0}' does not have the correct format.</Source>
+        <Translation>'{0}' does not have the correct format.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SPInvalidPackage</ID>
+        <Source>The package is not valid and cannot be read. More information: {0}</Source>
+        <Translation>The package is not valid and cannot be read. More information: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidLibraryCache</ID>
+        <Source>Invalid library cache {0}.</Source>
+        <Translation>Invalid library cache {0}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
     </NewDataSet>

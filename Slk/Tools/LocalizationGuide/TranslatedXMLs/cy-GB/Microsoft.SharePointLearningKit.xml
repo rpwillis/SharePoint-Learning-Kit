@@ -1,4 +1,4 @@
-﻿<root>
+<root>
   <assembly culture="cy-GB" name="Microsoft.SharePointLearningKit.resources" version="1.3.1.0" />
   <resources name="Resources.FramesetResources.resources" type="StringTable">
     <NewDataSet>
@@ -2041,7 +2041,7 @@ More information may be available in the server event log.</Source>
         <ID>BtnCancelText</ID>
         <Source>Cancel</Source>
         <Translation>Canslo</Translation>
-        <Crucial>True</Crucial>
+        <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>CtrlLabelInstructorDesc</ID>
@@ -2155,7 +2155,7 @@ More information may be available in the server event log.</Source>
         <ID>LobbyLearnerComments</ID>
         <Source>My Comments</Source>
         <Translation>Fy Sylwadau</Translation>
-        <Crucial>True</Crucial>
+        <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InternalError</ID>
@@ -3469,7 +3469,7 @@ More information has been written to the server event log.</Source>
         <ID>IncludeTitle</ID>
         <Source>Include</Source>
         <Translation>Cynnwys</Translation>
-        <Crucial>True</Crucial>
+        <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>CommentedFilesExtractFileException</ID>
@@ -3559,6 +3559,70 @@ More information has been written to the server event log.</Source>
         <ID>WebPartCategory</ID>
         <Source>SharePoint Learning Kit</Source>
         <Translation>Pecyn Dysgu SharePoint</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ErrorSavingDropBoxPermissions</ID>
+        <Source>Failed to change Drop Box permissions to {0} for {1}.</Source>
+        <Translation>Failed to change Drop Box permissions to {0} for {1}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DomainGroupAdfs</ID>
+        <Source>Cannot use Active Directory groups for assignments when using ADFS.</Source>
+        <Translation>Cannot use Active Directory groups for assignments when using ADFS.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DropBoxFailedToCopyFile</ID>
+        <Source>Failed to copy file {0} for assignment {1}. {2}</Source>
+        <Translation>Failed to copy file {0} for assignment {1}. {2}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SlkSettingsSqlErrorLoad</ID>
+        <Source>Failed to load SLK settings from the database.</Source>
+        <Translation>Failed to load SLK settings from the database.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnToolTipIfEmpty</ID>
+        <Source>{0} ({1})</Source>
+        <Translation>{0} ({1})</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>AssignmentFileDoesNotExist</ID>
+        <Source>The file {0} for assignment {1} does not exist.</Source>
+        <Translation>The file {0} for assignment {1} does not exist.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SeriousErrorDownloadSettings</ID>
+        <Source>A serious error occurred.  Please contact your system administrator.
+      
+{0}</Source>
+        <Translation>A serious error occurred.  Please contact your system administrator.
+      
+{0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>AssignmentWebNotFound</ID>
+        <Source>Could not find the web site for the assignment</Source>
+        <Translation>Could not find the web site for the assignment</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DropBoxFailCreateField</ID>
+        <Source>Failed to create field {0} for drop box. {1}</Source>
+        <Translation>Failed to create field {0} for drop box. {1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidModifierForMacro</ID>
+        <Source>Invalid modifier for macro {0}.</Source>
+        <Translation>Invalid modifier for macro {0}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
     </NewDataSet>

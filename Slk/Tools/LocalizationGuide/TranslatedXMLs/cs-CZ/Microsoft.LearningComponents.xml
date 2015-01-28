@@ -1,4 +1,4 @@
-﻿<root>
+<root>
   <assembly culture="cs-CZ" name="Microsoft.LearningComponents.resources" version="1.3.1.0" />
   <resources name="Microsoft.LearningComponents.Properties.AIResources.resources" type="StringTable">
     <NewDataSet>
