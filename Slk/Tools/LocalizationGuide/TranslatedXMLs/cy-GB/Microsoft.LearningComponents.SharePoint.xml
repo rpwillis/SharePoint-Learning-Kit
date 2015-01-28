@@ -1,4 +1,4 @@
-﻿<root>
+<root>
   <assembly culture="cy-GB" name="Microsoft.LearningComponents.SharePoint.resources" version="1.3.1.0" />
   <resources name="Microsoft.LearningComponents.SharePoint.Resources.resources" type="StringTable">
     <NewDataSet>
@@ -82,6 +82,12 @@
         <ID>InvalidLibraryCache</ID>
         <Source>Invalid library cache {0}.</Source>
         <Translation>Invalid library cache {0}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidCachePath</ID>
+        <Source>Invalid cache path {0}.</Source>
+        <Translation>Invalid cache path {0}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
     </NewDataSet>

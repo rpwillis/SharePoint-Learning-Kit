@@ -1,4 +1,4 @@
-﻿<root>
+<root>
   <assembly culture="lv" name="Microsoft.SharePointLearningKit.resources" version="1.3.1.0" />
   <resources name="Resources.FramesetResources.resources" type="StringTable">
     <NewDataSet>
@@ -4686,6 +4686,286 @@ More information has been written to the server event log.</Translation>
         <ID>WebPartCategory</ID>
         <Source>SharePoint Learning Kit</Source>
         <Translation>SharePoint Learning Kit</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryTitleReturned</ID>
+        <Source>Returned</Source>
+        <Translation>Returned</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnTitleStatus</ID>
+        <Source>Status</Source>
+        <Translation>Status</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryTitleDueThisWeek</ID>
+        <Source>Due This Week</Source>
+        <Translation>Due This Week</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnTitleScore</ID>
+        <Source>Score</Source>
+        <Translation>Score</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnTitleGrade</ID>
+        <Source>Grade</Source>
+        <Translation>Grade</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryTitleActive</ID>
+        <Source>Active</Source>
+        <Translation>Active</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>ErrorSavingDropBoxPermissions</ID>
+        <Source>Failed to change Drop Box permissions to {0} for {1}.</Source>
+        <Translation>Failed to change Drop Box permissions to {0} for {1}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>GradingLearnerComments</ID>
+        <Source>Learner Comments:</Source>
+        <Translation>Learner Comments:</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnToolTipScore</ID>
+        <Source>Score: {0}</Source>
+        <Translation>Score: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryTitleDueToday</ID>
+        <Source>Due Today</Source>
+        <Translation>Due Today</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryTitleReadyToGrade</ID>
+        <Source>Ready To Grade</Source>
+        <Translation>Ready To Grade</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QuerySetTitleLearner</ID>
+        <Source>Learner Query Set</Source>
+        <Translation>Learner Query Set</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnTitleSubmitted</ID>
+        <Source>Submitted</Source>
+        <Translation>Submitted</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>FailUnlockFile</ID>
+        <Source>Failed to unlock file {0}.</Source>
+        <Translation>Failed to unlock file {0}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QuerySetTitleObserver</ID>
+        <Source>Observer Query Set</Source>
+        <Translation>Observer Query Set</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidModifierForMacro</ID>
+        <Source>Invalid modifier for macro {0}.</Source>
+        <Translation>Invalid modifier for macro {0}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DomainGroupAdfs</ID>
+        <Source>Cannot use Active Directory groups for assignments when using ADFS.</Source>
+        <Translation>Cannot use Active Directory groups for assignments when using ADFS.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DropBoxFailedToCopyFile</ID>
+        <Source>Failed to copy file {0} for assignment {1}. {2}</Source>
+        <Translation>Failed to copy file {0} for assignment {1}. {2}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SlkSettingsSqlErrorLoad</ID>
+        <Source>Failed to load SLK settings from the database.</Source>
+        <Translation>Failed to load SLK settings from the database.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>BtnCancelText</ID>
+        <Source>Cancel</Source>
+        <Translation>Cancel</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryTitleOverdue</ID>
+        <Source>Overdue</Source>
+        <Translation>Overdue</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnNullDisplayUntitled</ID>
+        <Source>Untitled</Source>
+        <Translation>Untitled</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnTitleAssignment</ID>
+        <Source>Assignment</Source>
+        <Translation>Assignment</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>InvalidSelfAssignment</ID>
+        <Source>Invalid self assignment.</Source>
+        <Translation>Invalid self assignment.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnToolTipIfEmpty</ID>
+        <Source>{0} ({1})</Source>
+        <Translation>{0} ({1})</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnTitleAverage</ID>
+        <Source>Average</Source>
+        <Translation>Average</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryTitleDueNextWeek</ID>
+        <Source>Due Next Week</Source>
+        <Translation>Due Next Week</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>AssignmentFileDoesNotExist</ID>
+        <Source>The file {0} for assignment {1} does not exist.</Source>
+        <Translation>The file {0} for assignment {1} does not exist.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnToolTipDue</ID>
+        <Source>Due: {0:D}, {0:t}</Source>
+        <Translation>Due: {0:D}, {0:t}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QuerySetTitleInstructor</ID>
+        <Source>Instructor Query Set</Source>
+        <Translation>Instructor Query Set</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryTitleToDo</ID>
+        <Source>To Do</Source>
+        <Translation>To Do</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>SeriousErrorDownloadSettings</ID>
+        <Source>A serious error occurred.  Please contact your system administrator.
+      
+{0}</Source>
+        <Translation>A serious error occurred.  Please contact your system administrator.
+      
+{0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>AssignmentWebNotFound</ID>
+        <Source>Could not find the web site for the assignment</Source>
+        <Translation>Could not find the web site for the assignment</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnNullDisplayDash</ID>
+        <Source>--</Source>
+        <Translation>--</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DropBoxListCreateFailure</ID>
+        <Source>Failed to create Drop Box. {0}</Source>
+        <Translation>Failed to create Drop Box. {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>IncludeTitle</ID>
+        <Source>Include</Source>
+        <Translation>Include</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>GradingFileSubmissionSubmittedNoFiles</ID>
+        <Source>Submitted with no files</Source>
+        <Translation>Submitted with no files</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnTitleFileSubmission</ID>
+        <Source>File Submission</Source>
+        <Translation>File Submission</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnTitleSite</ID>
+        <Source>Site</Source>
+        <Translation>Site</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>LobbyLearnerComments</ID>
+        <Source>My Comments</Source>
+        <Translation>My Comments</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>DropBoxFailCreateField</ID>
+        <Source>Failed to create field {0} for drop box. {1}</Source>
+        <Translation>Failed to create field {0} for drop box. {1}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnTitleDue</ID>
+        <Source>Due</Source>
+        <Translation>Due</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryTitleAllAssignments</ID>
+        <Source>All Assignments</Source>
+        <Translation>All Assignments</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryResultsSortBy</ID>
+        <Source>Sort by {0}.</Source>
+        <Translation>Sort by {0}.</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>QueryColumnToolTipAverage</ID>
+        <Source>Average: {0}</Source>
+        <Translation>Average: {0}</Translation>
+        <Crucial>False</Crucial>
+      </Resources>
+      <Resources>
+        <ID>Back</ID>
+        <Source>Back</Source>
+        <Translation>Back</Translation>
         <Crucial>False</Crucial>
       </Resources>
     </NewDataSet>
