@@ -433,6 +433,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid SPWebScope value {0}..
+        /// </summary>
+        internal string AlwpInvalidWebScope {
+            get {
+                return ResourceManager.GetString("AlwpInvalidWebScope", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Display only assignments for this site instead of all assignments in the database..
         /// </summary>
         internal string AlwpListScopeDescription {
