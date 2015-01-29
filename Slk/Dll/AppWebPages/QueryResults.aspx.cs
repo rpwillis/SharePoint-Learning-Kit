@@ -286,6 +286,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
                 catch (FormatException)
                 {
+                    // Invalid Sort Value
                     sortColumnIndex = -1;
                     return true;
                 }
