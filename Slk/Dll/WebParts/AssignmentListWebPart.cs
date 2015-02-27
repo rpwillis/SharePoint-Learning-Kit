@@ -606,15 +606,13 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
         void WriteQueryResults(HtmlTextWriter htmlTextWriter, string url)
         {
-
             htmlTextWriter.Write("<td class=\"iframe-overflow\" style=\"height:100%\">");
-            WriteFrame(htmlTextWriter, url, String.Empty, true);
+            WriteFrameEx(htmlTextWriter, url, String.Empty, true);
             htmlTextWriter.Write("</td>");
         }
 
         void WriteSummary(HtmlTextWriter htmlTextWriter, string urlQueryString)
         {
-
             htmlTextWriter.Write("<td height=\"100%\" style=\"height:100%; width :");
             htmlTextWriter.Write(SummaryWidth.ToString(CultureInfo.InvariantCulture));
             htmlTextWriter.Write("\">");
@@ -627,6 +625,37 @@ namespace Microsoft.SharePointLearningKit.WebParts
             WriteFrame(htmlTextWriter, urlString.ToString(), "_AlwpQuerySummary", false);
 
             htmlTextWriter.Write("</td>");
+        }
+
+        void WriteFrameEx(HtmlTextWriter htmlTextWriter, string url, string nameQualifier, bool fullWidth)
+        {
+            bool isIpad = HttpContext.Current.Request.UserAgent.ToUpperInvariant().Contains("IPAD");
+            htmlTextWriter.Write("<iframe ");
+            if (fullWidth)
+            {
+                if (isIpad == false)
+                {
+                    htmlTextWriter.Write("width=\"100%\" ");
+                }
+            }
+            else
+            {
+                htmlTextWriter.Write(" style=\"width :");
+                htmlTextWriter.Write(SummaryWidth.ToString(CultureInfo.InvariantCulture));
+                htmlTextWriter.Write("\" ");
+            }
+
+            if (isIpad == false)
+            {
+                htmlTextWriter.Write(" height=\"100%\" ");
+            }
+
+            htmlTextWriter.Write(" frameborder=\"0\" src=\"");
+            htmlTextWriter.Write(url);
+            htmlTextWriter.Write("\" name=\"");
+            htmlTextWriter.Write(frameId);
+            htmlTextWriter.Write(nameQualifier);
+            htmlTextWriter.Write("\"></iframe>");
         }
 
         void WriteFrame(HtmlTextWriter htmlTextWriter, string url, string nameQualifier, bool fullWidth)
