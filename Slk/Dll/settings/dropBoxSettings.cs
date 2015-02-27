@@ -44,6 +44,7 @@ namespace Microsoft.SharePointLearningKit
             Url = reader.GetAttribute("Url");
 
             UseOfficeWebApps = SlkSettings.BooleanAttribute(reader, "UseOfficeWebApps");
+            OpenOfficeInIpadApp = SlkSettings.BooleanAttribute(reader, "OpenOfficeInIpadApp");
             OpenSubmittedInSameWindow = SlkSettings.BooleanAttribute(reader, "OpenSubmittedInSameWindow");
         }
 #endregion constructors
@@ -57,6 +58,9 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Whether to use Office Web Apps for editing or not.</summary>
         public bool UseOfficeWebApps { get; private set; }
+
+        /// <summary>Whether to open office documents in iPad apps if using an iPad.</summary>
+        public bool OpenOfficeInIpadApp { get; private set; }
 
         /// <summary>Whether to open submitted files in same window.</summary>
         public bool OpenSubmittedInSameWindow { get; private set; }

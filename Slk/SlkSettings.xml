@@ -30,7 +30,7 @@
       </CancelAssignment>
   </EmailSettings>
 
-  <DropBoxSettings UseOfficeWebApps="false" OpenSubmittedInSameWindow="false" />
+  <DropBoxSettings UseOfficeWebApps="false" OpenOfficeInIpadApp="false" OpenSubmittedInSameWindow="false"/>
 
   <QuickAssignmentSettings DefaultLibrary="" />
 
