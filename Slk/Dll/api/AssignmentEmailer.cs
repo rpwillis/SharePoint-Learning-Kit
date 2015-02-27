@@ -12,6 +12,7 @@ namespace Microsoft.SharePointLearningKit
         SlkCulture culture;
         List<Email> cachedEmails = new List<Email>();
         AssignmentProperties assignment;
+        LearnerAssignmentProperties learnerAssignment;
         IEmailSender emailSender;
         SPSite site;
         SPWeb web;
@@ -95,8 +96,10 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Sends an email when an assignment is returned.</summary>
         /// <param name="learner">The learner being returned.</param>
-        public void SendReturnEmail(SlkUser learner)
+        /// <param name="learnerAssignment">The learner assignment properties.</param>
+        public void SendReturnEmail(SlkUser learner, LearnerAssignmentProperties learnerAssignment)
         {
+            this.learnerAssignment = learnerAssignment;
             SendEmail(learner, ReturnSubjectText(), ReturnBodyText());
         }
 
@@ -386,6 +389,14 @@ namespace Microsoft.SharePointLearningKit
             if (string.IsNullOrEmpty(name) == false)
             {
                 toReturn = toReturn.Replace("%name%", name);
+            }
+
+            if (learnerAssignment != null)
+            {
+                toReturn = toReturn.Replace("%comments%", learnerAssignment.InstructorComments);
+                toReturn = toReturn.Replace("%grade%", learnerAssignment.Grade);
+                string points = culture.Format(culture.Resources.GradingGradedScore, learnerAssignment.GradedPoints);
+                toReturn = toReturn.Replace("%points%", points);
             }
 
             return toReturn;

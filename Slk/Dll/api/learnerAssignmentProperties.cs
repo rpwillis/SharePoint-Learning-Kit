@@ -277,7 +277,7 @@ namespace Microsoft.SharePointLearningKit
 
             if (Assignment.EmailChanges)
             {
-                saver.SendReturnEmail(User);
+                saver.SendReturnEmail(User, this);
             }
 
             if (Assignment.IsNonELearning)
