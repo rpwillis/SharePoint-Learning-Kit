@@ -110,11 +110,12 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Sends an email when an assignment is returned.</summary>
         /// <param name="learner">The learner being returned.</param>
-        public void SendReturnEmail(SlkUser learner)
+        /// <param name="learnerAssignment">The learner assignment properties.</param>
+        public void SendReturnEmail(SlkUser learner, LearnerAssignmentProperties learnerAssignment)
         {
             if (properties.EmailChanges)
             {
-                emailSender.SendReturnEmail(learner);
+                emailSender.SendReturnEmail(learner, learnerAssignment);
             }
         }
 
