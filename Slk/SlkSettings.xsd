@@ -44,6 +44,7 @@
 					<xs:sequence />
 					<xs:attribute name="Location" type="xs:string" use="optional" />
 					<xs:attribute name="UseOfficeWebApps" type="xs:boolean" use="optional" />
+					<xs:attribute name="OpenOfficeInIpadApp" type="xs:boolean" use="optional" />
 					<xs:attribute name="OpenSubmittedInSameWindow" type="xs:boolean" use="optional" />
 					<xs:attribute name="Url" type="xs:string" use="optional" />
 				</xs:complexType>

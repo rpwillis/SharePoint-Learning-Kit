@@ -607,7 +607,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         void WriteQueryResults(HtmlTextWriter htmlTextWriter, string url)
         {
             htmlTextWriter.Write("<td class=\"iframe-overflow\" style=\"height:100%\">");
-            WriteFrameEx(htmlTextWriter, url, String.Empty, true);
+            WriteFrame(htmlTextWriter, url, String.Empty, true);
             htmlTextWriter.Write("</td>");
         }
 
@@ -627,7 +627,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             htmlTextWriter.Write("</td>");
         }
 
-        void WriteFrameEx(HtmlTextWriter htmlTextWriter, string url, string nameQualifier, bool fullWidth)
+        void WriteFrame(HtmlTextWriter htmlTextWriter, string url, string nameQualifier, bool fullWidth)
         {
             bool isIpad = HttpContext.Current.Request.UserAgent.ToUpperInvariant().Contains("IPAD");
             htmlTextWriter.Write("<iframe ");
@@ -651,27 +651,6 @@ namespace Microsoft.SharePointLearningKit.WebParts
             }
 
             htmlTextWriter.Write(" frameborder=\"0\" src=\"");
-            htmlTextWriter.Write(url);
-            htmlTextWriter.Write("\" name=\"");
-            htmlTextWriter.Write(frameId);
-            htmlTextWriter.Write(nameQualifier);
-            htmlTextWriter.Write("\"></iframe>");
-        }
-
-        void WriteFrame(HtmlTextWriter htmlTextWriter, string url, string nameQualifier, bool fullWidth)
-        {
-            htmlTextWriter.Write("<iframe ");
-            if (fullWidth)
-            {
-                htmlTextWriter.Write("width=\"100%\" ");
-            }
-            else
-            {
-                htmlTextWriter.Write(" style=\"width :");
-                htmlTextWriter.Write(SummaryWidth.ToString(CultureInfo.InvariantCulture));
-                htmlTextWriter.Write("\" ");
-            }
-            htmlTextWriter.Write(" height=\"100%\" frameborder=\"0\" src=\"");
             htmlTextWriter.Write(url);
             htmlTextWriter.Write("\" name=\"");
             htmlTextWriter.Write(frameId);

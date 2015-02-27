@@ -115,6 +115,44 @@ namespace Microsoft.SharePointLearningKit
 #endregion constructors
 
 #region public methods
+        /// <summary>Generates the office protocol uri for iPads.</summary>
+        /// <param name="web">The web being used.</param>
+        /// <param name="sourceUrl">The source page.</param>
+        /// <returns>The uri.</returns>
+        public string GenerateOfficeProtocolUrl(SPWeb web, string sourceUrl)
+        {
+            string protocol = null;
+
+            switch (Extension.ToUpperInvariant())
+            {
+                case ".DOC":
+                case ".DOCX":
+                    protocol = "ms-word";
+                    break;
+                case ".XLS":
+                case ".XLSX":
+                    protocol = "ms-excel";
+                    break;
+                case ".PPT":
+                case ".PPTX":
+                    protocol = "ms-powerpoint";
+                    break;
+                case ".ONE":
+                    protocol = "onenote";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(Extension.ToUpperInvariant());
+            }
+
+            string openMode = "ofe";
+            string formatString = "{0}:{1}|u|{2}{3}|p|{2}{4}";
+
+            Uri uri = new Uri(web.Url);
+            string server = uri.GetLeftPart(UriPartial.Authority);
+
+            return string.Format(CultureInfo.InvariantCulture, formatString, protocol, openMode, server, Url, sourceUrl);
+        }
+
         /// <summary>Generate the edit url for office web apps.</summary>
         /// <param name="web">The web to open in.</param>
         /// <param name="sourceUrl">The source page.</param>
@@ -148,7 +186,9 @@ namespace Microsoft.SharePointLearningKit
                     throw new ArgumentOutOfRangeException(Extension.ToUpperInvariant());
             }
 #endif
+            // formatString = "ms-word:ofe|u|http://wingtipserver{1}";
 
+            // return string.Format(CultureInfo.InvariantCulture, formatString, web.Url, Url, HttpUtility.UrlEncode(sourceUrl));
             return string.Format(CultureInfo.InvariantCulture, formatString, web.Url, HttpUtility.UrlEncode(Url), HttpUtility.UrlEncode(sourceUrl));
         }
 

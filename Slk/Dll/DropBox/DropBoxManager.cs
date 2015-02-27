@@ -453,7 +453,12 @@ namespace Microsoft.SharePointLearningKit
                 {
                     if (file.IsOfficeFile)
                     {
-                        if (mode == DropBoxEditMode.Edit)
+                        if (settings.OpenOfficeInIpadApp && IsIpad())
+                        {
+                            details.Url = file.GenerateOfficeProtocolUrl(web, sourceUrl);
+                            details.OnClick = null;
+                        }
+                        else if (mode == DropBoxEditMode.Edit)
                         {
                             // Document must be 2010 format to be edited in office web apps
                             if (file.IsOwaCompatible)
@@ -469,6 +474,11 @@ namespace Microsoft.SharePointLearningKit
                             details.OnClick = null;
                         }
                     }
+                }
+                else if (settings.OpenOfficeInIpadApp && IsIpad())
+                {
+                    details.Url = file.GenerateOfficeProtocolUrl(web, sourceUrl);
+                    details.OnClick = null;
                 }
             }
             catch (ArgumentOutOfRangeException)
@@ -507,6 +517,11 @@ namespace Microsoft.SharePointLearningKit
 #endregion public methods
 
 #region private methods
+        private bool IsIpad()
+        {
+            return HttpContext.Current.Request.UserAgent.ToUpperInvariant().Contains("IPAD");
+        }
+
         private AssignmentFile SaveFile(SPFile file)
         {
             AssignmentFile assignmentFile = null;
@@ -814,7 +829,6 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Dumps debug messages.</summary>
         public static void Debug(string message, params object[] arguments)
         {
-            /*
                 using (System.Web.Hosting.HostingEnvironment.Impersonate())
                 {
                     using (StreamWriter writer = new StreamWriter("c:\\temp\\dropBox.log", true))
@@ -823,7 +837,6 @@ namespace Microsoft.SharePointLearningKit
                         writer.WriteLine(message, arguments);
                     }
                 }
-                */
         }
 
     }
