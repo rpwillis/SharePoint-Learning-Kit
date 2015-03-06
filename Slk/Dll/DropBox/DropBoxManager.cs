@@ -829,14 +829,22 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Dumps debug messages.</summary>
         public static void Debug(string message, params object[] arguments)
         {
+            /*
                 using (System.Web.Hosting.HostingEnvironment.Impersonate())
                 {
-                    using (StreamWriter writer = new StreamWriter("c:\\temp\\dropBox.log", true))
+                    try
                     {
-                        message = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ") + message;
-                        writer.WriteLine(message, arguments);
+                        using (StreamWriter writer = new StreamWriter("c:\\temp\\dropBox.log", true))
+                        {
+                            message = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ") + message;
+                            writer.WriteLine(message, arguments);
+                        }
+                    }
+                    catch (Exception)
+                    {
                     }
                 }
+                */
         }
 
     }

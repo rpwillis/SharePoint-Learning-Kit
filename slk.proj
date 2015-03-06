@@ -67,6 +67,7 @@
         <MakeDir Directories="$(InstallDirectory)\%(SPVersion.Version)"/>
         <Copy SourceFiles="@(InstallFiles)" DestinationFolder="$(InstallDirectory)\%(SPVersion.Version)"/>
         <Copy SourceFiles="@(VersionFiles)" DestinationFolder="$(InstallDirectory)\%(SPVersion.Version)"/>
+        <WriteLinesToFile File="$(InstallDirectory)\ReadMe.txt" Overwrite="true" Lines="Built on $([System.DateTime]::Now.ToString(`yyyy-MM-dd HH:mm:ss`))"/>
 
         <!--
         Create the drop directory
