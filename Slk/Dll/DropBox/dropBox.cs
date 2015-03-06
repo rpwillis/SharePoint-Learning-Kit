@@ -235,21 +235,15 @@ namespace Microsoft.SharePointLearningKit
 #region private methods
         AssignmentFolder GetAssignmentFolder(string folderName, AssignmentProperties properties)
         {
-            DropBoxManager.Debug("DropBox.GetAssignmentFolder: start");
             SPQuery query = new SPQuery();
             query.Query = "<Where><Eq><FieldRef Name='FileLeafRef'/><Value Type='Text'>" + folderName + "</Value></Eq></Where>";
-            DropBoxManager.Debug("DropBox.GetAssignmentFolder: query {0}", query.Query);
             SPListItemCollection items = DropBoxList.GetItems(query);
-            DropBoxManager.Debug("DropBox.GetAssignmentFolder: run query. count {0}", items.Count);
             if (items.Count != 0)
             {
-                DropBoxManager.Debug("DropBox.GetAssignmentFolder: returning folder");
-                DropBoxManager.Debug("DropBox.GetAssignmentFolder: url {0}", items[0].Url);
                 return new AssignmentFolder(items[0], false ,properties);
             }
             else
             {
-                DropBoxManager.Debug("DropBox.GetAssignmentFolder: folder not found");
                 return null;
             }
         }
