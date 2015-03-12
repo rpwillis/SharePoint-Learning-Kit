@@ -629,7 +629,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
         void WriteFrame(HtmlTextWriter htmlTextWriter, string url, string nameQualifier, bool fullWidth)
         {
-            bool isIpad = HttpContext.Current.Request.UserAgent.ToUpperInvariant().Contains("IPAD");
+            bool isIpad = SlkUtilities.IsIpad();
+
             htmlTextWriter.Write("<iframe ");
             if (fullWidth)
             {
