@@ -281,6 +281,19 @@ namespace Microsoft.SharePointLearningKit
             return sb.ToString();
         }
 
+        /// <summary>Determine if the browser is an iPad.</summary>
+        public static bool IsIpad()
+        {
+            if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.UserAgent != null)
+            {
+                return HttpContext.Current.Request.UserAgent.ToUpperInvariant().Contains("IPAD");
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Executes a delegate.  If a SQL Server deadlock occurs while executing the delegate,
         /// the delegate is re-executed, for a maximum of 5 attempts.

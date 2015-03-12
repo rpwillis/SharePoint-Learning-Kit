@@ -449,11 +449,12 @@ namespace Microsoft.SharePointLearningKit
 
             try
             {
+                bool isIpad = SlkUtilities.IsIpad();
                 if (settings.UseOfficeWebApps)
                 {
                     if (file.IsOfficeFile)
                     {
-                        if (settings.OpenOfficeInIpadApp && IsIpad())
+                        if (settings.OpenOfficeInIpadApp && isIpad)
                         {
                             details.Url = file.GenerateOfficeProtocolUrl(web, sourceUrl);
                             details.OnClick = null;
@@ -475,7 +476,7 @@ namespace Microsoft.SharePointLearningKit
                         }
                     }
                 }
-                else if (settings.OpenOfficeInIpadApp && IsIpad())
+                else if (settings.OpenOfficeInIpadApp && isIpad)
                 {
                     details.Url = file.GenerateOfficeProtocolUrl(web, sourceUrl);
                     details.OnClick = null;
@@ -517,11 +518,6 @@ namespace Microsoft.SharePointLearningKit
 #endregion public methods
 
 #region private methods
-        private bool IsIpad()
-        {
-            return HttpContext.Current.Request.UserAgent.ToUpperInvariant().Contains("IPAD");
-        }
-
         private AssignmentFile SaveFile(SPFile file)
         {
             AssignmentFile assignmentFile = null;
