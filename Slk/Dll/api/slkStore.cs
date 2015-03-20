@@ -222,6 +222,23 @@ namespace Microsoft.SharePointLearningKit
 #endregion internal methods
 
 #region public methods
+        /// <summary>See <see cref="ISlkStore.AddCustomProperties"/>.</summary>
+        public void AddCustomProperties(AssignmentProperties properties, SPWeb web)
+        {
+            if (string.IsNullOrEmpty(Settings.CustomPropertyList) == false)
+            {
+                try
+                {
+                    SPList list = web.Lists[Settings.CustomPropertyList];
+                    properties.LoadCustomProperties(list);
+                }
+                catch (ArgumentException)
+                {
+                    // No list
+                }
+            }
+        }
+
         /// <summary>See <see cref="ISlkStore.VersionLibrary"/>.</summary>
         public void VersionLibrary(SPDocumentLibrary list)
         {
@@ -951,7 +968,9 @@ namespace Microsoft.SharePointLearningKit
             }
 
             // retrieve from <resultEnumerator> information requested by BeginGetAssignmentProperties()
-            return PopulateAssignmentProperties(resultEnumerator, assignmentId, slkRole);
+            AssignmentProperties properties = PopulateAssignmentProperties(resultEnumerator, assignmentId, slkRole);
+            AddCustomProperties(properties, null, null);
+            return properties;
         }
 
         /// <summary>See <see cref="ISlkStore.UpdateAssignment"/>.</summary>
@@ -2525,8 +2544,9 @@ namespace Microsoft.SharePointLearningKit
             AssignmentItemIdentifier id = CastNonNullIdentifier<AssignmentItemIdentifier>(dataRow[LearnerAssignmentList.AssignmentId]);
             AssignmentProperties properties = PopulateAssignmentProperties(id, dataRow);
             LearnerAssignmentProperties learnerProperties = PopulateLearnerAssignmentProperties(dataRow, properties);
+            AddCustomProperties(properties, learnerProperties, dataRow);
 
-            if (properties.IsNonELearning)
+            if (properties.IsNonELearning && learnerProperties.User != null)
             {
                 SPSecurity.RunWithElevatedPrivileges(delegate
                 {
@@ -2559,6 +2579,53 @@ namespace Microsoft.SharePointLearningKit
             properties.AssignResults(list);
 
             return properties;
+        }
+
+        /// <summary>Adds any custom properties to the assignment.</summary>
+        /// <param name="properties">The assignment object.</param>
+        /// <param name="learnerProperties">Used to load the user if required. An optimization to avoid loading the SPWeb twice.</param>
+        /// <param name="dataRow">The row used to load the user.</param>
+        private void AddCustomProperties(AssignmentProperties properties, LearnerAssignmentProperties learnerProperties, DataRow dataRow)
+        {
+            if (string.IsNullOrEmpty(Settings.CustomPropertyList) == false)
+            {
+                // Load custom properties
+                SPSecurity.RunWithElevatedPrivileges(delegate
+                {
+                    using (SPSite site = new SPSite(properties.SPSiteGuid))
+                    {
+                        SPWeb web = null;
+                        try
+                        {
+                            web = site.OpenWeb(properties.SPWebGuid);
+                        }
+                        catch (SPException)
+                        {
+                            // Web no longer exists. 
+                        }
+
+                        if (web != null)
+                        {
+                            using (web)
+                            {
+                                try
+                                {
+                                    // Optimization to avoid loading web twice
+                                    if (properties.IsNonELearning && learnerProperties != null)
+                                    {
+                                        learnerProperties.User = LoadUser(web, dataRow, LearnerAssignmentList.LearnerId, LearnerAssignmentList.LearnerName, LearnerAssignmentList.LearnerKey);
+                                    }
+
+                                    AddCustomProperties(properties, web);
+                                }
+                                catch (SPException)
+                                {
+                                }
+                            }
+                        }
+                    }
+                });
+            }
         }
 
         AssignmentProperties PopulateAssignmentProperties(AssignmentItemIdentifier id, DataRow dataRow)

@@ -1934,4 +1934,7 @@ For security reasons, integrated authentication is strongly recommended.
   <data name="InvalidModifierForMacro" xml:space="preserve">
       <value>Invalid modifier for macro {0}.</value>
   </data>
+  <data name="AssignmentPropertiesRequiredProperty" xml:space="preserve">
+      <value>{0} is a required value.</value>
+  </data>
 </root>

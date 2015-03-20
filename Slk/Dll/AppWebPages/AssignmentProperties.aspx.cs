@@ -483,6 +483,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                     SetupPageElementAttributes();
                     SetupPageValidatorAttributes();
+                    SetupPageCustomProperties();
 
                     if (AssignmentProperties != null)
                     {
@@ -667,7 +668,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
         private void Debug(string format, params object[] arguments)
         {
-            //errorBanner.AddError(ErrorType.Info, string.Format(format, arguments));
+            errorBanner.AddError(ErrorType.Info, string.Format(format, arguments));
         }
 
         #region BindCheckBoxItems
@@ -698,7 +699,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             {
                 itemCollection = new List<SlkCheckBoxItem>(slkUserCollection.Count);
 
-                Debug("AppMode {0}, SelectAllInstructors {1}, SelectAllLearners {2}", AppMode, SlkStore.Settings.SelectAllInstructors, SlkStore.Settings.SelectAllLearners);
                 foreach (SlkUser slkUser in slkUserCollection)
                 {
                     if (slkUser.SPUser != null)
@@ -714,7 +714,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
                             if (CurrentSlkUserKey == userKey || (AppMode == PageMode.Create && SlkStore.Settings.SelectAllInstructors))
                             {
-                                Debug("Instructor {0} checked", userKey);
                                 item.Selected = true;
                             }
                         }
@@ -722,7 +721,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         {
                             if (AppMode == PageMode.Create && SlkStore.Settings.SelectAllLearners)
                             {
-                                Debug("Learner {0} checked", userKey);
                                 item.Selected = true;
                             }
                         }
@@ -966,11 +964,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             spDateTimeStart.MaxDate = new DateTime(8900, 12, 31);
             spDateTimeStart.ErrorMessage = PageCulture.Resources.SlkNotValidDate;
 
-
             spDateTimeDue.MinDate = new DateTime(1900, 1, 1);
             spDateTimeDue.MaxDate = new DateTime(8900, 12, 31);
             spDateTimeDue.ErrorMessage = PageCulture.Resources.SlkNotValidDate;
-
         }
         #endregion
 
@@ -2032,6 +2028,128 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 SlkStore.LogError("{0}", groupFailureDetails);
             }
         }
+
+#region private methods
+        /*
+        private void Debug(string message, params object[] arguments)
+        {
+            using (System.IO.StreamWriter writer = new System.IO.StreamWriter("c:\\transfer\\slk.debug", true))
+            {
+                writer.WriteLine(message, arguments);
+            }
+        }
+        */
+
+        private void SetupPageCustomProperties()
+        {
+            TableGrid table = null;
+
+            if (AssignmentProperties.Properties.Count > 0)
+            {
+                table = (TableGrid)panelAssignmentProperties.FindControl("tgMainContent");
+            }
+
+            if (table != null)
+            {
+                foreach (AssignmentProperty property in AssignmentProperties.Properties)
+                {
+                    TableGridRow row = new TableGridRow();
+
+                    TableGridColumn labelColumn = new TableGridColumn();
+                    labelColumn.ColumnType = TableGridColumn.FormType.FormLabel;
+                    System.Web.UI.HtmlControls.HtmlGenericControl h3 = new System.Web.UI.HtmlControls.HtmlGenericControl("h3");
+                    h3.Attributes.Add("class", "ms-standardheader");
+                    labelColumn.Controls.Add(h3);
+                    Label label = new Label();
+                    label.ID = "custom_ID_" + property.Name;
+                    label.Text = property.Title;
+                    h3.Controls.Add(label);
+                    row.Cells.Add(labelColumn);
+
+                    TableGridColumn inputColumn = new TableGridColumn();
+                    inputColumn.ColumnType = TableGridColumn.FormType.FormBody;
+                    AddCustomPropertyControls(inputColumn, property);
+                    row.Cells.Add(inputColumn);
+
+                    table.Rows.Add(row);
+                }
+            }
+        }
+
+        private void AddCustomPropertyControls(TableGridColumn column, AssignmentProperty property)
+        {
+            WebControl control = null;
+            switch (property.Type)
+            {
+                case AssignmentPropertyType.Text:
+                    TextBox text = new TextBox();
+                    TextAssignmentProperty textProperty = (TextAssignmentProperty) property;
+                    if (textProperty.IsMultiLine)
+                    {
+                        text.TextMode = TextBoxMode.MultiLine;
+                        text.Style.Add("overflow", "visible");
+                        text.Style.Add("height", "40px");
+                    }
+
+                    control = text;
+                    break;
+
+                case AssignmentPropertyType.Url:
+                    control = new TextBox();
+                    break;
+
+                case AssignmentPropertyType.Choice:
+                    DropDownList list = new DropDownList();
+                    ChoiceAssignmentProperty choiceProperty = (ChoiceAssignmentProperty) property;
+
+                    if (choiceProperty.Required == false)
+                    {
+                        list.Items.Add(string.Empty);
+                    }
+
+                    foreach (string choice in choiceProperty.Choices)
+                    {
+                        list.Items.Add(choice);
+                    }
+
+                    for (int i = 0; i < list.Items.Count; i++)
+                    {
+                        if (list.Items[i].Value == choiceProperty.Value)
+                        {
+                            list.SelectedIndex = i;
+                            break;
+                        }
+                    }
+
+
+                    control = list;
+                    break;
+            }
+
+            if (control != null)
+            {
+                control.ID = "custom_" + property.Name;
+                control.CssClass = "ms-long";
+                control.Style["width"] = "98%";
+
+                column.Controls.Add(control);
+            }
+
+            if (property.Required)
+            {
+                System.Web.UI.HtmlControls.HtmlGenericControl div = new System.Web.UI.HtmlControls.HtmlGenericControl("div");
+                column.Controls.Add(div);
+
+                RequiredFieldValidator required = new RequiredFieldValidator();
+                required.ID = "custom_required_" + property.Name;
+                required.ErrorMessage = PageCulture.Format(PageCulture.Resources.AssignmentPropertiesRequiredProperty, property.Title);
+                required.ControlToValidate = control.ID;
+                required.Display = ValidatorDisplay.Dynamic;
+                required.CssClass = "ms-formvalidation";
+                div.Controls.Add(required);
+            }
+        }
+#endregion private methods
     }
 }
 

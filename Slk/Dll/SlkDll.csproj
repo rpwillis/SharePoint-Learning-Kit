@@ -124,6 +124,7 @@
     <Compile Include="api\slkMemberships.cs" />
     <Compile Include="api\LearnerAssignmentProperties.cs" />
     <Compile Include="api\assignmentProperties.cs" />
+    <Compile Include="api\assignmentProperty.cs" />
     <Compile Include="api\slkUser.cs" />
     <Compile Include="api\slkUserCollection.cs" />
     <Compile Include="api\slkUserCollectionChanges.cs" />
