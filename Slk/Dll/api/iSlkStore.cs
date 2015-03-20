@@ -30,6 +30,11 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="spWeb">The <c>SPWeb</c> to add.</param>
         void AddToUserWebList(SPWeb spWeb);
 
+        /// <summary>Adds custom properties to an assignment.</summary>
+        /// <param name="properties">The assignment to add the properties to.</param>
+        /// <param name="web">The web for the properties.</param>
+        void AddCustomProperties(AssignmentProperties properties, SPWeb web);
+
         /// <summary>Gets the <c>Guid</c> of the <c>SPSite</c> associated with this <c>SlkStore</c>.</summary>
         Guid SPSiteGuid { get; }
 

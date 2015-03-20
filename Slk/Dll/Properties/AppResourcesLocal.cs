@@ -2900,6 +2900,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is a required value.
+        /// </summary>
+        internal string AssignmentPropertiesRequiredProperty{
+            get {
+                return ResourceManager.GetString("AssignmentPropertiesRequiredProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must set the location of an assignment before creating one..
         /// </summary>
         internal string InvalidNewAssignment {

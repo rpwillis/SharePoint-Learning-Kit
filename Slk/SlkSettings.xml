@@ -13,6 +13,7 @@
     HidePointsForNonELearning="false"
     SelectAllInstructors="false"
     SelectAllLearners="false"
+    CustomPropertyList=""
     UserWebListMruSize="6">
 
     <!-- Add MimeTypeMappings here. Many are added by default. To add others use 

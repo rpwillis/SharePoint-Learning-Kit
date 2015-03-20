@@ -151,6 +151,7 @@
 			<xs:attribute name="HidePointsForNonELearning" type="xs:boolean" use="optional" />
 			<xs:attribute name="SelectAllInstructors" type="xs:boolean" use="optional" />
 			<xs:attribute name="SelectAllLearners" type="xs:boolean" use="optional" />
+			<xs:attribute name="CustomPropertyList" type="xs:string" use="optional" />
 			<xs:attribute name="LearnerReportUrl" type="xs:string" use="optional" />
 			<xs:attribute name="LoggingOptions" type="LoggingOptions" use="required" />
 			<xs:attribute name="MaxAttachmentKilobytes" type="xs:int" use="required" />

@@ -126,6 +126,9 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Indicates whether to automatically select all instructors when creating a new assignment.</summary>
         public bool SelectAllInstructors { get; private set; }
 
+        /// <summary>The custom property list to use.</summary>
+        public string CustomPropertyList { get; private set; }
+
         /// <summary>Indicates whether to use grades as well as points.</summary>
         public bool UseGrades { get; private set; }
 
@@ -525,6 +528,7 @@ namespace Microsoft.SharePointLearningKit
             SelectAllInstructors = ParseAttributeAsBoolean(xmlReader, "SelectAllInstructors");
             SelectAllLearners = ParseAttributeAsBoolean(xmlReader, "SelectAllLearners");
             LearnerReportUrl = ParseAttributeAsString(xmlReader, "LearnerReportUrl");
+            CustomPropertyList = ParseAttributeAsString(xmlReader, "CustomPropertyList");;
 
             // parse "PackageCacheExpirationMinutes" attribute
             if (!xmlReader.MoveToAttribute("PackageCacheExpirationMinutes"))

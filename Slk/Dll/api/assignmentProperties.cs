@@ -254,6 +254,9 @@ namespace Microsoft.SharePointLearningKit
 
         /// <summary>Any packabe warnings.</summary>
         public LearningStoreXml PackageWarnings { get; private set; }
+
+        /// <summary>Any custom properties.</summary>
+        public Collection<AssignmentProperty> Properties { get; private set; }
 #endregion properties
 
 #region constructors
@@ -268,10 +271,19 @@ namespace Microsoft.SharePointLearningKit
         {
             this.Store = store;
             Learners = new SlkUserCollection();
+            Properties = new Collection<AssignmentProperty>();
         }
 #endregion constructors
 
 #region public methods
+        /// <summary>Loads any custom properties.</summary>
+        /// <param name="list">The list to load from.</param>
+        public void LoadCustomProperties(SPList list)
+        {
+            LoadProperties(list);
+            LoadPropertyValues(list);
+        }
+
         /// <summary>Gets the result for a learner.</summary>
         /// <param name="learner">The learner to get the result for.</param>
         public LearnerAssignmentProperties ResultForLearner(SlkUser learner)
@@ -545,6 +557,48 @@ namespace Microsoft.SharePointLearningKit
 #endregion public methods
 
 #region private methods
+        private void LoadPropertyValues(SPList list)
+        {
+        }
+
+        private void LoadProperties(SPList list)
+        {
+            SPView view = list.DefaultView;
+            foreach (string fieldName in view.ViewFields)
+            {
+                SPField field = list.Fields.GetFieldByInternalName(fieldName);
+                AssignmentProperty property = CreateProperty(field);
+                if (property != null)
+                {
+                    Properties.Add(property);
+                }
+            }
+        }
+
+        private AssignmentProperty CreateProperty(SPField field)
+        {
+            switch (field.Type)
+            {
+                case SPFieldType.Text:
+                    return new TextAssignmentProperty(field.Title, field.InternalName, field.Required);
+
+                case SPFieldType.Note:
+                    TextAssignmentProperty property = new TextAssignmentProperty(field.Title, field.InternalName, field.Required);
+                    property.IsMultiLine = true;
+                    return property;
+
+                case SPFieldType.URL:
+                    return new UrlAssignmentProperty(field.Title, field.InternalName, field.Required);
+
+                case SPFieldType.Choice:
+                    SPFieldChoice choice = (SPFieldChoice)field;
+                    return new ChoiceAssignmentProperty(field.Title, field.InternalName, field.Required, choice.Choices, choice.DefaultValue);
+
+                default:
+                    return null;
+            }
+        }
+
         void CopyInvariantProperties(AssignmentProperties properties)
         {
             SPSiteGuid = properties.SPSiteGuid;
@@ -749,6 +803,7 @@ namespace Microsoft.SharePointLearningKit
             assignment.DueDate = null;
             assignment.EmailChanges = store.Settings.EmailSettings.DefaultEmailingOn;
             assignment.CreatedById = currentUserId;
+            store.AddCustomProperties(assignment, destinationSPWeb);
 
             // Role checking and determine if self assigned
             bool isSelfAssigned;
