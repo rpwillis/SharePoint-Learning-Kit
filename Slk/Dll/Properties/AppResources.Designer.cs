@@ -892,6 +892,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is not a valid url..
+        /// </summary>
+        internal static string AssignmentPropertiesUrlProperty {
+            get {
+                return ResourceManager.GetString("AssignmentPropertiesUrlProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;Assignment &lt;strong&gt;%title%&lt;/strong&gt; is due on %due%.&lt;/p&gt;
         ///&lt;p&gt;&lt;a href=&apos;%url%&apos;&gt;%url%&lt;/a&gt;&lt;/p&gt;.
         /// </summary>

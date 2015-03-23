@@ -1937,4 +1937,7 @@ For security reasons, integrated authentication is strongly recommended.
   <data name="AssignmentPropertiesRequiredProperty" xml:space="preserve">
       <value>{0} is a required value.</value>
   </data>
+  <data name="AssignmentPropertiesUrlProperty" xml:space="preserve">
+      <value>{0} is not a valid url.</value>
+  </data>
 </root>

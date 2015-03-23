@@ -2909,6 +2909,15 @@ namespace Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is not a valid url..
+        /// </summary>
+        internal string AssignmentPropertiesUrlProperty {
+            get {
+                return ResourceManager.GetString("AssignmentPropertiesUrlProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must set the location of an assignment before creating one..
         /// </summary>
         internal string InvalidNewAssignment {
