@@ -594,14 +594,6 @@ namespace Microsoft.SharePointLearningKit
             }
         }
 
-        private void Debug(string message, params object[] arguments)
-        {
-            using (System.IO.StreamWriter writer = new System.IO.StreamWriter("c:\\transfer\\slk.log", true))
-            {
-                writer.WriteLine(message, arguments);
-            }
-        }
-
         private void LoadProperties(SPList list)
         {
             SPView view = list.DefaultView;
@@ -618,7 +610,6 @@ namespace Microsoft.SharePointLearningKit
                         if (value != null)
                         {
                             string propertyValue = value.ToString();
-                            Debug("LoadProperties {0}:{1}@", property.Type, value); 
                             switch (property.Type)
                             {
                                 case AssignmentPropertyType.Url:
@@ -629,12 +620,10 @@ namespace Microsoft.SharePointLearningKit
                                     TextAssignmentProperty textProperty = (TextAssignmentProperty)property;
                                     if (textProperty.IsMultiLine)
                                     {
-                                        Debug("IsMultiLine");
                                         property.Value = CleanMultilineValue(propertyValue);
                                     }
                                     else
                                     {
-                                        Debug("! IsMultiLine");
                                         property.Value = propertyValue;
                                     }
                                     break;
