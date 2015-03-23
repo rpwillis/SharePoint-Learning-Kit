@@ -459,6 +459,78 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             }
 
             lblStatusValue.Text = Server.HtmlEncode(SlkUtilities.GetLearnerAssignmentState(learnerAssignmentStatus));
+
+            DisplayCustomProperties();
+        }
+
+        private void DisplayCustomProperties()
+        {
+            TableGrid table = null;
+
+            if (AssignmentProperties.Properties.Count > 0)
+            {
+                table = (TableGrid)tgrComments.Parent;
+            }
+
+            if (table != null)
+            {
+                int index = FindCustomPropertyIndex(table);;
+
+                foreach (AssignmentProperty property in AssignmentProperties.Properties)
+                {
+                    TableGridRow row = new TableGridRow();
+                    AddCustomCell(row, TableGridColumn.FormType.FormLabel, "custom_ID_", property.Name, property.Title);
+
+                    if (property.Type == AssignmentPropertyType.Url)
+                    {
+                        AddCustomUrlCell(row, TableGridColumn.FormType.FormBody, "custom_value_", property.Name, property.Value);
+                    }
+                    else
+                    {
+                        AddCustomCell(row, TableGridColumn.FormType.FormBody, "custom_value_", property.Name, property.Value);
+                    }
+
+                    table.Rows.AddAt(index, row);
+                    index++;
+                }
+            }
+        }
+
+        private int FindCustomPropertyIndex(TableGrid table)
+        {
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                if (table.Rows[i] == tgrLearnerComments)
+                {
+                    return i;
+                }
+            }
+
+            // Not found, add at end
+            return table.Rows.Count;
+        }
+
+        private void AddCustomCell(TableGridRow row, TableGridColumn.FormType formType, string idPrefix, string propertyName, string text)
+        {
+            TableGridColumn column = new TableGridColumn();
+            column.ColumnType = formType;
+            Label label = new Label();
+            label.ID = idPrefix + propertyName;
+            label.Text = Server.HtmlEncode(text);
+            column.Controls.Add(label);
+            row.Cells.Add(column);
+        }
+
+        private void AddCustomUrlCell(TableGridRow row, TableGridColumn.FormType formType, string idPrefix, string propertyName, string text)
+        {
+            TableGridColumn column = new TableGridColumn();
+            column.ColumnType = formType;
+            HyperLink link = new HyperLink();
+            link.ID = idPrefix + propertyName;
+            link.Text = Server.HtmlEncode(text);
+            link.NavigateUrl = Uri.EscapeUriString(text);
+            column.Controls.Add(link);
+            row.Cells.Add(column);
         }
 
         private void SetUpButtons(AssignmentView view)
