@@ -27,6 +27,7 @@ namespace Microsoft.SharePointLearningKit
         SlkUserCollection instructors;
         Dictionary<long, LearnerAssignmentProperties> keyedResults = new Dictionary<long, LearnerAssignmentProperties>();
         Dictionary<long, LearnerAssignmentProperties> userResults = new Dictionary<long, LearnerAssignmentProperties>();
+        SPListItem customPropertiesItem;
 
 #region properties
         /// <summary>The ISlkStore to use.</summary>
@@ -280,8 +281,8 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="list">The list to load from.</param>
         public void LoadCustomProperties(SPList list)
         {
-            LoadProperties(list);
             LoadPropertyValues(list);
+            LoadProperties(list);
         }
 
         /// <summary>Gets the result for a learner.</summary>
@@ -397,6 +398,19 @@ namespace Microsoft.SharePointLearningKit
             else
             {
                 UpdateAssignment(web);
+            }
+
+            if (customPropertiesItem != null)
+            {
+                customPropertiesItem["Title"] = Id.GetKey().ToString();
+
+                foreach (AssignmentProperty property in Properties)
+                {
+                    customPropertiesItem[property.Name] = property.Value;
+                }
+
+                customPropertiesItem.ParentList.ParentWeb.AllowUnsafeUpdates = true;
+                customPropertiesItem.Update();
             }
         }
 
@@ -559,6 +573,33 @@ namespace Microsoft.SharePointLearningKit
 #region private methods
         private void LoadPropertyValues(SPList list)
         {
+            if (Id != null && Id.GetKey() != 0)
+            {
+                SPQuery query = new SPQuery();
+                query.Query = "<Where><Eq><FieldRef Name='Title'/><Value Type='Text'>" + Id.GetKey().ToString() + "</Value></Eq></Where>";
+                SPListItemCollection items = list.GetItems(query);
+                if (items.Count > 0)
+                {
+                    customPropertiesItem = items[0];
+                }
+            }
+
+            if (customPropertiesItem == null)
+            {
+                customPropertiesItem = list.Items.Add();
+                if (Id != null)
+                {
+                    customPropertiesItem["Title"] = Id.GetKey().ToString();
+                }
+            }
+        }
+
+        private void Debug(string message, params object[] arguments)
+        {
+            using (System.IO.StreamWriter writer = new System.IO.StreamWriter("c:\\transfer\\slk.log", true))
+            {
+                writer.WriteLine(message, arguments);
+            }
         }
 
         private void LoadProperties(SPList list)
@@ -566,12 +607,82 @@ namespace Microsoft.SharePointLearningKit
             SPView view = list.DefaultView;
             foreach (string fieldName in view.ViewFields)
             {
-                SPField field = list.Fields.GetFieldByInternalName(fieldName);
-                AssignmentProperty property = CreateProperty(field);
-                if (property != null)
+                if (fieldName != "Title")
                 {
-                    Properties.Add(property);
+                    SPField field = list.Fields.GetFieldByInternalName(fieldName);
+                    AssignmentProperty property = CreateProperty(field);
+                    if (property != null)
+                    {
+                        Properties.Add(property);
+                        object value = customPropertiesItem[fieldName];
+                        if (value != null)
+                        {
+                            string propertyValue = value.ToString();
+                            Debug("LoadProperties {0}:{1}@", property.Type, value); 
+                            switch (property.Type)
+                            {
+                                case AssignmentPropertyType.Url:
+                                    property.Value = UrlValue(propertyValue);
+                                    break;
+
+                                case AssignmentPropertyType.Text:
+                                    TextAssignmentProperty textProperty = (TextAssignmentProperty)property;
+                                    if (textProperty.IsMultiLine)
+                                    {
+                                        Debug("IsMultiLine");
+                                        property.Value = CleanMultilineValue(propertyValue);
+                                    }
+                                    else
+                                    {
+                                        Debug("! IsMultiLine");
+                                        property.Value = propertyValue;
+                                    }
+                                    break;
+
+                                default:
+                                    property.Value = propertyValue;
+                                    break;
+
+                            }
+                        }
+                    }
                 }
+            }
+        }
+
+        private static string CleanMultilineValue(string value)
+        {
+            if (value[0] == '<')
+            {
+                int index = value.IndexOf(">");
+                if (index > -1)
+                {
+                    // Strip start <div class="..">
+                    string working = value.Substring(index + 1);
+
+                    // Strip trailing </div>
+                    if (working.Substring(working.Length - 6) == "</div>")
+                    {
+                        working = working.Substring(0, working.Length - 6);
+                    }
+
+                    return working;
+                }
+            }
+
+            return value;
+        }
+
+        private static string UrlValue(string value)
+        {
+            int index = value.IndexOf(",");
+            if (index > -1)
+            {
+                return value.Substring(0, index);
+            }
+            else
+            {
+                return value;
             }
         }
 

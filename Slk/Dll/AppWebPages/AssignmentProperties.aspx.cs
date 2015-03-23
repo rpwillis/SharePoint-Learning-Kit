@@ -221,6 +221,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private bool? m_isInstructor;
         /// <summary>Holds Current SPWeb User's SlkUser Key </summary>
         private string m_currentSlkUserKey;
+        private Dictionary<AssignmentProperty, WebControl> customProperties = new Dictionary<AssignmentProperty, WebControl>();
 
         #endregion Private Variables
 
@@ -454,8 +455,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         AppMode = PageMode.Edit;
                         //set master page control text before any exception may occur
                         SetMasterPageControlText();
-
-                        AssignmentProperties = AssignmentProperties.Load(AssignmentItemIdentifier, SlkStore);
                         CheckInCorrectSite();
                     }
                     else
@@ -465,8 +464,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                         SetMasterPageControlText();
                         //If the Current User is Instructor in the given SPWeb 
                         //proceed with creating the Assignment
-                        AssignmentProperties = AssignmentProperties.CreateNewAssignmentObject(SlkStore, SPWeb, SlkRole.Instructor);
-                        AssignmentProperties.SetLocation(Location, OrgIndex, Request.QueryString["title"]);
 
                         //if <packageWarnings> is not null, display the E-Learning content validation warning message
                         if (AssignmentProperties.PackageWarnings != null)
@@ -483,7 +480,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
                     SetupPageElementAttributes();
                     SetupPageValidatorAttributes();
-                    SetupPageCustomProperties();
 
                     if (AssignmentProperties != null)
                     {
@@ -547,6 +543,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 }
             }
 
+            // Need to create AssignmentProperties object now in case there's any custom properties as they need adding to the page controls.
+            CreateAssignmentPropertiesObject();
         }
 
         void SetUpForNewNoPackageAssignment()
@@ -1131,18 +1129,9 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         #endregion
 
         #region GetAssignmentProperties
-        /// <summary> Gets the Assignment Properties Modified in UI</summary>  
-        private void CreateAssignmentPropertiesObject()
+        /// <summary>Populates the assignment properties with the submitted values.</summary>  
+        private void PopulateSubmittedAssignmentProperties()
         {
-            if (AssignmentId == null)
-            {
-                AssignmentProperties = new AssignmentProperties(AssignmentItemIdentifier, SlkStore);
-            }
-            else
-            {
-                AssignmentProperties = AssignmentProperties.Load(AssignmentItemIdentifier, SlkStore);
-            }
-
             AssignmentProperties.Title = SlkUtilities.Trim(txtTitle.Text);
             AssignmentProperties.Description = SlkUtilities.Trim(txtDescription.Text);
 
@@ -1169,6 +1158,12 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             // Assign the Learners and Instructor list for assignmentProperties
             SetMembersList(AssignmentProperties.Instructors, chkListInstructors);
             SetMembersList(AssignmentProperties.Learners, chkListLearners);
+
+            foreach (KeyValuePair<AssignmentProperty, WebControl> pair in customProperties)
+            {
+                ITextControl textControl = (ITextControl)pair.Value;
+                pair.Key.Value = textControl.Text;
+            }
         }
         #endregion
 
@@ -1348,6 +1343,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             //if the Page is not Valid as the Page still renders with Validation Messages
             //Setting The AppMode as Error will not process the ScriptBlock as well. 
 
+            Page.Validate();
             bool isPageValid = ValidateDateTime() && Page.IsValid;
             return isPageValid;
 
@@ -1377,7 +1373,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 if (VerifyPageSubmit())
                 {
                     //Get the Assignment Properties from the submitted form.
-                    CreateAssignmentPropertiesObject();
+                    PopulateSubmittedAssignmentProperties();
 
                     if (AssignmentId == null)
                     {
@@ -2030,15 +2026,28 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
 
 #region private methods
-        /*
-        private void Debug(string message, params object[] arguments)
+        private void CreateAssignmentPropertiesObject()
         {
-            using (System.IO.StreamWriter writer = new System.IO.StreamWriter("c:\\transfer\\slk.debug", true))
+            if (AssignmentId != null)
             {
-                writer.WriteLine(message, arguments);
+                AssignmentProperties = AssignmentProperties.Load(AssignmentItemIdentifier, SlkStore);
             }
+            else
+            {
+                if (this.IsPostBack)
+                {
+                    AssignmentProperties = new AssignmentProperties(null, SlkStore);
+                    SlkStore.AddCustomProperties(AssignmentProperties, SPWeb);
+                }
+                else
+                {
+                    AssignmentProperties = AssignmentProperties.CreateNewAssignmentObject(SlkStore, SPWeb, SlkRole.Instructor);
+                    AssignmentProperties.SetLocation(Location, OrgIndex, Request.QueryString["title"]);
+                }
+            }
+
+            SetupPageCustomProperties();
         }
-        */
 
         private void SetupPageCustomProperties()
         {
@@ -2079,11 +2088,15 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         private void AddCustomPropertyControls(TableGridColumn column, AssignmentProperty property)
         {
             WebControl control = null;
+            TextBox text;
+            CustomValidator customValidator = null;
+
             switch (property.Type)
             {
                 case AssignmentPropertyType.Text:
-                    TextBox text = new TextBox();
+                    text = new TextBox();
                     TextAssignmentProperty textProperty = (TextAssignmentProperty) property;
+                    text.Text = property.Value;
                     if (textProperty.IsMultiLine)
                     {
                         text.TextMode = TextBoxMode.MultiLine;
@@ -2095,34 +2108,14 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     break;
 
                 case AssignmentPropertyType.Url:
-                    control = new TextBox();
+                    text = new TextBox();
+                    text.Text = property.Value;
+                    control = text;
+                    customValidator = CreateUrlValidator(property);
                     break;
 
                 case AssignmentPropertyType.Choice:
-                    DropDownList list = new DropDownList();
-                    ChoiceAssignmentProperty choiceProperty = (ChoiceAssignmentProperty) property;
-
-                    if (choiceProperty.Required == false)
-                    {
-                        list.Items.Add(string.Empty);
-                    }
-
-                    foreach (string choice in choiceProperty.Choices)
-                    {
-                        list.Items.Add(choice);
-                    }
-
-                    for (int i = 0; i < list.Items.Count; i++)
-                    {
-                        if (list.Items[i].Value == choiceProperty.Value)
-                        {
-                            list.SelectedIndex = i;
-                            break;
-                        }
-                    }
-
-
-                    control = list;
+                    control = CreateCustomChoiceControl(property);
                     break;
             }
 
@@ -2133,21 +2126,89 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                 control.Style["width"] = "98%";
 
                 column.Controls.Add(control);
+
+                customProperties.Add(property, control);
             }
 
-            if (property.Required)
+            if (property.Required || customValidator != null)
             {
                 System.Web.UI.HtmlControls.HtmlGenericControl div = new System.Web.UI.HtmlControls.HtmlGenericControl("div");
                 column.Controls.Add(div);
 
-                RequiredFieldValidator required = new RequiredFieldValidator();
-                required.ID = "custom_required_" + property.Name;
-                required.ErrorMessage = PageCulture.Format(PageCulture.Resources.AssignmentPropertiesRequiredProperty, property.Title);
-                required.ControlToValidate = control.ID;
-                required.Display = ValidatorDisplay.Dynamic;
-                required.CssClass = "ms-formvalidation";
-                div.Controls.Add(required);
+                if (property.Required)
+                {
+                    div.Controls.Add(CreateRequiredValidator(property, control));
+                }
+
+                if (customValidator != null)
+                {
+                    customValidator.ControlToValidate = control.ID;
+                    div.Controls.Add(customValidator);
+                }
             }
+        }
+
+        private CustomValidator CreateUrlValidator(AssignmentProperty property)
+        {
+            CustomValidator customValidator = new CustomValidator();
+            customValidator.ID = "custom_url_" + property.Name;
+            customValidator.ServerValidate += ValidateUrl;
+            customValidator.ErrorMessage = PageCulture.Format(PageCulture.Resources.AssignmentPropertiesUrlProperty, property.Title);
+            customValidator.Display = ValidatorDisplay.Dynamic;
+            customValidator.CssClass = "ms-formvalidation";
+            return customValidator;
+        }
+
+        private void ValidateUrl(object source, ServerValidateEventArgs args)
+        {
+            string value = args.Value;
+            string id = ((CustomValidator)source).ControlToValidate;
+            if (string.IsNullOrEmpty(value) == false)
+            {
+                args.IsValid = Uri.IsWellFormedUriString(value, UriKind.RelativeOrAbsolute);
+            }
+            else
+            {
+                args.IsValid = true;
+            }
+        }
+
+        private static DropDownList CreateCustomChoiceControl(AssignmentProperty property)
+        {
+            DropDownList list = new DropDownList();
+            ChoiceAssignmentProperty choiceProperty = (ChoiceAssignmentProperty) property;
+
+            if (choiceProperty.Required == false)
+            {
+                list.Items.Add(string.Empty);
+            }
+
+            foreach (string choice in choiceProperty.Choices)
+            {
+                list.Items.Add(choice);
+            }
+
+            for (int i = 0; i < list.Items.Count; i++)
+            {
+                if (list.Items[i].Value == choiceProperty.Value)
+                {
+                    list.SelectedIndex = i;
+                    break;
+                }
+            }
+
+            return list;
+        }
+
+        private RequiredFieldValidator CreateRequiredValidator(AssignmentProperty property, WebControl control)
+        {
+            RequiredFieldValidator required = new RequiredFieldValidator();
+            required.ID = "custom_required_" + property.Name;
+            required.ErrorMessage = PageCulture.Format(PageCulture.Resources.AssignmentPropertiesRequiredProperty, property.Title);
+            required.ControlToValidate = control.ID;
+            required.Display = ValidatorDisplay.Dynamic;
+            required.CssClass = "ms-formvalidation";
+            return required;
         }
 #endregion private methods
     }
