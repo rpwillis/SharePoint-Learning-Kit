@@ -36,7 +36,7 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>The title of the property.</summary>
         public string Title { get; private set; }
         /// <summary>The value of the property.</summary>
-        public string Value { get; set; }
+        public virtual string Value { get; set; }
         /// <summary>The type of the property.</summary>
         public AssignmentPropertyType Type { get; private set; }
         /// <summary>Whether the property is required.</summary>
@@ -87,6 +87,24 @@ namespace Microsoft.SharePointLearningKit
         /// <summary>Initializes a new instance of <see cref="UrlAssignmentProperty"/>.</summary>
         public UrlAssignmentProperty(string title, string name, bool required) : base (title, name, AssignmentPropertyType.Url, required)
         {
+        }
+
+        /// <summary>See <see cref="AssignmentProperty.Value "/>.</summary>
+        public override string Value
+        { 
+            get { return base.Value ;}
+            set
+            {
+                // url must be server relative or be absolute
+                string url = value;
+
+                if (url[0] != '/' && url.Contains("://") == false)
+                {
+                    url = "http://" + value;
+                }
+
+                base.Value = url;
+            }
         }
     }
 #endregion UrlAssignmentProperty
