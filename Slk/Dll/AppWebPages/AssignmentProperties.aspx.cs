@@ -664,11 +664,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
         #endregion
 
-        private void Debug(string format, params object[] arguments)
-        {
-            errorBanner.AddError(ErrorType.Info, string.Format(format, arguments));
-        }
-
         #region BindCheckBoxItems
         /// <summary> Binds the Member Items to the given CheckBox List Control</summary>  
         /// <param name="customChkBoxList">control to bind the items</param>    
@@ -2060,6 +2055,8 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 
             if (table != null)
             {
+                int index = FindCustomPropertyIndex(table);;
+
                 foreach (AssignmentProperty property in AssignmentProperties.Properties)
                 {
                     TableGridRow row = new TableGridRow();
@@ -2080,9 +2077,41 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                     AddCustomPropertyControls(inputColumn, property);
                     row.Cells.Add(inputColumn);
 
-                    table.Rows.Add(row);
+                    table.Rows.AddAt(index, row);
+                    index++;
                 }
             }
+        }
+
+        private int FindCustomPropertyIndex(TableGrid table)
+        {
+            Control parent = checkboxEmail.Parent;
+            TableGridRow emailRow = null;
+
+            while (parent != null)
+            {
+                emailRow = parent as TableGridRow;
+                if (emailRow != null)
+                {
+                    break;
+                }
+
+                parent = parent.Parent;
+            }
+
+            if (emailRow != null)
+            {
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    if (table.Rows[i] == emailRow)
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            // Not found, add at end
+            return table.Rows.Count;
         }
 
         private void AddCustomPropertyControls(TableGridColumn column, AssignmentProperty property)
