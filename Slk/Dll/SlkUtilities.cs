@@ -56,46 +56,6 @@ namespace Microsoft.SharePointLearningKit
         ///
         internal static SPWeb GetCurrentSPWeb()
         {
-            /*
-            // SharePoint can convert an URL to an SPWeb, but <httpRequest.Url> is the wrong URL
-            // to use, because if it contains "_layouts" then the full path to the subsite (if any)
-            // will be removed from <httpRequest.Url>; instead, we use <httpRequest.RawUrl> -- but
-            // we need to (a) remove query parameters and (b) add the host name and port
-            HttpRequest httpRequest = HttpContext.Current.Request;
-            string rawPath = httpRequest.RawUrl;
-            int index = rawPath.IndexOf('?');
-            if (index >= 0)
-                rawPath = rawPath.Substring(0, index);
-            Uri originalUrl = new UriBuilder(httpRequest.Url.Scheme, httpRequest.Url.Host,
-                httpRequest.Url.Port, rawPath).Uri;
-            using (SPSite spSite = new SPSite(originalUrl.AbsoluteUri))
-                return spSite.OpenWeb();
-            */
-
-            // In debug builds, look for the following in Web.config (example):
-            //
-            //     <configuration>
-            //       <appSettings>
-            //         <add key="debugSlkSPWebUrl" value="http://localhost/myweb"/>
-            //       </appSettings>
-            //       ...
-            //     <configuration>
-            //
-            // This is useful when testing ASPX pages from within the Visual Studio ASP.NET
-            // Development Server (i.e. outside the context of SharePoint).
-            //
-#if DEBUG
-            string url =
-                System.Web.Configuration.WebConfigurationManager.AppSettings["debugSlkSPWebUrl"];
-            if (url != null)
-            {
-                using (SPSite spSite = new SPSite(url))
-                {
-                    return spSite.OpenWeb();
-                }
-            }
-#endif
-
             return SPControl.GetContextWeb(HttpContext.Current);
         }
 
