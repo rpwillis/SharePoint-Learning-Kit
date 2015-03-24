@@ -821,28 +821,6 @@ namespace Microsoft.SharePointLearningKit
             return AssignmentFile.MustCopyFileToDropBox(Path.GetExtension(fileName));
         }
 #endregion static methods
-
-        /// <summary>Dumps debug messages.</summary>
-        public static void Debug(string message, params object[] arguments)
-        {
-            /*
-                using (System.Web.Hosting.HostingEnvironment.Impersonate())
-                {
-                    try
-                    {
-                        using (StreamWriter writer = new StreamWriter("c:\\temp\\dropBox.log", true))
-                        {
-                            message = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ") + message;
-                            writer.WriteLine(message, arguments);
-                        }
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-                */
-        }
-
     }
 
 #region AssignmentUpload
