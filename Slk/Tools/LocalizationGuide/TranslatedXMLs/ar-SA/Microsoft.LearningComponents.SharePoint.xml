@@ -1,4 +1,4 @@
-<root>
+﻿<root>
   <assembly culture="ar" name="Microsoft.LearningComponents.SharePoint.resources" version="1.3.1.0" />
   <resources name="Microsoft.LearningComponents.SharePoint.Properties.Resources.resources" type="StringTable">
     <NewDataSet>
@@ -9,61 +9,61 @@
       <Resources>
         <ID>CacheCreateDirCleanupFailed</ID>
         <Source>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
-        <Translation>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Translation>
+        <Translation>فشل إنشاء دليل ذاكرة التخزين المؤقت ومن ثم لا يمكن إزالة مجلد التخزين المؤقت غير الصالح و / أو ملف القفل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPLockTriesExceeded</ID>
         <Source>Could not get a lock on the file within the allowed tries.</Source>
-        <Translation>Could not get a lock on the file within the allowed tries.</Translation>
+        <Translation>تعذر الحصول على قفل للملف ضمن المحاولات المسموح بها.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPCannotWriteToLockFile</ID>
         <Source>Could not write to lock file of cache directory.</Source>
-        <Translation>Could not write to lock file of cache directory.</Translation>
+        <Translation>لا يمكن الكتابة في ملف القفل لدليل التخزين المؤقت.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPFileNotFoundNoName</ID>
         <Source>The requested file was not found.</Source>
-        <Translation>The requested file was not found.</Translation>
+        <Translation>لم يتم العثور على الملف المطلوب.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>CacheLockDirCleanupFailed</ID>
         <Source>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
-        <Translation>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Translation>
+        <Translation>فشل قفل دليل ذاكرة التخزين المؤقت ومن ثم لا يمكن إزالة مجلد التخزين المؤقت غير الصالح و / أو ملف القفل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPFileVersionNotFound</ID>
         <Source>The version {0} of file {1} does not exist.</Source>
-        <Translation>The version {0} of file {1} does not exist.</Translation>
+        <Translation>إصدار {0} من الملف {1} غير موجود.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPFileNotFound</ID>
         <Source>The file {0} was not found.</Source>
-        <Translation>The file {0} was not found.</Translation>
+        <Translation>لم يتم العثور على الملف {0}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>CacheCachePathNotAccessible</ID>
         <Source>The package cache directory is not accessible. It may not exist or you may not have access to it.</Source>
-        <Translation>The package cache directory is not accessible. It may not exist or you may not have access to it.</Translation>
+        <Translation>دليل ذاكرة التخزين المؤقت للحزمة لا يمكن الوصول إليه. فقد يكون غير موجود أو قد لا يكون لديك حق الوصول إليه.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPFormatInvalid</ID>
-        <Source>'{0}' does not have the correct format.</Source>
-        <Translation>'{0}' does not have the correct format.</Translation>
+        <Source>&apos;{0}&apos; does not have the correct format.</Source>
+        <Translation>&apos;{0}&apos; لا يتضمن التنسيق الصحيح.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPInvalidPackage</ID>
         <Source>The package is not valid and cannot be read. More information: {0}</Source>
-        <Translation>The package is not valid and cannot be read. More information: {0}</Translation>
+        <Translation>حزمة غير صالحة ولا يمكن قراءتها. مزيد من المعلومات: {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
     </NewDataSet>
@@ -77,79 +77,79 @@
       <Resources>
         <ID>CacheCreateDirCleanupFailed</ID>
         <Source>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
-        <Translation>Creating the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Translation>
+        <Translation>فشل إنشاء دليل ذاكرة التخزين المؤقت ومن ثم لا يمكن إزالة مجلد التخزين المؤقت غير الصالح و / أو ملف القفل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPLockTriesExceeded</ID>
         <Source>Could not get a lock on the file within the allowed tries.</Source>
-        <Translation>Could not get a lock on the file within the allowed tries.</Translation>
+        <Translation>تعذر الحصول على قفل للملف ضمن المحاولات المسموح بها.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidCachePath</ID>
         <Source>Invalid cache path {0}.</Source>
-        <Translation>Invalid cache path {0}.</Translation>
+        <Translation>مسار ذاكرة التخزين المؤقت {0} غير صالح.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>PermanentCacheNoDirectory</ID>
         <Source>No directory specified for the permanent cache.</Source>
-        <Translation>No directory specified for the permanent cache.</Translation>
+        <Translation>لم يتم تحديد دليل لذاكرة التخزين المؤقت الدائمة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPCannotWriteToLockFile</ID>
         <Source>Could not write to lock file of cache directory.</Source>
-        <Translation>Could not write to lock file of cache directory.</Translation>
+        <Translation>لا يمكن الكتابة في ملف القفل لدليل التخزين المؤقت.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPFileNotFoundNoName</ID>
         <Source>The requested file was not found.</Source>
-        <Translation>The requested file was not found.</Translation>
+        <Translation>لم يتم العثور على الملف المطلوب.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>CacheLockDirCleanupFailed</ID>
         <Source>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Source>
-        <Translation>Locking the cache directory failed and then the invalid cache folder and/or lock file could not be removed.</Translation>
+        <Translation>فشل قفل دليل ذاكرة التخزين المؤقت ومن ثم لا يمكن إزالة مجلد التخزين المؤقت غير الصالح و / أو ملف القفل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPFileVersionNotFound</ID>
         <Source>The version {0} of file {1} does not exist.</Source>
-        <Translation>The version {0} of file {1} does not exist.</Translation>
+        <Translation>إصدار {0} من الملف {1} غير موجود.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPFileNotFound</ID>
         <Source>The file {0} was not found.</Source>
-        <Translation>The file {0} was not found.</Translation>
+        <Translation>لم يتم العثور على الملف {0}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>CacheCachePathNotAccessible</ID>
         <Source>The package cache directory is not accessible. It may not exist or you may not have access to it.</Source>
-        <Translation>The package cache directory is not accessible. It may not exist or you may not have access to it.</Translation>
+        <Translation>دليل ذاكرة التخزين المؤقت للحزمة لا يمكن الوصول إليه. فقد يكون غير موجود أو قد لا يكون لديك حق الوصول إليه.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>PermanentCacheInvalidDirectory</ID>
         <Source>Invalid directory specified for the permanent cache.</Source>
-        <Translation>Invalid directory specified for the permanent cache.</Translation>
+        <Translation>تم تحديد دليل غير صالح لذاكرة التخزين المؤقت الدائمة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPFormatInvalid</ID>
-        <Source>'{0}' does not have the correct format.</Source>
-        <Translation>'{0}' does not have the correct format.</Translation>
+        <Source>&apos;{0}&apos; does not have the correct format.</Source>
+        <Translation>&apos;{0}&apos; لا يتضمن التنسيق الصحيح.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SPInvalidPackage</ID>
         <Source>The package is not valid and cannot be read. More information: {0}</Source>
-        <Translation>The package is not valid and cannot be read. More information: {0}</Translation>
+        <Translation>الحزمة غير صالحة ولا يمكن قراءتها. مزيد من المعلومات: {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>

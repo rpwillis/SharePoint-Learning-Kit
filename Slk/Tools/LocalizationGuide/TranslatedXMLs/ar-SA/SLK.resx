@@ -120,153 +120,153 @@
 
   <!-- Content Types  -->
   <data name="ContentTypesFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit Content Types</value>
+    <value>أنواع محتوى مجموعة SharePoint للتعلّم</value>
   </data>
   <data name="ContentTypesFeatureDescription" xml:space="preserve">
-    <value>The base content types for SharePoint Learning Kit.</value>
+    <value>أنواع المحتويات الأساسية لمجموعة SharePoint للتعلّم.</value>
   </data>
   <data name="SharePointLearningKitWebPartsGroup" xml:space="preserve">
-    <value>SharePoint Learning Kit</value>
+    <value>مجموعة SharePoint للتعلّم</value>
   </data>
   <data name="CacheDirectoryFieldDescription" xml:space="preserve">
-    <value>The directory containing the unzipped contents of the package.</value>
+    <value>الدليل يحتوي على محتويات الحزمة بعد إزالة ضغطها.</value>
   </data>
   <data name="CacheDirectoryFieldName" xml:space="preserve">
-    <value>Cache Directory</value>
+    <value>دليل ذاكرة التخزين المؤقت</value>
   </data>
   <data name="BaseContentTypeName" xml:space="preserve">
-    <value>Learning Object</value>
+    <value>كائن التعلّم</value>
   </data>
   <data name="BaseContentTypeDescription" xml:space="preserve">
-    <value>The SharePoint Learning Kit Base Content Type. Represents a learning object which can be assigned.</value>
+    <value>نوع المحتوى الرئيسي لمجموعة SharePoint للتعلّم يمثل كائن التعلّم الذي يمكن تعيينه.</value>
   </data>
   <data name="AssignmentPermanentCacheContentTypeName" xml:space="preserve">
-    <value>Permanently Cached Assignment</value>
+    <value>تعيين ذاكرة التخزين المؤقت بشكل دائم</value>
   </data>
   <data name="AssignmentPermanentCacheContentDescription" xml:space="preserve">
-    <value>A learning object which is permanently cached. This must be loaded administratively.</value>
+    <value>كائن تعلّم تم حجز التخزين المؤقت له بشكل دائم. يجب أن يتم تحميل هذا من قبل المدير.</value>
   </data>
   <data name="AssignmentContentTypeName" xml:space="preserve">
-    <value>Assignment</value>
+    <value>التعيين</value>
   </data>
   <data name="AssignmentContentTypeDescription" xml:space="preserve">
-    <value>A learning object with a custom action so it can be assigned.</value>
+    <value>كائن تعلّم مع إجراء مخصص لذلك يمكن تعيينه.</value>
   </data>
   <data name="SelfAssignContentTypeName" xml:space="preserve">
-    <value>Self Assignment</value>
+    <value>التعيين الذاتي</value>
   </data>
   <data name="SelfAssignContentTypeDescription" xml:space="preserve">
-    <value>A learning object with a custom action so it can be self assigned.</value>
+    <value>كائن تعلّم مع إجراء مخصص لذلك يمكن تعيينه ذاتياً.</value>
   </data>
   <data name="AssignmentActionTitle" xml:space="preserve">
-    <value>Assign Work</value>
+    <value>أعمال التعيين</value>
   </data>
   <data name="SelfAssignActionTitle" xml:space="preserve">
-    <value>Start Assignment</value>
+    <value>بدء التعيين</value>
   </data>
 
   <!-- ELearning Actions Feature -->
   <data name="ELearningFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit</value>
+    <value>مجموعة SharePoint للتعلّم</value>
   </data>
   <data name="ELearningFeatureDescription" xml:space="preserve">
-    <value>Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be launched directly by learners or assigned by instructors.</value>
+    <value>يسمح محتوى التعليم الإلكتروني مثل SCORM أو ملفات خادم فصل Microsoft من النوع (.zip أو .lrm) للطلاب بتشغيلها مباشرة أو تعيينها من قبل المعلمين.</value>
   </data>
   <data name="ELearningCustomActionTitle" xml:space="preserve">
-    <value>E-Learning Actions</value>
+    <value>إجراءات التعلّم الإلكتروني</value>
   </data>
 
   <!-- SelfAssign Feature -->
   <data name="AssignSelfFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Assign Self</value>
+    <value>مجموعة SharePoint للتعلّم - تعيين الذات</value>
   </data>
   <data name="AssignSelfFeatureDescription" xml:space="preserve">
-    <value>Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be launched directly by learners.</value>
+    <value>يسمح محتوى التعليم الإلكتروني مثل SCORM أو ملفات خادم فصل Microsoft من النوع (.zip أو .lrm) للطلاب بتشغيلها مباشرة.</value>
   </data>
   <data name="AssignSelfCustomActionTitle" xml:space="preserve">
-    <value>Assign To Self</value>
+    <value>التعيين إلى الذات</value>
   </data>
 
   <!-- SiteAssign Feature -->
   <data name="AssignSiteFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Assign to Site</value>
+    <value>مجموعة SharePoint للتعلّم - التعيين إلى موقع</value>
   </data>
   <data name="AssignSiteFeatureDescription" xml:space="preserve">
-    <value>Allows e-learning content such as SCORM or Microsoft Class Server files (.zip or .lrm) to be assigned by instructors directly to this site.</value>
+    <value>يسمح محتوى التعليم الإلكتروني مثل SCORM أو ملفات خادم فصل Microsoft من النوع (.zip أو .lrm) بتعيينها من قبل المعلمين مباشرة إلى هذا الموقع.</value>
   </data>
   <data name="AssignSiteCustomActionTitle" xml:space="preserve">
-    <value>Assign to Site</value>
+    <value>التعيين إلى الموقع</value>
   </data>
 
   <!-- Admin Feature -->
   <data name="AdminFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit Administration</value>
+    <value>إدارة مجموعة SharePoint للتعلّم</value>
   </data>
   <data name="AdminCustomActionGroupTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit Configuration</value>
+    <value>تكوين مجموعة SharePoint للتعلّم</value>
   </data>
   <data name="AdminCustomActionTitle" xml:space="preserve">
-    <value>Configure SharePoint Learning Kit</value>
+    <value>كوّن مجموعة SharePoint للتعلّم</value>
   </data>
 
   <!-- AssignmentList web part -->
   <data name="AssignmentListWebPartFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Assignment List Web Part</value>
+    <value>مجموعة SharePoint للتعلّم - جزء الويب لقائمة الواجبات</value>
   </data>
   <data name="AssignmentListWebPartFeatureDescription" xml:space="preserve">
-    <value>Display the assignments for an instructor or learner.</value>
+    <value>عرض الواجبات لمعلّم أو طالب.</value>
   </data>
   <data name="AssignmentListWebPartTitle" xml:space="preserve">
-    <value>Assignment List Web Part</value>
+    <value>جزء ويب قائمة الواجبات</value>
   </data>
   <data name="AssignmentListWebPartDescription" xml:space="preserve">
-    <value>Display the assignments for an instructor or learner.</value>
+    <value>عرض الواجبات لمعلّم أو طالب.</value>
   </data>
 
   <!-- Quick Assign web part -->
   <data name="QuickAssignmentWebPartFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Quick Assignment Web Part</value>
+    <value>مجموعة SharePoint للتعلّم - جزء الويب للواجبات السريعة</value>
   </data>
   <data name="QuickAssignmentWebPartFeatureDescription" xml:space="preserve">
-    <value>Web Part to allow an instructor to quickly assign a piece of work.</value>
+    <value>جزء الويب لتمكين أي معلّم من تعيين جزء من العمل بسرعة.</value>
   </data>
   <data name="QuickAssignmentWebPartTitle" xml:space="preserve">
-    <value>Quick Assignment</value>
+    <value>الواجب السريع</value>
   </data>
   <data name="QuickAssignmentWebPartDescription" xml:space="preserve">
-    <value>Allows an instructor to quickly assign a piece of work.</value>
+    <value>يسمح لأي معلّم من تعيين جزء من العمل بسرعة.</value>
   </data>
 
   <!-- Slk members web part -->
   <data name="SlkMembersWebPartFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Slk Members Web Part</value>
+    <value>مجموعة SharePoint للتعلّم - جزء الويب لأعضاء مجموعة SharePoint للتعلّم (slk)</value>
   </data>
   <data name="SlkMembersWebPartFeatureDescription" xml:space="preserve">
-    <value>Web Part to allow an instructor to view the SLK members of a site.</value>
+    <value>جزء الويب لتمكين أي معلّم من مشاهدة أعضاء مجموعة SharePoint للتعلّم (SLK) في أي موقع.</value>
   </data>
   <data name="SlkMembersWebPartTitle" xml:space="preserve">
-    <value>SLK Members</value>
+    <value>أعضاء مجموعة SharePoint للتعلّم (SLK)</value>
   </data>
   <data name="SlkMembersWebPartDescription" xml:space="preserve">
-    <value>Allows an instructor to view the SLK members of a site.</value>
+    <value>يسمح لأي معلّم بمشاهدة أعضاء مجموعة SharePoint للتعلّم (SLK) في أي موقع.</value>
   </data>
 
   <!-- Self Assign web part -->
   <data name="SelfAssignWebPartFeatureTitle" xml:space="preserve">
-    <value>SharePoint Learning Kit - Enhanced Self Assign Functionality</value>
+    <value>مجموعة SharePoint للتعلّم - وظيفة التعيين الذاتي المعززة</value>
   </data>
   <data name="SelfAssignWebPartFeatureDescription" xml:space="preserve">
-    <value>Functionality to allow learners to easily self assign packages.</value>
+    <value>الوظيفة التي تسمح للطلاب بتعيين الحزم بأنفسهم بسهولة.</value>
   </data>
   <data name="SelfAssignWebPartTitle" xml:space="preserve">
-    <value>Self Assign</value>
+    <value>التعيين الذاتي</value>
   </data>
   <data name="SelfAssignWebPartDescription" xml:space="preserve">
-    <value>Exposes a document library's contents as a set of links to allow self-assigning.</value>
+    <value>يعرض محتويات مكتبة المستندات كمجموعة من الارتباطات للسماح بالتعيين الذاتي.</value>
   </data>
 
   <data name="ContentTypesGroup" xml:space="preserve">
-    <value>SharePoint Learning Kit</value>
+    <value>مجموعة SharePoint للتعلّم</value>
   </data>
 
 
