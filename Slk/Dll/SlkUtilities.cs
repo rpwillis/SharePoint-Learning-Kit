@@ -44,8 +44,9 @@ namespace Microsoft.SharePointLearningKit
     /// </summary>
     public static class SlkUtilities
     {
-        private const string urlRegexString = @"\b(?:(?:https?|ftp|file)://|www\.|ftp\.)(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])";
+        private const string urlRegexString = @"\b(?:(?:https?|ftp|file)://|www\.|ftp\.|mix\.office\.|sway\.)(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])";
         static readonly Regex urlRegex = new Regex(urlRegexString, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex watchRegex = new Regex("watch", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         #region Public Static Methods
 
         #region GetCurrentSPWeb
@@ -146,6 +147,58 @@ namespace Microsoft.SharePointLearningKit
         }
         #endregion
 
+        /// <summary>Does a case-insensitive contains search.</summary>
+        /// <param name="input">The string to search.</param>
+        /// <param name="value">The string to find.</param>
+        /// <returns>True if value is in input.</returns>
+        public static bool ContainsString(string input, string value)
+        {
+            return input.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        /// <summary>Generates an Office Sway from an Office Sway</summary>
+        /// <param name="link">The value of the link.</param>
+        /// <returns>The proper embed url.</returns>
+        public static string GenerateSwayUrl(string link)
+        {
+            string embedUrl = link;
+
+            // Normal url is of form https://sway.com/aasJ_CLRUzF23dG2
+            // Embed url is of form  https://sway.com/s/aasJ_CLRUzF23dG2/embed
+            // So need to add the /s/ and the trailing embed
+
+            if (ContainsString(link, "embed") == false)
+            {
+                // Re-jig the url to add the /s/ and the embed
+                int index = embedUrl.IndexOf("sway.com", StringComparison.OrdinalIgnoreCase);
+                embedUrl = "https://sway.com/s/" + embedUrl.Substring(index + 9);
+                embedUrl = UrlCombine(embedUrl, "embed");
+            }
+
+            return embedUrl;
+        }
+
+        /// <summary>Generates an Office Mix embed url from an Office Mix url.</summary>
+        /// <param name="link">The value of the link.</param>
+        /// <returns>The proper embed url.</returns>
+        public static string GenerateMixUrl(string link)
+        {
+            string embedUrl = watchRegex.Replace(link, "embed");
+            if (embedUrl.Contains("://") == false)
+            {
+                embedUrl = "https://" + embedUrl;
+            }
+
+            return embedUrl;
+        }
+
+        /// <summary>Finds the links in the input.</summary>
+        /// <param name="input">The text to find the links in.</param>
+        /// <returns>A collection of matches.</returns>
+        public static MatchCollection FindLinks(string input)
+        {
+            return urlRegex.Matches(input);
+        }
 
         /// <summary>Turns urls into links.</summary>
         /// <param name="input">The text to change.</param>
@@ -157,12 +210,28 @@ namespace Microsoft.SharePointLearningKit
         private static string ClickfyLink(Match match)
         {
             string url = match.Value;
-            if (url.Contains("://") == false)
+
+            if (string.IsNullOrEmpty(url) == false)
             {
-                url = "http://" + url;
+                if (url.Contains("://") == false)
+                {
+                    url = "http://" + url;
+                }
+
+                try
+                {
+                    // Make the url safe
+                    url = Uri.EscapeUriString(url);
+                    return string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a>", url, match.Value);
+                }
+                catch (UriFormatException)
+                {
+                    // Invalid Url, don't replace
+                }
             }
 
-            return string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a>", url, match.Value);
+            // If reached here something has gone wrong so don't replace
+            return match.Value;
         }
 
         #region GetLearnerAssignmentState
