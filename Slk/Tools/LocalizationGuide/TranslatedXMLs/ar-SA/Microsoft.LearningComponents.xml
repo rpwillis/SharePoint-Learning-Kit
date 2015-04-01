@@ -9,7 +9,7 @@
       <Resources>
         <ID>CorrectAnswerSeparatorHtml</ID>
         <Source> or </Source>
-        <Translation> or </Translation>
+        <Translation> أو </Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -27,7 +27,7 @@
       <Resources>
         <ID>MissingFormField</ID>
         <Source>The form field, {0}, is missing.</Source>
-        <Translation>The form field, {0}, is missing.</Translation>
+        <Translation>حقل النموذج، {0}، مفقود.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -45,7 +45,7 @@
       <Resources>
         <ID>NoFileAttachedHtml</ID>
         <Source>No file attached.</Source>
-        <Translation>No file attached.</Translation>
+        <Translation>لا يوجد ملف مرفق.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -69,7 +69,7 @@
       <Resources>
         <ID>FileAttachmentNotFound</ID>
         <Source>A requested file attachment could not be found.</Source>
-        <Translation>A requested file attachment could not be found.</Translation>
+        <Translation>لم يتم العثور على مرفق الملف المطلوب.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -87,7 +87,7 @@
       <Resources>
         <ID>InvalidType</ID>
         <Source>The type attribute has an invalid value in the assessment markup: {0}</Source>
-        <Translation>The type attribute has an invalid value in the assessment markup: {0}</Translation>
+        <Translation>سمة النوع تحتوي على قيمة غير صالحة في تقييم الترميز: {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -104,14 +104,14 @@
       </Resources>
       <Resources>
         <ID>InstructorCommentTooLong</ID>
-        <Source>"The text entered is formatted incorrectly or greater than the maximum {0} characters."</Source>
-        <Translation>"لم يتم تنسيق النص المدخل على نحو صحيح أو النص أكبر من الحد الأقصى للأحرف وهو {0}."</Translation>
+        <Source>&quot;The text entered is formatted incorrectly or greater than the maximum {0} characters.&quot;</Source>
+        <Translation>&quot;لم يتم تنسيق النص المدخل على نحو صحيح أو النص أكبر من الحد الأقصى للأحرف وهو {0}.&quot;</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidOptionValue</ID>
-        <Source>The posted &lt;option&gt; value, {0}, is out of range for the &lt;select&gt; tag with name="{1}".</Source>
-        <Translation>The posted &lt;option&gt; value, {0}, is out of range for the &lt;select&gt; tag with name="{1}".</Translation>
+        <Source>The posted &lt;option&gt; value, {0}, is out of range for the &lt;select&gt; tag with name=&quot;{1}&quot;.</Source>
+        <Translation>قيمة &lt;option&gt; التي تم نشرها، {0}، خارج النطاق للوسم &lt;select&gt; مع الاسم = &quot;{1}&quot;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -129,19 +129,19 @@
       <Resources>
         <ID>ViewTheAttachedFileHtml</ID>
         <Source>View the attached file.</Source>
-        <Translation>View the attached file.</Translation>
+        <Translation>عرض الملف المرفق.</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidFormFieldValue</ID>
         <Source>The value, {0}, of the form field, {1}, is invalid.</Source>
-        <Translation>The value, {0}, of the form field, {1}, is invalid.</Translation>
+        <Translation>القيمة، {0}، من حقل النموذج، {1}، غير صالحة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ScoreOutOfRange</ID>
-        <Source>"The score entered is formatted incorrectly or outside the allowable range of -1000 to 1000."</Source>
-        <Translation>"لم يتم تنسيق النتيجة المدخلة على نحو صحيح أو النتيجة تتعدى النطاق المسموح به وهو -1000 إلى 1000."</Translation>
+        <Source>&quot;The score entered is formatted incorrectly or outside the allowable range of -1000 to 1000.&quot;</Source>
+        <Translation>&quot;لم يتم تنسيق النتيجة المدخلة على نحو صحيح أو النتيجة تتعدى النطاق المسموح به وهو -1000 إلى 1000.&quot;</Translation>
         <Crucial>True</Crucial>
       </Resources>
       <Resources>
@@ -177,7 +177,7 @@
       <Resources>
         <ID>InvalidId</ID>
         <Source>The value of the id is invalid in the assessment markup: {0}</Source>
-        <Translation>The value of the id is invalid in the assessment markup: {0}</Translation>
+        <Translation>قيمة المعرف غير صالحة في وسم التقييم: {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
     </NewDataSet>
@@ -190,110 +190,110 @@
       </MetaData>
       <Resources>
         <ID>DataModelElementTooLong</ID>
-        <Source>Data model element '{0}' was passed a value that exceeded the supported length.</Source>
-        <Translation>Data model element '{0}' was passed a value that exceeded the supported length.</Translation>
+        <Source>Data model element &apos;{0}&apos; was passed a value that exceeded the supported length.</Source>
+        <Translation>عنصر نموذج البيانات &apos;{0}&apos; تم تمريره بقيمة تجاوزت الطول المدعوم.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ZipPackageExceptionBadZipFile</ID>
         <Source>The package compression format is not supported.</Source>
-        <Translation>The package compression format is not supported.</Translation>
+        <Translation>تنسيق ضغط الحزمة غير مدعوم.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SequencingFlowingTo</ID>
-        <Source>Sequencing is flowing to activity '{0}'.</Source>
-        <Translation>Sequencing is flowing to activity '{0}'.</Translation>
+        <Source>Sequencing is flowing to activity &apos;{0}&apos;.</Source>
+        <Translation>التسلسل يتدفق إلى النشاط &apos;{0}&apos;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ZipPackageExceptionNoFile</ID>
         <Source>The .zip file cannot be found.</Source>
-        <Translation>The .zip file cannot be found.</Translation>
+        <Translation>لا يمكن العثور على الملف.zip.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LS_PropertyCannotBeNull</ID>
         <Source>The value cannot be set to null.</Source>
-        <Translation>The value cannot be set to null.</Translation>
+        <Translation>لا يمكن تعيين القيمة إلى قيمة خالية (null).</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>UTIL_ParamIsEmptyString</ID>
         <Source>A parameter contains an empty string, which is not allowed. </Source>
-        <Translation>A parameter contains an empty string, which is not allowed. </Translation>
+        <Translation>معلمة تحتوي على سلسلة فارغة، غير مسموح بها. </Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>UnauthorizedAccess</ID>
         <Source>The requested item, {0}, can not be accessed.</Source>
-        <Translation>The requested item, {0}, can not be accessed.</Translation>
+        <Translation>العنصر المطلوب، {0}، لا يمكن الوصول إليه.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>UniqueIdNotSupported</ID>
         <Source>No unique identifiers are defined for items in this list.</Source>
-        <Translation>No unique identifiers are defined for items in this list.</Translation>
+        <Translation>لم يتم تحديد المعرفات الفريدة للعناصر في هذه القائمة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__8</ID>
         <Source>Choice Exit Sequencing Control Mode violation.</Source>
-        <Translation>Choice Exit Sequencing Control Mode violation.</Translation>
+        <Translation>خيار الخروج يسلسل انتهاك وضع الضبط</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__9</ID>
         <Source>No activities to consider.</Source>
-        <Translation>No activities to consider.</Translation>
+        <Translation>لا توجد أنشطة للنظر فيها.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__2</ID>
         <Source>A current activity is not defined. The sequencing session has not begun.</Source>
-        <Translation>A current activity is not defined. The sequencing session has not begun.</Translation>
+        <Translation>لم يتم تعريف أي نشاط حالي. لم تبدأ جلسة التسلسل بعد.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__3</ID>
         <Source>A suspended activity is not defined.</Source>
-        <Translation>A suspended activity is not defined.</Translation>
+        <Translation>لم يتم تعريف أي نشاط معلق.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__1</ID>
         <Source>A current activity is already defined. The sequencing session has already begun.</Source>
-        <Translation>A current activity is already defined. The sequencing session has already begun.</Translation>
+        <Translation>يوجد نشاط حالي معرف بالفعل. لقد بدأت جلسة التسلسل بالفعل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__6</ID>
-        <Source>No activity is "previous" to the root.</Source>
-        <Translation>No activity is "previous" to the root.</Translation>
+        <Source>No activity is &quot;previous&quot; to the root.</Source>
+        <Translation>لا يوجد نشاط &quot;سابق&quot; للجذر.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__7</ID>
         <Source>Unsupported navigation request.</Source>
-        <Translation>Unsupported navigation request.</Translation>
+        <Translation>طلب انتقال غير مدعوم</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__4</ID>
         <Source>Flow Sequencing Control Mode violation.</Source>
-        <Translation>Flow Sequencing Control Mode violation.</Translation>
+        <Translation>التدفق يسلسل انتهاك وضع الضبط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__5</ID>
         <Source>Flow or Forward Only Sequencing Control Mode violation.</Source>
-        <Translation>Flow or Forward Only Sequencing Control Mode violation.</Translation>
+        <Translation>التدفق أو التقدم إلى الأمام فقط يسلسل انتهاك وضع الضبط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>RollupChildMissingPrimaryObjective</ID>
-        <Source>Rollup aborted because child activity '{0}' does not have a primary objective.</Source>
-        <Translation>Rollup aborted because child activity '{0}' does not have a primary objective.</Translation>
+        <Source>Rollup aborted because child activity &apos;{0}&apos; does not have a primary objective.</Source>
+        <Translation>توقفت مجموعة التحديثات لأن النشاط الابن &apos;{0}&apos; ليس لديه هدف أساسي.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -305,61 +305,61 @@
       <Resources>
         <ID>DB_2__1</ID>
         <Source>Identified activity is already active.</Source>
-        <Translation>Identified activity is already active.</Translation>
+        <Translation>النشاط المعرف نشط بالفعل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ReadError</ID>
         <Source>Read error.</Source>
-        <Translation>Read error.</Translation>
+        <Translation>خطأ في القراءة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SequencingPreConditionSkipped</ID>
-        <Source>Activity '{0}' skipped because its pre-condition Skip rules evaluated as true.</Source>
-        <Translation>Activity '{0}' skipped because its pre-condition Skip rules evaluated as true.</Translation>
+        <Source>Activity &apos;{0}&apos; skipped because its pre-condition Skip rules evaluated as true.</Source>
+        <Translation>تم تخطي النشاط &apos;{0}&apos; بسبب تقييم قواعد التخطي المشروط مسبقا ك true.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ZipPackageReaderErrorState</ID>
         <Source>The ZipPackageReader has encountered an error and cannot continue.</Source>
-        <Translation>The ZipPackageReader has encountered an error and cannot continue.</Translation>
+        <Translation>ZipPackageReader واجه خطأً ولا يمكن أن يستمر.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>AlreadyInList</ID>
         <Source>The item specified is already added to this or another list belonging to this data model.</Source>
-        <Translation>The item specified is already added to this or another list belonging to this data model.</Translation>
+        <Translation>العنصر المحدد مضاف بالفعل إلى هذه القائمة أو أي قائمة أخرى تنتمي إلى نموذج البيانات هذا.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>RollupInitiated</ID>
-        <Source>Rollup initiated for activity '{0}'.</Source>
-        <Translation>Rollup initiated for activity '{0}'.</Translation>
+        <Source>Rollup initiated for activity &apos;{0}&apos;.</Source>
+        <Translation>مجموعة التحديثات بدأت للنشاط &apos;{0}&apos;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>DRLO_CurrentActivityEntryPointIsAbsolute</ID>
         <Source>The entry point of the current activity is not contained within this package.</Source>
-        <Translation>The entry point of the current activity is not contained within this package.</Translation>
+        <Translation>نقطة الدخول للنشاط الحالي لم تأت ضمن هذه الحزمة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SequencingPostConditionRuleRequestRetry</ID>
         <Source>Retry</Source>
-        <Translation>Retry</Translation>
+        <Translation>إعادة المحاولة</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>EndOfStream</ID>
         <Source>End of stream reached.</Source>
-        <Translation>End of stream reached.</Translation>
+        <Translation>تم الوصول إلى نهاية الدفق.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NoIdentifier</ID>
         <Source>A required identifier was not provided for this element.</Source>
-        <Translation>A required identifier was not provided for this element.</Translation>
+        <Translation>لم يتم توفير أي معرف مطلوب لهذا العنصر.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -371,73 +371,73 @@
       <Resources>
         <ID>StreamMustReadAndSeek</ID>
         <Source>Stream must have read and seek capability.</Source>
-        <Translation>Stream must have read and seek capability.</Translation>
+        <Translation>يجب أن يمتلك الدفق القدرة على القراءة والبحث.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>KeyDoesNotMatchItem</ID>
-        <Source>The key specified '{0}' does not match the identifier within the item to be added to the dictionary '{1}'.</Source>
-        <Translation>The key specified '{0}' does not match the identifier within the item to be added to the dictionary '{1}'.</Translation>
+        <Source>The key specified &apos;{0}&apos; does not match the identifier within the item to be added to the dictionary &apos;{1}&apos;.</Source>
+        <Translation>المفتاح المحدد &apos;{0}&apos; لا يطابق المعرف داخل العنصر المراد إضافته إلى القاموس &apos;{1}&apos;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SequencingPostConditionRuleResult</ID>
-        <Source>Sequencing Post Condition rule on activity '{0}' resulted in a {1} request.</Source>
-        <Translation>Sequencing Post Condition rule on activity '{0}' resulted in a {1} request.</Translation>
+        <Source>Sequencing Post Condition rule on activity &apos;{0}&apos; resulted in a {1} request.</Source>
+        <Translation>شرط نشر التسلسل على النشاط &apos;{0}&apos; أدى إلى طلب {1}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LS_StringCannotBeEmpty</ID>
         <Source>The value cannot be set to an empty or null string.</Source>
-        <Translation>The value cannot be set to an empty or null string.</Translation>
+        <Translation>لا يمكن تعيين القيمة إلى سلسلة فارغة أو خالية (null).</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LS_ReactivateNotValid</ID>
         <Source>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Source>
-        <Translation>It is not valid to reactivate the current session. Only a completed or abandoned session may be reactivated, and only in RandomAccess view.</Translation>
+        <Translation>ليست صالحة لإعادة تنشيط جلسة العمل الحالية. فقط جلسة العمل المكتملة أو المتروكة هي التي ربما يعاد تنشيطها، وفقط في عرض RandomAccess.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LS_ExitNotValid</ID>
         <Source>It is not valid to exit the current session. Only a session that has started may be exited, and only in Execute view.</Source>
-        <Translation>It is not valid to exit the current session. Only a session that has started may be exited, and only in Execute view.</Translation>
+        <Translation>ليست صالحة للخروج من جلسة العمل الحالية. فقط جلسة العمل التي بدأت هي التي ربما يتم الخروج منها، وفقط في عرض التنفيذ.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>CannotDeletePrimaryObjective</ID>
         <Source>Cannot remove or replace the primary objective.</Source>
-        <Translation>Cannot remove or replace the primary objective.</Translation>
+        <Translation>لا يمكن إزالة أو استبدال الهدف الرئيسي.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SLS_CurrentActiveActivityRequired</ID>
         <Source>A CurrentActivity that is active is required to exist before requesting this operation.</Source>
-        <Translation>A CurrentActivity that is active is required to exist before requesting this operation.</Translation>
+        <Translation>يلزم وجود CurrentActivity نشطة قبل طلب هذه العملية.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>CannotChangeId</ID>
         <Source>Cannot change the identifier if an item in a dictionary.  Try removing the item, changing the identifier, then re-adding it.</Source>
-        <Translation>Cannot change the identifier if an item in a dictionary.  Try removing the item, changing the identifier, then re-adding it.</Translation>
+        <Translation>لا يمكن تغيير المعرف إذا كان هناك عنصر اً في قاموس.  حاول إزالة العنصر, تغيير المعرف، ثم إعادة إضافته.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>OnlyValidForSCORMV1p3</ID>
-        <Source>The '{0}' data model element is only valid in SCORM 2004 packages.</Source>
-        <Translation>The '{0}' data model element is only valid in SCORM 2004 packages.</Translation>
+        <Source>The &apos;{0}&apos; data model element is only valid in SCORM 2004 packages.</Source>
+        <Translation>عنصر نموذج البيانات &apos;{0}&apos; صالح فقط في حزم SCORM 2004.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>OnlyValidForSCORMV1p2</ID>
-        <Source>The '{0}' data model element is only valid in SCORM 1.2 packages.</Source>
-        <Translation>The '{0}' data model element is only valid in SCORM 1.2 packages.</Translation>
+        <Source>The &apos;{0}&apos; data model element is only valid in SCORM 1.2 packages.</Source>
+        <Translation>عنصر نموذج البيانات &apos;{0}&apos; صالح فقط في حزم SCORM 1.2.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>IndexOutOfRange</ID>
         <Source>The index is out of range.</Source>
-        <Translation>The index is out of range.</Translation>
+        <Translation>الفهرس خارج النطاق.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
@@ -449,463 +449,463 @@
       <Resources>
         <ID>LS_ResourceNotInPackage</ID>
         <Source>The current activity in the session defines an entry point that does not exist in the package. The content cannot be read.</Source>
-        <Translation>The current activity in the session defines an entry point that does not exist in the package. The content cannot be read.</Translation>
+        <Translation> النشاط الحالي في جلسة العمل يعرف نقطة إدخال غير موجودة في الحزمة. يتعذر قراءة المحتوى.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>WrongDataModel</ID>
         <Source>An object created for use by a different data model cannot be added to this data model.</Source>
-        <Translation>An object created for use by a different data model cannot be added to this data model.</Translation>
+        <Translation>لا يمكن إضافة أي كائن تم إنشاؤه للاستخدام بواسطة نموذج بيانات مختلف إلى نموذج البيانات هذا.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LS_ResumeNotValid</ID>
         <Source>It is not valid to resume the current session. Only a suspended session may be resumed, and only in Execute view.</Source>
-        <Translation>It is not valid to resume the current session. Only a suspended session may be resumed, and only in Execute view.</Translation>
+        <Translation>ليست صالحة لاستئناف جلسة العمل الحالية. أي جلسة عمل معلقة هي التي يمكن فقط استئنافها، وفي عرض التنفيذ فقط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LS_SuspendNotValid</ID>
         <Source>It is not valid to suspend the current session. Only an active session may be suspended, and only in Execute view.</Source>
-        <Translation>It is not valid to suspend the current session. Only an active session may be suspended, and only in Execute view.</Translation>
+        <Translation>ليست صالحة لتعليق جلسة العمل الحالية. أي جلسة عمل نشطة هي التي يمكن فقط تعليقها، وفي عرض التنفيذ فقط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ImsManifestXmlMissing</ID>
         <Source>The package is missing the required file, imsmanifest.xml.</Source>
-        <Translation>The package is missing the required file, imsmanifest.xml.</Translation>
+        <Translation>الحزمة لا يوجد بها الملف المطلوب، imsmanifest.xml.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>DirectoryNotFound</ID>
         <Source>The requested directory, {0}, can not be found.</Source>
-        <Translation>The requested directory, {0}, can not be found.</Translation>
+        <Translation>لا يمكن العثور على الدليل المطلوب، {0}،.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ListCannotBeModified</ID>
         <Source>The list cannot be modified.</Source>
-        <Translation>The list cannot be modified.</Translation>
+        <Translation>لا يمكن تعديل القائمة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__13</ID>
         <Source>Undefined navigation request.</Source>
-        <Translation>Undefined navigation request.</Translation>
+        <Translation>طلب انتقال غير معرف.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__12</ID>
         <Source>The current activty is already terminated.</Source>
-        <Translation>The current activty is already terminated.</Translation>
+        <Translation>تم إنهاء النشاط الحالي بالفعل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__11</ID>
         <Source>Target activity does not exist.</Source>
-        <Translation>Target activity does not exist.</Translation>
+        <Translation>لا وجود للنشاط المستهدف.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NB_2_1__10</ID>
         <Source>Choice Sequencing Control Mode violation.</Source>
-        <Translation>Choice Sequencing Control Mode violation.</Translation>
+        <Translation>الاختيار يسلسل انتهاك وضع الضبط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LS_RelativePathRequired</ID>
         <Source>The RenderContext.RelativePath must have a value.</Source>
-        <Translation>The RenderContext.RelativePath must have a value.</Translation>
+        <Translation>RenderContext.RelativePath يجب أن يكون لديها قيمة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrmNoManifest</ID>
         <Source>An error occurred while unbundling the file. The Index.xml or imsmanifest.xml file cannot be found.</Source>
-        <Translation>An error occurred while unbundling the file. The Index.xml or imsmanifest.xml file cannot be found.</Translation>
+        <Translation>حدث خطأ أثناء تفكيك الملف. لا يمكن العثور على الملف Index.xml أو imsmanifest.xml.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NonUniqueId</ID>
-        <Source>An item with the identifier '{0}' already exists in this list.</Source>
-        <Translation>An item with the identifier '{0}' already exists in this list.</Translation>
+        <Source>An item with the identifier &apos;{0}&apos; already exists in this list.</Source>
+        <Translation>أي عنصر مع المعرف &apos;{0}&apos; موجود بالفعل في هذه القائمة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>PackageFileNotFound</ID>
         <Source>The requested file was not found in the package.</Source>
-        <Translation>The requested file was not found in the package.</Translation>
+        <Translation>لم يتم العثور على الملف المطلوب في الحزمة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidScormV1p3Value</ID>
-        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 2004 specifications.</Source>
-        <Translation>Data model element '{0}' was passed a value that was out of range according to the SCORM 2004 specifications.</Translation>
+        <Source>Data model element &apos;{0}&apos; was passed a value that was out of range according to the SCORM 2004 specifications.</Source>
+        <Translation>عنصر نموذج البيانات &apos;{0}&apos; قام بتمرير قيمة كانت خارج النطاق وفقا لمواصفات SCORM عام 2004.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SequencingPostConditionRuleRequestContinue</ID>
         <Source>Continue</Source>
-        <Translation>Continue</Translation>
+        <Translation>استمر</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrmUnknownFormat</ID>
         <Source>An error occurred while unbundling the file. Unable to determine the file format.</Source>
-        <Translation>An error occurred while unbundling the file. Unable to determine the file format.</Translation>
+        <Translation>حدث خطأ أثناء تفكيك الملف. غير قادر على تحديد تنسيق الملف.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NavigationFinishedNewActivity</ID>
-        <Source>Navigation resulted in making '{0}' the current active activity.</Source>
-        <Translation>Navigation resulted in making '{0}' the current active activity.</Translation>
+        <Source>Navigation resulted in making &apos;{0}&apos; the current active activity.</Source>
+        <Translation>الانتقال أدى إلى جعل &apos;{0}&apos; هو النشاط النشط حاليا.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrmMultiNotSupported</ID>
         <Source>An error occurred while unbundling the file. A file with multiple Learning Resources is not supported.</Source>
-        <Translation>An error occurred while unbundling the file. A file with multiple Learning Resources is not supported.</Translation>
+        <Translation>حدث خطأ أثناء تفكيك الملف. أي ملف مع موارد تعلّم متعددة غير مدعوم.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>RequredObjectiveNotFound</ID>
-        <Source>Sequencing cannot proceed because the required objective '{0}' was not found.</Source>
-        <Translation>Sequencing cannot proceed because the required objective '{0}' was not found.</Translation>
+        <Source>Sequencing cannot proceed because the required objective &apos;{0}&apos; was not found.</Source>
+        <Translation>لا يمكن متابعة التسلسل لأنه لم يتم العثور على الهدف المطلوب &apos;{0}&apos;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidScormV1p2Value</ID>
-        <Source>Data model element '{0}' was passed a value that was out of range according to the SCORM 1.2 specifications.</Source>
-        <Translation>Data model element '{0}' was passed a value that was out of range according to the SCORM 1.2 specifications.</Translation>
+        <Source>Data model element &apos;{0}&apos; was passed a value that was out of range according to the SCORM 1.2 specifications.</Source>
+        <Translation>عنصر نموذج البيانات &apos;{0}&apos; قام بتمرير قيمة كانت خارج النطاق وفقا لمواصفات SCORM عام 1.2.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>CantWriteToDataModel</ID>
         <Source>This LearningDataModel object may not be written to.</Source>
-        <Translation>This LearningDataModel object may not be written to.</Translation>
+        <Translation>هذا الكائن LearningDataModel قد لا يكون مكتوباً إلى.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidExtensionType</ID>
-        <Source>Unsupported type '{0}' added to extension data.</Source>
-        <Translation>Unsupported type '{0}' added to extension data.</Translation>
+        <Source>Unsupported type &apos;{0}&apos; added to extension data.</Source>
+        <Translation>النوع &apos;{0}&apos; غير المدعوم أضيف إلى بيانات الملحق.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>RollupSettingNormalizedMeasure</ID>
-        <Source>Rollup setting normalized measure to {0} for activity '{1}'.</Source>
-        <Translation>Rollup setting normalized measure to {0} for activity '{1}'.</Translation>
+        <Source>Rollup setting normalized measure to {0} for activity &apos;{1}&apos;.</Source>
+        <Translation>مجموعة التحديثات قامت بضبط القياس معيارياً إلى {0} للنشاط &apos;{1}&apos;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>DRLO_InvalidRelativePath</ID>
-        <Source>The relativePath value '{0}' does not represent a valid, package-relative path.</Source>
-        <Translation>The relativePath value '{0}' does not represent a valid, package-relative path.</Translation>
+        <Source>The relativePath value &apos;{0}&apos; does not represent a valid, package-relative path.</Source>
+        <Translation>قيمة relativePath &apos;{0}&apos;  لا تمثل مسار package-relative صحيح.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>PackageDirectoryAlreadyExists</ID>
-        <Source>Cannot copy to '{0}' because a file or directory with the same name already exists. This operation can only copy to a destination that does not yet exist.  It will create the destination directory.</Source>
-        <Translation>Cannot copy to '{0}' because a file or directory with the same name already exists. This operation can only copy to a destination that does not yet exist.  It will create the destination directory.</Translation>
+        <Source>Cannot copy to &apos;{0}&apos; because a file or directory with the same name already exists. This operation can only copy to a destination that does not yet exist.  It will create the destination directory.</Source>
+        <Translation>لا يمكن النسخ إلى &apos;{0}&apos; لوجود ملف أو دليل بنفس الاسم مسبقاً. يمكن نسخ هذه العملية فقط إلى وجهة غير موجود حتى الآن.  ستقوم بإنشاء الدليل الوجهة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NavigationFinishedDone</ID>
         <Source>Navigation complete.  No current activity.</Source>
-        <Translation>Navigation complete.  No current activity.</Translation>
+        <Translation>اكتمل الانتقال.  لا يوجد أي نشاط حالي.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SequencingExitRuleExecuted</ID>
-        <Source>Sequencing Exit rule requires that activity '{0}' terminate.</Source>
-        <Translation>Sequencing Exit rule requires that activity '{0}' terminate.</Translation>
+        <Source>Sequencing Exit rule requires that activity &apos;{0}&apos; terminate.</Source>
+        <Translation>قاعدة الخروج  من التسلسل تتطلب أن يتم إنهاء النشاط &apos;{0}&apos;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>UniqueIdNotFound</ID>
-        <Source>No item with the identifier '{0}' was found in this list.</Source>
-        <Translation>No item with the identifier '{0}' was found in this list.</Translation>
+        <Source>No item with the identifier &apos;{0}&apos; was found in this list.</Source>
+        <Translation>لم يتم العثور على أي عنصر بالمعرف &apos;{0}&apos; في هذه القائمة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ZipPackageExceptionDefault</ID>
         <Source>Error code: {0}</Source>
-        <Translation>Error code: {0}</Translation>
+        <Translation>رمز الخطأ: {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SLS_CurrentActivityRequired</ID>
         <Source>A CurrentActivity is required to exist before requesting this operation.</Source>
-        <Translation>A CurrentActivity is required to exist before requesting this operation.</Translation>
+        <Translation>يلزم وجود CurrentActivity قبل طلب هذه العملية.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>WrongNameTable</ID>
         <Source>The object is not in the correct NameTable.</Source>
-        <Translation>The object is not in the correct NameTable.</Translation>
+        <Translation>الكائن ليس في NameTable الصحيح.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_10__3</ID>
         <Source>Flow Sequencing Control Mode violation.</Source>
-        <Translation>Flow Sequencing Control Mode violation.</Translation>
+        <Translation>التدفق يسلسل انتهاك وضع الضبط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_10__2</ID>
         <Source>The current activity is active or suspended.</Source>
-        <Translation>The current activity is active or suspended.</Translation>
+        <Translation>النشاط الحالي نشط أو معلق.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_10__1</ID>
         <Source>A current activity is not defined. The sequencing session has not begun.</Source>
-        <Translation>A current activity is not defined. The sequencing session has not begun.</Translation>
+        <Translation>لم يتم تعريف أي نشاط حالي. لم تبدأ جلسة التسلسل بعد.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_12__1</ID>
         <Source>Undefined sequencing request.</Source>
-        <Translation>Undefined sequencing request.</Translation>
+        <Translation>طلب تسلسل غير معرف.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_11__2</ID>
         <Source>The current activity has not been terminated.</Source>
-        <Translation>The current activity has not been terminated.</Translation>
+        <Translation>لم يتم إنهاء النشاط الحالي.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_11__1</ID>
         <Source>A current activity is not defined. The sequencing session has not begun.</Source>
-        <Translation>A current activity is not defined. The sequencing session has not begun.</Translation>
+        <Translation>لم يتم تعريف أي نشاط حالي. لم تبدأ جلسة التسلسل بعد.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SequencingPostConditionRuleRequestPrevious</ID>
         <Source>Previous</Source>
-        <Translation>Previous</Translation>
+        <Translation>السابق</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>TB_2_3__2</ID>
         <Source>The Current activity already terminated.</Source>
-        <Translation>The Current activity already terminated.</Translation>
+        <Translation>تم إنهاء النشاط الحالي بالفعل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>TB_2_3__3</ID>
         <Source>Cannot suspend an inactive root.</Source>
-        <Translation>Cannot suspend an inactive root.</Translation>
+        <Translation>لا يمكن تعليق جذر غير نشط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>TB_2_3__1</ID>
         <Source>A Current Activity is not defined. The sequencing session has not begun.</Source>
-        <Translation>A Current Activity is not defined. The sequencing session has not begun.</Translation>
+        <Translation>لم يتم تعريف أي نشاط حالي. لم تبدأ جلسة التسلسل بعد.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>TB_2_3__6</ID>
         <Source>Nothing to abandon; no active activities.</Source>
-        <Translation>Nothing to abandon; no active activities.</Translation>
+        <Translation>لا يوجد شيء لتركه؛ لا توجد أنشطة نشطة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>TB_2_3__7</ID>
         <Source>Undefined termination request.</Source>
-        <Translation>Undefined termination request.</Translation>
+        <Translation>طلب إنهاء غير معرف.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>TB_2_3__4</ID>
         <Source>Activity tree root has no parent.</Source>
-        <Translation>Activity tree root has no parent.</Translation>
+        <Translation>جذر شجرة النشاط لا يوجد لديه أب.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>TB_2_3__5</ID>
         <Source>Nothing to suspend; no active activities.</Source>
-        <Translation>Nothing to suspend; no active activities.</Translation>
+        <Translation>لا يوجد شيء لتعليقه؛ لا توجد أنشطة نشطة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_6__1</ID>
         <Source>A current activity is defined. The sequencing session already begun.</Source>
-        <Translation>A current activity is defined. The sequencing session already begun.</Translation>
+        <Translation>تم تعريف النشاط الحالي. لقد بدأت جلسة التسلسل بالفعل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_6__2</ID>
         <Source>No Suspended Activity defined.</Source>
-        <Translation>No Suspended Activity defined.</Translation>
+        <Translation>لم يتم تعريف أي نشاط معلق.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_5__1</ID>
         <Source>A current activity is defined. The sequencing session already begun.</Source>
-        <Translation>A current activity is defined. The sequencing session already begun.</Translation>
+        <Translation>تم تعريف النشاط الحالي. لقد بدأت جلسة التسلسل بالفعل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_2__1</ID>
         <Source>Flow Sequencing Control Mode violation.</Source>
-        <Translation>Flow Sequencing Control Mode violation.</Translation>
+        <Translation>التدفق يسلسل انتهاك وضع الضبط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_2__2</ID>
         <Source>Activity unavailable.</Source>
-        <Translation>Activity unavailable.</Translation>
+        <Translation>النشاط غير متوفر.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_7__1</ID>
         <Source>A current activity is not defined. The sequencing session has not begun.</Source>
-        <Translation>A current activity is not defined. The sequencing session has not begun.</Translation>
+        <Translation>لم يتم تعريف أي نشاط حالي. لم تبدأ جلسة التسلسل بعد.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_7__2</ID>
         <Source>Flow Sequencing Control Mode violation.</Source>
-        <Translation>Flow Sequencing Control Mode violation.</Translation>
+        <Translation>التدفق يسلسل انتهاك وضع الضبط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_4__2</ID>
         <Source>Forward Only Sequencing Control Mode violation.</Source>
-        <Translation>Forward Only Sequencing Control Mode violation.</Translation>
+        <Translation>التقدم إلى الأمام فقط يسلسل انتهاك وضع الضبط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_4__3</ID>
-        <Source>No activity is "previous" to the root.</Source>
-        <Translation>No activity is "previous" to the root.</Translation>
+        <Source>No activity is &quot;previous&quot; to the root.</Source>
+        <Translation>لا يوجد نشاط &quot;سابق&quot; للجذر.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_4__1</ID>
         <Source>Forward Traversal Blocked.</Source>
-        <Translation>Forward Traversal Blocked.</Translation>
+        <Translation>تم منع الاجتياز إلى الأمام.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_1__4</ID>
         <Source>Forward Only Sequencing Control Mode violation.</Source>
-        <Translation>Forward Only Sequencing Control Mode violation.</Translation>
+        <Translation>التقدم إلى الأمام فقط يسلسل انتهاك وضع الضبط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_1__3</ID>
-        <Source>No activity is "previous" to the root.</Source>
-        <Translation>No activity is "previous" to the root.</Translation>
+        <Source>No activity is &quot;previous&quot; to the root.</Source>
+        <Translation>لا يوجد نشاط &quot;سابق&quot; للجذر.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_1__2</ID>
         <Source>Cluster has no available children.</Source>
-        <Translation>Cluster has no available children.</Translation>
+        <Translation>التجمع ليس لديه ابن متاح.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_1__1</ID>
         <Source>Last activity in the tree.</Source>
-        <Translation>Last activity in the tree.</Translation>
+        <Translation>آخر نشاط في الشجرة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_9__9</ID>
         <Source>Choice request prevented by Flow-only activity.</Source>
-        <Translation>Choice request prevented by Flow-only activity.</Translation>
+        <Translation>نشاط التدفق-فقط منع طلب الاختيار.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_9__8</ID>
         <Source>Unable to choose target activity - constrained choice.</Source>
-        <Translation>Unable to choose target activity - constrained choice.</Translation>
+        <Translation>غير قادر على استهداف اختيار النشاط-المقيد.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_9__7</ID>
         <Source>Choice Exit Sequencing Control Mode violation.</Source>
-        <Translation>Choice Exit Sequencing Control Mode violation.</Translation>
+        <Translation>خيار الخروج يسلسل انتهاك وضع الضبط</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_9__6</ID>
         <Source>Unable to activate target; target is not a child of the Current Activity.</Source>
-        <Translation>Unable to activate target; target is not a child of the Current Activity.</Translation>
+        <Translation>غير قادر على تنشيط الهدف؛ الهدف ليس ابناً للنشاط الحالي.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_9__5</ID>
         <Source>No activities to consider.</Source>
-        <Translation>No activities to consider.</Translation>
+        <Translation>لا توجد أنشطة للنظر فيها.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_9__4</ID>
         <Source>Choice Sequencing Control Mode violation.</Source>
-        <Translation>Choice Sequencing Control Mode violation.</Translation>
+        <Translation>الاختيار يسلسل انتهاك وضع الضبط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_9__3</ID>
         <Source>Target activity hidden from choice.</Source>
-        <Translation>Target activity hidden from choice.</Translation>
+        <Translation>النشاط الهدف مخفي من الاختيار.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_9__2</ID>
         <Source>Target activity does not exist or is unavailable.</Source>
-        <Translation>Target activity does not exist or is unavailable.</Translation>
+        <Translation>النشاط الهدف غير موجود أو غير متوفر.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_9__1</ID>
         <Source>No target for Choice.</Source>
-        <Translation>No target for Choice.</Translation>
+        <Translation>لا يوجد هدف للاختيار.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_8__2</ID>
         <Source>Flow Sequencing Control Mode violation.</Source>
-        <Translation>Flow Sequencing Control Mode violation.</Translation>
+        <Translation>التدفق يسلسل انتهاك وضع الضبط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SB_2_8__1</ID>
         <Source>A current activity is not defined. The sequencing session has not begun.</Source>
-        <Translation>A current activity is not defined. The sequencing session has not begun.</Translation>
+        <Translation>لم يتم تعريف أي نشاط حالي. لم تبدأ جلسة التسلسل بعد.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>DB_1_1__3</ID>
         <Source>Activity unavailable.</Source>
-        <Translation>Activity unavailable.</Translation>
+        <Translation>النشاط غير متوفر.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>DB_1_1__2</ID>
         <Source>Nothing to deliver.</Source>
-        <Translation>Nothing to deliver.</Translation>
+        <Translation>لا شيء للتسليم.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>DB_1_1__1</ID>
         <Source>Cannot deliver a non-leaf activity.</Source>
-        <Translation>Cannot deliver a non-leaf activity.</Translation>
+        <Translation>غير قادر على تسليم أي نشاط غير طرفي.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LS_AbandonNotValid</ID>
         <Source>It is not valid to abandon the current session. Only an active or suspended session may be abandoned, and only in Execute view.</Source>
-        <Translation>It is not valid to abandon the current session. Only an active or suspended session may be abandoned, and only in Execute view.</Translation>
+        <Translation>ليست صالحة لترك جلسة العمل الحالية. أي جلسة عمل نشطة أو معلقة هي التي يمكن فقط تركها، وفي عرض التنفيذ فقط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LS_CantRenderManifest</ID>
         <Source>The requested manifest file cannot be rendered.</Source>
-        <Translation>The requested manifest file cannot be rendered.</Translation>
+        <Translation>يتعذر تقديم ملف البيان المطلوب.</Translation>
         <Crucial>False</Crucial>
       </Resources>
     </NewDataSet>
@@ -919,577 +919,577 @@
       <Resources>
         <ID>LrLogCannotBeNullWhenRequired</ID>
         <Source>The log parameter can not be null when the ValidationBehavior requires a log.</Source>
-        <Translation>The log parameter can not be null when the ValidationBehavior requires a log.</Translation>
+        <Translation>لا يمكن أن تكون معلمة السجل خالية (null) عندما يطلب ValidationBehavior سجل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ElementRemoved</ID>
         <Source>(element has been removed)</Source>
-        <Translation>(element has been removed)</Translation>
+        <Translation>(تم إزالة العنصر)</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ResourceOrOrganizationNotFound</ID>
         <Source>The referenced resource or organization can not be found.</Source>
-        <Translation>The referenced resource or organization can not be found.</Translation>
+        <Translation>لا يمكن العثور على المورد أو المنظمة المشار إليها.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>RuleConditionConditionMissing</ID>
         <Source>The &lt;ruleCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
-        <Translation>The &lt;ruleCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Translation>
+        <Translation>يجب أن يكون لدى عقدة &lt;ruleCondition&gt; سمة شرط.  انظر SCORM 1.3 5.1.3.1.1.1 CAM.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>MlcNodeViolationTruncated</ID>
-        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by MLC.  It has been truncated to {2} characters.</Source>
-        <Translation>The value that begins with "{0}" of the node, {1}, is longer than that supported by MLC.  It has been truncated to {2} characters.</Translation>
+        <Source>The value that begins with &quot;{0}&quot; of the node, {1}, is longer than that supported by MLC.  It has been truncated to {2} characters.</Source>
+        <Translation>القيمة التي تبدأ مع &quot;{0}&quot; من العقدة، {1}، أطول من التي تدعمها MLC.  وقد تم اقتطاعها من أحرف {2}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ValueOutOfRange</ID>
         <Source>The value is out of range.</Source>
-        <Translation>The value is out of range.</Translation>
+        <Translation>القيمة خارج النطاق.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidPresentationNode</ID>
         <Source>A &lt;presentation&gt; node may only appear, if needed, as a child of a leaf &lt;item&gt;element that references a resource.</Source>
-        <Translation>A &lt;presentation&gt; node may only appear, if needed, as a child of a leaf &lt;item&gt;element that references a resource.</Translation>
+        <Translation>قد تظهر عقدة &lt;presentation&gt; فقط، إذا لزم الأمر، كعنصر &lt;item&gt; طرفي ابن يشير إلى مورد.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>BadValue</ID>
-        <Source>The value "{0}" of element &lt;{1}&gt; is an invalid value.  Extra information: {2}</Source>
-        <Translation>The value "{0}" of element &lt;{1}&gt; is an invalid value.  Extra information: {2}</Translation>
+        <Source>The value &quot;{0}&quot; of element &lt;{1}&gt; is an invalid value.  Extra information: {2}</Source>
+        <Translation>القيمة &quot;{0}&quot; من العنصر &lt;{1}&gt; قيمة غير صالحة.  معلومات إضافية: {2}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrMustHaveCorrectRoot</ID>
-        <Source>A valid index.xml begins with a &lt;LearningResource&gt; node in the "urn:schemas-microsoft-com:learning-resource" namespace.</Source>
-        <Translation>A valid index.xml begins with a &lt;LearningResource&gt; node in the "urn:schemas-microsoft-com:learning-resource" namespace.</Translation>
+        <Source>A valid index.xml begins with a &lt;LearningResource&gt; node in the &quot;urn:schemas-microsoft-com:learning-resource&quot; namespace.</Source>
+        <Translation>ملف index.xml الصحيح يبدأ &lt;LearningResource&gt; بعقدة في مساحة اسم &quot;urn:schemas-microsoft-com:learning-resource&quot;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ResourceHrefMissing</ID>
-        <Source>The resource node is missing the required attribute, 'href'</Source>
-        <Translation>The resource node is missing the required attribute, 'href'</Translation>
+        <Source>The resource node is missing the required attribute, &apos;href&apos;</Source>
+        <Translation>عقدة المورد لا تحتوي على السمة المطلوبة، &apos;href&apos;</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ManifestMetaDataMissing</ID>
         <Source>The &lt;metadata&gt; node is missing or in the wrong namespace on the &lt;manifest&gt;.  See SCORM 1.3 CAM 3.4.1.2.</Source>
-        <Translation>The &lt;metadata&gt; node is missing or in the wrong namespace on the &lt;manifest&gt;.  See SCORM 1.3 CAM 3.4.1.2.</Translation>
+        <Translation>العقدة &lt;metadata&gt;مفقود أو في مساحة اسم خاطئة في &lt;manifest&gt;.  انظر SCORM 1.3 CAM 3.4.1.2.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>RequiredAttributeMissing</ID>
         <Source>The required attribute, {0}, is missing on element &lt;{1}&gt;. Extra information:{2}</Source>
-        <Translation>The required attribute, {0}, is missing on element &lt;{1}&gt;. Extra information:{2}</Translation>
+        <Translation>السمة المطلوبة، {0}، مفقودة على العنصر &lt;{1}&gt;. معلومات إضافية:{2}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>OutOfRangeNegOneToOne</ID>
         <Source>The value is outside the valid range [-1 to 1].</Source>
-        <Translation>The value is outside the valid range [-1 to 1].</Translation>
+        <Translation>القيمة خارج النطاق الصالح [من-1 إلى 1].</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>MlcNodeViolation</ID>
-        <Source>The value that begins with "{0}" of the node, {1}, is longer than that supported by Microsoft Learning Components.</Source>
-        <Translation>The value that begins with "{0}" of the node, {1}, is longer than that supported by Microsoft Learning Components.</Translation>
+        <Source>The value that begins with &quot;{0}&quot; of the node, {1}, is longer than that supported by Microsoft Learning Components.</Source>
+        <Translation>القيمة التي تبدأ مع &quot;{0}&quot; من العقدة، {1}، أطول من التي تدعمها MLC.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NodeName</ID>
         <Source>The name of the erroneous node is: {0}</Source>
-        <Translation>The name of the erroneous node is: {0}</Translation>
+        <Translation>اسم العقدة الخاطئة: {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>BadValueReplacement</ID>
-        <Source>The value "{0}" of element &lt;{1}&gt; is an invalid value.  It has been replaced by the default value "{2}".  Extra information: {3}</Source>
-        <Translation>The value "{0}" of element &lt;{1}&gt; is an invalid value.  It has been replaced by the default value "{2}".  Extra information: {3}</Translation>
+        <Source>The value &quot;{0}&quot; of element &lt;{1}&gt; is an invalid value.  It has been replaced by the default value &quot;{2}&quot;.  Extra information: {3}</Source>
+        <Translation>القيمة &quot;{0}&quot; من العنصر &lt;{1}&gt; قيمة غير صالحة.  تم استبدالها بالقيمة الافتراضية &quot;{2}&quot;.  معلومات إضافية: {3}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrChildInLrmNamespaceNotFound</ID>
         <Source>The node &lt;{0}&gt; can not be found in the correct namespace. Extra information:{1}</Source>
-        <Translation>The node &lt;{0}&gt; can not be found in the correct namespace. Extra information:{1}</Translation>
+        <Translation>لا يمكن العثور على عقدة &lt;{0}&gt; في مساحة الاسم الصحيحة. معلومات إضافية:{1}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>BadUri</ID>
         <Source>The value is an invalid URI.</Source>
-        <Translation>The value is an invalid URI.</Translation>
+        <Translation>القيمة هي URI غير صالح.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrDefaultAttributeUsed</ID>
-        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element's "{2}" attribute.</Source>
-        <Translation>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element's "{2}" attribute.</Translation>
+        <Source>A default value of &quot;{0}&quot; has been used in place of the missing or erroneous value for the &lt;{1}&gt; element&apos;s &quot;{2}&quot; attribute.</Source>
+        <Translation>القيمة الافتراضية من &quot;{0}&quot; استخدمت بدلا من القيمة المفقودة أو الخاطئة للسمة &quot;{2}&quot; من العنصر &lt;{1}&gt;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>BadXmlBase</ID>
-        <Source>The value is an invalid xml:base. xml:base must be a valid URI that does not begin with a "/" but does end with a "/".</Source>
-        <Translation>The value is an invalid xml:base. xml:base must be a valid URI that does not begin with a "/" but does end with a "/".</Translation>
+        <Source>The value is an invalid xml:base. xml:base must be a valid URI that does not begin with a &quot;/&quot; but does end with a &quot;/&quot;.</Source>
+        <Translation>القيمة هو xml:base غير صالحة. xml:base يجب أن يكون URI صالح والذي لا يبدأ ب&quot;/&quot; ولكن ينتهي ب&quot;/&quot;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>EmptyReferencedObjective</ID>
         <Source>The referencedObjective attribute on the {0} node is whitespace only, which is invalid.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Source>
-        <Translation>The referencedObjective attribute on the {0} node is whitespace only, which is invalid.  See SCORM 1.3 CAM 5.1.3.1.1.1.</Translation>
+        <Translation>السمة referencedObjective على العقدة {0} هي فاصل فقط، وهو غير صالح.  انظر SCORM 1.3 5.1.3.1.1.1 CAM.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrNodeLengthException</ID>
-        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long.</Source>
-        <Translation>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long.</Translation>
+        <Source>The node &lt;{0}&gt; has a value that starts with &quot;{1}&quot; that is too long.</Source>
+        <Translation>العقدة &lt;{0}&gt; لديها قيمة تبدأ ب &quot;{1}&quot; الطويل جدا.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ParentXml</ID>
         <Source>The full XML of the parent node is: {0}</Source>
-        <Translation>The full XML of the parent node is: {0}</Translation>
+        <Translation>XML كامل من العقدة الأب: {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrAttributeValueException</ID>
-        <Source>The value of the &lt;{0}&gt; element's "{1}" attribute is missing or erroneous.</Source>
-        <Translation>The value of the &lt;{0}&gt; element's "{1}" attribute is missing or erroneous.</Translation>
+        <Source>The value of the &lt;{0}&gt; element&apos;s &quot;{1}&quot; attribute is missing or erroneous.</Source>
+        <Translation>قيمة السمة &quot;{1}&quot; للعنصر &lt;{0}&gt;  مفقودة أو خاطئة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>DuplicateRuleAction</ID>
         <Source>The &lt;ruleAction&gt; node may occur 1 and only 1 time within a &lt;preConditionRule&gt;, &lt;postConditionRule&gt;, or &lt;exitConditionRule&gt;.  See SCORM 1.3 CAM 5.1.3.1.2.</Source>
-        <Translation>The &lt;ruleAction&gt; node may occur 1 and only 1 time within a &lt;preConditionRule&gt;, &lt;postConditionRule&gt;, or &lt;exitConditionRule&gt;.  See SCORM 1.3 CAM 5.1.3.1.2.</Translation>
+        <Translation>العقدة &lt;ruleAction&gt; قد تحدث مرة واحدة و مرة واحدة فقط ضمن &lt;preConditionRule&gt;، &lt;postConditionRule&gt; أو &lt;exitConditionRule&gt;.  انظر SCORM 1.3 CAM 5.1.3.1.2.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>GenericDuplicate</ID>
         <Source>The parent node is {0}.</Source>
-        <Translation>The parent node is {0}.</Translation>
+        <Translation>العقدة الأب هي {0}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>DuplicateRollupConditions</ID>
         <Source>The &lt;rollupCondition&gt; node can only appear once in the &lt;rollupRule&gt; node.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
-        <Translation>The &lt;rollupCondition&gt; node can only appear once in the &lt;rollupRule&gt; node.  See SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+        <Translation>العقدة &lt;rollupCondition&gt; يمكن أن تظهر مرة واحدة فقط في العقدة &lt;rollupRule&gt;.  انظر SCORM 1.3 CAM 5.1.6.1.1.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrNodeLengthViolation</ID>
-        <Source>The node &lt;{0}&gt; has a value that is too long.  It has been truncated to "{1}".</Source>
-        <Translation>The node &lt;{0}&gt; has a value that is too long.  It has been truncated to "{1}".</Translation>
+        <Source>The node &lt;{0}&gt; has a value that is too long.  It has been truncated to &quot;{1}&quot;.</Source>
+        <Translation>العقدة &lt;{0}&gt; لديها قيمة طويلة جدا.  وقد تم اقتطاعها من {1}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ItemMustRepresentSco</ID>
         <Source>The parent node, {0}, must represent a SCO.</Source>
-        <Translation>The parent node, {0}, must represent a SCO.</Translation>
+        <Translation>العقدة الأب، {0}، يجب أن تمثل SCO.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ValueOutOfRangeToken</ID>
         <Source>The value is not one of the permitted token values.</Source>
-        <Translation>The value is not one of the permitted token values.</Translation>
+        <Translation>القيمة ليست واحدة من القيم الرمزية المسموح بها.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>NodeXml</ID>
         <Source>The full XML of the erroneous node is: {0}</Source>
-        <Translation>The full XML of the erroneous node is: {0}</Translation>
+        <Translation>XML الكامل للعقدة الخاطئة: {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>MetadataLocationNotFound</ID>
         <Source>The file, {0}, referenced by the location element inside of metadata in the manifest can not be found in the package.</Source>
-        <Translation>The file, {0}, referenced by the location element inside of metadata in the manifest can not be found in the package.</Translation>
+        <Translation>الملف، {0}، المشار إليه بواسطة عنصر المكان داخل بيانات التعريف في البيان لا يمكن العثور عليه في الحزمة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrMultiLRNotSupported</ID>
         <Source>The package is a multiple learning resource package, which is not supported.</Source>
-        <Translation>The package is a multiple learning resource package, which is not supported.</Translation>
+        <Translation>الحزمة هي حزمة مصادر تعلم متعددة، وهي غير مدعومة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrChildInLrmNamespaceNotFoundTryOther</ID>
         <Source>The node &lt;{0}&gt; can not be found in the correct namespace  An attempt will be made to find a child node with that name in other namespaces. Extra information:{1}</Source>
-        <Translation>The node &lt;{0}&gt; can not be found in the correct namespace  An attempt will be made to find a child node with that name in other namespaces. Extra information:{1}</Translation>
+        <Translation>العقدة &lt;{0}&gt; لا يمكن العثور عليها في مساحة الاسم الصحيحة وسيتم إجراء محاولة للعثور على عقدة ابن بهذا الاسم في مساحات الاسم الأخرى. معلومات إضافية:{1}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>DuplicateRollupAction</ID>
         <Source>The &lt;rollupAction&gt; node can only appear once in the &lt;rollupRule&gt;node.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
-        <Translation>The &lt;rollupAction&gt; node can only appear once in the &lt;rollupRule&gt;node.  See SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+        <Translation>العقدة &lt;rollupAction&gt; يمكن أن تظهر  مرة واحدة في العقدة &lt;rollupRule&gt;.  انظر SCORM 1.3 CAM 5.1.6.1.3.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ValueIncorrectType</ID>
         <Source>The value is not the expected type.</Source>
-        <Translation>The value is not the expected type.</Translation>
+        <Translation>القيمة ليست النوع المتوقع.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrNodeValueException</ID>
         <Source>The value of the &lt;{0}&gt; element is missing or erroneous.</Source>
-        <Translation>The value of the &lt;{0}&gt; element is missing or erroneous.</Translation>
+        <Translation>قيمة العنصر&lt;{0}&gt; مفقودة أو خاطئة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrPageNodeSkipped</ID>
         <Source>The value of the PageID attribute of the {0} element is invalid. The element has been omitted from the conversion.</Source>
-        <Translation>The value of the PageID attribute of the {0} element is invalid. The element has been omitted from the conversion.</Translation>
+        <Translation>قيمة السمة PageID من العنصر {0} غير صالحة. لقد تم حذف العنصر من التحويل.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidFileType</ID>
         <Source>The file {0} is not a valid file type.</Source>
-        <Translation>The file {0} is not a valid file type.</Translation>
+        <Translation>الملف {0} ليس نوع ملف صالح.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidNode</ID>
         <Source>An element, &lt;{0}&gt;, is invalid because it is illegal or has illegal attribute values. Extra information: {1}</Source>
-        <Translation>An element, &lt;{0}&gt;, is invalid because it is illegal or has illegal attribute values. Extra information: {1}</Translation>
+        <Translation>أي عنصر، &lt;{0}&gt;، يكون غير صالح لأنه غير قانوني أو لديه قيم غير قانونية للسمة. معلومات إضافية: {1}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ConvertedUriReplacement</ID>
-        <Source>The "{0}" portion of attribute, {1}, on element &lt;{2}&gt; contains invalid URI characters.  These have been converted into valid characters automatically.  The new value is "{3}".  Extra information: {4}.</Source>
-        <Translation>The "{0}" portion of attribute, {1}, on element &lt;{2}&gt; contains invalid URI characters.  These have been converted into valid characters automatically.  The new value is "{3}".  Extra information: {4}.</Translation>
+        <Source>The &quot;{0}&quot; portion of attribute, {1}, on element &lt;{2}&gt; contains invalid URI characters.  These have been converted into valid characters automatically.  The new value is &quot;{3}&quot;.  Extra information: {4}.</Source>
+        <Translation>الجزء &quot;{0}&quot; للسمة، {1}، على العنصر &lt;{2}&gt; يحتوي على أحرف URI غير صالحة.  وقد تم تحويلها إلى أحرف صالحة تلقائياً.  القيمة الجديدة هي &quot;{3}&quot;.  معلومات إضافية: {4}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ItemTitleMissing</ID>
         <Source>The &lt;title&gt; node is required on the {0} node in Content Aggregation manifests.  See SCORM 1.3 CAM 3.4.1.10, or SCORM 1.2 CAM 2.3.5.3.1.2.1.</Source>
-        <Translation>The &lt;title&gt; node is required on the {0} node in Content Aggregation manifests.  See SCORM 1.3 CAM 3.4.1.10, or SCORM 1.2 CAM 2.3.5.3.1.2.1.</Translation>
+        <Translation>العقدة &lt;title&gt; مطلوبة على العقدة {0} في بيانات تجميع المحتوى.  انظر SCORM 1.3 CAM 3.4.1.10، أو SCORM 1.2 CAM 2.3.5.3.1.2.1.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrRemoteContentNotSupported</ID>
         <Source>Remote content is not supported.</Source>
-        <Translation>Remote content is not supported.</Translation>
+        <Translation>المحتوى البعيد غير مدعوم.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrLicensedContentNotSupported</ID>
         <Source>This learning resource requires a license and licensed Learning Resources are not supported.</Source>
-        <Translation>This learning resource requires a license and licensed Learning Resources are not supported.</Translation>
+        <Translation>يتطلب مورد التعلم هذا ترخيصاً ومصادر التعلم المرخصة غير مدعومة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>PrerequisitesTypeWrong</ID>
-        <Source>The value of the &lt;prerequisites&gt; type attribute must be "aicc_script".</Source>
-        <Translation>The value of the &lt;prerequisites&gt; type attribute must be "aicc_script".</Translation>
+        <Source>The value of the &lt;prerequisites&gt; type attribute must be &quot;aicc_script&quot;.</Source>
+        <Translation>القيمة من سمة النوع &lt;prerequisites&gt; يجب أن تكون &quot;aicc_script&quot;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrDefaultValueUsed</ID>
-        <Source>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element.</Source>
-        <Translation>A default value of "{0}" has been used in place of the missing or erroneous value for the &lt;{1}&gt; element.</Translation>
+        <Source>A default value of &quot;{0}&quot; has been used in place of the missing or erroneous value for the &lt;{1}&gt; element.</Source>
+        <Translation>القيمة الافتراضية من &quot;{0}&quot; تم استخدامها بدلا من القيمة المفقودة أو الخاطئة للعنصر &lt;{1}&gt; .</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrAttributeLengthException</ID>
-        <Source>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long for the "{2}" attribute.</Source>
-        <Translation>The node &lt;{0}&gt; has a value that starts with "{1}" that is too long for the "{2}" attribute.</Translation>
+        <Source>The node &lt;{0}&gt; has a value that starts with &quot;{1}&quot; that is too long for the &quot;{2}&quot; attribute.</Source>
+        <Translation>العقدة &lt;{0}&gt; التي لديها قيمة تبدأ ب &quot;{1}&quot; الطويل جدا بالنسبة للسمة &quot;{2}&quot;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ItemIdentifierMissing</ID>
         <Source>The &lt;item&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.9, or SCORM 1.2 CAM 2.3.5.3.1.2.</Source>
-        <Translation>The &lt;item&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.9, or SCORM 1.2 CAM 2.3.5.3.1.2.</Translation>
+        <Translation>العقدة &lt;item&gt; يجب أن تحتوي على سمة المعرف.  انظر SCORM 1.3 CAM 3.4.1.9، أو SCORM 1.2 CAM 2.3.5.3.1.2.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>MlcViolationActivityMissing</ID>
         <Source>An Activity node is required for content used in Microsoft Learning Components.</Source>
-        <Translation>An Activity node is required for content used in Microsoft Learning Components.</Translation>
+        <Translation>مطلوب أي عقدة نشاط من أجل المحتوى المستخدم في MLC.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SpmNodeViolation</ID>
-        <Source>The value that begins with "{0}" of the node, &lt;{1}&gt;, is longer than the smallest permitted maximum (SPM), {2}.</Source>
-        <Translation>The value that begins with "{0}" of the node, &lt;{1}&gt;, is longer than the smallest permitted maximum (SPM), {2}.</Translation>
+        <Source>The value that begins with &quot;{0}&quot; of the node, &lt;{1}&gt;, is longer than the smallest permitted maximum (SPM), {2}.</Source>
+        <Translation>القيمة التي تبدأ ب &quot;{0}&quot; من العقدة، &lt;{1}&gt;، أطول من أصغر حد أقصى مسموح به (SPM)، {2}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>BadAttributeValue</ID>
-        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  Extra information: {3}</Source>
-        <Translation>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  Extra information: {3}</Translation>
+        <Source>The value &quot;{0}&quot; of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  Extra information: {3}</Source>
+        <Translation>القيمة &quot;{0}&quot; من السمة، {1}، على العنصر &lt;{2}&gt;، قيمة غير صالحة.  معلومات إضافية: {3}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>BadAttributeValueReplacement</ID>
-        <Source>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  It has been replaced by the default value "{3}".  Extra information: {4}</Source>
-        <Translation>The value "{0}" of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  It has been replaced by the default value "{3}".  Extra information: {4}</Translation>
+        <Source>The value &quot;{0}&quot; of attribute, {1}, on element &lt;{2}&gt;, is an invalid value.  It has been replaced by the default value &quot;{3}&quot;.  Extra information: {4}</Source>
+        <Translation>القيمة &quot;{0}&quot; من السمة، {1}، على العنصر &lt;{2}&gt;، قيمة غير صالحة.  تم استبدالها بالقيمة الافتراضية &quot;{3}&quot;.  معلومات إضافية: {4}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>MlcViolation</ID>
-        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by Microsoft Learning Components.  Extra information: {2}</Source>
-        <Translation>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by Microsoft Learning Components.  Extra information: {2}</Translation>
+        <Source>The value that begins with &quot;{0}&quot; of the attribute, {1}, is longer than that supported by Microsoft Learning Components.  Extra information: {2}</Source>
+        <Translation>القيمة التي تبدأ مع &quot;{0}&quot; من السمة، {1}، أطول من التي تدعمها MLC.  معلومات إضافية: {2}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ManifestNodeMissing</ID>
         <Source>A &lt;manifest&gt; node in the correct namespace is required.</Source>
-        <Translation>A &lt;manifest&gt; node in the correct namespace is required.</Translation>
+        <Translation>مطلوب عقدة &lt;manifest&gt; في مساحة الاسم الصحيح.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ManifestMissing</ID>
         <Source>A manifest is required and is not present in the package.</Source>
-        <Translation>A manifest is required and is not present in the package.</Translation>
+        <Translation>بيان مطلوب وهو غير موجود في الحزمة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrPageIdDuplicate</ID>
-        <Source>The value of the PageID attribute, {0}, on a &lt;Page&gt; element is used more than once.  PageID's must be unique for each &lt;Page&gt; element.</Source>
-        <Translation>The value of the PageID attribute, {0}, on a &lt;Page&gt; element is used more than once.  PageID's must be unique for each &lt;Page&gt; element.</Translation>
+        <Source>The value of the PageID attribute, {0}, on a &lt;Page&gt; element is used more than once.  PageID&apos;s must be unique for each &lt;Page&gt; element.</Source>
+        <Translation>قيمة السمة PageID، {0}، على عنصر &lt;Page&gt; تم استخدامها أكثر من مرة.  يجب أن يكون ال PageID فريد لكل عنصر&lt;Page&gt;.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ResourceIdentifierMissing</ID>
         <Source>The &lt;resource&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.21, or SCORM 1.2 CAM 2.3.5.4.1.</Source>
-        <Translation>The &lt;resource&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.21, or SCORM 1.2 CAM 2.3.5.4.1.</Translation>
+        <Translation>العقدة &lt;resource&gt; يجب أن تحتوي على سمة المعرف.  انظر SCORM 1.3 CAM 3.4.1.21، أو SCORM 1.2 CAM 2.3.5.4.1.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrAttributeLengthViolation</ID>
-        <Source>The node &lt;{0}&gt; has a value that is too long for the "{1}" attribute.  It has been truncated to "{2}".</Source>
-        <Translation>The node &lt;{0}&gt; has a value that is too long for the "{1}" attribute.  It has been truncated to "{2}".</Translation>
+        <Source>The node &lt;{0}&gt; has a value that is too long for the &quot;{1}&quot; attribute.  It has been truncated to &quot;{2}&quot;.</Source>
+        <Translation>العقدة &lt;{0}&gt; لديها قيمة طويلة جدا بالنسبة للسمة &quot;{1}&quot;.  وقد تم اقتطاعها من {2}.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>EmptyString</ID>
         <Source>(empty string)</Source>
-        <Translation>(empty string)</Translation>
+        <Translation>(سلسلة فارغة)</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidTrueValuesInMapInfo</ID>
         <Source>In multiple &lt;mapInfo&gt; nodes, true values are restricted.  See SCORM 1.3 CAM 5.1.7.1.2.</Source>
-        <Translation>In multiple &lt;mapInfo&gt; nodes, true values are restricted.  See SCORM 1.3 CAM 5.1.7.1.2.</Translation>
+        <Translation>في عقد &lt;mapInfo&gt; المتعددة، يتم تقييد القيم الحقيقية.  انظر SCORM 1.3 CAM 5.1.7.1.2.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ReferenceNotFound</ID>
         <Source>The referenced node can not be found.</Source>
-        <Translation>The referenced node can not be found.</Translation>
+        <Translation>لا يمكن العثور على العقدة المشار إليها.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>IllegalNegativeInteger</ID>
         <Source>The value must be 0 or a positive integer.</Source>
-        <Translation>The value must be 0 or a positive integer.</Translation>
+        <Translation>يجب أن تكون القيمة 0 أو عدد صحيح موجب.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ActivityResourceBadAttribute</ID>
-        <Source>A resource that belongs to an activity must have a type attribute set to "webcontent", an adlcp:scormType attribute set to "sco" or "asset", and a valid href attribute.  {0}</Source>
-        <Translation>A resource that belongs to an activity must have a type attribute set to "webcontent", an adlcp:scormType attribute set to "sco" or "asset", and a valid href attribute.  {0}</Translation>
+        <Source>A resource that belongs to an activity must have a type attribute set to &quot;webcontent&quot;, an adlcp:scormType attribute set to &quot;sco&quot; or &quot;asset&quot;, and a valid href attribute.  {0}</Source>
+        <Translation>المورد الذي ينتمي إلى أي نشاط يجب أن يكون لديه سمة نوع قد تم تعيينها إلى &quot;webcontent&quot;، وسمة adlcp:scormType قد تم تعيينها إلى &quot;sco&quot; أو &quot;asset&quot;، وسمة href صالحة.  {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ResourceNotAllowedOnActivity</ID>
         <Source>If an &lt;item&gt; element is a parent element, the &lt;item&gt; may not reference a &lt;resource&gt;.  See SCORM 1.3 CAM 3.4.1.9.  The full XML of the node is: {0}</Source>
-        <Translation>If an &lt;item&gt; element is a parent element, the &lt;item&gt; may not reference a &lt;resource&gt;.  See SCORM 1.3 CAM 3.4.1.9.  The full XML of the node is: {0}</Translation>
+        <Translation>إذا كان أي عنصر &lt;item&gt; هو عنصر أب، فإن &lt;item&gt; قد لا يشير إلى &lt;resource&gt;.  انظر SCORM 1.3 CAM 3.4.1.9.  XML الكامل للعقدة: {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>RollupConditionConditionMissing</ID>
         <Source>The &lt;rollupCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.6.1.2.</Source>
-        <Translation>The &lt;rollupCondition&gt; node must have a condition attribute.  See SCORM 1.3 CAM 5.1.6.1.2.</Translation>
+        <Translation>يجب أن يكون لدى عقدة &lt;rollupCondition&gt; سمة شرط.  انظر SCORM 1.3 CAM 5.1.6.1.2.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>DuplicateRuleConditions</ID>
         <Source>The &lt;ruleConditions&gt; node can only appear once in the &lt;{0}&gt; node.  See SCORM 1.3 CAM 5.1.3.1.1.</Source>
-        <Translation>The &lt;ruleConditions&gt; node can only appear once in the &lt;{0}&gt; node.  See SCORM 1.3 CAM 5.1.3.1.1.</Translation>
+        <Translation>العقدة &lt;ruleConditions&gt; يمكن أن تظهر مرة واحدة في العقدة &lt;{0}&gt;.  انظر SCORM 1.3 CAM 5.1.3.1.1.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>PrimaryObjectiveMissingOrDuplicate</ID>
         <Source>In a list of &lt;objectives&gt;, there must be one and only one &lt;primaryObjective&gt; node.</Source>
-        <Translation>In a list of &lt;objectives&gt;, there must be one and only one &lt;primaryObjective&gt; node.</Translation>
+        <Translation>في أي قائمة &lt;objectives&gt;، يجب أن يكون هناك عقدة &lt;primaryObjective&gt; واحدة وواحدة فقط.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidDuplicateNodesIgnored</ID>
         <Source>There are multiple instances of element, &lt;{0}&gt;. All but the first are ignored. Extra information:{1}</Source>
-        <Translation>There are multiple instances of element, &lt;{0}&gt;. All but the first are ignored. Extra information:{1}</Translation>
+        <Translation>هناك حالات متعددة من العنصر، &lt;{0}&gt;. تم تجاهل الجميع إلا الأول. معلومات إضافية:{1}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidIdentifier</ID>
         <Source>The identifier is not a valid xs:ID.</Source>
-        <Translation>The identifier is not a valid xs:ID.</Translation>
+        <Translation>المعرف ليس xs:ID صالح.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>DuplicateMinNormalizedMeasure</ID>
-        <Source>The &lt;minNormalizedMeasure&gt; node can only appear once in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
-        <Translation>The &lt;minNormalizedMeasure&gt; node can only appear once in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+        <Source>The &lt;minNormalizedMeasure&gt; node can only appear once in the &lt;{0} objectiveID=&quot;{1}&quot;&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>العقدة &lt;minNormalizedMeasure&gt; يمكن أن تظهر مرة واحدة في العقدة &lt;{0} objectiveID = &quot;{1}&quot;&gt;.  انظر SCORM 1.3 CAM 5.1.7.1.1.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>MlcViolationOrganizationMissing</ID>
         <Source>An Organization node is required for content used in Microsoft Learning Components.</Source>
-        <Translation>An Organization node is required for content used in Microsoft Learning Components.</Translation>
+        <Translation>مطلوب عقدة منظمة للمحتوى المستخدم في MLC.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>IdenticalKeyValues</ID>
-        <Source>The duplicate nodes share the same {0} value, "{1}".  The values must be different.</Source>
-        <Translation>The duplicate nodes share the same {0} value, "{1}".  The values must be different.</Translation>
+        <Source>The duplicate nodes share the same {0} value, &quot;{1}&quot;.  The values must be different.</Source>
+        <Translation>العقد المكررة تشترك في نفس القيمة {0} ، &quot;{1}&quot;.  يجب أن تكون القيم مختلفة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>PackageCouldNotBeOpened</ID>
         <Source>This package could not be opened. More information: {0}</Source>
-        <Translation>This package could not be opened. More information: {0}</Translation>
+        <Translation>لا يمكن فتح هذه الحزمة مزيد من المعلومات: {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>BadXmlInManifest</ID>
         <Source>The package contains a manifest that contains badly formed XML.</Source>
-        <Translation>The package contains a manifest that contains badly formed XML.</Translation>
+        <Translation>تحتوي الحزمة على بيان يحتوي على تشكيل XML غير صالح.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ObjectiveIdMissing</ID>
         <Source>The objective must have an objectiveID attribute.  Extra information: {0}</Source>
-        <Translation>The objective must have an objectiveID attribute.  Extra information: {0}</Translation>
+        <Translation>يجب أن يحتوي الهدف على سمة objectiveID.  معلومات إضافية: {0}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>MlcViolationTruncated</ID>
-        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by for content used in Microsoft Learning Components.  It has been truncated to {2} characters.  Extra information: {3}</Source>
-        <Translation>The value that begins with "{0}" of the attribute, {1}, is longer than that supported by for content used in Microsoft Learning Components.  It has been truncated to {2} characters.  Extra information: {3}</Translation>
+        <Source>The value that begins with &quot;{0}&quot; of the attribute, {1}, is longer than that supported by for content used in Microsoft Learning Components.  It has been truncated to {2} characters.  Extra information: {3}</Source>
+        <Translation>القيمة التي تبدأ مع &quot;{0}&quot; من السمة، {1}، أطول من التي يدعمها المحتوى المستخدم في MLC.  وقد تم اقتطاعها من أحرف {2}.  معلومات إضافية: {3}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>PrerequisitesScriptInvalid</ID>
         <Source>There are problems with the syntax of the prerequisite script, or a referenced identifier can not be found in the manifest.</Source>
-        <Translation>There are problems with the syntax of the prerequisite script, or a referenced identifier can not be found in the manifest.</Translation>
+        <Translation>هناك مشاكل مع بناء جمل البرنامج النصي للشرط المسبق، أو أن المعرف المشار إليه لا يمكن العثور عليه في البيان.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>OrganizationIdentifierMissing</ID>
         <Source>The &lt;organization&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.7, or SCORM 1.2 CAM 2.3.5.3.1.</Source>
-        <Translation>The &lt;organization&gt; node must have an identifier attribute.  See SCORM 1.3 CAM 3.4.1.7, or SCORM 1.2 CAM 2.3.5.3.1.</Translation>
+        <Translation>العقدة &lt;organization&gt; يجب أن تحتوي على سمة المعرف.  انظر SCORM 1.3 CAM 3.4.1.7، أو SCORM 1.2 CAM 2.3.5.3.1.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>MetadataLocationBadXml</ID>
         <Source>The file, {0}, referenced by the location element inside of metadata in the manifest contains invalid metadata.</Source>
-        <Translation>The file, {0}, referenced by the location element inside of metadata in the manifest contains invalid metadata.</Translation>
+        <Translation>الملف، {0}، المشار إليه بواسطة عنصر المكان داخل بيانات التعريف في البيان يحتوي على بيانات تعريف غير صالحة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>MinNormalizedMeasureOutOfRange</ID>
-        <Source>The value is out of range [-1 to 1] on the &lt;minNormalizedMeasure&gt; node in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
-        <Translation>The value is out of range [-1 to 1] on the &lt;minNormalizedMeasure&gt; node in the &lt;{0} objectiveID="{1}"&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Translation>
+        <Source>The value is out of range [-1 to 1] on the &lt;minNormalizedMeasure&gt; node in the &lt;{0} objectiveID=&quot;{1}&quot;&gt; node.  See SCORM 1.3 CAM 5.1.7.1.1.</Source>
+        <Translation>القيمة خارج النطاق [-1 إلى 1] على العقدة &lt;minNormalizedMeasure&gt; في العقدة &lt;{0} objectiveID = &quot;{1}&quot;&gt;.  انظر SCORM 1.3 CAM 5.1.7.1.1.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>RollupActionMissing</ID>
         <Source>The &lt;rollupAction&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.3.</Source>
-        <Translation>The &lt;rollupAction&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.3.</Translation>
+        <Translation>العقدة &lt;rollupAction&gt; مفقودة على &lt;rollupRule&gt;.  انظر SCORM 1.3 CAM 5.1.6.1.3.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SequencingIdMissing</ID>
         <Source>The &lt;sequencing&gt; node in a &lt;sequencingCollection&gt; must have an ID attribute.  See SCORM 1.3 CAM 5.1.1.</Source>
-        <Translation>The &lt;sequencing&gt; node in a &lt;sequencingCollection&gt; must have an ID attribute.  See SCORM 1.3 CAM 5.1.1.</Translation>
+        <Translation>العقدة &lt;sequencing&gt; في &lt;sequencingCollection&gt; يجب أن يكون لديها السمة ID.  انظر SCORM 1.3 CAM 5.1.1.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>LrFixLmsViolationsNotSet</ID>
         <Source>Unable to substitute a default value for the missing value of node &lt;{0}&gt; because the conversion process is not allowed to substitute default values for missing or erroneous values in the index.xml.</Source>
-        <Translation>Unable to substitute a default value for the missing value of node &lt;{0}&gt; because the conversion process is not allowed to substitute default values for missing or erroneous values in the index.xml.</Translation>
+        <Translation>غير قادر على استبدال القيمة الافتراضية للقيمة المفقودة من العقدة &lt;{0}&gt; لأنه لا يسمح لعملية التحويل أن تحل محل القيم الافتراضية للقيم المفقودة أو الخاطئة في ملف index.xml.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SpmViolation</ID>
-        <Source>The value that begins with "{0}" of the attribute, {1}, is longer than the smallest permitted maximum (SPM), {2}.  Extra information: {3}</Source>
-        <Translation>The value that begins with "{0}" of the attribute, {1}, is longer than the smallest permitted maximum (SPM), {2}.  Extra information: {3}</Translation>
+        <Source>The value that begins with &quot;{0}&quot; of the attribute, {1}, is longer than the smallest permitted maximum (SPM), {2}.  Extra information: {3}</Source>
+        <Translation>القيمة التي تبدأ ب &quot;{0}&quot; من السمة، {1}، أطول من أصغر حد أقصى مسموح به (SPM)، {2}.  معلومات إضافية: {3}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>RequiredElementMissingDefault</ID>
         <Source>The required element, &lt;{0}&gt;, is missing.  Default values will be used. Extra information:{1}</Source>
-        <Translation>The required element, &lt;{0}&gt;, is missing.  Default values will be used. Extra information:{1}</Translation>
+        <Translation>العنصر المطلوب، &lt;{0}&gt;، مفقود.  سيتم استخدام القيم الافتراضية. معلومات إضافية:{1}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>FileMissing</ID>
         <Source>The file {0} does not exist.</Source>
-        <Translation>The file {0} does not exist.</Translation>
+        <Translation>الملف {1} غير موجود.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>IllegalAttributeInResourcePackage</ID>
-        <Source>The attribute, {1}, containing the value "{0}" on node &lt;{2}&gt; is illegal in Resource packages.</Source>
-        <Translation>The attribute, {1}, containing the value "{0}" on node &lt;{2}&gt; is illegal in Resource packages.</Translation>
+        <Source>The attribute, {1}, containing the value &quot;{0}&quot; on node &lt;{2}&gt; is illegal in Resource packages.</Source>
+        <Translation>السمة، {1}، التي تحتوي على القيمة &quot;{0}&quot; على العقدة &lt;{2}&gt; غير قانوني في حزم الموارد.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>IllegalPercentage</ID>
         <Source>The value must be a decimal value from 0 to 1, inclusive.</Source>
-        <Translation>The value must be a decimal value from 0 to 1, inclusive.</Translation>
+        <Translation>القيمة يجب أن تكون قيمة عشرية من 0 إلى 1، شاملة.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>RollupConditionsMissing</ID>
         <Source>The &lt;rollupConditions&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.1.</Source>
-        <Translation>The &lt;rollupConditions&gt; node is missing on an &lt;rollupRule&gt;.  See SCORM 1.3 CAM 5.1.6.1.1.</Translation>
+        <Translation>العقدة &lt;rollupConditions&gt; مفقودة على &lt;rollupRule&gt;.  انظر SCORM 1.3 CAM 5.1.6.1.1.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>SequencingCollectionInResource</ID>
-        <Source>&lt;sequencingCollection&gt; nodes are not permitted in resource packages. This manifest is considered a resource package because it has no &lt;organization&gt; nodes.  See SCORM CAM 3.5.3.</Source>
-        <Translation>&lt;sequencingCollection&gt; nodes are not permitted in resource packages. This manifest is considered a resource package because it has no &lt;organization&gt; nodes.  See SCORM CAM 3.5.3.</Translation>
+        <Source>&lt;sequencingCollection&gt; nodes are not permitted in resource packages. يعتبر هذا البيان مجموعة من الموارد لأنه لا يوجد لديه عقد&lt;organization&gt;.  انظر SCORM CAM 3.5.3.</Source>
+        <Translation>&lt;sequencingCollection&gt; nodes are not permitted in resource packages. يعتبر هذا البيان مجموعة من الموارد لأنه لا يوجد لديه عقد&lt;organization&gt;.  انظر SCORM CAM 3.5.3.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>FileHrefMissing</ID>
         <Source>The &lt;file&gt; node must have an href attribute.  See SCORM 1.3 CAM 3.4.1.23, or SCORM 1.2 CAM 2.3.5.4.3.</Source>
-        <Translation>The &lt;file&gt; node must have an href attribute.  See SCORM 1.3 CAM 3.4.1.23, or SCORM 1.2 CAM 2.3.5.4.3.</Translation>
+        <Translation>العقدة &lt;file&gt; يجب أن تحتوي على سمة href.  انظر SCORM 1.3 CAM 3.4.1.23، أو SCORM 1.2 CAM 2.3.5.4.3.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>OrganiztionTitleMissing</ID>
-        <Source>The &lt;title&gt; node is missing on the &lt;organization&gt; node with identifier="{0}".  See SCORM 1.3 CAM 3.4.1.8, or SCORM 1.2 CAM 2.3.5.3.1.1.</Source>
-        <Translation>The &lt;title&gt; node is missing on the &lt;organization&gt; node with identifier="{0}".  See SCORM 1.3 CAM 3.4.1.8, or SCORM 1.2 CAM 2.3.5.3.1.1.</Translation>
+        <Source>The &lt;title&gt; node is missing on the &lt;organization&gt; node with identifier=&quot;{0}&quot;.  See SCORM 1.3 CAM 3.4.1.8, or SCORM 1.2 CAM 2.3.5.3.1.1.</Source>
+        <Translation>العقدة &lt;title&gt; مفقودة على العقدة &lt;organization&gt; بالمعرف = &quot;{0}&quot;.  انظر SCORM 1.3 CAM 3.4.1.8، أو SCORM 1.2 CAM 2.3.5.3.1.1.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>InvalidDuplicateNodes</ID>
         <Source>UA !There are multiple instances of element, &lt;{0}&gt;. Extra information:{1}</Source>
-        <Translation>UA !There are multiple instances of element, &lt;{0}&gt;. Extra information:{1}</Translation>
+        <Translation>UA !هناك حالات متعددة من العنصر، &lt;{0}&gt;. معلومات إضافية:{1}</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>ConvertedUriSpaces</ID>
-        <Source>The "{0}" value of attribute, {1}, on element &lt;{2}&gt; contains spaces, which are invalid URI characters.  This URI is still being allowed, but the package may not work as expected.</Source>
-        <Translation>The "{0}" value of attribute, {1}, on element &lt;{2}&gt; contains spaces, which are invalid URI characters.  This URI is still being allowed, but the package may not work as expected.</Translation>
+        <Source>The &quot;{0}&quot; value of attribute, {1}, on element &lt;{2}&gt; contains spaces, which are invalid URI characters.  This URI is still being allowed, but the package may not work as expected.</Source>
+        <Translation>قيمة السمة &quot;{0}&quot;، {1}، على العنصر &lt;{2}&gt; تحتوي على مسافات، والتي هي أحرف URI غير صالحة.  URI هذا لا يزال مسموحاً به، لكن الحزمة قد لا تعمل كما هو متوقع.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>OrphanedFile</ID>
         <Source>The file {0} is not referenced in the manifest.</Source>
-        <Translation>The file {0} is not referenced in the manifest.</Translation>
+        <Translation>الملف {0} غير مشار إليه في البيان.</Translation>
         <Crucial>False</Crucial>
       </Resources>
       <Resources>
         <ID>RequiredElementMissing</ID>
         <Source>The required element, &lt;{0}&gt;, is missing. Extra information:{1}</Source>
-        <Translation>The required element, &lt;{0}&gt;, is missing. Extra information:{1}</Translation>
+        <Translation>العنصر المطلوب، &lt;{0}&gt;، مفقود. معلومات إضافية:{1}</Translation>
         <Crucial>False</Crucial>
       </Resources>
     </NewDataSet>
