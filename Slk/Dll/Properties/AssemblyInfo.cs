@@ -15,7 +15,7 @@ using System;
 
 // Version information
 [assembly: System.Reflection.AssemblyVersion("1.3.1.0")]
-[assembly: System.Reflection.AssemblyFileVersion("1.8.1.1")]
+[assembly: System.Reflection.AssemblyFileVersion("1.8.1.2")]
 
 // Other general attributes
 [assembly: AssemblyTitle("Microsoft SharePoint Learning Kit Module")]

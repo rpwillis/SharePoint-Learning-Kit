@@ -461,6 +461,82 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             lblStatusValue.Text = Server.HtmlEncode(SlkUtilities.GetLearnerAssignmentState(learnerAssignmentStatus));
 
             DisplayCustomProperties();
+            DisplayMixes();
+        }
+
+        private void Debug(string message, params object[] args)
+        {
+            errorBanner.AddError(ErrorType.Error, string.Format(message, args));
+        }
+
+        private void DisplayMixes()
+        {
+            const string officeMixHost = "mix.office.com";
+            const string swayHost = "sway.com";
+            if (SlkUtilities.ContainsString(AssignmentProperties.Description, officeMixHost) || SlkUtilities.ContainsString(AssignmentProperties.Description, swayHost))
+            {
+                MatchCollection links = SlkUtilities.FindLinks(AssignmentProperties.Description);
+                foreach (Match match in links)
+                {
+                    if (SlkUtilities.ContainsString(match.Value, officeMixHost))
+                    {
+                        // It is a link to an Office Mix
+                        string embedUrl = SlkUtilities.GenerateMixUrl(match.Value);
+                        AddMix(embedUrl);
+                    }
+                    else if (SlkUtilities.ContainsString(match.Value, swayHost))
+                    {
+                        string embedUrl = SlkUtilities.GenerateSwayUrl(match.Value);
+                        AddSway(embedUrl);
+                    }
+                }
+            }
+        }
+
+        private void AddSway(string embedUrl)
+        {
+            string iframeFormat = "<iframe width=\"760px\" height=\"500px\" src=\"{0}\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" style=\"border: none;\" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen></iframe>";
+            AddIframe(embedUrl, iframeFormat);
+        }
+
+        private void AddMix(string embedUrl)
+        {
+            string iframeFormat = "<iframe width=\"960\" height=\"589\" src=\"{0}\" frameborder=\"0\" allowfullscreen></iframe>";
+            AddIframe(embedUrl, iframeFormat);
+        }
+
+        private void AddIframe(string embedUrl, string iframeFormat)
+        {
+            TableGrid table = null;
+
+            Control parent = lblDescription.Parent;
+            while (parent != null)
+            {
+                table = parent as TableGrid;
+                if (table != null)
+                {
+                    break;
+                }
+                else
+                {
+                    parent = parent.Parent;
+                }
+            }
+
+            if (table != null)
+            {
+                TableGridRow row = new TableGridRow();
+
+                TableGridColumn column = new TableGridColumn();
+
+                Label label = new Label();
+                label.Text = string.Format(CultureInfo.InvariantCulture, iframeFormat, embedUrl);
+                column.Controls.Add(label);
+
+                row.Cells.Add(column);
+
+                table.Rows.Add(row);
+            }
         }
 
         private void DisplayCustomProperties()
@@ -525,11 +601,22 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         {
             TableGridColumn column = new TableGridColumn();
             column.ColumnType = formType;
-            HyperLink link = new HyperLink();
-            link.ID = idPrefix + propertyName;
-            link.Text = Server.HtmlEncode(text);
-            link.NavigateUrl = Uri.EscapeUriString(text);
-            column.Controls.Add(link);
+            if (string.IsNullOrEmpty(text) == false)
+            {
+                HyperLink link = new HyperLink();
+                link.ID = idPrefix + propertyName;
+                link.Text = Server.HtmlEncode(text);
+                try
+                {
+                    link.NavigateUrl = Uri.EscapeUriString(text);
+                }
+                catch (UriFormatException)
+                {
+                    // Invalid url
+                }
+
+                column.Controls.Add(link);
+            }
             row.Cells.Add(column);
         }
 

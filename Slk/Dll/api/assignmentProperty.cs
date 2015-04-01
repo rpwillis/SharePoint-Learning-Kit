@@ -98,9 +98,12 @@ namespace Microsoft.SharePointLearningKit
                 // url must be server relative or be absolute
                 string url = value;
 
-                if (url[0] != '/' && url.Contains("://") == false)
+                if (string.IsNullOrEmpty(url) == false)
                 {
-                    url = "http://" + value;
+                    if (url[0] != '/' && url.Contains("://") == false)
+                    {
+                        url = "http://" + value;
+                    }
                 }
 
                 base.Value = url;
