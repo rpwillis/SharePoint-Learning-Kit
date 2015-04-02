@@ -52,6 +52,67 @@ namespace Microsoft.SharePointLearningKit.WebParts
          Personalizable(PersonalizationScope.Shared)
          ]
         public bool AlwaysShow { get; set; }
+
+        /// <summary>See <see cref="WebPart.Description"/>.</summary>
+        public override string Description
+        {
+            get
+            {
+                // Localise the description if empty or it is the default value
+                if (string.IsNullOrEmpty(base.Description) || base.Description == GetLocalizedString("QuickAssignmentWebPartDescription", CultureInfo.InvariantCulture.LCID))
+                {
+                    return GetLocalizedString("QuickAssignmentWebPartDescription", culture.Culture.LCID);
+                }
+                else
+                {
+                    return base.Description;
+                }
+            }
+
+            set
+            {
+                if (value == GetLocalizedString("QuickAssignmentWebPartDescription", CultureInfo.InvariantCulture.LCID) 
+                        || value == GetLocalizedString("QuickAssignmentWebPartDescription", CultureInfo.InvariantCulture.LCID))
+                {
+                    base.Title = null;
+                }
+                else
+                {
+                    base.Title = value;
+                }
+            }
+        }
+
+        /// <summary>See <see cref="WebPart.Title"/>.</summary>
+        public override string Title
+        {
+            get
+            {
+                // Localise the description if empty or it is the default value
+                if (string.IsNullOrEmpty(base.Title) || base.Title == GetLocalizedString("QuickAssignmentWebPartTitle", CultureInfo.InvariantCulture.LCID))
+                {
+                    return GetLocalizedString("QuickAssignmentWebPartTitle", culture.Culture.LCID);
+                }
+                else
+                {
+                    return base.Title;
+                }
+            }
+
+            set
+            {
+                if (value == GetLocalizedString("QuickAssignmentWebPartTitle", CultureInfo.InvariantCulture.LCID) 
+                        || value == GetLocalizedString("QuickAssignmentWebPartTitle", CultureInfo.InvariantCulture.LCID))
+                {
+                    base.Title = null;
+                }
+                else
+                {
+                    base.Title = value;
+                }
+            }
+        }
+
 #endregion properties
 
 #region constuctors
@@ -167,6 +228,19 @@ namespace Microsoft.SharePointLearningKit.WebParts
 #endregion click event
 
 #region private methods
+        private string GetLocalizedString(string resourceName, int lcid)
+        {
+            if (string.IsNullOrEmpty(resourceName))
+            {
+                return string.Empty;
+            }
+            else
+            {
+                string resourceFile = "SLK";
+                return Microsoft.SharePoint.Utilities.SPUtility.GetLocalizedString("$Resources:" + resourceName, resourceFile, (uint)lcid);
+            }
+        }
+
         string FindSelectedWeb()
         {
             if (sites != null && sites.SelectedIndex > -1)
