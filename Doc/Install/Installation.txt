@@ -1,6 +1,6 @@
 Installing SLK
 
-This document contains the installation and configuration instructions for SLK version 1.5. It has the following sections:
+This document contains the installation and configuration instructions for SLK version 1.8. It has the following sections:
 
 1.  Introduction - About SharePoint Learning Kit
 2.  Requirements
@@ -17,57 +17,41 @@ SharePoint Learning Kit (SLK) is a SCORM 2004-conformant e-learning delivery and
     b. Supports a learner-centric or instructor-led (assigned) workflow.
     c. Allows assignment, tracking and grading of both e-learning and non-e-learning content.
 
-The current version is 1.7.
+The current version is 1.8.
 
 SharePoint Learning Kit is a community source project. This means that it is made available to you for free, and that you can use it as-is or modify it to suit your needs as long as you comply with the conditions that are described in the accompanying License.txt file. You are responsible for reading and complying with this license. SharePoint Learning Kit is supported by a community of users and developers through discussion forums at http://www.codeplex.com/slk. You are invited to participate in this community, to help others, to report issues, and to contribute your ideas to carry SLK forward. For the most up to date information about SLK, please refer to http://www.codeplex.com/slk.
 
 2.  Requirements
 
-    a.  You must have a SharePoint 2007 or SharePoint 2010/2013 environment already set up.
-        i.  For SharePoint 2007, SLK will run on either Windows SharePoint Services 3 or Microsoft Office SharePoint Server 2007
-        ii. For SharePoint 2010/2013, SLK will run on SharePoint Foundation or SharePoint Server.
+    a.  You must have a SharePoint 2010/2013 environment already set up.  SLK will run on SharePoint Foundation or SharePoint Server.
     b.  SLK stores its results in a SQL Server database so you need to know which SQL Server instance you want to create the database in.
 
 3.  Contents of the installation package
 
     a.  SharePointLearningKit.wsp:  The solution package
     b.  Installation.txt: This help file
-    c.  AddSolution.ps1 or AddSolution.cmd (depending on whether for SharePoint 2007 or SharePoint 2010/2013)
-    d.  UpdateSolutionNavigation.cmd (if for SharePoint 2007)
-    e.  license.txt: The license for use of SLK
-    f.  ReleaseNotes.txt: Version specific release notes
-    g.  upgrading.txt: Upgrade instructions
+    c.  AddSolution.ps1
+    d.  license.txt: The license for use of SLK
+    e.  ReleaseNotes.txt: Version specific release notes
+    f.  upgrading.txt: Upgrade instructions
 
 4.  Installing SLK
 
-    3.a.    For SharePoint 2010 & 2013
+    a.   Unzip the installation package on a web front end server.
+    b.   Right click on AddSolution.ps1 and choose properties. Then click the unblock button.
+    c.   Add the solution to SharePoint by running AddSolution.ps1. This will add the solution to the solution gallery. To run AddSolution.ps1
+            - Find PowerShell or SharePoint 2010/2013 Management Shell in the start menu (All Programs | Microsoft SharePoint 2010/2013 Programs)
+            - Right Click on PowerShell SharePoint 2010/2013 Management Shell and choose Run as Administrator
+            - cd to the directory containing the installation files
+            - type in .\AddSolution.ps1 and hit enter
+    d.   Central Administration
+    e.   Click on System Settings
+    f.   Under Farm Management click on Manage farm solutions
+    g.   Click on sharepointlearningkit.wsp
+    h.   You now need to deploy to solution so click on Deploy Solution.
+    i.   Choose when you want to deploy the solution and which web application to deploy the solution to. This needs to be the web application which hosts the web pages/sites where your users will be using SLK for teaching & learning. Then click OK.
+    j.   This will add the deploy job to the SharePoint job queue and return you to the list of installed solutions. Even if you selected to deploy immediately it will take a bit of time to deploy.
 
-        i.      Unzip the installation package on a web front end server.
-        ii.     Right click on AddSolution.ps1 and choose properties. Then click the unblock button.
-        iii.    Add the solution to SharePoint by running AddSolution.ps1. This will add the solution to the solution gallery. To run AddSolution.ps1
-                - Find PowerShell or SharePoint 2010/2013 Management Shell in the start menu (All Programs | Microsoft SharePoint 2010/2013 Programs)
-                - Right Click on PowerShell SharePoint 2010/2013 Management Shell and choose Run as Administrator
-                - cd to the directory containing the installation files
-                - type in .\AddSolution.ps1 and hit enter
-        iv.     Open SharePoint 2010/2013 Central Administration
-        v.      Click on System Settings
-        vi.     Under Farm Management click on Manage farm solutions
-        vii.    Click on sharepointlearningkit.wsp
-        viii.   You now need to deploy to solution so click on Deploy Solution.
-        ix.     Choose when you want to deploy the solution and which web application to deploy the solution to. This needs to be the web application which hosts the web pages/sites where your users will be using SLK for teaching & learning. Then click OK.
-        x.      This will add the deploy job to the SharePoint job queue and return you to the list of installed solutions. Even if you selected to deploy immediately it will take a bit of time to deploy.
-
-    3.b.    For SharePoint 2007
-        i.      Unzip the installation package on a web front end server.
-        ii.     Add the solution to SharePoint by running AddSolution.cmd. This will add the solution to the solution gallery.
-        iii.    Run UpdateSolutionNavigation.cmd
-        iv.     Open SharePoint 3.0 Central Administration
-        v.      Click on Operations
-        vi.     Under Global Configuration click on Solution Management
-        vii.    Click on sharepointlearningkit.wsp
-        viii.   You now need to deploy to solution so click on Deploy Solution.
-        ix.     Choose when you want to deploy the solution and which web application to deploy the solution to. This needs to be the web application which hosts the web pages/sites where your users will be using SLK for teaching & learning. Then click OK.
-        x.      This will add the deploy job to the SharePoint job queue and return you to the list of installed solutions. Even if you selected to deploy immediately it will take a bit of time to deploy.
 
 5.  Configuring SLK
     Once SLK is installed and deployed in SharePoint you need to configure it .
