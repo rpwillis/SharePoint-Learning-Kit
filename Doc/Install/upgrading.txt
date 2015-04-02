@@ -1,3 +1,14 @@
+Upgrade to 1.8 from 1.7
+    To upgrade from 1.7 you need to: 
+        a.  Retract the SharePoint Learning Kit solution
+        b.  Once retraction has finished then remove the solution
+        c.  Then add solution as in installing SLK and then deploy it to the appropriate web applications
+
+    Run the database upgrade script upgrade18.sql on all of your SLK databases.
+
+Upgrade to 1.8 from earlier than 1.7
+    Run the upgrade16.sql script on all of your SLK databases, then use the instructions for upgrading from 1.7.
+
 Upgrade to 1.7 from 1.6
 
     To upgrade from 1.6 you need to: 
