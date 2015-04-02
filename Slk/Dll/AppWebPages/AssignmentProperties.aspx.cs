@@ -435,6 +435,67 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             spDateTimeDue.LocaleId = SPWeb.Locale.LCID;
             spDateTimeStart.TimeZoneID = SPWeb.RegionalSettings.TimeZone.ID;
             spDateTimeDue.TimeZoneID = SPWeb.RegionalSettings.TimeZone.ID;
+
+            switch (SPWeb.RegionalSettings.CalendarType)
+            {
+                case 3: // Japanese Emperor Era
+                    spDateTimeStart.Calendar = SPCalendarType.Japan;
+                    spDateTimeDue.Calendar = SPCalendarType.Japan;
+                    break;
+
+                case 5: // Korean Tangun Era
+                    spDateTimeStart.Calendar = SPCalendarType.Korea;
+                    spDateTimeDue.Calendar = SPCalendarType.Korea;
+                    break;
+
+                case 6: // Hijri
+                    spDateTimeStart.Calendar = SPCalendarType.Hijri;
+                    spDateTimeDue.Calendar = SPCalendarType.Hijri;
+                    break;
+
+                case 7: // Buddhist
+                    spDateTimeStart.Calendar = SPCalendarType.Thai;
+                    spDateTimeDue.Calendar = SPCalendarType.Thai;
+                    break;
+
+                case 8: // Hebrew Lunar
+                    spDateTimeStart.Calendar = SPCalendarType.Hebrew;
+                    spDateTimeDue.Calendar = SPCalendarType.Hebrew;
+                    break;
+
+                case 9: // Gregorian Middle East French Calendar
+                    spDateTimeStart.Calendar = SPCalendarType.GregorianMEFrench;
+                    spDateTimeDue.Calendar = SPCalendarType.GregorianMEFrench;
+                    break;
+
+                case 10: // Gregorian Arabic Calendar
+                    spDateTimeStart.Calendar = SPCalendarType.GregorianArabic;
+                    spDateTimeDue.Calendar = SPCalendarType.GregorianArabic;
+                    break;
+
+                case 11: // Gregorian Transliterated English Calendar
+                    spDateTimeStart.Calendar = SPCalendarType.GregorianXLITEnglish;
+                    spDateTimeDue.Calendar = SPCalendarType.GregorianXLITEnglish;
+                    break;
+
+                case 12: // Gregorian Transliterated French Calendar
+                    spDateTimeStart.Calendar = SPCalendarType.GregorianXLITFrench;
+                    spDateTimeDue.Calendar = SPCalendarType.GregorianXLITFrench;
+                    break;
+
+                case 16: // Saka Era
+                    spDateTimeStart.Calendar = SPCalendarType.SakaEra;
+                    spDateTimeDue.Calendar = SPCalendarType.SakaEra;
+                    break;
+
+                case 0: // None
+                case 1: // Gregorian
+                default:
+                    spDateTimeStart.Calendar = SPCalendarType.Gregorian;
+                    spDateTimeDue.Calendar = SPCalendarType.Gregorian;
+                    break;
+            }
+
             base.OnInit(e);
         }
 

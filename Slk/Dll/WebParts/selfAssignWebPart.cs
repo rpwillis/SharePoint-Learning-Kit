@@ -44,6 +44,66 @@ namespace Microsoft.SharePointLearningKit.WebParts
          Personalizable(PersonalizationScope.Shared)]
         public string ViewName { get; set; }
 
+        /// <summary>See <see cref="WebPart.Description"/>.</summary>
+        public override string Description
+        {
+            get
+            {
+                // Localise the description if empty or it is the default value
+                if (string.IsNullOrEmpty(base.Description) || base.Description == GetLocalizedString("SelfAssignWebPartDescription", CultureInfo.InvariantCulture.LCID))
+                {
+                    return GetLocalizedString("SelfAssignWebPartDescription", culture.Culture.LCID);
+                }
+                else
+                {
+                    return base.Description;
+                }
+            }
+
+            set
+            {
+                if (value == GetLocalizedString("SelfAssignWebPartDescription", CultureInfo.InvariantCulture.LCID) 
+                        || value == GetLocalizedString("SelfAssignWebPartDescription", CultureInfo.InvariantCulture.LCID))
+                {
+                    base.Title = null;
+                }
+                else
+                {
+                    base.Title = value;
+                }
+            }
+        }
+
+        /// <summary>See <see cref="WebPart.Title"/>.</summary>
+        public override string Title
+        {
+            get
+            {
+                // Localise the description if empty or it is the default value
+                if (string.IsNullOrEmpty(base.Title) || base.Title == GetLocalizedString("SelfAssignWebPartTitle", CultureInfo.InvariantCulture.LCID))
+                {
+                    return GetLocalizedString("SelfAssignWebPartTitle", culture.Culture.LCID);
+                }
+                else
+                {
+                    return base.Title;
+                }
+            }
+
+            set
+            {
+                if (value == GetLocalizedString("SelfAssignWebPartTitle", CultureInfo.InvariantCulture.LCID) 
+                        || value == GetLocalizedString("SelfAssignWebPartTitle", CultureInfo.InvariantCulture.LCID))
+                {
+                    base.Title = null;
+                }
+                else
+                {
+                    base.Title = value;
+                }
+            }
+        }
+
 #endregion properties
 
 #region public methods
@@ -93,6 +153,19 @@ namespace Microsoft.SharePointLearningKit.WebParts
 #endregion protected methods
 
 #region private methods
+        private string GetLocalizedString(string resourceName, int lcid)
+        {
+            if (string.IsNullOrEmpty(resourceName))
+            {
+                return string.Empty;
+            }
+            else
+            {
+                string resourceFile = "SLK";
+                return Microsoft.SharePoint.Utilities.SPUtility.GetLocalizedString("$Resources:" + resourceName, resourceFile, (uint)lcid);
+            }
+        }
+
         bool ValidateProperties()
         {
             if (string.IsNullOrEmpty(ListName))
