@@ -44,8 +44,16 @@ namespace Microsoft.SharePointLearningKit
     /// </summary>
     public static class SlkUtilities
     {
-        private const string urlRegexString = @"\b(?:(?:https?|ftp|file)://|www\.|ftp\.|mix\.office\.|sway\.)(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])";
+        private const string baseUrlRegexString = @"\b(?:(?:https?|ftp|file)://|www\.|ftp\.|mix\.office\.|sway\.)(?:\([-A-Z0-9+&@#/%=~_{}|$?!:;,.]*\)|[-A-Z0-9+&@#/%=~_{}|$?!:;,.])*(?:\([-A-Z0-9+&@#/%=~_{}|$?!:;,.]*\)|[A-Z0-9+&@#/%=~_{}|$])";
+        // Markdown regex matches [display title](url). The display is in square brackets, the url is in parentheses
+        private const string markdownRegexString = @"\[(.+)\]\((" + baseUrlRegexString + @")\)";
+        // url regex matches a url which is not preceeded by ]( i.e. the construct we would be expecting if it is a markdown url
+        // Must also not be preceeded by :// or a string ofMarkdown format e.g. [title](http://www.codeplex.com) would match the www.codeplex.com bit, and not get
+        // picked up as a markdown url
+        private const string urlRegexString = @"(?<!\]\(|://)" + baseUrlRegexString;
+
         static readonly Regex urlRegex = new Regex(urlRegexString, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex markdownRegex = new Regex(markdownRegexString, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         static readonly Regex watchRegex = new Regex("watch", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         #region Public Static Methods
 
@@ -204,13 +212,12 @@ namespace Microsoft.SharePointLearningKit
         /// <param name="input">The text to change.</param>
         public static string ClickifyLinks(string input)
         {
-            return urlRegex.Replace(input, ClickfyLink);
+            string intermediateValue = urlRegex.Replace(input, ClickfyLink);
+            return markdownRegex.Replace(intermediateValue, ClickfyMarkdownLink);
         }
 
-        private static string ClickfyLink(Match match)
+        private static string MakeLink(string title, string url, string defaultValue)
         {
-            string url = match.Value;
-
             if (string.IsNullOrEmpty(url) == false)
             {
                 if (url.Contains("://") == false)
@@ -221,13 +228,44 @@ namespace Microsoft.SharePointLearningKit
                 try
                 {
                     // Make the url safe
+                    // First unescape in case it's already been escaped e.g. OneNote urls
+                    url = Uri.UnescapeDataString(url);
                     url = Uri.EscapeUriString(url);
-                    return string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a>", url, match.Value);
+                    return string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a>", url, title);
                 }
                 catch (UriFormatException)
                 {
                     // Invalid Url, don't replace
+                    return defaultValue;
                 }
+            }
+
+            return defaultValue;
+        }
+
+        private static string ClickfyMarkdownLink(Match match)
+        {
+            if (string.IsNullOrEmpty(match.Value) == false)
+            {
+                string title = match.Groups[1].Value;
+                string url = match.Groups[2].Value;
+                if (string.IsNullOrEmpty(title))
+                {
+                    title = url;
+                }
+
+                return MakeLink(title, url, match.Value);
+            }
+
+            // If reached here something has gone wrong so don't replace
+            return match.Value;
+        }
+
+        private static string ClickfyLink(Match match)
+        {
+            if (string.IsNullOrEmpty(match.Value) == false)
+            {
+                return MakeLink(match.Value, match.Value, match.Value);
             }
 
             // If reached here something has gone wrong so don't replace
