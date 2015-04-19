@@ -44,13 +44,13 @@ namespace Microsoft.SharePointLearningKit
     /// </summary>
     public static class SlkUtilities
     {
-        private const string baseUrlRegexString = @"\b(?:(?:https?|ftp|file)://|www\.|ftp\.|mix\.office\.|sway\.)(?:\([-A-Z0-9+&@#/%=~_{}|$?!:;,.]*\)|[-A-Z0-9+&@#/%=~_{}|$?!:;,.])*(?:\([-A-Z0-9+&@#/%=~_{}|$?!:;,.]*\)|[A-Z0-9+&@#/%=~_{}|$])";
+        private const string baseUrlRegexString = @"\b(?:(?:https?|ftp|file|onenote:https?)://|www\.|ftp\.|mix\.office\.|sway\.)(?:\([-A-Z0-9+&@#/%=~_{}|$?!:;,.]*\)|[-A-Z0-9+&@#/%=~_{}|$?!:;,.])*(?:\([-A-Z0-9+&@#/%=~_{}|$?!:;,.]*\)|[A-Z0-9+&@#/%=~_{}|$])";
         // Markdown regex matches [display title](url). The display is in square brackets, the url is in parentheses
         private const string markdownRegexString = @"\[(.+)\]\((" + baseUrlRegexString + @")\)";
         // url regex matches a url which is not preceeded by ]( i.e. the construct we would be expecting if it is a markdown url
         // Must also not be preceeded by :// or a string ofMarkdown format e.g. [title](http://www.codeplex.com) would match the www.codeplex.com bit, and not get
         // picked up as a markdown url
-        private const string urlRegexString = @"(?<!\]\(|://)" + baseUrlRegexString;
+        private const string urlRegexString = @"(?<!\]\(|://|onenote:)" + baseUrlRegexString;
 
         static readonly Regex urlRegex = new Regex(urlRegexString, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         static readonly Regex markdownRegex = new Regex(markdownRegexString, RegexOptions.Compiled | RegexOptions.IgnoreCase);
