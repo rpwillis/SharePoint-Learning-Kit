@@ -46,7 +46,7 @@ namespace Microsoft.SharePointLearningKit
     {
         private const string baseUrlRegexString = @"\b(?:(?:https?|ftp|file|onenote:https?)://|www\.|ftp\.|mix\.office\.|sway\.)(?:\([-A-Z0-9+&@#/%=~_{}|$?!:;,.]*\)|[-A-Z0-9+&@#/%=~_{}|$?!:;,.])*(?:\([-A-Z0-9+&@#/%=~_{}|$?!:;,.]*\)|[A-Z0-9+&@#/%=~_{}|$])";
         // Markdown regex matches [display title](url). The display is in square brackets, the url is in parentheses
-        private const string markdownRegexString = @"\[(.+)\]\((" + baseUrlRegexString + @")\)";
+        private const string markdownRegexString = @"\[([^\]]+)\]\((" + baseUrlRegexString + @")\)";
         // url regex matches a url which is not preceeded by ]( i.e. the construct we would be expecting if it is a markdown url
         // Must also not be preceeded by :// or a string ofMarkdown format e.g. [title](http://www.codeplex.com) would match the www.codeplex.com bit, and not get
         // picked up as a markdown url
@@ -231,7 +231,7 @@ namespace Microsoft.SharePointLearningKit
                     // First unescape in case it's already been escaped e.g. OneNote urls
                     url = Uri.UnescapeDataString(url);
                     url = Uri.EscapeUriString(url);
-                    return string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a>", url, title);
+                    return string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" class=\"slk-link\">{1}</a>", url, title);
                 }
                 catch (UriFormatException)
                 {
