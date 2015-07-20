@@ -353,7 +353,15 @@ namespace Microsoft.SharePointLearningKit
         {
             if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.UserAgent != null)
             {
-                return HttpContext.Current.Request.UserAgent.ToUpperInvariant().Contains("IPAD");
+                string upper = HttpContext.Current.Request.UserAgent.ToUpperInvariant();
+                if (upper.Contains("IPAD"))
+                {
+                    return true;
+                }
+                else
+                {
+                    return upper.Contains("IPHONE");
+                }
             }
             else
             {

@@ -464,11 +464,6 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
             DisplayMixes();
         }
 
-        private void Debug(string message, params object[] args)
-        {
-            errorBanner.AddError(ErrorType.Error, string.Format(message, args));
-        }
-
         private void DisplayMixes()
         {
             const string officeMixHost = "mix.office.com";
