@@ -492,7 +492,7 @@ namespace Microsoft.LearningComponents
             // match is of format href="url.css"
             // so need to put / the letter before last
             string value = match.Value;
-            return value.Substring(0, value.Length - 1) + "x" + value.Substring(value.Length - 1);
+            return value.Substring(0, value.Length - 1) + "/" + value.Substring(value.Length - 1);
         }
 
         /// <summary>
