@@ -51,6 +51,15 @@ namespace SharePointLearningKit.Localization
 
             if (!ParseArgs(args))
             {
+                Console.Write("Invalid call: Localize.exe");
+                foreach (string argument in args)
+                {
+                    Console.Write(" ");
+                    Console.Write(argument);
+                }
+
+                Console.WriteLine();
+
                 PrintHelp(entryAssembly);
                 return 1;
             }
