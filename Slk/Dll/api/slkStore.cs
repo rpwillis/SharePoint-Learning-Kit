@@ -2547,7 +2547,7 @@ namespace Microsoft.SharePointLearningKit
             LearnerAssignmentProperties learnerProperties = PopulateLearnerAssignmentProperties(dataRow, properties);
             AddCustomProperties(properties, learnerProperties, dataRow);
 
-            if (properties.IsNonELearning && learnerProperties.User != null)
+            if (properties.IsNonELearning && learnerProperties.User == null)
             {
                 SPSecurity.RunWithElevatedPrivileges(delegate
                 {

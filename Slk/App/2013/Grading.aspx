@@ -37,17 +37,20 @@
     var slkSourceUrl = '';
 
     function openSubmittedFiles(id) {
-        var options = SP.UI.$create_DialogOptions();
-        options.url = slkSubmittedUrl + id + slkSourceUrl;
-        options.allowMaximize = true;
-        options.showClose = true;
-        options.autoSize = true;
-        var obj = SP.UI.ModalDialog.showModalDialog(options);
-        slkDialog = obj.get_frameElement();
-        if (slkAfterOpenSubmittedFiles != 'undefined')
-        {
-            checkFrameLoaded();
-        }
+        var options = {
+            url : slkSubmittedUrl + id + slkSourceUrl,
+            allowMaximize : true,
+            showClose : true,
+            autoSize : true
+        };
+        SP.SOD.loadMultiple(['sp.init.js','sp.ui.dialog.js'], function () {
+            var obj = SP.UI.ModalDialog.showModalDialog(options);
+            slkDialog = obj.get_frameElement();
+            if (slkAfterOpenSubmittedFiles != 'undefined')
+            {
+                checkFrameLoaded();
+            }
+        });
     } 
 
     var slkDialog;

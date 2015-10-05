@@ -209,6 +209,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         protected void BuildPageContent()
         {
             dropBox = new DropBoxManager(AssignmentProperties);
+
             AssignmentFile[] files = dropBox.LastSubmittedFiles(LearnerAssignmentProperties.User.SPUser, true);
 
             returnUrl = Request.QueryString["source"];
