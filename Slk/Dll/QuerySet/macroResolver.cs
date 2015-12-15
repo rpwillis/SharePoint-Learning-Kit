@@ -28,6 +28,34 @@ namespace Microsoft.SharePointLearningKit
 #endregion properties
 
 #region public methods
+        /// <summary>Validates a macro.</summary>
+        /// <param name="macroName">The macro to validate.</param>
+        public static void ValidateMacro(string macroName)
+        {
+            string name = macroName;
+            int index = name.IndexOf(":");
+            if (index > 0)
+            {
+                name = name.Substring(0, index);
+            }
+
+            switch (name)
+            {
+                case "SPWebScope":
+                case "CurrentUserKey":
+                case "Now":
+                case "StartOfToday":
+                case "StartOfTomorrow":
+                case "StartOfThisWeek":
+                case "StartOfNextWeek":
+                case "StartOfWeekAfterNext":
+                default:
+                    SlkCulture culture = new SlkCulture();
+                    throw new SlkSettingsException(culture.Format(culture.Resources.InvalidMacro, macroName));
+
+            }
+        }
+
         /// <summary>Resolves the macro.</summary>
         /// <param name="macroName">The name of the macro.</param>
         /// <returns>The value of the macro, or <c>null</c> if the macro is not defined.</returns>

@@ -219,11 +219,11 @@
     <value>SharePoint Learning Kit is not configured correctly -- please contact your system administrator.  (SLK Settings not found for SPSite {0}.)</value>
     <comment>{0} = SPSite url</comment>
   </data>
-  <data name="AlwpWepPartTitle" xml:space="preserve">
+  <data name="AlwpWebPartTitle" xml:space="preserve">
     <value>Assignment List Web Part</value>
     <comment>Title for Assignment List Web Part</comment>
   </data>
-  <data name="AlwpWepPartDescription" xml:space="preserve">
+  <data name="AlwpWebPartDescription" xml:space="preserve">
     <value>Display the assignments for an instructor or learner.</value>
     <comment>Description for Assignment List Wep Part</comment>
   </data>
@@ -892,7 +892,7 @@ saving, click Cancel.</value>
     <value>{0:D}, {0:t}</value>
     <comment>Specifies {0} = date, {1} = time.</comment>
   </data>
-  <data name="AlwpWepPartToolTipFormat" xml:space="preserve">
+  <data name="AlwpWebPartToolTipFormat" xml:space="preserve">
     <value>{0} - {1}</value>
     <comment>Specifies {0} = WebPart Title, {1} = Description.</comment>
   </data>
@@ -1930,6 +1930,9 @@ For security reasons, integrated authentication is strongly recommended.
   </data>
   <data name="DropBoxFailCreateField" xml:space="preserve">
       <value>Failed to create field {0} for drop box. {1}</value>
+  </data>
+  <data name="InvalidMacro" xml:space="preserve">
+      <value>Invalid macro {0}.</value>
   </data>
   <data name="InvalidModifierForMacro" xml:space="preserve">
       <value>Invalid modifier for macro {0}.</value>

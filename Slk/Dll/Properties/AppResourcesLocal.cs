@@ -534,27 +534,27 @@ namespace Resources.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Display the assignments for an instructor or learner..
         /// </summary>
-        internal string AlwpWepPartDescription {
+        internal string AlwpWebPartDescription {
             get {
-                return ResourceManager.GetString("AlwpWepPartDescription", resourceCulture);
+                return ResourceManager.GetString("AlwpWebPartDescription", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Assignment List Web Part.
         /// </summary>
-        internal string AlwpWepPartTitle {
+        internal string AlwpWebPartTitle {
             get {
-                return ResourceManager.GetString("AlwpWepPartTitle", resourceCulture);
+                return ResourceManager.GetString("AlwpWebPartTitle", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {0} - {1}.
         /// </summary>
-        internal string AlwpWepPartToolTipFormat {
+        internal string AlwpWebPartToolTipFormat {
             get {
-                return ResourceManager.GetString("AlwpWepPartToolTipFormat", resourceCulture);
+                return ResourceManager.GetString("AlwpWebPartToolTipFormat", resourceCulture);
             }
         }
         
@@ -2887,6 +2887,15 @@ namespace Resources.Properties {
         internal string InvalidDatabaseServerName {
             get {
                 return ResourceManager.GetString("InvalidDatabaseServerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid modifier for macro {0}..
+        /// </summary>
+        internal string InvalidMacro {
+            get {
+                return ResourceManager.GetString("InvalidMacro", resourceCulture);
             }
         }
         
