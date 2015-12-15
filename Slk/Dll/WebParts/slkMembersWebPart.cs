@@ -68,7 +68,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
                     {
                         HyperLink link = new HyperLink();
                         link.Text = learner.Name;
-                        members.Add(learner.Name, link);
+                        members[learner.Key] = link;
                     }
 
                 }
