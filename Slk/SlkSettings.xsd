@@ -98,7 +98,7 @@
 									<xs:attribute name="ViewColumnName" type="SchemaIdType" use="required" />
 									<xs:attribute name="Operator" type="ConditionOperator" use="required" />
 									<xs:attribute name="Value" type="xs:string" use="optional" />
-									<xs:attribute name="MacroName" type="MacroNameType" use="optional" />
+									<xs:attribute name="MacroName" type="xs:string" use="optional" />
 									<xs:attribute name="NoConditionOnNull" type="xs:boolean" use="optional" default="false" />
 								</xs:complexType>
 							</xs:element>

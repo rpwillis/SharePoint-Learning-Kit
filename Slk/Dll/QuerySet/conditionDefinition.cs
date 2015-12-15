@@ -181,8 +181,7 @@ namespace Microsoft.SharePointLearningKit
         /// non-null unless <paramref name="oper"/> equals "IsNull" or "IsNotNull".
         /// </remarks>
         ///
-        internal ConditionDefinition(string viewColumnName, string oper, string value,
-            string macroName, bool noConditionOnNull, int lineNumber)
+        internal ConditionDefinition(string viewColumnName, string oper, string value, string macroName, bool noConditionOnNull, int lineNumber)
         {
             // store state
             m_viewColumnName = viewColumnName;
@@ -221,7 +220,14 @@ namespace Microsoft.SharePointLearningKit
                 }
                 break;
             }
+
             m_value = value;
+
+            if (string.IsNullOrEmpty(macroName) == false)
+            {
+                MacroResolver.ValidateMacro(macroName);
+            }
+
             m_macroName = macroName;
             m_noConditionOnNull = noConditionOnNull;
             m_lineNumber = lineNumber;

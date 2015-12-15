@@ -202,7 +202,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
             culture = new SlkCulture();
             displaySummary = true;
             listScope = true;
-            ToolTip = culture.Format(culture.Resources.AlwpWepPartToolTipFormat, this.Title, this.Description);
+            ToolTip = culture.Format(culture.Resources.AlwpWebPartToolTipFormat, this.Title, this.Description);
         }
         #endregion
 
@@ -214,9 +214,9 @@ namespace Microsoft.SharePointLearningKit.WebParts
             get
             {
                 // Localise the description if empty or it is the default value
-                if (string.IsNullOrEmpty(base.Description) || base.Description == GetLocalizedString("AlwpWepPartDescription"))
+                if (string.IsNullOrEmpty(base.Description) || base.Description == GetLocalizedString("AlwpWebPartDescription"))
                 {
-                    return culture.Resources.AlwpWepPartDescription;
+                    return culture.Resources.AlwpWebPartDescription;
                 }
                 else
                 {
@@ -232,9 +232,9 @@ namespace Microsoft.SharePointLearningKit.WebParts
             get
             {
                 // Localise the description if empty or it is the default value
-                if (string.IsNullOrEmpty(base.Title) || base.Title == GetLocalizedString("AlwpWepPartTitle"))
+                if (string.IsNullOrEmpty(base.Title) || base.Title == GetLocalizedString("AlwpWebPartTitle"))
                 {
-                    return culture.Resources.AlwpWepPartTitle;
+                    return culture.Resources.AlwpWebPartTitle;
                 }
                 else
                 {
@@ -415,7 +415,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             edPart.ID = this.ID + "_editorPart1";
             //Assign the Category for Title and 
-            edPart.Title = culture.Resources.AlwpWepPartTitle;
+            edPart.Title = culture.Resources.AlwpWebPartTitle;
             editorArray.Add(edPart);
 
             return new EditorPartCollection(editorArray);
