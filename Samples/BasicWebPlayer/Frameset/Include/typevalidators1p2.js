@@ -82,7 +82,8 @@ function _MS_Scorm1p2_TypeValidator()
 	{
 		if (str.length > 255) 
 		    return false;
-		return str.search(/^[A-Za-z0-9\-_:]+$/) != -1;
+                // . Added due to use in Microsoft Office SCORM package
+		return str.search(/^[A-Za-z0-9\-_:.]+$/) != -1;
 	}
 	
 	function IsCmiCredit(str)
@@ -197,15 +198,17 @@ function _MS_Scorm1p2_TypeValidator()
 	function  IsTrueFalse(str)
 	{
 	    str = str.charAt(0);
-	    return str == '0' || str == '1' || str == 't' || str == 'f';
+            // Microsoft Office SCORM packages use 2 for false.
+	    return str == '0' || str == '1' || str == 't' || str == 'f' || str == '2';
 	}
 
     function IsChoice(str)
     {
         // format like "{1,a,b,c}" or"1,a,b,c"
         // One and only one comma, others are alphanumeric characters
-        return str.search(/^\{[0-9a-z](,[0-9a-z])*\}$/) != -1 
-            || str.search(/^[0-9a-z](,[0-9a-z])*$/) != -1;
+        // Add ~ as Microsoft Office SCORM packages incorrectly use this as a separator
+        return str.search(/^\{[0-9a-z](,|~[0-9a-z])*\}$/) != -1 
+            || str.search(/^[0-9a-z](,|~[0-9a-z])*$/) != -1;
     }
     
     function IsFillIn(str)

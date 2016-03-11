@@ -49,6 +49,7 @@ namespace Microsoft.SharePointLearningKit
                 case "StartOfThisWeek":
                 case "StartOfNextWeek":
                 case "StartOfWeekAfterNext":
+                    break;
                 default:
                     SlkCulture culture = new SlkCulture();
                     throw new SlkSettingsException(culture.Format(culture.Resources.InvalidMacro, macroName));
