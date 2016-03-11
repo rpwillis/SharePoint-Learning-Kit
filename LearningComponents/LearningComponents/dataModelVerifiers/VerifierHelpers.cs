@@ -97,7 +97,7 @@ namespace Microsoft.LearningComponents.DataModel
                 foreach(char c in value)
                 {
                     // only alphanumeric chars, dashes, and unserscores are valid
-                    if(!Char.IsLetterOrDigit(c) && c != '-' && c != '_' && c != ':')
+                    if(!Char.IsLetterOrDigit(c) && c != '-' && c != '_' && c != ':' && c != '.')
                     {
                         throw new ArgumentException(String.Format(CultureInfo.CurrentCulture, Resources.InvalidScormV1p2Value, "Id"));
                     }

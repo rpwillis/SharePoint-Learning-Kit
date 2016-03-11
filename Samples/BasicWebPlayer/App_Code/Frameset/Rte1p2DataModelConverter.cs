@@ -428,11 +428,18 @@ namespace Microsoft.LearningComponents.Frameset
                                 {
                                     // Unfortunately, cannot use XmlConvert because it doesn't accept 't' and 'f'.
                                     if ((value == "t") || (value == "true") || (value == "1"))
+                                    {
                                         interaction.LearnerResponse = true;
-                                    else if (((value == "f") || (value == "false") || (value == "0")))
+                                    }
+                                    // 2 is for Microsoft Office 'SCORM' packages. pass 1 for true and 2 for false
+                                    else if ((value == "f") || (value == "false") || (value == "0") || (value == "2"))
+                                    {
                                         interaction.LearnerResponse = false;
+                                    }
                                     else
+                                    {
                                         throw new InvalidOperationException(ResHelper.GetMessage(FramesetResources.CONV_SetValueInvalidValue, value, CurrentElementName));
+                                    }
                                 }
                                 break;
                             case InteractionType.Numeric:
