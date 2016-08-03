@@ -39,12 +39,22 @@ namespace Microsoft.SharePointLearningKit
             {
                 if (value.Length > 11 && value.Substring(0, 11) == "$Resources:")
                 {
-                    SlkCulture culture = new SlkCulture();
+                    SlkCulture culture;
+                    string cultureValue = System.Web.HttpContext.Current.Request.QueryString["culture"];
+                    if (string.IsNullOrEmpty(cultureValue))
+                    {
+                        culture = new SlkCulture();
+                    }
+                    else
+                    {
+                        culture = new SlkCulture(new CultureInfo(cultureValue));
+                    }
+
                     if (value.Length > 18 && value.Substring(0, 18) == "$Resources:SlkDll,")
                     {
                         // Resource string from Slk dll resource
                         string key = value.Substring(18);
-                        return culture.Resources.ResourceManager.GetString(key, culture.Culture);;
+                        return culture.Resources.ResourceManager.GetString(key, culture.Culture);
                     }
                     else
                     {

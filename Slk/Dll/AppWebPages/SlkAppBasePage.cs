@@ -149,7 +149,7 @@ public class SlkAppBasePage : Microsoft.SharePoint.WebControls.LayoutsPageBase
     }
 
     /// <summary>The culture to use for the page.</summary>
-    protected SlkCulture PageCulture { get; private set; }
+    protected SlkCulture PageCulture { get; set; }
 
     /// <summary>
     /// Gets the learnerKey session parameter which is used as the LearningStore user

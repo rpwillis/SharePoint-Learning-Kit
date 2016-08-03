@@ -134,6 +134,12 @@
   <data name="BaseContentTypeDescription" xml:space="preserve">
     <value>Math o Gynnwys Sylfaenol Pecyn Dysgu SharePoint. Mae'n cynrychioli gwrthrych dysgu y gellir ei neilltuo.</value>
   </data>
+  <data name="AssignmentPermanentCacheContentTypeName" xml:space="preserve">
+    <value>Permanently Cached Assignment</value>
+  </data>
+  <data name="AssignmentPermanentCacheContentDescription" xml:space="preserve">
+    <value>A learning object which is permanently cached. This must be loaded administratively.</value>
+  </data>
   <data name="AssignmentContentTypeName" xml:space="preserve">
     <value>Aseiniad</value>
   </data>
