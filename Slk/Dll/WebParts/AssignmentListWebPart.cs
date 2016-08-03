@@ -214,16 +214,27 @@ namespace Microsoft.SharePointLearningKit.WebParts
             get
             {
                 // Localise the description if empty or it is the default value
-                if (string.IsNullOrEmpty(base.Description) || base.Description == GetLocalizedString("AlwpWebPartDescription"))
+                if (string.IsNullOrEmpty(base.Description) || IsStandardText("AssignmentListWebPartDescription", base.Description))
                 {
-                    return culture.Resources.AlwpWebPartDescription;
+                    return GetLocalizedString("AssignmentListWebPartDescription");
                 }
                 else
                 {
                     return base.Description;
                 }
             }
-            set { base.Description = value ;}
+
+            set
+            {
+                if (value == culture.Resources.AlwpWebPartDescription || IsStandardText("AssignmentListWebPartDescription", value))
+                {
+                    base.Description = null;
+                }
+                else
+                {
+                    base.Description = value;
+                }
+            }
         }
 
         /// <summary>See <see cref="WebPart.Title"/>.</summary>
@@ -232,19 +243,40 @@ namespace Microsoft.SharePointLearningKit.WebParts
             get
             {
                 // Localise the description if empty or it is the default value
-                if (string.IsNullOrEmpty(base.Title) || base.Title == GetLocalizedString("AlwpWebPartTitle"))
+                if (string.IsNullOrEmpty(base.Title) || IsStandardText("AssignmentListWebPartTitle", base.Title))
                 {
-                    return culture.Resources.AlwpWebPartTitle;
+                    return GetLocalizedString("AssignmentListWebPartTitle");
                 }
                 else
                 {
                     return base.Title;
                 }
             }
-            set { base.Title = value ;}
+
+            set
+            {
+                if (value == culture.Resources.AlwpWebPartTitle || IsStandardText("AssignmentListWebPartTitle", value))
+                {
+                    base.Title = null;
+                }
+                else
+                {
+                    base.Title = value;
+                }
+            }
+        }
+
+        private bool IsStandardText(string localizationKey, string value)
+        {
+            return (value == GetLocalizedString(localizationKey) || value == GetLocalizedString(localizationKey, 1033) );
         }
 
         private string GetLocalizedString(string resourceName)
+        {
+            return GetLocalizedString(resourceName, culture.Culture.LCID);
+        }
+
+        private string GetLocalizedString(string resourceName, int lcid)
         {
             if (string.IsNullOrEmpty(resourceName))
             {
@@ -253,7 +285,6 @@ namespace Microsoft.SharePointLearningKit.WebParts
             else
             {
                 string resourceFile = "SLK";
-                int lcid = culture.Culture.LCID;
                 return Microsoft.SharePoint.Utilities.SPUtility.GetLocalizedString("$Resources:" + resourceName, resourceFile, (uint)lcid);
             }
         }
@@ -446,6 +477,7 @@ namespace Microsoft.SharePointLearningKit.WebParts
         {
             try
             {
+                DumpCultures(writer, "RenderContents");
                 //Render Assignment List webpart
                 RenderAssignmentList(writer);
             }
@@ -573,7 +605,6 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
             htmlTextWriter.Write("</table>");
 
-            DumpCultures(htmlTextWriter);
             // write a comment to help locate this Web Part when viewing HTML source
             htmlTextWriter.Write("<!-- End ALWP -->");
             htmlTextWriter.WriteLine();
@@ -581,13 +612,13 @@ namespace Microsoft.SharePointLearningKit.WebParts
 
         #endregion
 
-        internal static void DumpCultures(HtmlTextWriter htmlTextWriter)
+        internal static void DumpCultures(HtmlTextWriter htmlTextWriter, string key)
         {
-            htmlTextWriter.Write(@"<!-- 
+            htmlTextWriter.Write(@"<!--  {3}
             CultureInfo.InvariantCulture {0}
             CultureInfo.CurrentUICulture {1}
             CultureInfo.CurrentCulture {2}
-                    -->", CultureInfo.InvariantCulture, CultureInfo.CurrentUICulture, CultureInfo.CurrentCulture);
+                    -->", CultureInfo.InvariantCulture, CultureInfo.CurrentUICulture, CultureInfo.CurrentCulture, key);
         }
 
         StringBuilder BaseQueryString()
@@ -600,6 +631,8 @@ namespace Microsoft.SharePointLearningKit.WebParts
             {
                 url.AppendFormat("&{0}={1}", QueryStringKeys.ForObserver, "true");
             }
+
+            url.AppendFormat("&{0}={1}", "culture", CultureInfo.CurrentUICulture);
 
             return url;
         }

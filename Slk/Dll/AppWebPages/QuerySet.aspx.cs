@@ -286,7 +286,7 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
                             hw.AddAttribute(HtmlTextWriterAttribute.Onclick, string.Empty);
                             using (new HtmlBlock(HtmlTextWriterTag.Body, 0, hw))
                             {
-                                AssignmentListWebPart.DumpCultures(hw);
+                                AssignmentListWebPart.DumpCultures(hw, "Page_Load");
                                 // begin the query set
                                 hw.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
                                 hw.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
@@ -491,14 +491,27 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
         }
         #endregion
 
+        private string PageWithCulture(string basePage)
+        {
+            string culture = System.Web.HttpContext.Current.Request.QueryString["culture"];
+            if (string.IsNullOrEmpty(culture))
+            {
+                return basePage;
+            }
+            else
+            {
+                return string.Format(CultureInfo.InvariantCulture, "{0}?culture={1}", basePage, culture);
+            }
+        }
+
         private void WriteResultsForm(TextWriter writer)
         {
-            WriteForm(writer, "QR", "QueryResults.aspx", string.Empty);
+            WriteForm(writer, "QR", PageWithCulture(Constants.QueryResultPage), string.Empty);
         }
 
         private void WriteSummaryForm(TextWriter writer)
         {
-            WriteForm(writer, "QSForm", "QuerySummary.aspx", "QS");
+            WriteForm(writer, "QSForm", PageWithCulture("QuerySummary.aspx"), "QS");
         }
 
         private void WriteForm(TextWriter writer, string id, string action, string target)

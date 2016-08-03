@@ -64,6 +64,18 @@ namespace Microsoft.SharePointLearningKit.ApplicationPages
 #endregion public methods
 
 #region protected methods
+        /// <summary>See <see cref="SlkAppBasePage.OnInit"/>.</summary>
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+
+            // Query set page don't have normal master page so use custom culture switcher
+            string culture = System.Web.HttpContext.Current.Request.QueryString["culture"];
+            if (string.IsNullOrEmpty(culture) == false)
+            {
+                PageCulture = new SlkCulture(new CultureInfo(culture));
+            }
+        }
         /// <summary>
         ///  Page Init for AlwpQueryResults. 
         /// </summary> 
