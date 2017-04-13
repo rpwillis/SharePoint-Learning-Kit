@@ -1,4 +1,6 @@
+Originally hosted in CodePlex at slk.codeplex.com.
 
+Note: SLK is no longer being actively developed. It still works on on premises SharePoint 2007, 2010 and 2013. It is untested on 2016, but may work. It is not supported on Office 365, and never will be as it is written in full-trust code. Some minor bug fixes are added as my few remaining customers who haven't moved to Office 365 find them.
 
                                      SharePoint Learning Kit
                                         Source Code Guide
