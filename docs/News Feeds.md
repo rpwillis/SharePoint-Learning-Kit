@@ -1,0 +1,1 @@
+{rss:url=http://blogs.msdn.com/slk/rss.xml}

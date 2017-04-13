@@ -1,0 +1,1 @@
+[Macros for Assignment List Web Part](http://blog.salamandersoft.co.uk/index.php/2015/01/sharepoint-learning-kit-macros-for-assignment-list-web-part/)
